@@ -1,0 +1,5664 @@
+1
+00:00:08,600 --> 00:00:12,999
+好的，欢迎回来。
+Okay. Welcome back.
+
+2
+00:00:12,999 --> 00:00:16,600
+我们开始吧，好吗？
+Let's get started, okay?
+
+3
+00:00:20,180 --> 00:00:24,659
+有几个事项要说明。第一个，当然是点名。
+A few logistics. The first one, cross you of, of course.
+
+4
+00:00:24,659 --> 00:00:26,219
+这对我来说很重要，
+That's very important for me and for
+
+5
+00:00:26,219 --> 00:00:30,499
+助教们也需要确认，对你们来说也很重要。
+TAs to make sure it is also important for you.
+
+6
+00:00:30,499 --> 00:00:32,460
+所以如果你完成了，
+So if you finish,
+
+7
+00:00:32,460 --> 00:00:37,160
+如果你们中有80%的人完成了，你们期末会得到两分加分。
+80% of you finish that, you are going to get two points at the final.
+
+8
+00:00:37,160 --> 00:00:44,720
+谢谢。另外，我们也取消了下周的阅读总结。
+Thank you. Um, we also cancel the reading summary for next week.
+
+9
+00:00:44,720 --> 00:00:48,099
+这样你们可以专注于作业。
+So you can focus on, uh, homework.
+
+10
+00:00:48,099 --> 00:00:50,160
+不用担心期末考试。
+Don't worry about final exam.
+
+11
+00:00:50,160 --> 00:00:55,840
+只要你来上课，我会让考试变得非常简单，明白吗？
+I'm going to make the exam extremely easy as long as you attend lectures, okay.
+
+12
+00:00:55,840 --> 00:01:02,279
+好的。嗯，周四有嘉宾讲座，主题是推测解码。
+Yeah. Um, Thursday, guest lecture. Speculate decoding.
+
+13
+00:01:02,279 --> 00:01:05,500
+我不会讲这个内容，但今天我会给你讲讲我们为什么要做推测解码。
+I'm not going to cover that, but I'm going to give you motivation today why we do
+
+14
+00:01:05,500 --> 00:01:09,779
+推测解码会由我们的嘉宾来教你们。
+speculate decoding and the guest we going to teach you speculate decoding.
+
+15
+00:01:09,779 --> 00:01:16,559
+他是滑铁卢大学的教授，他发明了最好的推测解码方法，叫做Eagle。
+And he is a professor at U Waterloo and he wanted the best speculate decoding method called Eagle.
+
+16
+00:01:16,559 --> 00:01:19,799
+Eagle是现在大家都在用的方法。
+Ego is the one that everybody use today.
+
+17
+00:01:19,799 --> 00:01:24,200
+好吗？我也做过推测解码的研究，但我的方法没有他的好。
+Okay? I also worked on speculate decoding, but my method is worse than his.
+
+18
+00:01:24,200 --> 00:01:32,049
+好的。我知道P3有一些理论性的问题，
+Okay. I know P three, there are some theoretical questions,
+
+19
+00:01:32,049 --> 00:01:34,410
+你们可能也希望在期末考试上得到一些帮助。
+you probably also want some help on the final exam.
+
+20
+00:01:34,410 --> 00:01:37,310
+所以我让助教安排了Statue上的答疑课。
+So I ask TA to schedule recitations on Statue.
+
+21
+00:01:37,310 --> 00:01:41,650
+好的。好了，就这样。我们开始吧。
+Okay. Okay, that's it. Let's get started.
+
+22
+00:01:41,650 --> 00:01:44,590
+我记得上节课我们在做这个，对吧？
+I think last lecture, we are doing this, right?
+
+23
+00:01:44,590 --> 00:01:48,190
+我说过这个非常重要，因为一旦你理解了背后的数学原理，
+I said this is super important because once you understand the math behind this,
+
+24
+00:01:48,190 --> 00:01:50,270
+你就知道为什么人们要这么做，为什么要那样做，对吧？
+you know why people do this, why people do that, right?
+
+25
+00:01:50,270 --> 00:01:53,789
+比如什么是平方，什么是线性。这非常重要。
+Like what is square, what is linear. That's super important.
+
+26
+00:01:53,789 --> 00:01:56,989
+我觉得我们已经讲完了参数部分。
+I think we finish the parameters.
+
+27
+00:01:56,989 --> 00:02:00,590
+参数其实就是平方，对吧，你就是做不到别的。
+Parameter is simply square, right you just can't.
+
+28
+00:02:00,590 --> 00:02:05,930
+而flops稍微复杂一点，但我们也讲完了，好吗？
+And the flops is a little bit more complicated, but we finish that, okay?
+
+29
+00:02:05,930 --> 00:02:08,649
+今天我们要讲完内存部分。
+And today we are going to finish the memory.
+
+30
+00:02:08,649 --> 00:02:14,549
+内存是最复杂的之一，但我觉得我们在之前的课程里已经讲过一些了。
+Memory is one of the most complicated one, but I think we already did some in previous lectures.
+
+31
+00:02:14,549 --> 00:02:19,850
+好的。但在我们进入内存部分之前，让我们再做一件关于浮点运算的事，好吗？
+Yeah. But before we move to memory, let's do one more thing on flops, okay?
+
+32
+00:02:19,850 --> 00:02:25,610
+我想在上一次讲座中，我展示了这张幻灯片，这是关于浮点运算的总结，
+I think the last lecture, I show this slide, it's a summary of the flops,
+
+33
+00:02:25,610 --> 00:02:32,610
+基本上是训练模型时的计算需求，我觉得有几个信息我之前没有提到，
+basically the computing requirements for training Ms, and I think there are a few messages I missed,
+
+34
+00:02:32,610 --> 00:02:33,849
+但我想在这里强调一下。
+but I want to emphasize here.
+
+35
+00:02:33,849 --> 00:02:37,970
+第一个要点是，为什么这里有个乘以三。
+So the first message is why there's times three here.
+
+36
+00:02:43,000 --> 00:02:45,620
+因为这是训练过程，好吗？
+Because this is training, okay?
+
+37
+00:02:45,620 --> 00:02:48,119
+当我们计算浮点运算时，我们只计算前向传播，对吧？
+When we count flops, we count the forward path, right?
+
+38
+00:02:48,119 --> 00:02:54,899
+但请记住，在神经网络中，反向传播的浮点运算是前向传播的两倍。
+But remember in neural networks, the backward pass has doubled flops forward.
+
+39
+00:02:54,899 --> 00:02:58,279
+所以为了训练神经网络，这里有一个二加一等于三的过程。
+So in order to train neural network, you have two times three here, one plus two.
+
+40
+00:02:58,279 --> 00:03:03,320
+好吗？这才是真正用于训练一次前向和反向传播所需的浮点运算量。
+Okay? That's the true flops you are using for training one pass forward and backward.
+
+41
+00:03:03,320 --> 00:03:09,380
+好吗？我们今天要讨论的第二个重要问题是，呃，
+Okay? And the second important question we are going to visit today is, uh,
+
+42
+00:03:09,380 --> 00:03:12,120
+我想我在上一次讲座中强调过，
+I think the last lecture I emphasized that,
+
+43
+00:03:13,110 --> 00:03:18,549
+所以这个项其实很糟糕，对吧，因为它有一个二次项，对吧？
+So this term is pretty bad, right, because it has a quadratic, right?
+
+44
+00:03:18,549 --> 00:03:23,349
+S平方。这个项也很糟糕，因为它有一个平方，对吧？
+S square. And this term is also vd because it has a square, right?
+
+45
+00:03:23,349 --> 00:03:26,429
+所以任何带平方的东西都是不好的，明白吗？
+So anything that is square is bad, okay?
+
+46
+00:03:26,429 --> 00:03:34,449
+嗯，但我想问一个问题，就是当B等于1，S等于1时会发生什么。
+Um, but I want to ask a question that is, so what happens when B is equal to one and S equal to one.
+
+47
+00:03:34,449 --> 00:03:37,509
+BS本质上就是批量大小。
+So BS is essentially the batch size.
+
+48
+00:03:39,620 --> 00:03:43,999
+在什么情况下B等于1，S等于1呢？
+In what cases will have B is equal to one as equal to one.
+
+49
+00:03:43,999 --> 00:03:48,040
+A等于1意味着我们只在一个token上计算。
+A equal to one means that we are only computing on one token.
+
+50
+00:03:48,040 --> 00:03:51,139
+那么在什么情况下我们只在一个token上计算呢？
+So in what cases we are computing on one token.
+
+51
+00:03:52,100 --> 00:03:59,420
+基本上在语言模型推理时，当你尝试解码时，你总是只对一个token进行计算。
+Basically in language model inference, when you try to decode, you always compute on one token.
+
+52
+00:03:59,420 --> 00:04:03,019
+那么在哪些情况下B等于一呢？
+And in what cases will have B is equal to one?
+
+53
+00:04:04,330 --> 00:04:06,509
+这种情况其实很少见。
+Many few cases you have this.
+
+54
+00:04:06,509 --> 00:04:09,250
+但有时候当你在自己的笔记本电脑上运行语言模型时，
+But sometimes when you run your language model on your laptop,
+
+55
+00:04:09,250 --> 00:04:12,830
+当你部署本地语言模型并且唯一的用户是你自己时，
+when you deploy your local language model and the only user is yourself,
+
+56
+00:04:12,830 --> 00:04:16,509
+你向你的语言模型提问，这时BS就等于一。
+you ask your language model questions, then BS equal to one.
+
+57
+00:04:16,509 --> 00:04:24,909
+这意味着在最坏的情况下，在最小的情况下，你只提交一个序列
+That means that in the worst case, in a minimal case, you only submit one sequence
+
+58
+00:04:24,909 --> 00:04:27,109
+给语言模型，然后开始解码。
+to language model and you start to decoding.
+
+59
+00:04:27,109 --> 00:04:29,830
+你可以看到当BS等于一，S等于一时，
+You can see when BS equal to one S equal to one,
+
+60
+00:04:29,830 --> 00:04:33,449
+这些项非常小，因为你已经有21了。
+these terms are super small because you already have 21.
+
+61
+00:04:33,449 --> 00:04:38,630
+就像我说的，在GPS上，当这些东西非常小的时候也是不好的。
+So like I said, on GPS when these things are super smalls also bad.
+
+62
+00:04:38,630 --> 00:04:43,279
+为什么？是的，你的GPO没有被充分利用，对吧？
+Why? Yeah, your GPO is underutilized, okay?
+
+63
+00:04:43,279 --> 00:04:47,680
+所以我想传达的信息是，当这两个数字很小的时候，也是不好的。
+So here, the message I want to give to you is when these two numbers are small, it's also bad.
+
+64
+00:04:47,680 --> 00:04:50,880
+这意味着语言模型的推理非常难以优化，对吧？
+That means language model inference is super hard to optimize, okay?
+
+65
+00:04:50,880 --> 00:04:53,180
+因为在解码时，我们一次只解码12个。
+Because in decode, we only decode 12 at a time.
+
+66
+00:04:53,180 --> 00:04:54,800
+我再读一遍，好吗？
+I'm going to read it out again, okay?
+
+67
+00:04:54,800 --> 00:04:57,600
+但要记住这一点。好吧。
+But remember this. Okay.
+
+68
+00:04:57,600 --> 00:05:00,440
+这是我想在flops上强调的两个信息。
+That's the two messages I want to emphasize on the flops.
+
+69
+00:05:00,440 --> 00:05:03,599
+我觉得现在你基本上明白了计算需求。
+I think now you basically understand the computing requirements.
+
+70
+00:05:03,599 --> 00:05:06,179
+Transformer中有哪些不好的组成部分。
+What are the bad components in transformers.
+
+71
+00:05:06,179 --> 00:05:07,859
+现在让我们来谈谈内存。
+And now let's move to memory.
+
+72
+00:05:07,859 --> 00:05:11,500
+我想对于内存，你应该已经非常熟悉了，对吧？
+I think for memory, you have been already very familiar with that, right?
+
+73
+00:05:11,500 --> 00:05:18,399
+我们有四个部分，模型权重、中间激活值、优化器状态，
+We have the four parts, model weights, intermediate, activation values, optimial states,
+
+74
+00:05:18,399 --> 00:05:21,359
+还有权重梯度和激活梯度。
+and weight gradients and activation gradients.
+
+75
+00:05:21,359 --> 00:05:23,500
+好吗？第一个术语，两个
+Okay? First term, two
+
+76
+00:05:23,500 --> 00:05:29,410
+M。我希望你能永远记住这个数字。
+M. I make sure this number is basically in your brain forever. Yeah.
+
+77
+00:05:29,410 --> 00:05:32,469
+基本上，模型部分是两个，对吧？
+So basically, two for models, okay?
+
+78
+00:05:32,469 --> 00:05:35,490
+优化器状态是12:00 A.M.
+Optimal stays 12:00 A.M.
+
+79
+00:05:35,490 --> 00:05:38,330
+对吧？因为我们使用了混合精度，对吧？
+Right? So because we use mixed precision, right?
+
+80
+00:05:38,330 --> 00:05:39,930
+所以是四加四加四。
+So four plus four plus four.
+
+81
+00:05:39,930 --> 00:05:43,035
+好的。首先，二阶矩和掩码拷贝。
+Okay. First, second moments and mask copy.
+
+82
+00:05:43,035 --> 00:05:47,020
+好的。我们有两个梯度，对吧？
+Okay. We gradients two, right?
+
+83
+00:05:47,020 --> 00:05:52,860
+因为你也在使用P16版本的梯度。
+Because you are also using P 16 version of the gradients.
+
+84
+00:05:52,860 --> 00:05:56,459
+好吗？所以这三个项我们都没问题，对吧？
+Okay? So these three terms we are good, okay?
+
+85
+00:05:56,459 --> 00:05:59,560
+我们已经讨论了这个问题有一段时间了。
+We have been talking about this for quite a while.
+
+86
+00:05:59,560 --> 00:06:03,680
+所以唯一剩下的问题基本上就是中间激活值有多大，
+So the only remaining question is basically how large is the intermediate activations,
+
+87
+00:06:03,680 --> 00:06:06,759
+以及激活梯度有多大。
+and how large is activation gradients.
+
+88
+00:06:06,759 --> 00:06:09,740
+好的。我们来详细讲一下这个。
+Okay. Let's go into that.
+
+89
+00:06:09,740 --> 00:06:13,200
+我们会把这个分解为注意力机制，然后
+We are going to break this down into attention and then
+
+90
+00:06:13,200 --> 00:06:17,169
+MLP，因为transformer本质上就是注意力加MLP，对吧？
+MLP because transformer is essentially a tension plus MLP, okay?
+
+91
+00:06:17,169 --> 00:06:21,720
+那么对于注意力机制来说，我们的输入是BS V，对吧？
+So for attention, our input is BS V, right?
+
+92
+00:06:21,720 --> 00:06:23,799
+B是批量大小，序列长度，
+B by size, a sequence lens,
+
+93
+00:06:23,799 --> 00:06:25,920
+V是词汇表的大小，明白了吗？
+V is vocabulary size. Okay?
+
+94
+00:06:25,920 --> 00:06:29,420
+你首先用独热向量来表示每个token，
+You start with mapping each token using a one hot vector,
+
+95
+00:06:29,420 --> 00:06:34,039
+这个独热向量的长度就是词汇表的大小，明白了吗？这就是你的输入。
+where the lens of the one hot vector is vocabulary size, okay? This is your input.
+
+96
+00:06:34,039 --> 00:06:39,160
+然后你的第一步是把它送进你的嵌入层，对吧？
+And your first step you through this into your embedding, right?
+
+97
+00:06:39,160 --> 00:06:45,739
+你的嵌入层，这就是你的权重，对吧，是按edge来的，明白吗？
+And your embedding, this is your weight, right, is by edge, okay?
+
+98
+00:06:45,739 --> 00:06:49,400
+你得到的激活基本上是BSH，对吧？
+And the activation you get is basically BSH right?
+
+99
+00:06:49,400 --> 00:06:52,280
+因为你是从独热向量映射到，明白了吗？
+Because you map from one hot into Okay,
+
+100
+00:06:52,280 --> 00:06:54,139
+H是你模型的维度。
+H is the dimension of your model.
+
+101
+00:06:54,139 --> 00:06:57,769
+维度。然后你进入注意力机制。
+The dimension. And then you go into attention.
+
+102
+00:06:57,769 --> 00:07:00,710
+就像我说的，注意力机制不会改变你的形状，对吧？
+Like I said, attention does not change your shape, right?
+
+103
+00:07:00,710 --> 00:07:02,330
+我们接下来会更深入地探讨这一点。
+We are going to dive deeper here.
+
+104
+00:07:02,330 --> 00:07:07,230
+但是现在，在你完成注意力机制后，你仍然保持BSH的形状，明白吗？
+But now, after you finish your attention, you still have a BSH, okay?
+
+105
+00:07:07,350 --> 00:07:14,769
+然后你进入RMS归一化，它也不会改变你的形状，明白吗？
+And then you go into RMS norm and it will not change your shape, okay?
+
+106
+00:07:14,769 --> 00:07:17,310
+接着你进入MLP，对吧？
+And then you go into that MLP, right?
+
+107
+00:07:17,310 --> 00:07:20,169
+MLP也不会改变你的形状，明白吗？
+MLP will not change your shape, okay?
+
+108
+00:07:20,169 --> 00:07:21,330
+当然，在
+Of course, inside of
+
+109
+00:07:21,330 --> 00:07:25,590
+MLP内部你会改变形状，但在你完成MLP之后，你基本上会投影回
+MLP you are going to change the shape, but after you finish the MLP, you basically project back into
+
+110
+00:07:25,590 --> 00:07:27,315
+原始的形状，也就是BSH。
+the original shape which is BSH.
+
+111
+00:07:27,315 --> 00:07:33,879
+好的。然后你会用softmax对每个token位置进行分类，
+Okay. And then you go into softmax to classify each token position,
+
+112
+00:07:33,879 --> 00:07:37,119
+对吧，你需要把隐藏状态映射回类别数量。
+right, you have to map the hidden machine back to the cabory size.
+
+113
+00:07:37,119 --> 00:07:41,920
+好吗？这就是softmax，相当于对所有类别的分布。明白了吗？
+Okay? Which is softmax, like a distribution over all the categories. Okay?
+
+114
+00:07:41,920 --> 00:07:43,959
+所以你的输出是VSV。
+So your output is VSV.
+
+115
+00:07:43,959 --> 00:07:48,614
+好的，最后你要进行训练，对吧？
+Okay. And finally, you do training, okay?
+
+116
+00:07:48,614 --> 00:07:54,850
+好的，这基本上是从全局视角、整体角度来看激活值。
+Okay, this is basically from a global view, from a holistic perspective, the activation value.
+
+117
+00:07:54,850 --> 00:07:57,669
+这个非常简单，对吧？我有几个问题。
+This is super simple, right? I have a few questions.
+
+118
+00:07:57,669 --> 00:08:03,790
+第一个问题还是关于checkpointing，就是我们节省内存的方法。
+The first question is still remember the checkpointing, the way we do memory savings.
+
+119
+00:08:03,790 --> 00:08:09,250
+就像我之前说的，当我们用transformers时，我们怎么做呢？我们在
+So like I said, previously, when we transformers, what do we do we checkpoint at
+
+120
+00:08:09,250 --> 00:08:11,829
+两个transformer层的边界处做checkpoint。
+the boundary over two transformer layers.
+
+121
+00:08:11,829 --> 00:08:15,389
+好吗？那我的问题是，如果我们在transformer的边界做检查点，
+Okay? Then my question is, if we checkpoint at the transformer boundary,
+
+122
+00:08:15,389 --> 00:08:17,949
+那么激活内存是多少？
+what is the activation memory?
+
+123
+00:08:18,710 --> 00:08:26,219
+举个例子。我们先忽略嵌入部分。
+Example question. Let's see ignoring embeddings.
+
+124
+00:08:26,219 --> 00:08:30,300
+基本上，你可以看到我们在MLP的末尾做检查点，对吧？
+So basically, you can see we checkpoint at the end of the MLP, right?
+
+125
+00:08:30,300 --> 00:08:37,339
+所以在MMP结束时，我们得到的激活形状是BSH，我们有很多很多层，对吧？
+So at the end of MMP, we get the activation which is of shape BSH we have many many layers, right?
+
+126
+00:08:37,339 --> 00:08:40,099
+所以每一层都会给你一个BSH。
+So each layer is going to give you one BSH.
+
+127
+00:08:40,099 --> 00:08:43,419
+这意味着你在这里做检查点，对吧？
+That means you checkpoint out here, right?
+
+128
+00:08:43,419 --> 00:08:45,700
+在两个transformer层之间，明白吗？
+Between two transformer layers, okay?
+
+129
+00:08:45,700 --> 00:08:50,820
+所以激活内存基本上就是BSH乘以层数。
+So the activation memory is basically BSH times number of layers.
+
+130
+00:08:50,820 --> 00:08:55,959
+非常简单，对吧？我们搞定了。
+Super easy, okay? We are good.
+
+131
+00:08:55,959 --> 00:09:03,200
+很好。这个很简单，但现在让我们分别深入了解注意力机制和MLP。
+Cool. Okay. This is simple, but now, let's dive deeper into attention and MLP respectively.
+
+132
+00:09:03,200 --> 00:09:05,319
+让我们看看这个内部发生了什么。
+Let's see what happens inside of this.
+
+133
+00:09:05,319 --> 00:09:08,000
+因为这不是一个原始的计算图。
+Because this is not a primitive graph.
+
+134
+00:09:08,000 --> 00:09:11,100
+这是一个全局计算图。我们想要更深入地探索，好吗？
+This is a global graph. We want to dive deeper, okay?
+
+135
+00:09:11,960 --> 00:09:17,879
+但在那之前，我还想问一个非常简单的问题，只是为了提醒大家。
+But before that, I also want to ask a very trivial question just to remind you.
+
+136
+00:09:17,879 --> 00:09:23,659
+还记得当我们做互操作分区时，我们尝试用互操作性来划分这个语言模型，
+Remember when we do interop partism we try to partition this language model using interoperatism,
+
+137
+00:09:23,659 --> 00:09:28,560
+我们经常在不同的边界或transformer层进行划分，
+we often partition at different at the boundary or transformer layers assign
+
+138
+00:09:28,560 --> 00:09:30,960
+把不同的层分配给不同的设备。
+different layers to different devices.
+
+139
+00:09:30,960 --> 00:09:34,240
+如果你还记得，如果我们做这种分区，
+If you still remember, if we do this kind of parism,
+
+140
+00:09:34,240 --> 00:09:38,999
+两个设备之间的通信基本上就是一个设备把激活值传递给另一个设备。
+the communication between two devices is basically an activation from one device to the other.
+
+141
+00:09:38,999 --> 00:09:44,479
+如果你在转换边界进行解释主义，你要传达的信息也是
+If you do interperism at the transform boundary, the message you are going to communicate is also
+
+142
+00:09:44,479 --> 00:09:50,520
+BSH是PTP，不是连接型的，非常便宜。
+BSH it's a PTP, it's not connective, it's super cheap.
+
+143
+00:09:50,520 --> 00:09:58,080
+线性的，好的。那我们深入探讨一下注意力机制，你来描述一下这个问题。
+Linear, Okay. Okay, then let's dive deep into attention and you are going to describe the problem.
+
+144
+00:09:58,080 --> 00:10:00,039
+那我们再重复一遍，好吗？
+So let's repeat, okay?
+
+145
+00:10:00,039 --> 00:10:03,920
+上一层经过归一化后，我们得到了一个BSH。
+The previous layer, after monisation we get a BSH.
+
+146
+00:10:03,920 --> 00:10:07,619
+然后我们要做的是进入下一个transformer层。
+And then what we do is we enter the next transformer layer.
+
+147
+00:10:07,619 --> 00:10:15,439
+首先我们要做投影QQV，这个QQV是要投影
+We first do projection QQV what do we do this QQV is going to project
+
+148
+00:10:15,439 --> 00:10:24,479
+你之前的激活到多头输入，Q QV的输入都是BS和D，对吧？
+your previous activation into mart head input, the input for Q QV they are all BS and D, right?
+
+149
+00:10:24,479 --> 00:10:29,419
+B，但是序列长度的数量有D这么高的维度，对吗？
+B, but as sequence length number has D high dimension, okay?
+
+150
+00:10:29,419 --> 00:10:31,519
+然后，这里我们有乘以
+And here, we have times
+
+151
+00:10:31,519 --> 00:10:34,840
+如果你还记得的话，D等于H，好吧。
+D equal to H if you still remember, okay.
+
+152
+00:10:35,070 --> 00:10:39,510
+很好。好的。然后问题就来了，好吗？
+Good. Okay. And then the problem comes, okay?
+
+153
+00:10:39,510 --> 00:10:43,109
+接下来，我们要进行自注意力机制，对吧？
+So next, we are going to perform, um, self attention, right?
+
+154
+00:10:43,109 --> 00:10:46,089
+还记得自注意力机制的公式吗？
+So still remember the equation of self attention, right?
+
+155
+00:10:46,089 --> 00:10:52,370
+我们有Q和Q，我们要做点积，然后再经过softmax，
+We have Q on Q, and we are going to do a dot product, and then we go through softmax,
+
+156
+00:10:52,370 --> 00:10:55,430
+对吧，我们就得到了权重。
+right we get, um, the weight.
+
+157
+00:10:55,430 --> 00:10:58,289
+然后我们对B做加权求和，对吗？
+And then we do a weighted sum over B, right?
+
+158
+00:10:58,289 --> 00:11:00,989
+所以这里我们在做这个的点积，对吧？
+So here we are doing dot product of this, right?
+
+159
+00:11:00,989 --> 00:11:02,350
+这个B是一个更好的维度。
+And this B is a better dimension.
+
+160
+00:11:02,350 --> 00:11:05,430
+所以我们实际上是在这三个维度上做点积。
+So we are essentially doing dot product on these three dimensions.
+
+161
+00:11:05,430 --> 00:11:09,159
+问题是我们怎么称呼这个？
+And the problem is that u what we call this?
+
+162
+00:11:09,159 --> 00:11:10,679
+这个叫做注意力瓶颈，对吧？
+This is called attention was, right?
+
+163
+00:11:10,679 --> 00:11:15,560
+你会发现的问题是瓶颈的形状是B和SS。
+And the problem you can find is the tenon waist is of shape B and SS.
+
+164
+00:11:15,560 --> 00:11:19,019
+明白了吗？而且这是一个不好的术语，对吧？
+Okay? And this is a bad term, right?
+
+165
+00:11:19,019 --> 00:11:23,979
+你可以想象这个是超级大的Y，因为它是S的平方，明白吗？
+And you can imagine this is super big Y because it's square S. Okay?
+
+166
+00:11:23,979 --> 00:11:29,920
+这意味着如果你做自注意力语言模型，你的激活就是S的平方。
+Which means that if you do self attention language model, you have activation, which is squares.
+
+167
+00:11:29,920 --> 00:11:34,619
+S如果你还记得的话，是序列长度的维度，这意味着如果你想建模一个很长的序列，
+And S is if you still remember it a six dimension, that means if you want to model a long sequence,
+
+168
+00:11:34,619 --> 00:11:39,440
+比如说，序列长度是一百万，那么你的激活就是一百万乘以一百万。
+for example, 1 million uh six lengths, then you have activation, which is 1 million times 1 million.
+
+169
+00:11:39,440 --> 00:11:42,324
+这种矩阵根本不可能保存，对吧？
+It's impossible to save this kind of matrix, right?
+
+170
+00:11:42,324 --> 00:11:44,250
+这真的很糟糕。
+Okay, this is pretty bad.
+
+171
+00:11:44,250 --> 00:11:46,189
+显然，这里成了一个瓶颈。
+And apparently, this is a bottleneck.
+
+172
+00:11:46,189 --> 00:11:51,769
+如果你还记得，这里的计算量也是二次方的，对吧？
+And if you still remember the computer here is also quadratical, right?
+
+173
+00:11:51,769 --> 00:11:57,750
+所以这个操作所需的浮点运算量也是二次方的。这也强调了我的第二点。
+So the lumber flops needed for this operator is also quit S. So also emphasize my second point
+
+174
+00:11:57,750 --> 00:12:03,215
+就是在建模长上下文时，我们在计算和内存上都遇到了问题。
+that is for modeling line contexts, we have a problem on compute and we have a problem memory.
+
+175
+00:12:03,215 --> 00:12:10,080
+好的，但很不幸的是，我们无法在计算上解决这个问题。
+Okay. But fortunately unfortunately we are not able to solve that problem on compute.
+
+176
+00:12:10,080 --> 00:12:11,860
+我们确实需要这么多的浮点运算。
+We need that many flops.
+
+177
+00:12:11,860 --> 00:12:14,400
+但我们可以在内存上解决这个问题。
+But we can solve this problem on memory.
+
+178
+00:12:14,400 --> 00:12:20,359
+有一种算法基本上可以避免实际生成这个SPS矩阵。
+And there's algorithm that can avoid basically materializing this SPS matrix.
+
+179
+00:12:20,359 --> 00:12:23,059
+这个算法叫做Flash Attention。
+And algorithm is called flash attention.
+
+180
+00:12:23,059 --> 00:12:26,179
+好吗？我下周会讲这个内容。
+Okay? And I'm going to cover that next week.
+
+181
+00:12:26,179 --> 00:12:28,280
+好的，明白。但请记住这一点，好吗？
+Okay. Yeah. But remember that, okay?
+
+182
+00:12:28,280 --> 00:12:32,439
+这个内存绑定，这个内存瓶颈已经被flash attention解决了。
+This memory bond, this memory barrier is already addressed by flash attention.
+
+183
+00:12:32,439 --> 00:12:35,780
+这就是为什么flash attention很棒，明白吗？
+That's why flash at is great, okay?
+
+184
+00:12:35,920 --> 00:12:43,160
+然后我们做的就是继续对value、value矩阵做加权求和，
+And then what we do is we continue doing weighted sum over the value, value matrix,
+
+185
+00:12:43,160 --> 00:12:46,779
+基本上我们再把它从
+and we basically project back from
+
+186
+00:12:46,779 --> 00:12:51,379
+BSS投影回BSND。BSND等于BSH。
+BSS into BSN D. BSN D equal to B SH.
+
+187
+00:12:51,379 --> 00:12:53,840
+明白了吗？这样我们又可以继续了。
+Okay? And we are good again.
+
+188
+00:12:53,920 --> 00:12:58,480
+好的，然后我们输出，对吧？BSH，什么都没变。
+Okay. And then we output, right? BSH, nothing changes.
+
+189
+00:12:59,570 --> 00:13:03,550
+那我们接下来进入MLP，适用于多层。
+Then let's move forward to the MLP, fit for layers.
+
+190
+00:13:03,550 --> 00:13:08,829
+多层的话，输入依然是attention的输出，也就是BSH，明白吗？
+Fit for layer, the input is still the output from attention right is BSH, okay?
+
+191
+00:13:08,829 --> 00:13:13,149
+这是Lamar诉GLU，我来讲解这个部分。
+And this is Lamar sue GLU, and I cover this.
+
+192
+00:13:13,149 --> 00:13:18,829
+基本上，你要做的是线性投影，你要做的是从edge投影到I。
+So basically, you are going to do linear projections, and what do you do is project from edge to I.
+
+193
+00:13:18,829 --> 00:13:22,830
+通常I远大于edge，比如说是edge的四倍之类的，
+And usually I is much greater than edge, for example, four edge or something,
+
+194
+00:13:22,830 --> 00:13:24,710
+也就是四倍的因子，对吧？
+a factor of four, okay?
+
+195
+00:13:24,710 --> 00:13:28,469
+然后你再从I投影回edge。
+And you project back from I to edge.
+
+196
+00:13:28,469 --> 00:13:33,850
+就像这样。基本上是一个向上的投影和向下的投影，对吧？
+Like this. It's basically an upper project and down project, okay?
+
+197
+00:13:34,960 --> 00:13:39,940
+我把这些内容整合在一起，你可以看到，这是我们的内存使用情况，
+I'm putting things together, and you can see, um, this is our memory usage,
+
+198
+00:13:39,940 --> 00:13:44,759
+还有注意力加MLP的激活使用情况，对吧？
+activation usage, um, of attention plast MLP, okay?
+
+199
+00:13:46,200 --> 00:13:50,099
+那我们来总结几个要点。
+So let's summarize a few messages.
+
+200
+00:13:50,099 --> 00:13:54,740
+好，我们来做这个。如果我们尝试扩展模型，潜在的瓶颈是什么？
+Okay, we'll do this. If we try to skew up the model, what is the potentials neck?
+
+201
+00:13:54,740 --> 00:13:59,800
+好吗？我首先想强调的是，基本上所有的项至少都是与参数量线性相关的，
+Okay? The first thing I want to emphasize is basically, all the terms are at least linear with edge,
+
+202
+00:13:59,800 --> 00:14:04,699
+这意味着，当我们扩展模型时，通常会增加参数量，对吧？
+which means that remember when we skew up model, usually we enlarge edge, right?
+
+203
+00:14:04,699 --> 00:14:08,720
+所以这意味着每当你训练一个更大的模型，所有这些项都会线性地，
+So which means that whenever you tween a bigger model, all this term is going to linear,
+
+204
+00:14:08,720 --> 00:14:10,700
+随着模型规模增加而增长。
+increase with model size.
+
+205
+00:14:10,700 --> 00:14:12,979
+这个很明显。
+Okay? That's quite obvious.
+
+206
+00:14:12,979 --> 00:14:18,400
+再说一次，这一项是导电损耗，这是非常糟糕的，好吗？
+And again, this term is conductive tus, which is very bad, okay?
+
+207
+00:14:18,920 --> 00:14:23,839
+如果你看这里，我们开始思考并行化，好吗？
+And if you look at this, right, we start thinking about paralysms, okay?
+
+208
+00:14:23,839 --> 00:14:26,899
+在这个计算中有很多很多维度，对吧？
+And there are many many dimensions in this compute, right?
+
+209
+00:14:26,899 --> 00:14:30,780
+有B，有D，还有S。那么有哪些维度
+There are B, and there are D, there are S. So what are the dimensions
+
+210
+00:14:30,780 --> 00:14:33,180
+可以应用内部并行化呢？
+that we can apply intraop partism?
+
+211
+00:14:33,180 --> 00:14:36,280
+还记得我们在手术中做的事情吧，我们基本上是选择矩阵维度
+So still remember intra op, right, we basically choose matrix dimension
+
+212
+00:14:36,280 --> 00:14:39,440
+或者张量维度，然后对其进行分区，对吧，并分配到不同的设备上。
+or tensor dimension and we partition it, right, and assign it to different devices.
+
+213
+00:14:39,440 --> 00:14:44,159
+那我们来看一下这个Bo符号中的B和Ds，
+So let's look at this Bo notations B and Ds and what
+
+214
+00:14:44,159 --> 00:14:46,319
+我们可以在哪些维度上进行分区？明白了吗？
+are the dimensions that we can piton along? Okay?
+
+215
+00:14:46,319 --> 00:14:48,799
+那对于B，我们可以在它上面分区吗？
+So for B, can we partition it along?
+
+216
+00:14:48,799 --> 00:14:53,879
+很明显，对吧，数据并行，如果我们对B分区就是数据并行，好吗？
+Quite obvious, right datapism, if we parting B is data parism, okay?
+
+217
+00:14:53,879 --> 00:15:02,960
+对于N，我们能不能对头数进行分区，我指的是注意力机制，
+For N, can we a number of heads, and I might attention,
+
+218
+00:15:02,960 --> 00:15:05,540
+每个头基本上都是独立计算的。
+each he basically perform independent competition.
+
+219
+00:15:05,540 --> 00:15:09,539
+分区很简单，因为你只需要把不同的头分配到不同的设备上。
+Partition is trivial because you just assign different heads to different devices.
+
+220
+00:15:09,539 --> 00:15:12,579
+计算各自独立进行，这样挺好的。
+The compute following their own pace is good.
+
+221
+00:15:13,300 --> 00:15:16,699
+对于这个D，我们可以在它上面分区吗？
+For this D, can we part in it?
+
+222
+00:15:17,380 --> 00:15:20,380
+当然可以，这是微电子加速器。
+Of course, it's microtron.
+
+223
+00:15:20,380 --> 00:15:25,939
+在微电子加速器中我们在D上分区。那S呢？我们可以在S上分区吗？
+In Microtron we part in D. How about S? Can we part in S?
+
+224
+00:15:26,860 --> 00:15:33,560
+可以，但非常难，因为如果你看这个点积，这个S是内维度。
+We can, but it's super hard because if you look at this dot product, this S is inner dimension.
+
+225
+00:15:33,560 --> 00:15:37,740
+还记得在memol里如果你在内维度分区，会发生什么吗？
+Still remember in memol if you part on inner dimension, what happens?
+
+226
+00:15:37,740 --> 00:15:39,899
+S是一个归约循环，对吧？
+S is a reduction loop, right?
+
+227
+00:15:39,899 --> 00:15:44,120
+在数学模式下，如果你沿着归约循环分区，你就需要累加
+In the math mood If you parting along the reduction loop, you are going to need to accumulate
+
+228
+00:15:44,120 --> 00:15:47,520
+这些结果，这会产生大量通信。
+the results that will create a lot of communication.
+
+229
+00:15:47,520 --> 00:15:57,909
+是的，请说。这就是Market hadoten。
+Yeah, please. This is Market hadoten Yeah.
+
+230
+00:15:57,909 --> 00:16:03,409
+好的。那么我给你们一些图片和颜色，如果你们需要的话。
+Yeah. Okay. So I'm just give you some picture, some color if you want
+
+231
+00:16:03,409 --> 00:16:06,290
+要并行化这种通信，有哪些可能的选择？
+to parallelze this kind of communication, what are the possible choices?
+
+232
+00:16:06,290 --> 00:16:07,950
+但我想在这里深入一点。
+But I want d deeper here.
+
+233
+00:16:07,950 --> 00:16:14,850
+好吗？所以首先我想提醒你一下，好吗，我想把这些点联系起来。
+Okay? So the first thing I want to remind you, okay, I want to connect the dots here.
+
+234
+00:16:14,850 --> 00:16:20,629
+我首先想联系的是，如果你看一下MLP，对吧，就像我说的，这个I是
+The first thing I want to connect is, if you look at the MLP, right, like I said, this I is
+
+235
+00:16:20,629 --> 00:16:22,810
+通常比如说是4乘以h。
+usually like for example, four edge.
+
+236
+00:16:22,810 --> 00:16:24,569
+这意味着这个矩阵相当大。
+Which means that this matrix is pretty big.
+
+237
+00:16:24,569 --> 00:16:29,689
+它是h的平方，也就是4h的平方。
+It's a square of edge for I square, four edge square.
+
+238
+00:16:29,689 --> 00:16:33,329
+这意味着当你尝试扩展模型时，
+Which means that this weight when you try to scale the model when you
+
+239
+00:16:33,329 --> 00:16:36,989
+当你尝试增加参数数量时，呃，第一个选择是
+try to increase number parameters, uh, the first choice is
+
+240
+00:16:36,989 --> 00:16:40,150
+基本上你让这个变大，让这个宽度变大。
+basically you make this large, this width large.
+
+241
+00:16:40,150 --> 00:16:43,130
+一旦这个宽度变得非常大，会发生什么呢？
+And once this width becomes super large, what will happen?
+
+242
+00:16:43,130 --> 00:16:47,789
+就是说，单个设备基本上无法承载这么大的权重，对吧？
+Like, a single device cannot basically afford to put weight on it, right?
+
+243
+00:16:47,789 --> 00:16:51,089
+然后我们开始考虑对权重进行分区。
+And we start considering partition the weight.
+
+244
+00:16:51,770 --> 00:16:54,729
+这可能会让你想起某件事，对吧？
+And this probably reminds you of one thing, right?
+
+245
+00:16:54,729 --> 00:16:57,640
+基本上就是这个图表
+I basically this dalgram
+
+246
+00:16:57,640 --> 00:17:00,119
+我在两节课前展示过，对吧？
+I showed two lectures before, right?
+
+247
+00:17:00,119 --> 00:17:07,359
+这其实就是Mctron风格的张力并行，因为我们观察到，
+This is basically Mctron style of tense parism here because we observe that is by the way,
+
+248
+00:17:07,359 --> 00:17:10,019
+顺便说一下，这不是Lama，这是GPT-3。
+this is not Lama. This is GPT three.
+
+249
+00:17:10,019 --> 00:17:14,999
+没有VGOU，只有两个，比如met mo，在MLP里。
+There's no VGOU but there are just two, like met mo, okay, in MLP.
+
+250
+00:17:14,999 --> 00:17:17,959
+所以，这里的动机是，嗯，
+And so the motivation of um,
+
+251
+00:17:17,959 --> 00:17:24,120
+Macron 主要是观察到 W2 和 W1，也就是这个权重矩阵，非常非常大。
+Macron is essentially they observe that W two and W one, the weight matrix, which is this, okay,
+
+252
+00:17:24,120 --> 00:17:28,739
+一个单独的设备基本上无法承载它们。
+super super large, and a single device cannot basically, afford them.
+
+253
+00:17:28,739 --> 00:17:33,180
+所以他们对其进行了分区。由于分区的原因，他们希望最小化通信量。
+So they pion this. And because of the parton they want to minimize the communication.
+
+254
+00:17:33,180 --> 00:17:39,440
+因此，这个分区需要一直在不同的节点之间传递，你知道的，
+So this partion has to be propagated all the way through different animals, and, you know, that's
+
+255
+00:17:39,440 --> 00:17:41,679
+这基本上就是 Micron 论文所讨论的内容，对吧？
+basically what the Micron paper is talking about, right?
+
+256
+00:17:41,679 --> 00:17:49,000
+好的？在某个时刻，我们继续扩展
+Okay? And at some point, okay, at some point, we continue to skill
+
+257
+00:17:49,000 --> 00:17:51,239
+语言模型到更长更长的序列，对吧？
+language model to longer and longer sequences, right?
+
+258
+00:17:51,239 --> 00:17:53,159
+然后这个 S 会爆炸式增长。
+And this S is going to explode.
+
+259
+00:17:53,159 --> 00:17:57,420
+当 S 爆炸式增长时，我们仍然需要继续分区。
+And when S is going to explode, we still need to partie along.
+
+260
+00:17:57,420 --> 00:18:00,679
+就像我说的，即使这样做代价非常高昂。
+Like I said, even it is super costly, okay?
+
+261
+00:18:00,679 --> 00:18:03,580
+好的。
+So okay.
+
+262
+00:18:03,580 --> 00:18:10,319
+实际上，对于这节课，你只需要理解这一点。
+Actually, for the um, for this lecture, you just need to understand this.
+
+263
+00:18:10,319 --> 00:18:14,379
+这就是我们如何将微音阶式的趋向性与这种交流方式联系起来的。
+That is how we connect, microton style tropism to this communication.
+
+264
+00:18:14,379 --> 00:18:15,719
+但我想稍微扩展一下内容。
+But I want to expand a little bit.
+
+265
+00:18:15,719 --> 00:18:18,340
+好的，我要给你们一些非常非常高级的内容。
+Okay, I'm going to give you some very, very advanced stuff.
+
+266
+00:18:18,340 --> 00:18:20,959
+这些内容是我几个月前刚刚发表的，明白吗？
+This stuff I just published a few months ago. Okay?
+
+267
+00:18:20,959 --> 00:18:28,079
+嗯，就像我说的，你们已经了解了Microthn风格的Tater趋向性，对吧？
+Um, okay. So, like I said, you already know Microthn' style of Tater partism, right,
+
+268
+00:18:28,079 --> 00:18:31,999
+本质上就是在MOP中以两种方式进行分派，对吗？
+which is essentially party in two ways in the MOP, okay?
+
+269
+00:18:31,999 --> 00:18:34,639
+我还给了你们一个动机。
+And I also give you a motivation.
+
+270
+00:18:34,639 --> 00:18:40,420
+比如说，如果我们想要建模超长的上下文，那么S就会非常大，并且在某个时刻，
+For example, if we want to model super long contexts, then the S is super large and at some point,
+
+271
+00:18:40,420 --> 00:18:44,239
+我们必须进行分割，因为我们将会有很多很多的设备。
+we have to pertain, because we are going to have a lot of a lot of devices.
+
+272
+00:18:44,239 --> 00:18:49,200
+你也知道，比如在张量并行中，我们无法在GPU之外扩展，为什么？
+And you also know like for tenso parism we cannot skill beyond GPUs why?
+
+273
+00:18:49,200 --> 00:18:50,920
+因为有太多
+Because there are too many
+
+274
+00:18:50,920 --> 00:18:55,840
+Ds，而且这些ID非常昂贵，如果你没有意义的话，
+Ds and these IDs are super expensive that, if you don't have meaning,
+
+275
+00:18:55,840 --> 00:18:57,980
+你就不想这么做，这样做的收益非常小，对吧？
+you don't want to do that, it's super small, okay?
+
+276
+00:18:57,980 --> 00:18:59,359
+所以在某个时候，当
+So at some point, when
+
+277
+00:18:59,359 --> 00:19:02,519
+S很大，并且我们尝试继续将模型扩展到越来越多的
+S is large and when we try to continue skew our model to more and more and more
+
+278
+00:19:02,519 --> 00:19:07,879
+GPU，远远超过GPU时，我们就必须在S上进行分割。明白了吗？
+GPU way beyond GPs, we are going to have to pertain along S. Okay.
+
+279
+00:19:08,260 --> 00:19:15,899
+所以如果你看看这个，嗯，如果我们选择在S上分割，会发生什么呢？
+So if you look at this, okay, uh, if we choose to part in align S, what will happen? Okay?
+
+280
+00:19:16,020 --> 00:19:22,660
+在这个MLP的简单例子里，这是MLP，这是注意力，注意力MLP和MLP。
+The simple case in this MLP, this is the MLP, and this is the attention, attention MLP at MLP.
+
+281
+00:19:22,660 --> 00:19:25,520
+Transformer层基本上就是连接这两个组件。
+Transformer layer basically connects these two components.
+
+282
+00:19:25,520 --> 00:19:29,459
+那么在这一部分，我们可以进行对齐吗？
+So in this part, can we part in aligns?
+
+283
+00:19:33,370 --> 00:19:38,529
+在这里，如果你观察这个MLP，你会发现这个计算，
+So here, if you observe this MLP, you'll find that this computation,
+
+284
+00:19:38,529 --> 00:19:45,649
+在这个计算中，S不是归约循环，因为H和
+in this competition, S is not the reduction loop, because the H and
+
+285
+00:19:45,649 --> 00:19:50,189
+I在这里基本上是归约循环和S，这意味着你有一个数量，
+I here are basically the reduction loop and S, which means that you have a number
+
+286
+00:19:50,189 --> 00:19:52,629
+就是你有多少个token，对吧？
+of how many tokens you have, right?
+
+287
+00:19:52,629 --> 00:19:55,010
+所以每个token基本上都会执行它们自己的计算。
+So each token will basically perform their own competition.
+
+288
+00:19:55,010 --> 00:19:56,789
+它们是相互独立的，明白吗？
+They're independent, okay?
+
+289
+00:19:56,789 --> 00:20:02,089
+所以在这个计算中，如果你进行分区，其实非常类似于数据并行。
+So in this competition, if you part in along is very similar to data partism.
+
+290
+00:20:02,089 --> 00:20:05,089
+是的，你基本上就是把不同token的计算分配到不同的设备上。
+Yeah, you are basically assigned different token competition to different devices.
+
+291
+00:20:05,089 --> 00:20:08,070
+这非常简单，对吧？所以我们没问题。
+It's very straightforward, okay? So we are good.
+
+292
+00:20:08,070 --> 00:20:11,889
+但就像我说的，在这个竞赛中，你能在S中分区吗？
+But like I said, in this competition, can you part in S?
+
+293
+00:20:11,889 --> 00:20:14,750
+这非常难，因为自注意力机制，
+It's super hard because self attention,
+
+294
+00:20:14,750 --> 00:20:18,790
+S是一个归约循环，如果你在这里分区，通信会变得非常混乱，
+S is a reduction loop, and if you part ins, your communication is pretty messy,
+
+295
+00:20:18,790 --> 00:20:21,049
+每个设备都在计算一些东西，但你还需要聚合
+each device compute something, but you also need to aggregate
+
+296
+00:20:21,049 --> 00:20:22,869
+其他设备的结果，才能得到最终结果。
+others results to get the final results.
+
+297
+00:20:22,869 --> 00:20:25,869
+明白吗？而聚合涉及大量计算。
+Okay? And aggregation involves a lot of compute.
+
+298
+00:20:25,869 --> 00:20:29,170
+我把这个问题留给你们，好吗？通信量很大。
+And I'm going to leave this question to you, okay? A lot of communication.
+
+299
+00:20:29,170 --> 00:20:30,509
+我把这个问题留给你们。
+I'm going to leave this question to you.
+
+300
+00:20:30,509 --> 00:20:34,549
+如果你有时间，想一想如果我们在这里分区，会有什么样的通信。
+If you have time, think about what kind of communication we have if we part ins here.
+
+301
+00:20:34,549 --> 00:20:36,814
+好吗？所以
+Okay? So
+
+302
+00:20:36,814 --> 00:20:41,219
+最近的一种方法叫做序列多元化。
+So one recent method is called sequence pluralism.
+
+303
+00:20:41,219 --> 00:20:45,939
+这是目前人们用来训练语言模型的最新方法之一。
+It is one of the most recent method that people use to train language models.
+
+304
+00:20:45,939 --> 00:20:49,959
+他们做的事情当然是对S进行分区，
+What did they do is, of course, they partition S in
+
+305
+00:20:49,959 --> 00:20:53,720
+在这台计算机上采用这种组合方式，因为就像我说的，对S分区非常简单。
+this computer in this combination because like I said, partition S is super easy.
+
+306
+00:20:53,720 --> 00:20:58,699
+但为了避免在这部分对S分区，他们沿着不同的轴进行分区。
+But in order to avoid partition S in this part, they partition along different axes.
+
+307
+00:20:58,699 --> 00:21:04,469
+他们选择沿着N维度进行分区，也就是头的数量。
+They choose to partition along the the N dimension, which is lumber heads.
+
+308
+00:21:04,469 --> 00:21:08,710
+基本上在transformer中，他们首先沿着头的数量进行分区。
+Basically in transformer, they first partition along the lumber heads.
+
+309
+00:21:08,710 --> 00:21:12,729
+他们将不同的头分配到不同的设备上，并进行并行计算。
+They align different heads to different devices and they compute in parallel.
+
+310
+00:21:12,729 --> 00:21:17,310
+然后在某个阶段，当他们进入通信环节时，他们进行分区，尝试
+And then at some point, when they enter this communication, they partition, they try
+
+311
+00:21:17,310 --> 00:21:19,850
+切换访问分区。
+to switch access to partition along.
+
+312
+00:21:20,210 --> 00:21:24,810
+这基本上给你带来了深度速度的尤利西斯。
+This basically give you deep speed Ulysses.
+
+313
+00:21:24,810 --> 00:21:29,410
+这被称为深度尤利西斯风格的序列并行。
+This called the deep Ulysses style sequence parism.
+
+314
+00:21:29,490 --> 00:21:35,050
+我把主控权交给你，但我想问一个问题，希望你能回答。
+I give you the master, but I'm going to ask a question I hope you can answer.
+
+315
+00:21:35,770 --> 00:21:45,650
+在这种分区方案中，通信是什么？请回答。
+In this partitioning scheme, what is the communication? Please.
+
+316
+00:21:45,650 --> 00:21:52,489
+是的，是自动的。为什么？因为在第一部分，我们沿着分区，在第二部分，
+Yes, auto. Why? Because in the first part, we parting along in the second part,
+
+317
+00:21:52,489 --> 00:21:57,309
+我们沿着S分区。就像我说的，当你分区一个张量时，
+we parting along S. Like I said, when you're parting a tensor you
+
+318
+00:21:57,309 --> 00:22:01,510
+你需要重新分片。当你切换访问时，你仍然需要重新分片。
+need a resharding When you switch access, you need to recharting still
+
+319
+00:22:01,510 --> 00:22:04,049
+还记得我给你的那个三角形图表吗？
+remember that triangle dire grab and give it to you, right?
+
+320
+00:22:04,049 --> 00:22:07,689
+那么，当你尝试切换访问时，你会怎么做？
+So what do you do when you try to switch access?
+
+321
+00:22:07,689 --> 00:22:09,829
+你执行自动分配，好吗？
+You perform auto. Okay?
+
+322
+00:22:09,829 --> 00:22:12,970
+所以这就是为什么在深度应用中，人们需要自动分配。
+So that's why in deep uses, people need Auto.
+
+323
+00:22:12,970 --> 00:22:19,309
+那是因为他们先划分头部，然后再划分lumber头部，最后再划分S。明白吗？
+That's because they partition head and then lumber head and then partition S. Okay.
+
+324
+00:22:19,309 --> 00:22:23,649
+这非常高级，在某个阶段，如果你开始研究这个，
+This is very advanced and at some point, if you start working on this,
+
+325
+00:22:23,649 --> 00:22:27,450
+你很可能会尝试去修改这段代码。
+you probably will try to start hacking on this code.
+
+326
+00:22:27,450 --> 00:22:32,909
+好吗？让我给你一个更高级的例子。
+Okay? Let me give you even more advanced one.
+
+327
+00:22:32,909 --> 00:22:38,430
+那如果lumber头的数量远小于lumber GPU的数量怎么办？
+Okay? So what if the lumber hats is way smaller than lumber GPUs?
+
+328
+00:22:38,430 --> 00:22:43,590
+为什么会这样？当你在一万块GPU上训练模型时，这种情况经常发生，
+Why does it happen? This happens very often when you train a model that is on ten k GPUs,
+
+329
+00:22:43,590 --> 00:22:46,209
+但你不会有一万个头。
+but you are not going to have ten k hats.
+
+330
+00:22:46,209 --> 00:22:49,409
+你可能只有128个头。
+You are going to probably only have 128 hats.
+
+331
+00:22:49,409 --> 00:22:51,229
+这意味着你无法在这里分割。
+Which means that you are not able to part in
+
+332
+00:22:51,229 --> 00:22:54,090
+128个帽子在Tenke dips上。
+128 hats on Tenke dips.
+
+333
+00:22:54,090 --> 00:22:57,850
+那么你仍然需要在S这里进行分割。
+Then you still need to part in S here.
+
+334
+00:22:57,850 --> 00:22:59,750
+你需要进行分割操作。
+You need the parting operating
+
+335
+00:22:59,750 --> 00:23:04,189
+S。但如果你选择在S处分割，那么你就会开始遇到一个问题，那就是，
+S. But if you choose to part in S, then you start having a problem, that is,
+
+336
+00:23:04,189 --> 00:23:07,849
+我留给你去思考你需要什么样的通信方式。
+I left to you to think about what kind of communication you need.
+
+337
+00:23:07,849 --> 00:23:09,690
+但我会给你一个名字，
+But I'm going to give you a name,
+
+338
+00:23:09,690 --> 00:23:16,250
+如果你在注意力和MLP中都在S处分割，你基本上得到了所谓的环形注意力。
+If you part in S in both the attention and the MLP, you basically get the so called ring attention.
+
+339
+00:23:16,250 --> 00:23:23,969
+这是另一种风格，嗯，人们用来微调超上下文语言模型的序列分割方式。
+That is another style, um, sequence part that people use to tin super context language models.
+
+340
+00:23:23,969 --> 00:23:29,250
+好吗？酷。这是高级话题，考试肯定不会考到，好吗？
+Okay? Cool. This is advanced topics, definitely will not be covered in exam, okay?
+
+341
+00:23:29,250 --> 00:23:31,194
+可以跳过这一部分。
+Feel free to skip.
+
+342
+00:23:31,194 --> 00:23:38,460
+好的。那么，这基本上，嗯，结束了我们对
+Cool. Okay, that basically, um, finish our very deep dive
+
+343
+00:23:38,460 --> 00:23:42,519
+语言模型计算特性的深入探讨。
+into the computing characteristics of language models.
+
+344
+00:23:42,519 --> 00:23:44,140
+让我们进入下一个话题。
+Let's move on to the next topic.
+
+345
+00:23:44,140 --> 00:23:48,939
+好的。我们现在要讲一个非常重要但又简单的东西，就是斯金定律。
+Okay. We are going to talk about a very important yet simple thing, okay, skinning law.
+
+346
+00:23:48,939 --> 00:23:53,559
+我们之所以在这里讲斯金定律，是因为你必须了解
+So the reason we put skin law here is because you have to understand these computing requirements of
+
+347
+00:23:53,559 --> 00:23:55,919
+语言模型的计算需求，才能理解斯金定律。
+language models in order to understand skinning law.
+
+348
+00:23:55,919 --> 00:24:01,180
+好吗？那我们来做点简单又有趣的事情吧。
+Okay? So let's do simple, and fun thing, okay?
+
+349
+00:24:01,180 --> 00:24:08,159
+所以现在我们明白了计算机的内存和通信对计算机来说
+So so now we understand computer memory and, communication is fact for computer
+
+350
+00:24:08,159 --> 00:24:10,159
+是很重要的，因为计算机才是真正需要花钱的地方，对吧？
+because computer is the thing that you really pay, right?
+
+351
+00:24:10,159 --> 00:24:17,700
+TPU o。我们知道计算量是HI B的函数，B是批量大小。
+TPU o. And we know that the compute is a function of HI B B is batch size.
+
+352
+00:24:17,700 --> 00:24:21,215
+I是上投影和下投影。
+I is the upper projection down projection.
+
+353
+00:24:21,215 --> 00:24:26,470
+H是模型的隐藏层cd模型。
+An H is model hidden cd model.
+
+354
+00:24:26,470 --> 00:24:31,089
+好的。我们也花了很多时间去理解
+Okay. And we also spent quite a lot of time understanding that
+
+355
+00:24:31,089 --> 00:24:33,569
+参数是
+the pamemb parameters is a function of
+
+356
+00:24:33,569 --> 00:24:36,609
+H和I的函数。H是隐藏维度，
+H and I. H is a hidden dimension,
+
+357
+00:24:36,609 --> 00:24:37,990
+I是上投影和下投影。
+I is upper down projection.
+
+358
+00:24:37,990 --> 00:24:40,029
+好吗？所以这个H和
+Okay? So this H and
+
+359
+00:24:40,029 --> 00:24:46,909
+I本质上是模型的规格，而B本质上是数据量，对吗？好的。
+I are essentially the model specifications, and the B is essentially the lumber data, right? Okay.
+
+360
+00:24:47,280 --> 00:24:52,240
+因此，我们可以得出一个结论，那就是计算量与参数成正相关。
+Therefore, we can draw a conclusion that is compute clts with parameters.
+
+361
+00:24:52,240 --> 00:24:56,380
+参数越多，当然你需要花费更多的计算资源来训练模型。
+The more parameters, of course, you are going to spend more computer to train the model.
+
+362
+00:24:56,380 --> 00:24:59,300
+计算资源是参数的一个函数。
+Computer is a function of parameters.
+
+363
+00:24:59,300 --> 00:25:04,080
+同时，计算资源也是你的训练数据的一个函数，你想训练的数据越多，
+Also computer is a function of your training data, the more data you want to train,
+
+364
+00:25:04,080 --> 00:25:05,960
+这个B值就会更大。
+this B will be much larger.
+
+365
+00:25:05,960 --> 00:25:07,464
+你也需要更多的计算资源。
+You also need more computer.
+
+366
+00:25:07,464 --> 00:25:11,530
+好的。然后，人们开始说，
+Okay. And then, people start saying,
+
+367
+00:25:11,530 --> 00:25:13,250
+我要扩展我的语言模型。
+I'm going to skill my language model.
+
+368
+00:25:13,250 --> 00:25:16,769
+我要训练更大、更强的模型，因为，
+I'm going to train whatever model that is large and more powerful because,
+
+369
+00:25:16,769 --> 00:25:21,390
+人们一直相信更大的模型有更好的性能，对吧？
+like, people have been believing that larger model has better performance, okay?
+
+370
+00:25:21,390 --> 00:25:26,029
+但这里的问题是，我们没有无限的计算资源，对吧？
+But the problem here is, we don't have infinite computer, okay?
+
+371
+00:25:26,029 --> 00:25:28,549
+我们只有一台电脑的预算。
+We only have a computer budget.
+
+372
+00:25:28,549 --> 00:25:33,249
+而且这个电脑预算是固定的，你受到你拥有多少钱的限制，
+And this computer budget is given, you're constrained by, like, how much money you have,
+
+373
+00:25:33,249 --> 00:25:38,505
+因为你要去购买DPS，你还要为你的识字能力做预算，对吧？
+because you are going to buy DPS, you're going to, like, going a budget for your literathy, okay?
+
+374
+00:25:38,505 --> 00:25:43,940
+那么这就是一个现实检验，我给你五百万美元。
+Then this is a reality check, I give you $5 million.
+
+375
+00:25:43,940 --> 00:25:46,559
+这就是我在作业里给你们的，对吧？
+That's what I give it to you in your homework, right?
+
+376
+00:25:46,559 --> 00:25:49,180
+我给你五百万美元。你手里有五百万美元。
+I give you 5 million. And you hold $5 million.
+
+377
+00:25:49,180 --> 00:25:54,879
+现在我要求你交付你最好的语言模型。你会怎么做？
+And now I ask you to deliver your best language model. And how do you do that?
+
+378
+00:25:55,160 --> 00:26:01,139
+这是一个非常有趣的问题，因为我们必须在
+This is a super interesting question, because we have to solve this question in
+
+379
+00:26:01,139 --> 00:26:03,129
+非常有限的预算情况下解决这个问题。
+a very limited budget scenario.
+
+380
+00:26:03,129 --> 00:26:11,839
+好的，所以在这里，如果我基本上对预算设定了一个上限，那么你就会面临这些问题，对吧？
+Okay. So here, if I basically set a limit on the budget, then you are facing these questions, right?
+
+381
+00:26:11,839 --> 00:26:17,619
+我记得在我们之前的客座讲座中，其实我们谈到了所谓的规划阶段。
+And I think in our previous guest lecture, actually we talked about a so called planning phase.
+
+382
+00:26:17,619 --> 00:26:21,959
+也就是说，每当你训练语言模型时，真正耗时的部分
+That is whenever you train language model, the really time consuming part
+
+383
+00:26:21,959 --> 00:26:23,999
+其实并不是训练，而是像规划这样的过程。
+is not actually trainings like planning.
+
+384
+00:26:23,999 --> 00:26:26,239
+这基本上就是你的规划，对吧？
+And this is basically your planning, okay?
+
+385
+00:26:26,239 --> 00:26:28,319
+我是你的领导，我要给你
+I'm your leadership, I'm going to give you
+
+386
+00:26:28,319 --> 00:26:30,940
+500万美元，你开始规划你想训练什么。
+$5 million and you start planning what do you want to train.
+
+387
+00:26:30,940 --> 00:26:32,800
+所以你会面临一些决策。
+So you face a few decisions.
+
+388
+00:26:32,800 --> 00:26:38,400
+你应该训练一个更大的模型，还是应该让你的模型训练得更久？
+Should you train a model that is larger, should you train your model longer?
+
+389
+00:26:38,400 --> 00:26:40,980
+比如说，训练更多的数据？
+That is, for example, training more data?
+
+390
+00:26:40,980 --> 00:26:43,600
+还是应该用更少的数据训练一个更大的模型？
+Or should you train a larger model on fewer data.
+
+391
+00:26:43,600 --> 00:26:48,140
+为什么？因为就像我说的，计算量是数据量和模型规模的函数。
+Why? Because, like I said, compute is a function of data and model size.
+
+392
+00:26:48,140 --> 00:26:49,540
+所以你面临两个选择。
+So you're facing two choices.
+
+393
+00:26:49,540 --> 00:26:53,460
+你可以用更少的数据训练一个更大的模型，但这样你的资金就会耗尽，
+Oh, you train a bigger model with fewer data and you exhausted your money,
+
+394
+00:26:53,460 --> 00:26:56,240
+或者你可以用更多的数据训练一个更小的模型。
+or you train a smaller model, but with more data.
+
+395
+00:26:56,240 --> 00:26:58,519
+那么，哪种模型会带来更好的性能呢？
+Okay? So which model will give you better performance?
+
+396
+00:26:58,519 --> 00:27:01,145
+这是一个非常基础的问题，对吧？
+This is a very fundamental question, okay?
+
+397
+00:27:01,145 --> 00:27:05,350
+第二，你是否应该让模型接触更多的数据？
+Second, should you connect more data to model?
+
+398
+00:27:05,350 --> 00:27:11,330
+因为如果你决定走这条路，你就需要知道如何让模型接触更多的数据。
+Because if you try to decide this path, you want to go this path, then you how to connect more data.
+
+399
+00:27:11,330 --> 00:27:14,169
+而连接数据是一个试错过程，就像我说的，你必须进行预处理，
+And connecting data is trial, like I said, you have to preprocess
+
+400
+00:27:14,169 --> 00:27:19,789
+以一种非常简单的方式处理数据，确保语言模型能用到真正优质的数据，对吧？
+the data in a very trivial way to make sure language model in a really good data, right?
+
+401
+00:27:19,789 --> 00:27:25,950
+还是说你应该获得更多的技巧，然后继续扩大规模，这两者都会花掉你的钱。
+Or should you get more tips you just continue to scale up, and both will spend your money.
+
+402
+00:27:26,230 --> 00:27:31,269
+我记得上次讲座时，有个学生来问我一个非常好的问题。
+I think the last lecture, a student come to me and ask exactly a very good question.
+
+403
+00:27:31,269 --> 00:27:34,509
+那就是我到底该如何决定u和i？
+That is how exactly should I decide u and I?
+
+404
+00:27:34,509 --> 00:27:38,299
+什么是隐藏机器？什么是上投影倾倒投影？
+What is hidden a machine? What is the upper projecting dump projection?
+
+405
+00:27:38,299 --> 00:27:43,669
+好的，这个问题对我们设计语言模型来说非常重要，
+Okay. And this question is super important for us to design our language models,
+
+406
+00:27:43,669 --> 00:27:45,949
+而这个问题由斯金定律来解答。
+and this question answered by the skinning law.
+
+407
+00:27:45,949 --> 00:27:48,409
+那么斯金定律本质上是什么呢？
+So what is skinning law essentially?
+
+408
+00:27:48,409 --> 00:27:53,510
+在我讲斯金定律是什么之前，正如我所说，斯金定律试图解决的问题就是这些。
+Before I talk about what is skinning law, like I said, the problem that skinning law tries
+
+409
+00:27:53,510 --> 00:27:56,249
+所以在给定固定预算的情况下，我们应该训练多大的模型，应该用多少数据？
+to solve these questions.
+
+410
+00:27:56,249 --> 00:28:02,589
+
+So given a fixed budget, how large a model should we train and how many data should we use?
+
+411
+00:28:02,589 --> 00:28:07,830
+那如果我选择这个更大的模型和这么多数据，能给我一个预测吗？
+And can I get a projection, if I choose this larger model and this many data,
+
+412
+00:28:07,830 --> 00:28:12,030
+我会达到什么样的性能？能给我一个预测吗？
+what kind of performance I'm going to achieve? Can I get a prediction?
+
+413
+00:28:12,030 --> 00:28:15,650
+当然，我们还需要考虑计算机的限制。
+And of course, we need to subject computer constraints.
+
+414
+00:28:15,650 --> 00:28:22,950
+好的，我现在要用一个非常有趣的方式来给你解释一下spin，好吗？
+Okay. And I'm going to, um, explain spin on you, very, very, like, a funny way, okay?
+
+415
+00:28:22,950 --> 00:28:28,490
+所以我会让你看这个20秒，好吗？
+So I will let you look at this for 20 seconds, okay?
+
+416
+00:28:44,960 --> 00:28:46,239
+好的。
+Okay.
+
+417
+00:28:46,239 --> 00:28:48,639
+这个东西我相信大家都知道，对吧？
+This is something like I believe everybody knows, right?
+
+418
+00:28:48,639 --> 00:28:49,879
+你在本科的时候学过这个。
+You study this in underground.
+
+419
+00:28:49,879 --> 00:28:55,179
+基本上你有一些你观察到的数据点，是从经验数据中得到的，
+It's basically you have some data points you observed, empirical data that is drawn from
+
+420
+00:28:55,179 --> 00:28:59,280
+这些数据来自高斯分布，然后我让你估计均值。
+Gaussi distribution and I ask you to estimate the mean,
+
+421
+00:28:59,320 --> 00:29:05,299
+你基本上可以用你学过的任何数学方法来给我这个方程，然后告诉我。
+you can basically use whatever mathematics you studied to give me this equation and you tell me
+
+422
+00:29:05,299 --> 00:29:07,420
+你给我这些数据，
+that you give me this data,
+
+423
+00:29:07,420 --> 00:29:13,400
+我要去估计均值，而且我可以确保我对均值估计的误差
+I'm going to estimate the mean, and I can make sure that my arrow on my estimation of the mean
+
+424
+00:29:13,400 --> 00:29:15,879
+被某个方程所限制，对吧？
+is bonded by some equation, right?
+
+425
+00:29:15,879 --> 00:29:17,859
+这就是高斯分布告诉你的，对吧？
+This is what Gaussian distribution told you, right?
+
+426
+00:29:17,859 --> 00:29:20,740
+高斯分布的经验估计。
+Empirical estimation of the of Gaussi.
+
+427
+00:29:20,740 --> 00:29:25,200
+在这里我说明这就是筛选法，为什么？
+And here I state this is the screening all Why?
+
+428
+00:29:25,200 --> 00:29:26,619
+因为如果你看这个方程，
+Because if you look at this equation,
+
+429
+00:29:26,619 --> 00:29:30,639
+我给你更多的数据，你的误差就会更小，对吧？
+I give you more data, your error is going to be less, right?
+
+430
+00:29:30,639 --> 00:29:34,000
+而且这个筛选法是绝对正确的。
+And this screening law is absolutely correct.
+
+431
+00:29:34,000 --> 00:29:37,279
+为什么？因为这是你用数学推导出来的。
+Why? Because this is what you derived from mathematics.
+
+432
+00:29:37,279 --> 00:29:40,290
+只要我们的数学是正确的，它就是正确的。
+As long as our mathematics is correct, it is correct.
+
+433
+00:29:40,290 --> 00:29:44,580
+好的。但我们换个角度想一想，好吗？
+Okay. But let's think differently, okay.
+
+434
+00:29:44,580 --> 00:29:45,899
+我要把这个模型从
+I'm going to switch this model from
+
+435
+00:29:45,899 --> 00:29:49,880
+Gasino切换成一个有很多很多transformer层的语言模型，
+Gasino into a language model with many, many transformer layers,
+
+436
+00:29:49,880 --> 00:29:52,539
+有很多参数。那么你还能做到吗？
+a lot of parameters. So can you still do this?
+
+437
+00:29:52,539 --> 00:29:56,919
+不能，对吧，因为我们的数学在transformer上不再适用了。
+No, right, because our mathematics doesn't work anymore on transformers.
+
+438
+00:29:56,919 --> 00:30:01,179
+至少我们还没有那么高级的数学来分析我们的语言模型，对吧？
+At least we don't have that advanced mathematics to analyze our language model, right?
+
+439
+00:30:01,179 --> 00:30:04,800
+就像我说的，呃，分析语言模型非常难。
+Because like I said, uh, it's very hard to analyze language model.
+
+440
+00:30:04,800 --> 00:30:07,299
+有太多层，太多transformer，还有很长的上下文。
+It's so many layers, so many transformers and long convex,
+
+441
+00:30:07,299 --> 00:30:10,340
+对于这个来说，其实非常简单。
+this kind of like for this it's super simple.
+
+442
+00:30:10,340 --> 00:30:13,320
+这是非常简单的数学，但对语言模型来说却非常难。
+It's very simple math, but for language model, it's super hard.
+
+443
+00:30:13,320 --> 00:30:18,809
+好吗？所以如果我们想做这种类似的事情，做一个方程式
+Okay? So if we want to do this kind of thing that do a equation
+
+444
+00:30:18,809 --> 00:30:25,509
+每当我在等式右边加入更多数据和计算资源时，
+that whenever I put more data and more computer into into the right hand equation,
+
+445
+00:30:25,509 --> 00:30:29,329
+嗯，那我的误差会是什么样子呢？
+um, like, what would be my arrow looking like?
+
+446
+00:30:29,329 --> 00:30:34,769
+我们无法用现有的数学工具来给出这个方程式。
+We're not able to use our existing mathematical tools to give this equation.
+
+447
+00:30:34,769 --> 00:30:38,649
+但我仍然想得到这样的方程式，至少让我有个感觉，
+But I still want to get this kind of equation to at least give me a sense like
+
+448
+00:30:38,649 --> 00:30:44,349
+我想往模型里加入多少数据或参数。那么我们该怎么办？
+how many data or parameters that I want to put into my model. So what should we do?
+
+449
+00:30:47,170 --> 00:30:53,329
+好吧，你的数学方法变得无效了，但你仍然想了解
+Okay, your mass become ineffective and you still want to get a sense
+
+450
+00:30:53,329 --> 00:30:56,024
+模型会如何运作。那你该怎么办？
+of how the model would work. What do you do?
+
+451
+00:30:56,024 --> 00:31:02,760
+好的。那么这里，嗯，基本上，Skin Law 基本上就是机器学习的物理学。
+Okay. So here, um, so basically, skin law is basically the physics of machine learning.
+
+452
+00:31:02,760 --> 00:31:06,540
+好吗？想想在语言模型出现之前，人们是如何做机器学习研究的。
+Okay? Think about before language model, how people do machinery research.
+
+453
+00:31:06,540 --> 00:31:08,940
+更像是一种数学方法，统计方法。
+It's more like a mathematical way, statistical way.
+
+454
+00:31:08,940 --> 00:31:11,899
+所有的一切都是分析性的。
+So everything everything is analytical.
+
+455
+00:31:11,899 --> 00:31:16,860
+我可以写出方程式。我可以用数学统计理论来界定估计误差，好吗？
+I can write down the equation. I can bond the estimation arrow using math statistical theory, okay?
+
+456
+00:31:16,860 --> 00:31:19,479
+然后我基本上就画出这样的方程。
+And I basically draw this kind of equation.
+
+457
+00:31:19,479 --> 00:31:25,840
+好吗？我推导出这个界限，然后我可以说，如果我把这些数据放进我的模型里，
+Okay? I derive this bond, and I can make a statement that if I put this data into my model,
+
+458
+00:31:25,840 --> 00:31:30,580
+我会得到这个误差，这个误差会小于某个上界。
+I'm going to get this arrow, and this arrow is going to be smaller than some upper bound.
+
+459
+00:31:30,580 --> 00:31:33,899
+但就像我说的，一旦你的数学方法失效了，你怎么办？
+But like I said, once your mass become ineffective, what do you do?
+
+460
+00:31:33,899 --> 00:31:37,819
+好的。记住，在古代社会，我们会怎么做？
+Okay. Remember, in ancient society, what do we do?
+
+461
+00:31:37,819 --> 00:31:40,699
+
+Like we don't understand how the world works, right.
+
+462
+00:31:40,699 --> 00:31:44,180
+
+We don't understand physics, but we still know that one day takes
+
+463
+00:31:44,180 --> 00:31:50,059
+
+roughly 24 hours and one year takes roughly 365 days.
+
+464
+00:31:50,059 --> 00:31:54,759
+
+So how are sent get this kind of knowledge?
+
+465
+00:31:55,400 --> 00:31:58,200
+
+You keep observing, right, you keep observing.
+
+466
+00:31:58,200 --> 00:32:01,419
+
+So it takes many many years, but you basically draw some conclusion by
+
+467
+00:32:01,419 --> 00:32:06,619
+
+observing how many hours it takes every day, and how many days it takes per year.
+
+468
+00:32:06,619 --> 00:32:08,560
+
+And after you observe, for example,
+
+469
+00:32:08,560 --> 00:32:14,560
+
+100 years and that knowledge you are basically um, uh, boil down into your child,
+
+470
+00:32:14,560 --> 00:32:19,019
+
+probably your grandchild and they will summarize something called knowledge.
+
+471
+00:32:19,019 --> 00:32:24,239
+这种知识被称为“好吧，也许有一天会有24小时，也许一年会有大约300天”，对吧？
+And this knowledge is called okay, maybe one day will take 24 hours and maybe one year will
+
+472
+00:32:24,239 --> 00:32:28,979
+但在某个时刻，当然，我们人类发明了一些符号
+take somewhere between somewhere around 300 days, right?
+
+473
+00:32:28,979 --> 00:32:32,839
+然后我们开始理解宇宙，并且开始用更
+But at some point, of course, we human we invent some signs
+
+474
+00:32:32,839 --> 00:32:37,059
+更加我认为是第一性原理的方式来解释这些现象。
+and we start understanding the universe and we start explaining this more
+
+475
+00:32:37,059 --> 00:32:38,880
+但在那之前，对吧，我们其实已经知道一天有24小时。
+more I would say first principle way.
+
+476
+00:32:38,880 --> 00:32:44,155
+这基本上是语言模型研究中的一个根本性的范式转变。
+But before that, right, we actually know that one day takes 24 hours.
+
+477
+00:32:44,155 --> 00:32:49,010
+我认为语言模型之所以能走到今天，并且远远超越其他任何机器模型，
+And this is basically a fundamental paradigm shift in language model research.
+
+478
+00:32:49,010 --> 00:32:55,350
+是因为它们发现了类似于物理学的这种规律，对吧？
+I think that the way language model go this far and much much further than any other machinery model
+
+479
+00:32:55,350 --> 00:32:57,890
+在某个时刻，在GBT论文发表之后，整个机器学习领域
+is because they discover this kind of physics, okay?
+
+480
+00:32:57,890 --> 00:33:03,370
+
+And at some point, after the GBT paper was published, so the machining society,
+
+481
+00:33:03,370 --> 00:33:08,629
+
+especially some very small group of researcher open air, they start approaching machinery using
+
+482
+00:33:08,629 --> 00:33:11,530
+
+a physics way instead of a mathematical way.
+
+483
+00:33:11,530 --> 00:33:17,469
+
+They don't want to seek for a very analytical explanation of my machinery models behavior like this.
+
+484
+00:33:17,469 --> 00:33:23,099
+
+And they know deep learning is very hard to explain, and they give up in this demands.
+
+485
+00:33:23,099 --> 00:33:26,120
+
+Okay? What do they do is they start doing experiments.
+
+486
+00:33:26,120 --> 00:33:29,820
+
+They do a lot of experiments, according to experiment results,
+
+487
+00:33:29,820 --> 00:33:33,579
+
+they are going to draw a law empirical law, not analytic law.
+
+488
+00:33:33,579 --> 00:33:37,879
+
+This is an analytical law's starting drawing empirical law.
+
+489
+00:33:37,879 --> 00:33:42,299
+
+And they use empirical law to predict the performance of language models.
+
+490
+00:33:42,299 --> 00:33:47,379
+
+Okay? And this is a very important thing because this is also why recently
+
+491
+00:33:47,379 --> 00:33:52,934
+语言模型开始崛起，系统机器学习系统变得非常重要。
+language models start rising and system machining system become really important subject.
+
+492
+00:33:52,934 --> 00:33:54,969
+那么让我们看看现在发生了什么？
+So let's see what is going on?
+
+493
+00:33:54,969 --> 00:34:01,529
+好的。举个例子，大约五年前的某个时候，
+Okay. So one example question is, at some point, maybe five years ago,
+
+494
+00:34:01,529 --> 00:34:04,610
+人们开始问，变换器模型是不是比RSTM更好。
+people start asking questions are transformers better than RSTM.
+
+495
+00:34:04,610 --> 00:34:06,230
+社区里对此有激烈的争论。
+There is a strong debate in the community.
+
+496
+00:34:06,230 --> 00:34:12,110
+好吧？如果你想回答这个问题，有一种方法就是，
+Okay? So if you want to answer this question, you have one way to answer it is basically,
+
+497
+00:34:12,110 --> 00:34:18,090
+你要花费数千万美元来训练基于RST的PD模型，
+you are going to spend tens of millions of dollars to train RST based PD,
+
+498
+00:34:18,090 --> 00:34:21,255
+参数量相同，计算量也相同。
+same amount of parameters, same amount of compute.
+
+499
+00:34:21,255 --> 00:34:24,999
+但这是不可行的，因为没人会给你那么多钱。
+But that is not doable because no one is going to give you that money.
+
+500
+00:34:24,999 --> 00:34:30,619
+这其实是浪费钱。那么为了回答这样的问题，我们该怎么办呢？
+It's a waste of money. So in order to plate this kind of question, what do we do?
+
+501
+00:34:30,619 --> 00:34:34,500
+我们的做法基本上是采用公园法则，好吗？
+The way we do is basically we use in park law, okay?
+
+502
+00:34:34,500 --> 00:34:36,460
+我们的做法是提出一个假设。
+What do we do is we have a hypothesis.
+
+503
+00:34:36,460 --> 00:34:40,480
+至少我们会训练很多小型的LSTM，也会训练很多小型的transformer，
+At least we train a lot of small LSTMs, we train a lot of small transformers,
+
+504
+00:34:40,480 --> 00:34:42,080
+然后我们比较它们的表现。
+and we compare the performance.
+
+505
+00:34:42,080 --> 00:34:45,139
+我们的假设是，一旦我们有了这个趋势，
+And our hypothesis is that once we have this trend,
+
+506
+00:34:45,139 --> 00:34:49,200
+我们就可以利用这个趋势来推断更大的模型。
+we can use this trend to extrapolate it to larger models.
+
+507
+00:34:49,200 --> 00:34:54,640
+好的。所以现在人们的做法是，他们会投入一些算力，
+Okay. So what people are doing is, they spend some compute,
+
+508
+00:34:54,640 --> 00:34:57,219
+这个算力还是挺大的，但也没有那么夸张，好吗？
+still substantial but not that crazy, okay?
+
+509
+00:34:57,219 --> 00:35:00,659
+他们投入了大量的算力，然后训练了很多，
+This spend a substantial compute, and they train many,
+
+510
+00:35:00,659 --> 00:35:03,099
+很多参数数量不同的模型，好吗？
+many models with different number of parameters, okay?
+
+511
+00:35:03,099 --> 00:35:07,419
+你可以在这个图中看到，它一直延伸到十的八次方。
+You can see in this figure, it goes all the way to ten to eight.
+
+512
+00:35:07,419 --> 00:35:09,359
+好吧，十的八次方在今天来说不算大，对吧？
+Well, ten to eight is not large today, okay?
+
+513
+00:35:09,359 --> 00:35:11,079
+但在那个时候，这已经相当大了。
+But at that point, it's pretty large.
+
+514
+00:35:11,079 --> 00:35:13,959
+他们训练了这么多模型，每一个点就是一个模型。
+And they train these many models. Every point is a model.
+
+515
+00:35:13,959 --> 00:35:21,999
+他们试图研究参数数量和测试损失之间的相关性。明白吗？
+And they try to study the correlation between number of parameters and the testing loss. Okay.
+
+516
+00:35:21,999 --> 00:35:25,859
+如果你用对数坐标来画这个图，基本上就会得到这样的结果。
+And if you plot this in a log skill, you basically get that.
+
+517
+00:35:25,859 --> 00:35:31,900
+你可以看到，每增加一个参数，我的测试损失就会降低，
+You can see by adding one more parameters, my testing loss is going to decrease,
+
+518
+00:35:31,900 --> 00:35:36,819
+显然，这是对数坐标，所以这是一条指数曲线，对吧？
+apparently, this is log skill, so this is the exponential curve, okay?
+
+519
+00:35:36,819 --> 00:35:40,259
+但我也训练了同样数量的transformer模型，
+But I also train the same amount of transformers,
+
+520
+00:35:40,259 --> 00:35:43,660
+我花费了同样多的计算资源。
+I spent the same amount of compute.
+
+521
+00:35:43,660 --> 00:35:47,739
+很明显，我观察到这条蓝色曲线在这条曲线之下。
+And obviously, I observe this blue curve is below curve.
+
+522
+00:35:47,739 --> 00:35:54,299
+这可以验证我们的结论，在这个规模和这个技能下，transformer确实比stem更好。
+And this can verify verdict that at this scale at this skill, transformer is definitely better stem.
+
+523
+00:35:54,299 --> 00:35:55,499
+所以我们可以停止在R上继续工作。
+So we can stop working on R
+
+524
+00:35:55,499 --> 00:35:57,074
+如果我们的假设是正确的，就可以停止研究stem。
+Stem if our hypothesis is right.
+
+525
+00:35:57,074 --> 00:36:00,189
+这个基本上就是皮肤壁，好吗？
+A, This is basically the skin wall, okay?
+
+526
+00:36:00,189 --> 00:36:06,009
+你没有从数学角度去分析背后发生了什么，
+You don't have analytical understanding of what's going on behind, from a mathematical way, but
+
+527
+00:36:06,009 --> 00:36:07,589
+你是用经验的方法来做这件事的。
+you do this in empirical way.
+
+528
+00:36:07,589 --> 00:36:14,709
+你做物理实验，并假设这个趋势会延伸到更大的模型上，对吗？
+You do physics and you hypothesize that this trend is going to extrapolate to larger models. Okay?
+
+529
+00:36:14,709 --> 00:36:20,569
+类似的，有学生问我为什么I是H的四倍，
+And similar thing, I think one student asked me why the I is four of H but
+
+530
+00:36:20,569 --> 00:36:23,689
+而不是三倍H或五倍H，你可以对此进行调整。
+not three H or five And you can update this.
+
+531
+00:36:23,689 --> 00:36:26,870
+好吗？你将要设计很多变换器语言模型，
+Okay? You are going to design a lot of transformer language models,
+
+532
+00:36:26,870 --> 00:36:31,000
+基本上你会改变，比如说，这个因子的数值，
+and you basically change, for example, the value of the factor,
+
+533
+00:36:31,000 --> 00:36:35,379
+上投影或下投影的因子，然后你画出这样的曲线。
+the upper projection or down projecting factor, and you draw this kind of curve.
+
+534
+00:36:35,379 --> 00:36:41,399
+你可以研究测试损失，以及测试损失与超参数之间的相关性。
+And you can study the testing loss and the correlation between texting loss and the hyperparameter.
+
+535
+00:36:41,399 --> 00:36:47,740
+在这个例子中，是神经网络的深度和宽度。
+In this example, it is, um, the depth of the neural network, and the width of neural network.
+
+536
+00:36:47,740 --> 00:36:49,019
+但你可以研究任何东西。
+But you can study anything.
+
+537
+00:36:49,019 --> 00:36:55,400
+好吗？你在相对较小的规模上训练它，并且你会训练很多很多模型，
+Okay? And you twin it um, at a relatively small scale, and you train many, many models,
+
+538
+00:36:55,400 --> 00:36:58,939
+然后你可以得出一些观察结果，如果这个参数好，
+and then you can draw some observations if this one is good.
+
+539
+00:36:58,939 --> 00:37:01,019
+某一个超参数比另一个更好。
+One pyper parameter is better than the other.
+
+540
+00:37:01,019 --> 00:37:04,824
+你不断这样做，你可以应用到你想要的任何地方，好吗？
+You keep doing this and you can apolte everything you want, okay?
+
+541
+00:37:04,824 --> 00:37:11,929
+很好，很酷。这看起来还是一种超主调优，对吧？
+Very good. Cool. And this is still, uh, it looks like a hyperprimary tuning, right?
+
+542
+00:37:11,929 --> 00:37:13,630
+它其实就像是很多模型一样。
+It's basically like actually many models.
+
+543
+00:37:13,630 --> 00:37:16,469
+好的，但是好的。
+Okay. But Okay.
+
+544
+00:37:16,469 --> 00:37:20,109
+但是这种超主调优的方法生成效果还不错。
+But this hyperprimar tuning way kind of generates pretty well.
+
+545
+00:37:20,109 --> 00:37:27,389
+好的，而且，人们从2018年开始就在研究这个了，我觉得。
+Okay. And, um, and people have been studying this since 2018, I think. Okay.
+
+546
+00:37:27,389 --> 00:37:31,950
+特别是谷歌开放团队的人，他们最初是为不同的超参数做这个的。
+Especially people from Google open they're doing this initially for different hyper parameters.
+
+547
+00:37:31,950 --> 00:37:36,469
+但越来越多的人开始做这个，并尝试预测大模型的训练表现。
+But more and more they start doing this and try to predict the performance of training
+
+548
+00:37:36,469 --> 00:37:40,429
+因为他们真的很想训练更大的模型，
+a larger model because, uh, they really want to train a larger model,
+
+549
+00:37:40,429 --> 00:37:43,189
+但他们也不确定，因为你需要说服
+but they are not sure because you need to convince kind of
+
+550
+00:37:43,189 --> 00:37:46,209
+谷歌CEO给你几十亿美元来训练一个模型，对吧？
+Google CEO to give you billions of dollars to train a model, right?
+
+551
+00:37:46,209 --> 00:37:48,669
+所以他们开始收集这些证据，对吧？
+So they started collecting this evidence, okay?
+
+552
+00:37:48,669 --> 00:37:51,069
+他们的做法基本上就是不断地做更多的实验。
+And the way they do that is basically they keep doing
+
+553
+00:37:51,069 --> 00:37:57,890
+他们尝试在这些实验背后总结出很多内容。
+more and more experiment experiments and they try to summarize a lot behind this experiments.
+
+554
+00:38:01,060 --> 00:38:05,640
+他们会做的事情是开始找出最重要的参数。
+What they do is they start figuring out the most important parameter
+
+555
+00:38:05,640 --> 00:38:08,419
+在这个规律中，基本上有两个关键点。
+in this law is basically two things.
+
+556
+00:38:08,419 --> 00:38:11,639
+首先，是你模型的参数数量。
+First, the lumber parameters of your model.
+
+557
+00:38:11,639 --> 00:38:13,779
+因为我们有一个假设。
+Because we have a hypothesis.
+
+558
+00:38:13,779 --> 00:38:18,220
+更多的参数会带来更好的性能，但我们并没有一个精确的理解。
+Me parameters is going to give you more performance, but we don't have a precise understanding
+
+559
+00:38:18,220 --> 00:38:21,900
+我们应该有多少参数才能获得最佳性能，这一点还不清楚。
+how many parameters we should have to give me best performance.
+
+560
+00:38:21,900 --> 00:38:26,239
+但如果你看之前关于flops的计算，你会发现flops的数量是……
+But if you look at the previous calculation of the flops, you can see the Lumber flops is
+
+561
+00:38:26,239 --> 00:38:29,060
+实际上这是参数的一个非常复杂的函数。
+actually very complex function of the parameters.
+
+562
+00:38:29,060 --> 00:38:30,399
+我不能随意地调整它。
+I cannot arbitrarily skill it.
+
+563
+00:38:30,399 --> 00:38:34,879
+我必须非常小心，因为这基本上关系到我在训练上花的每一分钱。
+I have to be very careful because that basically boils down to every dollar I spent on my training.
+
+564
+00:38:34,879 --> 00:38:39,919
+好的。第二个最重要的因素是数据量。
+Okay. And the second most important factor is the amount of data
+
+565
+00:38:39,919 --> 00:38:45,559
+你要为你的模型训练多少数据，以及如何决定这个数量，应该用多少数据。
+you're going to train for your model, and, how to decide that, how many data
+
+566
+00:38:45,559 --> 00:38:52,339
+我应该往模型里投入多少数据，如果我在当前模型规模下继续增加数据，
+I should put into the model, and if I continue to give more data in the current size of this model,
+
+567
+00:38:52,339 --> 00:38:54,219
+会不会出现收益递减的情况？
+will I have a diminished return.
+
+568
+00:38:54,219 --> 00:38:58,079
+我应该用更少的数据训练更大的模型，还是用更多的数据训练更小的模型？
+Should I train a larger model with fewer data or smaller model with more data?
+
+569
+00:38:58,079 --> 00:39:02,980
+明白了吗？在某个阶段，他们开始做各种各样的实验，
+Okay? At some point, they start doing all these kind of experiments,
+
+570
+00:39:02,980 --> 00:39:08,559
+然后他们开始在这个方程中写下经验定律，这就是优化问题。
+and they start writing screen law in this equation, which is the optimiing problem.
+
+571
+00:39:08,559 --> 00:39:10,474
+我们来试着理解一下这个问题。
+Let's try to understand this.
+
+572
+00:39:10,474 --> 00:39:17,470
+所以在这个开篇中，我们尝试回答这样一个问题：对于一台给定的计算机来说……
+So in this opening edition, we try to answer the question as for a given computer
+
+573
+00:40:04,160 --> 00:40:07,519
+好的，我们回来了，明白吗？
+Okay. We're back. Okay?
+
+574
+00:40:07,519 --> 00:40:10,839
+我想你已经看这个公式看了几秒钟了，对吧？
+I think you been looking at this equation for a few seconds, right?
+
+575
+00:40:10,839 --> 00:40:13,280
+基本上你可以看看这个公式。
+So basically you can look at this equation.
+
+576
+00:40:13,280 --> 00:40:19,759
+好的，我们想要预测损失，也就是在我们训练语言模型之后的损失。
+Okay. So we want to predict the loss, which is after we train language model
+
+577
+00:40:19,759 --> 00:40:24,359
+当我们用很多很多的token训练一个语言模型后，损失会是什么样子？
+after we train a language model with many many tokens, what will be the loss looking like?
+
+578
+00:40:24,359 --> 00:40:29,319
+因为就像我说的，语言模型最终其实就是一个token预测模型，我们可以
+Because like I said, language model is eventually token prediction model and we can
+
+579
+00:40:29,319 --> 00:40:34,480
+用语言模型的实际能力来建立token预测能力，
+create token prediction capability with the language models, actual capability
+
+580
+00:40:34,480 --> 00:40:36,940
+并且可以在很多很多不同的基准和任务上进行测试。
+on many many different benchmarks and tasks.
+
+581
+00:40:36,940 --> 00:40:40,699
+
+We want to minimize the loss, because a lower token
+
+582
+00:40:40,699 --> 00:40:43,019
+
+predicting loss will credit to a stronger language model.
+
+583
+00:40:43,019 --> 00:40:44,160
+
+That's what hypothesis.
+
+584
+00:40:44,160 --> 00:40:45,879
+
+And we want to answer your question.
+
+585
+00:40:45,879 --> 00:40:49,029
+
+N is the amount of data.
+
+586
+00:40:49,029 --> 00:40:51,399
+
+I should use to trim my language model.
+
+587
+00:40:51,399 --> 00:40:57,299
+
+Oh, sorry, the number of parameters I should use to trim my language model and D is a model data.
+
+588
+00:40:57,299 --> 00:40:59,039
+
+I should use Trim language model.
+
+589
+00:40:59,039 --> 00:41:02,599
+
+And I'm subject to a computer budget which is C.
+
+590
+00:41:02,599 --> 00:41:09,619
+
+And apparently C is a function of NN D. Like I said, computer is a function of parameters and data,
+
+591
+00:41:09,619 --> 00:41:14,099
+我试图解决这个优化问题，也就是如果我想要
+I try to solve this optimizing problem that is if I want to
+
+592
+00:41:14,099 --> 00:41:19,080
+最小化我的下一个计算损失，也就是说，如果我想要最大化我的语言模型性能，
+minimize my next to computing loss, that is, if I want to maximize my language model performance,
+
+593
+00:41:19,080 --> 00:41:24,400
+并且我受到计算资源的限制，也就是我可以使用的浮点运算次数有限。
+and I'm subject to a compute constraint, which is the number of flops I can spend.
+
+594
+00:41:24,400 --> 00:41:28,954
+那么，最优的N D是多少？对，请说。
+So what is the best possible N D? Yeah, please.
+
+595
+00:41:28,954 --> 00:41:36,309
+她说是的。
+Her Yes.
+
+596
+00:41:36,309 --> 00:41:40,269
+大致来说，我想引用一句
+Roughly, like a I want to quote one thing that
+
+597
+00:41:40,269 --> 00:41:44,569
+Elia在和黄仁勋的GTC演讲中说的话。
+Elia said in his talk at GTC with Jensen Huang.
+
+598
+00:41:44,569 --> 00:41:46,869
+好吗？所以请思考一下这个问题。
+Okay? So think about this, okay.
+
+599
+00:41:46,869 --> 00:41:49,730
+什么是下一个词的预测？
+What is next token prediction?
+
+600
+00:41:49,730 --> 00:41:54,629
+基本上就是在给定所有之前的上下文的情况下，预测下一个词的能力，对吧？
+It's basically the ability to predict the next word, given all the previous context, right?
+
+601
+00:41:54,629 --> 00:41:58,730
+那么，为什么下一个词的预测和智能有关呢？
+So why next token prediction is creltd to intelligence?
+
+602
+00:41:58,730 --> 00:42:03,869
+想象一下，在这种情况下，你有一本小说，里面有一个杀手，对吧？
+So think about, in this case, you have a novel where there's a killer alovel, right?
+
+603
+00:42:03,869 --> 00:42:11,029
+这是一个非常有趣的故事，里面有一个主要角色。
+And this is, uh this is a pretty interesting love that there's a major character.
+
+604
+00:42:11,029 --> 00:42:13,729
+他的目标基本上就是想找出谁是杀手。
+His goal is basically trying to figure out who is the killer.
+
+605
+00:42:13,729 --> 00:42:17,984
+而杀手的名字只在小说的最后一个词才出现。
+And the killer's name only appears at the last token of the novel.
+
+606
+00:42:17,984 --> 00:42:24,359
+好的，而且很明显，这个故事有一个非常复杂的情节，对吧？
+Okay. And apparently, there's a very strong complicated plot, right, by this level.
+
+607
+00:42:24,359 --> 00:42:30,239
+就像我说的，如果你想知道杀手的名字，
+And like I said, if you want to get the name of the killer,
+
+608
+00:42:30,239 --> 00:42:37,519
+你必须能够在整个小说的所有情节中进行推理，
+you have to be able to reason among the entire, basically, plots across the entire novel
+
+609
+00:42:37,519 --> 00:42:39,959
+才能预测出杀手的名字。
+to predict the name of the killer.
+
+610
+00:42:39,959 --> 00:42:43,779
+那么假设我们有一个语言模型，它会把整本小说都读一遍
+So suppose we have a language model, which will basically read the entire novel
+
+611
+00:42:43,779 --> 00:42:46,059
+并输出最后一个词。
+and output the last word.
+
+612
+00:42:46,059 --> 00:42:50,620
+而这个语言模型，我们可以保证这个持续运行的模型绝对是
+And this language model, and we can assure that this ongoing model is definitely
+
+613
+00:42:50,620 --> 00:42:54,320
+智能的，如果这个模型能够正确预测名字的话
+intelligent if that model is able to predict the name correctly
+
+614
+00:42:54,320 --> 00:42:56,339
+预测凶手的名字，对吧？
+predict the name of the killer, right?
+
+615
+00:42:56,339 --> 00:43:01,520
+你看，通过这种方式，基本上我们可以用智能创造接下来的突破性损失，
+You see in this way, basically, we can create next to come breaking loss with intelligence,
+
+616
+00:43:01,520 --> 00:43:04,939
+这就是我们的信念。这样说有道理吗？
+and that's our belief. Does that make sense?
+
+617
+00:43:04,939 --> 00:43:07,799
+那是Es的情况，不是我的情况。
+That's Es case not my case.
+
+618
+00:43:08,320 --> 00:43:14,339
+以实证的方式回答你的问题，实际上，当人们训练越来越大的模型时，
+Empirically to answer your question, empirically, when people train larger and larger models,
+
+619
+00:43:14,339 --> 00:43:17,919
+我们都观察到，当人们给语言模型提供越来越多的数据时，
+we all observe and when people give more and more data to language model,
+
+620
+00:43:17,919 --> 00:43:20,340
+下一步的桥接损失会减少。
+next bridging loss is going to decrease.
+
+621
+00:43:20,340 --> 00:43:26,700
+如果你用这个语言模型，在那些学术基准上进行评估，
+And if you take the language model and evaluate on basically those academic benchmarks,
+
+622
+00:43:26,700 --> 00:43:32,199
+它的基准表现基本上会提升很多。
+it creates the benchmark performance will basically improve a lot.
+
+623
+00:43:32,199 --> 00:43:34,879
+这是真的。从经验上来说确实如此。
+And it's true. Empirically is true.
+
+624
+00:43:34,879 --> 00:43:38,899
+至少到今天为止是这样，好吗？我希望这回答了你的问题。
+At least by today it's true, okay? I hope that answer your question.
+
+625
+00:43:38,899 --> 00:43:43,339
+话虽如此，我希望我们能理解这个公开目标。
+That being said, okay, I hope we understand this open objective right.
+
+626
+00:43:43,339 --> 00:43:46,639
+这就是这些屏幕要做的事情。
+This is what the screens to do.
+
+627
+00:43:46,639 --> 00:43:51,240
+在给定固定计算预算的情况下，这就是我们唯一的限制。
+Given a fixed computer budget and that's that's our only limit.
+
+628
+00:43:51,240 --> 00:43:54,140
+好吗？当然，总有一天我们会有无限的计算资源，
+Okay? Of course, as someday we are going to have infinite computer,
+
+629
+00:43:54,140 --> 00:43:55,379
+那时候这些就不再有意义了。
+then this doesn't make sense anymore.
+
+630
+00:43:55,379 --> 00:43:58,279
+我们只需要训练更大的模型。但现在，还不是这样。
+We just train large model. But now, it's not the case.
+
+631
+00:43:58,279 --> 00:44:03,219
+那么考虑到我们的限制，我们应该选择什么样的数据和模型来训练模型呢？
+So given our limit, what kind of data and model should we choose to train a model?
+
+632
+00:44:03,219 --> 00:44:05,760
+这其实就是你的规划阶段。
+And this is essentially your planning phase.
+
+633
+00:44:05,760 --> 00:44:10,819
+你必须规划这一切，并且通过大量的实证实验来研究这个问题。
+You have to plan this and you have to study this by performing a lot of empirical impairments.
+
+634
+00:44:10,819 --> 00:44:14,579
+就像你必须花一年时间去观察一天有24小时一样。
+It's like you have to spend year to observe one day takes 24 hours.
+
+635
+00:44:14,579 --> 00:44:19,819
+好的，明白了吗？所以人们在这篇论文中，这篇论文是我给你们的
+Okay. Okay? So what people do is in this paper, this paper is what I give you as
+
+636
+00:44:19,819 --> 00:44:21,819
+阅读材料，是一篇深度带宽的论文。
+a reading is a deep band paper.
+
+637
+00:44:21,819 --> 00:44:26,539
+我认为这是2020年后最重要的论文之一，叫做中国筛查法。
+I would say that is one most important paper in after 2020, okay, it's called China screening law.
+
+638
+00:44:26,539 --> 00:44:32,500
+谷歌邀请了很多计算机来研究行为或者相关性，
+And and Google invites a lot of computer to study the behavior or the correlation,
+
+639
+00:44:32,500 --> 00:44:36,139
+也就是D和N与损失之间的关系。
+the relation between D and N and loss, okay?
+
+640
+00:44:36,139 --> 00:44:37,960
+然后他们开始画这些曲线。
+And they start doing these curves.
+
+641
+00:44:37,960 --> 00:44:45,250
+然后，嗯，所有这些研究和资金最终都归结为这个公式。
+And, uh, and all these kind of study and dollars boil down into this equation.
+
+642
+00:44:45,250 --> 00:44:52,350
+这是我们的语言模型物理学，chinchilla 剥皮定律，这些参数基本上是
+This is our language model physics, skinning chinchilla skinning law, these parameters are basically
+
+643
+00:44:52,350 --> 00:44:57,290
+由谷歌的研究人员拟合出来的，我相信他们做了成千上万次
+fit by the google researchers and they perform I would believe thousands
+
+644
+00:44:57,290 --> 00:45:02,710
+实验，花费了数百万，几乎是数百万美元，最终得出结论
+of experiments and spending millions of dollars, almost millions of dollars to conclude
+
+645
+00:45:02,710 --> 00:45:08,349
+给定一个 transformer 架构，嗯，这基本上就是你
+that given a transformer architecture, okay um, which is basically what you
+
+646
+00:45:08,349 --> 00:45:12,729
+在我们上一节课中解释的内容，下一个 token 的 brten 损失、
+explained in our previous lecture, the relationship between next token brten loss
+
+647
+00:45:12,729 --> 00:45:17,010
+参数数量和数据量之间的关系就是这个公式。
+and lumber parameters and the amount of data is this equation.
+
+648
+00:45:17,010 --> 00:45:19,890
+好的，这就是今天的物理学。
+Okay, this is today's physics.
+
+649
+00:45:19,890 --> 00:45:26,650
+好的，一旦我们有了这个公式，我们基本上就可以回推推导出。
+Okay. And once we have this equation, we can basically backtrack to derive.
+
+650
+00:45:26,650 --> 00:45:30,789
+如果我们有一个计算预算，这里应该有一个约束条件，就是
+If we have a computer budget right here, there should be a constraint here that is
+
+651
+00:45:30,789 --> 00:45:34,049
+C 计算机预算是 NN D 的函数，对吧？
+C computer budget is a function of NN D, right?
+
+652
+00:45:34,049 --> 00:45:39,489
+所以一旦我有了 C，对吧，这个我已经在作业里给你了，你基本上用你
+So once I have C, right, which is I give it to you in your homework, and you basically use what you
+
+653
+00:45:39,489 --> 00:45:43,349
+在我上一次讲座中学到的内容，来算出你的 NND。明白吗？
+studied in my previous lecture, you figure out your NND. Okay?
+
+654
+00:45:43,349 --> 00:45:47,850
+你告诉我你认为最好的模型是什么，好吗？
+You tell me what is the best model you tu, okay?
+
+655
+00:45:48,130 --> 00:45:51,449
+很好。这就是筛选定律，明白吗。
+Cool. This is screening law, okay.
+
+656
+00:45:51,449 --> 00:45:55,949
+总结一下，筛选定律基本上就是机器学习背后的物理原理，明白吗？
+To summarize, skin law is basically the physics behind machine learning, okay?
+
+657
+00:45:55,949 --> 00:45:59,929
+而筛选定律基本上标志着机器学习研究的一个新时代。
+And screen law basically marks a new era of machine learning research.
+
+658
+00:45:59,929 --> 00:46:01,909
+在语言模型出现之前，
+Previously before language model,
+
+659
+00:46:01,909 --> 00:46:06,070
+我认为人们，尤其是一些富有想象力的研究者，更偏好严谨的理论分析。
+I think people prefer specially imaginary researchers, they prefer rigorous theoretical analysis.
+
+660
+00:46:06,070 --> 00:46:07,370
+你想要数学证明。
+You want mass proofs.
+
+661
+00:46:07,370 --> 00:46:13,369
+好的。但在这个筛选定律之后，人们会用更物理的方法来做这件事，对吧？
+Okay. But after this screening law, people do this in a more physics way. Okay?
+
+662
+00:46:13,369 --> 00:46:17,284
+我们做经验观察，然后尝试总结经验定律，对吧？
+We do empirical observations, and we try to do empirical laws, okay?
+
+663
+00:46:17,284 --> 00:46:21,119
+而且，筛选定律不仅限于变换器模型。
+And, um, and screen is not limited to transformers.
+
+664
+00:46:21,119 --> 00:46:25,439
+所以如果你想研究不同的模型，也可以研究筛选定律。
+So if you want to do a different model, you can also study screen law
+
+665
+00:46:25,439 --> 00:46:29,879
+当我增加参数数量、增加数据量时，
+when I increase lumber parameters, when I increase the amount of data,
+
+666
+00:46:29,879 --> 00:46:32,659
+我训练模型，损失会如何变化？
+I train the model, how the loss will change?
+
+667
+00:46:32,659 --> 00:46:37,579
+很明显，有好的模型，也有不好的模型，对吧？
+Okay. And apparently there are good models and bad models, right?
+
+668
+00:46:37,579 --> 00:46:44,340
+这基本上就回答了我前几节课的问题。
+And that will basically answer, um, my question at my first few lectures.
+
+669
+00:46:44,340 --> 00:46:47,559
+那么，今天什么是好模型，什么是不好的模型？
+So what is a good model and what is a bad model today?
+
+670
+00:46:48,240 --> 00:46:50,919
+好模型有更好的筛选定律。
+So a good model has a better screen law.
+
+671
+00:46:50,919 --> 00:46:52,220
+它在计算机上更高效。
+It's more computer efficient.
+
+672
+00:46:52,220 --> 00:46:56,939
+也就是说，它可以用更少的参数和更少的数据来实现更低的损失。
+That is it can use less parameters and less data to achieve a lower loss and
+
+673
+00:46:56,939 --> 00:46:58,899
+相反，糟糕的模型就不是这样，对吧？
+a bad model is on the contrary, right?
+
+674
+00:46:58,899 --> 00:47:04,039
+现在当人们谈论好模型和坏模型时，基本上都是用斯克林定律来衡量的，对吧？
+Today when people speak about good and bad model, it's basically using the screen law
+
+675
+00:47:04,039 --> 00:47:06,159
+作为一种衡量标准，明白吗？
+as a measurement, okay?
+
+676
+00:47:06,360 --> 00:47:10,860
+由于大量采用扩展，人们开始意识到，如果你看这个公式，
+And due to skinning a lot, people start realizing that if you look at this equation,
+
+677
+00:47:10,860 --> 00:47:15,539
+如果我继续增加N和D，我的模型性能是非常可预测的，对吧？
+if I continue increase N and D, my model performance is very predictable, right?
+
+678
+00:47:15,539 --> 00:47:20,860
+所以人们开始投资于生成系统，并且不断扩展，
+And so people start investing into me genery systems and they start continue skinning
+
+679
+00:47:20,860 --> 00:47:23,059
+越来越大，不断扩展，以获得更好的模型。
+skinny and skinny Okay, to get a better model.
+
+680
+00:47:23,059 --> 00:47:26,499
+明白吗？而且这种扩展直到今天还在继续。
+Okay? And that skinning continues today, okay?
+
+681
+00:47:26,499 --> 00:47:31,239
+我记得上周，OpenAI发布了GPD 4.5，对吧？
+I think last week, Open AI released GPD 4.5, right?
+
+682
+00:47:31,239 --> 00:47:36,399
+我知道GBD 4.5大概是GB四的十倍。
+And I know GBD 4.5 is kind of ten times of GB four.
+
+683
+00:47:36,399 --> 00:47:40,649
+是啊，嗯，挺酷的。
+Yeah. And, yeah. Cool.
+
+684
+00:47:40,690 --> 00:47:46,449
+好的，我希望这部分讲座能给你们一些解决PA问题的提示。
+Okay. I hope this part of the lecture give you some hints how to solve that PA question.
+
+685
+00:47:46,449 --> 00:47:49,370
+在PA问题里，我给你五百万美元，
+In the PA question, I give you $5 million,
+
+686
+00:47:50,410 --> 00:47:57,109
+我还给你MFU，你可以自由选择使用哪种GPU。
+I also give you MFU you have your freedom to choose what kind of GPU use.
+
+687
+00:47:57,109 --> 00:48:02,030
+根据你选择的GPU和你打算从云端租用的小时数，
+And according to the GPO use and the number of hours you are going to rent from Cloud,
+
+688
+00:48:02,030 --> 00:48:09,840
+你基本上就有了flops，这就是一个C参数，一旦你有了C，你基本上就可以推断出
+you basically have flops, which is a term C, Once you have that C, you can basically infer
+
+689
+00:48:09,840 --> 00:48:13,979
+你要训练的参数数量和数据量，
+the number of parameters and the amount of data you're going to train,
+
+690
+00:48:13,979 --> 00:48:19,039
+你用的就是我让你们写的那些函数，这些我在前面的讲座里讲过。
+you use basically the functions I ask you to write, which I covered in my preference lecture,
+
+691
+00:48:19,039 --> 00:48:21,800
+参数数量和流数量是函数关系。
+the number of parameters and the number of flows function.
+
+692
+00:48:21,800 --> 00:48:28,759
+一旦你有了这两个方程，你就用这个来找到最优解，对吧？
+Once you have those two equations, what do you do you use this one to find the optimal, right?
+
+693
+00:48:28,759 --> 00:48:38,119
+很好。我希望这能帮你基本理解背后的实证原理。
+Cool. I hope this helps you understand basically the empirical rationale behind
+
+694
+00:48:38,119 --> 00:48:42,179
+为什么在snicvale，人们会买一个tips。
+why people in snicvale they are buying one tips.
+
+695
+00:48:42,179 --> 00:48:44,439
+这是因为他们基本上是在攀爬屏幕墙。
+It's because they are basically climbing the screen wall.
+
+696
+00:48:44,439 --> 00:48:54,609
+是的，请说。当然，每个人都更愿意跟随屏幕。
+Yeah, please. Yeah, of course, every long more to follow the screen.
+
+697
+00:48:54,609 --> 00:48:56,974
+但我会在接下来讲到这一点。
+But I will cover that next.
+
+698
+00:48:56,974 --> 00:49:06,499
+好的。明白了。好的。一旦你理解了屏幕，
+Yeah. Okay. Cool. Okay. Once you understand the screen,
+
+699
+00:49:06,499 --> 00:49:10,139
+我将解释Deep sik为什么与众不同。
+I'm going to explain Deep sik why Deep sik stands out.
+
+700
+00:49:10,139 --> 00:49:14,820
+Deep sk之所以与众不同，是因为他们采用了略有不同的架构，MOE。
+Deep sk stands out because they adopt a slightly different architecture, MOE.
+
+701
+00:49:14,820 --> 00:49:19,660
+什么是MOE？我们来看看。这个就是MOE。
+What is MOE? Let's look at that. This is MOE.
+
+702
+00:49:19,660 --> 00:49:22,180
+我想我在第二次讲座时已经讲过这个了。
+I think I covered this at my second lecture.
+
+703
+00:49:22,180 --> 00:49:28,580
+MOE表面上基本上就是，记得在典型的transformer里，你有注意力机制，然后是MLP。
+MOE superficially is basically remember in typical transformer, you have atenin and then MLP.
+
+704
+00:49:28,580 --> 00:49:34,580
+但在MOE中，你做的是有注意力机制，然后你有一组MLP的连接。
+But in MOE, what you do is you have a tengin and then you have a connection of MLPs.
+
+705
+00:49:34,580 --> 00:49:38,560
+每个MLP基本上就是所谓的专家。
+Each MLP is basically um, a so called expert.
+
+706
+00:49:38,560 --> 00:49:40,920
+这也是为什么MOE被称为专家混合。
+And that's why MOE is called a mixture of expert.
+
+707
+00:49:40,920 --> 00:49:45,239
+基本上，你有一组MLP的混合，这在这个图中有说明。
+Basically, you have a mixture of MLPs, and this is illustrated in this figure.
+
+708
+00:49:45,239 --> 00:49:49,039
+所以你有注意力机制，你有归一化，对吧？
+So you have attention, you have normanization, right?
+
+709
+00:49:49,039 --> 00:49:50,900
+在上一讲中，
+In the previous lecture,
+
+710
+00:49:50,900 --> 00:49:55,000
+我说在典型的transformer里，在这个归一化之后，你会进入MLP。
+I said in typical transformer, after this normalization, you go into MLP,
+
+711
+00:49:55,000 --> 00:49:56,980
+上投影和下投影。
+upper projection down projection.
+
+712
+00:49:56,980 --> 00:50:01,639
+但现在，你要做的是将上投影和下投影重复很多很多次。
+But now, what you do is you replicate that upper and down projection many many times.
+
+713
+00:50:01,639 --> 00:50:06,739
+重复的次数等于你要用的专家数量，明白吗？
+And the number of times you replicate is equal to the number of experts you are going to do, okay?
+
+714
+00:50:07,080 --> 00:50:11,119
+里面有FF和一个apt，三和四。
+In there are FF and one apt, three and four.
+
+715
+00:50:11,119 --> 00:50:12,619
+所以这里大概是四次。
+So here roughly four times.
+
+716
+00:50:12,619 --> 00:50:17,900
+然后你要做的是，在你把注意力的输出传递到MLP之前，
+And what you do is before you forward the output of the attention into the MLP,
+
+717
+00:50:17,900 --> 00:50:22,180
+你首先要经过一个所谓的路由器，这个路由器基本上会查看输出，
+you first go through a so called router, this router basically look at the output
+
+718
+00:50:22,180 --> 00:50:25,039
+经常决定我应该进入哪个MLP？
+often and decide which MLP should I go into?
+
+719
+00:50:25,039 --> 00:50:28,339
+例如，你可以把路由器的输出设置为2，
+For example, you can set the routers output into two,
+
+720
+00:50:28,339 --> 00:50:34,900
+也就是说，路由器会把序列中的每个token分配给两个专家。
+that is the router will basically route each um, token in a sequence to two experts.
+
+721
+00:50:34,900 --> 00:50:40,979
+如果你把它设置为1，基本上就是把这个路由，也就是这个token分配给一个专家，对吧？
+If you set it as one, it's basically the route, um, it's token into one expert, right?
+
+722
+00:50:40,979 --> 00:50:46,920
+基本上你就是选择其中一个ab，然后把这个token传递到F去进行计算。
+It's basically you choose one of this ab and you forward that token into F to perform a compute.
+
+723
+00:50:46,920 --> 00:50:52,339
+明白了吗？这里你可以看到，这实际上创建了所谓的条件执行，对吧？
+Okay? The thing here is you can see this basically create a so called conditional execution, right?
+
+724
+00:50:52,339 --> 00:50:55,999
+基本上，根据这个路由器输出的值，
+Basically, depending on the value output this router,
+
+725
+00:50:55,999 --> 00:50:59,284
+我会选择一个分支来执行。明白了吗。
+I'm going to choose one branch to execute. Okay.
+
+726
+00:50:59,284 --> 00:51:03,549
+非常好，对吧？所以你可以说如果我只有一个专家，
+Very good, right? So you can say if I only have one expert,
+
+727
+00:51:03,549 --> 00:51:06,349
+这就等价于transformers，对吧？
+this is equivalent to transformers, right?
+
+728
+00:51:06,349 --> 00:51:09,529
+如果我有很多很多专家，会有什么问题？
+If I have many many experts, what's the problem.
+
+729
+00:51:09,529 --> 00:51:13,989
+在我们讨论问题之前，先来看一下具体的计算过程，好吗？
+Before we talk about the problem, let's first look at the exact competition, okay?
+
+730
+00:51:13,989 --> 00:51:18,189
+所以具体的竞争MRP在这张幻灯片上展示了。
+So the exact competi MRP is illustrated on this slide.
+
+731
+00:51:18,189 --> 00:51:21,490
+那么你要做的是再加一个门控函数，
+So what do you do is you add another gating function,
+
+732
+00:51:21,490 --> 00:51:24,049
+这个门控函数是用softmax来实现的，明白吗？
+which is implemented using a software max, okay?
+
+733
+00:51:24,049 --> 00:51:29,109
+你取tentin的输出，也就是X，然后这个门控函数有
+And you take the output of the tentin which is X, and this getting function has
+
+734
+00:51:29,109 --> 00:51:33,409
+一个权重WG，你做一次乘法，然后再经过
+a weight WG and you do a multiplication, and then you go through
+
+735
+00:51:33,409 --> 00:51:35,369
+一个softmax，你就得到了所谓的门。
+a softmax, you get a so called gate.
+
+736
+00:51:35,369 --> 00:51:41,960
+这个门基本上就是，对所有专家的一个分布，对吧？
+And this gate is basically, uh a distribution right over all the experts, okay?
+
+737
+00:51:41,960 --> 00:51:46,159
+比如说，如果你选择做top K门，K等于一、
+And for example, if you choose to do top K gate and K equal to one,
+
+738
+00:51:46,159 --> 00:51:48,399
+二、三、四，随你选择，好吗？
+two, three, four, something you choose, okay?
+
+739
+00:51:48,399 --> 00:51:53,679
+如果你选择top two门，你基本上就是看softmax的输出，
+If you chose top two gate, okay, you basically look at this output of the soft max,
+
+740
+00:51:53,679 --> 00:51:57,000
+然后你选择其中最大的两个。
+and then you choose the two that is the max, the maximum.
+
+741
+00:51:57,000 --> 00:52:00,379
+因为softmax会给你一个分布，所有值加起来等于一，对吧。
+Because the softmax give you a distribution like added into one right.
+
+742
+00:52:00,379 --> 00:52:03,639
+所以你基本上就是选出两个最大的值的位置，对吗？
+So you basically pick up the two position that is largest, okay?
+
+743
+00:52:03,639 --> 00:52:09,414
+在这里你选择了I0和I1，所以你基本上对它们做了归一化处理。
+And here you pick up I zero and I one, o you basically normalize it a little bit.
+
+744
+00:52:09,414 --> 00:52:10,989
+好的，稍微做一下归一化。
+Okay. Romanize a little bit.
+
+745
+00:52:10,989 --> 00:52:14,530
+好的。你要做的事情就是把
+Okay. And what you do is basically you forward
+
+746
+00:52:14,530 --> 00:52:24,049
+token X传递到选中的两个F，也就是专家网络，进行计算，然后你再
+the token X into the chosen two F. That is the experts, you do the computation, and then you do
+
+747
+00:52:24,049 --> 00:52:27,690
+做一个加权求和。很简单。
+a weighty sum. Okay. Simple.
+
+748
+00:52:27,690 --> 00:52:32,029
+它其实就是在很多很多专家之间做加权求和，但被选中的专家数量
+It's basically a weighted sum over many many experts, but the number of experts selected is
+
+749
+00:52:32,029 --> 00:52:35,010
+取决于你想为每个token激活多少个专家。
+determined by how many experts you want to activate for each token.
+
+750
+00:52:35,010 --> 00:52:38,730
+明白了吗？现在我们理解了这个计算过程。
+Okay? Now, we understand the competation.
+
+751
+00:52:38,730 --> 00:52:41,929
+一旦你理解了换位，对，就是这样。
+Once you understand commutation, yeah, please.
+
+752
+00:52:42,410 --> 00:52:46,550
+什么？我是说，自身吗？
+Sorry? I mean, self?
+
+753
+00:52:46,550 --> 00:52:51,790
+当然，是在不同的token之间，没有依赖关系。
+Of course, is between tokens, there's no dependency.
+
+754
+00:52:51,790 --> 00:52:57,669
+就像MLP一样，对，每个token选择自己的路径，对。
+It's like the MLP. Yeah, each token choose their own path. Yeah.
+
+755
+00:52:57,669 --> 00:53:01,670
+对，对。如果你还记得transformers里的MLP，
+Yeah. Yeah. If you still remember transformers in MLP,
+
+756
+00:53:01,670 --> 00:53:03,810
+它基本上可以实现各自独立的通信。
+it can basically perform their independent communication.
+
+757
+00:53:03,810 --> 00:53:07,409
+这就是为什么我们可以在这个维度上进行划分。这样说有道理吗？
+That's why we can partite along the dimension. Does that make sense?
+
+758
+00:53:07,409 --> 00:53:10,770
+这也是一样的，明白吗？所以这就是MOE，
+That is the same. Okay? So this is MOE,
+
+759
+00:53:10,770 --> 00:53:14,469
+MOE本质上就是deep seek来回答你的问题。
+MOE is essentially deep seek to answer your question.
+
+760
+00:53:14,469 --> 00:53:20,590
+那我们就从计算的角度来看，MOE到底是什么，
+Then let's start looking at it from a computational perspective, what is MOE,
+
+761
+00:53:21,550 --> 00:53:27,689
+木材参数，当然，还有关键元素参数、内存和计算机，当然还有，
+Lumber parameters, of course, key elements parameters, memory and computer and of course,
+
+762
+00:53:27,689 --> 00:53:31,149
+通信，但通信是次要的。我们来看一下。
+communication, but communication is secondary. Let's look at it w.
+
+763
+00:53:31,149 --> 00:53:36,569
+所以对于Lambo参数，如果我们把一个典型的transformer转换成
+So for Lambo parameters, if we transform from a typical transformer into
+
+764
+00:53:36,569 --> 00:53:39,269
+基于MO的transformer，会发生什么？
+a MO based transformer what will happen?
+
+765
+00:53:41,950 --> 00:53:46,110
+有几点观察，首先，如果你还记得我们之前
+A few observations, first, if you still remember the calculation
+
+766
+00:53:46,110 --> 00:53:50,529
+对transformer中的Lumber参数做过的计算，就像我说的，在大多数情况下，
+we did for Lumber parameter in transformer, like I said, in most cases,
+
+767
+00:53:50,529 --> 00:53:52,850
+MLP参数会主导R MRI。
+MLP parameters will dominate the R MRI.
+
+768
+00:53:52,850 --> 00:53:58,089
+MLP是transformer中最对称的模块。
+MLP is the most symmetric modules in intransformer.
+
+769
+00:53:58,089 --> 00:54:05,789
+但在这里，我们做的是将MLP复制多次，复制的次数
+But here, what we do is we replicate the MLP a number of times the number of times you replicate it
+
+770
+00:54:05,789 --> 00:54:07,849
+就是专家的数量，对吧？
+is umber experts, right?
+
+771
+00:54:07,849 --> 00:54:14,649
+通常，你会把它复制两倍，不对，不是这个。
+Typically, you replicate it by undivided by two times, sorry, not this one.
+
+772
+00:54:14,649 --> 00:54:19,630
+通常，你会把它复制N倍，N是专家的数量。
+Typically, you replicate it by N times is number experts.
+
+773
+00:54:19,630 --> 00:54:26,750
+但是，最流行的MOE架构是每两层transformer，
+But, the most popular MOE archecture is like every two layers you transformer,
+
+774
+00:54:26,750 --> 00:54:29,449
+你把原本的transformer层换成MOE层。
+you change the original transformer into MOE layer.
+
+775
+00:54:29,449 --> 00:54:31,530
+这是最流行的架构。
+That's the most popular architecture.
+
+776
+00:54:31,530 --> 00:54:33,389
+每两层就有一个MOE层。
+Every two layers you have MOE layer.
+
+777
+00:54:33,389 --> 00:54:35,929
+也就是说，结构是transformer、MOE、transformer、MOE，依此类推。
+That is a transformer MOE transformer MOE like this.
+
+778
+00:54:35,929 --> 00:54:41,144
+明白了吗？所以你的MLP参数基本上是复制了两倍。
+Okay? Therefore, your MLP parameter is basically replicated undivided by two times.
+
+779
+00:54:41,144 --> 00:54:46,519
+好的，你知道，一个典型的MOE，比如说我选择
+Okay. You know, a typical MOE, this is equal to, for example, I choose to do
+
+780
+00:54:46,519 --> 00:54:50,160
+八路专家或者十六路专家。
+a eight way expert or 16 way expert.
+
+781
+00:54:50,160 --> 00:55:01,650
+但在deep sik中，这个数字有人知道吗？不，是256。
+But in deep sik, this number is anyone knows. No, it's 256.
+
+782
+00:55:01,650 --> 00:55:04,369
+好吧。你能看出这有多疯狂，对吧？
+Okay. You can see how crazy this is, right?
+
+783
+00:55:04,369 --> 00:55:07,870
+那么结果会发生什么呢？
+So as a effect, what happens?
+
+784
+00:55:07,870 --> 00:55:12,490
+所以我们大幅增加了参数数量，因为就像我说的，在transformers中，
+So we drastically increase the number of parameters because like I said, in transformers,
+
+785
+00:55:12,490 --> 00:55:16,369
+MLP是参数最多的模块，而在这里你基本上是多次包裹
+MLP is the most parameter heavy modules, and here you are basically wrap
+
+786
+00:55:16,369 --> 00:55:18,129
+我们的参数。
+in our parameter many times.
+
+787
+00:55:18,129 --> 00:55:22,109
+明白了吗？专家越多，你的参数就越多。
+Okay? And the more experts the more parameters you have.
+
+788
+00:55:22,109 --> 00:55:28,350
+明白了吗？所以关于参数，结论是，一旦我们从transformer切换到MOE，
+Okay? So for parameters, the conclusion is once we switch from a transformer to MOE,
+
+789
+00:55:28,350 --> 00:55:31,269
+我们的参数数量会大幅增加，好吗？
+our parameter increase drastically, okay?
+
+790
+00:55:31,269 --> 00:55:38,409
+那内存呢？好，我们还是要看几个组成部分，对吧？
+How about memory? Okay. Still memory we'll look at a few components, right?
+
+791
+00:55:38,409 --> 00:55:43,110
+一个是参数的数量，内存肯定与参数成正比。
+One is the number of parameters, memory is definitely proportional to parameters.
+
+792
+00:55:43,110 --> 00:55:49,229
+你还会大幅增加存储参数所需的内存。
+You also drastically increase the memory you need to store the parameters on the opiory state
+
+793
+00:55:49,229 --> 00:55:51,089
+激活也是一样的。
+the same on activations.
+
+794
+00:55:51,089 --> 00:55:52,949
+激活并不会有太大变化。
+Activation doesn't change a lot.
+
+795
+00:55:52,949 --> 00:55:56,729
+为什么？因为如果你看这个，
+Why? Because if you look at this,
+
+796
+00:55:56,729 --> 00:55:58,749
+就像我刚才说的，
+Also I have, like I said,
+
+797
+00:55:58,749 --> 00:56:05,929
+有100个专家，但每次一个token只会被分配给少数几个，比如两个甚至一个。
+100 experts, but every time one token is only routed to a few, for example, two or even one.
+
+798
+00:56:05,929 --> 00:56:08,329
+这就带我们回答第三个问题。
+That brings us to answer the third question.
+
+799
+00:56:08,329 --> 00:56:10,929
+计算量是什么样子的？
+What is the computer looking like?
+
+800
+00:56:12,950 --> 00:56:15,850
+计算量只会有轻微增加。
+The computer only increase mildly.
+
+801
+00:56:15,850 --> 00:56:18,610
+为什么？因为这个非常稀疏。
+Why? Because this is super sparse.
+
+802
+00:56:18,610 --> 00:56:23,890
+好吗？所以每次我们对比原始的transformer和MOE transformer时。
+Okay? So every time we consider compare the original transformer and the MOE transformer.
+
+803
+00:56:23,890 --> 00:56:30,170
+在原始的transformer中，每个token基本上都会经过一个MLP来进行计算。
+In the original transformer, each token basically go through one MLP, to proceed the commutation.
+
+804
+00:56:30,170 --> 00:56:34,470
+而你知道MOE，每个token只会经过K个MLP。
+And you know MOE, each token only goes through a K MLP.
+
+805
+00:56:34,470 --> 00:56:37,169
+就像我说的，你可以把K设置为1。
+And here, like I said, you can set a K equal to one.
+
+806
+00:56:37,169 --> 00:56:43,649
+你仍然会得到一个参数更多的模型，但计算量并没有太大变化。
+You still have a model that is with way more parameters, but the computer doesn't change a lot.
+
+807
+00:56:43,649 --> 00:56:50,709
+好吗？所以我试着回答你的问题。那么MOE是什么？
+Okay? So then I try to answer your question. So what is MOE?
+
+808
+00:56:50,709 --> 00:56:57,069
+就像我说的，表面上看，MOE本质上是一种专家混合模型。
+Like I said, superficially, MOE is essentially, um, a mixture of experts.
+
+809
+00:56:57,069 --> 00:57:01,629
+通过设置，比如说K等于1，MOE可以简化为原始的transformer。
+MOE can be reduced to the original transformer by setting, for example, K equal to one.
+
+810
+00:57:01,629 --> 00:57:06,210
+你只把它路由到一个专家，这和原始的transformer是一样的。
+You only route it to one expert, is the same with original transformer.
+
+811
+00:57:06,210 --> 00:57:12,449
+但人们开始研究MOE模型时，他们发现基本上
+But people start working on the screen MOE and they observe that basically
+
+812
+00:57:12,449 --> 00:57:14,689
+不是用相同的计算量，对吧？
+not with the same amount of compute, right?
+
+813
+00:57:14,689 --> 00:57:17,084
+你可以训练一个更大的模型。
+You can train a much larger model.
+
+814
+00:57:17,084 --> 00:57:20,979
+这有道理吗？因为你的参数量大幅增加，
+Does that make sense? Because your parameters increase drastically and
+
+815
+00:57:20,979 --> 00:57:22,799
+但你的计算量只略有增加。
+your computer only increase mildly.
+
+816
+00:57:22,799 --> 00:57:26,459
+你可以不用训练原始的transformer，
+Instead of training original transformer, you can use the same amount of computer
+
+817
+00:57:26,459 --> 00:57:30,699
+而是用相同的计算资源训练一个大十倍的模型，但计算花费却不用增加十倍。
+to train a much larger model, ten times larger, but without spending ten times on compute.
+
+818
+00:57:30,699 --> 00:57:39,080
+人们还发现，增加MOE中专家的参数量也可以提升性能，
+People also find that increasing the parameters in experts of MOE can also increase the performance,
+
+819
+00:57:39,080 --> 00:57:41,279
+比如说，降低计算损失。
+for example, net to computing loss.
+
+820
+00:57:41,279 --> 00:57:44,479
+这就是为什么人们会投入训练MOE的原因。
+That's why people invest into training MOE why because
+
+821
+00:57:44,479 --> 00:57:48,589
+MOE在某种程度上比transformers稍微好一点。
+MOE kind like slightly better than the transformers.
+
+822
+00:57:48,589 --> 00:57:52,550
+你可以稍微增加一些计算量，但可以大幅
+You are able to increase a little bit computer, but drastically
+
+823
+00:57:52,550 --> 00:57:58,570
+增加专家参数，并假设专家参数带来了更强的能力，
+increase lumber parameters and assume that lumber parameters is clating with more capability,
+
+824
+00:57:58,570 --> 00:58:00,969
+那么这就是一个计算效率更高的模型。
+then this is a much more computer efficient model.
+
+825
+00:58:00,969 --> 00:58:06,430
+这样说有道理吗？这意味着MOE的扩展规律比transformers更好。
+Does that make sense. Which means that MOE has a better screen law than dran formers.
+
+826
+00:58:07,110 --> 00:58:13,869
+然后在GBD之后，人们开始训练MOE，并且观察到了这一点。
+Then after GBD, after GB, people start training MOE and they observe this.
+
+827
+00:58:13,869 --> 00:58:17,169
+但大多数美国公司都非常保守。
+But most American firms, they are very conservative.
+
+828
+00:58:17,169 --> 00:58:21,690
+他们不愿意训练超大规模的MOE，所以只给它八个或十六个专家，
+They don't want to train super large MOE, so they only give it eight experts or 16 experts,
+
+829
+00:58:21,690 --> 00:58:23,819
+而DeepSk则冒了风险。
+and deep Sk takes a risk.
+
+830
+00:58:23,819 --> 00:58:29,669
+他们把专家数量从八个或十六个一路增加到256个。
+They increase the number of experts all the way from eight or 16 to 256.
+
+831
+00:58:29,669 --> 00:58:36,109
+这就创造了一个超级稀疏模型，所有参数基本上都在专家网络上。
+That creates a super spark model where all the parameters are basically on the experts because
+
+832
+00:58:36,109 --> 00:58:41,489
+因为专家网络开始主导，主干网络只占用了很少的参数，这样模型的性能会大幅提升。
+the start dominating and tent just take a little bit of pameter that model drastically
+
+833
+00:58:41,489 --> 00:58:46,469
+这样可以显著提升模型性能，但计算量并不会大幅增加。
+increase the performance of that model, but it doesn't increase the compute a lot.
+
+834
+00:58:46,469 --> 00:58:49,029
+这就是为什么DPC可以做出非常大胆的声明。
+That's why DPC can make a vari bold statement.
+
+835
+00:58:49,029 --> 00:58:55,194
+他们只花了500万美元就训练出了一个和超大稠密模型一样好的模型。
+They only spend $5 million to train a model that is as good as a super large dense model.
+
+836
+00:58:55,194 --> 00:59:00,899
+这是因为稀疏法则基本上完全超越了模型的稠密法则。
+That's because the screen law basically cross all the way over the screen law of the model.
+
+837
+00:59:00,899 --> 00:59:06,479
+明白了吗？这基本上就是MOE的内部机制以及深度加速的原理。
+Okay? That is basically the internal mechanism of MOE and how deep Excel. Okay?
+
+838
+00:59:06,479 --> 00:59:17,199
+这样说清楚了吗？有些应用方面的研究你还是需要做的，
+Does that make sense? Yeah. Do they increase, there are some application study you need to do,
+
+839
+00:59:17,199 --> 00:59:22,299
+但我认为他们并没有减少注意力机制，因为就像我说的，注意力机制并不是
+but I don't think they decrease attentingh because attention, like I said, attention is not
+
+840
+00:59:22,299 --> 00:59:25,699
+transformer中参数最重的模块。
+the parameter heavy module in transformers.
+
+841
+00:59:25,699 --> 00:59:31,379
+MLP 是。好的，总结一下，
+MLP is. Okay. So in summary,
+
+842
+00:59:31,379 --> 00:59:35,859
+MOE 本质上是一个更高效的计算模型。
+MOE essentially, fundamentally, is a more computer efficient model.
+
+843
+00:59:35,859 --> 00:59:37,999
+嗯，请说。
+Yeah, please. So.
+
+844
+00:59:43,960 --> 00:59:46,299
+好问题，我来讲一下这个。
+Good question. I'm going to talk about that.
+
+845
+00:59:46,299 --> 00:59:54,859
+好的，酷。那么这似乎带来了一个非常有趣的现象。
+Yeah. Okay. Cool. Then this seems to give you a very interesting thing.
+
+846
+00:59:54,859 --> 00:59:57,020
+为什么我要关心稠密变换器？
+Why I care about dens transformers?
+
+847
+00:59:57,020 --> 00:59:59,500
+那我如果继续增加专家的数量会怎么样？
+How about I just continue increase the number of experts?
+
+848
+00:59:59,500 --> 01:00:04,139
+我可以让每个专家只处理一分钟，我的模型表现会非常完美，
+I can make 1 minute experts, my model is going to have a perfect screen,
+
+849
+01:00:04,139 --> 01:00:05,939
+比稠密变换器好得多。
+much better than dens transformers.
+
+850
+01:00:05,939 --> 01:00:07,179
+那我们为什么不这么做呢？
+Why we don't do that?
+
+851
+01:00:07,179 --> 01:00:09,939
+我觉得这基本上就是你的问题。
+I think that's basically your question.
+
+852
+01:00:09,939 --> 01:00:12,009
+我们来看一下这个，好吗？
+Let's look at this, okay?
+
+853
+01:00:12,009 --> 01:00:16,680
+所以主要的问题基本上是在内存上。
+So the main problem is basically at memory.
+
+854
+01:00:16,680 --> 01:00:20,860
+就像我说的，如果你继续增加专家的数量，你的内存会爆炸。
+Like I said, if you continue to increase the number of experts, your memory is going to explode
+
+855
+01:00:20,860 --> 01:00:24,559
+因为每个参数都需要用两个字节来存储。
+because each parameter will take two bites to store.
+
+856
+01:00:24,559 --> 01:00:26,279
+另一个问题是通信。
+Another thing is communication.
+
+857
+01:00:26,279 --> 01:00:32,620
+好吗？如果你还记得的话，这是我们为稠密Transformer做的分区。
+Okay? So if you still remember this, this is tins partism we did for dent transformers.
+
+858
+01:00:32,620 --> 01:00:36,460
+我们做的基本上就是把MLP里的w1w2进行分区。
+What do we do is basically partition the ww1w2 in MLP.
+
+859
+01:00:36,460 --> 01:00:43,320
+现在我们把模型从稠密Transformer变成了专家混合模型，
+And now we are changing our model from a dense transformer into a mixture of experts,
+
+860
+01:00:43,320 --> 01:00:49,379
+这意味着w1w2会被复制很多次，等于专家的数量。
+which means this w1w2 replicate a lot of times number of expert times.
+
+861
+01:00:49,379 --> 01:00:52,580
+如果我们还继续这样做，会发生什么？
+If we still apply this, what will happen?
+
+862
+01:00:55,500 --> 01:00:59,660
+R 的归约成本会随着专家数量的增加而增加，
+The cost of R reduce is going to increase with the number of experts,
+
+863
+01:00:59,660 --> 01:01:02,080
+而且会变得非常昂贵。
+and it will be super expensive.
+
+864
+01:01:02,080 --> 01:01:03,919
+你们已经实现了归约操作。
+You guys ready implement reduce.
+
+865
+01:01:03,919 --> 01:01:05,619
+它非常慢，对吧？
+It's super slow, okay?
+
+866
+01:01:05,619 --> 01:01:12,219
+那你该怎么办？这就是为什么我们有专家并行。让我们把这些点串联起来。
+So what do you do? That's why we have expert parism. Let's connect the dots.
+
+867
+01:01:12,219 --> 01:01:18,899
+与其对权重 W 和 W2 做十次并行，不如这样做。
+Instead of doing this, uh, doing ten parism for part weight W and W two, we can do this.
+
+868
+01:01:18,899 --> 01:01:23,885
+也就是说，在 MOE 模块中，我们将在专家维度上进行划分。
+That is in the MOE module, we are going to partison along the expert dimension.
+
+869
+01:01:23,885 --> 01:01:27,949
+好的。因为每个专家都会独立计算，
+Okay. Because each expert is going to compute independently,
+
+870
+01:01:27,949 --> 01:01:29,990
+所以我们可以在专家维度上进行划分。
+so we can part in along expert dimension.
+
+871
+01:01:29,990 --> 01:01:34,810
+就像我说的，我们有八个专家，我们要进行分区，我们有两块GPU。
+We are going to like I said, we have eight experts, we are going to part we have two GPUs.
+
+872
+01:01:34,810 --> 01:01:39,250
+我们会把第一块GPU分配给一部分专家，第二块GPU分配给另一部分专家。
+We are going to give the first GPU for experts and second GPU for experts.
+
+873
+01:01:39,250 --> 01:01:44,649
+但在进入这个MOE模块之前，我们还有另一个分区方式，
+But before we enter this MOE module, we have another partitioning that is
+
+874
+01:01:44,649 --> 01:01:46,570
+不是按照专家维度进行分区。
+not parting expert dimension.
+
+875
+01:01:46,570 --> 01:01:51,250
+比如说，我们可以沿着H、S或B维度进行分区。
+For example, we can part in along the H, the S, or the B dimension.
+
+876
+01:01:51,250 --> 01:01:59,529
+这意味着我们基本上是回到这个图，在进入MOE之前，我们沿着行进行分区，
+Which means we are basically come back to this figure Before we enter MOE, we part in along row,
+
+877
+01:01:59,529 --> 01:02:01,610
+比如说，行可以是某个维度。
+for example, role could be dimension.
+
+878
+01:02:01,610 --> 01:02:07,589
+这只是一个符号。但在进入MOE之后，我们要按照专家进行分区。那么我们该怎么做呢？
+It's just a symbol. But after we enter a movie, we want to part in experts. So what do we do here?
+
+879
+01:02:07,589 --> 01:02:13,029
+再次进行自动化，因为现在我们正在重新分配资源，我们想要
+Again, auto because now we are recharging and we want to
+
+880
+01:02:13,029 --> 01:02:17,390
+如果你想切换分区的轴，就必须执行一次自动化操作。
+recharge if you want to switch the parting access, we have to perform an auto.
+
+881
+01:02:17,390 --> 01:02:20,510
+这就是为什么这里有一个auto，那里也有一个auto。
+That's why here you have an auto and here you have an auto.
+
+882
+01:02:20,510 --> 01:02:22,469
+这也是为什么Deep see可以发布auto的原因。
+That's why Deep see could release auto because
+
+883
+01:02:22,469 --> 01:02:25,869
+auto是在关键路径上的，你可以想象一下，好吗？
+Auto is on the critical path, you can imagine, Okay?
+
+884
+01:02:26,270 --> 01:02:30,509
+我希望这能回答你的问题。是的，就像
+I hope this answer your question. Yeah. And like
+
+885
+01:02:30,509 --> 01:02:32,210
+我说的，MOE并不是完美的。
+I said, MOE is not perfect.
+
+886
+01:02:32,210 --> 01:02:33,389
+MOE还有另一个问题。
+MOE has another problem.
+
+887
+01:02:33,389 --> 01:02:35,824
+我们来看看这个问题。请看。
+Let's look at this problem. Please. Yeah.
+
+888
+01:02:35,824 --> 01:02:44,119
+跨层的问题。是的，我接下来会讲这个。
+Across the layers. Yes, I'm going to talk about that.
+
+889
+01:02:44,119 --> 01:02:49,720
+MOE的第三个问题就像我说的，如果你开始这么做，你会给不同的GPU分配
+MOs third problem is like I said, if you start doing this, you are assigning different GPUs
+
+890
+01:02:49,720 --> 01:02:53,144
+不同数量的专家。那会发生什么呢？
+with different umber of experts. So what will happen?
+
+891
+01:02:53,144 --> 01:02:56,389
+所以这将会发生。好吗？让我来解释一下。
+So this will happen. Okay? Let me go through this.
+
+892
+01:02:56,389 --> 01:03:00,610
+好的。MO的另一个问题是，一旦你采用了这种专家划分方式，
+Okay. Another problem with MO is once you apply this kind of expert partism,
+
+893
+01:03:00,610 --> 01:03:04,509
+每个TPO的工作量都会不同。为什么呢？
+each TPO is going to have a different workload. Why?
+
+894
+01:03:04,509 --> 01:03:06,890
+如果我看这个，好，我有四个输入。
+If I look at this, okay, I have four inputs.
+
+895
+01:03:06,890 --> 01:03:10,309
+我有一个由X0到X3的四个token的序列。
+I have a sequence of four tokens from X zero to X three.
+
+896
+01:03:10,309 --> 01:03:14,529
+就像我说的，我有一个门控激活，它基本上会决定
+And like I said, I have a gating actin, which will basically decide which
+
+897
+01:03:14,529 --> 01:03:17,269
+每个token会被分配给哪些专家。
+experts this token will go to.
+
+898
+01:03:17,269 --> 01:03:23,190
+在这里，我假设我的门控因子决定一个token会分配给两个专家。
+And here, I assume my gitting factorin decides one token will go to two experts.
+
+899
+01:03:23,190 --> 01:03:26,530
+这里我总共有三个专家。
+Okay. Here I have a total of three experts.
+
+900
+01:03:26,530 --> 01:03:30,089
+所以对于第一个token，它决定分配给0号和2号专家，
+So for the first token, it decides to go to zero and two,
+
+901
+01:03:30,089 --> 01:03:32,889
+对于第二个零和一，诸如此类的。
+and for second zero and one, blah, blah, blah.
+
+902
+01:03:32,889 --> 01:03:34,790
+好的，一旦发生这种情况，
+Okay. And once this happens,
+
+903
+01:03:34,790 --> 01:03:37,470
+我要应用专家并行吗？
+I'm going to apply expert palism?
+
+904
+01:03:37,470 --> 01:03:41,490
+所以我喜欢用不同的GPO来管理不同的专家，明白吗？
+So I like different GPO to take care of different experts, okay?
+
+905
+01:03:41,490 --> 01:03:44,170
+如果我进行这种类似重新分配的操作，
+And if I do this kind of like a reshuffle,
+
+906
+01:03:44,170 --> 01:03:48,090
+我发现我的专家零将会处理这个序列，
+I find that my expert zero is going to for this sequence,
+
+907
+01:03:48,090 --> 01:03:50,750
+我的专家零将会计算三个token。
+my expert zero is going to compute on three tokens.
+
+908
+01:03:50,750 --> 01:03:54,210
+好的，但是我的专家一将会计算两个token。
+Okay. But my expert one is going to compute on two tokens.
+
+909
+01:03:54,210 --> 01:03:57,190
+我的专家二将会计算三个token。
+And my expert to is going to compute on three tokens.
+
+910
+01:03:57,190 --> 01:03:58,969
+在专家内部其实就是
+And inside of expert is basically
+
+911
+01:03:58,969 --> 01:04:01,169
+MLP，所以是上投和下投。
+MLP so upper and downjection.
+
+912
+01:04:01,169 --> 01:04:03,149
+你在这里可以看到问题，对吧。
+And here you observe the problem, right.
+
+913
+01:04:03,149 --> 01:04:08,030
+你可以看到专家们在处理三个标记，
+So you can see expert they are computing on three tokens,
+
+914
+01:04:08,030 --> 01:04:11,470
+但专家一只处理了两个标记。
+but expert one is only computing on two tokens.
+
+915
+01:04:11,630 --> 01:04:17,590
+假设我们做专家分区，把这三个专家分配到三台设备上，会发生什么？
+Assuming we do expert partisan we assign this three experts to three devices, what will happen?
+
+916
+01:04:18,040 --> 01:04:20,499
+那么专家一就完成了，对吧？
+So Expert one we finish, right?
+
+917
+01:04:20,499 --> 01:04:24,119
+而专家二要等待。
+And Expert and two is going to wait.
+
+918
+01:04:24,119 --> 01:04:30,200
+这就是气泡，或者说我们最喜欢的气泡，好吗？它会产生气泡。
+And this is bubble, or favorite bubble, okay? It creates bubble.
+
+919
+01:04:30,200 --> 01:04:35,319
+你可以想象，如果我们给一个超级大的批次，比如说有一百万个标记，
+And you can imagine, if we give a super big batch, okay with 1 million tokens,
+
+920
+01:04:35,319 --> 01:04:38,540
+批次数等于四百万，这种情况就会非常严重地发生。
+badges that equal to 4 million, and this can happen very drastically.
+
+921
+01:04:38,540 --> 01:04:41,960
+比如说，一个专家可能只有十个token，但另一个专家可能
+For example, one expert only have ten tokens, but the other expert probably
+
+922
+01:04:41,960 --> 01:04:44,319
+有大约五十万个，好吗？
+have like half 1 million, okay?
+
+923
+01:04:44,319 --> 01:04:47,899
+这就叫做热门专家，好吗？
+And that's called popular hot experts, okay?
+
+924
+01:04:47,899 --> 01:04:50,659
+我们可能会遇到这种热门专家的问题。
+And we can have this kind of hot expert problem.
+
+925
+01:04:50,659 --> 01:04:53,399
+这就是为什么在depsig中，他们也发明了
+That's why that's why in depsig they also invent
+
+926
+01:04:53,399 --> 01:04:56,000
+很多机制来确保这些专家是平衡的。
+a lot of mechanism to make sure this expert are balanced.
+
+927
+01:04:56,000 --> 01:04:58,719
+好的，我把这个价值告诉你。好的，酷。
+Okay, I value this to you. Okay. Cool.
+
+928
+01:04:58,719 --> 01:05:04,120
+所以总结这10 MO，基本上首先，你大幅增加了参数量，
+So summarize the dis 10 MO is basically first, you drastically increase the parameters,
+
+929
+01:05:04,120 --> 01:05:09,180
+这意味着你需要用同等数量的内存来存储权重。
+which means that you have to pay equal amount of memory to store the weights.
+
+930
+01:05:09,180 --> 01:05:11,559
+其次，是通信问题。
+Second, the communication.
+
+931
+01:05:11,559 --> 01:05:15,120
+你必须做专家分配，而不是温和分配。
+You have to do expert partism instead of tender parism.
+
+932
+01:05:15,120 --> 01:05:17,899
+如果你看火的话，如果我们做温和分配，就不会有
+If you look at the fire if we do tender parism we don't have
+
+933
+01:05:17,899 --> 01:05:20,600
+这个问题，因为我们在MLP中进行了分配。
+this problem because we part in the MLP.
+
+934
+01:05:20,600 --> 01:05:24,100
+每个MTMo都会得到一个带有MLP的蛋白质。
+Each MTMo is going to get a protein with a MLP.
+
+935
+01:05:24,100 --> 01:05:28,320
+好的，所以这与token的数量无关，明白吗。
+Okay, so it's not relevant with the number of tokens, okay.
+
+936
+01:05:28,320 --> 01:05:32,619
+并且因为我们做了专家分配，我们会遇到专家不平衡的问题，
+And because we do expert partisan, we are going to have this expert imbalance problem,
+
+937
+01:05:32,619 --> 01:05:36,239
+这将需要更多的工程和研究工作。
+which will require more engineering and more research.
+
+938
+01:05:36,239 --> 01:05:44,850
+好的，请继续。那么在MOE层中，
+Okay, please. Yeah. So in MOE layers,
+
+939
+01:05:44,850 --> 01:05:48,969
+我要执行这个批量Mdm，也就是我有一个批量大小。
+I'm going to perform this batch Mdm, which is I have a batch size.
+
+940
+01:05:48,969 --> 01:05:51,390
+我有一个维度，就是专家的数量。
+I have a dimension, which is the number of experts.
+
+941
+01:05:51,390 --> 01:05:56,310
+然后我有两个内部维度，一个是上投影，一个是下投影。
+And then I have two inner dimension which is the upper projection down projection.
+
+942
+01:05:56,310 --> 01:06:00,390
+当我进入这个MOE时，我决定了这一点，
+And I decided that when I entered this MOE,
+
+943
+01:06:00,390 --> 01:06:03,530
+我想给不同的GPU分配不同数量的专家。
+I want to give different GPU different number of experts.
+
+944
+01:06:03,530 --> 01:06:08,290
+这意味着我沿着E维度，也就是专家维度进行分割。
+So that means I part in along the E dimension, expert dimension.
+
+945
+01:06:08,290 --> 01:06:10,429
+但在那之前，在我进入专家之前，
+But before that, before I enter expert,
+
+946
+01:06:10,429 --> 01:06:12,369
+我并没有在这个维度上分割，对吧？
+I'm not partying on dimension, right?
+
+947
+01:06:12,369 --> 01:06:14,074
+这就是为什么我有一道墙。
+That's why I have a wall.
+
+948
+01:06:14,074 --> 01:06:22,979
+好的，明白了。这基本上给你一个全局的概念，
+Okay, cool. Okay. This basically, give you a global picture and
+
+949
+01:06:22,979 --> 01:06:26,799
+尤其是我们今天在语言模型社区中做这些事情的理由，好吗？
+especially the rationale of what we are cooking today in language modo community, okay?
+
+950
+01:06:26,799 --> 01:06:31,900
+现在，让我们暂时把大脑从这些细节中抽离出来。
+And now, let's basically take our brain out from all these details.
+
+951
+01:06:31,900 --> 01:06:33,819
+我们来看看这个整体情况。
+Let's look at this global picture.
+
+952
+01:06:33,819 --> 01:06:36,099
+我们理解计算机，对吧？
+We understand the computer, right?
+
+953
+01:06:36,099 --> 01:06:37,879
+我们在MLP上有教学内容。
+We have a teaching at MLP.
+
+954
+01:06:37,879 --> 01:06:40,259
+MLP可以是MOE，随便怎么说，对吧？
+MLP could be a MOE, whatever, right?
+
+955
+01:06:40,259 --> 01:06:47,159
+从系统的角度思考，哪些是让它变快的关键组件？
+And let's think about from a system perspective, what are the hard components to make it fast?
+
+956
+01:06:47,159 --> 01:06:52,859
+对于MLP，我们非常擅长，对吧，因为它是MTO，就像我说的，如何让metmo变快。
+For MLP, we are super good, right, because it's MTO and like I said, how to make a metmo fast.
+
+957
+01:06:52,859 --> 01:06:54,599
+我们编写了优秀的内核，对吧？
+We write good kernels, right?
+
+958
+01:06:54,599 --> 01:06:59,405
+我们做融合。我们知道如何解决这个问题。所以我们在MLP方面很厉害。
+We do fusion. We know how to solve that problem. So we are good with MLP.
+
+959
+01:06:59,405 --> 01:07:03,849
+对于这个张量，也有一些ethamol在这里那里。
+And for this tension, there are a few ethamol there and there.
+
+960
+01:07:03,849 --> 01:07:06,769
+我们没问题。我们只需要给它一个好的内核，对吧？
+We are good. We just give it a good kernel, right?
+
+961
+01:07:06,769 --> 01:07:11,390
+我们提供了一个非常优秀的内核，我们降低精度或者做其他处理，对吧？
+We provide an extremely good kernel, we lower the precision or whatever, okay?
+
+962
+01:07:11,390 --> 01:07:17,009
+那对于层的组织和这种类似动物式的操作，我们该怎么做？
+For layer organization and for this kind of like animal wise operation, what do we do?
+
+963
+01:07:17,009 --> 01:07:21,549
+这是一个不好的算子，对吧，因为你做了一点点计算，但是你却要
+It's a bad operator, right, because you perform a little competion but you have to
+
+964
+01:07:21,549 --> 01:07:23,329
+加载大量的参数和宽度。
+load a lot of parameters and width.
+
+965
+01:07:23,329 --> 01:07:26,210
+所以我们把它们融合到ethmol里。
+So what we do is we fuse them into ethmol.
+
+966
+01:07:26,210 --> 01:07:28,069
+这就是我们在作业里做的，对吧？
+That's what we do in homework, right?
+
+967
+01:07:28,069 --> 01:07:33,649
+我们进行极致的融合，基本上是为了提升算术强度。明白吗。
+We do extreme fusion to basically increase arithma intensity. Okay.
+
+968
+01:07:33,649 --> 01:07:38,029
+不，其实我觉得我们已经知道如何优化
+No, basically, I think we already have a picture how to optimize all the components in
+
+969
+01:07:38,029 --> 01:07:40,669
+语言模型里的所有组件，除了这个。
+the language model, except this one.
+
+970
+01:07:40,669 --> 01:07:43,390
+这个真的非常臭名昭著。
+This one is super notorious.
+
+971
+01:07:43,390 --> 01:07:45,830
+好吗？就像我说的，这个有很多问题。
+Okay? Like I said, it has a lot of problems.
+
+972
+01:07:45,830 --> 01:07:48,910
+Flops 是一个平方，它的内存也是平方级的。
+Flops is a square, its memory is as square.
+
+973
+01:07:48,910 --> 01:07:52,649
+好吗？下周我们来优化这个。
+Okay? And next week, let's optimize this one.
+
+974
+01:07:52,649 --> 01:07:55,770
+这将是我们这门课中要做的最复杂的程序，
+That will be the most complicated program we are going to do in this course,
+
+975
+01:07:55,770 --> 01:07:57,669
+就是 flash attention。好吗？很酷。
+is flash attention. Okay? Cool.
+
+976
+01:07:57,669 --> 01:08:00,290
+这就是为什么 flash attention 如此重要。
+That's why flash attention is so important.
+
+977
+01:08:00,940 --> 01:08:04,039
+好的。但就像我说的，
+Okay. But like I said,
+
+978
+01:08:04,039 --> 01:08:07,619
+我觉得你们从这门课中观察到的一点是，你们有一个求和法则，对吧。
+I think one thing you observed from this course is you have a rule of sum, right.
+
+979
+01:08:07,619 --> 01:08:10,560
+所以基本上，在很多计算机系统和很多算法中，
+So basically in many computer systems in many algorithms,
+
+980
+01:08:10,560 --> 01:08:14,379
+如果你设计了更复杂的东西，我的意思是，
+if you design something that is more complex, I mean,
+
+981
+01:08:14,379 --> 01:08:19,799
+就复杂度而言，比二次复杂度更高的算法，在实际中很难被采用。
+in terms of complexity is more complex than quadratic, this kind of thing is very hard to
+
+982
+01:08:19,799 --> 01:08:21,639
+很难被实际应用。
+get adopted in practice.
+
+983
+01:08:21,639 --> 01:08:26,799
+好的。我知道你们可能在算法课上学了很多算法。
+Okay. Yeah, I know you probably study a lot of algorithms from your algorithm course.
+
+984
+01:08:26,799 --> 01:08:30,639
+比如有很多算法是指数级的，像三次方之类的。
+Like there are many algorithms that is exponential, like cubic or whatever.
+
+985
+01:08:30,639 --> 01:08:34,394
+这些算法在实际中是不会被采用的，明白吗？这是现实。
+Those algorithms are not going to be adopted in practice. Okay? That's a reality.
+
+986
+01:08:34,394 --> 01:08:38,249
+二次复杂度已经是我们能做到的极限了。
+Karatic is the most we can do.
+
+987
+01:08:38,249 --> 01:08:40,529
+是的，实际应用中就是这样。
+Yeah. Okay, in practice.
+
+988
+01:08:40,529 --> 01:08:48,789
+好的，就像我说的，我们下周想讨论一下flashy attention。
+Okay, like I said, we want to talk about, um, flashy attention next week.
+
+989
+01:08:48,789 --> 01:08:53,349
+原因是我们有一位嘉宾讲师要来，讲关于speculati的内容。
+The reason is because we have a guest lecture coming, talking about speculati going in.
+
+990
+01:08:53,349 --> 01:08:57,769
+我想先给大家回顾一下推理的内容，这样你们可以更好地听他的讲座。
+I want to give you some recap on inference first so you can enjoy his lecture.
+
+991
+01:08:57,769 --> 01:08:59,359
+好的，我们来谈谈推理。
+Okay. Let's talk about inference.
+
+992
+01:08:59,359 --> 01:09:01,349
+好的，首先，现实检查一下。
+Okay. First, reality check.
+
+993
+01:09:01,349 --> 01:09:04,209
+语言模型推理非常慢而且昂贵。
+So language model inference is super slow and expensive.
+
+994
+01:09:04,209 --> 01:09:09,449
+总是要用hATBT，你可以想象，令牌流向你的速度非常慢。
+Always use hATBT you can imagine the number tokens streaming to you is very slow.
+
+995
+01:09:09,449 --> 01:09:13,369
+我从来没有觉得像谷歌搜索那样，当你输入一个查询时，
+I never appear like Google search is that when you type a query,
+
+996
+01:09:13,369 --> 01:09:15,169
+你会立刻得到所有的结果，对吧？
+immediately you get all the results, right?
+
+997
+01:09:15,169 --> 01:09:16,089
+所以你必须等待。
+So you have to wait.
+
+998
+01:09:16,089 --> 01:09:21,789
+好的，所以现在，如果你要服务这种语言模型，你需要在其上进行推理。
+Okay. So today, if you serve this kind of language model, you perform inference on top of it.
+
+999
+01:09:21,789 --> 01:09:23,829
+你需要几十个A100或H100来支持这个大型模型，
+You need like tens of A
+
+1000
+01:09:23,829 --> 01:09:31,189
+即使这样，仍然需要大约20秒。
+100 or H 100 to basically support this large model, and it still take like 20 seconds,
+
+1001
+01:09:31,189 --> 01:09:34,629
+嗯，就是生成几百个token。
+um, to generate a few hundred tokens.
+
+1002
+01:09:34,629 --> 01:09:40,899
+为什么呢？好，我们来看看为什么。先回顾一下，好吗？
+And why? Okay, let's look at why. So recap, okay?
+
+1003
+01:09:40,899 --> 01:09:41,959
+那什么是语言模型？
+So what is the language model?
+
+1004
+01:09:41,959 --> 01:09:44,299
+语言模型基本上就是一个token预测器。
+Language model is basically a token predictor.
+
+1005
+01:09:44,299 --> 01:09:47,179
+好吗？它会看前缀，然后预测下一个token。
+Okay? Look at the prefix and pre next token.
+
+1006
+01:09:47,179 --> 01:09:49,679
+这是一个条件概率，对吧？
+This conditional probability, right?
+
+1007
+01:09:50,720 --> 01:09:53,159
+回顾一下，推理过程。
+To recap, inference.
+
+1008
+01:09:53,159 --> 01:09:57,839
+我们把注意力从训练转到推理，回顾一下语言模型的推理过程。
+Let's leave our brain from training to inference, to recoup the inference process of language model.
+
+1009
+01:09:57,839 --> 01:10:06,859
+好吗？首先，用户会提供一个由多个token组成的提示序列。
+Okay? So, uh so first, a user provides a prompt sequence consisting of multiple tokens
+
+1010
+01:10:06,859 --> 01:10:09,599
+这里的人工智能就是这样。
+here artificial intelligence is okay.
+
+1011
+01:10:09,599 --> 01:10:13,559
+提示词会经过各层，也就是变换器层。
+The prompt will go through the layers, transformer layers.
+
+1012
+01:10:13,559 --> 01:10:15,119
+好的，这个我们已经非常熟悉了。
+Okay, we are already very familiar with this.
+
+1013
+01:10:15,119 --> 01:10:22,879
+好的。然后它会进行计算，一旦完成前向计算，就没有背景了。
+Okay. And then it performs competition once it performs forward computation there no background.
+
+1014
+01:10:22,879 --> 01:10:23,799
+这就是推理过程。
+This is the inference.
+
+1015
+01:10:23,799 --> 01:10:26,799
+前向。一旦你完成前向计算，我该做什么？
+Forward. Once you perform forward, what do I do?
+
+1016
+01:10:26,799 --> 01:10:32,719
+就像我说的，它是一个下一个token预测器，所以它会给你下一个token。这里，下一个token是……
+Like I said, it's a xt token predictor, so it will give you next token. Here, the next token is.
+
+1017
+01:10:32,719 --> 01:10:37,899
+下一个token是从词汇表的输出概率中采样得到的。
+The next token was sampled from the output probability over the vocabulary.
+
+1018
+01:10:37,899 --> 01:10:44,139
+一旦我们有了下一个token，我们该怎么做？我们把这个下一个token和人工智能
+And once we have the next token, what do we do we fit this next token and artificial intelligence is
+
+1019
+01:10:44,139 --> 01:10:54,039
+的前缀提示词再次输入到这个变换器中，我们重复这个过程，预测下一个token。
+the prefix prompt back into this transformer again, we repeat, we predict the next togen.
+
+1020
+01:10:54,690 --> 01:11:01,849
+抱歉。未来。一旦我们得到这个未来的token，我们可以把它们组合在一起。
+Sorry. Future. Once we get this future token, what we do is we can cm together.
+
+1021
+01:11:01,849 --> 01:11:05,869
+再来一次，我们重复一遍。下一个标记。
+Again, we repeat. Next token.
+
+1022
+01:11:05,869 --> 01:11:09,049
+这个过程基本上被称为自回归解码。
+This process is basically called autoregressive decoding.
+
+1023
+01:11:09,049 --> 01:11:10,930
+如你所见，我是自回归的。
+As you can see, I'm autoregressive.
+
+1024
+01:11:10,930 --> 01:11:12,549
+我一直在重复我的操作。
+I'm keep repeating what I do.
+
+1025
+01:11:12,549 --> 01:11:14,069
+每次我得到一个新的标记，
+Every time I get a new token,
+
+1026
+01:11:14,069 --> 01:11:18,609
+我会把这个标记反馈到我的神经网络中，然后对所有层进行前向传播，
+I feel that token back into my neural network and I perform a forward pass over all the layers
+
+1027
+01:11:18,609 --> 01:11:23,649
+以便输出下一个标记。让我问你一个问题。
+in order to output next token. Let me ask you a question.
+
+1028
+01:11:23,649 --> 01:11:26,809
+你能在得到未来之前输出“off”吗？
+Can you output off before you get the future?
+
+1029
+01:11:29,180 --> 01:11:34,559
+不能，因为这是自回归的，这意味着为了计算“of”的概率，
+No, because it is auto regressive, that means in order to compute the probability of of,
+
+1030
+01:11:34,559 --> 01:11:37,019
+你必须知道前一个标记。
+you have to know the previous token.
+
+1031
+01:11:37,019 --> 01:11:40,999
+这是推理和训练之间的一个关键区别。
+This is a critical difference between inference and training.
+
+1032
+01:11:40,999 --> 01:11:43,639
+在训练时，你可以观察到整个序列。
+In training, you observe the entire sequence.
+
+1033
+01:11:43,639 --> 01:11:46,019
+你已经知道这个序列中发生了什么。
+You already know what's happening in that sequence.
+
+1034
+01:11:46,019 --> 01:11:49,139
+所以你可以直接根据真实标签计算损失。
+So you just directly compute the loss against the ground truth.
+
+1035
+01:11:49,139 --> 01:11:51,639
+但在推理时，你并不知道后面的词元。
+But in inference, you don't know the future tokens.
+
+1036
+01:11:51,639 --> 01:11:55,339
+你必须一次生成一个词元，一次一个。
+You have to compute one token at a time, one token at a time.
+
+1037
+01:11:55,339 --> 01:11:58,879
+记住这个区别，非常重要。
+Remember this difference, very important.
+
+1038
+01:11:58,879 --> 01:12:02,439
+很好，明白了。
+Cool. Okay.
+
+1039
+01:12:02,439 --> 01:12:07,739
+那什么时候会停止呢？今天基本上会在两种情况下停止。
+So when will stop. So today, basically, it will stop in two scenarios.
+
+1040
+01:12:07,739 --> 01:12:09,859
+一种情况是，我们有一个最大序列长度。
+One is, we have a maximum sequence length.
+
+1041
+01:12:09,859 --> 01:12:12,119
+例如，这个语言模型只支持两千个标记，
+For example, this language model only support two k tokens,
+
+1042
+01:12:12,119 --> 01:12:17,659
+所以它会在两千个标记的最后一个标记处停止。第二点是，语言模型中有一个特殊的标记，
+so it will stop at the last token at the two k. Second is there's a special token in language model,
+
+1043
+01:12:17,659 --> 01:12:19,019
+被称为未知序列。
+which is called unknown sequence.
+
+1044
+01:12:19,019 --> 01:12:22,079
+一旦你输出了未知序列，我们就会停止。
+And once you output the unknown sequence, we will stop.
+
+1045
+01:12:22,079 --> 01:12:25,939
+基本上，这意味着语言模型不想再输出更多的标记了。
+Basically, it means that language model doesn't want to outp more tokens.
+
+1046
+01:12:25,939 --> 01:12:31,879
+是的，它会停止。它认为预测已经完成了，明白吗？
+Yeah, it will stop. Okay. It thinks that the prediction is finished, okay?
+
+1047
+01:12:31,879 --> 01:12:35,979
+所以总结一下这个过程，你会得到一个语言模型，对吧。
+So to summarize the process, okay, you'll get a language model, right.
+
+1048
+01:12:35,979 --> 01:12:40,759
+你有一个预填充阶段，也就是第零次迭代，你会输入一个提示，
+You have a pre field phase, which is the zero iteration where you take a prom,
+
+1049
+01:12:40,759 --> 01:12:42,159
+然后你进行计算，对吧？
+you perform the computation, okay?
+
+1050
+01:12:42,159 --> 01:12:46,639
+接着你会有一个解码阶段，每次一步一步地解码一个标记。
+And then you have decoding phase that is step by step every time you decode one to at a time.
+
+1051
+01:12:46,639 --> 01:12:55,360
+好吗？那我们现在用我们的应用来具体说明这个推理过程。
+Okay? Then let's start grounding this inference process with our applications.
+
+1052
+01:12:55,360 --> 01:12:58,019
+那我们的应用是什么呢？
+So what is our applications?
+
+1053
+01:12:58,019 --> 01:13:00,780
+在语言模型推理中，有两个应用场景。
+So in language model inference, there are two applications.
+
+1054
+01:13:00,780 --> 01:13:04,819
+好，第一个应用叫做服务。那么什么是服务呢？
+Okay? So the first application is called serving. So what is serving?
+
+1055
+01:13:04,819 --> 01:13:07,999
+想象一下你是OpenAI或者Google，对吧？
+So think about your open air or you are Google, right?
+
+1056
+01:13:07,999 --> 01:13:14,939
+你的目标基本上就是训练一个模型，然后把你的模型部署到一些专用的GPU上，
+So your goal is basically you train a model and you put your model into some provisional GPUs and,
+
+1057
+01:13:14,939 --> 01:13:17,139
+然后你把它做成一个服务器。
+uh, you make it as a server.
+
+1058
+01:13:17,139 --> 01:13:21,859
+接着很多用户，他们会把自己的提示提交到你的服务器上。
+And then a lot of users viewers, they are submitting their prompts into your server.
+
+1059
+01:13:21,859 --> 01:13:27,399
+如果你把这个当作一项业务来做，比如说你对每次提交收费。
+Then if you do this kind of as a business, for example, you charge for each submission.
+
+1060
+01:13:27,399 --> 01:13:30,059
+那你想要什么？你的目标是什么？
+What do you want? What's your goal here?
+
+1061
+01:13:30,059 --> 01:13:33,939
+那么作为Gugu和benhan，你的目标是什么？
+So as Gugu as benhan what's your goal?
+
+1062
+01:13:34,640 --> 01:13:40,979
+你想要最小化你的成本，或者说为这个查询运行所付出的费用。这是为了服务。
+You want to minimize your cost or paying for that query for running query. And this is for serving.
+
+1063
+01:13:40,979 --> 01:13:45,399
+所以人们会为他们提交的每个查询给你一个固定费用，但你想要最小化你的成本，
+So people give you a flat rate for each query the submitted, but you want to minimize your cost,
+
+1064
+01:13:45,399 --> 01:13:47,139
+这样你就可以最大化你的利润魔法。
+then you can maximize your profile magic.
+
+1065
+01:13:47,139 --> 01:13:49,079
+那么如何最小化你的成本呢？
+So how to minimize your cost.
+
+1066
+01:13:49,079 --> 01:13:53,899
+就是说我要用GPU来运行媒体，要为媒体支付一些溢价。
+That is I'm going to run GPU for media, how to pay some premium to media.
+
+1067
+01:13:53,899 --> 01:13:55,599
+是的，OVDia是垄断的。
+Yeah, OVDia is monopoly.
+
+1068
+01:13:55,599 --> 01:13:57,019
+好吗？我无法改变这一点。
+Okay? I cannot change that.
+
+1069
+01:13:57,019 --> 01:13:58,559
+当然，你可以自己制造芯片。
+Of course, you can make your own chips.
+
+1070
+01:13:58,559 --> 01:14:01,299
+但我们假设还是要从Media购买。
+But let's assume how to buy from Media.
+
+1071
+01:14:01,299 --> 01:14:04,219
+你购买GPU，然后用它来运行你的模型。
+You buy GPUs and you serve your model.
+
+1072
+01:14:04,219 --> 01:14:12,159
+所以你能够支持的查询越多，并且这些查询都能用GPU来支持，那么你完成每个查询的成本就越低。
+So the more queries you can support and you can support using the GPUs, then your cost of basically
+
+1073
+01:14:12,159 --> 01:14:14,999
+这样你就能赚更多的钱。
+completing each query is lower and you can make more money.
+
+1074
+01:14:14,999 --> 01:14:17,619
+这就是当今硅谷的经济学。
+Okay, that's the economics in citing valley today.
+
+1075
+01:14:17,619 --> 01:14:23,779
+所以每个人都在努力，比如谷歌、OpenAI，他们都在尽量降低每个查询的成本。
+So everyone is trying to like Google open air, they try to basically minimize the cost per query.
+
+1076
+01:14:23,779 --> 01:14:30,359
+在这种服务场景下，特点就是你要提供一个模型服务，
+And in this kind of service scenario, the characteristic is that you serve a model,
+
+1077
+01:14:30,359 --> 01:14:33,139
+而且这个模型需要处理很多很多请求，对吧？
+and this model needs to take many many requests, right?
+
+1078
+01:14:33,139 --> 01:14:36,339
+它会接收到在线流量，因为你并不知道
+And it will receive online traffic because you don't
+
+1079
+01:14:36,339 --> 01:14:39,659
+用户什么时候到达，也不知道他们什么时候发起查询。
+know well the user arrives and when it sub query.
+
+1080
+01:14:39,659 --> 01:14:42,394
+所以请求随时都可能到来，就像谷歌搜索一样。
+So it can come anytime. It's like a Google search.
+
+1081
+01:14:42,394 --> 01:14:47,649
+作为服务提供者，你的目标是尽量降低每次查询的成本。
+And your goal as the service provider is you minimize your cost per query.
+
+1082
+01:14:47,649 --> 01:14:53,949
+基本上，每次查询的表现会通过一个叫做吞吐量的指标来反映。
+And basically per query will be reflected as a term called throughput.
+
+1083
+01:14:53,949 --> 01:14:57,949
+也就是比如说你每秒能处理多少个查询。
+That is how many queries you can process per second, for example.
+
+1084
+01:14:57,949 --> 01:15:01,789
+你希望这个值越大越好，对吧？
+You want that value to be as large as possible. Okay?
+
+1085
+01:15:01,789 --> 01:15:06,729
+但还有另一种不同于服务的场景，我们称之为推理。
+But there's another scenario which is different from serving, which we call inference.
+
+1086
+01:15:06,729 --> 01:15:10,449
+在推理中，你做的事情，比如说，你在笔记本电脑上部署语言模型，
+And in inference, what you do is, for example, you deploy language on
+
+1087
+01:15:10,449 --> 01:15:12,709
+你将会是唯一的用户。
+laptop and you will be the only user.
+
+1088
+01:15:12,709 --> 01:15:14,869
+没有资源竞争。
+There's no competing resources.
+
+1089
+01:15:14,869 --> 01:15:19,009
+你可能也不关心成本，因为这是你的笔记本，你已经为它付过钱了。
+You probably also don't care about the cost because it's your laptop, you already paid for it.
+
+1090
+01:15:19,009 --> 01:15:22,309
+那你关心的是什么呢？
+Then what do you care about?
+
+1091
+01:15:22,760 --> 01:15:26,519
+你可能很在乎延迟，你希望尽快得到答案。
+You probably care about latency, you want to get the answer as soon as possible.
+
+1092
+01:15:26,519 --> 01:15:27,419
+你不想等待。
+You don't want to wait.
+
+1093
+01:15:27,419 --> 01:15:32,079
+从这个意义上说，你基本上是在强调延迟。
+In that sense, you basically emphasize latency.
+
+1094
+01:15:32,079 --> 01:15:36,419
+你是一个单一用户。每次你只提交一个请求，并且你想最小化
+You are a single user. Every time you only submit one request and you want to minimize
+
+1095
+01:15:36,419 --> 01:15:38,919
+延迟以获得响应。
+latency to get a response.
+
+1096
+01:15:39,960 --> 01:15:46,779
+所以如果我们把这个映射到计算上，基本上就是
+So if we basically boil this map this to the computing is basically
+
+1097
+01:15:46,779 --> 01:15:52,439
+服务，我们用非常大的批量大小在服务，有一个非常大的
+serving we are serving with a very large batch size, we have a very large batch of
+
+1098
+01:15:52,439 --> 01:15:56,199
+请求批量提交给语言模型，我们想要处理这个批量，并且我们希望最大化
+requests submitting the language model and we want to run over this batch and we want to maximize
+
+1099
+01:15:56,199 --> 01:15:58,819
+B，以尽可能节省成本。
+B as much as possible to save the cost.
+
+1100
+01:15:58,819 --> 01:16:01,459
+在推理时，我们的批量大小非常小。
+In inference, we have a very small bitize.
+
+1101
+01:16:01,459 --> 01:16:03,539
+大多数情况下，B 等于一。
+Most of the times B equal to one.
+
+1102
+01:16:03,539 --> 01:16:13,679
+好的。我还有最后一页幻灯片，确保你们能喜欢嘉宾的讲座。
+Okay. And I have one last slide to make sure you enjoy the lecture of the guests.
+
+1103
+01:16:13,679 --> 01:16:16,739
+所以嘉宾将会讲解关于猜测式解码的话题。
+So the gas is going to talk about speculative decoding.
+
+1104
+01:16:16,739 --> 01:16:19,639
+猜测式编码基本上是一种试图
+And speculate coding is basically a method that trying to
+
+1105
+01:16:19,639 --> 01:16:23,499
+优化这种场景的方法。好，让我来解释原因。
+optimize this scenario. Okay, let me explain why.
+
+1106
+01:16:24,619 --> 01:16:29,219
+想象一下，在这种情况下，每次我的模型只会产生
+So think about if in this scenario, every time my model is going to only prods
+
+1107
+01:16:29,219 --> 01:16:33,599
+一个查询，而我的目标是尽量减少延迟，那么我该如何最小化延迟呢？
+one query and my goal is trying to minimize latency, then how can I minimize latency?
+
+1108
+01:16:33,599 --> 01:16:38,919
+延迟本质上，就是由这个因素组成的，对吧？
+So the latency is essentially, uh consisted of this term, right?
+
+1109
+01:16:38,919 --> 01:16:46,919
+好吗？获得我的响应的总延迟，基本上就是我花费的延迟，
+Okay? The total latency of getting my response is basically, uh the latency I spent
+
+1110
+01:16:46,919 --> 01:16:49,599
+在生成一个 token 上，这就是一步的延迟。
+on generating one token, that is a step latency.
+
+1111
+01:16:49,599 --> 01:16:53,019
+我需要生成很多很多的 token，并且每一步只生成一个 token。
+I need to generate many many tokens and each step only generating one token.
+
+1112
+01:16:53,019 --> 01:16:56,639
+还有我需要生成的步数。
+And also the number of steps I need to generate.
+
+1113
+01:16:56,639 --> 01:16:58,439
+比如说，我生成了多少个 token。
+For example, how many tokens I generate.
+
+1114
+01:16:58,439 --> 01:17:02,559
+明白吗？所以在这种最基本的等于一的场景下，延迟
+Okay? So the latency in this basic equal to one scenery is
+
+1115
+01:17:02,559 --> 01:17:05,079
+基本上就是步数的乘积。
+basically the multiplication of steps steps.
+
+1116
+01:17:05,079 --> 01:17:08,579
+但就像我说的，在语言模型中，你无法预测
+But like I said, in language model, you are not able to predict
+
+1117
+01:17:08,579 --> 01:17:10,919
+未来的 token，如果你不知道当前的 token。
+a future token without knowing the current token.
+
+1118
+01:17:10,919 --> 01:17:18,179
+这意味着这些步骤将是一个非常重要的因素
+Which means that These steps is going to be a very important term
+
+1119
+01:17:18,179 --> 01:17:23,639
+只要你生成得越多，延迟就会随着步数的增加而增加。
+that as long as you generate mot wins, the latency is going to increase the number of steps.
+
+1120
+01:17:23,639 --> 01:17:28,099
+那我们能不能最小化这个步骤延迟？
+Then can we minimize this step latency?
+
+1121
+01:17:28,099 --> 01:17:32,879
+这也非常困难，因为每次你在比赛中执行操作时
+It's also very difficult because every time you perform a competition over
+
+1122
+01:17:32,879 --> 01:17:38,409
+都需要在不同的层之间传递变换器，而GPU对此并不是特别擅长，
+the transformer from layer on to layer and uh and GPU is not super good at that,
+
+1123
+01:17:38,409 --> 01:17:43,569
+因为在这里你的S等于1，你的元模型基本上退化成
+because here you have a S Equal to one, your metamol basically degenerates
+
+1124
+01:17:43,569 --> 01:17:50,249
+一个非常小的元GPU，当它处理小的元模型和大的元模型时，
+into a very small metam GPU when it process when it computes smalltm versus computer bigger met,
+
+1125
+01:17:50,249 --> 01:17:51,589
+速度是一样的。
+the speed is the same.
+
+1126
+01:17:51,589 --> 01:17:55,910
+因为计算更大的元模型会用到更多的核心和更多的并行化。
+Because computer bigger memo will take more course, more polarization.
+
+1127
+01:17:55,910 --> 01:18:00,689
+明白了吗？而推测编码要做的，就是尽量减少
+Okay? And what speculate coding does is they try to minimize the number of steps to
+
+1128
+01:18:00,689 --> 01:18:03,529
+生成那么多token所需的步骤数。
+generate that many tokens.
+
+1129
+01:18:03,529 --> 01:18:05,769
+怎么最小化这个过程？我很喜欢这个问题。
+How to minimize that? I love.
+
+1130
+01:18:05,769 --> 01:18:07,389
+我会把这个问题留到后面的讲座中再讲。
+I will leave it to the gas lecture.
+
+1131
+01:18:07,389 --> 01:18:10,029
+好吗？酷，这就是我今天要讲的全部内容。
+Okay? Cool. That's all I have today.
+
+1132
+01:18:10,029 --> 01:18:11,449
+谢谢你。
+Thank you.
+
+1133
+01:20:35,970 --> 01:20:38,009
+A
+A

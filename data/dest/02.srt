@@ -1,0 +1,5294 @@
+1
+00:00:10,400 --> 00:00:15,559
+好的，那我们开始吧。
+Okay, yeah, let's get started.
+
+2
+00:00:27,940 --> 00:00:31,139
+好的好的，我们开始吧。
+Cool, cool, let's get started.
+
+3
+00:00:32,660 --> 00:00:35,820
+我们开始吧，嗯。
+Let's get started, yeah.
+
+4
+00:00:37,620 --> 00:00:41,039
+好的，谢谢你们回来。
+Okay, thanks for coming back.
+
+5
+00:00:41,039 --> 00:00:47,860
+今天我们将正式开始我们的讲座。
+Today, we are going to start, officially start our lecture.
+
+6
+00:00:47,860 --> 00:00:53,065
+我们都从这里开始，如你所见，是机器学习系统基础。
+We all start from here, as you can see, machine learning system basics.
+
+7
+00:00:53,065 --> 00:00:58,769
+是的。我认为这节课还是比较轻松的。希望大家喜欢。
+Yeah. I believe this lecture is still pretty lightweight. Yeah. Enjoy.
+
+8
+00:00:58,769 --> 00:01:02,889
+在此之前，有三份表格值得你们注意。
+Before that, there are three forms that worth your attention.
+
+9
+00:01:02,889 --> 00:01:05,990
+第一份是学期初的调查问卷。
+The first one is beginning of quarter survey.
+
+10
+00:01:05,990 --> 00:01:10,130
+如果有80%的人完成了，你们每个人都会得到一分。
+If 80% of you finish that, all you get one point.
+
+11
+00:01:10,130 --> 00:01:15,330
+好吗？这是获得一分最有效、最简单的方法之一，好吗？
+Okay? One of the most efficient way and the easiest way to get one point, okay?
+
+12
+00:01:15,330 --> 00:01:21,809
+第二，确保你报名做记录员，而且我们有很多学生，
+Second is make sure you sign up the scribe and we have a lot of students,
+
+13
+00:01:21,809 --> 00:01:23,250
+所以你不用做很多工作。
+so you don't have to do a lot of work.
+
+14
+00:01:23,250 --> 00:01:26,249
+获得八分的第二个最有效方法。
+The second most efficient way to get eight points.
+
+15
+00:01:26,249 --> 00:01:28,870
+好的，你只需要做一次就行了。
+Okay. You just need to do it once.
+
+16
+00:01:29,310 --> 00:01:33,049
+第三个是，我们创建了Slack群组。
+The third one is, we created Slack.
+
+17
+00:01:33,049 --> 00:01:38,890
+我们依然会在Piazza上发布重要通知，但Slack是为你们准备的。
+So we will still send our important announcement on Piazza, but slack is for you guys.
+
+18
+00:01:38,890 --> 00:01:44,909
+如果你需要联系队友或者想讨论作业，
+So if you need to get in touch with your teammate or whatever, if you want to discuss homework,
+
+19
+00:01:44,909 --> 00:01:46,289
+可以随意使用那个空间。
+feel free to use that space.
+
+20
+00:01:46,289 --> 00:01:49,980
+明白了吗？好的，酷。
+Okay? Yeah. Okay, cool.
+
+21
+00:01:49,980 --> 00:01:54,859
+今天，我们要讨论一些机器学习系统的基础知识。
+Today, we are going to talk about some basics or machine learning systems.
+
+22
+00:01:54,859 --> 00:01:59,099
+我认为最重要的基础之一是，我们要尝试理解我们的工作负载，
+I think one of the most important basics is, we try to understand our workload,
+
+23
+00:01:59,099 --> 00:02:00,399
+因为我们正在构建系统。
+because we are building systems.
+
+24
+00:02:00,399 --> 00:02:02,759
+我们的系统是为了支持某些工作负载。
+Our system is trying to support some workload.
+
+25
+00:02:02,759 --> 00:02:04,759
+所以我们首先要了解我们的工作负载。
+So let's first understand our workload.
+
+26
+00:02:04,759 --> 00:02:06,099
+其实很简单。
+So pretty simple.
+
+27
+00:02:06,099 --> 00:02:11,200
+我们的工作负载基本上是机器学习，或者说更主要是深度学习竞赛。
+Our workload is basically, machine learning or more dominantly deep learning competitions.
+
+28
+00:02:11,200 --> 00:02:13,839
+是的，关于深度学习的概念，
+Yeah. So idea of deep learning,
+
+29
+00:02:13,839 --> 00:02:17,079
+我想你们大家应该都了解，对吧？
+I think all you guys should have that understanding, right?
+
+30
+00:02:17,079 --> 00:02:22,140
+基本上我们就是尝试堆叠很多很多新的层，然后进行组合。
+I basically we try to stack many, many new layers and we try to compose
+
+31
+00:02:22,140 --> 00:02:25,899
+这样一个相当大且高效的强大模型。
+a pretty large and effective powerful model like this.
+
+32
+00:02:25,899 --> 00:02:29,339
+所以我们有一组图片，我们想对它们进行分类，对吧？
+So we have a set of images and we want to classify them, right?
+
+33
+00:02:29,339 --> 00:02:35,739
+嗯，所以我们基本上设计了几层，每一层都执行某种计算。
+Uh, so we basically come up with a few layers and each layer perform some type of competition.
+
+34
+00:02:35,739 --> 00:02:43,099
+然后我们把图片输入到网络中，得到一些预测的标签，对吧？
+And we forward the images through the network and we get some labels predicted, right?
+
+35
+00:02:43,099 --> 00:02:48,339
+在推理阶段，我们基本上就是做所谓的前向计算，对吧？
+And at the inference, we basically do this so called forward competition, right?
+
+36
+00:02:48,339 --> 00:02:51,579
+但是如果不对这个新网络进行训练，它是无法工作的。
+But this new network cannot work if you don't train it.
+
+37
+00:02:51,579 --> 00:02:56,039
+所以我们训练这个神经网络的方法，基本上就是做反向传播，
+So the way we train this neural network is basically do we do a backward propagation,
+
+38
+00:02:56,039 --> 00:02:58,055
+对，我们会更新参数，好吗？
+right, we update parameters, okay?
+
+39
+00:02:58,055 --> 00:03:01,670
+神经网络有很多种类型。
+Um, there are many types of neural networks.
+
+40
+00:03:01,670 --> 00:03:04,730
+但在这门课程中，我们会稍微简化一下。
+But in this course, we are going to simplify a little bit.
+
+41
+00:03:04,730 --> 00:03:09,370
+我现在要给大家一个主方程，这里其实很简单。
+I'm going to give you a master equation, which is pretty simple here.
+
+42
+00:03:09,370 --> 00:03:16,630
+好的。呃，乍一看，基本上就是我们有一个损失函数A，然后我们尝试
+Okay. Uh, at the first glance is basically like we have some loss function A and we try
+
+43
+00:03:16,630 --> 00:03:21,470
+用这个函数对参数theta求梯度，前提是有训练数据D。
+to derive the gradients using this function against the parameters theta given
+
+44
+00:03:21,470 --> 00:03:27,230
+然后我们把梯度或者参数更新应用到原始参数上。
+training data D. And then we apply the gradients or parameter updates to the original parameter.
+
+45
+00:03:27,230 --> 00:03:29,729
+这样我们就完成了一次计算迭代。
+So we finish on iteration of computation.
+
+46
+00:03:29,729 --> 00:03:34,629
+几乎所有的新型神经网络或者深度学习程序本质上都是在做这件事。
+Almost all the new networks or deep learning programs are essentially doing this.
+
+47
+00:03:34,629 --> 00:03:39,050
+好吗？我们接下来会花一点时间深入讲解这个方程。
+Okay? We are going to spend a little bit time diving into this equation, o.
+
+48
+00:03:39,050 --> 00:03:44,410
+但我希望你们记住这个方程，因为它会成为我们的基本抽象。
+But I want to make sure you guys remember this equation because this will be our basic abstraction.
+
+49
+00:03:44,410 --> 00:03:47,530
+我们后续会基于这个方程来开发我们的系统。
+We will develop our system based on this equation.
+
+50
+00:03:47,530 --> 00:03:50,229
+好的，我们来看一下各个组成部分。
+Okay, let's look at the components.
+
+51
+00:03:50,229 --> 00:03:53,229
+第一个组成部分，D，或者说训练数据，对吧？
+The first component, D, or training data, right?
+
+52
+00:03:53,229 --> 00:03:57,649
+它可以是图片，可以是文本，可以是视频，也可以是音频，对吧？
+It could be images, could be text, could be video, could be audio, right?
+
+53
+00:03:57,649 --> 00:04:01,090
+存储这些数据有很多种方式。
+And there are many ways to store this data.
+
+54
+00:04:01,090 --> 00:04:07,109
+比如说，做数据库的人，他们开发了很多非常好的存储机制来保存数据。
+For example, database people, they develop a lot of very nice storage or mechanisms to store data.
+
+55
+00:04:07,109 --> 00:04:12,010
+但在这门课程里，我们不会花太多时间在这上面，好吗。
+But in this course, we are not going to spend a lot of time on that, okay.
+
+56
+00:04:12,330 --> 00:04:15,569
+这些数据就是我们的参数，对吧？
+This data is our parameter, right?
+
+57
+00:04:15,569 --> 00:04:19,389
+在深度学习中，我们有一组参数需要优化，直到收敛为止。
+In deep learning, we have a set of parameters we want to optimize until convergence.
+
+58
+00:04:19,389 --> 00:04:23,789
+所以我们其实已经在进行一种迭代收敛的计算了。
+So we already perform a kind of iterative converging computation.
+
+59
+00:04:23,789 --> 00:04:27,209
+也就是说，我们不断地把数据输入到我们的新网络中。
+That is, we keep throwing data into our new network.
+
+60
+00:04:27,209 --> 00:04:28,449
+我们计算梯度。
+We calculate the gradients.
+
+61
+00:04:28,449 --> 00:04:31,990
+我们不断更新参数，直到参数不再变化，对吧？
+We update the parameter until the parameter does not change anymore, right?
+
+62
+00:04:31,990 --> 00:04:34,070
+这就是为什么我们有上标。
+So that's why we have superscript
+
+63
+00:04:34,070 --> 00:04:37,169
+T。也就是说我们进行多次迭代，对吧。
+T. That is we perform iterations, yeah.
+
+64
+00:04:38,260 --> 00:04:42,680
+我们已经有了损失函数，对吧？它定义了我们的目标。
+We already have a loss function, right? That defines our goal.
+
+65
+00:04:42,680 --> 00:04:48,960
+比如说，它可以是回归时用的平方损失。
+For example, it could be, um, it could be two loss where we do regression.
+
+66
+00:04:48,960 --> 00:04:54,199
+也可以是分类时用的hinge损失、softmax损失，或者排序时用的ranking损失。
+It could be hinge loss, softmax loss where we do classification or ranking loss where we do ranking.
+
+67
+00:04:54,199 --> 00:04:58,359
+这取决于你的问题。在这个等式中，损失基本上就是
+It depends on your problem. Okay. And in this etuation the loss is basically
+
+68
+00:04:58,359 --> 00:05:04,720
+大写的L。为了让这个过程有效，我们通常会应用一些
+the capital L. And in order to make this work, we usually apply some sort
+
+69
+00:05:04,720 --> 00:05:06,520
+优化算法，对吧？
+of optimization algorithms, right?
+
+70
+00:05:06,520 --> 00:05:11,920
+最著名的算法之一其实就是随机梯度下降，对吧？
+So one of the most famous algorithm is basically is stochastic grading decent, right?
+
+71
+00:05:11,920 --> 00:05:14,179
+还有它的变体，比如atom之类的。
+And it's variants like atom or whatever.
+
+72
+00:05:14,179 --> 00:05:17,860
+还有一些其他可行的方法，比如二阶方法，
+And there are also some other methods that's possible, like second order methods,
+
+73
+00:05:17,860 --> 00:05:19,559
+对吧，新的方法之类的。
+right, new methods or whatever.
+
+74
+00:05:19,559 --> 00:05:24,860
+但基本上，它们都属于优化方法，主要就是函数F，对吧？
+But basically, they belong to the optimization methods, which is basically the function F, right?
+
+75
+00:05:24,860 --> 00:05:28,660
+这就是我们如何对参数进行更新的方法。明白吗？
+That is how we apply our updates to our primeers. Okay?
+
+76
+00:05:28,660 --> 00:05:35,589
+有什么问题吗？很好。这里我们基本上得到了三个最重要的组成部分，
+Any question? Cool. Here, we basically get our three most important components
+
+77
+00:05:35,589 --> 00:05:37,149
+也是机器学习系统会涵盖的内容。
+that machine learning systems will cover.
+
+78
+00:05:37,149 --> 00:05:39,790
+好，第一个当然是数据，对吧？
+Okay? The first one, of course, data, right?
+
+79
+00:05:39,790 --> 00:05:41,370
+那我们有什么类型的数据呢？
+So what type of data we have?
+
+80
+00:05:41,370 --> 00:05:44,430
+我们有很多，比如图像、文本、音频、表格，对吧？
+We have a lot, right, images, text, audio, table, right?
+
+81
+00:05:44,430 --> 00:05:48,555
+这实际上对应了我们开发的不同类型的模型。
+And that actually corresponds to different kinds of models we develop.
+
+82
+00:05:48,555 --> 00:05:51,760
+第二支柱模型，对吗？
+Second pillar model, right?
+
+83
+00:05:51,760 --> 00:05:54,400
+那么这里最重要的模型有哪些？
+So what are the most important models here?
+
+84
+00:05:54,400 --> 00:05:59,339
+在本课程中，我们将涵盖可能是最重要的一类模型，
+So in this course, we are going to cover probably the most important class models
+
+85
+00:05:59,339 --> 00:06:01,299
+它们可以解决80%的问题。
+that will solve 80% of the problems.
+
+86
+00:06:01,299 --> 00:06:02,879
+这里有一个列表，比如说，
+So here's a list. For example,
+
+87
+00:06:02,879 --> 00:06:05,280
+SNS、RNs、transformers和MOEs。
+SNS, RNs, transformers, and MOEs.
+
+88
+00:06:05,280 --> 00:06:08,360
+还有一些基于它们构建的变体。
+There are a few variants built based on on top of them.
+
+89
+00:06:08,360 --> 00:06:14,559
+好吗？有了数据和模型，第三个要素基本上就是算力了。
+Okay? And with data and the model, the third element is basically compute.
+
+90
+00:06:14,559 --> 00:06:17,799
+我们希望把它们投入到某些硬件中，然后尝试获得结果。
+We want to throw them into some hardware and we try to get the results.
+
+91
+00:06:17,799 --> 00:06:20,660
+好吗？那我们现在有什么样的计算机？
+Okay? So what kind of computer we have?
+
+92
+00:06:21,460 --> 00:06:27,940
+有CPU、GPU、加速器、TPU，还有LPU。
+CPUs, GPUs, accelerators, TPU, and LPUs.
+
+93
+00:06:27,940 --> 00:06:33,000
+其实像你的笔记本电脑，现在也可以用来部署，对吧？
+Even like your laptop can actually do deploying today, right?
+
+94
+00:06:33,000 --> 00:06:37,159
+你有ARM架构的MOM二代、三代、四代，对吧？
+You have arm architecture MOM two and three, four, okay?
+
+95
+00:06:37,159 --> 00:06:38,760
+还有FPGA，对。
+And PGA, right.
+
+96
+00:06:38,760 --> 00:06:43,040
+好的，这基本上就是我们的工作负载。
+Okay. Uh, that's basically our workload.
+
+97
+00:06:43,040 --> 00:06:47,979
+但你可以从这个列表中看到，已经很复杂，非常非常复杂。
+But you can see from this list, it's already complicated, very very complicated.
+
+98
+00:06:47,979 --> 00:06:52,379
+所以我们不会去构建一个能解决所有问题的系统。
+So we're not going to build a system that can basically solve all the problems.
+
+99
+00:06:52,379 --> 00:06:57,200
+所以我首先想要说明的是，呃，有很多，
+So the first uh thing I want to make clear is, um there are many,
+
+100
+00:06:57,200 --> 00:07:00,039
+很多历史上开发出来的优秀模型。
+many great models developed in history.
+
+101
+00:07:00,039 --> 00:07:05,980
+但因为这是一门系统课程，并不是所有人都是系统构建者。
+But because this is a system course and we are not all we are system builders.
+
+102
+00:07:05,980 --> 00:07:09,115
+所以系统构建者应该牢记的一个教训是，
+So one of the lesson that system builders should keep in mind is,
+
+103
+00:07:09,115 --> 00:07:14,909
+我们无法构建能够支持所有类型工作负载的系统，对吧？
+we will not be able to build systems that can support all types of workloads, okay?
+
+104
+00:07:14,909 --> 00:07:20,469
+所以作为系统构建者，我们要时刻问自己，哪些是最重要的工作负载，
+So as a system builder, always ask ourselves, what are the most important workloads
+
+105
+00:07:20,469 --> 00:07:21,969
+能够解决80%问题的工作负载是什么？
+that can solve 80% of the problems?
+
+106
+00:07:21,969 --> 00:07:24,769
+我们要构建一个在这80%问题上表现非常好的系统，
+And we're going to build a system that is pretty good at this 80%,
+
+107
+00:07:24,769 --> 00:07:28,870
+剩下的20%就交给博士生去解决，对吧？
+and we'll give the rest of 20% to the PD students, right?
+
+108
+00:07:28,870 --> 00:07:36,749
+好的，基本上，系统构建就是揭示最重要因素的过程。
+Okay. Um, so basically system building is the process to reveal the most important, um factors.
+
+109
+00:07:36,749 --> 00:07:40,269
+然后我们开始问自己，最重要的模型是什么？
+Then we start asking ourselves, what are the most important models?
+
+110
+00:07:40,269 --> 00:07:43,790
+最重要的数据类型是什么，最重要的硬件又是什么？
+What are most important data types and what are most important hardware,
+
+111
+00:07:43,790 --> 00:07:46,569
+我们要为他们建立一个系统，好吗？
+and we are going to build a system for them, okay?
+
+112
+00:07:46,569 --> 00:07:48,449
+最重要的模型有哪些？
+What are the most important models?
+
+113
+00:07:48,449 --> 00:07:52,950
+正如我刚才说的，今天有四种类型的模型，对吧？
+As I already said, four types of models today, right?
+
+114
+00:07:52,950 --> 00:07:57,429
+被广泛采用，几乎能解决80%的机器学习问题，好吗？
+Widely adopted. Almost solve like 80% of marchinary problems, okay?
+
+115
+00:07:57,429 --> 00:08:01,889
+SN、循环神经网络、Transformer和混合专家模型。
+SN recurrent neural networks transformer and mixture experts.
+
+116
+00:08:01,889 --> 00:08:06,369
+这些基本上是目前最流行的模型家族。
+Okay? These are basically the most popular model families today.
+
+117
+00:08:06,369 --> 00:08:09,690
+那么，最重要的优化算法是什么？
+So what is the most important opmenting algorithm?
+
+118
+00:08:09,690 --> 00:08:12,189
+我已经说过了，随机梯度下降。
+I already said, Stochastic gradient descent.
+
+119
+00:08:12,189 --> 00:08:16,509
+对。那么随机梯度下降最重要的变种是什么？
+Yeah. And what is the most important variant of stochastic grading design?
+
+120
+00:08:16,509 --> 00:08:18,530
+基本上就是Adam，对吧？
+It's basically Adam, right?
+
+121
+00:08:18,530 --> 00:08:19,770
+所以我们要开始学习了。
+So we are going to learn.
+
+122
+00:08:19,770 --> 00:08:23,329
+我们会重点讲解Adam算法，好吗？
+We are going to grind a lot on Adam algorithm, okay?
+
+123
+00:08:23,329 --> 00:08:26,449
+是的，比如SGD及其变种。
+Yeah, SGD and its variance, for example,
+
+124
+00:08:26,449 --> 00:08:32,989
+Adam，好的，在这节课中，我们会不断地问自己，
+Adam Okay, um, throughout this lecture, we are going to keep asking ourselves,
+
+125
+00:08:32,989 --> 00:08:35,309
+在Y中最重要的X是什么？
+what are the most important Xs in Y?
+
+126
+00:08:35,309 --> 00:08:39,650
+这样我们就可以逐步找出正确的构建方法。
+So we can basically gradually figure out the right thing to build.
+
+127
+00:08:39,650 --> 00:08:43,249
+因为当我们构建系统时，我们要找出正确的抽象，对吧？
+Because when we build system, we try to figure out the right abstraction, right?
+
+128
+00:08:43,249 --> 00:08:47,939
+这个抽象应该能够表达我们最关心的主要问题类别。
+The abstraction should express the most important class problems we care about.
+
+129
+00:08:47,939 --> 00:08:54,990
+好的，接下来我会快速讲解一些重要的机器学习算法，
+Okay. Uh, next, I'm going to quickly go through the important machinery algorithms
+
+130
+00:08:54,990 --> 00:08:56,989
+大约会在30分钟内完成。
+in roughly 30 minutes.
+
+131
+00:08:56,989 --> 00:09:03,590
+通常，这些内容需要一个学期来学习，但我将在30分钟内讲完。
+So usually, it takes a whole quarter to learn them, but I'm going to go through that in 30 minutes.
+
+132
+00:09:03,590 --> 00:09:07,549
+如果你觉得难以跟上，请确保你去上
+So if you have trouble following this, make sure you take
+
+133
+00:09:07,549 --> 00:09:10,569
+一些机器学习课程，或者读一些相关书籍。
+some machinery classes, or read some books.
+
+134
+00:09:10,569 --> 00:09:14,529
+好的。我们首先关心的课堂模型是SN，对吧？
+Okay. The first classroom models we care about SN, right?
+
+135
+00:09:14,529 --> 00:09:17,909
+SN已经实现了很多很酷的应用。
+SN already enabled so many cool applications.
+
+136
+00:09:17,909 --> 00:09:22,370
+这里我举了六个例子，分类、检索、检测、分割、
+Here I give six, classification, retrieval, detection, segmentation,
+
+137
+00:09:22,370 --> 00:09:24,370
+自动驾驶和图像合成。
+self driving, and image synthesis.
+
+138
+00:09:24,370 --> 00:09:28,569
+你可以看到，SN主要被应用在计算机视觉问题中，对吧？
+And you can see SN is mostly adopted in compavon problems, okay?
+
+139
+00:09:28,569 --> 00:09:32,770
+所以最基本的场景是，有一个非常神奇的层，
+So the fundamental scene is basically, there is a very magical layer
+
+140
+00:09:32,770 --> 00:09:34,369
+叫做卷积层，对吧？
+called convolution layer, right?
+
+141
+00:09:34,369 --> 00:09:38,090
+这个卷积层基本上有输入和输出。
+And this convolution layer has basically input and output.
+
+142
+00:09:38,090 --> 00:09:40,350
+输入，比如说，是图像。
+The input, for example, is to the image.
+
+143
+00:09:40,350 --> 00:09:43,249
+输出会比图像稍微小一些。
+The output is slightly smaller to the image.
+
+144
+00:09:43,249 --> 00:09:48,650
+一个关键参数是它有一些所谓的卷积滤波器。
+And one key parameter of scene it has some so called convolution filters.
+
+145
+00:09:48,650 --> 00:09:52,929
+滤波器的尺寸非常小，比如说三乘三或者四乘四，对吧？
+The filter is very small size, for example, three by three or four by four, right?
+
+146
+00:09:52,929 --> 00:09:56,439
+你会把这些滤波器应用在输入图像上。
+And you will apply these filters on top of the input image.
+
+147
+00:09:56,439 --> 00:10:01,949
+你会把小滤波器从左到右、从上到下滑动，对吧？
+Uh, you will slide the small filter from left to right from top to bottom, right?
+
+148
+00:10:01,949 --> 00:10:07,370
+然后你会在上面做点积运算，然后你会得到一个结果，
+And you will apply dot product on top of it, and then you will get uh a result
+
+149
+00:10:07,370 --> 00:10:10,384
+这个结果会被写入到输出图像中，对吧？
+which will be written into the output image, right?
+
+150
+00:10:10,384 --> 00:10:12,620
+这就是基本的原理，是的。
+So this is basic scene, yeah.
+
+151
+00:10:12,620 --> 00:10:17,360
+场景背后的神奇之处在于，如果你把这些层堆叠很多很多次，
+So the magic behind scene is if you stack these layers many, many times,
+
+152
+00:10:17,360 --> 00:10:22,820
+它基本上就会开始学习所谓的特征，比如低级特征。
+it will basically start learning the features, so called features, like low level features.
+
+153
+00:10:22,820 --> 00:10:28,460
+在最初的几层，它会学习一些非常低级的边缘和颜色特征。
+And at the initial layers, it will learn some very low level edge and color features.
+
+154
+00:10:28,460 --> 00:10:32,580
+但随着你堆叠越来越多的层，你会发现它会开始学习
+But as you stack more and more layers, you will find that it will start to learn
+
+155
+00:10:32,580 --> 00:10:35,059
+越来越多的高级特征，比如语义特征。
+more and more high level features, like semantic features.
+
+156
+00:10:35,059 --> 00:10:38,899
+比如说，那是一条鲶鱼还是一条狗鱼，类似这样的东西。
+For example, if that is a catfish or if that's a dog fish, something like that.
+
+157
+00:10:38,899 --> 00:10:41,840
+明白了吗？这就是为什么场景方法效果很好的原因。
+Okay? This is why scene works pretty well.
+
+158
+00:10:41,950 --> 00:10:48,509
+好，这样作为CN的入门课程可以吗？可以。
+Okay. Is this okay as a starter lessons for CN? Yeah.
+
+159
+00:10:48,509 --> 00:10:51,029
+好，只有两张幻灯片。
+Okay, only two slides.
+
+160
+00:10:51,030 --> 00:10:55,669
+然后我会从系统构建者的角度问你最重要的问题。
+Then I'm going to ask you the most important question for system builder perspective.
+
+161
+00:10:55,669 --> 00:10:59,429
+好的。那么CN领域排名前三的模型是什么？
+Okay. So what is the top three models for CN?
+
+162
+00:11:02,050 --> 00:11:04,749
+是的，ResNet绝对是其中之一，对吧？
+Yeah, Rest definitely one of them, right?
+
+163
+00:11:04,749 --> 00:11:08,749
+那我来回顾一下，第一个是AlexNet，对吗？
+So I'm going to review, the first one AlexNet, right?
+
+164
+00:11:08,749 --> 00:11:12,349
+这是最重要的模型之一。它基本上是一切的起点。
+One most important one. It was basically the start of everything.
+
+165
+00:11:12,349 --> 00:11:14,509
+是的。这篇论文，
+Yeah. And this paper,
+
+166
+00:11:14,509 --> 00:11:16,230
+我觉得是经典之作。
+I think is a classic.
+
+167
+00:11:16,230 --> 00:11:18,970
+我相信你们大多数人已经读过这篇论文了，对吧？
+I believe most of you have already read this paper, okay?
+
+168
+00:11:18,970 --> 00:11:21,769
+第二个，刚才已经提到过ResNet了，对吧？
+Second one, Rest already pointed out, right?
+
+169
+00:11:21,769 --> 00:11:27,589
+所以ResNet让模型可以扩展，人们可以训练一百层
+So Ra is the thing that brings the thing up to scale, and people can start 100 liars or
+
+170
+00:11:27,589 --> 00:11:30,580
+甚至更多层，依然能取得非常好的结果。
+even more to get very good results.
+
+171
+00:11:30,580 --> 00:11:34,549
+第三个基本上就是Unit，对吧？
+The third one is basically Unit, right?
+
+172
+00:11:34,549 --> 00:11:37,749
+如果你熟悉扩散社区的话，你就会知道，
+If you are familiar with the diffusion community, you know,
+
+173
+00:11:37,749 --> 00:11:40,990
+Unit基本上是稳定扩散的主干结构。
+Unit is basically a backbone for stable diffusion.
+
+174
+00:11:40,990 --> 00:11:44,690
+是的。但今天我们不讲这个，不过我们还是会看一下，好吗？
+Yeah. But today is not, but we still look at that, okay?
+
+175
+00:11:44,690 --> 00:11:50,489
+是的。Unit在医学图像分析中也被广泛采用，好吗？
+Yeah. Unit is also pretty widely adopted in medical image analysis, okay?
+
+176
+00:11:50,489 --> 00:11:55,029
+所以在我看来，这个是最重要的，我们将从系统的角度去优化
+So this thing, in my opinion, is the most important one, and we are going to optimize
+
+177
+00:11:55,029 --> 00:11:58,190
+它们，好吗？
+them from a system perspective, okay?
+
+178
+00:11:58,280 --> 00:12:02,739
+很好。接下来我们再问另一个问题。
+Cool. With that, then we start asking another question.
+
+179
+00:12:02,739 --> 00:12:07,480
+那么从计算的角度来看，科学中最重要的组成部分是什么？
+So from a computational perspective, what are the most important components in science?
+
+180
+00:12:07,480 --> 00:12:09,999
+比如说，哪些数学运算和
+For example, what kind of mathematical operations and
+
+181
+00:12:09,999 --> 00:12:13,480
+在所有这些类型的场景中都会进行计算吗？
+computations are performed in all these types of scenes?
+
+182
+00:12:13,780 --> 00:12:16,519
+第一个肯定是卷积，对吧？
+The first one definitely convolution, right?
+
+183
+00:12:16,519 --> 00:12:22,179
+它可以是一维卷积、二维卷积。三维卷积基本上就是用在视频上的，对吧？
+It could be com one D, count two D. Comm three D is basically the one you apply on videos, right?
+
+184
+00:12:22,179 --> 00:12:26,000
+在这些里面，二维卷积是最重要的形态。
+And among count two D was the most important shape.
+
+185
+00:12:26,000 --> 00:12:28,419
+它基本上是三乘三的卷积，对吧。
+It's basically three by three count. Yeah.
+
+186
+00:12:28,419 --> 00:12:32,740
+所以如果你有一个在极端情况下优化三乘三卷积的核，
+So if you have a kernel that optimize three count in extreme sense,
+
+187
+00:12:32,740 --> 00:12:35,100
+那你在Mtunit系统上已经做得相当不错了。
+then you're doing pretty well already on Mtunit systems.
+
+188
+00:12:35,100 --> 00:12:36,859
+是的，是的。
+Yeah. Yeah.
+
+189
+00:12:36,859 --> 00:12:43,120
+好的。那么第二个最重要的算子其实就是，你还记得在stress nut里，
+Okay. Then the second most important operator incident is basically remember in stress nut,
+
+190
+00:12:43,120 --> 00:12:46,399
+最后我们有几个MLP，对吧，多层感知机。
+at the end, we have a few MLPs, right, multilayer perception.
+
+191
+00:12:46,399 --> 00:12:50,144
+那么多层感知机内部是什么？
+So what is inside of multilyer perception?
+
+192
+00:12:50,144 --> 00:12:52,669
+基本上就是数学运算。
+It's basically math mo
+
+193
+00:12:52,669 --> 00:12:56,609
+A乘以B，这里A和B都是矩阵。
+A times B to see where A and B are both matrices.
+
+194
+00:12:56,609 --> 00:13:02,229
+明白吗？最后我们有一个softmax，softmax基本上就是
+Okay? And at the end, we have a soft max, and softmax is basically like we
+
+195
+00:13:02,229 --> 00:13:04,689
+我们应用某种归一化操作。
+apply some sort of a romanization.
+
+196
+00:13:04,689 --> 00:13:07,870
+我们试图得到一个概率，并预测标签。
+We try to get a probability and we try to predict the label.
+
+197
+00:13:07,870 --> 00:13:11,509
+softmax非常重要。还有什么？
+Softmax is pretty important. What else?
+
+198
+00:13:13,220 --> 00:13:19,979
+还有一些按元素操作，比如非线性函数变换
+There are some element wise operations, right, like non linear function transformations
+
+199
+00:13:19,979 --> 00:13:22,040
+比如u属于实数空间。
+such as u in Rs Nat.
+
+200
+00:13:22,040 --> 00:13:23,700
+还有一些加法和减法。
+There are some add and sub.
+
+201
+00:13:23,700 --> 00:13:28,359
+我们有时还会进行某种池化和蝙蝠化操作。
+We also sometimes perform some sort of pooling and batmanization.
+
+202
+00:13:28,359 --> 00:13:30,879
+这些基本上都属于逐元素操作。
+All these are basically belonging to the element wise.
+
+203
+00:13:30,879 --> 00:13:34,300
+好吗？我认为这个列表基本上总结了最重要的内容。
+Okay? I think this list basically summarize the most important
+
+204
+00:13:34,300 --> 00:13:37,860
+我称之为我们执行的基本计算场景。
+computational I call primitive we performed scenes.
+
+205
+00:13:37,860 --> 00:13:41,060
+是的，我们关心这些，因为我们要对它们进行优化。
+Yeah, we care about that because we are going to optimize them.
+
+206
+00:13:41,770 --> 00:13:44,170
+这基本上就是SN的全部内容了。
+That basically wraps up SN.
+
+207
+00:13:44,170 --> 00:13:50,290
+好吗？SN的问题基本上就是做某种一对一的映射。
+Okay? The problem SN is basically it basically does some sort of one to one mapping.
+
+208
+00:13:50,290 --> 00:13:52,370
+也就是说，你有一张图片，你为它做了预标注。
+That is, you have image, you pre label for it.
+
+209
+00:13:52,370 --> 00:13:55,609
+但在自然界中，有很多数据并不是一对一的，对吧？
+But in nature, there are so many data that's not one to one, right?
+
+210
+00:13:55,609 --> 00:14:00,530
+例如，在自然语言中，我们说一句话，然后试图预测下一句。
+For example, in natural language, we are speaking a sentence and we try to predict next sentence,
+
+211
+00:14:00,530 --> 00:14:03,774
+在很多情况下，我们希望进行序列到序列的预测。
+in many cases, we want to do sequence to sequence prediction.
+
+212
+00:14:03,774 --> 00:14:07,239
+嗯，这就是为什么我们有循环神经网络，对吧？
+Uh, that's why we have recurrent nu networks, okay?
+
+213
+00:14:07,239 --> 00:14:12,060
+循环神经网络有一个能力，就是它们可以做一对多的映射。
+Recurrent news has a power that is they can't do one too many mapping.
+
+214
+00:14:12,060 --> 00:14:14,819
+也就是说，你给它一个词，它可以预测出多个词，对吧。
+That is, you give you the one word, it can predict many words out, right.
+
+215
+00:14:14,819 --> 00:14:18,459
+或者你可以做多对一，或者以不同方式做多对多。
+Or you can do many to one or you can do many too many in different ways.
+
+216
+00:14:18,459 --> 00:14:21,880
+可以预测未来的词，或者为每个当前词预测一个标签。
+Predict future words or predict a label for each current word.
+
+217
+00:14:21,880 --> 00:14:29,209
+好吧，这就是为什么我们有RNN，RNN的核心思想基本上是，它有一些内部状态，
+Okay? That's why we have iron the key idea of RN is basically, it has some internal state that is
+
+218
+00:14:29,209 --> 00:14:32,809
+随着序列的处理而更新，从第一个词到
+updated as a sequence process, right from the first word to
+
+219
+00:14:32,809 --> 00:14:34,909
+第二个词、第三个词，我们会维护一个状态。
+second word third word, we are going to maintain a state.
+
+220
+00:14:34,909 --> 00:14:37,870
+我们会通过一些计算不断地更新这个状态。
+We are going to keep updating state through some competition.
+
+221
+00:14:37,870 --> 00:14:43,489
+好吗？理论上，我们可以满足任何神经网络的需求。
+Okay? And theoretically, we can make any neural network requirement right.
+
+222
+00:14:43,489 --> 00:14:49,290
+因为如果我们引入RN，我们可以看到这个橙色的框，
+Because if we enroll RN, we can see the orange orange box
+
+223
+00:14:49,290 --> 00:14:52,309
+基本上就是一个神经网络结构，我们基本上可以嵌入
+is basically a neural network architecture, and we can basically embed
+
+224
+00:14:52,309 --> 00:14:54,269
+任何神经网络到这个橙色框里，对吧。
+any neural network into this orange box, right.
+
+225
+00:14:54,269 --> 00:14:59,270
+它可以是，基本上可以是任何计算，明白吗？
+It could be a could be something basically any competition, okay?
+
+226
+00:15:00,070 --> 00:15:03,169
+那我们回到刚才的问题，我们一直在问这个问题。
+Then let's go back, right? We keep asking this question.
+
+227
+00:15:03,169 --> 00:15:06,229
+那伊朗排名前三的模型是什么？
+So what is the top three models in Iran?
+
+228
+00:15:08,100 --> 00:15:11,539
+是的，STM绝对是其中之一，对吧？
+Yeah, STM definitely one of them, right?
+
+229
+00:15:11,539 --> 00:15:14,120
+这是我的列表，好吗？
+So here's my list, okay?
+
+230
+00:15:14,120 --> 00:15:17,879
+第一个，双向神经网络，也就是你从左到右计算。
+The first one, bi direction ions, that is you compute from left to right.
+
+231
+00:15:17,879 --> 00:15:19,719
+同时，你也需要从右到左进行计算。
+Meanwhile, you also compute from right to left.
+
+232
+00:15:19,719 --> 00:15:23,539
+明白了吗？第二个，LSTM，就像你们已经指出的那样，对吧？
+Okay? Second one, LSTM as you already pointed out, right?
+
+233
+00:15:23,539 --> 00:15:27,600
+它已经被广泛应用于时间序列分析了，明白吗？
+And it has been widely adopted in analyzing time series, okay?
+
+234
+00:15:27,600 --> 00:15:31,520
+我希望你们已经在其他地方学过LSTM了，好吗？
+And I hope you guys already learned LSTM somewhere else, okay?
+
+235
+00:15:31,520 --> 00:15:35,820
+第三个，GRU是LSTM的一个稍微简化的版本。
+And third one GRU is a slightly simplified wing LSTM.
+
+236
+00:15:35,820 --> 00:15:44,760
+它的循环机制更简单，但依然很强大。
+It has less, it has a much simplified, recurrent mechanism, but it's still powerful.
+
+237
+00:15:44,760 --> 00:15:48,260
+好的，这就是前三个模型。
+Okay, that's the top three model.
+
+238
+00:15:48,300 --> 00:15:52,320
+然后我们继续问一个问题，哪些是最重要的组成部分
+Then we keep asking the question, what are the most important components
+
+239
+00:15:52,320 --> 00:15:55,540
+在我们的计算组件中？
+in our computational components?
+
+240
+00:15:57,180 --> 00:16:00,620
+就像我说的，任何模型都可以被做成循环的。
+As I said, any model can be made recurrent.
+
+241
+00:16:00,620 --> 00:16:06,000
+所以如果你的铁基于cong工作，那你基本上拥有了CN的所有算子。
+So if your iron is based on cong work, then you basically have all the operators from CN.
+
+242
+00:16:06,000 --> 00:16:12,300
+但与此同时，你是如何基本上实现状态从一步到另一步的更新的呢？
+But meanwhile, how do you basically, update the states from step to step?
+
+243
+00:16:12,900 --> 00:16:19,580
+所以你其实还是用了一些metamorF的例子，比如说你做加权平均，
+So you basically still use a few metamorF example, you do weighted average
+
+244
+00:16:19,580 --> 00:16:23,340
+对过去所有的状态进行加权平均，然后你试图得到一个新状态。
+across all the states in the past, and you try to get a new state.
+
+245
+00:16:23,340 --> 00:16:28,799
+与此同时，你会在metamo的结果上应用一些线性变换，对吗？
+And meanwhile, you apply some linear transformation on top of the metamo results, right?
+
+246
+00:16:28,799 --> 00:16:34,759
+所以你还是有一些非常高级的线性变换，比如Valu tangent，
+So you still have a few very fancy linear transformations such as Valu tangent,
+
+247
+00:16:34,759 --> 00:16:36,599
+sigmo或者其他什么，对吧？
+sigmo or whatever, right?
+
+248
+00:16:36,599 --> 00:16:42,460
+好的。这基本上就是An引入的新颖元素，非常简单。
+Okay. That's basically the novel elements that introduced by An pretty simple.
+
+249
+00:16:42,460 --> 00:16:45,290
+还是用metamo和一些线性变换。
+Steel metamo and a few linears.
+
+250
+00:16:45,290 --> 00:16:51,480
+好的，那我现在要讲一个非常难的多项选择题了，可以吗？
+Okay. Then I'm going to review very difficult multiple choice question, okay?
+
+251
+00:16:51,480 --> 00:16:54,240
+那么是谁发明了LSTM呢？
+So who invented LSTM?
+
+252
+00:16:54,240 --> 00:16:57,380
+选项A，Yana
+So choice A, Yana
+
+253
+00:16:57,380 --> 00:17:00,720
+选项B，当然是Geoffrey Hinton，对吧。
+Con Choice B. Jeffer Hinton, of course, yeah.
+
+254
+00:17:00,720 --> 00:17:04,160
+选项三，Yoshua Bengio，选项四是这个人。
+Chose three Yoshi Benjo Choice for this guy.
+
+255
+00:17:04,160 --> 00:17:07,199
+是的，是的。这其实是个挺难的问题，对吧？
+Yeah. Yeah. This is a pretty difficult question, right?
+
+256
+00:17:07,199 --> 00:17:14,040
+如果你稍微查一下深度学习的历史，你可能会知道其实第一个人
+B if you actually brows a little bit on Diploing history, you probably know actually the first guy
+
+257
+00:17:14,040 --> 00:17:16,579
+第一次发明了LSTM。
+invented asked him, for the first time.
+
+258
+00:17:16,579 --> 00:17:20,480
+但只有前三个人获得了图灵奖。
+But only the first three guys, they get twin award.
+
+259
+00:17:20,480 --> 00:17:22,439
+所以那个人其实挺不开心的。
+Yeah. So that guy is pretty unhappy.
+
+260
+00:17:22,439 --> 00:17:29,579
+他每天都在推特上和深度学习社区的人争论。
+Yeah. He was, like, debating with all the people deploying community at Twitter every day.
+
+261
+00:17:29,579 --> 00:17:31,900
+是的，如果你看看他的推文，好吗？
+Yeah, if you check his tweet, okay?
+
+262
+00:17:31,900 --> 00:17:34,820
+但我们还是得给他一些认可，好吗？
+But we have to give him credit, okay?
+
+263
+00:17:34,820 --> 00:17:38,699
+好的，那我们来问一个更开放性的问题。
+Okay. Then let's ask a more open ended question.
+
+264
+00:17:38,699 --> 00:17:42,979
+我是说Arn已经能够很好地建模序列了，
+I Arn is already able to model sequences pretty well,
+
+265
+00:17:42,979 --> 00:17:47,299
+为什么ChIP不是用RNs而是用transformers构建的？
+why ChIP was not built using RNs but transformers?
+
+266
+00:17:48,860 --> 00:17:53,340
+所以这意味着Arn其实有一些局限性，对吧？你想说说吗？
+So that means An actually has some limitations, right? You want to speak?
+
+267
+00:17:53,340 --> 00:17:58,020
+嗯，嗯哼。
+Yeah. Uh huh.
+
+268
+00:17:58,660 --> 00:18:01,379
+是的，是的，没错。
+Yes. Yes. Yeah.
+
+269
+00:18:01,379 --> 00:18:05,179
+这基本上就是答案的80%了，对。
+That's exactly like 80% of the answer. Yeah.
+
+270
+00:18:05,179 --> 00:18:07,859
+所以Arn有两个主要的问题。
+So Arn has two major problems.
+
+271
+00:18:07,859 --> 00:18:11,100
+一个问题是它总是会忘记东西。
+One problem is it keeps forgetting things.
+
+272
+00:18:11,100 --> 00:18:13,894
+这个原因其实很容易理解，对吧？
+The reason is pretty easy to understand, right?
+
+273
+00:18:13,894 --> 00:18:19,470
+所以如果你基本上从第一个时间步到最后一个时间步都保持一个状态，
+So if you basically maintain a state right from the first time step to the last time step,
+
+274
+00:18:19,470 --> 00:18:25,650
+通常在深度单向竞争中，我们基本上会相乘一些
+normally in deep unilateral competition, we basically multiply something
+
+275
+00:18:25,650 --> 00:18:27,249
+小于一的数，对吧？
+that is smaller than one, right?
+
+276
+00:18:27,249 --> 00:18:29,810
+这个值是非常小的浮点数。
+The value is pretty small floating point.
+
+277
+00:18:29,810 --> 00:18:32,889
+如果你这样做并且不断更新状态，你可以看到，
+And if you do this and you keep updating the state, you can see,
+
+278
+00:18:32,889 --> 00:18:37,689
+如果我们把任意一个很大的值H和一个小于一的值相乘。
+if we multiply any arbitrary large value H by value that is smaller than one.
+
+279
+00:18:37,689 --> 00:18:41,469
+如果你这样做很多很多步，那么这个值就会趋近于零，对吧？
+And if you do it many many steps, then the value will approximate zero, right?
+
+280
+00:18:41,469 --> 00:18:43,949
+这意味着当你的序列很长到最后时，
+That means that when your sequence is pretty long at the end,
+
+281
+00:18:43,949 --> 00:18:45,790
+你的激活值会逐渐减小。
+you are going to diminish your activation.
+
+282
+00:18:45,790 --> 00:18:49,015
+是的，这就是为什么An无法学习很长的序列。
+Yeah. That's why An cannot learn very long sequences.
+
+283
+00:18:49,015 --> 00:18:52,980
+第二个原因，或者说主要原因，是因为正如有同学已经指出的，
+The second reason or the primary reason is because as a student already
+
+284
+00:18:52,980 --> 00:18:54,499
+它是无法并行化的。
+pointed out, it's not paralizable.
+
+285
+00:18:54,499 --> 00:18:58,440
+所以每一次你只能等前一个时间步的计算完成，
+So every time you can only wait for the previous time step to finish competition,
+
+286
+00:18:58,440 --> 00:19:00,280
+然后才能进行下一个计算。
+then you can proceed to the next competition.
+
+287
+00:19:00,280 --> 00:19:04,965
+是的，所以它无法利用我们强大的GPU。
+Yeah. So it cannot benefit from our powerful GPUs.
+
+288
+00:19:04,965 --> 00:19:07,809
+好，鉴于这两个问题，
+Okay. Given these two problems,
+
+289
+00:19:07,809 --> 00:19:13,689
+我记得大概在2017年或2018年，谷歌的一些研究人员，
+I think, basically, um, in 20 I think 17 or 2018, some researchers from Google,
+
+290
+00:19:13,689 --> 00:19:16,090
+他们写了一篇叫做《Attention is all Net》的论文。
+they wrote a paper called Attention is all Net.
+
+291
+00:19:16,090 --> 00:19:19,770
+好吗？那篇论文其实很有名，但它不在我们的阅读清单上。
+Okay? And that paper is pretty famous, but it's not on our reading list
+
+292
+00:19:19,770 --> 00:19:21,350
+因为我们这不是机器学习课。
+because we're not macharing class.
+
+293
+00:19:21,350 --> 00:19:26,269
+但我强烈推荐。注意力机制基本上解决了那个问题，对吧？
+But I highly recommend. Attention basically fix that problem, okay?
+
+294
+00:19:26,269 --> 00:19:30,849
+注意力机制的想法基本上是我们尝试处理这个序列，对吧？
+The idea of attention is basically we try to this sequence, right?
+
+295
+00:19:30,849 --> 00:19:35,729
+但我们试图把每个位置的表示当作查询，用来访问
+But we try to treat each position's representation as a query to access
+
+296
+00:19:35,729 --> 00:19:38,025
+并整合一组值中的信息。
+and incorporate information from a set of values.
+
+297
+00:19:38,025 --> 00:19:43,419
+对吧？所以现在，当你计算每个序列位置的隐藏表示时，
+Right? So basically now, when you compute the hidden position for each sequence position,
+
+298
+00:19:43,419 --> 00:19:46,719
+你其实是在用查询，然后你试图从前一层的所有其他位置
+you basically see the query, and you try to query the key and
+
+299
+00:19:46,719 --> 00:19:49,080
+查询键和值。
+values from all the other posts in the previous layer.
+
+300
+00:19:49,080 --> 00:19:54,899
+这样，你就可以看到第一层，所有标签为一的位置，
+In this way, you can see layer one, all the one, all the positions with label one,
+
+301
+00:19:54,899 --> 00:19:57,839
+它们可以并行计算，对吧，因为它们不会互相阻塞。
+they can compute in parallel, right, because they are not blocking each other.
+
+302
+00:19:57,839 --> 00:20:00,620
+明白了吗？没有顺序上的依赖关系。
+Okay? There's no sequential dependency.
+
+303
+00:20:00,620 --> 00:20:06,159
+这非常适合GPU，因为你可以并行化这些GPU内核，对吧。
+And this is perfectly for GPUs because you can parleyze these unit GPU kernels, right.
+
+304
+00:20:06,159 --> 00:20:09,480
+但在RNN中，情况就不是这样了，至少在RNN中，
+But in iron, that's not the case because at least in iron,
+
+305
+00:20:09,480 --> 00:20:14,219
+你知道第一层，必须从左到右计算，对吧。明白了吗。
+you know layer one, you have to compute from left to right, right. Okay.
+
+306
+00:20:14,219 --> 00:20:17,055
+有什么问题吗？
+Any problem on the spur?
+
+307
+00:20:17,055 --> 00:20:23,049
+很好。我个人认为注意力机制变得非常主导，
+Cool. Personally, I think attention becomes pretty dominant and it
+
+308
+00:20:23,049 --> 00:20:25,349
+它之所以能占据主导地位，主要就是因为这个原因。
+wins over majorly because of this.
+
+309
+00:20:25,349 --> 00:20:27,809
+是的，它非常容易并行化。
+Yeah. It is so paralyzable.
+
+310
+00:20:27,809 --> 00:20:33,449
+正如我刚才说的，注意力机制是高度可并行化的。
+Okay. And as I already said, attention is massively paralyzable and
+
+311
+00:20:33,449 --> 00:20:37,530
+并行操作的数量不会随着序列长度的增加而增加。
+the lumber unparallezable operations does not increase with sequence nons.
+
+312
+00:20:37,530 --> 00:20:41,469
+这意味着我们可以将注意力机制应用于任意长度的序列，而不会
+That means we can apply attention to arbitrary large sequences and we are not going to,
+
+313
+00:20:41,469 --> 00:20:44,050
+受到序列依赖性的影响。
+you know, suffer from that sequential dependency.
+
+314
+00:20:44,050 --> 00:20:48,150
+我们接下来会深入探讨这个问题，并写出相关的数学公式。
+We are going to dive deep into this and write down the mathematical equations later.
+
+315
+00:20:48,150 --> 00:20:51,529
+明白吗？但这里我只是想给你一个整体概览。
+Okay? But here I'm just trying to give you overview.
+
+316
+00:20:51,650 --> 00:20:56,809
+好的。有了注意力机制，我们基本上就可以构建变换器了，对吧？
+Okay. And given attention, we are basically able to construct the transformers, right?
+
+317
+00:20:56,809 --> 00:21:03,710
+所以变换器基本上就是注意力机制加上一些MLP和其他操作。
+So transformer basically equals to attention plus a few MLP and plast few other operations.
+
+318
+00:21:03,710 --> 00:21:08,730
+这张图是我从那篇“Attention is All You Need”论文中裁剪下来的，
+So this is the figure I basically cropped from that attention or you need paper,
+
+319
+00:21:08,730 --> 00:21:13,150
+你可以看到这张图基本上展示了注意力机制的组成结构。
+and you can see this figure basically illustrates the attention, uh composition.
+
+320
+00:21:13,150 --> 00:21:17,129
+所以你有几个注意力模块，然后经过一些操作层。
+So you have a few attentions, you go through some operation layer lo.
+
+321
+00:21:17,129 --> 00:21:22,049
+这是一个逐元素的归一化操作，然后你会经过一些多层感知机，对吧？
+It's a lomization operation element wise, and then you go through some MLP, right?
+
+322
+00:21:22,049 --> 00:21:25,950
+多层感知机，正是在这个意义上起到相反的作用。
+The MLP, that is exactly in the sence and oppose value.
+
+323
+00:21:25,950 --> 00:21:28,110
+Transformer 有两种类型。
+And transformers have two types.
+
+324
+00:21:28,110 --> 00:21:32,769
+一种是编码器，另一种是解码器，我们接下来会深入探讨这个问题。好的。
+One is encoder, the other decoder, and we are going to dive deep into that. Okay.
+
+325
+00:21:33,610 --> 00:21:38,489
+最著名的编码器模型是BERT，对吧？
+So the most famous model for encoder is Bird, right?
+
+326
+00:21:38,489 --> 00:21:41,509
+最著名的解码器模型是GPT。
+And the most famous model for decoder is GPT.
+
+327
+00:21:41,509 --> 00:21:45,790
+好的。那么我们再来问这个问题。
+Okay. Okay, then let's ask this question again.
+
+328
+00:21:45,790 --> 00:21:49,310
+Transformer 的前三大模型是什么？
+So what is the top three models for transformers?
+
+329
+00:21:49,310 --> 00:21:53,930
+我已经说了，BERT 是基于编码器的。
+I already said Bird, encoder based.
+
+330
+00:21:53,930 --> 00:21:56,849
+第二是GPT，还有LIMs，对吧？
+Second, GPT and LIMs, right?
+
+331
+00:21:56,849 --> 00:22:05,919
+第三种类型是什么？好的，明白了。
+What's the third type? Okay. Yeah.
+
+332
+00:22:05,919 --> 00:22:14,260
+T5，对吧？你说的是T5。
+T five, right? You said T five.
+
+333
+00:22:14,260 --> 00:22:21,819
+但你可以把T5看作和BERT、GBD非常相似的东西。
+But you can think T five as something that is pretty similar to bird and GBD.
+
+334
+00:22:21,819 --> 00:22:25,139
+它基本上是BERT和GBT的一种结合，对吧？
+It's basically a combination half bird and half GBT, right?
+
+335
+00:22:25,139 --> 00:22:30,200
+是的，是的，是的，wind transformer，其实和BERT很像。
+Yeah. Yeah. Yeah, wind transformer, but is basically similar to bird.
+
+336
+00:22:30,200 --> 00:22:35,119
+在我看来，是DIT，扩散变换器。好的。
+Yeah. In my opinion, it's DIT, diffusion transformers. Okay.
+
+337
+00:22:35,119 --> 00:22:38,999
+这就是为什么我说Unit在扩散模型中已经不再使用了。
+That's why I said Unit is no longer used in in diffusions.
+
+338
+00:22:38,999 --> 00:22:40,539
+我觉得现在大家都在逐渐远离
+I think today people are moving away from
+
+339
+00:22:40,539 --> 00:22:42,760
+用Unit把transformer应用到扩散模型中。
+Unit to apply transformers into diffusion.
+
+340
+00:22:42,760 --> 00:22:46,219
+好的，明白。我们也会稍微学习一下这个内容。
+Okay? Yeah. And we are also going to study that a little bit.
+
+341
+00:22:46,219 --> 00:22:55,419
+酷，好吗？显然，这已经发生了，至少transformer成为了被选中的那个，对吧？
+Cool. Okay? Apparently, this already happened at least transformer becomes the choosing one, right?
+
+342
+00:22:55,419 --> 00:23:02,219
+所以现在基本上每个人都把transformer作为各种任务的默认骨干，好吗？
+So everyone now basically use transformer as a default backbone for all types of tasks, okay?
+
+343
+00:23:02,219 --> 00:23:06,479
+它之所以被选中，很大程度上是因为这个人，对吧？
+And it becomes the chosen largely because of this guy, right?
+
+344
+00:23:06,479 --> 00:23:09,099
+这个人看起来非常睿智，好吗？
+And this guy looks pretty wise, okay?
+
+345
+00:23:09,099 --> 00:23:12,839
+这是他今年的照片，不对，是去年的，去年十二月的。
+This is a picture of him this year last year, sorry, last December.
+
+346
+00:23:12,839 --> 00:23:16,699
+你可以说十年前，他看起来年轻多了，好吗？
+And you can say ten years ago, he looks much younger, okay?
+
+347
+00:23:16,699 --> 00:23:21,280
+这个人现在在硅谷非常有名，
+And this guy now is basically very famous in Silicon Valley,
+
+348
+00:23:21,280 --> 00:23:24,239
+对，人们把他当作完美的典范。
+right, and people treat him as a perfect.
+
+349
+00:23:24,280 --> 00:23:28,260
+所以有时候他说什么，大家都会相信，好吗？
+So sometimes he speaks something and people will believe, okay?
+
+350
+00:23:28,260 --> 00:23:32,979
+实际上，十年前他有一篇论文叫做sequence to
+And actually, ten years ago, he has a paper called sequence to
+
+351
+00:23:32,979 --> 00:23:35,539
+用Depart进行序列学习是有效的，对吧？
+sequence learning with Depart works, right?
+
+352
+00:23:35,539 --> 00:23:40,759
+那篇论文的模型基本上是这个领域的基础，也是第一次尝试训练这类模型，
+That model that paper is basically the foundation and the first try of training,
+
+353
+00:23:40,759 --> 00:23:42,759
+就是P类的模型，对吧？
+P kind of models, right?
+
+354
+00:23:42,759 --> 00:23:48,819
+在其他演讲中，他有一张非常有名的幻灯片，我也在这里截取了。
+And other talk, he has a very famous slide, which I also crop here.
+
+355
+00:23:48,819 --> 00:23:54,540
+只有三句话。如果你有一个非常大的数据集，并且你训练了一个非常大的模型，
+Only three sentence. So if you have a very large data set and you train a very big model,
+
+356
+00:23:54,540 --> 00:23:56,480
+那么成功就是有保证的。
+then success is guaranteed.
+
+357
+00:23:56,480 --> 00:23:59,099
+对吧？这句话非常简洁。
+Right? This is a pretty brief statement.
+
+358
+00:23:59,099 --> 00:24:01,920
+嗯，是的，非常不错。
+And yeah, yeah, pretty good.
+
+359
+00:24:01,920 --> 00:24:07,159
+好的，我也把演讲的链接放在这里，如果你感兴趣的话可以去看看。
+Okay. And I also give the talk link here and if you're interested, go watch it.
+
+360
+00:24:07,159 --> 00:24:08,639
+只有20分钟，非常不错。
+It's only 20 minutes. Pretty good.
+
+361
+00:24:08,639 --> 00:24:13,660
+好的。那我们回到计算的角度来看。
+Okay. Okay, then let's come back to the computational perspective.
+
+362
+00:24:13,660 --> 00:24:18,159
+那么，transformer中最重要的组成部分是什么？
+So what are the most important components in transformers.
+
+363
+00:24:19,020 --> 00:24:23,900
+就像我之前说的，transformer等于注意力机制加上MLP再加上一些其他东西。
+Like I already said, transformer equal to attention plus MLP plus something else.
+
+364
+00:24:23,900 --> 00:24:26,660
+那我们就一个一个来看，什么是注意力机制？
+Then we just look at one by one, What is attention?
+
+365
+00:24:26,660 --> 00:24:29,359
+注意力机制基本上就是几个线性变换，对吧？
+Attention is basically a few metamor right?
+
+366
+00:24:29,359 --> 00:24:33,240
+在线性变换之后，你会做某种softmax操作。
+And after metamo you do some sort of softmax.
+
+367
+00:24:33,240 --> 00:24:39,480
+在注意力机制中最常见的归一化操作叫做层归一化。
+And one of the most common romanization operation in attention is called layer on.
+
+368
+00:24:39,480 --> 00:24:44,640
+所以基本上，注意力机制就是由线性变换、softmax和归一化组成的。
+So basically attention is basically composed with metamor soft max and the romanization.
+
+369
+00:24:44,640 --> 00:24:49,249
+好的。那么MLP，你已经知道线性变换了，对吧？还有更多的线性变换。
+Okay. So MLP, you already know met M, right? More met moo.
+
+370
+00:24:49,249 --> 00:24:55,860
+还有一些像Galo这样的特殊非线性函数被用在注意力机制中。
+And there are some like Galo, a special type of non linear function used in attention.
+
+371
+00:24:55,860 --> 00:25:03,320
+好吗？这基本上就是我们可以在transformers中找到的计算操作符。
+Okay? That's basically, um, the computational operators that we can find in transformers.
+
+372
+00:25:03,320 --> 00:25:06,319
+很好，到目前为止有什么问题吗？
+Cool. Any questions so far?
+
+373
+00:25:06,920 --> 00:25:10,920
+好的，那我们接下来讲第四种模型，
+Okay, then we'll move to our fourth model,
+
+374
+00:25:10,920 --> 00:25:13,019
+MOE，也就是混合专家模型。
+MOE, okay Mixture experts.
+
+375
+00:25:13,019 --> 00:25:18,509
+实际上，MOE中没有太多常规组件，对吧？
+So there are indeed, there are not many normal components from MOE, okay?
+
+376
+00:25:18,509 --> 00:25:23,800
+呃，MOE通常会和前三种模型中的某一个一起使用。
+Uh, MOE is usually used together with one of the previous three types of models.
+
+377
+00:25:23,800 --> 00:25:27,480
+比如说，你可以把MOE和transformers结合起来。
+For example, you can mix MOE transformers.
+
+378
+00:25:27,480 --> 00:25:31,219
+你也可以把MOE和类似的模型结合。好的。
+You can mix MOE with something like that. Okay.
+
+379
+00:25:31,219 --> 00:25:36,040
+但MOE的核心思想其实就是，我们试图复制
+But the idea high level idea of MOE is basically, um, we try to replicate
+
+380
+00:25:36,040 --> 00:25:38,100
+单一模型中的某些组件。
+some components of the single model.
+
+381
+00:25:38,100 --> 00:25:43,759
+所以我们创造了很多专家，希望基本上让所有专家
+So we create a lot of experts, and the hope is basically we let all the experts
+
+382
+00:25:43,759 --> 00:25:49,239
+给出一个预测，然后我们采用多数投票，对吧，类似这样的方式，或者
+to produce a prediction and we take a majority voting, right, something like that or
+
+383
+00:25:49,239 --> 00:25:50,839
+加权平均投票，对吧？
+weighted average voting, right?
+
+384
+00:25:50,839 --> 00:25:57,320
+我们希望来自许多专家的投票可以比单一专家产生更好的结果。
+And we hope that the voting from many experts could produce a better results than a single expert.
+
+385
+00:25:57,320 --> 00:25:58,260
+这基本上就是这个想法。
+That's basically idea.
+
+386
+00:25:58,260 --> 00:26:06,190
+好的。实际上，作为一个现实检查，现在最新的大模型大多是MOE结构。
+Okay. And as a fact as a reality check, okay, latest alums are mostly MOEs.
+
+387
+00:26:06,190 --> 00:26:09,889
+比如说，Grock Mas Grock 就是MOE结构。
+For example, Grock Mas Grock is MOE.
+
+388
+00:26:09,889 --> 00:26:16,449
+好的？而mixture是由Lamantin团队创造的misrEIPrevioc模型。好的。
+Okay? And the mixture is the one that created by the misrEIPrevioc by Lamantin. Okay.
+
+389
+00:26:16,449 --> 00:26:23,210
+DBD四据说是MOE结构，但还没有确认，明白吗？
+DBD four uh said to be MOE, no confirmation, okay?
+
+390
+00:26:23,210 --> 00:26:27,470
+还有非常有名的DPC V3，就是两周前发布的那个，
+And the very famous DPC V three, which was released two weeks ago,
+
+391
+00:26:27,470 --> 00:26:33,549
+我觉得它基本上在推特上变得非常流行，非常火。
+I think it basically becomes very popular, very hot on Twitter.
+
+392
+00:26:33,549 --> 00:26:34,969
+它是MOE，对吧？
+It is MOE, right?
+
+393
+00:26:34,969 --> 00:26:39,919
+好的？就像我已经说过的，MOE里唯一的新颖计算是
+Okay? And as I already said, the only novel computation in
+
+394
+00:26:39,919 --> 00:26:41,840
+一种叫做路由器的东西。
+MOE is something called a router.
+
+395
+00:26:41,840 --> 00:26:48,440
+为什么？因为当你把输入送到所有这些专家时，你基本上需要嵌入一个路由器
+Why? Because once you have input going into all these experts, you need to basically embed a router
+
+396
+00:26:48,440 --> 00:26:50,759
+来决定哪个专家会处理你的输入。
+to decide which expert is going to ask you that input.
+
+397
+00:26:50,759 --> 00:26:53,579
+对吧？因为你用很多很多专家在复制模型。
+Right? Because you are replicating the model with many many experts.
+
+398
+00:26:53,579 --> 00:27:00,745
+比如说，在transformers中，每个专家只对应几个，比如MLP层，好吧。
+And for example, in transformers, each expert only corresponds to a few say MLPs MLP layers, okay.
+
+399
+00:27:00,745 --> 00:27:03,889
+那么，什么构成了一个路由器？
+So what constitutes a router?
+
+400
+00:27:03,889 --> 00:27:07,830
+它仍然是meta和softmax，因为你基本上，呃，
+It's still meta and softmax, because you basically, uh,
+
+401
+00:27:07,830 --> 00:27:10,349
+在这里应用一个分类机制，对吧？
+apply a classification mechanism here, right?
+
+402
+00:27:10,349 --> 00:27:14,649
+你获取输入，然后把它分类到不同的木材等级。
+You take the input, you classify it into the lumber classes.
+
+403
+00:27:14,649 --> 00:27:18,389
+对应于这里的木材专家，然后你取出前两个价值最高的，
+Corresponding to the lumber experts here, and then you take the top two value and you
+
+404
+00:27:18,389 --> 00:27:20,709
+把结果交给这两个顶尖专家。
+give the output to the top two experts.
+
+405
+00:27:20,709 --> 00:27:29,279
+对，就是这样。好，那我接下来要问一个问题。
+Yeah, that's it. Okay. Then I'm going to ask a question.
+
+406
+00:27:29,279 --> 00:27:30,860
+我不会给出答案。
+I'm not going to give answer.
+
+407
+00:27:30,860 --> 00:27:32,859
+你们可以想一想，如果有时间的话。
+You should think about it, if you have time.
+
+408
+00:27:32,859 --> 00:27:35,800
+为什么路由器让事情变得特别难？
+Why router makes it super difficult?
+
+409
+00:27:36,160 --> 00:27:39,979
+是的，为什么设计系统会变得困难。
+Yeah, why it difficult to design systems.
+
+410
+00:27:39,979 --> 00:27:44,939
+好，我们会在后面的课程中逐步深入探讨这个问题。
+Okay, we are going to gradually approach it out in later lectures.
+
+411
+00:27:44,939 --> 00:27:48,359
+好的，到目前为止有任何问题吗？
+Okay. Any questions so far?
+
+412
+00:27:48,690 --> 00:27:52,030
+好的，这基本上就是我们20分钟的加工课程。
+Okay, that's basically our 20 minutes machining class.
+
+413
+00:27:52,030 --> 00:27:56,450
+好的，我们结束了。嗯，好吧，让我们做个总结。
+Okay, we finish. Um, Okay, let's do a summarize.
+
+414
+00:27:56,450 --> 00:28:00,750
+做个总结。好的，所以我们基本上看了下计算过程。
+Do a summary. Okay. So we basically, look at the computation.
+
+415
+00:28:00,750 --> 00:28:03,350
+从竞赛的角度看了这些模型，对吧？
+Look at these models from a competition perspective, okay?
+
+416
+00:28:03,350 --> 00:28:06,269
+我们基本上回顾了四种类型的模型，对吧？
+We basically reviewed four types of models, right?
+
+417
+00:28:06,269 --> 00:28:10,769
+Sins、irons、transformers和MOEs，我们试图找出
+Sins, irons, transformers, and MOEs, and we try to identify
+
+418
+00:28:10,769 --> 00:28:14,870
+这些模型中的计算元素，这些都列在这里了，对吧？
+the computational elements from these models, okay, which are listed here, okay?
+
+419
+00:28:14,870 --> 00:28:21,890
+如果我们稍微调整一下顺序，你会发现Mdmol出现了四次，
+And if we basically shuffle them a little bit, we will see that Mdmol appears four times,
+
+420
+00:28:21,890 --> 00:28:25,450
+Softmax出现了三次，然后还有其他的。
+Softmax appears three times and then others.
+
+421
+00:28:25,450 --> 00:28:32,169
+那么接下来我要告诉你这个课程的真正名字，Meta M加softmax才是你需要的一切。
+Then I'm going to give you the true name on this cours Meta M plus softmax are all you need.
+
+422
+00:28:32,169 --> 00:28:39,590
+我们将把这两个算子从CPO扩展到GPO，从单一设备扩展到集群。
+We are going to grand on these two operators from CPO to GPO, from single device to clusters.
+
+423
+00:28:39,590 --> 00:28:43,329
+我们的大部分工作都将集中在如何优化metamo上。
+A majority of our effort will be just looking at how we can make metamo
+
+424
+00:28:43,329 --> 00:28:49,170
+以及如何让Soffamx更快，或者如何在多台GPO上并行化metamo和softmax。
+and Soffamx faster or how we can paralyze metamo and softmax on many GPOs.
+
+425
+00:28:49,410 --> 00:28:54,169
+换句话说，MLC基本上等同于met Moss。
+In other words, MLC is basically equals to met Moss.
+
+426
+00:28:54,169 --> 00:28:59,849
+如果你把metamo学得很好，你已经是专家了，这就是你需要掌握的全部。
+If you study metamo pretty well, you are already an expert. That's all you need.
+
+427
+00:28:59,849 --> 00:29:07,349
+很好，很好。那么我们完成了机器部分，接下来我们要回到系统部分。
+Cool, cool. Then we finish the machining part, okay, we are going to come back to the system part.
+
+428
+00:29:07,349 --> 00:29:14,329
+就像我刚才说的，我们有数据、模型和计算，这是机器系统中的三个关键组成部分。
+So as I said, we have data model and computer, as the three key components in machining systems.
+
+429
+00:29:14,329 --> 00:29:16,929
+那么接下来我们会一个一个地学习，对吧？
+So then we are going to study this one by one, right?
+
+430
+00:29:16,929 --> 00:29:19,369
+因为最终我们的目标基本上就是给定
+Because eventually our goal is basically given
+
+431
+00:29:19,369 --> 00:29:24,050
+根据模型描述的数据和给定的计算，我们尝试把它们放到
+the data and given computation described by the model, we try to put them onto
+
+432
+00:29:24,050 --> 00:29:26,909
+我们的计算机设备上，并尝试获得结果。
+our computer devices and try to get the results.
+
+433
+00:29:26,909 --> 00:29:29,010
+那么，如何表示数据呢？
+So how to represent data.
+
+434
+00:29:29,010 --> 00:29:33,210
+通常我们是这样表示数据的，对吧？这就是我们的数据。
+So normally we represent data in this way, right? This is our data.
+
+435
+00:29:33,210 --> 00:29:36,630
+计算机是如何表示数据的呢？
+Computers, how do we represent data.
+
+436
+00:29:36,630 --> 00:29:42,769
+在现代系统中，我们通常使用一种叫做张量的格式，在内存中这样存储，
+So in mergin systems we usually use a format called tensor, withdraw this in memory,
+
+437
+00:29:42,769 --> 00:29:45,230
+我们之后会再回到这个话题。
+and we are going to come back to this later.
+
+438
+00:29:45,230 --> 00:29:50,409
+好的，那么我们如何在程序中表示模型呢？
+Okay? How do we represent models in our program?
+
+439
+00:29:50,440 --> 00:29:57,800
+就像我刚才说的，我们用一组数学原语来表示它们，
+Like I already said, we represent them using a set of mathematical primitives,
+
+440
+00:29:57,800 --> 00:30:00,979
+其实已经找到了另一组原语，大多数是记忆相关的。
+already figure out other set of primitives, mostly memo.
+
+441
+00:30:00,979 --> 00:30:03,560
+好吗？但这还不够。
+Okay? But that's not sufficient.
+
+442
+00:30:03,560 --> 00:30:09,940
+为什么？因为我们只找到了基本的单个原语。
+Why? Because we only, figure out the basic individual primitives.
+
+443
+00:30:09,940 --> 00:30:15,120
+我们还需要把它们连接起来，才能表示模型的整体竞争关系。
+We still need to connect them together, to represent the competition of the model, the entire model.
+
+444
+00:30:15,120 --> 00:30:19,739
+是全局的。所以基本上，我们要开发一种表示方法，
+Globally. So basically, we are going to develop a reputation that can
+
+445
+00:30:19,739 --> 00:30:22,139
+能够用这些原语表达竞争关系。
+express the competition using these primitives.
+
+446
+00:30:22,139 --> 00:30:25,124
+明白吗？我们要把它们连接在一起。
+Okay? We are going to connect them together.
+
+447
+00:30:25,124 --> 00:30:31,609
+第三，当然，还要计算，如何把这些原语变成程序，以及如何
+And third one, of course, compute, how we can make this primitives into programs and how we can
+
+448
+00:30:31,609 --> 00:30:35,289
+编写可以在各种硬件上运行的程序，比如CPU、GPU、TPU。
+make programs that can run on all sorts of hardware, CPU GPU TPU.
+
+449
+00:30:35,289 --> 00:30:38,049
+对，这基本上就是第三部分。
+Yeah. That's basically the third part.
+
+450
+00:30:38,049 --> 00:30:42,330
+好，接下来我要介绍一种非常非常强大的表示方法。
+Okay. Next, I'm going to introduce a very, very powerful repentation.
+
+451
+00:30:42,330 --> 00:30:48,169
+我们将重点关注中间的问题，也就是我们如何开发方向来表达模型。
+We are going to focus on the middle question, how we can develop orientation to express the models.
+
+452
+00:30:48,169 --> 00:30:50,829
+好吗？这种方向被称为数据流图。
+Okay? And this orientation is called dataflow graph.
+
+453
+00:30:50,829 --> 00:30:55,109
+好吗？如果你用过partwortna flow，你可能已经熟悉这个术语了。
+Okay? If you use the partwortna flow, you probably are already familiar with this term.
+
+454
+00:30:55,109 --> 00:31:03,130
+好的，数据流图基本上就是我们用来表达马里纳林计算的一种语言。
+Okay. Data flow graph is basically the kind of language we use to express marinaring competition.
+
+455
+00:31:03,450 --> 00:31:08,689
+好的，在我深入讲解之前，让我们回顾一下我们的目标。
+Okay. Before I dive deep into that let's recall our goal.
+
+456
+00:31:08,689 --> 00:31:13,249
+我们的目标是尽可能用一套
+Our goal is we try to express as many model as possible using one set of
+
+457
+00:31:13,249 --> 00:31:17,429
+程序接口，通过连接这些数学原语来表达尽可能多的模型，对吧？
+program interface by connecting these mathematical primitives, right?
+
+458
+00:31:17,429 --> 00:31:22,609
+记住模型内部是什么，我们有模型和架构，基本上
+And remember what is inside the model, we have the model and architecture which basically
+
+459
+00:31:22,609 --> 00:31:25,250
+表达了数学原语之间的连接关系。
+express the connectivity between mathematical primitives.
+
+460
+00:31:25,250 --> 00:31:31,650
+我们有一个目标函数，对吧，本质上这又是一组计算。
+We have an objective function, right, which is essentially another set of, uh, like computation.
+
+461
+00:31:31,650 --> 00:31:35,829
+我们有一个optidor，在我看来，它就是原子，对吧？
+We have an optidor which is, in my opinion, atom, right?
+
+462
+00:31:35,829 --> 00:31:37,189
+每个人都是原子。
+Everyone is atom.
+
+463
+00:31:37,189 --> 00:31:39,009
+我们需要很好地表达原子。
+We need to express atom pretty well.
+
+464
+00:31:39,009 --> 00:31:41,414
+我们有一些数据，对吧？
+And we have some data, okay?
+
+465
+00:31:41,414 --> 00:31:46,639
+那么我们找到合适的抽象或合适的表示方法的方式，基本上是，
+So the way that we find out the right abstraction or the right representations, basically,
+
+466
+00:31:46,639 --> 00:31:51,840
+我们观察我们的应用程序，思考哪种表示方式能更好地服务于我们的应用。
+we look at our application and we think about what kind of representation can actually serve
+
+467
+00:31:51,840 --> 00:31:53,920
+所以在历史上，我们开发了许多许多系统，比如说，
+better on our application.
+
+468
+00:31:53,920 --> 00:31:57,260
+如果你学习过数据库课程，你会知道，
+So in history, we have developed many many systems, for example,
+
+469
+00:31:57,260 --> 00:32:00,959
+有一个非常著名的
+if you study database courses, you know, uh, we have a pretty famous
+
+470
+00:32:00,959 --> 00:32:02,359
+工作领域叫做数据管理，对吧？
+workload called Data Management, right?
+
+471
+00:32:02,359 --> 00:32:03,899
+换句话说，就是OLTP。
+In other words, OLTP.
+
+472
+00:32:03,899 --> 00:32:10,809
+在这种工作负载下，我们如何表示程序和通信呢？非常著名的语言
+And in this workload, how do we represent programs and communi so the very famous language
+
+473
+00:32:10,809 --> 00:32:12,769
+用来做这件事的语言基本上叫做SQL，对吧？
+to do this is basically called SCO, right?
+
+474
+00:32:12,769 --> 00:32:17,830
+我们用SQL来查询数据，并且把数据存储在某种存储介质中，
+We use SQL to query data, and we sort data in some sort of storage,
+
+475
+00:32:17,830 --> 00:32:19,990
+然后我们建立了所谓的关系型数据库。
+and we build a so called relation database.
+
+476
+00:32:19,990 --> 00:32:23,569
+在关系型数据库中，我们有很多表来表示数据，对吧？
+And in a relation database, we have a lot of tables to represent the data, right?
+
+477
+00:32:23,569 --> 00:32:25,670
+SQL基本上就是用来查询这些表的。
+And the SQL will basically quires tables.
+
+478
+00:32:25,670 --> 00:32:29,049
+在实际执行查询之前，它会有
+And before it actually ask you that query it will has
+
+479
+00:32:29,049 --> 00:32:33,349
+一些查询处理或查询规划机制来提高效率，对吧？
+some query processing or query planning mechanism to make it efficient, right?
+
+480
+00:32:33,349 --> 00:32:38,570
+这就是我们过去二十年里为数据库构建的方式。
+This is how we ended up building in the past 20 years, right for database.
+
+481
+00:32:38,570 --> 00:32:44,049
+随着数据变得越来越大，我们开始转向OEP，对吧？
+And as data become bigger and bigger, we start moving to OEP, right?
+
+482
+00:32:44,049 --> 00:32:46,909
+我们开始进入大数据领域，并尝试在大表上做一些非常简单的功能转换。
+We start moving into big data and we try to do
+
+483
+00:32:46,909 --> 00:32:50,769
+显然，普通的SQL已经无法满足需求。
+some very simple functional transformation on big tables.
+
+484
+00:32:50,769 --> 00:32:53,969
+所以我们做的就是构建一种叫做spark memduc的东西。
+And apparently this plane SQL does not suffice.
+
+485
+00:32:53,969 --> 00:32:56,850
+并且我们开始重新设计我们的存储机制。
+So what we do is we build something called spark memduc
+
+486
+00:32:56,850 --> 00:33:00,710
+我们把它们存储在所谓的列式存储中，对吧？
+and we start redesigning our storage mechanism.
+
+487
+00:33:00,710 --> 00:33:03,469
+我们还创建了一些数据仓库，并开始搭建这些数据流计算。
+We store them in so called column storage, right?
+
+488
+00:33:03,469 --> 00:33:09,250
+这样我们就可以表达这些计算过程。
+And we create some data warehousing and we start creating those data flow competition
+
+489
+00:33:09,250 --> 00:33:10,995
+好的，大概就是这样。
+so we can express the competition.
+
+490
+00:33:10,995 --> 00:33:13,940
+可能在同样的情况下也是如此。
+Okay. And probably in the same.
+
+491
+00:33:13,940 --> 00:33:18,079
+现在我们进入第三阶段，也就是机器学习成为主要的工作负载。
+Now we are moving to the third stage that is machine learning become a dominant workload.
+
+492
+00:33:18,079 --> 00:33:22,545
+我们如何开发一种方法来表达这种组合。
+How do we develop orientation to basically express this combination.
+
+493
+00:33:22,545 --> 00:33:28,130
+好的，这里我们将介绍计算有向图，好吗？
+Okay. Here, we are going to introduce computation dear graph, okay?
+
+494
+00:33:28,130 --> 00:33:29,869
+在这里，你可以看到两个例子。
+So here, you can see two examples.
+
+495
+00:33:29,869 --> 00:33:31,209
+我接下来会深入讲解这个内容。
+I'm going to dive deep into that.
+
+496
+00:33:31,209 --> 00:33:35,389
+请记住，这可能是本次讲座中最重要的幻灯片之一，好吗？
+Remember, this is probably one of the most important slides of this lecture, okay?
+
+497
+00:33:35,389 --> 00:33:38,249
+如果你在讲座中跟不上，记得回头再看一下。
+If you cannot follow in a lecture, go back to check it out.
+
+498
+00:33:38,249 --> 00:33:42,670
+好吗？在这里我们用节点和边来定义图。
+Okay? So here we define graph with node and edges, okay?
+
+499
+00:33:42,670 --> 00:33:44,670
+节点基本上代表的是计算过程。
+The node basically represents the computation.
+
+500
+00:33:44,670 --> 00:33:46,889
+例如，它可以是一个原语，也可以是一个操作符。
+For example, it's a primitive, it's an operator.
+
+501
+00:33:46,889 --> 00:33:49,229
+比如说，Mdm 是一个节点，对吧？
+For example, Mdm is a node, right?
+
+502
+00:33:49,229 --> 00:33:53,789
+就像加法、减法之类的，这些都是基本的操作符。
+And like add sub or whatever, it kind of primitive operator.
+
+503
+00:33:53,789 --> 00:33:57,395
+好的。它基本上会表示图中的一个节点。
+Okay. And it will basically represent a node in the graph.
+
+504
+00:33:57,395 --> 00:33:59,980
+在你的图中，当然会有边。
+In your graph, of course, you have edges.
+
+505
+00:33:59,980 --> 00:34:03,120
+基本上，边表示数据依赖关系。
+Basically, the edge represents the data dependency.
+
+506
+00:34:03,120 --> 00:34:06,920
+这就是数据如何从第一个操作符流向第二个或第三个的方式。
+That is how the data flow from the first operator to second or third.
+
+507
+00:34:06,920 --> 00:34:10,100
+只表示依赖关系。
+Only represent the dependency.
+
+508
+00:34:10,530 --> 00:34:15,289
+同时，我们会稍微扩展一下节点的定义。
+Meanwhile, we're going to slightly overload node, the definition node.
+
+509
+00:34:15,289 --> 00:34:20,270
+我们还用节点来表示操作符的输出张量。
+We also use the node to represent the output tensor of the operator.
+
+510
+00:34:20,270 --> 00:34:24,969
+比如在左边的图中，你可以看到，我们有矩阵乘法。
+For example, in the left figure, you can see, we have the mo multiplication.
+
+511
+00:34:24,969 --> 00:34:27,849
+所以那个节点代表两件事。
+So that node represents two things.
+
+512
+00:34:27,849 --> 00:34:30,269
+一是模块本身，也就是计算过程。
+One is the mod itself, the computation.
+
+513
+00:34:30,269 --> 00:34:32,410
+二是输出。
+Second is output.
+
+514
+00:34:32,410 --> 00:34:35,270
+它既代表计算过程，也代表输出。
+It represents computation and the output.
+
+515
+00:34:35,270 --> 00:34:40,269
+这就是为什么有一条箭头从mount指向add const，因为
+That's why there's arrow from the mount to the add const because the output of
+
+516
+00:34:40,269 --> 00:34:42,934
+模块的输出会进入下一个操作符，明白了吗？
+the mode will go into the next operator, okay?
+
+517
+00:34:42,934 --> 00:34:47,000
+如果我们也用节点来表示某些常量，
+And if we also use the nodes to represent some constant,
+
+518
+00:34:47,000 --> 00:34:50,860
+比如说你不需要进行任何计算，你只有输入，而且输入是一个常量。
+for example, you don't have to perform any competition, you just have input and input is a constant.
+
+519
+00:34:50,860 --> 00:34:53,039
+这就是为什么A和B也是节点，
+That's why the A and B are also nodes,
+
+520
+00:34:53,039 --> 00:34:57,379
+A和B有一条边指向mod，所以它们流向mod，
+A and B has the edge going to the mod, so they flow into the mod and
+
+521
+00:34:57,379 --> 00:35:01,199
+执行mount竞赛。明白了吗？清楚吗？
+perform the mount competition. Okay? Clear?
+
+522
+00:35:01,199 --> 00:35:07,300
+好的。从这个定义来看，你可以看到，在左边，我们基本上定义了competition，
+Okay. So from this definition, you can see, on the left side, we basically define competition,
+
+523
+00:35:07,300 --> 00:35:11,579
+也就是a乘以b加三，对吧？
+which is a multiply B plus three, right?
+
+524
+00:35:11,579 --> 00:35:15,619
+好的。而右边稍微复杂一点，你可以花
+Okay. And on the right one is slightly more complicated and you can spend
+
+525
+00:35:15,619 --> 00:35:19,680
+5秒钟看一下，你们都会发现，我们其实是在定义
+5 seconds looking at that and you all figure out, we are basically defining
+
+526
+00:35:19,680 --> 00:35:21,359
+一个非常小的神经网络，对吧？
+a very small neural network, right?
+
+527
+00:35:21,359 --> 00:35:25,439
+所以我们有常量X和常量W1，对吧。
+So we have the constant X and a constant W one, right.
+
+528
+00:35:25,439 --> 00:35:28,699
+它们是节点，并且流入met mo。
+And they are nodes and they flow into the met mo.
+
+529
+00:35:28,699 --> 00:35:31,680
+所以我们把它们进行met mod操作，就得到了结果。
+So we met mod them together, we get the results.
+
+530
+00:35:31,680 --> 00:35:34,779
+结果会进入下一个带有Lu的操作符，对吧？
+The results will going into the next operator with Lu, right?
+
+531
+00:35:34,779 --> 00:35:38,799
+然后结果会进入第二个内存，对吗？
+And the results will get into the second memo, right?
+
+532
+00:35:38,799 --> 00:35:41,959
+第二个内存有第二个输入，是W二。
+The second memo has a second input with W two.
+
+533
+00:35:41,959 --> 00:35:49,459
+然后W二和结果值会进行求和，并进入很多有趣的MSE，对吗？
+Then W two, and the result value will be met mode and get into lots funone MSE, right?
+
+534
+00:35:49,459 --> 00:35:52,619
+然后在MSE中，你会比较计算结果和
+And then MSE you will compare the computation results and
+
+535
+00:35:52,619 --> 00:35:56,899
+两个标签Y，并给出输出，也就是损失。
+the two label Y and give you output, which is the loss.
+
+536
+00:35:56,899 --> 00:36:00,859
+明白了吗？其实，这个图有一点小问题。
+Okay? So here, actually, this graph has a little bit problem.
+
+537
+00:36:00,859 --> 00:36:03,680
+所以MSE其实并不是原始操作。
+So MSE is actually not primitive.
+
+538
+00:36:03,680 --> 00:36:08,859
+对，MSE是一个函数，是一个非常复杂的函数，所以我把它稍微简化了一下。
+Right, MSE is a function is a very complicated function, so I simplify a it bit.
+
+539
+00:36:08,859 --> 00:36:13,820
+好吗？你们需要想办法如何用真正的原始操作来表达MSE。
+Okay? And you guys need to figure out how to actually express MSE in true primitive.
+
+540
+00:36:13,820 --> 00:36:18,099
+对，就是用最基本的运算符来表达，好吗？
+Yeah, the most elementary operators from there, okay?
+
+541
+00:36:18,099 --> 00:36:20,899
+但我觉得你基本上已经明白定义了，对吧。
+But I think you basically get the definition, right.
+
+542
+00:36:20,899 --> 00:36:25,460
+这是数据流图。好的，在接下来的几页幻灯片中，
+This is dataflow graph. Okay. In the next few slides,
+
+543
+00:36:25,460 --> 00:36:32,080
+我将用一个非常非常原始的TensorFlow 1 API来做一个部署程序的案例分析。
+I'm going to do a case study of deploying programs using a very, very original tensor flow one API.
+
+544
+00:36:32,080 --> 00:36:33,959
+你可以把它看作是一个经典版本。
+U Echo it a classic flavor.
+
+545
+00:36:33,959 --> 00:36:41,079
+好的，不过你要记住，比如说现在，如果你是一个PyTorch高级用户，
+Okay. And, um, but you should keep in mind that today, for example, if you are petrogPower user,
+
+546
+00:36:41,079 --> 00:36:44,759
+你可能会发现它和你今天写的代码有些许不同。
+you probably find it slightly different from what you wrote today.
+
+547
+00:36:44,759 --> 00:36:49,339
+但其实在底层，它们都使用了同样的表示方式，也就是所谓的数据流图。
+But basically, under Hood, they are using the same representation, which is called data ph graph.
+
+548
+00:36:49,339 --> 00:36:54,220
+好的，所以我们要看的用例基本上是一个线性神经网络，
+Okay? So the use case we are going to look at is basically one linear neural network,
+
+549
+00:36:54,220 --> 00:36:56,220
+它执行的是逻辑回归。
+which performs logistic regression.
+
+550
+00:36:56,220 --> 00:37:00,440
+它基本上是把图片表示成一个向量。
+It basically takes the image represented as a vector.
+
+551
+00:37:00,440 --> 00:37:03,299
+它像一个单层的MLP一样处理这个，对吧？
+It goes through this like a single layer MLP, right?
+
+552
+00:37:03,299 --> 00:37:10,785
+然后它会经过一个二分类的softmax，这基本上就是逻辑回归，对吗？
+And it will go through two class softmax, which is basically logistic regression, okay?
+
+553
+00:37:10,785 --> 00:37:12,969
+这是程序代码，好吗？
+And here's the program, okay?
+
+554
+00:37:12,969 --> 00:37:18,730
+你可以看到，我们首先从Paton库里导入了一些东西，
+You can see, we first import something right from the Paton library,
+
+555
+00:37:18,730 --> 00:37:25,529
+然后我们开始调用这个接口，定义了一些常量X和Y，X是我们的输入，
+and then we start call this interface to define a few constant X Y X is our input,
+
+556
+00:37:25,529 --> 00:37:28,729
+Y是输出，W是权重，对吧？
+Ys put W is the weight, okay?
+
+557
+00:37:29,310 --> 00:37:34,270
+接下来我们要做的就是调用接口，继续定义计算过程。
+And then what we do is what we call the interface, we continue to define commutation.
+
+558
+00:37:34,270 --> 00:37:41,289
+这里我们基本上定义了损失函数，并且调用了一个API，叫做TFRduc mean。
+Here we basically um define loss function and we call API which is called the TFRduc mean.
+
+559
+00:37:41,289 --> 00:37:45,069
+在reduce mean里面，我们做了一个reduce sum。
+Inside of reduce mean, what do we do uh we do a reduce sum.
+
+560
+00:37:45,069 --> 00:37:47,749
+我们喜欢用Y乘以TF的log Y。
+Uh we like Y times TF log Y.
+
+561
+00:37:47,749 --> 00:37:54,509
+然后我们基本上会以某种方式稍微旋转一下轴线，并尝试得到平均值，对吧？
+Then we basically slightly rotate the axis in some way and we try to get the mean value, okay?
+
+562
+00:37:55,220 --> 00:38:03,179
+为了构建这个新网络，但因为到目前为止，我们只定义了前向传播
+And in order to make this new network, but because up until here, we only define the fmmetation we
+
+563
+00:38:03,179 --> 00:38:05,799
+我们还需要定义某种推荐方式。
+still need to define some sort of recommendation.
+
+564
+00:38:05,799 --> 00:38:10,120
+所以我们基本上会用另一个叫做Tift gradient的API。
+So what we do is basically we use other API called Tift gradient.
+
+565
+00:38:10,120 --> 00:38:13,019
+那么这个Tift gradient是做什么的呢？
+So what does this Tift grading do?
+
+566
+00:38:13,830 --> 00:38:17,329
+它执行一种叫做自动微分的操作，对吧？
+I perform something called automatic differentiation, right?
+
+567
+00:38:17,329 --> 00:38:21,749
+它基本上会把你在前向模式下定义的计算
+It basically take this computation you defined in forward mode and
+
+568
+00:38:21,749 --> 00:38:25,210
+然后尝试推导出反向模式，也就是如何计算梯度。
+you try to derive the backward mode, how to calculate gradients.
+
+569
+00:38:25,210 --> 00:38:31,269
+明白了吗？接下来我们要指定SET的更新规则，对吧？
+Okay? And then we are going to specify the SET update rule, right?
+
+570
+00:38:31,269 --> 00:38:35,810
+在这里你可以看到，我们有一个学习率，它是一个常数。
+So here you can see, uh, we have a learning rate, which is a constant.
+
+571
+00:38:35,810 --> 00:38:42,309
+从TF的梯度计算中，我们得到了计算出的梯度，也就是W grad，下划线grad。
+From the TF grading, we have the calculated gradient, which is W grad, underscore grad.
+
+572
+00:38:42,309 --> 00:38:48,709
+然后我们把它们放在一起处理，再用W从原始数据中管理它，得到下一个re W。
+And we market them together, and then we manage it from the original with W. We get the next re W.
+
+573
+00:38:48,709 --> 00:38:53,269
+回想一下我们一开始讲的主方程活动，好吗？
+So recall that master equation activity at the beginning, okay?
+
+574
+00:38:54,429 --> 00:38:58,589
+这里有一件非常奇怪的事情要说。
+And here comes to something that is really weird, okay?
+
+575
+00:38:58,589 --> 00:39:04,169
+你可以看到，其实程序最后真的在这里运行了。
+And you can see, actually the program actually run here at the end.
+
+576
+00:39:04,169 --> 00:39:08,969
+所以基本上，我刚才展示的所有这行代码，其实都是在定义计算图。
+So basically, all the code I showed about this line is basically defining the graph.
+
+577
+00:39:08,969 --> 00:39:12,329
+试图声明这个计算图，但它实际上是在最后才运行的。
+Try to declare the graph, but it actually runs at the end.
+
+578
+00:39:12,329 --> 00:39:14,389
+好的，我来解释一下这是为什么。
+Okay. I'm going to explain this because this is
+
+579
+00:39:14,389 --> 00:39:18,549
+这在各种框架的边界处理中是非常重要的事情。
+a very important thing in margining frameworks, okay?
+
+580
+00:39:19,790 --> 00:39:25,489
+但在我解释这里的执行机制之前，你可以看到……
+So but before I explain the mechanism, the execution mechanism here, so you can see, what
+
+581
+00:39:25,489 --> 00:39:30,450
+这背后发生的事情基本上是，每当你调用TFEPTflowEPI时，
+happens behind the scenes, basically, whenever you call the TFEPTflowEPI
+
+582
+00:39:30,450 --> 00:39:34,409
+去定义或编写一些运算时，TensorFlow基本上会
+to define to write some competition, uh, the tener flow will basically
+
+583
+00:39:34,409 --> 00:39:39,309
+尝试理解你在程序中写的内容，并试图在这里构建一个图结构，对吧？
+try to comprehend what you wrote in program and try to construct a graph structure here, right?
+
+584
+00:39:39,309 --> 00:39:43,090
+所以每当你写一行代码时，基本上就是添加了一个操作符，TF基本上会
+So every time you write one line, you basically add a one operator and the TF will basically
+
+585
+00:39:43,090 --> 00:39:47,070
+在后台维护TF流图，明白吗。
+maintain TF flow graph, behind, okay.
+
+586
+00:39:47,409 --> 00:39:52,249
+然后你继续编写损失函数或其他内容，TF就会不断地
+And you keep writing the loss function or whatever, so the TF will keep
+
+587
+00:39:52,249 --> 00:39:55,010
+在这个图中构建更多的节点。
+constructing one more nodes into this graph.
+
+588
+00:39:55,010 --> 00:40:00,529
+一旦你调用TF梯度，它会自动执行自动微分，并尝试
+And once you call the TF gradient, it will automatically perform auto Div and try to
+
+589
+00:40:00,529 --> 00:40:04,089
+推导出我们称之为反向图的图结构，对吧？
+derive a graph that we call backward graph, right?
+
+590
+00:40:04,089 --> 00:40:09,150
+反向图会从前向图中获取一些输入，然后它基本上会反向
+The backward graph will take some inputs from the forward graph, and it will basically reverse
+
+591
+00:40:09,150 --> 00:40:13,009
+图会按照一些数学规则进行处理，这些规则遵循反向传播，对吧？
+the graph using some mathematical rules, which is follow back propagation, okay?
+
+592
+00:40:13,009 --> 00:40:16,089
+它们基本上会被连接在一起。
+And it will basically connect them together.
+
+593
+00:40:16,089 --> 00:40:21,889
+好的，当你进行open matter声明和section运行时，
+Okay. And when you do open matter declaration and when you do section run,
+
+594
+00:40:21,889 --> 00:40:23,730
+它们实际上会触发一个计算图。
+they basically trigger a graph.
+
+595
+00:40:23,730 --> 00:40:27,789
+然后数据会从第一个节点流向最后一个节点，再返回来。
+And then the data will flow from the first node to last node and then come back.
+
+596
+00:40:27,789 --> 00:40:31,890
+是的，这就是TensorFlow为你的机器学习程序所做的事情。
+Yeah. This is what tender flow does, for your machining program.
+
+597
+00:40:31,890 --> 00:40:36,149
+如果你不熟悉也没关系，
+Okay, um, if you're not familiar with it's fine because we
+
+598
+00:40:36,149 --> 00:40:37,529
+我们之后还会再回到这个话题。
+are going to come back to this again. Okay.
+
+599
+00:40:37,529 --> 00:40:43,390
+但让我们先讨论几个问题。
+But let us discuss a few problems or questions.
+
+600
+00:40:43,390 --> 00:40:51,329
+第一个问题是，计算图抽象有什么好处？比如说，它有哪些优点？
+The first one is, what are the benefits of computing graph abstraction? Like, what are the pros?
+
+601
+00:40:52,610 --> 00:40:59,550
+抱歉？是的。正如你所看到的，这非常强大，因为它是一个图的结构，
+Sorry? Yeah. So it's very powerful, as you can see, because it's a graph orientation,
+
+602
+00:40:59,550 --> 00:41:03,089
+只要你有一个原语，你就可以表示任何类型的动画，对吧？
+you can't represent any kind of amation as long as you have a primitive, right?
+
+603
+00:41:03,089 --> 00:41:05,409
+好的。而且它非常简洁。
+Okay. And it's very clean.
+
+604
+00:41:05,409 --> 00:41:08,849
+一旦你有了这个图，你就可以对这个图进行提问。
+Once you take this graph, you can ask you the graph.
+
+605
+00:41:09,770 --> 00:41:15,349
+那么，给定这个图，在这个图上有哪些可能的实现和实现方式？
+So given this graph, what are the possible implementations and implementations on this graph?
+
+606
+00:41:15,349 --> 00:41:17,570
+也许我们会专注于实现。
+Maybe we'll focus on implementation.
+
+607
+00:41:17,570 --> 00:41:21,809
+如果我们要专注，如果我们基本上要对这个图进行提问，
+If we are going to focus, if we are going to basically ask you this graph,
+
+608
+00:41:21,809 --> 00:41:24,450
+我们如何让它运行得更快。
+how we can make it faster.
+
+609
+00:41:25,850 --> 00:41:31,299
+实际上，这个数据图为我们优化提供了一个完美的平台
+Actually, this data photograph provides a perfect platform for us to optimize
+
+610
+00:41:31,299 --> 00:41:38,299
+因为你可以在这个图上应用任意的图解析和图分析算法。
+because you probably can apply arbitrary graph parsing and graph analyzing algorithm on the graph.
+
+611
+00:41:38,299 --> 00:41:41,879
+你尝试缩小图的规模，比如说你尝试合并一些节点，
+You try to reduce the size of the graph, for example, you try to field some nodes,
+
+612
+00:41:41,879 --> 00:41:47,199
+然后你尝试切割图，也许把一半放在一个设备上，另一半放在第二个设备上，
+and you try to cut graph, maybe put one half on one device, the other half on the second device,
+
+613
+00:41:47,199 --> 00:41:48,659
+你尝试让这个图并行化。
+you try to paralyze this graph.
+
+614
+00:41:48,659 --> 00:41:52,859
+所以你可以看到，这个图也带来了很多可能的组织方式。
+So as you can see, this graph also enables a lot of possible organizations.
+
+615
+00:41:52,859 --> 00:41:56,879
+所以在接下来的几节课中，我们基本上会对这个图进行优化，
+So in the next few classes, we are going to basically optimize this graph
+
+616
+00:41:56,879 --> 00:41:59,220
+因为这个图代表了机器学习程序。
+because this graph represents the machine learning programs.
+
+617
+00:41:59,220 --> 00:42:02,899
+我们会讨论所有让这个图运行得更快的方法。
+And we are going to discuss all the ways how we can make the graph faster.
+
+618
+00:42:03,300 --> 00:42:12,899
+那么第三个问题，这个图的缺点是什么？好吧。
+Then the third question, what are the cons of the graph? Okay.
+
+619
+00:42:12,899 --> 00:42:17,840
+这个计算图的一个主要瓶颈就是它非常静态。
+One major bottleneck of this computer graph is very static.
+
+620
+00:42:17,840 --> 00:42:20,639
+你定义好之后，就不能再改变它了。
+You define it, then you cannot change it.
+
+621
+00:42:20,639 --> 00:42:23,659
+你定义了计算后就不能再更改它了。
+You define the compution then you cannot change it.
+
+622
+00:42:23,659 --> 00:42:27,119
+计算图已经在这里了，而且很难去修改这个计算过程。
+The graph is here and it's very hard to alter the computation.
+
+623
+00:42:27,119 --> 00:42:28,974
+基本上你需要重新定义这个计算图。
+You basically need to redefine the graph.
+
+624
+00:42:28,974 --> 00:42:32,690
+但实际上，很多计算过程都是非常动态的。
+So in reality, many many computations are very dynamic.
+
+625
+00:42:32,690 --> 00:42:35,769
+比如说，计算图可以根据你的输入发生变化。
+For example, the graph can change depending on your input.
+
+626
+00:42:35,769 --> 00:42:41,409
+举个例子，如果你写“person wrote slaps”，你通常会用类似if的语句。
+For example, if you write person wrote slaps you probably usually use something like if
+
+627
+00:42:41,409 --> 00:42:43,849
+如果我的值大于某个值，我就要做某件事，
+my value is greater than what I'm going to do something,
+
+628
+00:42:43,849 --> 00:42:46,209
+否则，我就要做别的事情，对吧？
+otherwise, I'm going to do something else, right?
+
+629
+00:42:46,209 --> 00:42:50,930
+你可以想象，如果有一个机器学习模型做类似的事情，
+And you can imagine if there's a machinery model does something similar,
+
+630
+00:42:50,930 --> 00:42:53,609
+如果我的张量值大于某个值，
+if my tensor value is greater than something,
+
+631
+00:42:53,609 --> 00:42:57,429
+我想问你那个图，不然我就问你另一个图。
+I want to ask you that graph, otherwise, I ask you another graph.
+
+632
+00:42:57,630 --> 00:43:00,670
+实际情况是你其实并不了解你的输入。
+The reality is you actually don't know your input.
+
+633
+00:43:00,670 --> 00:43:04,449
+你的输入基本上是由其他地方生成的一些数据，
+Your input is basically some data generated by somewhere else,
+
+634
+00:43:04,449 --> 00:43:07,810
+而屏幕的模式可能非常动态。
+and the screen pattern can be very dynamic.
+
+635
+00:43:07,810 --> 00:43:12,770
+但你可以看到这个数据流图是相当静态的，所以它只能表示静态的东西。
+But you can see this data flow graph is pretty static, so it can only represent static things.
+
+636
+00:43:12,770 --> 00:43:18,389
+好的，酷。到目前为止有什么问题吗？
+Okay. Cool. Any questions so far?
+
+637
+00:43:18,830 --> 00:43:22,769
+那么接下来我们要进入一个更，
+Okay, then we are going to move into a more,
+
+638
+00:43:22,769 --> 00:43:27,129
+我会说是更现代的版本，另一种风格，就是Petrich。
+I would say modern version, a different flavor, which is Petrich.
+
+639
+00:43:27,129 --> 00:43:32,010
+好吗？呃，Petrich其实也使用数据流图。
+Okay? Uh, Petrich actually also use, um, dataflow graphs.
+
+640
+00:43:32,010 --> 00:43:34,795
+但他们使用数据流的方式非常不同。
+But the way that they use data flow is quite different.
+
+641
+00:43:34,795 --> 00:43:41,320
+这里有一个非常好的，呃，呃，例子，展示了你开始编写Petro程序时，底层发生了什么。
+So here is a very nice, uh, uh, illustration of what happens under the hood when you start writing
+
+642
+00:43:41,320 --> 00:43:42,779
+对吧？
+Petro programs, right?
+
+643
+00:43:42,779 --> 00:43:48,679
+你可以看到，这和我之前展示的例子不同，之前是你定义一个图，
+You can see different from the previous example I showed where you define a graph and
+
+644
+00:43:48,679 --> 00:43:53,180
+然后你记得最后有一个session的run操作来触发执行。
+then you remember there's a session door run at the end, which will trigger the execution.
+
+645
+00:43:53,180 --> 00:43:54,860
+在Petrogs中则完全不同。
+In Petrogs quite different.
+
+646
+00:43:54,860 --> 00:43:58,839
+每当你写一行代码时，你实际上可以立刻执行这一行代码。
+Whenever you write the line of code, you can actually immediately ask you a line of code.
+
+647
+00:43:58,839 --> 00:44:02,660
+你会立即得到结果。这和你使用Python的方式非常非常相似。
+You will get results. It's very, very similar to how you use Python.
+
+648
+00:44:02,660 --> 00:44:06,859
+在底层，petri的做法基本上是，每当你写
+Right under the hood what petri does is basically whenever you write
+
+649
+00:44:06,859 --> 00:44:11,059
+某一行代码时，这一行代码就会为计算图贡献一个组件，
+some line of code that will basically contribute to a component of the graph,
+
+650
+00:44:11,059 --> 00:44:13,639
+Petrog会动态地约束这个计算图。
+Petrog will dynamically constrain the graph.
+
+651
+00:44:13,639 --> 00:44:16,339
+与此同时，它会为你触发执行。
+And meanwhile, it will trigger the excusion for you.
+
+652
+00:44:16,339 --> 00:44:18,479
+所以你可以在任何一行都得到结果，
+So you can always get results at any line,
+
+653
+00:44:18,479 --> 00:44:21,159
+如果你在中间加一个打印，你就会得到结果。
+If you add a print in the middle, you will get the results.
+
+654
+00:44:21,159 --> 00:44:24,784
+但在前面的例子里，如果你加一个打印，是没有结果的，明白吗。
+But in the previous example, if you add a print, there's no results, okay.
+
+655
+00:44:24,784 --> 00:44:30,409
+嗯，抱歉。
+Yeah. Sorry.
+
+656
+00:44:32,930 --> 00:44:34,670
+是的，没错。
+Yes, exactly.
+
+657
+00:44:34,670 --> 00:44:36,509
+我会在下一步讲这个问题。
+I'm going to talk about that in my next step.
+
+658
+00:44:36,509 --> 00:44:39,589
+希望大家能理解这个区别，对吧？
+I hope you guys understand this difference, right?
+
+659
+00:44:39,589 --> 00:44:45,710
+第一个更像是符号声明，而这个更像是一种风格，
+The first one is more like a symbolic declaration, but this one is more like a flavor,
+
+660
+00:44:45,710 --> 00:44:49,489
+在 Python 里，我们确实有一个专门的名字，好吗？
+Pythonic, we do have a name for them, okay?
+
+661
+00:44:49,489 --> 00:44:54,870
+我们把第一个称为符号式程序，把第二个称为命令式程序，
+We call the first one a symbolic program, and we call the second one imperative program,
+
+662
+00:44:54,870 --> 00:45:00,170
+这基本上把现有的新兴框架分为两类。
+this basically classifies the existing emerging frameworks into two categories.
+
+663
+00:45:00,170 --> 00:45:01,570
+一类是符号式框架。
+One is symbolic frameworks.
+
+664
+00:45:01,570 --> 00:45:03,395
+另一类是命令式框架。
+The other is imperative frameworks.
+
+665
+00:45:03,395 --> 00:45:08,059
+我认为你们大多数人现在用的基本上属于第二类。
+And I think most of you what you use today is basically belonging to the second class.
+
+666
+00:45:08,059 --> 00:45:11,220
+因为你们已经能理解为什么第二类更受欢迎了。
+Because you can already reason why the second class is more popular.
+
+667
+00:45:11,220 --> 00:45:13,039
+它更直观，因为
+It's more intuitive, because
+
+668
+00:45:13,039 --> 00:45:15,999
+我总是想在中间打印一些东西，以确保
+I always want to print something in the middle and to make sure
+
+669
+00:45:15,999 --> 00:45:17,979
+我的程序能正确运行，对吧？
+that my program runs correctly, right?
+
+670
+00:45:17,979 --> 00:45:19,119
+好的。
+Okay.
+
+671
+00:45:19,119 --> 00:45:22,459
+正如我在这张幻灯片中已经指出的。
+And as I already pointed out in this slide.
+
+672
+00:45:22,459 --> 00:45:25,460
+关键的区别基本上在于符号式编程，
+The key difference is basically in symbolic programming,
+
+673
+00:45:25,460 --> 00:45:28,259
+你的工作流程被称为“先定义再运行”。
+you do workflow which is called define then run.
+
+674
+00:45:28,259 --> 00:45:31,099
+你首先定义计算过程，然后再运行它。
+You first define the competition, then you write it.
+
+675
+00:45:31,099 --> 00:45:35,959
+在命令式编程中，你是边定义边运行，你定义了就可以运行。
+In imperative programming, you define and run, you define it and you can write.
+
+676
+00:45:35,959 --> 00:45:38,259
+你可以随时运行，对吧？
+You can write anytime, Okay?
+
+677
+00:45:39,030 --> 00:45:45,970
+我们接下来再详细讨论一下符号式和命令式的优缺点。
+Let's basically discuss a little bit more on the pros and cons of symbolic versus imperative.
+
+678
+00:45:45,970 --> 00:45:52,050
+对于符号式，我已经说过，它的好处是你必须先定义，才能运行。
+For symbolic, I already said, it's good because you cannot run it before you define.
+
+679
+00:45:52,050 --> 00:45:56,789
+但一旦你定义好了，你实际上就有了全局的视角，知道自己在做什么。
+But once you define, you actually have a global picture of what you are doing.
+
+680
+00:45:57,630 --> 00:46:02,149
+保持全局视角对系统开发者来说很有好处，因为我知道他们要做什么。
+Maintaining a global picture is good for system developers because I know what they are going to
+
+681
+00:46:02,149 --> 00:46:04,429
+以后可以做。我可以为你优化。
+do in the future. I can optimize for you.
+
+682
+00:46:04,429 --> 00:46:10,469
+一般来说，符号化的程序或框架更容易优化，因为我知道你的计算图，而且效率更高。
+In general, symbolic program or frameworks is easier to optimize because I know
+
+683
+00:46:10,469 --> 00:46:14,230
+你的计算图效率会高很多。
+your graph and it's much more efficient.
+
+684
+00:46:14,230 --> 00:46:16,070
+它可以变得更加高效。
+It could be turn more efficient.
+
+685
+00:46:16,070 --> 00:46:18,329
+这就是为什么你的程序实际上非常小巧。
+That's why your patgram is actually pretty smaw.
+
+686
+00:46:18,329 --> 00:46:19,895
+它有很大的优化空间。
+It has a lot of space to optimize.
+
+687
+00:46:19,895 --> 00:46:24,579
+好的，坏处我已经跟你说过了，对吧？
+Okay. The bad thing I already told you, right?
+
+688
+00:46:24,579 --> 00:46:30,860
+所以你编写符号化程序的方式其实非常反直觉。
+So the way that you program the symbolic program programs is very counterintuitive.
+
+689
+00:46:30,860 --> 00:46:32,640
+你必须定义设备。
+You have to define define device.
+
+690
+00:46:32,640 --> 00:46:34,979
+这对你的大脑来说有很大的负担。
+So it has a large overhead on your brain.
+
+691
+00:46:34,979 --> 00:46:36,339
+是的，你需要知道自己在做什么。
+Yeah, you need to know what you're doing.
+
+692
+00:46:36,339 --> 00:46:42,439
+是的。其次，调试非常困难，因为你无法知道结果，直到你
+Yeah. Secondly, it's very difficult to debug, because you cannot know the results until you
+
+693
+00:46:42,439 --> 00:46:45,579
+定义比赛并触发一次会话运行。明白吗？
+define the competition and trigger a session door run. Okay?
+
+694
+00:46:45,579 --> 00:46:48,114
+而且它的灵活性也不比我高。
+And it's not less flexible as I.
+
+695
+00:46:48,114 --> 00:46:49,950
+好的，对于命令式来说，
+Okay. For the imperative,
+
+696
+00:46:49,950 --> 00:46:51,729
+我认为它基本上是在另一边。
+I think it is basically on the other side.
+
+697
+00:46:51,729 --> 00:46:54,950
+所以它很好，因为非常灵活。
+So it's very good because it's very flexible.
+
+698
+00:46:54,950 --> 00:47:01,110
+你可以在程序中间添加任何打印语句或其他语句，
+You can add whatever print or whatever statement in the middle of the program,
+
+699
+00:47:01,110 --> 00:47:03,730
+你可以进行任何检查和调试。
+you can do whatever inspection, debugging.
+
+700
+00:47:03,730 --> 00:47:06,549
+编程非常容易，调试也非常容易。
+It's very easy to program and very easy to debug.
+
+701
+00:47:06,549 --> 00:47:08,589
+这就是为什么Python这么受欢迎，对吧？
+That's why Python is so popular, right?
+
+702
+00:47:08,589 --> 00:47:14,129
+但是bacon的效率很低，而且更难优化，
+But the bacon is very inefficient, and it's more difficult to
+
+703
+00:47:14,129 --> 00:47:19,369
+因为用户可以在中途完成图的构建，把图交给你，
+optimize because the user can finish the graph, finish the graph definitely in the middle and
+
+704
+00:47:19,369 --> 00:47:22,870
+你也不知道之后会发生什么。
+through it to you and you don't know what you're going to do in the future.
+
+705
+00:47:24,590 --> 00:47:27,569
+好的，这部分有什么疑问吗？
+Okay. Any concern on this part?
+
+706
+00:47:27,569 --> 00:47:31,609
+我可以解释清楚。好的。我猜你明白了，对吧？
+I can clarify. Cool. I assume you get it, right?
+
+707
+00:47:31,609 --> 00:47:38,709
+嗯，产品。我会讲这个。
+Yeah. Product. I will talk about that.
+
+708
+00:47:39,710 --> 00:47:43,230
+那我们来复习一下选择题。
+Then let's review MCQ.
+
+709
+00:47:43,590 --> 00:47:49,269
+以下哪种编程语言属于符号式和命令式的哪一类？
+Which category symbolic versus imperative is the following PL programming language belonging to.
+
+710
+00:47:49,269 --> 00:47:53,230
+这是基于我对符号式和命令式的定义来说的。
+In a sense of what I define as symbolic and imperative.
+
+711
+00:47:53,230 --> 00:47:56,570
+第一个，C++，是符号型还是命令型？
+First one, C plus plus, symbolic or imperative.
+
+712
+00:47:56,570 --> 00:47:59,809
+这绝对是符号型的，因为你不能直接写，你必须先编译它。
+It's definitely symbolic Because you cannot write, you have to compile it.
+
+713
+00:47:59,809 --> 00:48:03,390
+你需要等待。Python，当然是命令型的。
+You need to wait. Python. Of course, imperative.
+
+714
+00:48:03,390 --> 00:48:06,704
+它有解释器。那CQ呢？
+It has interpreter. How about CQ.
+
+715
+00:48:06,704 --> 00:48:10,939
+也是符号型的，你必须把SQL发给数据库，然后编译它。
+Also symbolic, you have to send a sequel to the dabs and compile it for
+
+716
+00:48:10,939 --> 00:48:12,639
+需要相当长的时间，然后再执行它。
+quite a long and then excv it.
+
+717
+00:48:12,639 --> 00:48:15,180
+如你所见，符号型和命令型其实
+As you can see, symbolic and imperative is actually
+
+718
+00:48:15,180 --> 00:48:18,340
+已经是编程语言中非常常见的事情了。
+a very common thing already in programming language.
+
+719
+00:48:18,860 --> 00:48:22,919
+接下来我要给你介绍一个非常有趣的现象。
+Then I'm going to give you a very interesting phenomenon.
+
+720
+00:48:22,919 --> 00:48:33,059
+我们知道Python是命令型的，它是定义和运行的，我们也知道TensorFlow是
+We know that Python is imperative it's defined and run PO, we also know that tender flow is
+
+721
+00:48:33,059 --> 00:48:40,639
+在运行机制框架中定义，确实，当你编写TensorFlow程序时，
+defined in run machinery framework, indeed, tender flow when you program tender flow,
+
+722
+00:48:40,639 --> 00:48:44,959
+你是在用Python编程。但这里存在一个冲突。
+you're programming Python. There's a conflict here.
+
+723
+00:48:44,959 --> 00:48:50,280
+TensorFlow是符号式的，但Python是命令式的。这是怎么发生的呢？
+TensorFlow is symbolic, but Python is imperative. So how did this happen?
+
+724
+00:48:51,760 --> 00:48:54,519
+其实，这很简单。
+Yeah, it's actually pretty simple.
+
+725
+00:48:54,519 --> 00:48:58,119
+你确实在用Python，但基本上TensorFlow会
+So you are indeed using Python, but basically tenser flow will
+
+726
+00:48:58,119 --> 00:49:00,119
+覆盖你写的所有Python接口。
+overwrite all those python interface you wrote.
+
+727
+00:49:00,119 --> 00:49:04,600
+它实际上给了你一个DSL，也就是领域特定语言。
+It actually give you a DSL which stands for domain specific language.
+
+728
+00:49:04,600 --> 00:49:06,819
+所以你从TensorFlow调用的所有接口，
+So all the interface you call from Tinder flow,
+
+729
+00:49:06,819 --> 00:49:08,980
+它们是在Python中的，但属于领域特定语言。
+they are in Python, but it's a domain specif language.
+
+730
+00:49:08,980 --> 00:49:11,279
+它对Python做了一些修改。
+It modifies Python a little bit.
+
+731
+00:49:11,800 --> 00:49:18,519
+这就是为什么在很多文献、很多网站上，人们通常会抱怨说
+That's why in many literatures, in many many websites, people usually complain saying
+
+732
+00:49:18,519 --> 00:49:21,459
+Petrox 比 tender flow 更符合 Python 风格。
+that Petrox is more Pythonic than tender flow.
+
+733
+00:49:21,459 --> 00:49:23,990
+它们都是 Python，但 Petros 更加接近 Python 的风格。
+They are both python, but Petros is slightly more python.
+
+734
+00:49:23,990 --> 00:49:30,279
+好的，酷。我希望你们已经理解了符号式和命令式的概念，对吧？
+Okay. Cool. I hope you guys get the concept of symbolic or imperative, right?
+
+735
+00:49:30,279 --> 00:49:33,759
+好吗？那我们接下来要做一些有趣的事情。
+Okay? Then we are going to do something fun.
+
+736
+00:49:33,759 --> 00:49:37,775
+我们要回顾一下机器学习框架的发展历史。
+We're going to review what's going on in the machinery framework history.
+
+737
+00:49:37,775 --> 00:49:44,029
+好的。基本上，就像我说的，我们可以把机器学习框架分为两类，对吧？
+Okay. So basically, like I said, we can classify the machinery frameworks into two class, right?
+
+738
+00:49:44,029 --> 00:49:46,230
+符号式和命令式。
+Symbolic and imperative.
+
+739
+00:49:46,230 --> 00:49:49,089
+我们可以画一个光谱，把所有这些框架放在这里。
+We can draw spectrum, and we put all these framework here.
+
+740
+00:49:49,089 --> 00:49:54,709
+好吗？这些基本上是我们过去十年开发的比较有名的框架。
+Okay? This is basically the relatively famous framework we developed in the past ten years
+
+741
+00:49:54,709 --> 00:49:56,390
+当这个行业开始的时候。
+when this industry starts.
+
+742
+00:49:56,390 --> 00:50:00,329
+你可以看到左边最左侧是Petrogs，右边最右侧是Frase。
+And you can see petrogs on the left extreme right frase on the right.
+
+743
+00:50:00,329 --> 00:50:04,470
+在Petrogenflow之间，有很多很多框架被开发出来，
+And between Petrogenflow, uh, there are many many frameworks developed,
+
+744
+00:50:04,470 --> 00:50:07,589
+比如说，第一个就是Cafe，对吧？
+for example, the very first one cafe, right?
+
+745
+00:50:07,589 --> 00:50:09,410
+它实际上是符号化的。
+It is actually symbolic.
+
+746
+00:50:09,410 --> 00:50:12,989
+还有Siano和Cafe 2。
+Uh, there are siano and Cafe, too.
+
+747
+00:50:12,989 --> 00:50:18,690
+还有一些框架，基本上是为了激励Petro，比如说面向中国的，
+And there are some frameworks that basically motivate Petro for example, towards China,
+
+748
+00:50:18,690 --> 00:50:24,689
+还有一个非常有名的叫DMLC MXNet，是由美国的几位学生开发的，
+and there's a very famous one called DMLC MXNet, which was developed by a few students in US,
+
+749
+00:50:24,689 --> 00:50:26,830
+但那个现在有点过时了。
+but that one is kind of audtd.
+
+750
+00:50:26,830 --> 00:50:29,890
+还有一个我开发的叫Dnites，也已经被淘汰了。
+And there's one I developed called Dnites also adated.
+
+751
+00:50:29,890 --> 00:50:34,950
+好吗？在这个光谱上，你可以看到，不同的框架有一些细微的差别。
+Okay? And on this spectrum, you can see, uh, different frameworks
+
+752
+00:50:34,950 --> 00:50:37,050
+有些框架有稍微不同的风格。
+have some slightly different flavors.
+
+753
+00:50:37,050 --> 00:50:40,810
+那为什么MXNet会在中间呢？
+So why N MXNet is in the middle.
+
+754
+00:50:42,290 --> 00:50:44,729
+它实际上有两种编程模式。
+It actually had two programming mode.
+
+755
+00:50:44,729 --> 00:50:48,115
+是的，你可以切换成符号式或者命令式。
+Yeah, you can switch symbolic or, like, imperative.
+
+756
+00:50:48,115 --> 00:50:55,319
+好的。随着时间推移，你知道有些框架会变得过时，对吧？
+Okay. As time goes, you know, some frameworks become outdated, right?
+
+757
+00:50:55,319 --> 00:51:00,439
+它们不是主流，有些框架有更大的社区，所以维护得更好。
+They are not and some frameworks have a larger community, so they are being maintained better.
+
+758
+00:51:00,439 --> 00:51:02,724
+这就是现在的情况。
+And this is what happened today.
+
+759
+00:51:02,724 --> 00:51:05,490
+我们大致只剩下三个框架了，好吗？
+We roughly just have three frameworks, okay?
+
+760
+00:51:05,490 --> 00:51:07,309
+比如 TensorFlow。
+Pero Tinder flow.
+
+761
+00:51:07,309 --> 00:51:10,309
+还有一个叫Jax的。
+And there's one more called Jax.
+
+762
+00:51:10,309 --> 00:51:11,790
+好的，也是谷歌的。
+Okay, also from Google.
+
+763
+00:51:11,790 --> 00:51:14,789
+你可以把Jack看作是TensorFlow的一个衍生版本。
+And you can think Jack is a derivative from tender flow.
+
+764
+00:51:14,789 --> 00:51:16,589
+好的，它更轻量一些。
+Okay. It's more lightweight one.
+
+765
+00:51:16,589 --> 00:51:20,430
+呃，TensorFlow曾经在我看来是个杰作。
+Uh, Tender flow used to be, in my opinion, masterpiece.
+
+766
+00:51:20,430 --> 00:51:23,829
+好的，下周我们要读TensorFlow的论文。
+Okay. Next week, we're going to read Tener flow paper.
+
+767
+00:51:23,829 --> 00:51:25,770
+是的，那已经是必读内容了。
+Yeah, that's a require already.
+
+768
+00:51:25,770 --> 00:51:27,270
+TensorFlow绝对是个杰作。
+Tender flow is definitely a masterpiece.
+
+769
+00:51:27,270 --> 00:51:30,550
+它是由很多优秀的谷歌工程师编写的。
+It's written by so many like excellent google engineers.
+
+770
+00:51:30,550 --> 00:51:35,734
+但不幸的是，你知道的，团队太大也不总是好事。
+But unfortunately, uh, you know, uh, it's not always good to have a big team.
+
+771
+00:51:35,734 --> 00:51:40,599
+是的。人们开始争论，并试图为Tenner flow贡献不同的组件，
+Yeah. And people start fighting and they try to contribute different components in Tenner flow,
+
+772
+00:51:40,599 --> 00:51:43,660
+这导致了interflow社区中出现了很多政治斗争。
+which result into a lot of politics in interflow community.
+
+773
+00:51:43,660 --> 00:51:49,139
+你可以看到Tinnerflow在某个阶段，Github上合并了很多随机的功能，
+And you can see Tinnerflow at some point has so many random features merged into their Github and,
+
+774
+00:51:49,139 --> 00:51:53,440
+嗯，人们开始感到困惑，尤其是用户变得很困惑。
+uh, people start getting confused, especially users getting confused.
+
+775
+00:51:53,440 --> 00:51:58,699
+Piers，这是比tinder flow晚得多的一个框架，
+Uh, Piers, which is much much later framework than tinder flow,
+
+776
+00:51:58,699 --> 00:52:05,019
+他们的团队非常小而精干，并且只有一个明确的目标，就是我们要
+they have a very small and lean team and they have one like solitary goal that is we are going to
+
+777
+00:52:05,019 --> 00:52:07,540
+构建最具命令式的框架。
+build the most imperative framework.
+
+778
+00:52:07,540 --> 00:52:10,440
+明白吗？他们不信任tinder flow的路线图。
+Okay? They don't trust tinder flows like roadmap.
+
+779
+00:52:10,440 --> 00:52:14,910
+他们不相信符号式，只做命令式，而且做得非常极致。
+They don't trust symbolic. They just do imperative, and they do it in the extreme.
+
+780
+00:52:14,910 --> 00:52:19,680
+很快它就在你们这些人中间，特别是学生群体中变得非常受欢迎。
+And it quickly gains a lot of popularity from especially you guys, like students.
+
+781
+00:52:19,680 --> 00:52:24,139
+学生和研究人员非常推崇Petroch。
+And people students and researchers, they endorse Petrich a lot and
+
+782
+00:52:24,139 --> 00:52:26,560
+Petro变得越来越受欢迎。
+Petro become more and more popular.
+
+783
+00:52:26,560 --> 00:52:32,260
+在某个时候，我认为Petrog在这里的市场甚至比Center flow还要大，对吧？
+And at some point, I think Petrog has even larger market here than Center flow today, okay?
+
+784
+00:52:32,260 --> 00:52:36,659
+Jack是一个框架，是Center flow团队开发的。
+And Jack is some framework that, you know, Center flow people build.
+
+785
+00:52:36,659 --> 00:52:38,959
+他们不喜欢Center flow，于是出来单干，
+They hit Center flow, so they come out and spin off
+
+786
+00:52:38,959 --> 00:52:45,694
+并且开发了另一个叫做Jax的框架，这个框架主要在Google，尤其是在TPU上使用，对吧？
+and build another framework called Jax which was used, um, in Google, especially on TPUs, okay?
+
+787
+00:52:45,694 --> 00:52:53,050
+这里基本上展示了一个趋势，或者说是
+And here is basically the trend or maybe a reflection
+
+788
+00:52:53,050 --> 00:52:56,150
+tinder floor和Petroc市场份额的对比。
+of the market share of tinder floor versus Petroc.
+
+789
+00:52:56,150 --> 00:53:01,489
+你可以看到，一开始有很多人基于tender floor开发。
+As you can see, at the beginning, um, so many people are built on tender floor.
+
+790
+00:53:01,489 --> 00:53:07,949
+但是Petro出现后，他们开始蚕食tinder flow的市场份额。
+But uh Petro comes out and they start eating the shares eating the market of tinder flow.
+
+791
+00:53:07,949 --> 00:53:10,849
+今天，如果你们去看
+And Today, if you look at
+
+792
+00:53:10,849 --> 00:53:15,670
+Hugging Face 上的大多数模型，基本上都是基于Petros的。对吧。
+Hugging fins most of the models are basically Petros. Yeah.
+
+793
+00:53:15,670 --> 00:53:16,909
+好的。
+Okay.
+
+794
+00:53:16,909 --> 00:53:23,170
+嗯，这就是我之前跟你们说过的，为什么Petros能赢得市场的一个原因，
+Uh, reason that's one reason that I told you about why Petrich wins the market,
+
+795
+00:53:23,170 --> 00:53:24,930
+即使它是一个后来的框架。
+even if it was a later framework.
+
+796
+00:53:24,930 --> 00:53:30,149
+但我希望你们可以去读一些相关文章，自己搜索一下，试着思考
+But I would like you guys to probably read some articles from, do some search and try to think
+
+797
+00:53:30,149 --> 00:53:31,549
+这个问题，好吗？
+about this squat yourself, okay?
+
+798
+00:53:31,549 --> 00:53:33,849
+为什么？为什么Petros能赢？
+Why? Why Petro can wins?
+
+799
+00:53:33,849 --> 00:53:37,809
+是的。因为在机器学习系统中，嗯，变化非常快，
+Yeah. Because machining systems, uh, things change pretty quickly,
+
+800
+00:53:37,809 --> 00:53:41,910
+如果你的编程能力很强，你甚至可以自己创建一个框架。
+um, if you are pretty good at coding, you can go create your own framework.
+
+801
+00:53:41,910 --> 00:53:46,189
+你有机会。是的。通过在这个案例中学习，你很可能可以创造下一个能够
+You have a chance. Yeah. By study in this case, you probably can create the next port which
+
+802
+00:53:46,189 --> 00:53:49,254
+赢得市场的产品。是的。
+will win the market piracy. Yeah.
+
+803
+00:53:49,254 --> 00:53:53,159
+好的，有什么问题吗？
+Okay. Any question?
+
+804
+00:53:53,680 --> 00:53:55,920
+没有，我们继续吧。
+No, let's continue.
+
+805
+00:53:55,920 --> 00:54:02,439
+就像我刚才说的，如果你知道这些幻灯片之间的区别，你可以看到，
+So as I said, uh, if you know the difference between slides, you can see,
+
+806
+00:54:02,439 --> 00:54:07,839
+实际上，如果你比较Pitrg和TensorFlow的编程风格，
+actually, uh, if you compare the programming flavor of Pitrg and tender flow,
+
+807
+00:54:07,839 --> 00:54:10,599
+它们都向中间靠拢了一些。
+they all move into the middle a little bit.
+
+808
+00:54:10,599 --> 00:54:15,360
+一开始，Pitrg是一个非常命令式的框架，
+Like at the beginning, Petrog is extremely imperative framework,
+
+809
+00:54:15,360 --> 00:54:18,030
+TensorFlow则是一个非常符号式的框架。
+tender flow is a very symbolic framework.
+
+810
+00:54:18,030 --> 00:54:22,240
+但随着时间的推移，越来越多的功能被加入到这些框架中，
+But as time goes, more and more features being incorporated into the framework,
+
+811
+00:54:22,240 --> 00:54:29,219
+他们变得处于中间状态，可以做一些符号式的，也可以做一些命令式的事情。
+they become like in the middle, they can do some sort of symbolic, some sort of um, imperative.
+
+812
+00:54:29,219 --> 00:54:32,419
+是的，这和美国的政治非常不同，对吧？
+Yeah, it's very different from United States politics, right?
+
+813
+00:54:32,419 --> 00:54:38,460
+嗯，原因是因为人们发现了一种新技术。
+And uh, the reason is because, uh, people discovered a new technique
+
+814
+00:54:38,460 --> 00:54:40,580
+这种技术叫做即时编译。
+called just in time compilation.
+
+815
+00:54:40,580 --> 00:54:42,919
+好吗？我们接下来会稍微讲一下这个。
+Okay? So we're going to cover that a little bit.
+
+816
+00:54:42,919 --> 00:54:45,200
+那么什么是即时编译呢？
+So what is just in time compilation?
+
+817
+00:54:45,200 --> 00:54:48,939
+那么想一想这个，同时也回答你的问题。
+So think about this, ideally, also to answer your question.
+
+818
+00:54:48,939 --> 00:54:56,239
+理想情况下，我们希望在开发过程中能够定义并运行，但我们并不确定。
+Ideally, we want some sort of define and run during during development, we are not sure.
+
+819
+00:54:56,239 --> 00:54:57,980
+我们对我们的模型并不确定。
+We are not sure about our models.
+
+820
+00:54:57,980 --> 00:54:59,520
+我们对我们的算法也不确定。
+We are not sure about our algorithms.
+
+821
+00:54:59,520 --> 00:55:03,479
+我们尝试做一些有利于调试的事情，对吧？
+We try to do something that is friendly to debugging, right?
+
+822
+00:55:03,479 --> 00:55:07,740
+所以我们希望在开发过程中定义并运行。
+So we want to define and run during our development.
+
+823
+00:55:07,740 --> 00:55:12,119
+一旦我们确定了模型，并且非常确定我们的算法能正常工作。
+And once we lock down the model, we are pretty sure our algorithm is going to work.
+
+824
+00:55:12,119 --> 00:55:14,419
+我们就需要一些高性能的东西，对吧。
+We want something that is performance, right.
+
+825
+00:55:14,419 --> 00:55:18,725
+所以我们希望在部署时定义然后运行。
+So we want to define then run using during deployment.
+
+826
+00:55:18,725 --> 00:55:24,949
+那么GIT想要实现的，基本上就是结合两者的优点。
+Then what GIT tries to achieve is basically we try to combine the best of both words.
+
+827
+00:55:24,949 --> 00:55:29,529
+所以你要做的就是在开发模式下，你仍然可以写这种代码，比如
+So what do you do is basically in DV mode, you still write this kind of code like
+
+828
+00:55:29,529 --> 00:55:32,229
+你可以调试，可以插入任何打印语句。
+petrogyde you can debug, you can insert any print.
+
+829
+00:55:32,229 --> 00:55:36,439
+但一旦你锁定了代码，你要做的就是可以添加一个，呃，现在，
+But once you lock down the code, what you do is you can add a uh, today,
+
+830
+00:55:36,439 --> 00:55:38,599
+我认为目前最著名的get框架是
+I think the most famous get framework from
+
+831
+00:55:38,599 --> 00:55:41,459
+Petrot 被称为 Tochi 编译，对吗？
+Petrot is called Tochi compile, right?
+
+832
+00:55:41,459 --> 00:55:47,240
+嗯，你可以定义更多其他函数，然后用装饰器修饰接口，这就叫做 Toyo 编译。
+Uh, you can define a more other function, then you decorate interface, which is called Toyo comple.
+
+833
+00:55:47,240 --> 00:55:50,160
+那这个 Toch 编译基本上是做什么的？
+What does this Toch comple do basically?
+
+834
+00:55:50,160 --> 00:55:52,200
+它基本上会“扭曲”你的程序。
+It will basically twist down your program.
+
+835
+00:55:52,200 --> 00:55:54,840
+好的。它会阻止程序立刻执行。
+Okay. It will stop it from executing immediately.
+
+836
+00:55:54,840 --> 00:55:58,319
+明白了吗？它基本上会尝试“扭曲”你当前的程序
+Okay? It will basically, try to twist down your present program
+
+837
+00:55:58,319 --> 00:56:01,620
+并且会做一些类似于 interflow 的事情。
+and it will do something similar to interflow.
+
+838
+00:56:01,620 --> 00:56:07,699
+是的，我会把所有传递的代码转换成类似我在
+Yeah, I convert all the passing code erode into something something I showed in
+
+839
+00:56:07,699 --> 00:56:14,099
+interflow 第一个例子中展示的那样，其实我没有让它逐行执行，
+the first example in interflow I basically started not stop avoid executing it my line,
+
+840
+00:56:14,099 --> 00:56:20,020
+而是会追踪所有程序，并尝试把数据流图构建成一个全局图。
+but it will trace all the programs and try to construct the dataflow graph as a global graph,
+
+841
+00:56:20,020 --> 00:56:25,080
+然后它会将其优化到极致，然后再执行。
+then it will optimize it to the extreme and then it will execute.
+
+842
+00:56:25,080 --> 00:56:29,760
+这意味着在这个程序中，如果你没有用 torch.dot 编译器进行装饰，
+Which Which means that in this program, if you don't decorate the torch dot compiler,
+
+843
+00:56:29,760 --> 00:56:31,680
+你可以在中间添加打印语句。
+you can add print statement in the middle.
+
+844
+00:56:31,680 --> 00:56:33,279
+但一旦你装饰了它，你就不能这么做了。
+But once you decorate it, you cannot.
+
+845
+00:56:33,279 --> 00:56:37,219
+明白了吗？是的，它基本上会把传递的 ggramt 转换成另一个程序。
+Okay? Yeah, it will basically convert that passing ggramt another program.
+
+846
+00:56:37,219 --> 00:56:38,839
+好的。
+Okay.
+
+847
+00:56:39,080 --> 00:56:43,180
+是的，这是一种非常懒惰的技术，我们将有一位嘉宾
+Yeah, this is a pretty lazy technique, and we are going to have a guest speaker
+
+848
+00:56:43,180 --> 00:56:47,800
+来给我们讲讲 GIT，因为这是 Pirch 社区中最酷的技术之一，
+coming to us to talk about GIT, because this is one of the coolest technology
+
+849
+00:56:47,800 --> 00:56:50,179
+现在在 Pirch 社区非常流行，好吗？
+today in Pirch Community, okay?
+
+850
+00:56:50,179 --> 00:56:52,219
+那我来问你一个问题。
+Then let me ask you a question.
+
+851
+00:56:52,219 --> 00:56:54,480
+GIT 有什么问题？
+What's the problem with GIT?
+
+852
+00:57:03,200 --> 00:57:07,239
+没错。T 只能用 JET 学习图结构。
+Exactly. T can only jet study graph.
+
+853
+00:57:07,239 --> 00:57:12,319
+但你可以想象，如果这是在处理实际代码，会有很多奇怪的 if else。
+But you can imagine if this is up in passing code, it will have a lot of weird things if else,
+
+854
+00:57:12,319 --> 00:57:17,520
+基本上它有很多条件排除，这意味着这个玩具编译器
+four, it basically has a lot of conditional exclusion, which means that the toy comple
+
+855
+00:57:17,520 --> 00:57:19,180
+实际上有很多限制。
+actually has a lot of limitations.
+
+856
+00:57:19,180 --> 00:57:25,934
+如果你的模式程序或者 Do 模式程序非常动态，JET 就无法工作。
+If your patent program is or your Do mode program is very dynamic, the JET will not work.
+
+857
+00:57:25,934 --> 00:57:27,149
+好的。
+Okay.
+
+858
+00:57:27,149 --> 00:57:33,630
+那我们来总结一下，基本上它需要静态图、静态程序。
+Then we are going to to summarize, basically, it requires static graphs, static programs.
+
+859
+00:57:33,630 --> 00:57:37,289
+好的，但我们确实有一些解决方案。
+Okay. But we do have a few solutions, okay?
+
+860
+00:57:37,289 --> 00:57:39,650
+但在我深入讲解决方案之前，
+But before I dive into the solutions,
+
+861
+00:57:39,650 --> 00:57:42,249
+我想先介绍另一个概念，可以吗？
+I want to first introduce another concept, okay?
+
+862
+00:57:42,249 --> 00:57:45,990
+我觉得我们需要花很多时间来介绍符号式和命令式的区别。
+I think we have to spend a lot of time on introducing symbolic versus imperative.
+
+863
+00:57:45,990 --> 00:57:51,670
+现在我要介绍第二十一项内容，就是静态模型和动态模型的区别。
+Now I'm going to introduce 21 more thing that is static versus dynamic models.
+
+864
+00:57:51,670 --> 00:57:54,309
+好的。那么什么是静态模型？什么是动态模型？
+Okay. So what is static model? What is dynamic model?
+
+865
+00:57:54,309 --> 00:57:57,149
+那么我们先来看一下它们有什么不同。
+So let's first see how they differ.
+
+866
+00:57:57,149 --> 00:58:01,589
+好的。那么CNN是一个静态模型，对吧？
+Okay. So CNN is a static model, right?
+
+867
+00:58:01,589 --> 00:58:03,129
+为什么CNN是静态模型？
+Why CN is a static model?
+
+868
+00:58:03,129 --> 00:58:08,749
+因为，在像CNN这样的静态模型中，我们有一些操作符，比如
+Because, so in static model like CN, right, uh, we have a few operators here is
+
+869
+00:58:08,749 --> 00:58:10,969
+卷积、池化，还有另一个卷积，对吧？
+count two pool. Another count two, right?
+
+870
+00:58:10,969 --> 00:58:15,029
+我们把它们组合在一起，构成了数据流图。
+We come together, we compose the dataflow graph.
+
+871
+00:58:15,029 --> 00:58:21,849
+所以这里的关键点是，无论你有什么样的数据，你都把它交给CN。
+So the key point here is, um, whenever what kind of data you come, you give it to CN.
+
+872
+00:58:21,849 --> 00:58:25,689
+中间部分，也就是图的定义，是不会改变的，对吧？
+The middle part, that is the graph definition will not change, right?
+
+873
+00:58:25,689 --> 00:58:28,649
+输入数据X会有一个固定的形状。
+And the input data X will have a fixed shape.
+
+874
+00:58:28,649 --> 00:58:33,829
+比如说，可能是20乘20，或者是500乘500，类似这样的。
+It will be, for example, 20 by 20 or 5,500 by 500 or something like that.
+
+875
+00:58:33,829 --> 00:58:36,149
+输出的形状Y也是固定的。
+And output shape Y will be fixed.
+
+876
+00:58:36,149 --> 00:58:40,650
+它可以是一个十维向量，或者你在一开始定义的任何维度的向量。
+It could be a ten dimension vector or whatever, dimension vector you define at the beginning.
+
+877
+00:58:40,650 --> 00:58:42,009
+好的。
+Okay.
+
+878
+00:58:42,450 --> 00:58:46,310
+但是在很多其他的工作负载中，情况就不一样了，
+But things are different in many other workloads,
+
+879
+00:58:46,310 --> 00:58:51,370
+比如说，这是来自ALP的语义解析树。
+for example, this is semantic parsing tree from ALP.
+
+880
+00:58:51,370 --> 00:58:55,970
+好的，你可以看到，这已经大致让你感受到它的动态性了。
+Okay. And you can see this is already probably give you a sense of dynamics.
+
+881
+00:58:55,970 --> 00:59:01,029
+也就是说，对于不同的句子，它会有略微不同的解析树。
+That is, for different sentences, it has a slightly different parsing tree.
+
+882
+00:59:01,029 --> 00:59:03,129
+对于这个句子，John，他是一个球。
+For this one, John, he's a boll.
+
+883
+00:59:03,129 --> 00:59:04,034
+好的。
+Okay.
+
+884
+00:59:04,034 --> 00:59:11,239
+当我们对这种输入序列建模时，我们基本上想要应用递归网络
+And when we model this kind of input sequence, we want to basically apply recurring network
+
+885
+00:59:11,239 --> 00:59:13,740
+来对树结构进行计算。
+to compute over the tree structure.
+
+886
+00:59:13,740 --> 00:59:17,579
+所以我们最终得到的神经网络看起来像这样，对吧？
+So what we end up with is a neural network looking like this, right?
+
+887
+00:59:17,579 --> 00:59:22,639
+我们首先计算“球”，然后把它们组合在一起，
+We first compute towards the boll and then we combine them together,
+
+888
+00:59:22,639 --> 00:59:25,419
+我们再加入另一个词“热”，然后再把它们组合起来，
+we incorporate another word heat, and then we combine them
+
+889
+00:59:25,419 --> 00:59:27,704
+再加入另一个词“也”。
+together and incorporate another word too.
+
+890
+00:59:27,704 --> 00:59:33,569
+但是当你给出不同的序列时，它会有不同的语义解析树。
+But when you are given a different sequence, it has a different semantic parsing tree.
+
+891
+00:59:33,569 --> 00:59:37,750
+然后你最终会得到一个不同的计算模式。
+And then you end up with a different computational pattern.
+
+892
+00:59:37,750 --> 00:59:41,889
+如果我让你用数据流程图来表达这种竞争，
+And if I ask you to express the competition using Data Po graph,
+
+893
+00:59:41,889 --> 00:59:44,989
+你最终会得到两种非常不同的竞争图。
+you will end up with two very different competing graphs.
+
+894
+00:59:44,989 --> 00:59:50,909
+这意味着模型竞争中，它们有一些相同的地方，比如团队是一样的，对吧？
+That means that the model competition, they have something same that is team is the same, right?
+
+895
+00:59:50,909 --> 00:59:54,390
+但它们也有一些非常不同的地方。
+But they also have something that is very different.
+
+896
+00:59:55,110 --> 01:00:00,799
+全局数据流程图会根据你输入的内容而有很大不同。
+The global Datapgraph will be very different depending on the input you give to.
+
+897
+01:00:00,799 --> 01:00:02,409
+好的。
+Okay.
+
+898
+01:00:02,690 --> 01:00:09,569
+总结一下计算的特性，对于静态数据流图来说，
+Uh, to summarize the computation, like, characteristics, for static data flo graphs, uh,
+
+899
+01:00:09,569 --> 01:00:14,690
+我们基本上是定义好流程并对其进行优化，然后针对任意输入和输出，
+we basically define wines and we optimize the ones, and then for arbitrary input and output,
+
+900
+01:00:14,690 --> 01:00:16,129
+我们会让你来处理它们，对吧？
+we are going to ask you them, right?
+
+901
+01:00:16,129 --> 01:00:17,749
+我们不需要再去碰那个图了。
+We don't have to touch that graph again.
+
+902
+01:00:17,749 --> 01:00:20,210
+它基本上是保持不变的。
+It's basically keep as constant.
+
+903
+01:00:20,210 --> 01:00:24,570
+好的。但是对于动态计算来说，情况就有点不同了。
+Okay. But for dynamic offer was slightly different.
+
+904
+01:00:24,570 --> 01:00:31,230
+在动态中表达它非常困难，因为数据流图的组合
+It's very difficult to express it in dynamics, because the data flow graph cometion
+
+905
+01:00:31,230 --> 01:00:33,870
+图的结构会随着输入而变化。
+the graph structure will change with the input.
+
+906
+01:00:33,870 --> 01:00:40,169
+而且调试起来也非常困难，因为如果你的程序有 bug，
+And it's also pretty difficult to debug in because if your program has a bug,
+
+907
+01:00:40,169 --> 01:00:42,050
+它很可能和输入有关。
+it's probably dependent with the input.
+
+908
+01:00:42,050 --> 01:00:46,069
+你必须找出输入并看看发生了什么。
+You have to figure out the input and see what's going on.
+
+909
+01:00:47,590 --> 01:00:55,570
+正如有同学已经指出的，几乎不可能对动态程序进行 JIT 编译。
+And as a student already pointed out, it's almost impossible to jet dynamic program.
+
+910
+01:00:55,570 --> 01:01:00,830
+那我们基本上就失去了希望，因为字面语言本身就是动态的。
+Then we basically lose hope because literal language is dynamic.
+
+911
+01:01:00,830 --> 01:01:03,230
+为什么字面语言是动态的。
+Why literal language is dynamic.
+
+912
+01:01:03,420 --> 01:01:07,460
+因为每个句子包含的标记数量不同。
+Because each sentence has a different number of tokens.
+
+913
+01:01:07,460 --> 01:01:13,459
+这意味着你进行的计算，嗯，取决于输入的长度，对吧？
+And that means that the computation you perform, um, depends on the length of the input, right?
+
+914
+01:01:13,459 --> 01:01:14,139
+好的。
+Okay.
+
+915
+01:01:14,139 --> 01:01:21,599
+那么接下来，我们开始思考一个问题，就是我们如何能够以某种方式，
+So then, uh, we start asking the question, how we can basically still in some way,
+
+916
+01:01:21,599 --> 01:01:28,179
+用相对静态的方式表达我们的动态神经网络，或者动态数据图。
+express our dynamic neuralnetworks, or dynamic data graph, in a static in relatively static way.
+
+917
+01:01:28,179 --> 01:01:32,559
+这样我们依然可以得到全局图，并且可以对其进行优化，
+So we can still, get the global graph, we can optimize that, and
+
+918
+01:01:32,559 --> 01:01:34,360
+从而获得最佳的性能。
+we can get the best of the performance.
+
+919
+01:01:34,360 --> 01:01:39,240
+好吗？这基本上就是本次讲座的最后一部分。
+Okay? And that basically marks, uh, the last part of this lecture.
+
+920
+01:01:39,240 --> 01:01:41,179
+大致来说我们有三种方法。
+So we roughly have three ways.
+
+921
+01:01:41,179 --> 01:01:43,019
+好的。第一种方式是，嗯，
+Okay. The first way is, um,
+
+922
+01:01:43,019 --> 01:01:45,299
+忘了那个吧。我们只需要定义运行。
+Forget about that. We just do define run.
+
+923
+01:01:45,299 --> 01:01:46,999
+好吗？这就是你要做的，对吧？
+Okay? That's what you do, right?
+
+924
+01:01:46,999 --> 01:01:51,680
+在你上这门课之前，你从来没有打开过你的程序。
+You never open your program, until you take this course.
+
+925
+01:01:51,680 --> 01:01:55,940
+第二种方式是，我们有一种机制，可以引入
+The second way is, we have a mechanism that we can introduce
+
+926
+01:01:55,940 --> 01:02:01,559
+控制流原语到数据程序中，这个我接下来会解释。
+control flow primitives into data program, which I will explain next.
+
+927
+01:02:01,559 --> 01:02:04,490
+第三种方式叫做分段编译。
+And the third way is called piecewise compilation.
+
+928
+01:02:04,490 --> 01:02:09,399
+好的。我觉得你其实已经能从这个名字推断出方法了。
+Okay. And I think you can actually already infer the method from this name.
+
+929
+01:02:09,399 --> 01:02:14,640
+也就是说，假设我的图中有一些部分是动态的。
+That is, uh, suppose my graph has some parts that is dynamic.
+
+930
+01:02:14,640 --> 01:02:19,019
+我会对每个部分分别编译，动态的部分就保持动态，明白吗。
+I'm going to compae of each part, and I leave the dynamic a dynamic, ya.
+
+931
+01:02:19,019 --> 01:02:21,059
+好的，嗯，第一个的话，
+Okay. Uh for the first one,
+
+932
+01:02:21,059 --> 01:02:22,659
+我觉得我不需要做介绍，对吧？
+I don't think I need to introduce, right?
+
+933
+01:02:22,659 --> 01:02:26,429
+那么第二个，control flow up 是做什么的？
+So for the second one, so what does control flow up does?
+
+934
+01:02:26,429 --> 01:02:31,839
+这里有一个非常著名的控制流，由 enter flow 团队开发，
+So here is a very famous control flows developed by enter flow team,
+
+935
+01:02:31,839 --> 01:02:34,439
+我觉得这个图已经很清楚了。
+and I think this figure is pretty clear.
+
+936
+01:02:34,439 --> 01:02:36,020
+它基本上就是一个切换和合并的操作。
+It's basically a switch and merge.
+
+937
+01:02:36,020 --> 01:02:43,160
+好的？在切换操作中，基本上你有一个输入数据，然后你需要给出一个条件。
+Okay? In a switch, basically, you have one single input data and you want to give you a condition.
+
+938
+01:02:43,160 --> 01:02:47,299
+根据这个条件，你会输出一些内容，要么是左边，要么是右边。
+And depending on the condition, you want to output something, either left or right.
+
+939
+01:02:47,299 --> 01:02:49,340
+你需要在两个输出之间切换。
+You want to switch between two outputs.
+
+940
+01:02:49,340 --> 01:02:52,180
+好的？而合并操作则是一个相反的过程。
+Okay? And for the merge is a reverse operation.
+
+941
+01:02:52,180 --> 01:02:55,739
+你有两个输入，比如说，你可以比较它们的数值，
+You have two inputs, and, for example, you can compare the values and
+
+942
+01:02:55,739 --> 01:02:58,214
+然后根据哪个更大，输出其中一个数值。
+depending on which one is larger, you output one value.
+
+943
+01:02:58,214 --> 01:03:03,389
+好的。实际上你可以把这个过程编程成 ho 图中的一个原始计算单元，
+Okay. You can actually program this into a primitive computation primitive in the ho graph,
+
+944
+01:03:03,389 --> 01:03:05,809
+然后你把这种原始单元和
+and you insert this kind of primitive together with
+
+945
+01:03:05,809 --> 01:03:09,110
+你的 mass、matm 以及其他操作一起插入进去。
+your mass with your matm with whatever other operations.
+
+946
+01:03:09,110 --> 01:03:14,810
+基本上你可以从你的程序中吸收某种动态性。
+And you can basically kind of absorb some sort of dynamics from, for example, your program.
+
+947
+01:03:14,810 --> 01:03:19,909
+比如说，如果一个程序有合并操作，那么这里也会出现类似的问题，对吧？
+Like for example, if a program has a merger operation, then this one will also be a problem, right?
+
+948
+01:03:19,909 --> 01:03:22,229
+下面是一个更复杂的例子。
+And here's a more complex case.
+
+949
+01:03:22,229 --> 01:03:25,930
+这是我们从 interflow 得到的 Lumina 函数。
+So this is the Lumina function we have from interflow.
+
+950
+01:03:25,930 --> 01:03:27,890
+它的作用其实很直接。
+What it does is pretty straightforward.
+
+951
+01:03:27,890 --> 01:03:31,470
+我们有两个输入X和Y，我们要对比它们的数值。
+We have two inputs X and Y, and we are going to compare
+
+952
+01:03:31,470 --> 01:03:34,969
+看看哪一个更小，对吧？
+their value and see which one is smaller, right?
+
+953
+01:03:34,969 --> 01:03:37,930
+如果X更小，我们将进行一次计算分析。
+And if X is smaller, we are going to do a computation analyst,
+
+954
+01:03:37,930 --> 01:03:40,870
+我们会把X和Z（一个常数）相加。
+we are going to add X with Z, which is a constant.
+
+955
+01:03:40,870 --> 01:03:47,309
+否则，我们会进行另一个Lamin方程，也就是对Y进行平方。
+And otherwise, we will do another Lamin equation, which we will take a square Y.
+
+956
+01:03:47,309 --> 01:03:51,844
+这已经是一个非常动态的程序了，因为你是有条件判断的。
+This is a very dynamic program already because you are conditional on something.
+
+957
+01:03:51,844 --> 01:03:54,279
+所以表达这种类型的
+So the way that you can express this kind of
+
+958
+01:03:54,279 --> 01:03:56,880
+计算方法，基本上就是用我刚才介绍的内容。
+competition is basically you use what I just introduced.
+
+959
+01:03:56,880 --> 01:04:01,920
+你可以结合使用switch和其他一些数学运算符。
+You use a combination of switch and some other mathematical operators.
+
+960
+01:04:01,920 --> 01:04:05,700
+你从X和Y开始，比较它们的数值。
+You start with X and Y, you compare the values.
+
+961
+01:04:05,700 --> 01:04:13,560
+然后，在这个比较运算符的输出中，你基本上会加很多很多的开关，
+And then, uh, uh in the output of this comparison operator, you basically add a lot a lot of switch,
+
+962
+01:04:13,560 --> 01:04:15,780
+然后你尝试在不同的输出之间切换，
+and you try to switch between different outputs,
+
+963
+01:04:15,780 --> 01:04:21,640
+最终会分成两个分支，在左边的分支，你基本上做左边的运算，
+and eventually into two branches right on left branch, you basically do the left competition
+
+964
+01:04:21,640 --> 01:04:25,280
+在右边的分支，你做右边的组合，最后你把结果合并起来。
+on the right branch, you do the right combination and eventually you merge the results.
+
+965
+01:04:25,280 --> 01:04:29,980
+明白了吗？所以你可以看到，你仍然可以用这种方式表达动态的运算，
+Okay? So you can see you can still express this kind of dynamic competition
+
+966
+01:04:29,980 --> 01:04:31,840
+只需要用一些控制流就可以了。
+using a few control flows.
+
+967
+01:04:31,840 --> 01:04:36,960
+好的，事实证明，控制流其实
+Okay. Uh, it turns out that control flow is actually
+
+968
+01:04:36,960 --> 01:04:40,580
+是所有编程语言中非常自然的一个概念。
+a very natural idea in all programming languages.
+
+969
+01:04:40,580 --> 01:04:46,139
+所以如果你写 Python，写 C++，都有很多控制流操作，比如 if、then、if，
+So if you write pattern, you write C plt plus, there are so many control flow ups if then if
+
+970
+01:04:46,139 --> 01:04:53,559
+sh 也是控制流操作，基本上就是告诉你的程序循环，while 也是一样，对吧？
+sh is the control flow ups which basically tell your program to loop while the same, right?
+
+971
+01:04:53,559 --> 01:04:55,519
+但让我来提问吧。
+But let me ask questions.
+
+972
+01:04:55,519 --> 01:04:58,099
+使用控制流和数据流图有什么潜在问题，
+What's the potential problem using control flow and dataflow graphs,
+
+973
+01:04:58,099 --> 01:05:00,360
+特别是在学习程序时？
+especially from learning programs?
+
+974
+01:05:05,250 --> 01:05:11,009
+是的，是的，这是一方面。是的。
+Yeah, yeah, that's one thing. Yeah.
+
+975
+01:05:12,450 --> 01:05:14,729
+我不同意他们的观点，因为
+I don't agree with them on that because
+
+976
+01:05:14,729 --> 01:05:16,169
+我认为你仍然可以实现并行化。
+I think you can still paralyze it.
+
+977
+01:05:16,169 --> 01:05:18,849
+是的，是的。
+Yeah. Yeah.
+
+978
+01:05:22,570 --> 01:05:26,750
+是的，我认为这基本上就是复杂性的问题。
+Yeah, I think that's basically the complexity argument.
+
+979
+01:05:26,750 --> 01:05:32,930
+是的，因为你可以看到，对于这样一个小的方程，你却要构建如此庞大的图。
+Yeah, because you add up so you can see, for such a small equation, you are making such big graph.
+
+980
+01:05:32,930 --> 01:05:37,149
+工程程序的数据流图必须做的一件事是
+One thing that dataflow graph for engineering program must do is
+
+981
+01:05:37,149 --> 01:05:39,370
+基本上你需要做反向传播。
+basically you need to do backward propagation.
+
+982
+01:05:39,370 --> 01:05:41,689
+你需要自动微分。
+You need to auto differentiation.
+
+983
+01:05:41,689 --> 01:05:46,250
+然后我开始问你一个问题。switch 的梯度是什么？
+Then I start asking your question. What is the gradient of switch?
+
+984
+01:05:47,290 --> 01:05:50,649
+four 的梯度是什么？
+What is the gradient of four?
+
+985
+01:05:50,890 --> 01:05:53,969
+这是个难题。你需要好好思考一下。
+That's a hard question. You need to think about that.
+
+986
+01:05:53,969 --> 01:05:57,009
+但事实证明，four 其实是有梯度的。
+But it turns out that there is a gradient for four.
+
+987
+01:05:57,009 --> 01:05:58,669
+我会给你一些阅读材料。
+I'm going to give you a reading.
+
+988
+01:05:58,669 --> 01:06:00,369
+我不会在课堂上讲这个内容。
+I'm not going to cover that in lecture.
+
+989
+01:06:00,369 --> 01:06:06,809
+是的。所以在某个时候，TensorFlow 团队对这些 cotlow up 变得很感兴趣。
+Yeah. So at some point, tensor flow team, they become fascinated with these cotlow ups.
+
+990
+01:06:06,809 --> 01:06:11,169
+他们写了很多论文，讨论如何为 four 求梯度。
+And these are writing a lot of papers to discussing how to drup the gradient for four
+
+991
+01:06:11,169 --> 01:06:13,289
+一段时间内，如果和那么。
+for a while and for if and then.
+
+992
+01:06:13,289 --> 01:06:16,930
+他们甚至还拿到了顶级会议的最佳论文奖。
+And they even get the best paper award from some top conference.
+
+993
+01:06:16,930 --> 01:06:21,470
+但不幸的是，正如你已经指出的，这其实非常复杂。
+But unfortunately, as you already pointed out, this actually very complicated.
+
+994
+01:06:21,470 --> 01:06:25,259
+你不知道怎么做，其实可以用更简单的方法。好吧。
+You don't how to do that, and you can do much simpler ways. Okay.
+
+995
+01:06:25,259 --> 01:06:31,639
+一个更简单的方法，结果发现被广泛采用，甚至比
+A much simpler way, which turns out to be really well adopted and more adopted than
+
+996
+01:06:31,639 --> 01:06:34,780
+控制流更常用的方法，基本上就是分段编译。
+control flow is basically we do piecewise compilation.
+
+997
+01:06:34,780 --> 01:06:38,999
+好吗？分段编译其实很容易理解，对吧？
+Okay? Piecewise compilation is very easy to understand, okay?
+
+998
+01:06:38,999 --> 01:06:43,839
+比如说，我们有一个图，它基本上接受X的输入形状，
+So say, we have a graph which basically accepting input shapes of X,
+
+999
+01:06:43,839 --> 01:06:47,480
+C1，C2，其中C1和C2是常量。
+C one, C two, where C one and C two are constant.
+
+1000
+01:06:47,480 --> 01:06:48,899
+它们会发生变化。
+They will lane change.
+
+1001
+01:06:48,899 --> 01:06:50,805
+但是X是变量。
+But X is variable.
+
+1002
+01:06:50,805 --> 01:06:53,709
+对吧？那我们把哪种情况映射到这种情况呢？
+Right? So what case we map to this case?
+
+1003
+01:06:53,709 --> 01:06:55,669
+基本上就是字面语言，对吧。
+It's basically literal language, right.
+
+1004
+01:06:55,669 --> 01:07:00,189
+X是token的数量，C1其实就是token的嵌入维度。
+X is the number of tokens, and C one, what basically embedding dimensions of the token.
+
+1005
+01:07:00,189 --> 01:07:04,650
+所以我们有一个图，可以接受可变数量的输入序列。
+So we have a graph we accept variable number of input sequences.
+
+1006
+01:07:04,650 --> 01:07:10,069
+那如果我们想把这个程序编译成数据流图，
+So if we want to compile this program to compile dataflow graph to
+
+1007
+01:07:10,069 --> 01:07:13,449
+确保它们可以在X上运行，我们该怎么做？
+make sure they can work on X, what do we do?
+
+1008
+01:07:23,000 --> 01:07:25,919
+是的，你已经很接近了。
+Yeah, you are pretty close.
+
+1009
+01:07:25,919 --> 01:07:30,679
+基本上，我们会为X等于1、X等于2，一直到
+Basically, we compile for X equal to one, x2x2 all the way
+
+1010
+01:07:30,679 --> 01:07:33,119
+X等于我们能处理的最大值都进行编译。
+to X equal to the largest value we can do.
+
+1011
+01:07:33,119 --> 01:07:36,220
+是的，这基本上就是分段编译。
+Yeah, that's basically piecewise compilation.
+
+1012
+01:07:36,220 --> 01:07:39,040
+我们只是编译所有可能的输入维度。
+We just compile all the possible input dimensions.
+
+1013
+01:07:39,040 --> 01:07:44,820
+当我们接收一个序列，比如 X 等于 5 时，我们基本上就是等于
+And when we accept a sequence, which is X ex to five, we basically equal the boundary
+
+1014
+01:07:44,820 --> 01:07:47,719
+使用 X 等于 5 编译出的边界。
+that is compiled with X equal to five.
+
+1015
+01:07:47,920 --> 01:07:51,299
+很直接。但我们可以做得稍微更好一点。
+Straightforward. But we can do slightly better.
+
+1016
+01:07:51,299 --> 01:07:53,840
+有人能给我一个更好的解决方案吗？
+Can someone give me a better solution?
+
+1017
+01:07:55,880 --> 01:08:05,420
+对，对。那是一个更好的解决方案。
+Yeah, yeah. Yeah, that's a better solution.
+
+1018
+01:08:05,420 --> 01:08:10,640
+我们基本上减少了需要编译的边界数量，但我们浪费了计算资源，
+We basically reduce the number of bonaries we compel, but we wasting competition,
+
+1019
+01:08:10,640 --> 01:08:14,600
+因为现在你只为 X 等于 500 编译。
+Because now you only comple for X, say, equal to 500.
+
+1020
+01:08:14,600 --> 01:08:19,479
+但如果你接收的是 X 等于 1 的序列，你仍然需要调用 X 等于 500 的那一份。
+But if you are accepting a sequence with X one, you still need to call that X equal to 500,
+
+1021
+01:08:19,479 --> 01:08:21,419
+这是我们在竞争中浪费的部分。
+which we waste of competition.
+
+1022
+01:08:21,419 --> 01:08:24,639
+有人能给你更好的解决方案吗？
+Can someone give you even better solution?
+
+1023
+01:08:27,540 --> 01:08:30,679
+好的，我要告诉你我们是怎么做分桶的。
+Okay, I'm going to tell you un we do baketing.
+
+1024
+01:08:30,679 --> 01:08:32,739
+这样我们就可以合并成2的幂。
+So we can compile the power two.
+
+1025
+01:08:32,739 --> 01:08:38,079
+我们把X编译成X1、X2，然后再编译成X等于4和8。
+We compile X to one X two, then we compile X equal to four and eight.
+
+1026
+01:08:38,079 --> 01:08:43,079
+对于ab值，我们会把它映射到类似2的幂的损失上，对吧？
+And for ab value, we are going to map it to the lost like power or two, right?
+
+1027
+01:08:43,079 --> 01:08:44,999
+这样基本上可以减少计算量。
+That will basically reduce competition.
+
+1028
+01:08:44,999 --> 01:08:50,759
+好吗？这已经非常复杂了，会深入到非常深的部分。
+Okay? This is already very complicated and it will dive into the very deep part
+
+1029
+01:08:50,759 --> 01:08:52,699
+关于计算部分我就讲到这里。
+of compson and I'm going to stop here.
+
+1030
+01:08:52,699 --> 01:08:58,869
+好吗？我们已经有一位嘉宾确认了，他是a的作者。
+Okay? And we have a guest already confirmed and he's the author of a as
+
+1031
+01:08:58,869 --> 01:09:02,929
+可能你们很多人已经知道TQ了，他是TVM的作者，对吧？
+probably many of you already know then is TQ, author of TVM, okay?
+
+1032
+01:09:02,929 --> 01:09:06,849
+他基本上是机器学习系统的守护者，就像MBA界的迈克尔·乔丹一样。
+He is basically the guard of Machining systems and like the Michael Jordan to MBAs,
+
+1033
+01:09:06,849 --> 01:09:12,224
+他会来给我们深入介绍编译器，好吗？
+and he's going to come to us and introduce the compilers, okay, in deep.
+
+1034
+01:09:12,224 --> 01:09:19,619
+另一个分段编译的用例基本上是，如果我们有一个图，它是静态的，
+Another use case of um, piecewise compilation is basically, if we have a graph which is static,
+
+1035
+01:09:19,619 --> 01:09:22,439
+然后变成动态的，再变回静态的，我们该怎么办？
+then dynamic and then static, what do we do?
+
+1036
+01:09:22,439 --> 01:09:28,839
+所以我们引入了一个叫做grad的概念，并且我们在第一个静态部分的末尾插入grad，
+So we introduce concept called grad, and we insert grad at the end of the first static
+
+1037
+01:09:28,839 --> 01:09:31,099
+以及在第二个静态部分的开始插入grad。
+and at the beginning of the second static.
+
+1038
+01:09:31,099 --> 01:09:34,879
+我们首先将第一个静态部分编译成二进制文件。
+We compare the first we compile the first static into a binary.
+
+1039
+01:09:34,879 --> 01:09:36,679
+我们让你去获取结果，对吧？
+We ask you to get results, right?
+
+1040
+01:09:36,679 --> 01:09:40,259
+然后我们把结果输入到动态部分，并让它运行。
+And then we fed the results into a dynamic part and let it run using
+
+1041
+01:09:40,259 --> 01:09:45,359
+首先是纯粹的部分，然后我们得到结果，并将结果传递给第二部分，
+pure pison then we get the results and comp unfed the results to a second part,
+
+1042
+01:09:45,359 --> 01:09:47,679
+这部分是静态的，我们也会对这部分进行编译。
+which is static and we also compile that part.
+
+1043
+01:09:47,679 --> 01:09:50,944
+这就是你理解分段编译的另一种方式。
+This is another way that you understand piecewise compilation.
+
+1044
+01:09:50,944 --> 01:09:57,769
+好的，酷。我想我已经讲完了大部分内容，可以吗？
+Okay. Cool. Um, I think I finished most of the contents. Okay?
+
+1045
+01:09:57,769 --> 01:10:00,229
+现在，我们来简单回顾一下。
+Now, let's basically review a little bit.
+
+1046
+01:10:00,229 --> 01:10:04,370
+我们知道如何表示基本的数学原语。
+We know how to represent the mass primitives.
+
+1047
+01:10:04,370 --> 01:10:06,669
+我们总结了四个最重要的模型。
+We summarize the four most important models.
+
+1048
+01:10:06,669 --> 01:10:09,329
+这些将是我们的目标，主要还是数学相关的内容。
+That will be our targets, mostly math more.
+
+1049
+01:10:09,329 --> 01:10:15,369
+我们还没有学习如何表示数据，这部分我们很快会讲到。
+And we haven't studied how to represent data, which we'll cover soon.
+
+1050
+01:10:15,369 --> 01:10:17,889
+但基本上就是张量，好吗。
+But basically tensors, okay.
+
+1051
+01:10:17,889 --> 01:10:22,449
+我们还已经开发出了用基本元素表达计算的方法，
+We also already developed representation that expressed computation using
+
+1052
+01:10:22,449 --> 01:10:24,109
+但我们还没有完成。
+primitives, but we're not finished yet.
+
+1053
+01:10:24,109 --> 01:10:25,309
+为什么？
+Why?
+
+1054
+01:10:25,430 --> 01:10:29,869
+因为到目前为止，我们只讲了前向计算，对吧？
+Because by far, we only covered forward competition, right?
+
+1055
+01:10:29,869 --> 01:10:33,089
+在下一节课，我们会告诉你如何
+And in the next lecture, we are going to tell you how to
+
+1056
+01:10:33,089 --> 01:10:35,009
+从前向计算推导出反向计算。
+derive the backward competition from the forward.
+
+1057
+01:10:35,009 --> 01:10:36,909
+这基本上就是自动微分。
+That is basically the auto diff.
+
+1058
+01:10:36,909 --> 01:10:41,029
+好吗？今天就讲到这里，谢谢大家。
+Okay? That's pretty much I have today. Thank you.
+
+1059
+01:11:43,360 --> 01:11:45,399
+A
+A

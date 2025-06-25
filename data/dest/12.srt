@@ -1,0 +1,5104 @@
+1
+00:00:22,080 --> 00:00:25,320
+好的。那我们开始吧。
+Okay. Yeah, let's get started.
+
+2
+00:00:25,320 --> 00:00:27,480
+感谢大家在下雨天还来参加。
+Thanks for coming on a rainy day.
+
+3
+00:00:27,480 --> 00:00:31,719
+好的，很棒。那么我们现在在哪里呢？
+Yeah. Cool. So where we are.
+
+4
+00:00:31,719 --> 00:00:33,800
+我记得上节课，
+So I think last lecture,
+
+5
+00:00:33,800 --> 00:00:37,219
+我解释了为什么我们需要做并行化，对吧？
+I justified why we need to do paralyzation, right?
+
+6
+00:00:37,219 --> 00:00:41,000
+因为我们确实需要更多的计算机和更多的内存，对吧？
+Because we just need more computer and more memory, okay?
+
+7
+00:00:41,000 --> 00:00:49,979
+我想我还给大家讲解了什么是并行性，以及我们
+And I think we also I also give you parole content explaining what are parallelisms and how we
+
+8
+00:00:49,979 --> 00:00:54,059
+如何将这种并行性应用到一个连续的图上，对吧？
+can apply this kind of parallelisms onto a continued graph, right?
+
+9
+00:00:54,059 --> 00:00:58,780
+这会导致不同的运行时模式或通信模式，
+It will result into different runtime pattern or communication pattern,
+
+10
+00:00:58,780 --> 00:01:01,779
+我们将在这节课中更深入地探讨这个问题。
+and we are going to dive deeper into lecture, okay?
+
+11
+00:01:01,779 --> 00:01:07,840
+好的，总结一下，关于并行性，我们的问题表面上看，
+Okay, just to recap, for parallelism, our problem superficially,
+
+12
+00:01:07,840 --> 00:01:14,220
+我们的问题基本上是如何在给定的设备类别上划分连续的计算图，对吧？
+our problem is basically how to partition the continued graph on a given device class, right?
+
+13
+00:01:14,220 --> 00:01:19,600
+好吗？表面上我们会简化这个问题，然后我们会
+Okay? Superficially, we are going to simplify this problem and we're going
+
+14
+00:01:19,600 --> 00:01:21,860
+一步步深入下去，好吗？
+to go deeper and deeper, okay?
+
+15
+00:01:21,860 --> 00:01:25,880
+本课程中，基本上有两种
+And there are essentially in this class, there are essentially two types of
+
+16
+00:01:25,880 --> 00:01:31,799
+并行方式，有明确的定义，一种是操作间并行，我们只是在图上切分，
+parallelism which with a precise definition, one is interoperatism, where we just cut the graph,
+
+17
+00:01:31,799 --> 00:01:33,360
+不是在算子上切分，对吧？
+not the operator, right?
+
+18
+00:01:33,360 --> 00:01:38,984
+另一种是操作内并行，我们是在算子上切分，但不是在图上切分。
+And the other is intraparism, where we cut the operator but not the graph.
+
+19
+00:01:38,984 --> 00:01:44,550
+好的，我们就在NAS的讲座中停在这里。
+Okay. And we stop here right in NAs lecture.
+
+20
+00:01:44,550 --> 00:01:47,869
+我认为这是NAS讲座中最重要的幻灯片之一。
+I think this is one of the most important slide in NAS lecture.
+
+21
+00:01:47,869 --> 00:01:54,750
+我们通过每种类型的例子来讲解这两种分区方式，然后我们会发现，
+We run through these two types of partism using example from each type, and we realize that
+
+22
+00:01:54,750 --> 00:02:00,669
+对于这种手术内的分区方式，我们总会引发某种通信，
+for this kind of intraoperative partism, we will always cause some sort of communication,
+
+23
+00:02:00,669 --> 00:02:02,890
+我把这种通信称为连接性通信，明白吗？
+which I call connective communication. Okay?
+
+24
+00:02:02,890 --> 00:02:08,070
+而对于第二种类型，也就是手术间的分区方式，它总会引发某种
+And for the second type, which is the interop partism it always cause some type of
+
+25
+00:02:08,070 --> 00:02:10,599
+我们称之为PTP通信的通信。
+communication which we call PTP communication.
+
+26
+00:02:10,599 --> 00:02:12,489
+好的，在这一页幻灯片上，
+Okay. And in this slide,
+
+27
+00:02:12,489 --> 00:02:15,110
+我基本上给你举了两个设备的例子。
+I basically give you an example of two devices.
+
+28
+00:02:15,110 --> 00:02:20,710
+为了加深你的理解，嗯，我不会只局限于这个例子。
+To enhance your understanding, um, I'm not going to generalize a little bit.
+
+29
+00:02:20,710 --> 00:02:26,530
+我会把这个例子从两个设备、两个GPU推广到四个设备、四个GPU，好吗？
+I'm going to generalize this from two devices, two GPUs to four devices, four GPUs, okay?
+
+30
+00:02:26,530 --> 00:02:28,969
+这样可以让你更好地理解到底发生了什么。
+To give you a better understanding what is going on,
+
+31
+00:02:28,969 --> 00:02:33,409
+尤其是在沟通方面，因为就像我说的，沟通是最重要的事情
+especially on communication part because like I said, communication is the most important thing
+
+32
+00:02:33,409 --> 00:02:35,640
+在分布式系统中，明白吗？
+in poison, okay?
+
+33
+00:02:35,640 --> 00:02:41,609
+所以这是我们的案例，对吧？在这个双设备的场景下，我们按照那个图运行
+So this is our case, right? In this two devices scenario, we run through that graph
+
+34
+00:02:41,609 --> 00:02:47,330
+遵循定义好的分区方式，然后我们在每个设备上得到两个部分和。
+following the defined partitioning, and we get two partial sums on each device.
+
+35
+00:02:47,330 --> 00:02:53,369
+为了让每个设备上都有一个副本，我们要做的是运行双设备的 all-reduce，对吧？
+And in order to get a replica on each devices, what we do is we run two device or reduce, right?
+
+36
+00:02:53,369 --> 00:02:58,309
+所谓双设备 all-reduce，就是第一个设备把它的部分和发送给
+So by two device or reduce, I mean, the first device sends its partial sum to
+
+37
+00:02:58,309 --> 00:03:01,249
+第二个设备，然后第二个设备进行汇总。
+the second device and the second device do summarization.
+
+38
+00:03:01,249 --> 00:03:04,589
+然后第二个设备把部分和发送给第一个设备，
+And the second device, send partial sum to the first device and the
+
+39
+00:03:04,589 --> 00:03:08,365
+第一个设备也做同样的事情，对吧？这就是 all-reduce。
+first device does the same thing, right? This is all reduce.
+
+40
+00:03:08,365 --> 00:03:14,020
+如果我们在四个设备上运行，也就是我们把这个图分成四份，
+And if we run this on four devices, that is we partition this graph,
+
+41
+00:03:14,020 --> 00:03:18,039
+比如说分成四部分，我们切三次。
+say in four parts, we cut three times.
+
+42
+00:03:18,039 --> 00:03:20,800
+好的。我们基本上会在每个设备上得到四分之一。
+Okay. We'll get basically one fourth on device.
+
+43
+00:03:20,800 --> 00:03:23,399
+我们每个人得到的基本上就是这样，对吧？
+What we all get is basically like this, right?
+
+44
+00:03:23,399 --> 00:03:28,279
+好的。所以每个设备都会得到一个部分和，但这个部分和
+Okay. So each each of the four devices, we'll get a partial sum, but this partial sum
+
+45
+00:03:28,279 --> 00:03:31,419
+是总和的四分之一，对吧？
+is one fourth of the total sum, right?
+
+46
+00:03:31,419 --> 00:03:36,920
+并且因为我们最后还是要应用这个部分和，
+And because we still apply this partism that is in the end,
+
+47
+00:03:36,920 --> 00:03:40,359
+我们希望每个设备都有一个副本，对吧？
+we want each device to have a replica, right?
+
+48
+00:03:40,359 --> 00:03:43,859
+所以这里其实是一样的，对吧？
+So here, it's exactly the same, right?
+
+49
+00:03:43,859 --> 00:03:47,140
+我们需要在四个设备之间做一次全局归约。
+We need to run or reduce across all four devices.
+
+50
+00:03:47,140 --> 00:03:51,579
+好的。而且这个归约显然比在两个设备上做归约要更耗费资源，对吧？
+Okay. And this reduce is apparently more expensive than running or reduce on two devices, right?
+
+51
+00:03:51,579 --> 00:03:55,240
+因为要运行这个reduce，你只需要让每个设备
+Because in order to run this reduce, all you need to do is you allow each device to
+
+52
+00:03:55,240 --> 00:03:57,359
+把它的部分和发送给所有其他设备，对吧？
+send its partial sum to all other devices, right?
+
+53
+00:03:57,359 --> 00:04:02,564
+一旦设备收到所有的部分和，它就会进行聚合。
+And once the device receives all the partial sums, it will do aggregation.
+
+54
+00:04:02,564 --> 00:04:05,270
+这就是为什么这种通信叫做reduce。
+That is why this communication is called reduce.
+
+55
+00:04:05,270 --> 00:04:07,210
+它不是reduce，是all reduce。
+It's not reduced. It's all reduce.
+
+56
+00:04:07,210 --> 00:04:10,769
+也就是说每个设备都需要通信并进行reduce，明白吗？
+That is every device needs to communicate and reduce, okay?
+
+57
+00:04:10,769 --> 00:04:14,169
+从这个例子，你甚至可以推广到更多的设备，对吧？
+And from this example, you can generalize even more to more devices, right?
+
+58
+00:04:14,169 --> 00:04:20,089
+随着你增加设备数量，随着你扩大用于训练模型的集群规模，
+As you grow the lumber devices, as you grow the lumber the size of cluster you are
+
+59
+00:04:20,089 --> 00:04:24,670
+这个reduce操作会变得越来越昂贵，对吧？
+going to use to train the model, this reduce is going to be more and more and more expensive, right?
+
+60
+00:04:24,670 --> 00:04:27,999
+它基本上是平方级别的复杂度，明白吗？
+It's basically square square complexity, okay?
+
+61
+00:04:27,999 --> 00:04:34,249
+但相比之下，在这种解释主义中，无论你从哪里切，对吧，你都不会
+But in contrast, uh, in this interperism, no matter where you cut, right, you are not going to
+
+62
+00:04:34,249 --> 00:04:37,169
+导致或减少集体通信。
+cause or reduce or collective communication.
+
+63
+00:04:37,169 --> 00:04:39,249
+你只能让P之间进行通信。
+You can only cause P to be communication.
+
+64
+00:04:39,249 --> 00:04:42,550
+也就是说，一个设备需要向另一个设备发送信息，对吧？
+That is one device need to send to the other, right?
+
+65
+00:04:42,550 --> 00:04:46,110
+无论你怎么切，你可以垂直切，也可以水平切。
+Notter how you cut, you can cut vertically or you cut horizontally.
+
+66
+00:04:46,110 --> 00:04:49,970
+但本质上，在这两个设备的场景下，你只需要一个设备
+But essentially in this two device scenario, you just need one device to
+
+67
+00:04:49,970 --> 00:04:51,550
+向第二个设备发送一些东西。
+send something to the second device.
+
+68
+00:04:51,550 --> 00:04:55,090
+而第二个设备不知道如何向第一个设备发送东西，对吧？
+And the second device doesn't know how to send something to the first device, right?
+
+69
+00:04:55,090 --> 00:05:02,350
+好的，我希望这基本上能稍微提升你们的理解。好的，回到这张幻灯片，
+Okay. I hope this basically enhance your understanding a little Okay, and come back to this slide,
+
+70
+00:05:02,350 --> 00:05:09,569
+我认为，之前我们主要在解释，嗯，是什么样的通信模式，
+I think, previously we focused on explaining, um, what kind of communication pattern,
+
+71
+00:05:09,569 --> 00:05:11,250
+它会产生费用，对吧？
+it will incur, right?
+
+72
+00:05:11,250 --> 00:05:16,670
+那么现在，让我们把注意力集中在设备上。
+So now, let's focus on the uh on the device.
+
+73
+00:05:16,670 --> 00:05:19,450
+所以如果当时有任何设备的话。
+So if there's any device at the time.
+
+74
+00:05:19,450 --> 00:05:26,609
+好吗？所以如果你再仔细看一下第一行，你会发现
+Okay? So if you basically go through that, the first row one more time, you'll find that during
+
+75
+00:05:26,609 --> 00:05:31,405
+在整个比赛期间，所有设备都是忙碌的，对吧？
+the entire lifetime of doing this competition, all devices are busy, right?
+
+76
+00:05:31,405 --> 00:05:40,779
+比如说，在这里，当你执行这个MthmoEdS的时候，完成metamo的一部分，当你执行这个memo时，
+For example, here, when you do this MthmoEdS perform a part of metamo when you do this memo,
+
+77
+00:05:40,779 --> 00:05:42,599
+E设备完成memo的另一部分。
+E device perform another part of memo.
+
+78
+00:05:42,599 --> 00:05:46,500
+基本上，任何时候这两个设备都是忙碌的，他们都在做一些工作。
+Basically at anytime these two devices are busy, they're doing some work.
+
+79
+00:05:46,500 --> 00:05:50,020
+当你进行通信时，每个设备都在通信，对吧？
+And when you do communication, each device are communicating, right?
+
+80
+00:05:50,020 --> 00:05:58,720
+好，那这个呢？在这种情况下，第一个设备会开始计算，
+Okay. How about this one? So in this case, the first device will start compute,
+
+81
+00:05:58,720 --> 00:06:00,939
+对，它会产生它的缓存结果。
+right, and it will produce its memo results.
+
+82
+00:06:00,939 --> 00:06:04,830
+但是在第一个设备计算的时候，第二个设备在做什么？
+But during the computation of the first device, what is the second device doing?
+
+83
+00:06:04,830 --> 00:06:09,200
+它正在等待第一个设备发送结果。
+It's waiting for the results to be sent from the first device.
+
+84
+00:06:09,200 --> 00:06:12,980
+所以这意味着如果第一个设备还没有完成计算，
+So which means that if the first device haven't finished the compute,
+
+85
+00:06:12,980 --> 00:06:17,780
+那么第二个设备就是空闲的，对吧，就是在等待，和前面一样，对吧，
+then the second device is idle, rights waiting, o same thing, right,
+
+86
+00:06:17,780 --> 00:06:22,540
+当我们继续操作时，就是第一个设备完成并把结果传递或发送给第二个设备，
+when we proceed when the first device finished and forward results or send results to second device,
+
+87
+00:06:22,540 --> 00:06:25,140
+然后第二个设备才开始计算，对吗？
+and then the second device start computing, right?
+
+88
+00:06:25,140 --> 00:06:29,440
+但问题是，在第二个设备计算的时候，第一个设备又是空闲的。
+But the problem is during the second device compute, the first device is idle.
+
+89
+00:06:29,440 --> 00:06:31,740
+明白了吗？现在你能看出区别了吧？
+Okay? Now, you'll see the difference, right?
+
+90
+00:06:31,740 --> 00:06:35,440
+第二个区别其实就是，在intraoperpism中，是的，
+The second difference is basically, in intraoperpism, yes,
+
+91
+00:06:35,440 --> 00:06:39,960
+你将会触发一次非常昂贵的通信，但你可以始终让每个设备都保持忙碌。
+you are going to trigger a very expensive communication, but you can always keep every device busy.
+
+92
+00:06:39,960 --> 00:06:41,734
+他们随时都在忙碌。
+At anytime they are busy.
+
+93
+00:06:41,734 --> 00:06:45,929
+但在互操作主义中，是的，你可以在通信上做得更好，
+But in interopism, yeah, you can do better on communication,
+
+94
+00:06:45,929 --> 00:06:50,470
+但你会遇到一个问题，就是当一些设备完成计算时，其他设备会处于空闲状态，因为他们
+but you got a problem that is when some devices computed, the other devices are idle because they
+
+95
+00:06:50,470 --> 00:06:52,730
+正在等待结果。明白吗？
+are waiting for the results. Okay?
+
+96
+00:06:52,730 --> 00:06:55,949
+这基本上是我想要强调的最重要的元点
+This is basically the most important meta point
+
+97
+00:06:55,949 --> 00:06:58,629
+关于这两种主义我想表达的观点。
+I want to make about these two types of pisms.
+
+98
+00:06:58,629 --> 00:07:01,209
+明白吗？我在这张幻灯片里做了总结。
+Okay? Which I summarized in this slide.
+
+99
+00:07:01,209 --> 00:07:07,969
+嗯，所以基本上，临时互操作主义需要点对点通信，
+Um, so basically interim interroparism requires point to point communication,
+
+100
+00:07:07,969 --> 00:07:11,245
+但它会导致设备空闲，对吧？
+but it results in idle devices, okay?
+
+101
+00:07:11,245 --> 00:07:19,020
+但是对于互分主义，设备总是很忙，但你需要连接性的通信，对吧？
+But for intero partism devices are always busy, but you require connective communication, okay?
+
+102
+00:07:19,020 --> 00:07:23,340
+如果我们把它们并排放在一起，我们基本上会得到这样一个表格，
+And if we put them side by side, we basically get this table where,
+
+103
+00:07:23,340 --> 00:07:26,304
+对于互分主义，通信量较少。
+for interpartism, the communication is less.
+
+104
+00:07:26,304 --> 00:07:29,430
+但是每次使用的设备数量更多，对吧？
+Um, but the device at a time is more, okay?
+
+105
+00:07:29,430 --> 00:07:32,969
+而对于内分主义，通信量更多，因为它是连接性的。
+And for intra partism the communication is more because it's connective.
+
+106
+00:07:32,969 --> 00:07:35,870
+但是每次使用的设备数量更少，对吧。
+But the device at is less. Okay.
+
+107
+00:07:35,870 --> 00:07:39,330
+最终，你基本上会把所有这些分主义方式结合起来，你希望
+Eventually, you are going to basically combine all this kind of parism and you want
+
+108
+00:07:39,330 --> 00:07:43,090
+基本上确保你在最小化通信的同时，也最小化每次使用的设备数量，对吧？
+to basically make sure you minimize communication while minimize device at the time, right?
+
+109
+00:07:43,090 --> 00:07:45,090
+所以基本上你是在尝试解决这个问题。
+So basically you're trying to solve this problem.
+
+110
+00:07:45,090 --> 00:07:47,149
+好的，在接下来的几节课中，
+Okay. And in the next few lectures,
+
+111
+00:07:47,149 --> 00:07:51,069
+我会逐步地，嗯，深入地把这个问题转化成数学形式，这样你们就能明白我们在做什么了。
+I'm going to gradually, like, uh, go deeper and deeper to formulate
+
+112
+00:07:51,069 --> 00:07:53,950
+这样你们就能理解我们在做什么了，无论是什么样的模型都适用，好吗？
+this problem into a mathematical form so you can understand what we are doing
+
+113
+00:07:53,950 --> 00:07:56,749
+适用于所有不同类型的模型，明白吗？
+for all different kind of models, okay?
+
+114
+00:07:57,510 --> 00:08:01,249
+但在我这么做之前，让我先总结一下这部分内容，好吗？
+But before I do that, okay, let me summarize this part, okay?
+
+115
+00:08:01,249 --> 00:08:06,430
+这一点非常重要，就是我们如何表示不同类型的偏差。
+This is very important. So the way that way represent the different types of partism.
+
+116
+00:08:06,430 --> 00:08:11,869
+我记得一开始我说过，传统上人们只讨论数据上的单一偏差，对吧？
+I think at the beginning, I said, traditionally, people just talk about data on modo partism, right?
+
+117
+00:08:11,869 --> 00:08:16,589
+但在这门课上，我给你们一个新概念，就是互操作性偏差和内部偏差。
+But in this class, I give you a new concept that is interop and into partism.
+
+118
+00:08:16,589 --> 00:08:20,650
+我想提出一个有力的论点，因为我认为，嗯，是的，
+I want to make a strong argument because I think, uh, yeah,
+
+119
+00:08:20,650 --> 00:08:23,525
+数据偏差和模型偏差是非常经典的概念，但是，
+data and modoparism are very classic concepts, but,
+
+120
+00:08:23,525 --> 00:08:27,780
+但是当你讨论这两个词的时候，其实也存在一些问题，对吧？
+Um, but they have some problems when you talk about these two words, right?
+
+121
+00:08:27,780 --> 00:08:30,620
+对于数据划分，是的，这部分很清晰，对吧？
+For data partism, yes, it's pretty clean, okay?
+
+122
+00:08:30,620 --> 00:08:32,319
+当我说数据划分时，你明白我的意思吧？
+When I say data partism, you know what I mean, right?
+
+123
+00:08:32,319 --> 00:08:34,679
+我基本上是在数据上进行划分，然后进行复制等待，对吧？
+I basically part in the data, I raplic wait, right?
+
+124
+00:08:34,679 --> 00:08:39,439
+但当我说多重划分时，这个词有点模糊，有点不明确，因为
+But when I say Multi partarisms a little bit, like, ambiguous, a little bit vague, because
+
+125
+00:08:39,439 --> 00:08:41,939
+你可以做很多种多重划分。
+there are so many types of multiparism you can do.
+
+126
+00:08:41,939 --> 00:08:44,000
+你可以划分图结构，你也可以划分操作符。
+You can cut the graph, you can cut the operator.
+
+127
+00:08:44,000 --> 00:08:48,159
+也许从某种意义上说，数据划分也是一种多重划分，对吧？
+And maybe in some sense, data partism is also a type of multipism right
+
+128
+00:08:48,159 --> 00:08:51,179
+如果你把整个数据看作一个大张量，对吧？
+if you see the entire data as a big tenser, right?
+
+129
+00:08:51,179 --> 00:08:54,365
+所以你基本上是在批次维度上进行划分，对吧？
+So you're basically partion over the batch dimension, okay?
+
+130
+00:08:54,365 --> 00:08:58,449
+这就是为什么我要引入这个新定义，打断一下，打断一下。
+That's why I bring in this new definition interrupt interrupt.
+
+131
+00:08:58,449 --> 00:09:07,029
+我认为中断互操作性的定义非常以计算为中心。
+And I think the definition of inter interop partism are very computational centric.
+
+132
+00:09:07,029 --> 00:09:12,650
+从某种意义上说，基本上当我说中断时，你知道，我不是中断算子，而是切断了计算图。
+In a sense, basically when I say interrupt, you know, I'm not operator, but I'm just cut the graph.
+
+133
+00:09:12,650 --> 00:09:14,309
+当我说中断时，你知道，
+And when I say interrupt, you know,
+
+134
+00:09:14,309 --> 00:09:16,889
+我是切断算子而不是计算图。
+I'm cut the operator but not graph.
+
+135
+00:09:16,889 --> 00:09:18,830
+所以在接下来的讲座中，
+So in the rest of lecture,
+
+136
+00:09:18,830 --> 00:09:24,350
+我可能会更多地使用这种定义方式，因为我觉得它非常精确。
+I'm going to probably use more of this part of definition because I think it's very precise.
+
+137
+00:09:24,910 --> 00:09:27,949
+有什么问题吗？
+Any problem about this?
+
+138
+00:09:28,720 --> 00:09:32,060
+很好，那我们继续。
+Cool. Then let's continue.
+
+139
+00:09:32,060 --> 00:09:37,219
+好的，那么在这种新视角下，我们基本上可以尝试简化我们的问题，对吧。
+Okay. Then under this new view, we can basically try to simplify our problem, right.
+
+140
+00:09:37,219 --> 00:09:41,959
+之前，我们的问题版本是需要对计算图进行划分。
+Previously, the version of our problem is we need to partition the graph
+
+141
+00:09:41,959 --> 00:09:44,639
+在课堂上，大家都明白了，对吧？
+over the class around the right, right?
+
+142
+00:09:44,639 --> 00:09:49,380
+现在我们基本上是在尝试找出最有效的方式来询问
+And now we are basically trying to figure out what is the most efficient way to ask
+
+143
+00:09:49,380 --> 00:09:54,199
+如何通过结合内部和互操作性来对图进行处理。
+you to the graph using a combination of inter and interoperabism.
+
+144
+00:09:54,199 --> 00:09:57,179
+你已经知道我的内部机制可以表示数据机制。
+You already know that my interperism can represent datapism.
+
+145
+00:09:57,179 --> 00:10:02,409
+所以数据分区其实已经包含在这个句子里了，明白吗？
+So data partism is already kind of like included in this sentence, okay?
+
+146
+00:10:02,409 --> 00:10:06,499
+当然，你还需要受到内存限制的约束，对吧。
+And of course, you need to subject to memory constraints, right.
+
+147
+00:10:06,499 --> 00:10:09,360
+内存的意思是，当你进行分区时，你需要让模型适应设备，
+Memory means that when you're partition, you need to fit that model into a device,
+
+148
+00:10:09,360 --> 00:10:10,700
+也就是让模型的一部分适应到一个设备上。
+part of model into a device.
+
+149
+00:10:10,700 --> 00:10:13,499
+当然，你还需要受到通信约束的限制。
+And of course, you need to subject to communication constraints.
+
+150
+00:10:13,499 --> 00:10:17,599
+但是在这里，我仍然觉得这个定义或者说这个表述
+But here, I still feel this definition of all this statement of
+
+151
+00:10:17,599 --> 00:10:20,760
+这个问题仍然太复杂了，因为我觉得对于内存限制来说，
+this problem is still too complicated, because I think for memory constraints,
+
+152
+00:10:20,760 --> 00:10:21,319
+这是有道理的，对吧。
+it makes sense, right.
+
+153
+00:10:21,319 --> 00:10:23,719
+基本上你不能超过峰值内存。
+You basically you cannot exceed the peak memory.
+
+154
+00:10:23,719 --> 00:10:27,539
+但对于通信来说，我说的受通信限制是什么意思，对吧？
+But for communication, what do I mean by subject to communication constraints, right?
+
+155
+00:10:27,539 --> 00:10:31,630
+所以上一步是关于通信的，我说的通信是什么意思？
+So the last step into communication, what do I mean by communication?
+
+156
+00:10:31,630 --> 00:10:35,920
+但在深入讨论通信之前，让我们先看一下这里最重要的目标。
+But before I dive into communication, let's look at the most important objective here.
+
+157
+00:10:35,920 --> 00:10:40,219
+所以对于这个问题，最重要的目标是我们要高效，对吧？
+So for this problem, the most important objective is we want to be efficient, right?
+
+158
+00:10:40,219 --> 00:10:43,820
+这始终是我们这门课的目标。
+That is always always the goal of this entire class.
+
+159
+00:10:43,820 --> 00:10:47,504
+我们要高效，我们要尽可能快地计算，对吧？
+We want to be efficient. We want to compute as fast as possible, right?
+
+160
+00:10:47,504 --> 00:10:52,050
+那么如果我们开始考虑这种划分方式，也就是我们运行
+So then if we start considering this kind of partism that is we run
+
+161
+00:10:52,050 --> 00:10:57,390
+在超级大型集群上运行计算图时，我们如何定义效率？
+a computer graph on a super large cluster, how do we define efficiency?
+
+162
+00:10:57,390 --> 00:11:00,630
+我觉得以前我们在单个设备上运行这种东西时，
+I think previously when we run this kind of thing on single device,
+
+163
+00:11:00,630 --> 00:11:02,850
+我们已经有了效率的定义。
+we already have a definition of efficiency.
+
+164
+00:11:02,850 --> 00:11:05,949
+基本上就是AI，也就是算术强度。
+It's basically AI or arithmetic intensity.
+
+165
+00:11:05,949 --> 00:11:11,390
+我们希望每个算子都能最大化它的算术强度，也就是AI。
+We want each operator to maximize his arithmetic intensity. So AI.
+
+166
+00:11:11,390 --> 00:11:15,650
+但AI更像是一种宏观层面的定义。
+But AI is more like a macro level definition.
+
+167
+00:11:15,650 --> 00:11:20,649
+比如说，当你提到AI时，你可能实际上指的是
+For example, when you speak AI, you probably when you talk about AI, you probably mean that
+
+168
+00:11:20,649 --> 00:11:23,089
+单个算子的原始强度，对吧？
+the original intensity of single operator, right?
+
+169
+00:11:23,089 --> 00:11:25,170
+单个设备上的单一类型算子。
+Single devices on single type of course.
+
+170
+00:11:25,170 --> 00:11:29,929
+好的。但在这里我们想要一个更偏向全局性的定义。
+Okay. But here we want a definition that is more like a global,
+
+171
+00:11:29,929 --> 00:11:34,909
+更加全面，因为现在我们是在成千上万的GPU上运行一个图，我们如何衡量
+more holistic because now we are running a graph on, say, thousands of GPUs, how we measure
+
+172
+00:11:34,909 --> 00:11:37,509
+这成千上万个GPU的总体效率，对吧？
+the total efficiency of the thousands of GPUs, right?
+
+173
+00:11:37,509 --> 00:11:42,730
+我们还关心整个图的效率，而不是单个算子的效率。
+And we also care about the entire graphs efficiency instead of a single operator.
+
+174
+00:11:42,730 --> 00:11:46,530
+好吗？那么，为了引入这种效率，
+Okay? So, in order to introduce this efficiency,
+
+175
+00:11:46,530 --> 00:11:48,649
+我需要介绍一个非常重要的术语，好吗？
+I need to introduce a very important term, okay?
+
+176
+00:11:48,649 --> 00:11:52,610
+这个术语基本上，如果你去工业界，
+And this term is basically, uh, if you go to industry,
+
+177
+00:11:52,610 --> 00:11:54,570
+所有人都在谈论这个术语，好吗？
+so everybody is talking about this term, okay?
+
+178
+00:11:54,570 --> 00:11:56,789
+它叫做MF。
+So it's called MF.
+
+179
+00:11:57,030 --> 00:12:05,010
+MFU。如果你阅读任何关于语言模型系统、效率或者相关论文，
+MFU. If you read any language model system or efficiency or any paper,
+
+180
+00:12:05,010 --> 00:12:06,529
+他们都会报告MFU，因为
+they're going to report MFU because
+
+181
+00:12:06,529 --> 00:12:13,730
+MFU 基本上是一种展示你公司系统团队实力的方式。
+MFU is basically a way to show the kind of the strength of the system team in your company.
+
+182
+00:12:13,730 --> 00:12:18,129
+如果你的系统团队很强，他们应该能给出很高的 MFU。
+If your system team is pretty good, uh, they should give a pretty good MFU
+
+183
+00:12:18,129 --> 00:12:22,889
+因为任何公司的系统团队，比如 open air，他们的工作
+because the job of the entire system team in any company, for example, open air, their job
+
+184
+00:12:22,889 --> 00:12:24,570
+基本上就是最大化 MFU。
+is basically maximize MFU.
+
+185
+00:12:24,570 --> 00:12:26,750
+好吗？那么 MFU 是什么呢？
+Okay? So what is MFU, okay?
+
+186
+00:12:26,750 --> 00:12:30,355
+这里我直接给你定义。
+So here I directly give you the definition.
+
+187
+00:12:30,355 --> 00:12:33,900
+MFU 等于浮点运算次数。
+So MFU equals to the number of flops.
+
+188
+00:12:33,900 --> 00:12:36,680
+这里我用一个小写的 S。
+So here I use a smaller S, okay.
+
+189
+00:12:36,680 --> 00:12:39,880
+这里我用一个大写的 S，我想稍微区分一下。
+And here I use a capital S, and I want to distinguish it a little bit.
+
+190
+00:12:39,880 --> 00:12:44,400
+当我这样做时，你可以看到它基本上就是很多浮点运算。
+So when I do this, you can see it's basically that the lumber flops, a lot of flops.
+
+191
+00:12:44,400 --> 00:12:49,319
+这里的flops数量基本上指的是完成你的机器学习程序所需的总计算浮点操作数。
+And the number of flops here basically means the total compute flowing point opera
+
+192
+00:12:49,319 --> 00:12:52,080
+也就是说，完成你的机器学习程序需要的计算量。
+is needed to finish your machine learning program.
+
+193
+00:12:52,080 --> 00:12:58,660
+好吗？所以MFU等于flops数量除以时间T，T是花费的时间，
+Okay? So MFU equals to number of flops divided by the time T and T is time spent,
+
+194
+00:12:58,660 --> 00:13:05,484
+比如说，用来完成训练的时间，或者说当推理基本完成你的任务时。
+um on finishing finishing training, for example, or when interingt basically finish your job.
+
+195
+00:13:05,484 --> 00:13:07,389
+然后再除以峰值flops。
+And divided by the peak flops.
+
+196
+00:13:07,389 --> 00:13:09,989
+这里我用大写字母，表示这是一个单词。
+Here, I use capitals, meaning that this is a single word.
+
+197
+00:13:09,989 --> 00:13:17,330
+好的，这里的flops大写S表示芯片或GPU的处理能力。
+Okay, these flops capital S means the processing capability of a chip or GPU.
+
+198
+00:13:17,330 --> 00:13:25,389
+比如，你可能知道V100的flops大写S基本上大约是150 flops，对吧？
+For example, you probably know that V 100, the flops capital S is basically around 150 flops, right?
+
+199
+00:13:25,389 --> 00:13:27,630
+呃，T flops，对，抱歉。
+Um, T flops, sorry, yeah.
+
+200
+00:13:27,630 --> 00:13:31,730
+也就是说是每秒一万亿次浮点运算，T flops每秒，明白了吗？
+There's a Terra Okay, T flops per second, okay?
+
+201
+00:13:31,730 --> 00:13:36,649
+所以在这里，从这个图表你可以看到MF基本上是一个百分比，对吧？
+So here, from this cavity you can see MF is basically a percentage, right?
+
+202
+00:13:36,649 --> 00:13:43,250
+好的。所以这里的MFU代表模型浮点运算UTS加成，就是UTS加成。
+Okay. So MFU here stands for model flops UTS addition, and it is UTS addition.
+
+203
+00:13:43,250 --> 00:13:50,110
+它基本上描述了你能利用GPU峰值性能的百分比。
+It basically characterize how much percentage you can utilize your peak capability of your GPUs.
+
+204
+00:13:50,110 --> 00:13:55,089
+明白吗？因为你的GPU一旦制造出来，你买了GPU之后
+Okay? Because your GPU once it is manufactured and you bought a GPU are you
+
+205
+00:13:55,089 --> 00:14:01,130
+基本上就有一个GPU能达到的峰值浮点运算能力，每一代新的GPU峰值更高。
+basically have a peak flops that the GPU can enable, every generation nearer GPU have higher peak.
+
+206
+00:14:01,130 --> 00:14:05,129
+但是你的程序并不能总是用到峰值浮点运算能力，因为你
+But your program cannot always use peak flops because you
+
+207
+00:14:05,129 --> 00:14:09,509
+会用到不同的操作，而不同的操作有不同的计算特性，
+use different operations and different operations have different computation charistics also,
+
+208
+00:14:09,509 --> 00:14:12,129
+你也可能写出很糟糕的代码，这样你的代码就会变慢。
+you can write pretty bad code and your code could be slowed.
+
+209
+00:14:12,129 --> 00:14:14,820
+这就是为什么你的MFU不能总是达到峰值，明白了吗？
+That's why your MFU canot always reach peak, okay?
+
+210
+00:14:14,820 --> 00:14:17,269
+好的，从这里你可以看到
+Okay. From here, you can see
+
+211
+00:14:17,269 --> 00:14:20,969
+MF 是一个单位，表示数值在 0 到 100% 之间。
+MF is a udtion which means that the value is 0-100%.
+
+212
+00:14:20,969 --> 00:14:28,490
+明白了吗？这里的 flops 已经解释过了，就是计算你的模型所需的总计算量。
+Okay? And here, the flops already explained it is a total compute needed to compute your model.
+
+213
+00:14:28,490 --> 00:14:31,509
+明白了吗？那么，如何估算这个值呢？
+Okay? Uh So how to estimate this?
+
+214
+00:14:31,509 --> 00:14:34,969
+比如说，如果你的模型是 methemo，你已经知道怎么估算了，对吧？
+For example, if your model is a methemo you already know how to estimate, right?
+
+215
+00:14:34,969 --> 00:14:37,910
+就是两个 M k。我给你公式，好吗？
+It's two M k. I give you the equation, okay?
+
+216
+00:14:37,910 --> 00:14:41,849
+但如果你的模型是 lotto，你就需要把它们加在一起，对吧？
+But if your model is a lotto, you'll be add together, right?
+
+217
+00:14:41,849 --> 00:14:45,990
+这是每次迭代计算模型所需的总 flop。
+It's a total flop needed for computer model for iteration, okay?
+
+218
+00:14:45,990 --> 00:14:51,005
+所以这个术语基本上描述了运行程序需要多少计算机资源，对吧？
+So this term basically characterize how many computer needed to run the program, okay?
+
+219
+00:14:51,005 --> 00:14:52,760
+这个很容易理解。
+And this is easy to understand.
+
+220
+00:14:52,760 --> 00:14:56,160
+也就是说，当你编写程序、编写软件的时候，
+That is when you write your program when you write your software,
+
+221
+00:14:56,160 --> 00:15:01,980
+当你在GPU上部署这个程序和软件时，你运行迭代并进行基准测试。
+and when you deploy this program and software on GPU, you run Iteration and you do a benchmark
+
+222
+00:15:01,980 --> 00:15:05,440
+你知道这个T基本上就是所需的时间。
+and you know how long it takes this T is basically how long it takes.
+
+223
+00:15:05,440 --> 00:15:13,220
+明白吗？如果你用这个数字除以T，你基本上就能知道你的程序运行得有多好，
+Okay? If you divide this number by T, you basically get how good your program is running,
+
+224
+00:15:13,220 --> 00:15:15,380
+以每秒浮点运算次数来衡量。
+in terms of flops per second.
+
+225
+00:15:15,380 --> 00:15:19,739
+比如，你可以每秒运行100次浮点运算。
+For example, you can run at 100 flops per second.
+
+226
+00:15:19,739 --> 00:15:23,740
+这就是你的代码能达到的性能。
+That is how good you can achieve on your code.
+
+227
+00:15:23,740 --> 00:15:27,000
+然后你用这个数字除以GPU所能提供的峰值浮点运算次数，
+And then you divide this number by the peak flops offered by the GPU,
+
+228
+00:15:27,000 --> 00:15:30,940
+这就是加法。明白了吗？
+that is addition. Okay. Does that make sense?
+
+229
+00:15:30,940 --> 00:15:36,119
+很好。这个术语非常重要，所以我花了很多时间来解释它。
+Cool. And this term is so important, so I spent a lot of time explaining this.
+
+230
+00:15:36,119 --> 00:15:41,479
+明白了吗？所以你可以看到，在这门课上，我们试图构建马赫系统，对吧？
+Okay? So as you can see, in this class, we try to build marchearing systems, right?
+
+231
+00:15:41,479 --> 00:15:46,580
+MSU基本上就是判断你的机器学习系统好坏的标准。
+And MSU is basically the verdict of whether your marche learning system is good.
+
+232
+00:15:46,580 --> 00:15:51,339
+对吧？如果你的机器学习系统很差，你的MFU就会很低，对吧？
+Right? If your machine learning system is pretty bad, your MFU is going to be low, right?
+
+233
+00:15:51,339 --> 00:15:55,659
+这意味着在相同的程序下，你的运行时间会比别人长，对吧？
+Which means that given the same program, you are going to run longer than others, right?
+
+234
+00:15:55,659 --> 00:16:01,279
+如果你的MF很高，那说明你在数据增强方面做得很好。
+And if your MF is high, that means you are doing pretty good job on augmentation.
+
+235
+00:16:01,279 --> 00:16:04,320
+你基本上是在CPU上榨取最后一丝性能。
+You are basically squeeze the last bit of performance on the CPU.
+
+236
+00:16:04,320 --> 00:16:07,880
+好的，有关于这个术语的问题吗？
+Okay. Any question about this term?
+
+237
+00:16:08,270 --> 00:16:13,209
+很好。那么我们如何获得这些Pi flops，其实很简单，对吧？
+Cool. So how we get these Pi flops, it's very easy, right?
+
+238
+00:16:13,209 --> 00:16:14,510
+你只需要去查一下
+You just go check
+
+239
+00:16:14,510 --> 00:16:18,370
+ND产品手册，ND会给你这个数值。
+ND products back and ND will give you the number.
+
+240
+00:16:18,370 --> 00:16:21,950
+比如说，这里就是T100产品手册，好吗？
+For example, this is the t hundred products back here, okay?
+
+241
+00:16:21,950 --> 00:16:27,369
+就像我说的，当你训练语言模型时，你基本上是在LP 16, 1004上运行，对吧？
+And if you are like I said, when you train language model, you basically run on LP 16, 1004, right?
+
+242
+00:16:27,369 --> 00:16:30,129
+所以你基本上是检查这一行，对吧？
+So you basically check this line, right?
+
+243
+00:16:30,129 --> 00:16:31,830
+你可以看到P
+And you can see the P
+
+244
+00:16:31,830 --> 00:16:34,749
+161004有这种峰值浮点运算能力。
+161004 have this kind of peak flops.
+
+245
+00:16:34,749 --> 00:16:37,569
+明白了吗？这意味着你需要把这个值代入这里。
+Okay? Which means that you need to substitute this value into here.
+
+246
+00:16:37,569 --> 00:16:41,669
+好的，明白。是的。
+Okay. Cool. Yeah.
+
+247
+00:16:43,480 --> 00:16:47,599
+但这并不总是反映真实的性能。
+Doesn't always rect real performance.
+
+248
+00:16:47,599 --> 00:16:54,260
+当你在比较其他数值存储时，是的，没错。
+When you're comparing compare other number stores, Yeah, exactly.
+
+249
+00:16:54,260 --> 00:16:55,940
+你把它和另一个系统做对比，比如说。
+You compare it to another system, for example.
+
+250
+00:16:55,940 --> 00:16:58,139
+好的，我会告诉你我们现在的进展。
+Yeah, I will tell you where we are now.
+
+251
+00:16:58,139 --> 00:17:00,600
+我的意思是，比如说，看看open eye今天的表现。
+I mean, for example, how open eye is doing today.
+
+252
+00:17:00,600 --> 00:17:04,679
+好的。但就像我说的，媒体只会给你展示峰值的浮点运算能力。
+Okay. But like I said, media only gives you the peak flops.
+
+253
+00:17:04,679 --> 00:17:08,319
+这个峰值浮点运算能力其实是你很难真正达到的。
+The Pk flops is nowhere you can achieve.
+
+254
+00:17:08,319 --> 00:17:11,540
+因为它有非常严格的要求。
+Because it has a very strong requirement.
+
+255
+00:17:11,540 --> 00:17:17,509
+比如说，对于逐元素操作，你是无法达到峰值浮点运算能力的，
+For example, for element wise operations, you are not going to achieve the P flops,
+
+256
+00:17:17,509 --> 00:17:24,649
+因为你无法通过逐元素操作来充分利用所有的核心。
+because it's not you not be able to use element wise to utilize all their course.
+
+257
+00:17:24,649 --> 00:17:27,950
+基本上，为了达到那个峰值浮点运算能力，
+And basically, in order to achieve that peak flops, uh,
+
+258
+00:17:27,950 --> 00:17:31,829
+有一种方法，就是你做一个非常大的矩阵乘法运算。
+there's one way that is you do a very big Mtmo.
+
+259
+00:17:31,829 --> 00:17:36,409
+媒体基本上可以有代码或者详细说明来实现峰值浮点运算能力。
+And media can basically have the code or elaborate to achieve P flops.
+
+260
+00:17:36,409 --> 00:17:39,050
+但这个前提只适用于矩阵运算。
+But only subject that only applies to met.
+
+261
+00:17:39,050 --> 00:17:43,839
+但是当我谈到这个程序时，对吧，这个程序的浮点运算能力，其实如你所想的那样并不高，
+But when I talk about this program, right, this program flops, as you can imagine,
+
+262
+00:17:43,839 --> 00:17:45,839
+在transformers中，你只有很少的矩阵乘法操作。
+in transformers, you only have a few metamo.
+
+263
+00:17:45,839 --> 00:17:49,779
+而在矩阵乘法之间，你有很多层归一化和一些softmax操作，
+And between metamo you have many layer normalization and a few softmax,
+
+264
+00:17:49,779 --> 00:17:52,199
+而这些操作的效率比矩阵乘法要低。
+and these kind of operations are less efficient than Mtmo.
+
+265
+00:17:52,199 --> 00:17:56,000
+所以当你把整个机器学习程序作为一个整体来看时，
+So when you consider the entire machine learning program as a whole,
+
+266
+00:17:56,000 --> 00:17:57,954
+你无法达到峰值的浮点运算能力。
+you are not able to achieve the peak flops.
+
+267
+00:17:57,954 --> 00:18:01,549
+好的，有什么问题吗？
+Okay. Any question about this?
+
+268
+00:18:01,590 --> 00:18:06,429
+很好，那么，给定这个公式，
+Cool. Yeah, then, given this equation,
+
+269
+00:18:06,429 --> 00:18:08,229
+我假设你们都理解这个公式了。
+I assume you understand this equation.
+
+270
+00:18:08,229 --> 00:18:09,689
+我们再多讨论一点，好吗？
+Let's discuss a little bit more, right?
+
+271
+00:18:09,689 --> 00:18:16,289
+在TP商业程序中，哪些潜在因素会降低MF？
+What are basically in a TP Commercial program, what are the potential factors that can lower MF?
+
+272
+00:18:16,289 --> 00:18:20,629
+因为MF的最大可能值基本上是100%，对吧？
+Because the maximum possible value of MF is basically 100%, right?
+
+273
+00:18:20,629 --> 00:18:22,910
+但我告诉过你，我们达不到那个值，明白吗？
+But I told you we are not going to get there, okay?
+
+274
+00:18:22,910 --> 00:18:28,850
+那么，究竟有哪些潜在因素阻止我们实现100%的MF？
+So what are the potential factors that basically prevent us from achieving 100% MF?
+
+275
+00:18:28,850 --> 00:18:32,390
+好，第一个当然是操作类型。
+Okay. So the first one is, of course, operator types.
+
+276
+00:18:32,390 --> 00:18:34,410
+就像我说的，对于matmul，你是有机会的。
+Like I said, for met Mo, you have a chance.
+
+277
+00:18:34,410 --> 00:18:37,430
+如果你只运行matmul，你有机会获得峰值性能。
+If you only run met Moe you have a chance to get peak performance.
+
+278
+00:18:37,430 --> 00:18:41,870
+但在计算程序中，你会有很多逐元素操作，比如，
+But in machining programs, you have many element wise, for example,
+
+279
+00:18:41,870 --> 00:18:45,669
+alo、gelo、arm addition，这些都不是matmul。
+alo gelo, arm edition, which are not matm.
+
+280
+00:18:45,669 --> 00:18:50,229
+那为什么这种逐元素操作无法达到峰值flops呢？
+So why this kind of element wise cannot get peak flops?
+
+281
+00:18:50,720 --> 00:18:55,119
+你基本上要回到那个算术强度的问题。
+You basically go back to that arithmetic intensity.
+
+282
+00:18:55,119 --> 00:18:57,879
+你需要读取所有数据，才能计算一个算子。
+You need to read all the data in order to compute one operator.
+
+283
+00:18:57,879 --> 00:19:02,379
+但对于metam，你只需要读取两个矩阵，就能执行大量的浮点运算。
+But for metam, you just need to read two matrix and you can perform a lot of flops.
+
+284
+00:19:02,379 --> 00:19:04,399
+所以你的AI在
+So your AI is much higher on
+
+285
+00:19:04,399 --> 00:19:07,419
+Metamor上比其他算子高得多，对吧？
+Metamor compared to other operators, okay?
+
+286
+00:19:07,419 --> 00:19:10,639
+这意味着有一些好的模型。
+So this means that there are some good models.
+
+287
+00:19:10,639 --> 00:19:12,579
+也有一些不好的模型，对吧？
+There are some bad models, right?
+
+288
+00:19:12,579 --> 00:19:17,180
+因为如果一个模型总是用逐元素操作，而不用metam，那就是个糟糕的模型。
+Because if a model always has element wise, but not metamos bad model.
+
+289
+00:19:17,180 --> 00:19:20,180
+从GPU加法的角度来看是这样。
+Right from the perspective of GPU addition.
+
+290
+00:19:20,180 --> 00:19:25,880
+但如果一个模型在metamO和其他操作之间有完美的平衡，
+Okay? But if a model has a perfect balance of metamO and something else,
+
+291
+00:19:25,880 --> 00:19:33,180
+这样你就可以在很好地利用你的GPU的同时，达到一个平衡，对吧，并且提升
+then you can strike a balance between, utilize your GPU pretty good, right, and increase
+
+292
+00:19:33,180 --> 00:19:36,359
+机器学习模型的基本能力，对吧？
+the marchine learning models basically power, right?
+
+293
+00:19:36,359 --> 00:19:41,560
+因为你不能总是让你的模型只做数学运算，因为那样只能进行线性操作。
+Because you cannot always do matm for your model because it will only bear linear operations.
+
+294
+00:19:41,560 --> 00:19:45,819
+线性操作在机器建模能力上是非常有限的，对吧？
+Linear operation has very limited kind of marchinary modeling power, right?
+
+295
+00:19:45,819 --> 00:19:49,600
+所以一个完美的模型基本上应该在自身能力之间达到平衡。
+So a perfect model should basically strike a balance between its own power.
+
+296
+00:19:49,600 --> 00:19:53,659
+比如说，你需要混合线性操作和非线性操作来表达
+For example, you need to mix linear operations and nonlinear operations to express
+
+297
+00:19:53,659 --> 00:19:56,105
+足够复杂的函数。
+a sophisticated enough functions.
+
+298
+00:19:56,105 --> 00:20:00,729
+并且你还需要有一种方法能够很好地利用GPU。
+And you need to basically have a way to utilize GPU pretty well.
+
+299
+00:20:00,729 --> 00:20:04,450
+好吗？所以这里我想呼应一下我第一节课讲的内容。
+Okay? So here I want to echo a little bit in my first lecture.
+
+300
+00:20:04,450 --> 00:20:07,429
+我也想呼应一下我们的嘉宾讲者说的内容，对吧？
+I also echo what our guest speaker said, right?
+
+301
+00:20:07,429 --> 00:20:12,390
+所以最终在当前的现代机器学习模型开发中，当你设计模型时，
+So eventually in the current in contemporary machinery development, you when you design model,
+
+302
+00:20:12,390 --> 00:20:13,929
+你必须考虑到这一点，明白吗？
+you have to think about this. Okay?
+
+303
+00:20:13,929 --> 00:20:16,170
+你不能只设计你觉得还不错的模型。
+You cannot design model that you think are pretty good.
+
+304
+00:20:16,170 --> 00:20:21,469
+有很多代表性能力，比如模型可以拟合任意函数，但它对GPU并不友好。
+A lot of representative power, like model arbitrary function, but it's not GPU friendly.
+
+305
+00:20:21,469 --> 00:20:23,289
+你必须考虑到这一点。
+Okay, you have to think about this.
+
+306
+00:20:23,289 --> 00:20:26,950
+你需要最大化你的MF，设计你的模型，明白吗？
+Okay, you need to maximize your MF well, design your model, okay?
+
+307
+00:20:26,950 --> 00:20:28,589
+这就是为什么transformer会胜出的原因，对吧？
+That's why transformer wins, right?
+
+308
+00:20:28,589 --> 00:20:30,285
+好的，很棒。
+Okay. Cool.
+
+309
+00:20:30,285 --> 00:20:36,160
+我已经告诉过你，哪些操作对MF友好，哪些对O和M不友好。
+Uh, I already told you, what are the MF friendly O and M unfriendly op.
+
+310
+00:20:36,160 --> 00:20:42,719
+基本上，MTM对MF非常友好，而元素级操作则不是很友好。
+So basically MTM is very MF friendly, um, and element we are not very friendly.
+
+311
+00:20:42,719 --> 00:20:48,140
+很好。当然，你的MMF会受到哪些影响？
+Cool. Okay, of course, what kind of affect your MMF?
+
+312
+00:20:48,140 --> 00:20:51,699
+那就是你在加工程序中应用的系统增强，对吗？
+That is the system ogmentation you applied to your machining program, right?
+
+313
+00:20:51,699 --> 00:20:57,599
+如果你做这些，比如图增强、融合，
+If you do telling, if you do all these kind of like graph ogmentation, you do fusion, you do
+
+314
+00:20:57,599 --> 00:21:00,119
+还有低精度计算，对吧？
+lower precision, uh, computation, right?
+
+315
+00:21:00,119 --> 00:21:05,200
+这样你确实可以减少读取数据所花的时间，
+And you can definitely, uh, reduce the time you spend on reading data,
+
+316
+00:21:05,200 --> 00:21:09,339
+但会增加你在计算上花的时间，对吧？
+but increase the time you spend on, um, on computing, right?
+
+317
+00:21:09,339 --> 00:21:12,200
+你也可以让你的GPU比以前更忙碌。
+And you can always keep your GPU busier than before.
+
+318
+00:21:12,200 --> 00:21:16,700
+所以如果你知道如何优化你的程序，如何优化你的图，
+So if you know how to optimize your program, how to optimize your graph,
+
+319
+00:21:16,700 --> 00:21:20,639
+如何优化你的算子，你就能提升你的MMF，明白吗？
+how to optimize your operators, you are going to increase your MMF. Okay?
+
+320
+00:21:20,639 --> 00:21:23,919
+所以我让你们在第二次作业中做的，其实就是这些。
+So what I ask you to do in the second homework is basically,
+
+321
+00:21:23,919 --> 00:21:27,320
+我希望你能提高你的MF，好吗？
+I hope you can increase your MF, okay?
+
+322
+00:21:28,130 --> 00:21:35,789
+第三个主要影响MMF的因素，基本上当然是精度，对吧？
+And the third factor primary factor that affect MMF is basically, of course, precision, right?
+
+323
+00:21:35,789 --> 00:21:39,830
+因为对于GPO来说，在不同的精度下有不同的峰值浮点运算能力。
+Because for GPO, it has a different peak flops at different precision.
+
+324
+00:21:39,830 --> 00:21:44,130
+这意味着如果你使用不同的精度，这个数值是不同的。
+Which means that this number is different if you use different um precision.
+
+325
+00:21:44,130 --> 00:21:47,389
+明白了吗？当然，还有类型，对吧？
+Okay? And of course, the type of course, right?
+
+326
+00:21:47,389 --> 00:21:49,990
+我给你展示了H100的产品。
+I show your products back of H 100.
+
+327
+00:21:49,990 --> 00:21:56,069
+所以它们在十进制和长十进制下有不同的峰值浮点运算能力，好吗？
+So they have different peak flops for ten circle and long ten circle, okay?
+
+328
+00:21:56,069 --> 00:22:00,349
+GPO类型的H100绝对比E100更强大。是的。
+GPOtype H 100 is definitely more powerful than E 100. Yeah.
+
+329
+00:22:00,349 --> 00:22:03,569
+所以一旦这个数值发生变化，这个数值也会跟着变，
+So this number is going to change once this number changes, you know,
+
+330
+00:22:03,569 --> 00:22:10,400
+你的MF也会随之变化，好吗？还有其他问题吗？
+your MF is going to change, okay? Anything else?
+
+331
+00:22:12,760 --> 00:22:19,479
+基本上，这又回到了我们本节课的主要内容——通信，对吧？
+Basically, it goes back to our main content of this lecture, communication, right?
+
+332
+00:22:19,479 --> 00:22:23,159
+所以当你开始做部分加法时，你就引入了通信。
+So when you start doing part addition, you introduce communication.
+
+333
+00:22:23,159 --> 00:22:28,539
+一旦你开始通信，这意味着你要把时间花在其他事情上，
+And once you communicate, that means you're going to spend time on something else,
+
+334
+00:22:28,539 --> 00:22:35,799
+但不是在TPU上，从整体来看，你实际上是在降低M，因为这个值会增加。
+but not on TPU, holistically, you are basically lowering M because this is going to increase.
+
+335
+00:22:35,799 --> 00:22:41,920
+通信是需要时间的。我们有哪些可能的方法可以减少通信呢？
+Communication takes time. What are the possible ways that we can reduce communication?
+
+336
+00:22:42,530 --> 00:22:48,530
+有几种方法，对吧。第一种是，你选择一种能够最小化通信的范式。
+There are a few ways, right. One is, you choose the paradim in a way that minimize communication.
+
+337
+00:22:48,530 --> 00:22:50,390
+你不要做连接操作。
+You don't do connective.
+
+338
+00:22:50,390 --> 00:22:54,029
+你做的连接操作要比PDP少。
+You do less connective compared to PDP.
+
+339
+00:22:54,029 --> 00:22:59,549
+第二种是，你尽量把那些开销大的通信放在高带宽互连上。
+Second is, you try to put those expensive communication on high bandwis interconnect.
+
+340
+00:22:59,549 --> 00:23:02,650
+对，我们接下来会讲这个，好吗？
+Right. And we are covered next, okay?
+
+341
+00:23:02,650 --> 00:23:05,529
+当然，你也可以进行一些调度，
+And of course, you can also do some scheduling to make
+
+342
+00:23:05,529 --> 00:23:08,769
+确保你的通信和计算是重叠进行的。
+sure your communication is overlapped with compute.
+
+343
+00:23:08,769 --> 00:23:14,360
+这样一来，你基本上就能减少通信时间，对吧？同时我们会提升MF。
+That way, you can basically diminish the time of communication, right? And we'll increase MF.
+
+344
+00:23:14,360 --> 00:23:18,669
+好的，这样基本上就给你一个整体的概念。
+Okay. So that basically give you a high level picture.
+
+345
+00:23:18,669 --> 00:23:24,470
+所以当我们开始考虑并行化时，呃，我们的问题就会变得更复杂一些
+So when we start considering paralyzation, uh, our problem becomes a little bit more complicated
+
+346
+00:23:24,470 --> 00:23:27,069
+因为这里又多了一个因素，就是通信。
+because there's one more factor here, communication.
+
+347
+00:23:27,069 --> 00:23:31,529
+好的。好的，为了同步一下，嗯，
+Okay. Okay, so to synchronize a little bit, um,
+
+348
+00:23:31,529 --> 00:23:35,090
+我想在之前所有的课程里，我们都讲过如何确保
+I think in all previous lecture, we explain how to make sure
+
+349
+00:23:35,090 --> 00:23:37,509
+这三个要素都得到了处理，对吧？
+the three items are being taken care of, right?
+
+350
+00:23:37,509 --> 00:23:39,729
+所以基本上在接下来的课程中，
+And so basically in the rest of the lecture,
+
+351
+00:23:39,729 --> 00:23:42,850
+我现在要开始讨论沟通，因为这是
+I'm going to start discussing communication because that's
+
+352
+00:23:42,850 --> 00:23:46,349
+我们在进行部件添加后引入的一个新因素。
+a new factor we introduced once we do part addition.
+
+353
+00:23:46,349 --> 00:23:49,419
+好的，但在那之前，
+Okay. But before that,
+
+354
+00:23:49,419 --> 00:23:52,779
+我还想再花一点时间讲讲MFU。
+I still want to spend a little bit more time on MFU.
+
+355
+00:23:52,779 --> 00:23:57,739
+现在假设你开始工作了，你的老板会让你来问我
+So now, suppose you start working okay and your boss is going to ask you to ask me
+
+356
+00:23:57,739 --> 00:23:59,859
+你加工程序的MF。你会怎么做？
+MF of your marchining program. What do you do?
+
+357
+00:23:59,859 --> 00:24:06,499
+有什么流程？因为我觉得这将来某一天肯定会发生在你身上。
+What's the procedure? Because I think this will happen someday in the future, yeah for you.
+
+358
+00:24:06,499 --> 00:24:10,979
+B MF是衡量你使用RTP水平的重要方式，对吧。
+B MF is such an important way to measure how good you are using the RTP right.
+
+359
+00:24:10,979 --> 00:24:12,459
+比如说，如果你让你的老板买
+For example, if you ask your boss to buy
+
+360
+00:24:12,459 --> 00:24:14,459
+多个TPU，你就需要一个合理的理由。
+Mul TPUs, you need justification.
+
+361
+00:24:14,459 --> 00:24:16,299
+然后你的老板会问你，
+And your boss will ask you,
+
+362
+00:24:16,299 --> 00:24:18,000
+好的，你在使用RTPU方面有多厉害？
+Okay, how good you are using RTPU?
+
+363
+00:24:18,000 --> 00:24:20,859
+如果你只用了MF的20%，那不行，我会拒绝你。
+If it's the only 20% of MF, no, I'm going to reject you.
+
+364
+00:24:20,859 --> 00:24:22,520
+但如果你已经达到了50%，
+But if you're already at 50%,
+
+365
+00:24:22,520 --> 00:24:24,459
+我会为你买更多的GPU，对吧？
+I'm going to buy more GPU for you, right?
+
+366
+00:24:24,459 --> 00:24:28,000
+好的。那么，如何向我询问MF呢？
+Okay. So how to ask me MF?
+
+367
+00:24:28,840 --> 00:24:31,040
+这里有几个步骤，好吗，
+So there are a few steps, okay,
+
+368
+00:24:31,040 --> 00:24:33,840
+我会一一讲解，而且我也会把这个作为作业布置下去。
+I'm going to go through, and I'm also going to put this in homework.
+
+369
+00:24:33,840 --> 00:24:35,640
+好的。你必须要做这些，而且你需要写
+Okay. You have to do this, and you need to write
+
+370
+00:24:35,640 --> 00:24:38,079
+尤其是针对语言模型的编程。
+the programming especially for language models. Okay.
+
+371
+00:24:38,079 --> 00:24:41,219
+所以第一步，当然是看你的机器学习程序，
+So the first step, of course, you look at your machine learning program,
+
+372
+00:24:41,219 --> 00:24:43,219
+然后你统计这里有多少个操作。
+and you count how many ops here.
+
+373
+00:24:43,219 --> 00:24:47,720
+你还要试着弄清楚你的数据的形状。
+And you also try to figure out the shape or your data.
+
+374
+00:24:47,720 --> 00:24:54,059
+有了这些数据形状和操作类型，基本上
+And so with this data shapes with the type of operators and so basically
+
+375
+00:24:54,059 --> 00:24:59,619
+图中所有的操作，你都可以估算出
+all the operators that in that graph, you are able to estimate, uh the total flops needed to
+
+376
+00:24:59,619 --> 00:25:02,034
+运行一次前向和反向传播所需的总浮点运算量。
+run one iteration of forward and backward.
+
+377
+00:25:02,034 --> 00:25:06,849
+因为你知道计算本质上就是大量的矩阵乘法，对吧？
+Because you know the computes essentially a lot of math mol linear, right?
+
+378
+00:25:06,849 --> 00:25:12,589
+所以你基本上要统计需要多少次加法和浮点运算
+So you basically count how many addition and basically floating point arithmetics
+
+379
+00:25:12,589 --> 00:25:14,770
+来运行这个目标计算图。
+you need for running the tar graph.
+
+380
+00:25:14,770 --> 00:25:17,689
+这样你就得到了第一个参数，也就是flops。
+So you all get the first term, which is flops.
+
+381
+00:25:17,689 --> 00:25:23,529
+好吗？然后假设你已经有了你的系统，比如说你的作业一，对吧？
+Okay? And then suppose you already have your system, for example, your homework one, right?
+
+382
+00:25:23,529 --> 00:25:25,769
+你是在不同的库里写的，对吧？
+You wrote at difference in library, right?
+
+383
+00:25:25,769 --> 00:25:29,189
+你可以运行一次transformer的前向和反向传播。
+You can run the transformer for one iteration, forward and backward.
+
+384
+00:25:29,189 --> 00:25:36,549
+然后你在你的目标GPU类型上运行，基本上就是测试一下需要多长时间，对吧？
+And you run on your target type of GPU and you basically try to benchmark how long it takes, right?
+
+385
+00:25:36,549 --> 00:25:40,150
+这样你就知道运行需要多长时间了
+And that give you since that how long it takes for running
+
+386
+00:25:40,150 --> 00:25:44,109
+当它在你的系统上运行这个程序时。
+while it using your system, for this program.
+
+387
+00:25:44,109 --> 00:25:47,029
+你得到了第二个时间T，明白了吗？
+You get a second term T. Okay?
+
+388
+00:25:47,029 --> 00:25:51,930
+第三，当然，你要去英伟达的网站，查看他们的产品规格。
+And third, of course, you go to Media's website, you check their product spec.
+
+389
+00:25:51,930 --> 00:25:55,169
+比如说，如果你在作业二里用的是T4，
+You check, for example, if you are running on T four in homework two,
+
+390
+00:25:55,169 --> 00:25:59,409
+或者将来你用的是H100，你就要查查它们的P flops等参数。
+or if you are running on H hundred in future, you check their P flops and
+
+391
+00:25:59,409 --> 00:26:01,750
+你要确保你确实使用了核心。
+you make sure that you indeed use the core.
+
+392
+00:26:01,750 --> 00:26:05,690
+比如说，P16核心，或者他们在规格中提到的。
+For example, a P 16 core or they mentioned in the spec.
+
+393
+00:26:05,690 --> 00:26:09,109
+你基本上会得到第三个术语，也就是P flops，对吧？
+You basically get a third term which is the P flops, right?
+
+394
+00:26:09,109 --> 00:26:12,390
+然后你就可以计算MF了。
+And then you are able to calculate MF.
+
+395
+00:26:12,390 --> 00:26:15,570
+你会知道你对GPU的利用率是多少百分比。
+You'll know how many percentage you utilize for the GPU.
+
+396
+00:26:15,570 --> 00:26:19,419
+好的，所以我要把这个作为作业。
+Okay. So I'm going to put this into homework.
+
+397
+00:26:19,419 --> 00:26:21,219
+好的，我要给你一个ama。
+Okay, I'm going to give you ama.
+
+398
+00:26:21,219 --> 00:26:22,799
+我要把amas还给你们。
+I'm going to give you amas back.
+
+399
+00:26:22,799 --> 00:26:26,060
+所以Lama有很多层，就像我为GBD ray展示的表格一样。
+So Lama has many layers like the table I showed for GBD ray.
+
+400
+00:26:26,060 --> 00:26:31,520
+好的，我基本上定义了有多少层、每一层的transformer层数，以及每一层的形状。
+Okay. I basically defines how many layers, transformer layers for each layer, what's the shape?
+
+401
+00:26:31,520 --> 00:26:38,299
+我会给你一个ama，你告诉我训练ama需要多少flops，以及训练ama需要多少flops。
+I'm going to give you ama, and you tell me the lamas flops, how much flops you needed to train ama.
+
+402
+00:26:38,299 --> 00:26:44,060
+好吗？然后我会给你一个程序，你估算一下训练Llama IT所需的MMF。
+Okay? And then I'm going to give you a program, and you estimate the MMF for training Llama IT.
+
+403
+00:26:44,060 --> 00:26:52,639
+好吗？好的。接下来我会简化一下。
+Okay? Yeah. Mix I'm going to simplify.
+
+404
+00:26:52,639 --> 00:26:55,600
+你只需要考虑FP16。对，对。
+You only consider FP 16. Yeah, yeah.
+
+405
+00:26:55,600 --> 00:27:01,440
+好的，因为大部分的计算都是在FP16核心上完成的。
+Okay. Yeah, because the majority of compute takes place on IP 16 course.
+
+406
+00:27:01,440 --> 00:27:04,760
+只有很少的计算是在FP32核心上完成的。
+Just a little bit compute takes place on IP 32 course.
+
+407
+00:27:04,760 --> 00:27:09,399
+明白了吗？好的，那么为什么这个这么重要？
+Okay? Okay, so why this is so important?
+
+408
+00:27:09,399 --> 00:27:14,940
+因为下周我们开始接触skinning lows的时候，
+Be Because in next week when we start touching base on skinning lows and you start
+
+409
+00:27:14,940 --> 00:27:20,599
+你会意识到人们设计网络，尤其是设计语言模型的方式，
+to realize that the way that people design your networks especially design language models is all
+
+410
+00:27:20,599 --> 00:27:24,380
+基本上都是围绕这个MF和flop来展开的。
+basically anchored on this MF and flop scene.
+
+411
+00:27:24,380 --> 00:27:28,100
+好吗？我待会儿会更深入地讲解，好吗？
+Okay? And I'm going to dive deeper later, okay?
+
+412
+00:27:28,620 --> 00:27:31,320
+嗯，所以重复一下，
+Uh, so to repeat,
+
+413
+00:27:31,320 --> 00:27:36,739
+MF 正在成为当今语言模型行业中一个高度关注的指标，好吗？
+MF is becoming a metric, highly indexed in today's language model industry, okay?
+
+414
+00:27:36,739 --> 00:27:40,199
+我会给大家一些真实的数据。
+And I'm going to give you a few real numbers.
+
+415
+00:27:40,199 --> 00:27:46,020
+基本上四年前，我们的集群主要由 V100 组成，
+So basically four years ago, our class is mainly composed of the V 100,
+
+416
+00:27:46,020 --> 00:27:48,200
+也就是说基本上是领先两代的设备，好吗？
+so basically two generations ahead, okay?
+
+417
+00:27:48,200 --> 00:27:54,620
+抱歉，是落后两代，嗯，所以最好的机器学习系统运行在，比如说，
+Two generation before, sorry, um, so the best machine learning system running on, for example,
+
+418
+00:27:54,620 --> 00:27:59,369
+V100 基本上只能达到 MMF 的 30% 到 50%。
+1,100 can basically get 30 to 50% of MMF.
+
+419
+00:27:59,369 --> 00:28:04,579
+也就是说我们只利用了 GPU 一半的性能。
+Okay, that is we only utilize half of the power of our GPU.
+
+420
+00:28:04,579 --> 00:28:08,200
+好吗？这是在 V100 上表现最好的系统。
+Okay? The best system, okay, on Viva hundred.
+
+421
+00:28:08,200 --> 00:28:15,959
+你可以看到这里，VA100的峰值浮点运算能力基本上是112万亿次每秒，对吧，Tera Flops。
+And you can see here the peak flops for Va hundred is essentially 112 T flops, right, Terra flops,
+
+422
+00:28:15,959 --> 00:28:22,099
+这意味着四年前，我们每块GPU在120亿参数的语言模型上只能用大约50到60万亿次每秒的算力。
+which means that four years ago, we can only use like almost 50 to 60 T flops
+
+423
+00:28:22,099 --> 00:28:25,335
+每块GPU只能用在120亿参数的语言模型上。
+per GPU on class, 120 language model.
+
+424
+00:28:25,335 --> 00:28:31,189
+当然，Mchani系统在发展，硬件也变得更强大了，对吧？
+Of course, Mchani system is developing and hardware is also getting more powerful, right?
+
+425
+00:28:31,189 --> 00:28:37,550
+快进到Eva100，我们基本上达到了30%的MFU。
+So fast forward to Eva hundred, uh, we basically get 30% of MFU.
+
+426
+00:28:37,550 --> 00:28:39,250
+好吗？其实不是很理想。
+Okay? Not very good.
+
+427
+00:28:39,250 --> 00:28:44,989
+好的，一旦Flash Attention出来后，我们可以达到60%。
+Okay. And once flash attention is out, we can get to 60%.
+
+428
+00:28:44,989 --> 00:28:47,389
+现在你知道为什么Flax这么重要了吧？
+So now you know why flax is so important, right?
+
+429
+00:28:47,389 --> 00:28:51,169
+这基本上意味着你能节省数十亿美元。是的。
+It basically means that you just save billions of dollars. Yeah.
+
+430
+00:28:51,169 --> 00:28:56,650
+好的，所以一旦有了Flash Attention，我们基本上可以从30%提升到60%。
+Okay. Uh, so once how fly ation, we can basically boost from 30% to 6%.
+
+431
+00:28:56,650 --> 00:28:59,009
+好吗？而且60%已经相当不错了。
+Okay? And 60% is already pretty good.
+
+432
+00:28:59,009 --> 00:29:01,070
+就像我说的，你唯一能达到100%的方法，
+Like I said, the only way you can achieve
+
+433
+00:29:01,070 --> 00:29:04,170
+就是你只运行matm，什么都不做。
+100% is that you only run matm, nothing else.
+
+434
+00:29:04,170 --> 00:29:07,129
+但在这里你已经能达到60%，这已经很不错了。
+But here you already get 60%, which is pretty good.
+
+435
+00:29:07,129 --> 00:29:17,010
+好的，给你一个参考，P30、P16、A100的峰值flops基本上是312，
+Okay. And to give you a reference, the peak flops of P 30 P 16, tircle of A 100 is basically 312,
+
+436
+00:29:17,010 --> 00:29:24,369
+这意味着我们已经能在每个E100上运行接近160的flops了，好吗？
+which means that we can already run at almost 160 flops per E 100, okay?
+
+437
+00:29:24,369 --> 00:29:28,869
+最近，我们都在把集群从E100迁移到H100，对吧？
+And recently, we are all moving our cluster from E 100 to H 100, right?
+
+438
+00:29:28,869 --> 00:29:32,709
+所以我们表现会稍微差一点，因为
+So so we are becoming a little bit worse because
+
+439
+00:29:32,709 --> 00:29:34,470
+H100的峰值flops要高得多。
+HI hundred peak flop is much higher.
+
+440
+00:29:34,470 --> 00:29:40,990
+而我们的软件还没有跟上，所以我们只能运行在30%到50%之间。
+Okay, and our software is not catching up, so we can only run between 30% to 50%.
+
+441
+00:29:40,990 --> 00:29:45,750
+好的。所以基本上，如果你在一家公司工作，并且你们公司的系统运行在它的范围内，
+Okay. So basically, if you work for a company and your company system is running within its range,
+
+442
+00:29:45,750 --> 00:29:47,190
+你就不会被解雇。
+you are not going to be fired.
+
+443
+00:29:47,190 --> 00:29:50,130
+好的。但如果低于30，你就有问题了。
+Okay. But if it's below 30, you have a problem.
+
+444
+00:29:50,130 --> 00:29:56,290
+明白吗？而这为什么取决于模型的大小？
+Okay? And why is that is depending on model size?
+
+445
+00:29:58,500 --> 00:30:02,280
+显然，运行更大的metamol会比运行
+Apparently, running larger metamol will be more efficient than running
+
+446
+00:30:02,280 --> 00:30:05,459
+小的metamR更高效。运行更大的metamol会给你更高的MF。
+small metamR Running larger metamol will give you a higher MF.
+
+447
+00:30:05,459 --> 00:30:08,719
+所以如果你训练一个非常大的模型，你会达到50%。
+So if you train a really big model, you're going to hit 50% one.
+
+448
+00:30:08,719 --> 00:30:14,139
+但如果你用一个更小的模型，你只能达到30%，明白吗？
+But if you to a smaller model, you hit you're going to get 30%, okay?
+
+449
+00:30:15,100 --> 00:30:23,520
+供你参考，t hundred有992 flops，这意味着我们可以利用
+And for your reference, at hundred has 992 flops, which means that we can utilize we can operate at
+
+450
+00:30:23,520 --> 00:30:26,700
+对于t hundred来说，每个GPU几乎可以达到300 flops。
+almost 300 flops per GPU for t hundred.
+
+451
+00:30:26,700 --> 00:30:33,294
+嗯，关于什么是分割因素。是的。
+Yeah. About what is dividing factor. Yeah.
+
+452
+00:30:33,294 --> 00:30:38,790
+在之前，检测器有哪些因素？
+In the previous what are the things that detector?
+
+453
+00:30:38,790 --> 00:30:41,409
+主要因素是什么？
+What is the major factor?
+
+454
+00:30:41,409 --> 00:30:42,749
+为什么是模型架构？
+Why is model architecture?
+
+455
+00:30:42,749 --> 00:30:44,890
+如果你用transformer，你不会达到100。
+If you do transformer, you're not going to hit 100.
+
+456
+00:30:44,890 --> 00:30:48,850
+除非你能发明一个只用数学的模型，但那个模型会非常弱，
+Unless you can invent a model that is only matma, but that model will be super weak
+
+457
+00:30:48,850 --> 00:30:51,089
+因为它只有线性操作。
+because it only have linear openon.
+
+458
+00:30:51,089 --> 00:30:56,490
+另一个因素是通信，因为你要在成千上万甚至一万台
+The other is communication because you are going to run this on thousands or 10,000
+
+459
+00:30:56,490 --> 00:30:58,989
+GPU上运行，这些通信会花时间。
+GPs and those communication takes time.
+
+460
+00:30:58,989 --> 00:31:09,849
+它会让事情变慢。好吧，显然今年，英伟达承诺会推出B 100，
+I slows down things. Okay. Apparently, this year, media promised to shape B 100,
+
+461
+00:31:09,849 --> 00:31:12,149
+嗯，我想猜一下。好的。
+uh, I would like to take a guess. Okay.
+
+462
+00:31:12,149 --> 00:31:14,970
+在作业三中，我会要求你写一篇论文。
+And in Homework three, I'm going to ask you to write the essay.
+
+463
+00:31:14,970 --> 00:31:16,910
+好的，这是一个开放性问题。
+Okay. It's open problem.
+
+464
+00:31:16,910 --> 00:31:18,689
+我会给你们几个开放性问题。
+I'm going to give you a few open problems.
+
+465
+00:31:18,689 --> 00:31:23,929
+比如说，有一个开放性问题是让你们猜测B上的MF会是多少。
+For example, one open problem you make a guess of what MF will be on B
+
+466
+00:31:23,929 --> 00:31:26,949
+有100个计算器，你需要提供证据。
+100 clacers and you need to provide evidence.
+
+467
+00:31:26,949 --> 00:31:29,529
+你需要进行论证和说明理由。
+You need to argue, justify it.
+
+468
+00:31:29,529 --> 00:31:34,329
+好的，酷。好，还没结束。
+Okay. Cool. Okay, not finished yet.
+
+469
+00:31:34,329 --> 00:31:36,490
+我还需要补充一些与MF相关的内容。
+I still need to in something relative to MF.
+
+470
+00:31:36,490 --> 00:31:41,150
+好吗？所以除了MF，我们还有另一个概念叫做HF。
+Okay? So besides MF, we have another concept called HF.
+
+471
+00:31:41,430 --> 00:31:48,630
+好的，这里HFU，MU是一样的，对吧，都是浮点运算利用率，但H代表硬件。
+Okay, HFU here, MU is the same, right, flops utilization, but H stands for hardware.
+
+472
+00:31:48,630 --> 00:31:52,869
+所以为了区分，我们关注MF，也关注HF。
+So to distinguish it we care about MF, we care about HF.
+
+473
+00:31:52,869 --> 00:31:56,190
+所以SUFU其实是更容易理解的定义。
+So SUFU is actually more easy to understand definition.
+
+474
+00:31:56,190 --> 00:32:02,429
+它基本上是从硬件层面精确描述的，你有多少个ti。
+It's basically precisely characterized from hardware level, how many ti you have.
+
+475
+00:32:02,429 --> 00:32:04,309
+比如说，这个硬件有，
+For example, this hardware have say,
+
+476
+00:32:04,309 --> 00:32:11,969
+1,000个浮点运算，你的程序在硬件层面每秒利用了600个浮点运算。
+1,000 flops and your program, uh, like on the hardware level, utilizes 600 flops per second.
+
+477
+00:32:11,969 --> 00:32:14,169
+那么你的HF就是60%。
+Then your HF is 60%.
+
+478
+00:32:14,169 --> 00:32:17,330
+那么既然有HUFU，为什么还要有MFU？
+Then given HUFU why there is a MFU?o?
+
+479
+00:32:17,330 --> 00:32:23,769
+问题在于，如果你还记得紧急程序的话，在内存部分，对吧，我们有
+The problem is, if you still remember emergeny programs, but in the memory part, right, we have
+
+480
+00:32:23,769 --> 00:32:26,229
+一些可以把计算机当作内存来处理的小技巧。
+some tricks that we can treat a computer for memory.
+
+481
+00:32:26,229 --> 00:32:29,229
+还记得那个检查点的事情吧？
+Still remember the checkpointing thing, right?
+
+482
+00:32:29,229 --> 00:32:34,209
+所以我们可以在transformer的边界设置几个检查点，然后在反向传播时，
+So we can checkpoint a few at the trasfmer boundary, and during the backward,
+
+483
+00:32:34,209 --> 00:32:36,529
+我们可以重新计算，对吧？
+we can recompute, right?
+
+484
+00:32:36,529 --> 00:32:42,270
+实际上这种优化方式的问题在于，你实际上需要花费
+The problem actually MFU of that kind of optimization is you actually spend
+
+485
+00:32:42,270 --> 00:32:45,229
+额外的计算量来节省一些内存。
+extra flops in order to save some memory.
+
+486
+00:32:45,229 --> 00:32:49,569
+而这些额外的计算量其实并没有真正推动
+And this extra flops is not actually contributing to the progress of
+
+487
+00:32:49,569 --> 00:32:52,555
+模型训练的进展。这样说有道理吗？
+the model training. Does that make sense?
+
+488
+00:32:52,555 --> 00:32:56,059
+好的。这意味着你需要花费额外的计算量，或者
+Okay. Which means that you need to spend extra flops or
+
+489
+00:32:56,059 --> 00:32:59,520
+做一些其他的事情，而这些其他的事情其实是没有意义的。
+something else and something else is meaningless.
+
+490
+00:32:59,520 --> 00:33:04,280
+这就意味着你的TPU实际上是在一个非常高的利用率下运行的。
+Which means that your TPU is actually operated at a very high tition level.
+
+491
+00:33:04,280 --> 00:33:07,439
+但是因为你花费了额外的计算量，
+But because you spend that amount of extra flops,
+
+492
+00:33:07,439 --> 00:33:11,159
+你的MF实际上是相当低的。你明白我的意思吧？
+your MF is actually pretty low. You got my point, right?
+
+493
+00:33:11,159 --> 00:33:13,179
+这意味着你其实还是在浪费钱，
+Which means that you're still wasting money because
+
+494
+00:33:13,179 --> 00:33:16,859
+因为最终你的OKR是让模型收敛。
+eventually your OKR is training the model to converge.
+
+495
+00:33:16,859 --> 00:33:18,539
+这并不像是在节省内存，对吧？
+It's not like saving memory, right?
+
+496
+00:33:18,539 --> 00:33:22,480
+好的，这就是为什么有HF的原因，明白了吗？
+Okay. So that's why there is HF, okay?
+
+497
+00:33:22,480 --> 00:33:24,499
+并且已经解释过在什么情况下，
+And already explained in what case,
+
+498
+00:33:24,499 --> 00:33:29,319
+HFU不等于MF，就是你花了一些计算量在其他工作上，而这些工作
+HFU does not equal to MF, that is you spend some flops for other work, and that work is not
+
+499
+00:33:29,319 --> 00:33:31,020
+并没有帮助你的模型收敛。
+contributing to your model convergence.
+
+500
+00:33:31,020 --> 00:33:36,139
+明白了吗？就像我说的，在硅谷，人们只关注MF。
+Okay? So like I said, in Silicon Valley, people only index on MF.
+
+501
+00:33:36,139 --> 00:33:41,119
+所以如果你的老板问你什么是保留率，你不能报告HF，因为HF
+So if your boss asks what's retention, you cannot report HF because HF is
+
+502
+00:33:41,119 --> 00:33:45,379
+有时候并不等于MF，明白吗？
+sometimes is not equal to MF, okay?
+
+503
+00:33:45,379 --> 00:33:47,439
+嗯，我可以再问一个问题吗？
+Um, I can ask one more question.
+
+504
+00:33:47,439 --> 00:33:52,659
+所以如果我们在策略中使用这种检查点，对吧，我们在transumer边界做检查点，
+So if we use those kind of checkpoint in strategy, right, we checkpoint at the transumer boundary,
+
+505
+00:33:52,659 --> 00:33:56,800
+那么HU和MF之间的数学关系是什么？
+then what is the mathematical relation between HU and MF?
+
+506
+00:34:01,320 --> 00:34:09,199
+有人想回答吗？好吧，让我来解释一下。
+Anyone want to answer? Okay. Let me explain.
+
+507
+00:34:09,199 --> 00:34:11,019
+其实这个很容易理解，对吧？
+So it's very easy to understand, right?
+
+508
+00:34:11,019 --> 00:34:17,179
+所以没有检查点时，你基本上做一次前向和一次反向，对吧？
+So without checkpointing, you basically perform one forward and went backward, right?
+
+509
+00:34:17,179 --> 00:34:19,979
+而有了检查点，我想我在课上解释过，
+And with checkpointing, I think I explained in the lecture,
+
+510
+00:34:19,979 --> 00:34:23,299
+你会做两次前向和一次反向。
+you perform two forward and went backward.
+
+511
+00:34:23,299 --> 00:34:25,859
+那你其实是在比较两件事，对吧。
+Then you are basically comparing two things, right.
+
+512
+00:34:25,859 --> 00:34:29,699
+一种是你做一次前向和一次反向，对吗？
+One is you perform one forward and one backward, right?
+
+513
+00:34:29,699 --> 00:34:33,519
+另一种是你做两次前向和一次反向。
+And the other you perform two forward and one backward.
+
+514
+00:34:33,600 --> 00:34:36,840
+那它们之间是什么关系呢？
+So what are the relation?
+
+515
+00:34:37,310 --> 00:34:43,450
+所以本质上，在大多数神经网络训练中，我们可以认为一次反向等于两次前向。
+So essentially, in most near training, we can think that one backward equals to two forward.
+
+516
+00:34:43,450 --> 00:34:46,149
+有人能解释为什么吗？
+Can anyone explain why?
+
+517
+00:34:46,150 --> 00:34:53,009
+如果你要对参数和激活值求梯度，基本上对于大多数数学运算，
+If you are going to take grads against the parameters and activations, basically for most math,
+
+518
+00:34:53,009 --> 00:34:56,549
+你在反向传播时基本上做了两倍于前向传播的计算。
+you basically do twice during backward, compared to forward.
+
+519
+00:34:56,549 --> 00:35:02,009
+明白了吗？所以如果我们把这个代入公式，没有做检查点的时候，
+Okay? So if we substitute this into the equation, without checkpoint, when we treat
+
+520
+00:35:02,009 --> 00:35:05,154
+一个中间神经网络我们需要三次前向传播，对吧？
+one interregional neurork we get three forward, right?
+
+521
+00:35:05,154 --> 00:35:10,919
+但是如果我们无法进行检查点保存，其实每次完成一次中断或训练时，
+But if we're unable to check pointing, we are actually every time we finish one inter or training,
+
+522
+00:35:10,919 --> 00:35:14,919
+我们都会向前推进四次。
+we are spinning four times forward.
+
+523
+00:35:14,919 --> 00:35:18,159
+明白吗？这基本上就是MF和SF之间的关系。
+Okay? That is basically the relation between MF and SF.
+
+524
+00:35:18,159 --> 00:35:23,999
+所以，当你无法进行检查点保存时，你会观察到一个相当高的F，
+So um, like when you're unable to check pointing, you can observe a pretty high F,
+
+525
+00:35:23,999 --> 00:35:27,559
+但实际上，你的MF只有大约四分之三。明白了吗？
+but indeed, your MF is only like three fourths. Okay?
+
+526
+00:35:27,559 --> 00:35:34,539
+好的，这部分有问题吗？好的，好的，好的。
+Cool. Any problem on this one? Cool, cool, cool.
+
+527
+00:35:34,539 --> 00:35:38,839
+是的，这基本上就完成了我对这个非常非常重要概念的定义，
+Yeah, that basically finish my definition of this very, very important concept, and,
+
+528
+00:35:38,839 --> 00:35:41,060
+那我们继续。
+um, yeah, let's continue.
+
+529
+00:35:41,060 --> 00:35:48,319
+有了MF的引入，我们的目标可以简化，基本上我们就是要最大化MF，
+With that, with the introduction of MF, our goal can be simplified, basically we want to maximize MF
+
+530
+00:35:48,319 --> 00:35:49,579
+同时受限于内存约束。
+subject to memory constraints.
+
+531
+00:35:49,579 --> 00:35:53,079
+为什么？因为通信会降低MF，对吧？
+Why? Because communication is slowing down MF, right?
+
+532
+00:35:53,079 --> 00:35:56,939
+所以我们想要最小化通信量，这等同于最大化MF。
+So we want to minimize our communication, which is equivalent to maximize MF.
+
+533
+00:35:56,939 --> 00:36:01,399
+所以我们在部件添加中的最终目标，基本上就是要最大化MF，
+So our eventual goal in part addition is basically, we want to maximize MF,
+
+534
+00:36:01,399 --> 00:36:04,419
+这就是我们唯一的目标。好的。
+and this is our only goal. Okay.
+
+535
+00:36:05,139 --> 00:36:07,899
+嗯，是的，基本上就是这样，
+Um, yeah, that basically,
+
+536
+00:36:07,899 --> 00:36:10,480
+我认为这就定义了一个问题，好吧，关于p加法。
+I think define a problem, okay, of p addition.
+
+537
+00:36:10,480 --> 00:36:15,540
+接下来，我将更深入地探讨通信问题，好吗？
+And next, I'm going to dive deeper into communication, okay?
+
+538
+00:36:15,540 --> 00:36:18,219
+呃，我想在前一页中，
+Uh, I think in the previous side,
+
+539
+00:36:18,219 --> 00:36:21,920
+我说过，在机器学习中，我们基本上有两种通信方式
+I said, in machine learning, we basically have two types of communication
+
+540
+00:36:21,920 --> 00:36:25,039
+一种是连接式，一种是点对点（P to P）。
+connective and P to P. Okay.
+
+541
+00:36:25,039 --> 00:36:29,269
+
+Let's basically study them a little bit in case you don't know that before, okay?
+
+542
+00:36:29,269 --> 00:36:32,659
+
+So what is PTP?
+
+543
+00:36:32,659 --> 00:36:34,839
+
+I think this one everybody knows, okay?
+
+544
+00:36:34,839 --> 00:36:36,419
+
+So this is PTP, right.
+
+545
+00:36:36,419 --> 00:36:39,879
+
+You have two devices and you want the first device to send something to second device.
+
+546
+00:36:39,879 --> 00:36:47,339
+
+And in a PTB communication, um, you basically have a sender and a receiver and the sender tries to
+
+547
+00:36:47,339 --> 00:36:52,179
+
+initiate basically the communication happens by you first initiate some connection
+
+548
+00:36:52,179 --> 00:36:53,439
+
+between these two devices, right?
+
+549
+00:36:53,439 --> 00:36:57,599
+
+And then you ask the sender to send the content to receiver, okay? That's simple.
+
+550
+00:36:57,599 --> 00:36:59,979
+
+Yeah, very simple. I think whenever you take
+
+551
+00:36:59,979 --> 00:37:03,739
+任何关于网络的课程，我想你都会学到这个，对吧。
+any course on networking, I think you learn this, right.
+
+552
+00:37:03,739 --> 00:37:09,840
+好的。但我觉得真正和我们相关的部分，基本上是连接通信。
+Okay. But I think the part that really concerns us is basically connective communication.
+
+553
+00:37:09,840 --> 00:37:11,439
+什么是连接通信？
+What is connective communication?
+
+554
+00:37:11,439 --> 00:37:17,599
+你们当中有多少人上过高性能计算（HPC）的课程？没有吗。好的。
+How many of you have taken courses in HPC, high performance computing? No. Okay.
+
+555
+00:37:17,599 --> 00:37:19,499
+那我们花点时间来讲讲，好吗？
+Then let's spend some time, okay?
+
+556
+00:37:19,499 --> 00:37:23,279
+嗯，所以基本上，连接通信是一个非常非常，
+Um, so basically connective communication is a very very,
+
+557
+00:37:23,279 --> 00:37:25,319
+我会说是一个核心概念，
+I would say central concept in
+
+558
+00:37:25,319 --> 00:37:27,119
+在高性能计算（HPC）中。
+HPC, high performance computing.
+
+559
+00:37:27,119 --> 00:37:31,459
+基本上，40年前，当时人们还没有做机器学习，
+So basically, 40 years ago, people when people are not doing machine learning,
+
+560
+00:37:31,459 --> 00:37:32,800
+他们基本上都在做高性能计算。
+they are basically doing HPC.
+
+561
+00:37:32,800 --> 00:37:39,179
+他们试图建立这样一个超级计算中心来估算宇宙，
+And they try to build this kind of like super computing center to estimate the universe,
+
+562
+00:37:39,179 --> 00:37:41,239
+来估算一些物理定律，是的。
+to estimate some physical laws, yeah.
+
+563
+00:37:41,239 --> 00:37:44,059
+他们尝试用这种计算方式做很多事情。
+And they try to do a lot with this kind of stuff they be computing.
+
+564
+00:37:44,059 --> 00:37:49,469
+这种连接式通信其实就是那时候发明的，对吧？那么……
+And this connective communication is basically invented back then, okay? So what are the?
+
+565
+00:37:49,469 --> 00:37:54,309
+我举一个例子，这个例子你已经知道了。
+I think I give one example that is this example, you already know.
+
+566
+00:37:54,309 --> 00:37:56,690
+这都是在两个设备之间做归约。
+This is all reduced between two devices.
+
+567
+00:37:56,690 --> 00:38:01,629
+幕后发生的事情是，你基本上需要这样发送
+And what happens behind the scenes, uh, you basically need this to send
+
+568
+00:38:01,629 --> 00:38:07,429
+这个和这个来发送这个，然后每个设备都做归约以得到这里的结果。
+this and this to send this and then every device do the reduction in order to get here.
+
+569
+00:38:07,429 --> 00:38:15,329
+好的，如果你玩过pipeword，他们有这个界面，
+Okay. Um if you ever played with pipeword and they have this interface,
+
+570
+00:38:15,329 --> 00:38:19,129
+DDP其实就是在幕后分布数据。
+DDP distribute data per behind the scenes.
+
+571
+00:38:19,129 --> 00:38:24,549
+基本上在这个GDP里面，他们正在做一个归约操作，接下来我会解释。
+Basically inside of this GDP they are doing this reduce, which I will explain next.
+
+572
+00:38:25,580 --> 00:38:29,279
+但从数学上来说，它到底在做什么？
+But mathematically, what already is doing?
+
+573
+00:38:29,279 --> 00:38:34,699
+也就是说，在这个例子中你有四个设备，每个设备都会给出
+That is, you are given four devices in this example, and each device is going to give
+
+574
+00:38:34,699 --> 00:38:36,779
+一个名字，我们称之为rank（秩）。
+a name, which we call rank.
+
+575
+00:38:36,779 --> 00:38:43,039
+这里我有四个设备，从rank 0到rank 3，它们的初始状态是每个
+Here I hold four devices from rank zero to rank three and their initial state is each
+
+576
+00:38:43,039 --> 00:38:45,899
+都有一份不同的数组副本。
+have a different copy of array.
+
+577
+00:38:45,899 --> 00:38:47,699
+呃，数组的值也各不相同。
+Uh, different values of array.
+
+578
+00:38:47,699 --> 00:38:55,439
+在这个例子中，分别是in0、in1、in2、in3，他们想要进行通信。
+In this example is in zero in one in two in three, and they want to communicate.
+
+579
+00:38:55,439 --> 00:39:01,340
+他们想以一种方式通信，最终所有rank基本上
+They want to communicate in a way that they will end up with all the ranks have basically
+
+580
+00:39:01,340 --> 00:39:04,639
+都拥有相同的输出数组副本，也就是out。
+the same copy of the output array, which is out.
+
+581
+00:39:04,639 --> 00:39:09,630
+在这里，他们要求输出是所有这些输入数组的总和。
+And here, they require the out to be the sum of all these in arrays.
+
+582
+00:39:09,630 --> 00:39:11,660
+好的。这基本上就是全归约操作。
+Okay. That is basically all reduced.
+
+583
+00:39:11,660 --> 00:39:15,999
+好的，基本上你需要执行一种通信模式，
+Okay. And basically, you need to perform a communicating pattern to
+
+584
+00:39:15,999 --> 00:39:18,179
+基本上是在这些进程之间移动内容。
+basically move the contents between these ranks.
+
+585
+00:39:18,179 --> 00:39:23,739
+所以这些值会从这里变到那里，这就是全归约。
+So the values of the risk change from here to here. That is all reduce.
+
+586
+00:39:23,739 --> 00:39:27,139
+明白了吗？我觉得你也可以从全归约的字面意思推断出它的含义，
+Okay? I think you can also infer the meaning from the lanes all reduced,
+
+587
+00:39:27,139 --> 00:39:31,159
+所以我需要执行归约操作，并且这个归约需要在所有进程之间进行。
+so I need to perform or reduce and this reduce need to be performed across all ranks.
+
+588
+00:39:31,159 --> 00:39:33,699
+这就是为什么叫做归约。明白了吗？
+Is is why it's called reduce. Okay.
+
+589
+00:39:33,699 --> 00:39:36,719
+关于这个有问题吗？
+Any question regarding this one?
+
+590
+00:39:37,159 --> 00:39:41,119
+很好，我们还有更多内容。
+Cool. We have more.
+
+591
+00:39:41,119 --> 00:39:45,579
+这不仅仅是全部使用，我们还有广播操作。
+It's not only all use, and we have broadcast.
+
+592
+00:39:45,579 --> 00:39:50,839
+我们有归约操作，我认为归约并不是全部使用，只是一个归约。
+We have reduce, and I think reduce understands not all use, it's just one reduce.
+
+593
+00:39:50,839 --> 00:39:56,739
+我们有散播收集、归约散播和使用，你需要记住这些。
+We have scatter gather, reduced scatter and use, you need to memorize all this.
+
+594
+00:39:56,739 --> 00:40:02,920
+抱歉。是的。这个操作的区域将在某些紧急系统中被用到。
+Sorry. Yeah. Be area of this operation is going to be used somewhere in emergency systems.
+
+595
+00:40:03,280 --> 00:40:07,160
+我们一个一个来讲，好吗？
+Let's go through this one by one, okay.
+
+596
+00:40:07,750 --> 00:40:10,829
+广播，非常容易理解，对吧？
+Broadcast, very easy to understand, right?
+
+597
+00:40:10,829 --> 00:40:18,409
+所以某个进程有一个数组，然后那个进程要把这个数组广播到所有其他进程。
+So some rank have array, and that rank is to broadcast that array across all other ranks.
+
+598
+00:40:18,409 --> 00:40:20,650
+这就是广播操作。
+That is the broadcast.
+
+599
+00:40:20,650 --> 00:40:22,829
+所以从这张幻灯片你已经明白了，对吧。
+So from this slide, you already get it, right.
+
+600
+00:40:22,829 --> 00:40:26,669
+所以在这张幻灯片中，这个进程零就是进程一。
+So in this slide, the rank this rank zero is rank one.
+
+601
+00:40:26,669 --> 00:40:28,669
+我将使用从零开始的索引。
+I will use the index starting from zero.
+
+602
+00:40:28,669 --> 00:40:35,749
+一号进程拥有数组，目标状态是一号进程，将数组广播到所有其他进程。
+Rank one has the array the target state is rank one, broadcast the array across all other ranks.
+
+603
+00:40:35,749 --> 00:40:40,209
+明白了吗？这是之前的，这是更高的。很好，对吧。
+Okay? And this is before and this upper. Good, right.
+
+604
+00:40:40,209 --> 00:40:42,550
+广播非常容易理解。
+Broadcast very easy to understand.
+
+605
+00:40:42,619 --> 00:40:46,579
+Reduce 和 reduced one 不是 red，只是 reduced one。
+Reduce and reduced one is not red just reduced one.
+
+606
+00:40:46,579 --> 00:40:55,759
+这里也是所有进程都有数组，我们希望把这些数组合并成
+This is also where array all the ranks has array, and the west is we want to reduce the arrays into
+
+607
+00:40:55,759 --> 00:41:00,239
+一个进程，目标进程拥有这些数组的合并结果。
+one rank rank that target rank has a reduction of the arrays.
+
+608
+00:41:00,239 --> 00:41:01,779
+这里我做了一点演示。
+Here I generate a little bit.
+
+609
+00:41:01,779 --> 00:41:04,859
+在大多数情况下，基本上是求和，但有时候你可能想做一些
+In most cases, it's basically submission, but sometimes you want to do some
+
+610
+00:41:04,859 --> 00:41:08,399
+其他的归约操作，比如你想把数值相乘。
+other reduction operations for example, you want to time the value
+
+611
+00:41:08,399 --> 00:41:10,639
+一起做还是你想做别的事情。
+altogether or you want to do something else.
+
+612
+00:41:10,639 --> 00:41:13,080
+这就是为什么大家称它为reduce。
+That's why people call it reduce.
+
+613
+00:41:13,080 --> 00:41:15,579
+基本上，你就是想把它们合并。
+Basically, you want to reduce them.
+
+614
+00:41:17,100 --> 00:41:19,959
+关于这个有问题吗？
+Any question about this one?
+
+615
+00:41:19,959 --> 00:41:32,140
+好，下一个。基本上你可以看到，broadcast和reduce就像是反过来的。
+Cool. Next one. So basically, you can see, broadcast and reduced over like a reverse.
+
+616
+00:41:32,140 --> 00:41:36,599
+如果你不做reduce，基本上就是broadcast和reduce的反向操作。
+If you don't do reduce, is basically broadcast and reduce reverse.
+
+617
+00:41:36,599 --> 00:41:41,439
+是的，在broadcast中，你是从一个rank发送到所有其他rank，而在reduce中，
+Yeah. In broadcast, you send from one rank to all other ranks and in reduce,
+
+618
+00:41:41,439 --> 00:41:43,979
+你是从所有rank发送到一个rank。
+you send from all ranks to one rank.
+
+619
+00:41:43,979 --> 00:41:45,719
+好的。
+Cool.
+
+620
+00:41:45,719 --> 00:41:52,799
+下一个，scatter。scatter我觉得你一看到图片就能立刻明白，对吧？
+Next one, scatter. Scatter I think you can once I shoot the picture you immediately get it, right?
+
+621
+00:41:52,799 --> 00:42:00,839
+所以一个进程有一个数组，目标状态是我想把这个数组分散出去
+So one rank has array, and the target state is that I want to scatter the array
+
+622
+00:42:00,839 --> 00:42:06,279
+分散到所有其他进程上，并确保每个进程都拥有数组的1/N，
+across all other ranks and make sure each rank has one divided by N here,
+
+623
+00:42:06,279 --> 00:42:08,529
+这里N等于进程的数量。
+N is equal to the number ranks.
+
+624
+00:42:08,529 --> 00:42:10,360
+好的，这就是scatter操作。
+Okay. That is scatter.
+
+625
+00:42:10,360 --> 00:42:14,079
+对，就是把整个数组分发到每个进程。
+Yeah. It's like a through that array, all the way to every rank.
+
+626
+00:42:14,079 --> 00:42:16,779
+对，scatter，就是这样。
+Yeah, scatter. Yeah. Okay.
+
+627
+00:42:17,340 --> 00:42:21,680
+而gather本质上是scatter的反向操作。
+And gather is essentially the reverse operation of scatter.
+
+628
+00:42:21,680 --> 00:42:29,059
+也就是说每个进程有数组的一部分，每个进程拥有数组的一部分。
+That is each rank has a part of the array, one divided by part of the array portion of the array.
+
+629
+00:42:29,059 --> 00:42:32,679
+然后我想把所有部分收集到一个目标进程里。
+And I want to basically gather all together into a target rank.
+
+630
+00:42:32,679 --> 00:42:38,840
+这样最终目标进程就拥有了整个数组，明白了吗？这就是gather操作。
+So the eventual target rank has the whole array, okay? It's gather.
+
+631
+00:42:38,840 --> 00:42:40,539
+你明白了吧？
+And you man get it, right?
+
+632
+00:42:40,539 --> 00:42:42,480
+所以基本上scatter和gather是相反的操作。
+So basically scatter and gather the reverse.
+
+633
+00:42:42,480 --> 00:42:46,659
+好，有问题吗？
+Okay. A question?
+
+634
+00:42:46,659 --> 00:42:48,639
+这些都是简单的例子。
+Okay, these are simple ones.
+
+635
+00:42:48,639 --> 00:42:52,019
+我们来看一些更复杂的例子。
+Let's go into some more complicated ones.
+
+636
+00:42:52,019 --> 00:42:56,699
+显然，那些带有连接操作的
+And apparently, uh, those connective operations with
+
+637
+00:42:56,699 --> 00:42:59,319
+肯定比没有连接操作的更复杂，对吧？
+is definitely more complicated than without, right?
+
+638
+00:42:59,319 --> 00:43:01,379
+下一个就是all gather。
+So the next one is basically all gather.
+
+639
+00:43:01,379 --> 00:43:05,939
+All gather基本上就是我想要收集，但我想所有rank一起收集。
+Okay? All gather is basically like I want to gather, but I want all ranks together.
+
+640
+00:43:05,939 --> 00:43:08,019
+这样理解就很简单了，对吧？
+Okay? That's easy way to understand, right?
+
+641
+00:43:08,019 --> 00:43:13,840
+所以我理解我有一个turkey rank，这个turkey rank会收集所有的值，
+So I gather I have a turkey rank, and the turkey rank is going to gather all the values,
+
+642
+00:43:13,840 --> 00:43:16,399
+来自原始的各个rank。
+from the original ranks.
+
+643
+00:43:16,399 --> 00:43:18,239
+但all gather本质上
+But all gather essentially
+
+644
+00:43:18,239 --> 00:43:20,599
+我需要把所有的rank都聚在一起。明白了。
+I need all the ranks together. Okay.
+
+645
+00:43:20,599 --> 00:43:26,119
+所以基本上初始状态是每个rank拥有数组的1/N部分，
+So basically the initial state is every rank has one divided by N part of the array,
+
+646
+00:43:26,119 --> 00:43:28,699
+但初始状态其实是所有rank都有整个数组。
+but the initial state is all ranks have the whole array.
+
+647
+00:43:28,699 --> 00:43:35,359
+好的，这就是all gather。有问题吗？
+Okay, this is all gather. Any question?
+
+648
+00:43:35,359 --> 00:43:37,879
+下一个是reduce scatter。
+The next one, reduce scatter.
+
+649
+00:43:37,879 --> 00:43:42,180
+你已经明白了，它基本上就是我先做reduce然后再scatter。
+And you already get it's basically like I first reduce and then I scatter.
+
+650
+00:43:42,180 --> 00:43:49,379
+所以基本上，最初每个rank都有整个数组，对吧？
+So basically, initially, each rank basically has the who rate, right?
+
+651
+00:43:49,379 --> 00:43:51,900
+我的目标是首先把所有的值做一次归约。
+And my goal is I first reduce all the values.
+
+652
+00:43:51,900 --> 00:43:56,019
+比如说，我拿到了每个rank的提交结果。
+I get the submisson for example, for ranks.
+
+653
+00:43:56,019 --> 00:44:00,879
+然后我想确保每个rank最终都能分到提交结果的一部分，也就是一除以部分。
+And then I want to make sure each rank eventually has one divided by part of
+
+654
+00:44:00,879 --> 00:44:03,159
+这就是归约散播（reduced scatter）。
+the submission. That is reduced scatter.
+
+655
+00:44:03,159 --> 00:44:05,530
+本质上，我是先归约再分发。
+Essentially, I first reduce and then scatter.
+
+656
+00:44:05,530 --> 00:44:09,099
+好的，好的。
+Okay. Okay.
+
+657
+00:44:09,099 --> 00:44:14,899
+你可以想象，其实聚合（gather）和归约散播（reduced scatter）它们有点相反，对吧？
+And you can imagine, basically, gather and reduced scatter, they are kind of reverse, right?
+
+658
+00:44:14,899 --> 00:44:17,199
+全部聚合（all gather）就是把所有东西都收集到一起。
+All gather is that I gather all things together.
+
+659
+00:44:17,199 --> 00:44:20,059
+而归约散播则是我先归约再分发。
+And reduced scatter is I first reduce and scatter.
+
+660
+00:44:20,059 --> 00:44:31,760
+对，挺酷的。嗯，F。
+Yeah. Cool. Yeah. F.
+
+661
+00:44:32,880 --> 00:44:34,599
+是的，你可以这么做。
+Yeah, you can do that.
+
+662
+00:44:34,599 --> 00:44:36,099
+是的，我会讲到这个。对。
+Yeah, I'm going to cover that. Yeah.
+
+663
+00:44:36,099 --> 00:44:39,279
+但是你的主控不高效。对，对。
+But your master is not efficient. Yeah, yeah.
+
+664
+00:44:39,279 --> 00:44:44,919
+好的。嗯。对，对，对。
+Okay. Yeah. Yeah, yeah. Yeah.
+
+665
+00:44:44,919 --> 00:44:46,879
+对。
+Yeah.
+
+666
+00:44:47,560 --> 00:44:51,579
+所以在PA二中，我让你介绍两个连接器。
+So I PA two, I ask you to introduce two connectives.
+
+667
+00:44:51,579 --> 00:44:55,320
+一个是all reduce，另一个是all。
+One is all reduce, the other is all.
+
+668
+00:44:55,320 --> 00:44:57,959
+好的，你要想办法实现这个。
+Okay. You're going to figure out how to implement that.
+
+669
+00:44:57,959 --> 00:45:02,139
+如果你能匹配NPI，你会得到一个很好的加分点。
+And if you are able to match NPI, you are going to get a pretty good bounce point.
+
+670
+00:45:02,139 --> 00:45:04,239
+明白了吗？酷。
+Okay? Cool.
+
+671
+00:45:04,239 --> 00:45:06,800
+还有这个减少的槽口
+And this reduced gutter
+
+672
+00:45:06,800 --> 00:45:09,500
+Aguer 和减少的槽口，它们是相反的。
+Aguer and reduced gutter, they are reverse.
+
+673
+00:45:09,500 --> 00:45:11,460
+最终，你会把这些都简化
+Eventually, you have this all reduced
+
+674
+00:45:11,460 --> 00:45:13,959
+这就是我提到最多的那个，好吗？
+This is the one that I mentioned most, okay?
+
+675
+00:45:13,959 --> 00:45:19,399
+每个数组都有一个 Everyb 有一个数组，你想把它们合并然后
+Every array has one Everyb has one array, and you want to reduce them and then make
+
+676
+00:45:19,399 --> 00:45:26,080
+确保最终状态，你要确保每个 Everyb 都有总和，有一个归约结果。
+sure event eventual state, you want to make sure everyb has the sum, has a reduction.
+
+677
+00:45:26,240 --> 00:45:31,060
+好的，有关连接词有什么问题吗？
+Okay. Any question regarding the connectives?
+
+678
+00:45:31,060 --> 00:45:36,980
+没有。我们继续吧。好的，那我再给你们一些背景知识。
+No. Let's continue. Okay. So to give you a little bit more background.
+
+679
+00:45:36,980 --> 00:45:43,500
+就像我说的，这些连接操作起源于 HPC，高性能计算。
+Like I said, the connective operations, they originated from HPC, high performance computing.
+
+680
+00:45:43,500 --> 00:45:46,480
+但你可以看到现在的机器就像 HPC 一样。
+But you can see today machinary is like HPC.
+
+681
+00:45:46,480 --> 00:45:49,440
+是的，它基本上和高性能计算非常相似。
+Yeah, it's basically very similar to HPC.
+
+682
+00:45:49,440 --> 00:45:58,119
+好，第一个事实是，连接式比点对点要昂贵得多，你可以想象得到，对吧？
+Okay. The first fact is connective is much more expensive than PTP, you can imagine, right?
+
+683
+00:45:58,119 --> 00:46:00,760
+我总是让我的所有进程进行通信。
+I'm always asking all my ranks to communicate.
+
+684
+00:46:00,760 --> 00:46:04,070
+而在点对点通信中，我只需要两个进程进行通信。
+And in PTP I only need two ranks to communicate.
+
+685
+00:46:04,070 --> 00:46:07,399
+好的，当然，
+Okay. And of course,
+
+686
+00:46:07,399 --> 00:46:08,580
+我已经给你一个解决方案了。
+I already give you a solution.
+
+687
+00:46:08,580 --> 00:46:10,179
+所以在作业一中，抱歉，
+So in homework one, sorry,
+
+688
+00:46:10,179 --> 00:46:14,740
+在作业二的第一题中，你其实可以实现你的连接式，只需用点对点通信即可。
+I question one of homework two, you can actually implement your connective, just use PDP.
+
+689
+00:46:14,740 --> 00:46:20,819
+你可以分配调制解调器。就像你说的，基本上就是让这个进程发送，每个你都能搞清楚，
+You can assign modem. Like you said, basically like this rank to send each, you figure out what's
+
+690
+00:46:20,819 --> 00:46:22,519
+正确的发送方式是什么，你想要到达那里。
+the right way to send and you want to get there.
+
+691
+00:46:22,519 --> 00:46:25,140
+好的，40%，保证40分。
+Okay, 40% 40 points guaranteed.
+
+692
+00:46:25,140 --> 00:46:28,699
+好的，非常简单，对吧？但这样会非常慢。
+Okay, very easy, right? But that's going to be very slow.
+
+693
+00:46:28,699 --> 00:46:31,459
+是的，当然。好的。
+Yeah, of course. Yeah. Okay.
+
+694
+00:46:32,600 --> 00:46:36,999
+Connected在过去20年里得到了高度优化。
+Connected is highly optimized in the past 20 years.
+
+695
+00:46:37,160 --> 00:46:43,120
+如果你看到任何以CCL结尾的库，
+If you look out for any library that is ending with CCL,
+
+696
+00:46:43,120 --> 00:46:46,080
+CCL代表连接通信库（Connective Communication Library）。
+CCL stands for connective Communication Library.
+
+697
+00:46:46,080 --> 00:46:50,580
+X基本上是制作这个库的公司的品牌名。
+X basically is the branding of that company making this library.
+
+698
+00:46:50,580 --> 00:46:56,919
+例如，当X等于N时，就是DR CCL，你明白了吗？
+For example, when X is equal to N, it is DR CCL you got it.
+
+699
+00:46:56,919 --> 00:47:00,679
+当X等于M时，你不知道那是什么。
+W X equal to M, you don't know what is.
+
+700
+00:47:00,850 --> 00:47:03,369
+好的，我也不知道。
+Okay, I also don't know.
+
+701
+00:47:03,369 --> 00:47:05,729
+当Xc one基本上就是英特尔的时候，明白吗？
+When Xc one is basically Intel, okay?
+
+702
+00:47:05,729 --> 00:47:07,350
+这是英特尔的CCR。
+This is Intel CCR.
+
+703
+00:47:07,350 --> 00:47:09,889
+呃，其实是代表微软。对。
+Uh, actually stands for Microsoft. Yeah.
+
+704
+00:47:09,889 --> 00:47:12,189
+微软也有CCO。
+Microsoft has CCO as well.
+
+705
+00:47:12,189 --> 00:47:16,830
+所以基本上，在过去40年里，每家公司都在开发自己的CCO。
+So basically, in the past 40 years, every company is developing a CCO.
+
+706
+00:47:16,830 --> 00:47:22,069
+是的。我觉得谷歌也有CCO，但我不知道名字是什么，是内部的，好吗？
+Yeah. I think Google also has a CCO, but I don't know what's the name. It's internal, okay?
+
+707
+00:47:22,069 --> 00:47:27,349
+嗯，你刚才问我为什么Odia的股价这么好，对吧？
+Um, and you asked me why Odia stock price is so good, right?
+
+708
+00:47:27,349 --> 00:47:30,069
+部分原因是因为NCCO是最好的之一。
+One partial reason is because NCCO is one of the best.
+
+709
+00:47:30,069 --> 00:47:34,929
+好的？所以Odia在优化其连接通信库方面做得相当不错。对。
+Okay? So Odia did pretty well on optimizing its connective communicing libraries. Yeah.
+
+710
+00:47:34,929 --> 00:47:38,509
+所以基本上NCR库也是最好的之一。
+And there so basically NCR library is one of the best.
+
+711
+00:47:38,509 --> 00:47:41,710
+所以每家公司都在为MIDI Ds做这件事。
+So every company is doing that, o for MIDI Ds.
+
+712
+00:47:41,710 --> 00:47:48,550
+但是连接式通信有一个很糟糕的特点，就是它不具备容错性。
+But connective communication has a pretty bad property that is not fault tolerant.
+
+713
+00:47:48,550 --> 00:47:54,030
+也就是说，每次你在所有设备之间发起通信时，如果有一个设备出错，
+That is every time when you initiate communication across all devices, if one device failed,
+
+714
+00:47:54,030 --> 00:47:56,269
+那么这次通信就会失败。
+that communication is going to fail.
+
+715
+00:47:56,269 --> 00:47:58,070
+它不具备容错性。
+It's not fault tolerant.
+
+716
+00:47:58,070 --> 00:48:03,689
+这就是为什么现在，如果你加入一家做大模型训练的公司，
+That's why today, if you join a company doing big model training,
+
+717
+00:48:03,689 --> 00:48:07,070
+你的工作大部分时间都在看护GPU。
+your job mostly is spending time on babysiting or GPUs.
+
+718
+00:48:07,070 --> 00:48:10,509
+你需要确保没有GPU报错。
+You need to make sure there's no GPU, throwing out arrows.
+
+719
+00:48:10,509 --> 00:48:12,765
+否则，你的整个任务都会被中断。
+Otherwise, your entire job is going to be stopped.
+
+720
+00:48:12,765 --> 00:48:18,799
+好的，明白。有问题吗？好的。
+Okay. Cool. Any question? Okay.
+
+721
+00:48:18,799 --> 00:48:22,680
+我们基本上可以了解连接通信中发生了什么。
+We basically get a picture of what is going on in connective communication.
+
+722
+00:48:22,680 --> 00:48:26,479
+接下来我会介绍一些算法，基本上可以让
+Then I'm going to introduce a few algorithms to basically make
+
+723
+00:48:26,479 --> 00:48:28,879
+这种通信运行得非常快。
+this communication operates pretty fast.
+
+724
+00:48:28,879 --> 00:48:30,800
+但在介绍这些算法之前，
+But before I introduce the algorithms,
+
+725
+00:48:30,800 --> 00:48:33,920
+我想先建立一些数学基础。
+I want to first establish a little bit of mathematical foundation.
+
+726
+00:48:33,920 --> 00:48:36,159
+那么你要如何理解正在发生的事情呢？
+So how you can understand what is going on?
+
+727
+00:48:36,159 --> 00:48:38,799
+比如通信应该有多慢或多快。
+Like how slow or how fast communication should be.
+
+728
+00:48:38,799 --> 00:48:42,839
+好吗？在通信中，我们基本上使用这个字母表模型。
+Okay? So in communication, we basically use this alphabet model.
+
+729
+00:48:42,839 --> 00:48:45,460
+好，这个模型就叫做字母表。
+Okay. This model is just called alphabet.
+
+730
+00:48:45,460 --> 00:48:48,059
+原因是因为它有两个参数，α 和 β。
+The reason is because it has two parameters and bet.
+
+731
+00:48:48,059 --> 00:48:52,119
+好吗？所以基本上在网络通信中，当我们描述通信速度时，
+Okay? So basically in networking, when we characterize the speed of communication,
+
+732
+00:48:52,119 --> 00:48:55,019
+我们基本上使用这个字母模型，速度是
+we basically use this alphabet model and the speed is
+
+733
+00:48:55,019 --> 00:48:58,559
+基本上被描述为Alpha加上十倍的提升。
+basically characterized as Apha plus ten times better.
+
+734
+00:48:58,559 --> 00:49:01,920
+好的？这里的Alpha基本上就是延迟。
+Okay? So here, Alpha is basically the latency.
+
+735
+00:49:01,920 --> 00:49:05,640
+也就是说，如果我想在任意两个节点之间发起通信，
+That is, if I want to launch a communication between any two ranks,
+
+736
+00:49:05,640 --> 00:49:07,060
+我会受到延迟的影响。
+I'm suffering a latency.
+
+737
+00:49:07,060 --> 00:49:08,860
+就像从内核到GPU一样，
+It's like to a kernel to GPU,
+
+738
+00:49:08,860 --> 00:49:12,160
+我会受到延迟的影响，而且这个延迟是恒定的。
+I suffer a latency, and the latency is constant.
+
+739
+00:49:12,160 --> 00:49:14,500
+只要我需要通信，
+As long as I need to communicate,
+
+740
+00:49:14,500 --> 00:49:16,000
+我就需要初始化套接字，
+I need to initiate the sockets,
+
+741
+00:49:16,000 --> 00:49:19,499
+我需要做这种繁重的工作，这需要时间。
+I need to do this kind of heavy lifting work, and that takes time.
+
+742
+00:49:19,499 --> 00:49:23,839
+明白了吗？这就是 Alpha。这部分其实非常容易理解，对吧？
+Okay? That's Alpha. And this part is basically very easy to understand, right?
+
+743
+00:49:23,839 --> 00:49:29,379
+所以这个 beta 基本上就是一除以 B，B 是带宽。
+So this beta is basically one divided by B and B is bandwidth.
+
+744
+00:49:29,379 --> 00:49:34,219
+带宽，也就是这两个节点之间的通信带宽。
+Bandwidth. That is the communicating bandwidth between these two ranks.
+
+745
+00:49:34,219 --> 00:49:39,239
+那这个带宽由什么决定呢？由硬件，对吧？
+And this bandwidth was determined by what? By hardware, right?
+
+746
+00:49:39,239 --> 00:49:41,980
+所以你可以花更多的钱去买更高的带宽。
+So you can spend more money to buy more bandwidth.
+
+747
+00:49:41,980 --> 00:49:45,379
+这样这个值就会变大，对吧？
+That will make this one bigger, right?
+
+748
+00:49:45,379 --> 00:49:49,659
+呃，第二部分本质上就像，这里是消息的大小。
+Uh, the second part is essentially like, this is a message size.
+
+749
+00:49:49,659 --> 00:49:52,179
+也就是你想在节点之间发送的数据量。
+That is how much you want to send between the ranks.
+
+750
+00:49:52,179 --> 00:49:59,060
+很明显，你用带宽去除以它，就得到了基本上传输所花的时间。
+And apparently, you divide by bandwidth, you get the time spent on, basically sending,
+
+751
+00:49:59,060 --> 00:50:01,199
+嗯，就是这个消息，对吧？
+um this message, right?
+
+752
+00:50:01,199 --> 00:50:05,509
+这就是直观地解释这个字母模型的方法，好吗？
+That's how that basically intuitively explain this alphabet model, okay?
+
+753
+00:50:05,509 --> 00:50:10,460
+总结一下，当你开始一次通信时，你首先会受到带宽的影响，
+So to summarize, when you start a communication, you first suffer bandwidth,
+
+754
+00:50:10,460 --> 00:50:14,559
+还会有一个固定的延迟，然后剩下的时间取决于
+suffer a latency, constant latency, and then the rest of time is determined by
+
+755
+00:50:14,559 --> 00:50:19,940
+你想发送的消息大小以及你拥有的带宽，好吗？
+how much the message size you want to send and the bandwidths you have, okay?
+
+756
+00:50:20,400 --> 00:50:24,879
+有了这个模型，你基本上可以，呃，呃，尝试分析一下，对吧？
+With this model, you can basically, uh, uh, try to analyze it a little bit, right?
+
+757
+00:50:24,879 --> 00:50:30,939
+所以如果你要发送一个非常小的消息，非常小的消息，比如只有一个字节。
+So if you are going to send a very small message, a very small message, just one byte.
+
+758
+00:50:30,939 --> 00:50:37,740
+那么在这个公式中，这个Rhi将会占主导地位，Rp也会占主导地位。
+So in this equation, this Rhi is going to dominate Rp dominate.
+
+759
+00:50:37,740 --> 00:50:44,440
+但如果你要发送一个很大的消息，随着消息大小趋近于无穷大，
+But if you are going to send a large message as, then see an approach infinity,
+
+760
+00:50:44,440 --> 00:50:46,160
+那么这个项就会占主导地位。
+then this term is going to dominate.
+
+761
+00:50:46,160 --> 00:50:48,299
+这个延迟是一个专业术语。
+And this latency is a smart term.
+
+762
+00:50:48,299 --> 00:50:55,119
+好的。我之所以强调这一点，是因为当你发送一个很小的信息时，
+Okay. The reason I emphasize this is because, um, when you send a small message size,
+
+763
+00:50:55,119 --> 00:50:58,399
+你希望尽量减少这个延迟，对吧？
+uh, you want to minimize this phone, right?
+
+764
+00:50:58,399 --> 00:51:05,255
+然后当你发送一个很大的信息时，你要确保能够充分利用所有带宽。
+And then when you send a large message, you want to make sure you utilize all the bandwidth.
+
+765
+00:51:05,255 --> 00:51:06,109
+明白了。
+Okay.
+
+766
+00:51:06,109 --> 00:51:12,049
+基于这个观察，在高性能计算领域，他们基本上花了很多时间来优化连接方式，
+And given this observation, in the HPC community, they basically spent a lot of
+
+767
+00:51:12,049 --> 00:51:18,769
+并且开发了两种实现和算法，
+time optimizing the connectives, and they develop two types of implementations and algorithms to
+
+768
+00:51:18,769 --> 00:51:20,529
+以加快连接通信的速度。
+make connective communication fast.
+
+769
+00:51:20,529 --> 00:51:25,249
+其中一种算法主要强调延迟，也就是说他们假设你要发送小的信息，
+And one type of algorithm basically emphasize latency, that is they assume that you
+
+770
+00:51:25,249 --> 00:51:28,529
+并且他们希望确保能够最小化这个延迟。
+are going to send small messages, and they want to make sure they minimize this
+
+771
+00:51:28,529 --> 00:51:34,550
+另一种类型，他们基本上想要最大化带宽的利用率，
+pa. And the other type, they want to, uh basically maximize the utilization of bandwidth,
+
+772
+00:51:34,550 --> 00:51:37,375
+并且他们假设你会发送很大的消息。
+and they assume that you are going to send big messages.
+
+773
+00:51:37,375 --> 00:51:43,240
+好的，我会介绍这两种方式，你可以在作业中选择实现其中一种。
+Okay, I'm going to introduce both, and you can choose to implement either one in your homework.
+
+774
+00:51:43,240 --> 00:51:44,919
+但让我先问一个问题。
+But let me ask a question.
+
+775
+00:51:44,919 --> 00:51:47,520
+在沉浸式学习中，更倾向于哪一种？
+Immersion learning, which one is preferred?
+
+776
+00:51:48,760 --> 00:51:59,149
+沉浸式学习中，你觉得哪一种更有可能占主导地位？抱歉。
+Immersion learning, do you think which one is likely to dominate? Sorry.
+
+777
+00:51:59,149 --> 00:52:05,909
+从情感上来说，你是在不同DP之间发送很大的张量，显然情感上你更倾向于这种方式。
+Emotionally, you are sending big tensors across DPs and apparently emersionaly, you prefer this one.
+
+778
+00:52:05,909 --> 00:52:07,769
+你更希望最小化这种方式。
+You prefer to minimize this one.
+
+779
+00:52:07,769 --> 00:52:12,189
+但我还是会花时间介绍这两种方式。
+But I will still take time to introduce both.
+
+780
+00:52:12,189 --> 00:52:15,950
+下面再补充一点背景知识。
+So a little bit more background.
+
+781
+00:52:15,950 --> 00:52:20,550
+第一种试图最小化距离的算法
+So the first type of algorithm that try to minimize distance
+
+782
+00:52:20,550 --> 00:52:22,790
+被称为最小生成树算法。
+is called minimum spanning tree algorithm.
+
+783
+00:52:22,790 --> 00:52:28,730
+第二种强调带宽的算法被称为环算法。
+The second type of algorithm that try to emphasize bandwidth is called ring algorithm.
+
+784
+00:52:28,730 --> 00:52:34,049
+这就是为什么有时候人们在说 all-reduce 时总是称之为 ring all-reduce。
+That's why sometimes when people speak or reduce the always called ring or reduce.
+
+785
+00:52:34,049 --> 00:52:41,489
+是的。在过去的二十年里，HPC 社区培养了很多并行计算的学生，
+Yeah. In the past 20 years, this HPC community, they have graduated many many PE students and they
+
+786
+00:52:41,489 --> 00:52:43,829
+他们在 OpenMP 上写了很多论文。
+wrote so many papers on opens.
+
+787
+00:52:43,829 --> 00:52:49,264
+2023 年，我记得图灵奖颁给了一位 HPC 教授，对吧？
+In 2023, I think the Turing award was given to HPC professor, okay?
+
+788
+00:52:49,264 --> 00:52:53,179
+很酷。那么我们先来讲第一种类型，好吗？
+Cool. So let's come to the first type, okay?
+
+789
+00:52:53,179 --> 00:52:55,520
+在第一种类型中，我们想要最小化延迟。
+In the first time, we want to minimize the latency.
+
+790
+00:52:55,520 --> 00:53:00,720
+好吗？为了最小化延迟，Alpha，你有什么直观的想法？
+Okay? In order to minimize the latency, the Apha, what's the high intuition?
+
+791
+00:53:00,720 --> 00:53:03,700
+我们希望最小化通信所需的错误次数，
+Le want to minimize the number of wrongs needed for communication,
+
+792
+00:53:03,700 --> 00:53:06,680
+因为每次你发起通信时，你都会受到ARpa的影响。
+Because every time when you launch your communication, you are going to suffer ARpa.
+
+793
+00:53:06,680 --> 00:53:08,500
+所以你想要最小化通信的轮数。
+So you want to minimize the number of pans.
+
+794
+00:53:08,500 --> 00:53:12,779
+明白了吗？在这个最小轮次进入算法中，思路是这样的。
+Okay? In this minimum span entry algorithm, the idea is like this.
+
+795
+00:53:12,779 --> 00:53:16,699
+信息从一个等级开始。
+So the message starts on one rank.
+
+796
+00:53:16,699 --> 00:53:18,180
+一个处理器。
+One processor.
+
+797
+00:53:18,180 --> 00:53:25,109
+然后我们尝试把所有的等级分成两半。
+And then we try to divide all the ranks into half.
+
+798
+00:53:25,109 --> 00:53:27,209
+这就是为什么它被称为最小生成树。
+That's why it's called a minimum spanning tree.
+
+799
+00:53:27,209 --> 00:53:31,509
+我们基本上尝试把所有的等级分成前半部分和后半部分。
+We try to basically divide all the ranks into first half and second half.
+
+800
+00:53:31,510 --> 00:53:37,969
+我们要做的就是把消息从前半部分发送到后半部分。
+And what we do is basically we send the message from the first half to the second half.
+
+801
+00:53:37,969 --> 00:53:44,015
+在这个例子中，我把一条消息发送到网络中没有这条消息的那一半。
+In this example, I send a message to the half of a network that does not contain this message.
+
+802
+00:53:44,015 --> 00:53:49,059
+对吧？所以在这里，我把进程分成了这一组和那一组。
+Right? So here, I divide the ranks into this group and this group.
+
+803
+00:53:49,059 --> 00:53:52,739
+我发现我的初始进程基本上在这一组里。
+I found that my initial rank is basically in this group.
+
+804
+00:53:52,739 --> 00:53:55,520
+而在第二组里，没有这样的消息。
+And in the second group, there's no such message.
+
+805
+00:53:55,520 --> 00:53:58,619
+我的第一步是试图把消息从这里发到那里。
+My first step is I'm trying to send this to here.
+
+806
+00:53:58,619 --> 00:54:01,219
+明白了吗？一旦我完成这一步，我该做什么？
+Okay? And once I finish this step, what I do?
+
+807
+00:54:01,219 --> 00:54:04,560
+基本上我会用二叉树消息传递的方法。
+I basically use binary tree message.
+
+808
+00:54:04,560 --> 00:54:07,800
+我的做法是，一旦这些进程拥有了这条消息，
+What I do is once the ranks have this message,
+
+809
+00:54:07,800 --> 00:54:11,420
+我知道这组和那组里，都有一个进程包含了消息，
+I know this group and this group, they all have a rank which contains a message,
+
+810
+00:54:11,420 --> 00:54:13,499
+然后我会递归地继续这么做。
+and I'm going to do that recursively.
+
+811
+00:54:13,499 --> 00:54:16,950
+好吗？我要这样做，可以吗？
+Okay? I'm going to It's like this, okay?
+
+812
+00:54:16,950 --> 00:54:18,629
+然后我会再把它分开。
+And then I'm going to divide it again.
+
+813
+00:54:18,629 --> 00:54:21,689
+我会在这里分一下，对吧，然后我会在这里分一下。
+I'm going to divide here, right, and I'm going to divide here.
+
+814
+00:54:21,689 --> 00:54:25,509
+好吗？我要让这个降到这里，这个再传到这里。
+Okay? I'm going to let this descend to this and this to send this.
+
+815
+00:54:25,509 --> 00:54:27,189
+我会递归地做这件事。
+And I do it recursively.
+
+816
+00:54:27,189 --> 00:54:32,570
+我可以证明这样会最小化R，因为这是最小生成树，并且
+And I can prove that this will minimize R because this is a minimum span entry and the number
+
+817
+00:54:32,570 --> 00:54:35,190
+我需要的次数是保证最小的。
+once I needed is guaranteed is minimized.
+
+818
+00:54:35,190 --> 00:54:36,529
+好的。
+Okay.
+
+819
+00:54:36,770 --> 00:54:44,210
+给你一个更实际的例子，我们来用最小生成树做广播。
+To give you more realistic example, let's run this minimum spanning tree for Broadcast.
+
+820
+00:54:44,210 --> 00:54:45,989
+还记得广播吧？
+Okay. Still remember broadcast, right?
+
+821
+00:54:45,989 --> 00:54:48,029
+这是之前，这是之后。
+This is before, this is after.
+
+822
+00:54:48,029 --> 00:54:52,509
+那我们怎么做呢？我们从初始状态开始。
+So how do we do that? So we start from the initial state.
+
+823
+00:54:52,509 --> 00:54:55,089
+我们尝试把所有的进程分组。
+We try to divide all the ranks.
+
+824
+00:54:55,089 --> 00:54:56,109
+明白了吗？
+Okay?
+
+825
+00:54:56,109 --> 00:54:59,430
+我们把所有进程分成两组。
+And we divide all ranks into two groups.
+
+826
+00:54:59,430 --> 00:55:06,689
+不包括那个需要把数值发送到第二组其他进程的进程。
+Without the rank that has the value to send its value to another rank at the second group.
+
+827
+00:55:06,689 --> 00:55:10,364
+然后我们继续在每一组中分组。
+And we continue divided ranks in each group.
+
+828
+00:55:10,364 --> 00:55:12,779
+然后我们同步，对吧？
+And we sin, right?
+
+829
+00:55:12,779 --> 00:55:19,120
+我们继续像这样广播这些数值，明白了吗？
+And we continue to basically broadcast these values like this, okay?
+
+830
+00:55:19,120 --> 00:55:20,840
+你可以说经过四步之后，
+And you can say after four steps,
+
+831
+00:55:20,840 --> 00:55:23,899
+基本上我有八个进程都有消息，对吧？
+I basically have eight ranks having a message, right?
+
+832
+00:55:23,899 --> 00:55:29,179
+然后我发现还有一个进程没有收到消息，所以我再执行一步。
+And I found out there's one rank that is still missing message, so I perform one more step.
+
+833
+00:55:29,179 --> 00:55:34,700
+明白了吗？我可以证明，发起通信所需的步骤是最少的
+Okay? And I can prove that the steps needed to initiate the communication is minimized
+
+834
+00:55:34,700 --> 00:55:36,739
+使用这棵生成树。
+using this spanning tree.
+
+835
+00:55:36,739 --> 00:55:43,719
+明白了吗？所以这个算法基本上就是用来最小化 Alpha 项的，好吗？
+Okay? That's why this algorithm is basically used for minimize Alpha term, okay?
+
+836
+00:55:43,719 --> 00:55:50,049
+有什么问题吗？没问题。好的。
+Any question? Cool. Okay.
+
+837
+00:55:50,049 --> 00:55:53,170
+嗯，现在我们来探索一下。
+Um, now let's try to explore.
+
+838
+00:55:53,170 --> 00:55:55,330
+顺便说一下，你们可以忽略这些方程。
+By the way, you can ignore these equations.
+
+839
+00:55:55,330 --> 00:55:58,549
+好的，我不会讲这些，考试也不会考。
+Okay. I'm not going to cover this, and it's not covered in exam.
+
+840
+00:55:58,549 --> 00:56:00,149
+好的，但原因是
+Okay. But the reason
+
+841
+00:56:00,149 --> 00:56:02,889
+我之所以有这张幻灯片，是因为我想探讨不同连接操作之间的一些联系。
+I have this slide is because I want to explore some connections between
+
+842
+00:56:02,889 --> 00:56:05,149
+不同的连接操作。
+different connective operations.
+
+843
+00:56:05,149 --> 00:56:10,949
+大家还记得gather操作的初始和结束状态吧？
+Gather gather still remember the initial end state, right?
+
+844
+00:56:10,949 --> 00:56:20,064
+也就是说，每个进程都有自己的数据，然后丢弃整个全局数组。
+So in is each rank has protein and ditch the entire global array.
+
+845
+00:56:20,064 --> 00:56:24,879
+实现gather的一种方式是，我们可以先进行gather操作，对吧？
+So one way that we can realize or gather is we can we can first gather, right?
+
+846
+00:56:24,879 --> 00:56:26,420
+我们可以先执行一次gather操作。
+We can first perform a gather.
+
+847
+00:56:26,420 --> 00:56:29,639
+也就是把所有的值收集到一个目标进程上。
+So we gather the values into one target rank.
+
+848
+00:56:29,639 --> 00:56:34,219
+然后我们再做一次广播，对吧？
+And then we do a broadcast, right?
+
+849
+00:56:34,219 --> 00:56:38,980
+所以基本上，or gather等于gather加上broadcast。
+So basically, uh, or gather equals to gather plus broadcast.
+
+850
+00:56:39,060 --> 00:56:44,539
+很好，reduce scatter，从名字你们应该已经知道了。
+Cool. Reduce scatter, uh, you already know from the name.
+
+851
+00:56:44,539 --> 00:56:50,540
+所以你首先要这样做归约，然后再做分散。
+So you first reduce like this, and then you do a scatter.
+
+852
+00:56:50,540 --> 00:56:53,060
+是的，你得做归约分散。
+Yeah, you got to reduce scatter.
+
+853
+00:56:53,820 --> 00:56:59,590
+或者归约。有人能给我一个答案吗？
+Or reduce. Can anyone give me an answer?
+
+854
+00:56:59,590 --> 00:57:01,909
+怎么组合或者归约？
+How to assemble or reduce?
+
+855
+00:57:04,790 --> 00:57:07,810
+对，你先做归约，然后再做广播。
+Yes, you do reduce and then you do broadcast.
+
+856
+00:57:07,810 --> 00:57:11,970
+明白了吗？所以基本上在最后这种情况下，人们实现这三种操作的方式，
+Okay? So basically in this last scenario, the way people implement these three opportunity,
+
+857
+00:57:11,970 --> 00:57:17,289
+基本上，他们首先实现那些基础操作，然后再把它们组合起来。
+basically, they first implement those primitive ones and they assemble it.
+
+858
+00:57:17,289 --> 00:57:17,929
+好的。
+Okay.
+
+859
+00:57:17,929 --> 00:57:25,629
+所以总结一下，归约分散就是通过分散来实现归约，或者归约就是归约，
+So in summary, reduced gutter is reduced by scatter or reduce is reduced and
+
+860
+00:57:25,629 --> 00:57:29,365
+广播或者收集通常就是收集和广播。
+broadcast or gather is usually gather and bracast.
+
+861
+00:57:29,365 --> 00:57:37,439
+对，没错。你明白我的意思了吧？
+Yeah. Exactly. You got the point, right?
+
+862
+00:57:37,439 --> 00:57:43,599
+这基本上就引出了第二部分，但我想先回答你的问题。
+So that will basically bring us to the second part, but I want to answer your question first.
+
+863
+00:57:43,599 --> 00:57:47,160
+这个算法，它最小化了通信的次数。
+So this algorithm, it minimizes the number one to communicate.
+
+864
+00:57:47,160 --> 00:57:50,699
+但它并没有利用带宽，对吧？
+But it does not utilize the bandwidth, right?
+
+865
+00:57:50,699 --> 00:57:53,219
+因为每个节点只向一个目标节点发送数据。
+Because each node only send to a target node.
+
+866
+00:57:53,219 --> 00:57:56,880
+当这个节点在发送时，其他带宽都没有被利用。
+And while this node is sending all the other bandwidths are not utilized.
+
+867
+00:57:56,880 --> 00:57:57,379
+明白了吗？
+Okay?
+
+868
+00:57:57,379 --> 00:58:03,159
+很好。就像我说的，这种方式在想象中并不是首选，因为它最小化了 alpha 项，
+Cool. Like I said, this one is not preferred Imaginaring, because it's minimize the alpha term,
+
+869
+00:58:03,159 --> 00:58:04,619
+但反过来，第二项就变大了。
+but inverse ing the second term is larger.
+
+870
+00:58:04,619 --> 00:58:08,574
+所以我现在要带大家进入第二部分，好吗？
+So I'm going to bring all you into the second part, okay?
+
+871
+00:58:08,574 --> 00:58:11,869
+但在那之前，我们先总结一下MST，好吗？
+But before that, let's summarize MST, okay?
+
+872
+00:58:11,869 --> 00:58:18,869
+所以MST在小消息场景下非常有用，因为第一个项占主导，对吧？
+So for MST, is extremely useful for small messages where the first term is dominating, right?
+
+873
+00:58:18,869 --> 00:58:24,849
+它强调了最小生成树算法中的一个问题，
+And it emphasizes tiency the problem of minimum span entry algorithm is that it
+
+874
+00:58:24,849 --> 00:58:28,049
+就是它优先考虑了alpha项，而不是更优的项。
+prioritize the alpha term than a better term.
+
+875
+00:58:28,049 --> 00:58:34,710
+就像那位同学指出的，特别是在通信的初始阶段，
+So like that student pointed out, when especially at the initial stage of the communication,
+
+876
+00:58:34,710 --> 00:58:37,989
+大多数互连都是空闲的。
+most of the interconnects are idle.
+
+877
+00:58:37,989 --> 00:58:40,570
+你实际上并没有利用这里的带宽，对吧？
+You are not actually utilize the bandwidth here, okay?
+
+878
+00:58:40,570 --> 00:58:44,070
+接下来我要运行另一个算法，就是环形算法，
+And next, I'm going to run another algorithm which is ring algorithm,
+
+879
+00:58:44,070 --> 00:58:48,770
+这个环形算法其实就是我今天在机器上用的那个，好吗？
+and this ring algorithm is essentially the one that I used today in macheary, okay?
+
+880
+00:58:48,890 --> 00:58:55,190
+这个环形算法的基本原则就是我们尽量利用所有这些链路，
+And the general principle of this ring algorithm is that we try to utilize all these links,
+
+881
+00:58:55,190 --> 00:58:58,589
+我们尝试利用所有这些在各个节点之间可用的带宽。
+and we try to utilize all these band ways available between ranks.
+
+882
+00:58:58,589 --> 00:59:03,249
+假设所有节点都通过类似于Iranet之类的网络连接在一起。
+Let's assume that all the ranks are connected using some like Iranet or whatever.
+
+883
+00:59:03,249 --> 00:59:07,549
+好吗？在这里，通信的轮数并不重要。
+Okay? And here, how many rounds of communication does not matter.
+
+884
+00:59:07,549 --> 00:59:10,549
+因为就像我说的，Alpha已经不再重要了。
+Because like I said, the Alpha does not matter anymore.
+
+885
+00:59:10,549 --> 00:59:13,009
+主要的开销在于第二项更大。
+The main overhead is the second term better.
+
+886
+00:59:13,009 --> 00:59:19,609
+所以，有一种算法可以实现这个目标，基本上我们尝试在所有节点之间形成一个逻辑环。
+So, one algorithm that enable this basically we try to form a logical ring across all ranks
+
+887
+00:59:19,609 --> 00:59:22,229
+然后我们沿着这个环发送消息。明白吗？
+and we send messages along this ring. Okay?
+
+888
+00:59:22,229 --> 00:59:24,849
+我们来看看具体怎么做。
+Let's see, how we do that.
+
+889
+00:59:25,260 --> 00:59:32,259
+这里是初始状态，比如我们想要执行，比如说，
+So here, this is the initial state where we want to perform, for example, um,
+
+890
+00:59:32,740 --> 00:59:36,039
+类似于gather gather这样的操作。明白吗？
+like gather gather, something like that. Okay?
+
+891
+00:59:36,039 --> 00:59:39,999
+所以我们基本上可以像这样构建一个逻辑环，对吧？
+So we can basically construct a logical ring like this, right?
+
+892
+00:59:39,999 --> 00:59:42,359
+这里你可以看到，这个rank有这部分。
+So here you can see, this rank has this part.
+
+893
+00:59:42,359 --> 00:59:44,499
+这个rank有这部分，这个un有这部分。
+This rank has this part. This un has this part.
+
+894
+00:59:44,499 --> 00:59:48,120
+那我们要做的就是尽可能利用带宽。
+So what do we do is we want to utilize the bandari as much as possible.
+
+895
+00:59:48,120 --> 00:59:52,500
+所以我们要确保任何时候所有的rank都在发送或接收，好吗？
+So at anytime we want to make sure all the ranks are sending or receiving, okay?
+
+896
+00:59:52,500 --> 00:59:54,399
+那我们要做的就是构建这个环。
+So what do we do we construct this ring.
+
+897
+00:59:54,399 --> 00:59:58,979
+在下一步，我们需要每个rank把这个数据发送给下一个rank。
+And in the next step, we need each rank to send this protein to the next rank.
+
+898
+00:59:58,979 --> 01:00:00,819
+对吧？通过这样做，
+Right? And by doing this,
+
+899
+01:00:00,819 --> 01:00:04,439
+我可以确保所有的rank都很忙，至少在网络配对上是这样。
+I can make sure that all ranks are busy, at least on networking pair.
+
+900
+01:00:04,439 --> 01:00:11,500
+好吗？如果我们这样做，基本上我们就完成了一轮消息交换。
+Okay? So if we do this, what happen is basically we perform one round of exchanging messages,
+
+901
+01:00:11,500 --> 01:00:13,539
+对，然后我们到这里。
+right, and we get here.
+
+902
+01:00:13,539 --> 01:00:17,819
+好吗？你可以比较这两种状态之间的差异，对吧。
+Okay? You can compare the difference between these two states, right.
+
+903
+01:00:17,819 --> 01:00:22,559
+这里的关键区别是所有设备都在忙于通信。
+The key difference here is all devices are busy on communicating.
+
+904
+01:00:22,559 --> 01:00:25,759
+这就是为什么我们可以利用带宽，对吧？
+That's why we can utilize bandwiys, okay?
+
+905
+01:00:25,759 --> 01:00:29,959
+接下来你要做的基本上就是继续传播这些消息，对吗？
+And what you do next is basically you continue to propagate these messages, right?
+
+906
+01:00:29,959 --> 01:00:33,559
+你可以构建另一个环，然后继续这样做。
+And you can construct another ring and you continue doing this.
+
+907
+01:00:33,559 --> 01:00:37,619
+在你进行了很多很多轮之后，你最终会达到一种状态。
+And after you doing many, many rounds, you eventually get to a state
+
+908
+01:00:37,619 --> 01:00:41,179
+基本上，我接下来要演示一下。
+where so basically, I'm going to shoot next.
+
+909
+01:00:41,179 --> 01:00:42,279
+好吗？
+Okay?
+
+910
+01:00:42,279 --> 01:00:47,999
+我接下来要演示，并且我会在几个连接上运行这种算法。
+I'm going to shoot next, and I'm going to run this kind of algorithm on a few connectives.
+
+911
+01:00:47,999 --> 01:00:51,599
+好的。那么我们来做一次gather，或者说我们来做一个ring gather。
+Yeah. So gather, let's run a ring or gather.
+
+912
+01:00:51,599 --> 01:00:56,299
+好吗？所以我们从左边开始，试图到达右边，对吧？
+Okay? So we start from the left hand side and we try to reach the right hand side, right?
+
+913
+01:00:56,299 --> 01:01:00,499
+这是我们的初始状态，对吧，我们先构建一个环，
+So this are initial state, right, we construct a ring, and
+
+914
+01:01:00,499 --> 01:01:03,239
+然后每个rank把这个蛋白质发送到下一个rank。
+we each rank to send this protein to the next rank.
+
+915
+01:01:03,239 --> 01:01:06,779
+嗯，这就是一轮通信，对吧，我们到这里了。
+Uh, This is the one round of communication, right we get here.
+
+916
+01:01:06,779 --> 01:01:08,860
+然后我们再进行一轮，好吗？
+Then we run another round, okay?
+
+917
+01:01:08,860 --> 01:01:10,499
+我们就到这里了，对吧？
+We'll get to here, right?
+
+918
+01:01:10,499 --> 01:01:15,739
+再来一轮，再来一轮，第三轮。
+Another round here, another round here, ther round.
+
+919
+01:01:18,329 --> 01:01:22,889
+好的，我们搞定了，对吧？你明白我的意思了吧。很棒。
+Okay, we're good, right? So you got me right. Cool.
+
+920
+01:01:22,889 --> 01:01:28,449
+你可以看到，这个可视化效果很好，但问题在于每一步……
+And you can see, this is a pretty good visualization, but the problem here is at each step,
+
+921
+01:01:28,449 --> 01:01:31,949
+你在占用带宽，但你需要运行很多很多次，
+you are utilizing bandwidth, but you are taking many many runs,
+
+922
+01:01:31,949 --> 01:01:33,769
+和最小生成树相比呢？
+compared to the minimum spanning tree?
+
+923
+01:01:33,769 --> 01:01:37,369
+因为最小生成树，你是在做二叉树，非常快。
+Because minimum spanning tree, you are doing a binary tree, which is super fast.
+
+924
+01:01:37,369 --> 01:01:42,489
+但在这个算法中，你基本上需要运行的次数等于等级的数量，
+But in this algorithm, you basically need to run the number of times equal to the number of ranks,
+
+925
+01:01:42,489 --> 01:01:44,610
+也就是更多的运行次数。
+which is more runs.
+
+926
+01:01:44,610 --> 01:01:48,569
+所以我们要稍微增加一下Alpha项，但没关系，因为就像我说的，
+So the Alpha term we are going to increase a little bit, but it doesn't matter because like I said,
+
+927
+01:01:48,569 --> 01:01:50,929
+第二项是主导的，对吧？
+the second term dominates, okay?
+
+928
+01:01:52,130 --> 01:01:55,649
+我们来运行另一个版本，reduce scatter。
+Let's run another version, reduce scatter.
+
+929
+01:01:55,649 --> 01:01:57,309
+还记得reduce scatter吧？
+Still remember reduce scatter, right?
+
+930
+01:01:57,309 --> 01:01:59,069
+所以我们首先进行reduce和scatter。
+So we first reduce and scatter.
+
+931
+01:01:59,069 --> 01:02:02,529
+那么我们要做的是，这就是我们的联合状态，对吧。
+So what do we do is, this is our united state, right.
+
+932
+01:02:02,529 --> 01:02:05,030
+我们想要减少它们并分散结果。
+We want to reduce them and scatter results.
+
+933
+01:02:05,030 --> 01:02:07,729
+所以我们构建了一个环。
+So we construct a ring.
+
+934
+01:02:08,010 --> 01:02:13,450
+在这部分消息上，我们执行一次归约操作。
+On on this part of this message, we perform a reduce.
+
+935
+01:02:13,809 --> 01:02:17,349
+然后我们继续这样做，把结果发送出去。
+And we continue doing so we send the results.
+
+936
+01:02:17,349 --> 01:02:19,489
+我们传播以减少结果，明白吗？
+We propagated to reduce the results, okay?
+
+937
+01:02:19,489 --> 01:02:26,750
+一旦我们传播，基本上每个节点都会有一个部分和，然后我们继续归约和传播，
+Once we propagate basically each we will have a partial sum and we continue to reduce and propagate,
+
+938
+01:02:26,750 --> 01:02:29,930
+归约，传播，归约，传播。
+reduce, propagate, reduce propagate.
+
+939
+01:02:31,409 --> 01:02:33,969
+好的。我们会得到结果。
+Okay. We'll get results.
+
+940
+01:02:33,969 --> 01:02:39,129
+是的，酷。这基本上就是一个环形算法。
+Yeah. Cool. This is basically a ring algorithm. Okay.
+
+941
+01:02:39,129 --> 01:02:43,729
+那么在这个环形算法下，我们也来做一些不同连接操作之间的关联。
+Then under this ring algorithm, let's also do some connection between different connectives.
+
+942
+01:02:43,729 --> 01:02:44,809
+好的。
+Okay.
+
+943
+01:02:46,130 --> 01:02:55,830
+所以基本上对于这个广播操作，我们可以用这个算法从基本操作来组装，
+So basically for this broadcast, we can basically use this algorithm to as assemble from primitives,
+
+944
+01:02:55,830 --> 01:03:04,069
+基本上广播等于，我们先做分发，然后再做收集。
+basically broadcast equals to, uh we first scatter, and then we gather.
+
+945
+01:03:04,069 --> 01:03:08,129
+所以广播等于分发加收集，对吧？
+So broadcast is equal to scattering or gather, okay?
+
+946
+01:03:08,329 --> 01:03:18,029
+对于这个归约操作，我们的做法是，首先做归约分发，然后再做收集，
+And for this reduced one, what we do is basically we first do a reduced scatter, and then we gather,
+
+947
+01:03:18,029 --> 01:03:19,529
+归约分发和收集。
+reduce scatter and gather.
+
+948
+01:03:19,529 --> 01:03:23,809
+基本上我们就是这样得到的。
+We basically um, get this one.
+
+949
+01:03:23,809 --> 01:03:27,989
+对于归约操作，我们也有不同类型的组合方式。
+For reduce, we also have a different types of combination.
+
+950
+01:03:27,989 --> 01:03:30,610
+为了用这个环形算法实现归约操作，
+In order to implement or reduce using this ring algorithm,
+
+951
+01:03:30,610 --> 01:03:36,050
+我们基本上做的第一步是减少散射，减少多余的散射，
+what we do is basically we first reduce scatter, reduce the redundant scatter,
+
+952
+01:03:36,050 --> 01:03:38,384
+然后我们再进行聚合。
+and then we do gather.
+
+953
+01:03:38,384 --> 01:03:39,919
+好的。
+Okay.
+
+954
+01:03:39,919 --> 01:03:45,720
+所以简单总结一下，在这个环形算法中，reduce 等于 reduce Getter 加上 gather，
+So to summarize a little bit, uh, in this ring, algorithm, reduce equals to reduce Getter
+
+955
+01:03:45,720 --> 01:03:48,979
+all reduce 等于 reduce Getter 加上 all gather，
+plus gather and all reduced equals reduce Getter plus or gather
+
+956
+01:03:48,979 --> 01:03:52,099
+广播等于 scatter 加上 all gather。
+and broadcast equals to Scatter and all gather.
+
+957
+01:03:52,099 --> 01:04:00,609
+有问题吗？如果你在这里有点困惑，
+An An question? Okay, if you feel a little bit confused here,
+
+958
+01:04:00,609 --> 01:04:03,470
+看一下，复习一下我的幻灯片就好了。
+look, just, you know, review my slides.
+
+959
+01:04:03,470 --> 01:04:05,349
+我觉得这里讲得很清楚。
+I think it's pretty clear here.
+
+960
+01:04:05,349 --> 01:04:09,349
+我之所以想要建立这个联系，是因为，你知道，
+The reason I try to draw this connection is because, uh, you know,
+
+961
+01:04:09,349 --> 01:04:14,029
+下周当我们开始介绍机器部分时，你们都要明白
+next week when we start introducing machinery partism, you all understand you all
+
+962
+01:04:14,029 --> 01:04:17,610
+意识到其实我们基本上是在分解这些所有的归约操作
+realize that basically we are basically decomposing all these all reduced
+
+963
+01:04:17,610 --> 01:04:21,349
+并且将广播和归约操作分解成不同的基本操作，然后我们会尝试调度它们
+and broadcast and reduced into different primitives, and we'll try to schedule them in
+
+964
+01:04:21,349 --> 01:04:23,090
+在不同的执行位置。
+different places of execution.
+
+965
+01:04:23,090 --> 01:04:28,029
+这样会导致不同的内存利用率、不同的内存需求，
+Okay. And that will result into different memory utilization, different memory requirement, and
+
+966
+01:04:28,029 --> 01:04:31,169
+还有不同的计算模式。
+also different computer patterns.
+
+967
+01:04:31,570 --> 01:04:33,049
+好的。
+Cool.
+
+968
+01:04:33,049 --> 01:04:40,009
+嗯，我觉得我们快要讲完这张幻灯片、这节课了。
+Um, I think we're pretty close to finish this slide, finish this lecture.
+
+969
+01:04:40,009 --> 01:04:42,109
+那我们回来一下。
+So let's come back.
+
+970
+01:04:42,109 --> 01:04:46,009
+好的，我们把这个放到机器部分的背景下来说一说。
+Okay, let's basically ground this in the context of Machining Pism, okay.
+
+971
+01:04:46,009 --> 01:04:52,429
+就像我说的，互操作总是导致PTV通信，这其实很明显。
+So like I said, interop always results in PTV communication, and this is quite obvious.
+
+972
+01:04:52,429 --> 01:04:58,350
+现在，你们可能会开始问，为什么互操作总是导致连接性的通信。
+Now, you probably start asking why interop always result in connective communication.
+
+973
+01:04:58,350 --> 01:05:04,689
+好吗？这是下周一个非常重要的话题，但我想在这节课结束前，
+Okay? And this is a pretty important topic for next week, but I want to finish this lecture
+
+974
+01:05:04,689 --> 01:05:11,789
+给你们讲一下，呃，基本上，把游行主义和我花了差不多半小时介绍的连接词之间的联系，
+by giving you some connection between, uh, basically, um, marching Pism and the connectives,
+
+975
+01:05:11,789 --> 01:05:14,329
+我花了将近半个小时来介绍这些内容，好吗？
+I spend almost half an hour introducing, okay?
+
+976
+01:05:14,329 --> 01:05:19,309
+所以，互操作总是导致不同类型的
+So the reason that intraop always result into different sorts
+
+977
+01:05:19,309 --> 01:05:26,510
+连接性通信的原因是，呃，至少在这个repenton机制下，
+of connective communication is because, um, um, at least under this repenton mechanism,
+
+978
+01:05:26,510 --> 01:05:29,889
+就像我介绍的，基本上是给节点和操作符上色。
+like I introduced basically coloring nodes and operators.
+
+979
+01:05:29,889 --> 01:05:34,849
+你会发现，当我们做这个互操作划分时，实际上是在划分
+You realize that when we do this intraop partism, we are essentially partition
+
+980
+01:05:34,849 --> 01:05:37,289
+操作符及其输出。
+the operators and its output.
+
+981
+01:05:37,769 --> 01:05:42,969
+每当发生通信时，都是因为我们需要重新分区。
+Whenever a communication happens, it happens because we need to repartition it.
+
+982
+01:05:43,480 --> 01:05:49,199
+好的。记住，在张量并行的情况下，就是我刚才讲解的那种情况。
+Okay. Remember, in the tensor parallel case, that is the one that I run through.
+
+983
+01:05:49,199 --> 01:05:53,040
+所以当通信模式，呃，发生时，
+So when the communication patterns, uh when or happens,
+
+984
+01:05:53,040 --> 01:05:56,999
+基本上每个rank都会得到一个部分和，
+it's basically each rank basically get a partial sum,
+
+985
+01:05:56,999 --> 01:05:59,339
+但你希望每个rank都有一个副本，对吧。
+but you want each rank to have a replica, right.
+
+986
+01:05:59,339 --> 01:06:02,439
+这意味着你需要以某种方式交换数组内容，
+Which means that you need to swap the array content in a way
+
+987
+01:06:02,439 --> 01:06:05,999
+以满足重新分区的需求。
+that to meet the repartitioning requirement.
+
+988
+01:06:05,999 --> 01:06:08,359
+好的。在下一节课中，
+Okay. And in the next lecture,
+
+989
+01:06:08,359 --> 01:06:13,819
+我将展示，呃，基本上在我们今天用来
+I'm going to show that uh basically in all types of existing pysms that we use to
+
+990
+01:06:13,819 --> 01:06:16,114
+训练语言模型或任何其他模型的所有现有pysm类型中。
+train language models or train whatever models today.
+
+991
+01:06:16,114 --> 01:06:22,510
+好的，只有当两个操作符，也就是相邻的两个操作符之间，
+Okay. Uh, the communicating happens only when that between two operators, two adjacent operators,
+
+992
+01:06:22,510 --> 01:06:25,070
+他们的分区方案不同时，才需要进行通信。
+their partitioning scheme are different.
+
+993
+01:06:25,070 --> 01:06:30,869
+明白了吗？为了满足下一个操作符的分区方案，你必须对数组进行重新分区。
+Okay? In order to meet the partiing scheme of the next operator, you have to repar in array.
+
+994
+01:06:30,869 --> 01:06:37,569
+好的，这里我举了两个案例的例子，但实际上这是一个四维的情况。
+Okay? So here, I give you an example in two decase but in reality, this is a 40 case.
+
+995
+01:06:37,569 --> 01:06:43,749
+以Transformer为例，你有一个四维数组，B乘T乘H乘其他维度，对吧？
+F doming transformer, you have a 40 array B times times H times something else, right?
+
+996
+01:06:43,749 --> 01:06:46,649
+我们稍微简化一下，好吗？
+And let's simplfy a little bit, okay.
+
+997
+01:06:46,649 --> 01:06:51,059
+在两个案例中，我们有三种分区方式，对吧？
+In two cases, we have three types of partitioning, right?
+
+998
+01:06:51,059 --> 01:06:52,499
+第一种是复制分区。
+The first type is replicated.
+
+999
+01:06:52,499 --> 01:06:54,479
+就是每个设备都有一份副本。
+That I device have a replica.
+
+1000
+01:06:54,479 --> 01:06:57,299
+好的，第二种是行分区。
+Okay? The second is row partition.
+
+1001
+01:06:57,299 --> 01:06:59,059
+所以是横向切分。
+So horizontal cut.
+
+1002
+01:06:59,059 --> 01:07:02,159
+好吗？第三种类型是列分区。
+Okay? And the third type is column partition.
+
+1003
+01:07:02,159 --> 01:07:08,659
+就像我说的，通信发生在你需要在这三种状态之间切换的时候，对吧？
+Like I said, the communication happens when you need to switch between these three states, right?
+
+1004
+01:07:08,659 --> 01:07:12,439
+有时候一个算子需要副本，有时候一个算子需要行分区，
+Sometimes one operator need a replica, sometimes one operator need a row party,
+
+1005
+01:07:12,439 --> 01:07:15,659
+有时候一个算子需要列分区。
+sometimes one opportun a column partition.
+
+1006
+01:07:15,659 --> 01:07:18,619
+然后我开始问一个问题，好吗？
+Then I start to ask a question, okay?
+
+1007
+01:07:18,619 --> 01:07:23,059
+那如果我想从行分区切换到副本，我该怎么做？
+So if I want to switch from row party to replicate what I do.
+
+1008
+01:07:29,630 --> 01:07:34,069
+那如果我想从这里到这里画一条边，我该怎么做？
+So if I want to draw a edge from here to here what I do.
+
+1009
+01:07:36,030 --> 01:07:39,749
+基本上就是用gather，对吧？
+It's basically for gather, right?
+
+1010
+01:07:39,749 --> 01:07:42,969
+所以你想让每个设备都收集它的部分，对吧？
+So you want each device to gather it protein, right?
+
+1011
+01:07:42,969 --> 01:07:46,369
+然后你会得到一个副本。好的。
+And then you will get a replica. Okay.
+
+1012
+01:07:46,369 --> 01:07:50,370
+下一个问题是，如果我想从副本切换到行Pisin，
+And the next one is if I want to switch from replica to row Pisin,
+
+1013
+01:07:50,370 --> 01:07:52,949
+也就是说，我想做一个反向操作。
+that is, I want to do a reverse what I do.
+
+1014
+01:07:53,670 --> 01:08:02,259
+散布，真的吗？再想想。我什么都不做。
+A scatter, really? Think twice. I do nothing.
+
+1015
+01:08:02,259 --> 01:08:05,380
+我只是把它扔掉，对吧？我不需要通信。
+I just throw it away, right? I don't need to communicate.
+
+1016
+01:08:05,380 --> 01:08:09,459
+为什么？因为我想在这两个状态之间切换，对吧？
+Why? Because I want to switch between from this state to this state, right?
+
+1017
+01:08:09,459 --> 01:08:14,559
+所以现在，每个已经有了一个副本，而我最终的状态
+So now, each already have a replica and my eventual state
+
+1018
+01:08:14,559 --> 01:08:16,739
+我希望每个状态只保留一半。
+I want each state to only have a half.
+
+1019
+01:08:16,739 --> 01:08:18,139
+我只是把另一半扔掉。
+I just throw the other half.
+
+1020
+01:08:18,139 --> 01:08:19,599
+我不需要通信。明白了吗？
+I don't need to communicate. Okay?
+
+1021
+01:08:19,599 --> 01:08:24,639
+我什么都不做。好吗？切片。对，我会切片。好吗？
+I do nothing. Okay? Slice. Yeah, I do slice. Okay?

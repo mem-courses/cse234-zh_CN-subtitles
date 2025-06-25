@@ -1,0 +1,5474 @@
+1
+00:00:02,040 --> 00:00:04,920
+好的，我们开始吧。
+Okay, let's get started.
+
+2
+00:00:04,920 --> 00:00:09,619
+是的。所以我希望你喜欢APA二，对吧？
+Yeah. So I hope you enjoy APA two, right?
+
+3
+00:00:09,619 --> 00:00:13,879
+你昨天拿到了第二题的参考答案，对吧？
+You got a reference answer for second question yesterday, right?
+
+4
+00:00:13,879 --> 00:00:19,319
+你今天也从Deepsk那里拿到了第一题的参考答案，对吧？
+And you get a reference answer to question one today from Deepsk, right?
+
+5
+00:00:19,319 --> 00:00:24,194
+希望你喜欢。如果你不知道怎么优化，其实可以检查一下你的代码。
+I hope you enjoy. And if you have no idea how to optimize, you can actually check your code.
+
+6
+00:00:24,194 --> 00:00:30,609
+嗯，好。今天我们要完成并行性这一部分。
+Yeah. Okay. And today, we are going to finish parallelism.
+
+7
+00:00:30,609 --> 00:00:32,189
+今天我们有很多深入的内容。
+We have a lot of deep contents today.
+
+8
+00:00:32,189 --> 00:00:36,609
+所以下一节课开始，我们会更深入地学习Ms。
+So starting from the next lecture, we are going to dive deeper into Ms.
+
+9
+00:00:36,609 --> 00:00:39,770
+我们会用到上一节课学到的内容，
+We are going to use what we learned in the previous lecture,
+
+10
+00:00:39,770 --> 00:00:44,715
+然后把它们应用到Ms上。我们今天尽量完成。
+and we apply them into Ms. Let's try to finish today.
+
+11
+00:00:44,715 --> 00:00:50,500
+简单回顾一下，对吧？嗯，基本上，在我上一节课中，
+Just to recap, right? Um, so basically, in my last lecture,
+
+12
+00:00:50,500 --> 00:00:57,780
+我们建立了一个模型，帮助你分析Interop或流水线部分的开销
+we developed a model that help you analyze the overhead from Interop or pipeline parts
+
+13
+00:00:57,780 --> 00:00:59,599
+流水线部分的开销，对吧？
+the overhead of Pipeline partism, right?
+
+14
+00:00:59,599 --> 00:01:03,739
+这是甘特图。我认为这个模型的核心是
+This is the ganchart. And I think the core of this model is
+
+15
+00:01:03,739 --> 00:01:05,820
+基本上你关心的是“气泡”，对吧？
+basically you care about the bubble, right?
+
+16
+00:01:05,820 --> 00:01:08,050
+你想要最小化这个“气泡”，明白吗？
+You want to minimize the bubble, okay?
+
+17
+00:01:08,050 --> 00:01:12,000
+然后我们开发了第一个调度方案，也就是GPip调度，
+And we develop our first schedule, which is the GPip schedule,
+
+18
+00:01:12,000 --> 00:01:16,520
+这是一个非常结构化且看起来很漂亮的调度方案，但它并不起作用。
+which is a very structured and nice looking schedule, but it doesn't work.
+
+19
+00:01:16,520 --> 00:01:19,940
+为什么？因为内存与lumber microbde大小一致。
+Why? Because the memory is green with lumbar microbde size.
+
+20
+00:01:19,940 --> 00:01:22,520
+好吗？然后我们修复了它，对吧？
+Okay? And we fix it, right?
+
+21
+00:01:22,520 --> 00:01:26,899
+我们把时间表弄得有点乱，但它是可行的，好吗？
+We make the schedule a little bit messier, but it works, okay?
+
+22
+00:01:26,899 --> 00:01:30,660
+然后我们尝试让它不断推进。
+And we try to advance it further and further.
+
+23
+00:01:30,660 --> 00:01:34,560
+我们开始开发另一种模式的时间表，就是双向的。
+We start developing another mode schedule, which is bidirectional.
+
+24
+00:01:34,560 --> 00:01:39,399
+我们说这是用来深度训练的，好吗？
+And we said that this is one used to train deep, okay?
+
+25
+00:01:39,399 --> 00:01:41,459
+这个叫做奇美拉（Chimera）。
+This one called Chimera.
+
+26
+00:01:41,459 --> 00:01:43,840
+好的，我想我们就停在这里。
+Okay, and I think we stopped here.
+
+27
+00:01:43,840 --> 00:01:45,999
+好的，那我们继续吧。
+Okay. Then let's continue.
+
+28
+00:01:45,999 --> 00:01:49,599
+所以对于我在上一节课介绍的所有时间表，
+So for all the schedules I introduced in my last lecture,
+
+29
+00:01:49,599 --> 00:01:55,879
+我给它们起了一个名字，就是它们被称为同步流水线并行时间表。
+I give them a name that is, um, they are called synchronous Pipeline parallel schedule.
+
+30
+00:01:55,879 --> 00:01:59,379
+在这里，你可以理解同步其实非常相似。
+So here, you can understand that synchronous are something very similar
+
+31
+00:01:59,379 --> 00:02:03,140
+
+to what we discussed in data parism that is we always make
+
+32
+00:02:03,140 --> 00:02:05,400
+
+sure like all the workers, they are in the same place.
+
+33
+00:02:05,400 --> 00:02:09,699
+
+So what do I mean? So the main benefits of this kind of like method is that it
+
+34
+00:02:09,699 --> 00:02:11,640
+
+keeps machine learning semantics.
+
+35
+00:02:11,640 --> 00:02:16,004
+
+So in other words, the whole training competition will be exactly the same.
+
+36
+00:02:16,004 --> 00:02:22,270
+
+Uh, as if you're actually new on single device because if you look at the pre schedule,
+
+37
+00:02:22,270 --> 00:02:23,929
+
+we always have this barrier.
+
+38
+00:02:23,929 --> 00:02:26,450
+
+We update when all the micro baatches are finished.
+
+39
+00:02:26,450 --> 00:02:31,970
+
+Okay. But actually, there's a little space that we can play around that to make this a little bit
+
+40
+00:02:31,970 --> 00:02:34,869
+
+more synchronous but much faster.
+
+41
+00:02:34,869 --> 00:02:42,350
+就像我说的，在这种同步调度下，主要的缺点是会有气泡，
+So um, like I said, in this kind of synchronous schedule, the main downside is we have bubbles,
+
+42
+00:02:42,350 --> 00:02:49,969
+尽管随着你增加lumbar microbachs气泡会减少，但我们还是会有气泡，
+and although the bubble will diminish as you increase lumbar microbachs but we have bubbles, um,
+
+43
+00:02:49,969 --> 00:02:53,389
+我们已经讨论了很多减少气泡的算法，但是，
+and we have discussed many algorithms to reduce the bubble, but,
+
+44
+00:02:53,389 --> 00:03:01,089
+要减少这种流水线气泡，基本上需要你大幅增加lamb microbatches。
+reducing this pipeline bubble requires you basically very radically increase lamb microbatches.
+
+45
+00:03:01,089 --> 00:03:08,509
+比如说，如果你的输入较小，没有足够的空间来做很多，
+So for example, if you have a smaller input, which you don't have a lot of space to make many,
+
+46
+00:03:08,509 --> 00:03:12,415
+很多microbtches，在这种情况下，你的流水线并行性就不会特别高效。
+many microbtches in that case, your pipeline parism is not going to be super efficient.
+
+47
+00:03:12,415 --> 00:03:17,039
+好的，现在我们来看另一种研究方向。
+Okay. Now, let's look at another line of work.
+
+48
+00:03:17,039 --> 00:03:20,479
+另一种流水线并行调度类型，或者说
+So another type of pipeline parallel schedule or what
+
+49
+00:03:20,479 --> 00:03:25,939
+我们称之为同步流水线并行调度，在这种方式下我们基本上移除了
+we call the synchronous pipeline parallel schedule, where we basically remove
+
+50
+00:03:25,939 --> 00:03:31,919
+流水线调度中的同步点，现在我们可以开始下一轮了
+the synchronization point in the pipeline schedule, um, and now we can start the next round
+
+51
+00:03:31,919 --> 00:03:37,139
+在上一轮的反向传播还没完成时，就开始了前向传播。
+forward forward pass before the backward pass of the previous round finished.
+
+52
+00:03:37,139 --> 00:03:40,859
+好的，也就是说我们移除了一个屏障更新。
+Okay. That is we remove a barrier update.
+
+53
+00:03:40,859 --> 00:03:47,500
+好的，而同步调度实际上没有流水线气泡，但它也打破了
+Okay. And a synchronous schedule actually don't have pipeline bubbles, but it also breaks
+
+54
+00:03:47,500 --> 00:03:50,160
+就像我说的，同步语义。
+like I said, the synchronous semantics.
+
+55
+00:03:50,160 --> 00:03:54,579
+也就是说，如果你用这种流水线调度，你用这个
+That is, if you use this kind of pipeline schedule, your model trained with this
+
+56
+00:03:54,579 --> 00:03:59,359
+流水线调度训练出来的模型，其实和你在单个设备上训练是不一样的，对吧？
+pipeline schedule is different from, uh, as if you are training on a single device. Okay?
+
+57
+00:03:59,359 --> 00:04:01,759
+因为你的梯度在某种程度上变得滞后了。
+Because your grading becomes steel in some way.
+
+58
+00:04:01,759 --> 00:04:05,040
+就像我们在数据并行中做的那样。
+Okay, like what we did in, um, data parism.
+
+59
+00:04:05,040 --> 00:04:08,674
+好的，我们来看，第一个基本上就是这个。
+Okay, let's see. The first one is basically this one.
+
+60
+00:04:08,674 --> 00:04:14,829
+如果我们希望所有设备都能自由地、以自己的节奏排队执行，
+If we like all the devices to go free and acute at their own pace,
+
+61
+00:04:14,829 --> 00:04:19,949
+我们基本上得到了这个我称之为AMP net的调度方式。
+we basically get this schedule which I called AMP net.
+
+62
+00:04:19,949 --> 00:04:24,230
+每个设备只要空闲时就会执行前向传播。
+And each device basically performs forward pass whenever free.
+
+63
+00:04:24,230 --> 00:04:27,690
+它们在每次反向传播后都会更新权重。
+And they update the wise after every Brod pass.
+
+64
+00:04:27,690 --> 00:04:32,809
+好的。采用这种调度方式，前向和反向传播的不同阶段
+Okay. And with this schedule, the different stages in the forward and Bro pass
+
+65
+00:04:32,809 --> 00:04:35,630
+可以在不同版本的权重上进行，对吧？
+can be on different versions of the WIC, right?
+
+66
+00:04:35,630 --> 00:04:37,990
+因为每个设备都是按照自己的节奏进行更新的。
+Because each device update on their own pace.
+
+67
+00:04:37,990 --> 00:04:45,690
+举个例子，比如对于数据0.1，对于数据1，第一阶段和第二阶段的前向传播，
+Okay? For example, here for the Data 0.1, for the data one, the forward pass of stage one and two,
+
+68
+00:04:45,690 --> 00:04:50,010
+用的是初始权重，而前向传播和反向传播
+on the initial width, where the forward pass on who backward pass
+
+69
+00:04:50,010 --> 00:04:54,830
+以及反向传播用的是数据0更新后的权重。
+and backward pass on weights updated by data zero.
+
+70
+00:04:54,830 --> 00:04:59,050
+这样权重的不一致会给训练过程带来噪声，对吗？
+Okay? So this discrepancy brings noise to the training process, right?
+
+71
+00:04:59,050 --> 00:05:04,890
+因为在原始的SED中，我们会确保先更新，然后做梯度下降，再更新。
+Because in original SED, we make sure we update and then dp gradient and then update.
+
+72
+00:05:04,890 --> 00:05:08,595
+但在这里，每个设备基本上都按照不同的节奏进行。
+But here, every device basically follow a different pace.
+
+73
+00:05:08,595 --> 00:05:12,540
+这也是为什么这种方法其实效果不是很好，明白吗？
+And that's why this one actually doesn't work pretty well, okay?
+
+74
+00:05:12,540 --> 00:05:18,780
+在像mist或者Cipher这种小型的图像分类模型上还可以用。
+On smart that's like a mist or Cipher this kind of small um, image classifier models.
+
+75
+00:05:18,780 --> 00:05:21,739
+它可以工作，但在更大的语言模型上就很可能不行。
+It works, but very likely that amor language models.
+
+76
+00:05:21,739 --> 00:05:23,499
+这会导致发散。
+This will lead to divergence.
+
+77
+00:05:23,499 --> 00:05:31,820
+好的，还有一些工作是为了提升这个MP net算法的收敛性。
+Okay? Um, and there are also some work that, improve the convergence of this MP net, um, algorithm.
+
+78
+00:05:31,820 --> 00:05:37,639
+其中一个叫做pipe Myer，它通过修改梯度优化器来提升收敛性，
+One is called pipe Myer and it modifies the grading optimizer to improve the convergence,
+
+79
+00:05:37,639 --> 00:05:39,539
+但是提升其实非常有限。
+um, but just a little bit improve.
+
+80
+00:05:39,539 --> 00:05:43,104
+它并不能从根本上改变这个问题，明白了吗？
+It cannot fundamentally change the drawbo this way, okay?
+
+81
+00:05:43,104 --> 00:05:48,789
+嗯，Pipe Dream 是另一种通过减少同步来实现更好收敛的算法。
+Um, and pipe dream is another, algorithm that achieves better convergence
+
+82
+00:05:48,789 --> 00:05:50,949
+它通过减少这种同步来实现。
+by reducing this synchrony.
+
+83
+00:05:50,949 --> 00:05:56,530
+所以，Pipe Dream 算法的时间线看起来和 1f1b 非常相似，对吧。
+So, the timeline of the pipe dream algorithm looks very similar to 1f1b, right.
+
+84
+00:05:56,530 --> 00:05:58,070
+它看起来和 1f1b 非常相似。
+It looks very similar to 1f1b.
+
+85
+00:05:58,070 --> 00:06:04,789
+但是，嗯，主要的区别在于，我们是在反向传播完成后才更新模型。
+But, um, the main difference here is, um, we updated the model was once the backward has finished.
+
+86
+00:06:04,789 --> 00:06:10,770
+好的，这里的主要思想基本上是我们尝试在
+Okay. The main idea here is basically we try to enforce in the same version of
+
+87
+00:06:10,770 --> 00:06:14,350
+前向和反向传播时对单个输入数据点使用相同版本的权重。
+weight for the forward and backward pass of a single input data point.
+
+88
+00:06:14,350 --> 00:06:16,969
+这其实是放宽了约束条件。
+It's basically relaxed constraint.
+
+89
+00:06:16,969 --> 00:06:21,330
+让我们专注于设备一，好吗？这就是设备一。
+And let's focus on device one, okay? So this is device one.
+
+90
+00:06:21,330 --> 00:06:27,369
+对于输入批次 0 到 3 的前向和反向传播，我们使用
+And for the forward and backward pass of the input batches, zero to three, we use
+
+91
+00:06:27,369 --> 00:06:30,090
+相同的初始权重。你可以看到。
+the same initial weight. You can see.
+
+92
+00:06:30,090 --> 00:06:33,870
+好吗？嗯，但是对于输入批次四来说。
+Okay? Um, but for input batch four.
+
+93
+00:06:33,870 --> 00:06:37,650
+它使用的是由输入批次零更新后的权重。
+Um, it uses the width updated by input battery zero.
+
+94
+00:06:37,650 --> 00:06:43,150
+因为我们在对输入一到三进行反向传播时，仍然需要使用初始权重，
+Since we still need to use the initial weights for the backward pass of input one to three,
+
+95
+00:06:43,150 --> 00:06:46,949
+在这个时间点，我们会有两份权重的副本。
+and at this time point, we will have two copies of weights.
+
+96
+00:06:46,949 --> 00:06:53,890
+一份是初始权重，另一份是基本上在我们对输入零计算后更新的权重，对吧？
+One initial weight and one width, that is, basically updated after we compute on input zero, right?
+
+97
+00:06:53,890 --> 00:06:59,509
+嗯，然后对于输入批次五，我们需要更新权重，嗯，
+Um, and again, for input B five, we need to update weights, um,
+
+98
+00:06:59,509 --> 00:07:02,770
+我们需要使用由输入零和一更新后的权重。
+we need to use width updated by the input zero and one.
+
+99
+00:07:02,770 --> 00:07:10,870
+好吗？对于输入六，我们需要使用由数据批次零、一和二更新后的权重。
+Okay? And for input six, we need to use width updated by data bat zero, one and two.
+
+100
+00:07:10,870 --> 00:07:16,420
+因此，总的来说，嗯，我们需要存储四份权重的副本。
+Therefore, in total, um, we need to store four copies of it.
+
+101
+00:07:16,420 --> 00:07:20,439
+好吗？但我们只把神经网络分成了四个阶段。
+Okay? But we only divide the neural network into four stages.
+
+102
+00:07:20,439 --> 00:07:25,860
+这个美好幻想最大的缺点就是根本无法节省内存。
+The biggest downside of this pipe dream is that there will be no memory saving at all.
+
+103
+00:07:25,860 --> 00:07:30,759
+对吧？记住，当我们做流水线棱镜时，我们把神经网络分成了四个阶段。
+Right? Remember, when we do pipeline prism, we divide the neural network into four stages.
+
+104
+00:07:30,759 --> 00:07:32,220
+这就是我们消耗内存的原因。
+That's why we consume memory.
+
+105
+00:07:32,220 --> 00:07:34,879
+但这个算法基本上违背了我们的初衷。
+But this algorithm basically defeat our purpose.
+
+106
+00:07:34,879 --> 00:07:37,280
+你需要在每个设备上存储四份副本。
+You need to store four copies on each device.
+
+107
+00:07:37,280 --> 00:07:43,939
+好吗？但这只是一个非常初步的、类似论文讨论的内容
+Okay? But this was just a very initial, kind of like paper discussing
+
+108
+00:07:43,939 --> 00:07:47,200
+讨论了异步流水线桶调度，并讨论了这种可能性。
+a synchronous pipeline barrel schedule and discussing that possibility.
+
+109
+00:07:47,200 --> 00:07:48,840
+这就是我提起这个的原因，好吗。
+That's why I bring this up, okay.
+
+110
+00:07:48,840 --> 00:07:50,780
+而且现在，我觉得大家一直在跟进。
+And today, I think people have been following up
+
+111
+00:07:50,780 --> 00:07:52,980
+有很多新的方法可以比这个做得更好。
+a lot of new work which can do better than this one.
+
+112
+00:07:52,980 --> 00:08:00,960
+是的，好的。为了减少内存使用，PipeDream 的作者们，
+Yeah. Okay. And to reduce the memory usage, um, the pipe dream authors,
+
+113
+00:08:00,960 --> 00:08:05,279
+他们对原始的流水线算法提出了一个修改，
+they propose a modification to the original pipeline,
+
+114
+00:08:05,279 --> 00:08:11,299
+通过不那么频繁地更新宽度，这被称为 PipeDream 2 PW。
+papeream algorithm by updating the width less frequently, um, which is called pipe dream two PW.
+
+115
+00:08:11,299 --> 00:08:16,760
+比如这里，输入补丁4、5、6仍然使用初始宽度。
+For example, here, input patch, four, five, six, still use the initial width.
+
+116
+00:08:16,760 --> 00:08:22,760
+从输入7开始，我们会使用由输入0到3更新后的宽度。
+And starting uh, input seven, we will use the width updated by inputs zero to three.
+
+117
+00:08:22,760 --> 00:08:26,979
+因此，梯度总是只为一次更新而存储。
+Therefore, the greens are always only stored for one update, y.
+
+118
+00:08:26,979 --> 00:08:28,854
+这样你就可以减少存储需求。
+And you can reduce the story.
+
+119
+00:08:28,854 --> 00:08:32,590
+好的，这位 PipeDream 的作者，他是个非常有名的人。
+Okay. And this Pablo Author, he's a very famous guy.
+
+120
+00:08:32,590 --> 00:08:39,809
+他基本上是流水线并行的先驱，后来加入了NVIDIA，整个Megatron项目也是他参与的。
+He basically was a pioneer in doing Pipeline Pism and he joined Adia, and the entire Megatron
+
+121
+00:08:39,809 --> 00:08:41,489
+这个库主要是他写的。
+library was written mostly by him.
+
+122
+00:08:41,489 --> 00:08:44,650
+好吗？Megatron 基本上是大家用来
+Okay? Megatron is basically the framework that people use
+
+123
+00:08:44,650 --> 00:08:48,169
+在社区中训练语言模型的一个框架。是的，没错。
+a lot in community to train language models. Yeah. Okay.
+
+124
+00:08:48,169 --> 00:08:50,750
+这项工作相当不错，对吧？
+This is pretty good work, okay?
+
+125
+00:08:51,010 --> 00:08:55,890
+呃，可能还会有其他不同的流水线
+Uh, there might be different there will be more different pipeline
+
+126
+00:08:55,890 --> 00:09:02,450
+调度方式我们还没有涉及，但有一个重要的问题我们还没讨论，
+schedules that we haven't covered, but one important issue, we haven't discussed is basically
+
+127
+00:09:02,450 --> 00:09:06,809
+就是对于我们刚才展示的所有流水线调度算法，
+for all the pipeline scheduling algorithm, um, we showed just now, right,
+
+128
+00:09:06,809 --> 00:09:11,289
+我们假设不同流水线阶段的运行时间
+we assume the running times of different pipeline stages are
+
+129
+00:09:11,289 --> 00:09:14,389
+和上面这个图中完全一样，对吧？
+exactly the same as in this figure above, right?
+
+130
+00:09:14,389 --> 00:09:17,969
+所以基本上 ABCD 这几个阶段的长度是一样的，对吗？
+So basically ABCD they are of the same lens, right?
+
+131
+00:09:17,969 --> 00:09:26,639
+
+Um, But if the latency of these stages are not the same, for example, the timeline will be
+
+132
+00:09:26,639 --> 00:09:29,059
+
+looking like this, right?
+
+133
+00:09:29,059 --> 00:09:33,379
+
+So basically for a single input, for each different input, you will have
+
+134
+00:09:33,379 --> 00:09:36,079
+
+different kind of like executing time.
+
+135
+00:09:36,079 --> 00:09:38,319
+
+And you can see this is much worse, right?
+
+136
+00:09:38,319 --> 00:09:41,959
+
+In the upper figure, when we execute four batches, we are there.
+
+137
+00:09:41,959 --> 00:09:44,780
+
+But here, basically the time becomes longer.
+
+138
+00:09:44,780 --> 00:09:47,440
+
+Okay? So one important factor when you do pipeline parison,
+
+139
+00:09:47,440 --> 00:09:50,399
+
+you need to make sure each device has the same workload.
+
+140
+00:09:50,399 --> 00:09:52,020
+
+Does that make sense?
+
+141
+00:09:52,020 --> 00:09:54,660
+好的。我们稍后再讨论这个，好吗？
+Okay. We'll discuss this later, okay?
+
+142
+00:09:58,900 --> 00:10:05,680
+好的。现在有很多人在研究如何将 New 分成不同的阶段，
+Okay. There are many studying how to partition on New into different stages,
+
+143
+00:10:05,680 --> 00:10:10,599
+主要目标基本上是尽量减少最大阶段延迟，
+and the main goal is basically trying to minimize the maximum stage latency
+
+144
+00:10:10,599 --> 00:10:14,779
+以提升流水线效率，也就是整体流水线效率。嗯，
+to improve pipeline efficiency, the overall pipeline efficiency. Um,
+
+145
+00:10:14,779 --> 00:10:20,099
+同时还要尽量优化不同分支在设备上的分布。
+And also try to maximize the pization of different branches in device placement.
+
+146
+00:10:20,099 --> 00:10:23,839
+这里我给大家介绍一下这两类方法的概况。
+And here I give you an overview of these two class methods.
+
+147
+00:10:23,839 --> 00:10:26,740
+我不会全部讲完，但如果你想深入了解，
+I'm not going to cover all of them, but if you want to dive deeper,
+
+148
+00:10:26,740 --> 00:10:30,259
+可以阅读这些论文。基本上分为两大类。
+read these papers. Essentially two categories.
+
+149
+00:10:30,259 --> 00:10:33,820
+第一类其实是你们非常熟悉的套路，
+The first category is basically the same recipe you are very familiar
+
+150
+00:10:33,820 --> 00:10:38,639
+因为我们在 Matamo 的编译器或者像图处理时也用过这个方法。
+with because we did this for compilers for, um Matamo for like a graph
+
+151
+00:10:38,639 --> 00:10:42,359
+这是关于系统的机器学习。
+open that is machine learning for systems.
+
+152
+00:10:42,359 --> 00:10:45,715
+我们尝试学习一个能够给我们最佳调度的模型。
+We try to learn a model that can give us the best schedule.
+
+153
+00:10:45,715 --> 00:10:49,689
+这个模型通常是通过逆向学习训练出来的。好的，这是左边的部分。
+And this model was usually trained using inverse learning. Okay, the left part.
+
+154
+00:10:49,689 --> 00:10:53,889
+第二部分是我们明确地将这个流水线调度建模为一个优化问题，
+The second part is we explicitly model this pipeline schedule as an oppimentation,
+
+155
+00:10:53,889 --> 00:10:55,549
+然后我们尝试去解决这个优化问题。
+and we try to solve that openation.
+
+156
+00:10:55,549 --> 00:10:58,129
+但有时候这个优化问题可能是不可追踪的，
+But sometimes this opmentation is probably in trackable,
+
+157
+00:10:58,129 --> 00:11:03,850
+所以会花很长时间，因为它有点难，嗯，你知道的，就是这样。
+so it takes forever, because it is a bit hard and, um, so, you know, yeah.
+
+158
+00:11:03,850 --> 00:11:08,294
+好的，我会简单介绍一下第一个调度的基本思路。
+Okay, I will basically give you a brief idea of the first scheduling.
+
+159
+00:11:08,294 --> 00:11:12,659
+这是一个致力于优化流水线调度的工作。
+And this is a work that basically trying to optimize the pipeline for schedule.
+
+160
+00:11:12,659 --> 00:11:16,760
+基本上，这项工作叫做Plato。
+So basically, this work is called Plato.
+
+161
+00:11:16,760 --> 00:11:22,219
+所以基本上，RO 的例子就是分区算法，而 I 算法的环境如图所示，
+So basically, is the example of RO is partition algorithm, and the environment for
+
+162
+00:11:22,219 --> 00:11:27,480
+其中状态是计算图的一个具体设备放置方案。
+the I algorithm is defined as in this figure where the state is a specific
+
+163
+00:11:27,480 --> 00:11:30,685
+动作是修改图中某个节点的设备分配。
+device placement plan for computing graph.
+
+164
+00:11:30,685 --> 00:11:35,529
+奖励基本上是新旧放置方案之间的延迟差异。
+Um, the action is to modify the device assignment of a node in the graph.
+
+165
+00:11:35,529 --> 00:11:41,230
+R 智能体是一个图神经网络，它试图作为一个
+And the reward is basically a latency difference between the new and the old placement.
+
+166
+00:11:41,230 --> 00:11:46,950
+策略，找出如何将这些节点放置在不同设备上的最佳方式，
+And the R agent is a graph neural network that's trying to, um, try to basically perform as
+
+167
+00:11:46,950 --> 00:11:49,769
+以最大化奖励，也就是最小化延迟，对吧？
+a policy and try to figure out what is the right way to place these notes on
+
+168
+00:11:49,769 --> 00:11:56,170
+人们基本上就是这样做的，这其实就像是在搜索。
+different devices in order to maximize the reward, which is equivalent to minimizing latency, okay?
+
+169
+00:11:56,170 --> 00:12:01,250
+你不断尝试不同的放置策略，
+And people basically, do this, and, it's basically like a search.
+
+170
+00:12:01,250 --> 00:12:06,790
+然后把它部署到集群上，观察延迟，
+You keep trying different placement strategy and, you put it on a cluster observe latency,
+
+171
+00:12:06,790 --> 00:12:12,860
+然后你把奖励反向传播到新网络，大概就是这样，明白了吗？酷。
+and then you propagate the reward back to new network, something like that, okay? Cool.
+
+172
+00:12:12,860 --> 00:12:19,870
+有什么问题吗？有。这是稀疏线稀疏。
+Any questions? Yeah. This is the spars Wire sparse.
+
+173
+00:12:19,870 --> 00:12:24,550
+怎么做到的？他们只是用更多的计算机来训练模型。
+How? They just use more computer to train a model.
+
+174
+00:12:24,550 --> 00:12:26,230
+对，继续尝试。
+Yeah. Keep trying.
+
+175
+00:12:26,230 --> 00:12:36,570
+好的，好的，嗯，总结一下，互操作并行的思想是分配
+Okay. Okay, um I summary, the idea of interop parism is to assign
+
+176
+00:12:36,570 --> 00:12:40,970
+计算图的不同操作符到不同的设备上，然后
+different operators of the computation graph to different devices and then
+
+177
+00:12:40,970 --> 00:12:43,669
+以流水线并行的方式执行，对吧？
+execute in pipeline parallel fashion, right?
+
+178
+00:12:43,669 --> 00:12:48,750
+设备分配算法基本上是并行化不同的图分支，
+The device placement algorithm basically paralyze different graph branches,
+
+179
+00:12:48,750 --> 00:12:52,250
+但他们有个问题，就是并不是所有的图都适用。
+but they have a problem they are not applicable on all graphs.
+
+180
+00:12:52,250 --> 00:12:54,230
+这是这里的第一类。
+That's the first category here.
+
+181
+00:12:54,230 --> 00:12:58,429
+嗯，第二类，同步流水线调度其实是我们经常用的，好吗？
+Um, the second category, synchronized pipeline schedule is the one that
+
+182
+00:12:58,429 --> 00:13:01,090
+实际上我们用得很多，好吗？
+actually we used a lot, okay?
+
+183
+00:13:01,090 --> 00:13:05,750
+它的收敛性和你在单设备上是一样的，
+And it has the same convergence as if you are on single device,
+
+184
+00:13:05,750 --> 00:13:10,929
+并且有很多算法可以减少流水线气泡并提升硬件利用率。
+and there are many algorithms on reducing the pipeline bubbles and improving hardware condition.
+
+185
+00:13:10,929 --> 00:13:15,210
+嗯，第三类，我刚刚讲过，基本上是
+Um, and the third category, which I just covered is basically
+
+186
+00:13:15,210 --> 00:13:17,089
+异步流水线Barrel调度。
+a synchronous pipeline Barrel schedule.
+
+187
+00:13:17,089 --> 00:13:20,809
+它的硬件利用率最高，因为你可以
+It has the highest hardware utilization because you can
+
+188
+00:13:20,809 --> 00:13:24,990
+基本上减少，基本上可以做到零气泡，
+basically reduce you can basically have zero bubble,
+
+189
+00:13:24,990 --> 00:13:26,469
+对，因为你可以随意调度你想要的任务。
+right, because you just schedule whatever you want.
+
+190
+00:13:26,469 --> 00:13:28,230
+是的，你不用关心收敛性。
+Yeah, you don't care about convergence.
+
+191
+00:13:28,230 --> 00:13:34,030
+它没有管道气泡，但引入了三星同步机制，
+And it has no pipe bubble, but it introduce samsung synchrony,
+
+192
+00:13:34,030 --> 00:13:35,750
+我们在机器融合中听说过这个。
+which we heard in machinering convergence.
+
+193
+00:13:35,750 --> 00:13:39,990
+所以它只适用于某些问题，并不是所有问题都适用。
+So it is only applicable on some problems, but not all problems.
+
+194
+00:13:39,990 --> 00:13:46,290
+明白了吗？这些调度方式在阶段均衡时表现最好，
+Okay? So all these schedules perform the best when you have a balanced stage,
+
+195
+00:13:46,290 --> 00:13:50,030
+也就是说每个阶段需要有大致相同的工作负载。
+that is each stage need to have roughly the same workload.
+
+196
+00:13:50,030 --> 00:13:51,809
+否则，你会看到那张图，对吧？
+Otherwise, you observe that graph, right?
+
+197
+00:13:51,809 --> 00:13:58,369
+好的，酷。这基本上标志着流水线并行调度的结束。
+Okay. Cool. This basically marks the end of, uh, pipeline par schedule.
+
+198
+00:13:58,369 --> 00:14:01,810
+我认为直到今天，人们还在这个领域发表论文。
+I think up until today, people are still publishing this area.
+
+199
+00:14:01,810 --> 00:14:06,020
+他们写了越来越多的论文，试图提出更好的调度方法。是的，请问。
+They are writing more and more papers to coming up with a better schedule. Yeah, please.
+
+200
+00:14:06,020 --> 00:14:10,990
+有办法让它们同步在一起吗？
+Is there a way synchronous together?
+
+201
+00:14:12,630 --> 00:14:18,010
+不，你不能这样做，因为一旦你的模型参数变成同步的，
+No, you cannot because once your model parameter becomes a synchronous,
+
+202
+00:14:18,010 --> 00:14:22,110
+梯度更新就是顺序进行的，你更新，你更新，你更新，你更新。
+grading is sequential, you update, you update, you update, you update.
+
+203
+00:14:22,110 --> 00:14:28,049
+一旦在早期步骤你进行了更新，并且你用的是静态梯度，那么你的轨迹就会
+Once at the early step, you update and you are using a steel gradit, then your trajectory is
+
+204
+00:14:28,049 --> 00:14:30,009
+和使用同步方式的轨迹不同。
+different from using a synchronous one.
+
+205
+00:14:30,009 --> 00:14:33,810
+你不能回头。明白吗？
+You cannot go back. Yeah. Does that make sense?
+
+206
+00:14:33,810 --> 00:14:40,360
+嗯，好的，明白了。那我们继续吧，好吗？
+Yeah, okay. Okay. Then let's move on, okay.
+
+207
+00:14:40,360 --> 00:14:47,879
+让我们进入更有趣的部分，比如模型，或者我们如何建模内部并行，对吧？
+Let's move into a more interesting, like a model or how we model the intraop partism, right?
+
+208
+00:14:47,879 --> 00:14:50,279
+我觉得关于跨并行我们已经讨论过了。
+I think for interpartism, we already talk about that.
+
+209
+00:14:50,279 --> 00:14:51,979
+基本上就是气泡。明白吗？
+It's basically the bubble. Okay.
+
+210
+00:14:51,979 --> 00:14:57,359
+每当你谈到流水线并行中的中断时，你就要想到气泡，明白吗？
+Whenever you talk about pipeline PismT about interrupt, you think bubble, okay?
+
+211
+00:14:57,359 --> 00:15:01,739
+但在内部并行中，这个问题会更复杂一些。
+But in intra, this is more kind of, like, complicated.
+
+212
+00:15:01,739 --> 00:15:03,684
+好吗？我们该如何建模呢？
+Okay? How we model this?
+
+213
+00:15:03,684 --> 00:15:10,309
+基本上，内部并行简单回顾一下，就是我们会把一个算子进行划分，
+So basically intra Pism just to recap, right, we will partition a single operator and
+
+214
+00:15:10,309 --> 00:15:14,589
+并且探索该算子内部的并行性，对吧？
+explore the parism inside of that operator, right?
+
+215
+00:15:14,589 --> 00:15:20,090
+所以下面的幻灯片中，我们将学习如何对一个算子进行并行化。
+And so basically in the following slides, we are going to study how to paralyze a single operator.
+
+216
+00:15:20,090 --> 00:15:25,129
+一旦我们知道如何对一个算子并行化，我们就可以推广到
+And once we know how to paralyze a single operator, we can generalize it to
+
+217
+00:15:25,129 --> 00:15:27,809
+基本上如何对整个算法中的所有算子进行并行化。
+basically how to paralyze all the operators in algram.
+
+218
+00:15:27,809 --> 00:15:33,590
+我们还会建立一个数学模型，帮助你分析代价，好吗？
+And we are going to develop a model mathematical model to help you analyse the cost, okay?
+
+219
+00:15:33,890 --> 00:15:36,509
+那我们继续吧。
+So let's move on.
+
+220
+00:15:36,509 --> 00:15:39,049
+我们还是从最简单的情况开始。
+So let's still begin with the simplest case.
+
+221
+00:15:39,049 --> 00:15:42,750
+我想这个问题我已经在很多不同的讲座中讲过很多次了。
+I think this one I have covered this many, many times in different lectures.
+
+222
+00:15:42,750 --> 00:15:45,249
+所以这是逐元素操作，对吧？
+So this is animal wise operator, right?
+
+223
+00:15:45,249 --> 00:15:51,470
+这里有一个对二维张量进行逐元素加法的代码。
+And here's a code for an animal wise addition on two dimensional tensors.
+
+224
+00:15:51,470 --> 00:15:57,289
+好吗？这段代码对应着一个两层的for循环，如这里所示。
+Okay? And the code corresponds to two level four loop, which is there.
+
+225
+00:15:57,610 --> 00:16:00,930
+好的，通过观察这两层for循环，
+Okay, by observing this two level four loop,
+
+226
+00:16:00,930 --> 00:16:05,409
+你会发现这两个for循环之间没有依赖关系。
+you observe that there's no dependency on these 24 loops.
+
+227
+00:16:05,409 --> 00:16:08,029
+好的，所以基本上，没有依赖关系。
+Okay. So basically, no dependency.
+
+228
+00:16:08,029 --> 00:16:10,330
+这个for循环就是完全独立的。你可以交换它们的顺序。
+This follop just go independent. You can swap the order.
+
+229
+00:16:10,330 --> 00:16:11,430
+好的，没关系。
+Okay, doesn't matter.
+
+230
+00:16:11,430 --> 00:16:16,850
+我强调这一点的原因是，因为没有依赖关系，
+Okay. The reason I highlight this is because um because there's no dependency,
+
+231
+00:16:16,850 --> 00:16:23,409
+所以我们可以把这四个循环任意分配到不同的设备上实现并行，对吧？
+so we can arbitrarily split the four loops on different devices for paralyzation, right?
+
+232
+00:16:23,650 --> 00:16:29,230
+现在，如果我们有四个设备，用四种不同的颜色表示，那么有多种方式
+Now, if we have four devices denoted by the four different colors, then there are multiple ways
+
+233
+00:16:29,230 --> 00:16:31,169
+来并行化这个操作，对吧。
+to paralyze this operator, right.
+
+234
+00:16:31,169 --> 00:16:35,289
+比如说，我们可以并行化这个N循环，也就是最外层的循环，对吧？
+So for example, we can paralyze this loop N, which is the outer loop, right?
+
+235
+00:16:35,289 --> 00:16:40,449
+我们也可以并行化D循环，也就是内层循环，对吧？
+We can also paralyze the loop D, which is the inner loop, right?
+
+236
+00:16:40,449 --> 00:16:48,989
+基本上，当我们在这个图中并行N循环时，在这种情况下，所有三个都需要
+And uh so basically, when we pariselop N in this figure, and in this case, all three confers how to
+
+237
+00:16:48,989 --> 00:16:51,369
+进行行分区，对吧？
+be row partition, right?
+
+238
+00:16:51,369 --> 00:16:54,489
+因为你需要给每个设备分配一些任务。
+Because you need to give each device some work to do.
+
+239
+00:16:54,489 --> 00:17:00,109
+如果你选择对N循环进行分区，那么，输入数组A和B，
+And if you choose to partition the loop N, then, um, the input array A and B,
+
+240
+00:17:00,109 --> 00:17:03,690
+它们需要按照行分区的方式，在四个设备上进行分割，对吧？
+they need to be partitioned following the low partition, right on four devices,
+
+241
+00:17:03,690 --> 00:17:07,489
+结果会被写入输出设备的一行分区中。明白了吗？
+and the result will be written in a row parting way at the output device. Okay?
+
+242
+00:17:07,489 --> 00:17:14,530
+很合理，对吧。很好。你会注意到，当你这样做时，没有通信成本。
+Makes sense, right. Cool. One thing you observe is when you do this, there's no communication cost.
+
+243
+00:17:14,530 --> 00:17:17,510
+你只需要进行分区就可以了。这样就没问题了。
+You just do your partitioning. You are good.
+
+244
+00:17:18,270 --> 00:17:25,249
+或者我们也可以像右图所示，同时并行化两个循环和循环D。
+Or we can paralyze both loop and loop D, as shown in the right figure.
+
+245
+00:17:25,249 --> 00:17:30,569
+在这种情况下，所有张量都沿着行和列机器进行分区。
+In this case, all tensors are partitioned along both row and column machine.
+
+246
+00:17:30,569 --> 00:17:37,130
+每个设备基本上存储原始张量的一个子区域，并在自己的分区上工作。
+Each device basically stores a sub region of the original tensor and works on its own separation.
+
+247
+00:17:37,130 --> 00:17:40,130
+在这种情况下，依然没有通信。
+In this case, there's still no communication.
+
+248
+00:17:40,130 --> 00:17:44,169
+是的，因为这两者的区别基本上就是你如何进行分区或者
+Yeah, because the difference between these two is basically you partition or you
+
+249
+00:17:44,169 --> 00:17:45,510
+你如何分配区域。
+assign regions differently.
+
+250
+00:17:45,510 --> 00:17:51,449
+但都没有通信。明白了吗？所以基本上，这取决于维度。
+But there's no communication. Okay. So basically, depending on the dimension
+
+251
+00:17:51,449 --> 00:17:54,810
+关于张量和lumber设备的例子，比如说，我可以把这个推广到
+of the tensor and the lumber devices, for example, I can generalize this into
+
+252
+00:17:54,810 --> 00:17:56,669
+四维张量，或者在transformer中，对吧？
+four dimensional tensor or the in transformer, right?
+
+253
+00:17:56,669 --> 00:17:58,289
+我可以有一千个设备。
+I can have 1,000 devices.
+
+254
+00:17:58,289 --> 00:18:02,970
+好的。并且根据这个张量的维度以及lumber设备的数量，
+Okay. And depending on this dimension of tensor and also the lumbre devices,
+
+255
+00:18:02,970 --> 00:18:04,929
+还有很多其他的变体。
+there are a lot of other variants.
+
+256
+00:18:04,929 --> 00:18:09,729
+比如说，对于五维张量，就会有五层for循环，
+And, for example, for five dimensional tensor, there's a five level four loop,
+
+257
+00:18:09,729 --> 00:18:13,009
+这会导致更多的部分历史记录。
+and, which leads to more part histrgs.
+
+258
+00:18:13,009 --> 00:18:15,890
+但这里的关键是没有依赖关系，所以没有通信。
+But the thing here is no dependency, so there's no communication.
+
+259
+00:18:15,890 --> 00:18:20,379
+明白了吗？当然，我们会这样做，对吧？
+Okay? Of course, we're going to do this, right?
+
+260
+00:18:20,379 --> 00:18:24,999
+那我们继续往下讲更复杂的情况，met M。好的。
+So let's move on to more complicated case, met M. Okay.
+
+261
+00:18:24,999 --> 00:18:29,439
+Met mo 基本上对应于这个三层的 for 循环，对吧？
+Met mo basically corresponds to this three level for loop, right?
+
+262
+00:18:29,439 --> 00:18:35,000
+同样地，我们可以并行化一个循环，也可以把多个循环一起并行化，
+And similarly, we can paralyze one loop or we can paralyze several loops together,
+
+263
+00:18:35,000 --> 00:18:37,819
+并将计算分配到不同的设备上。
+and assign the computation to different devices.
+
+264
+00:18:37,819 --> 00:18:41,460
+好的。那么我们来逐个看看每个循环，好吗？
+Okay. So basically, let's look at each loop, okay?
+
+265
+00:18:41,460 --> 00:18:47,579
+所以循环 I 和循环 J，它们非常容易并行化，因为没有依赖关系，对吧？
+So loop I and loop J, they are very easy to paralyze because there's no dependency, right?
+
+266
+00:18:47,579 --> 00:18:48,859
+它们是独立的循环。
+They are the independent loops.
+
+267
+00:18:48,859 --> 00:18:55,059
+好的，并且在这四个循环中没有依赖，我们可以任意地把
+Okay. And no carried on these four loops, and we can arbitrarily split
+
+268
+00:18:55,059 --> 00:18:57,559
+这两个循环分配到不同的设备上。
+these two loops on different devices.
+
+269
+00:18:57,559 --> 00:19:02,939
+但复杂的是在 Mami 中，基本上我们有一个 K 循环。这个 K 循环，
+But the complicates in Mami basically we have a loop K. This loop K,
+
+270
+00:19:02,939 --> 00:19:07,059
+我们称之为归约循环，因为在这个 K 循环中，我们在累加结果。
+we call it a reduction loop because in this loop k, we are accumulating the results.
+
+271
+00:19:07,059 --> 00:19:08,359
+我觉得你在作业里做过这个。
+I think you did this in your homework.
+
+272
+00:19:08,359 --> 00:19:13,839
+这是一个归约循环，如果我们并行化K循环，基本上需要累加
+This is a reduction loop, and if we paralyze loop K, we basically need to accumulate
+
+273
+00:19:13,839 --> 00:19:22,029
+所有设备上的部分结果，这可以通过什么来实现？
+the partial results from all devices, which can be done by by what?
+
+274
+00:19:22,029 --> 00:19:25,009
+通过通信原语，那个是什么？
+Bio coommunication primitive, what is that?
+
+275
+00:19:25,009 --> 00:19:31,449
+或者用reduce。对，因为我们有部分结果，所以需要累加结果。
+Or reduce. Yeah. Because we have partial results, so basically accumulate results.
+
+276
+00:19:31,449 --> 00:19:38,729
+再比如，如果我们有四个设备，用四种不同的颜色表示，我们还用灰色
+Again, if we have four devices denoted by four different colors, we also use gray
+
+277
+00:19:38,729 --> 00:19:41,679
+来表示一个张量是否被复制。
+here to denote if a tensor is replicated or not.
+
+278
+00:19:41,679 --> 00:19:45,629
+所以首先，我们可以并行化I循环。
+So first, we can paralyze, uh, basically loop I.
+
+279
+00:19:45,629 --> 00:19:49,290
+这意味着矩阵C和A必须被分区。
+This means that matrix C and A have to be partitioned.
+
+280
+00:19:49,290 --> 00:19:53,690
+每个设备，嗯，这里的区别可以。
+Each device, um, so here, this difference okay.
+
+281
+00:19:53,690 --> 00:19:56,369
+这与之前的 phi Y 是元素加法不同。
+This is different from pre phis Y is element addition.
+
+282
+00:19:56,369 --> 00:20:01,609
+但是在这里，如果我选择对 A 的循环 I 进行分区，那么 A 就会被
+But here, if I choose to partition A loop I then A will be
+
+283
+00:20:01,609 --> 00:20:08,469
+分区，而 B，I 基本上是 A 的一个维度，I 也是结果矩阵的一个维度。
+partition Be I is basically a dimension of A, and I is also dimension of the resulting matrix.
+
+284
+00:20:08,469 --> 00:20:10,229
+但在这里，我不能对 B 进行分区，为什么？
+But here, I cannot part in B, why?
+
+285
+00:20:10,229 --> 00:20:15,329
+因为如果我选择对循环进行分区，那么 B 必须在所有设备上进行复制。
+Because if I choose to partition loop, then B has to be replicated across all devices.
+
+286
+00:20:15,329 --> 00:20:18,174
+不，这里的区别，MO 是非常不同的。
+No the difference, MO is quite different.
+
+287
+00:20:18,174 --> 00:20:21,300
+好的，嗯，好的。
+Okay. Um, okay.
+
+288
+00:20:21,300 --> 00:20:24,379
+为了计算这个分配的部分，每个设备都必须访问
+In order to compute this assigned portion, each device has to access
+
+289
+00:20:24,379 --> 00:20:27,040
+整个矩阵 B。这就是我的观点。
+the whole matrix B. That's my point.
+
+290
+00:20:27,040 --> 00:20:30,339
+因此，如果要在没有通信的情况下运行这个计算，
+Therefore, to run this computation without communication,
+
+291
+00:20:30,339 --> 00:20:34,819
+矩阵B必须在所有设备上进行复制。
+matrix B has to be replicated on all devices.
+
+292
+00:20:34,819 --> 00:20:40,019
+这同样可以通过这个块矩阵应用符号来说明，
+And this can also be illustrated by this block matrix application notation,
+
+293
+00:20:40,019 --> 00:20:45,900
+其中C和A被分成四个块，而B则在所有设备上复制。
+where C and A are split into four blocks where B are replicated on all devices.
+
+294
+00:20:45,900 --> 00:20:50,999
+明白了吗？有问题吗？很好，对吧？好的。
+Okay? Any question? Good, right? Okay.
+
+295
+00:20:50,999 --> 00:20:52,780
+我们接下来会让它变得越来越复杂。
+We're going to make it more and more complicated.
+
+296
+00:20:52,780 --> 00:21:01,380
+好，第二种情况基本上是并行化K循环，也就是归约循环。
+Okay. The second case is basically to paralyze loop K, which is the reduction loop.
+
+297
+00:21:01,380 --> 00:21:05,040
+同样地，我们无法得出矩阵
+Similarly, we can't derive that matrix
+
+298
+00:21:05,040 --> 00:21:09,559
+A必须按列分区，B必须分区的结论。
+A has to be column protein and B has to be partin.
+
+299
+00:21:09,559 --> 00:21:15,459
+为什么？因为K是A和B的一个维度。
+Why? Because K is a dimension of both A and B.
+
+300
+00:21:15,459 --> 00:21:19,259
+如果我们选择在K循环上分区，那么A和B都必须分区。
+If we choose to part in loop K, then we have to part in both A and B.
+
+301
+00:21:19,259 --> 00:21:26,280
+好吗？为了得到C的结果，我们需要用到reduce，就像我说的，因为
+Okay? To get the result of C, we need to use reduce, like I said, because after
+
+302
+00:21:26,280 --> 00:21:31,799
+这个通信设备只有部分和，需要用reduce把结果合并，得到C的结果。明白了吗。
+this commutation device only have a partial sum, reduce the results to get the result C. Okay.
+
+303
+00:21:31,799 --> 00:21:37,419
+嗯，所以基本上我们需要用reduce来累加这些部分归约的结果。
+Um, so basically we need to use reduce to accumulate, the partial reduction results.
+
+304
+00:21:37,419 --> 00:21:43,659
+最终的C会在所有设备上都有一份副本，因为reduce的结果就是这样。
+And the final C is replicated on all devices because of it as a result of reduce.
+
+305
+00:21:43,659 --> 00:21:48,239
+好吗？这也可以用这个符号来说明。
+Okay? This can also be illustrated by, this notation.
+
+306
+00:21:48,239 --> 00:21:51,439
+红色的符号，我想你们应该很熟悉，如果我用这种方式读出来，对吧？
+The red notation, I think you are very familiar if I read it in this form, right?
+
+307
+00:21:51,439 --> 00:21:53,719
+我在A中取一部分，沿着这些列，
+I part in A, following these columns,
+
+308
+00:21:53,719 --> 00:21:56,560
+我在B中取一部分，跟着我们，然后把它们加在一起。
+I part in B, following us and just add them together.
+
+309
+00:21:56,560 --> 00:21:59,800
+每一部分的通信只发生在一个设备上。
+And each part of communication happens only on one device.
+
+310
+00:21:59,800 --> 00:22:03,699
+好的，这基本上给你一些非常底层的，比如
+Okay. This basically give you uh some very low level like
+
+311
+00:22:03,699 --> 00:22:06,960
+这是当我们并行化内存时的可视化展示。
+visualization of what's going on when we paralyze memo.
+
+312
+00:22:09,130 --> 00:22:14,970
+我们也可以将两个循环一起并行化，事情会变得越来越复杂。
+We can also paralyze two loops together, and things will become more and more complicated.
+
+313
+00:22:14,970 --> 00:22:22,770
+例如，我们可以并行化循环I和循环J，因为这两个循环不是归约循环，
+For example, we can paralyze loop I and loop J because these two loops are not reduction loop,
+
+314
+00:22:22,770 --> 00:22:24,669
+所以我们不需要进行归约操作。
+so we don't need or reduce.
+
+315
+00:22:24,669 --> 00:22:26,829
+如图所示。
+As figure.
+
+316
+00:22:26,829 --> 00:22:32,609
+矩阵C既按列分区，也按行分区，被分成了四个区域，
+Matrix C is both column partitioned and lo paritioned into four regions,
+
+317
+00:22:32,609 --> 00:22:35,650
+每个设备负责计算一个区域。
+and each device is responsible for computing one region.
+
+318
+00:22:35,650 --> 00:22:43,009
+为了在不通信的情况下计算这个C，矩阵A和矩阵B需要进行部分切分。
+In order to compute this C without communication, matrix A and matrix B how to be partially tiled.
+
+319
+00:22:43,009 --> 00:22:46,720
+那么你知道什么是部分切分吗？
+So do you know what is partially tiled?
+
+320
+00:22:46,720 --> 00:22:51,489
+你首先将它分解成两部分，然后再进行切分。
+You first decompose it into two parts and then you tie it.
+
+321
+00:22:51,489 --> 00:22:58,470
+好吗？我待会儿会给你一些阅读材料，但是我们稍后再深入讲一下这个。
+Okay? And I will give you some reading material later, but uh, let's grind this a little bit later,
+
+322
+00:22:58,470 --> 00:23:02,049
+基本上，图片和B必须是部分平铺的矩阵A。
+basically images and B have to be partially tiled matrix A is
+
+323
+00:23:02,049 --> 00:23:05,589
+矩阵A沿着行被分成两部分。
+partitioned along the row into two parts.
+
+324
+00:23:05,589 --> 00:23:11,609
+第一部分会同时复制到设备一和设备B上。明白了吗？
+The first part is replicated both on device one and device B. You got.
+
+325
+00:23:11,609 --> 00:23:17,629
+基本上我们用行分区的方式分割图片A，然后把上半部分复制到两个设备上，
+Basically we part Images A using row party, and then we replicate the upper part onto two devices,
+
+326
+00:23:17,629 --> 00:23:20,009
+右半部分复制到另外两个设备上。
+the right part into another two devices.
+
+327
+00:23:20,009 --> 00:23:23,364
+这就是我们在这里分割矩阵A的方式。
+That is how we part matrix A here.
+
+328
+00:23:23,364 --> 00:23:27,340
+第二部分会被复制到设备三和设备四上。
+The second part is wrap it on both device three and four.
+
+329
+00:23:27,340 --> 00:23:33,980
+通过这样存储A和B，我们基本上可以并行计算C，而不需要任何通信。
+By storing A and B in this way, we can basically compute C in parallel without any communication.
+
+330
+00:23:35,220 --> 00:23:41,360
+对于矩阵B也是一样，我们首先把矩阵B按列分成两部分。
+Same for matrix B, what do we do is basically we first column part in matrix B into two parts.
+
+331
+00:23:41,360 --> 00:23:43,079
+但这里我们有四个设备。
+But here we have four devices.
+
+332
+00:23:43,079 --> 00:23:48,900
+我们在两个设备上处理eftter部分，在另外两个设备上处理wrap部分，这样我们就可以进行这个计算了。
+We rap eftter part on two devices and wrap on another two devices, we can proceed this computation
+
+333
+00:23:48,900 --> 00:23:51,460
+没有问题，也不需要通信。
+without problem no communication.
+
+334
+00:23:53,660 --> 00:24:00,619
+同样地，我们可以并行化循环I和循环K。结果是，
+Similarly, we can parallelze both loop I and loop K. The results,
+
+335
+00:24:00,619 --> 00:24:06,649
+这基本上会产生部分平铺的输出C。嗯，因为我们并行化了循环K，
+this basically results in partially tiled output C. Um, and because we parallelse loop K,
+
+336
+00:24:06,649 --> 00:24:09,529
+我们还需要一个操作来得到C。
+we also need an use to get C.
+
+337
+00:24:09,529 --> 00:24:13,949
+好吗？你可以看到，呃，其实有很多变体，
+Okay? And as you can see, uh, there are a lot of variants,
+
+338
+00:24:13,949 --> 00:24:21,489
+取决于你选择并行化哪个循环，以及你如何将循环映射到你的设备上，对吧？
+depends on which loop you choose to paralyze and, and how you map the loops to your devices, right?
+
+339
+00:24:21,489 --> 00:24:27,489
+实际上，这个过程非常繁琐，嗯，要彻底梳理一遍。
+And actually, it is very tedious, um, to basically go through this.
+
+340
+00:24:27,489 --> 00:24:31,410
+这确实很繁琐，可能性非常多，但并不是不可能。
+It's very tedious. There are many many possibilities, but it's not impossible.
+
+341
+00:24:31,410 --> 00:24:35,630
+我只花了一天时间来钻研这个，好吗？
+I just take a p like one day to grind this, okay?
+
+342
+00:24:35,630 --> 00:24:38,089
+我希望你也花点时间钻研一下这个。
+And I hope you spend some time grind this.
+
+343
+00:24:38,089 --> 00:24:41,790
+对于这个二维备忘录，其实只有大约16种情况。
+And for this two dimension memo, there are only like 16 cases.
+
+344
+00:24:41,790 --> 00:24:45,330
+是的，你基本上可以理解所有这些情况。
+Yeah. And you can basically understand all these cases.
+
+345
+00:24:45,330 --> 00:24:47,709
+你可以把它们全部枚举出来，好吗？
+You can enumerate them, okay?
+
+346
+00:24:47,709 --> 00:24:54,479
+但还有更难的，那就是，嗯，二维的列，好吗？
+But there's something that even more difficult, that is um, column two D. Okay?
+
+347
+00:24:54,479 --> 00:24:57,759
+A其实就是之前的内容，对吧。
+A is basically actually, it's before, right.
+
+348
+00:24:57,759 --> 00:25:00,740
+E基本上就是七重循环。
+E is basically seven level for loop.
+
+349
+00:25:00,740 --> 00:25:03,459
+我们可以一个一个地描述这些循环。
+And we can characterize loops one by one.
+
+350
+00:25:03,459 --> 00:25:05,720
+就像我说的，我之前做过这个。
+So like I said, I think I did this before.
+
+351
+00:25:05,720 --> 00:25:08,100
+这是空间循环，非常简单。
+This is the spatial loops, and it's very easy.
+
+352
+00:25:08,100 --> 00:25:11,819
+没有归约操作，所以你可以随意拆分它。
+There's no reduction. So you can arbitrarily split it.
+
+353
+00:25:11,819 --> 00:25:17,880
+明白了吗？这些基本上是另一种模板计算循环，
+Okay? And these are basically another stencil computton loop,
+
+354
+00:25:17,880 --> 00:25:20,999
+这基本上是在处理边界条件。
+and um this is basically handling the boundary condition.
+
+355
+00:25:20,999 --> 00:25:26,419
+你需要非常小心，因为你要把卷积滤波器从左到右滑动，
+You need to be very careful because you sliding the uh convolutional filter from left to right,
+
+356
+00:25:26,419 --> 00:25:30,300
+从上到下，并且你要处理边界条件，明白吗？
+from up to bottom and you want to handle the boundary condition, okay?
+
+357
+00:25:30,300 --> 00:25:34,899
+显然，这个是最难的，因为它是一个归约循环，你需要在这个循环中累加
+Apparently, this one is the most difficult because it is a reduction loop you are accumulating
+
+358
+00:25:34,899 --> 00:25:36,880
+结果。
+results in this loop.
+
+359
+00:25:36,880 --> 00:25:39,620
+还有另外两个反应循环。
+And another two reacting loops.
+
+360
+00:25:39,620 --> 00:25:44,559
+但你不需要并行化它，因为这是一个很小的反应，只有五个元素。
+But you don't have to paralyze it because it's a very small reaction only five elements.
+
+361
+00:25:44,559 --> 00:25:49,859
+最常用的卷积实现方式是只使用一个小滤波器。
+Be most convolutional two implement, you only use a small filter.
+
+362
+00:25:50,690 --> 00:25:56,470
+好的。为了并行化这个操作，你可以想象有多少种情况。
+Okay. In order to paralyze this operator, you can imagine how many cases
+
+363
+00:25:56,470 --> 00:25:58,449
+你需要枚举很多种情况。
+you need to enumerate a lot.
+
+364
+00:25:58,449 --> 00:26:00,149
+但我们不会这么做。
+But we're not going to do this.
+
+365
+00:26:00,149 --> 00:26:03,310
+好的，没关系。是的，让我们继续。
+Okay. It's fine. Yeah. Let's give.
+
+366
+00:26:03,310 --> 00:26:06,270
+好的，我觉得原因是
+Okay. I think the reason
+
+367
+00:26:06,270 --> 00:26:09,189
+我之所以讲这些，是因为我首先想让你们明白，
+I go through this is because I want to give you first,
+
+368
+00:26:09,189 --> 00:26:11,969
+我们是如何并行化一个单一操作的。
+understanding how we paralyze a single operator.
+
+369
+00:26:11,969 --> 00:26:15,209
+本质上就是我们选择几个循环来并行化，
+It's essentially like we choose a few loops to paralyze to
+
+370
+00:26:15,209 --> 00:26:19,029
+然后我们可以把每一部分分配到一个设备上。
+partition and then we might each partito um a device.
+
+371
+00:26:19,029 --> 00:26:23,409
+由于我们的划分方式，会导致不同的通信模式和交流模式。
+And because of the way we partition, uh, it will result into different commuting patterns
+
+372
+00:26:23,409 --> 00:26:26,209
+好吗？
+and communicating patterns. Okay?
+
+373
+00:26:28,530 --> 00:26:32,769
+到目前为止，你已经学会了如何并行化单个算子。
+So so far, you have learned how to paralyze a single operator.
+
+374
+00:26:32,769 --> 00:26:36,489
+现在，让我们转到一个计算图，看看一些例子。
+Now, let us basically move to a graph and see some examples.
+
+375
+00:26:36,489 --> 00:26:42,149
+好吗？所以在这一页，我们将展示数据并行其实
+Okay? So in this page, we all show that basically data partism is actually
+
+376
+00:26:42,149 --> 00:26:44,049
+是算子内部并行的一种特殊情况。
+a special case of intraoperatism.
+
+377
+00:26:44,049 --> 00:26:45,989
+我觉得我们之前做过这个，但我想再回顾一下。
+I think we did this, but I just want to recap.
+
+378
+00:26:45,989 --> 00:26:50,849
+好吗？首先，我们会用图例来表示张量
+Okay? So first, we'll use legends to represent whether tensor
+
+379
+00:26:50,849 --> 00:26:54,569
+是被复制的、行并行的，当然还有普通并行，我们会用两种
+is replicated row parison and common parison, of course, and we will use two types of
+
+380
+00:26:54,569 --> 00:26:57,109
+算子内部并行策略来处理这里的矩阵乘法。
+intra parallel strategies for matm here.
+
+381
+00:26:57,109 --> 00:27:03,789
+好吗？嗯，所以类型一基本上就是我们沿着行对矩阵进行划分，对吧？
+Okay? Um, so the type one is basically we partition the met along row, right?
+
+382
+00:27:03,789 --> 00:27:08,589
+如果你还记得这种类型一，我们不需要任何通信，对吧？好的。
+If you still remember this type one, we don't need any communication, right? Okay.
+
+383
+00:27:08,589 --> 00:27:13,089
+因为如果我们选择这种类型一的划分，输入A会被划分，
+Because if we choose this type one partitioning, the input A is partition and
+
+384
+00:27:13,089 --> 00:27:19,429
+输入B会被复制，然后我们会在结果矩阵上得到子块结果。
+the input B is replicated and we get subaring results on the result matrix.
+
+385
+00:27:19,429 --> 00:27:26,669
+好的？类型B基本上是对内层循环的K进行划分，对吧？
+Okay? The type B basically partitions, the inner loop reduction K, right?
+
+386
+00:27:26,669 --> 00:27:33,229
+所以如果我们做这种类型二的划分，那么类型二基本上就是
+And so if we do this type two partitioning, then type two basically parting
+
+387
+00:27:33,229 --> 00:27:38,570
+沿着归约维度对两个输入都进行划分，嗯，这基本上要求完成这个计算，
+both inputs along the reduction dimension, uh it basically requires finish this computation,
+
+388
+00:27:38,570 --> 00:27:40,649
+它需要一次归约操作，对吧？
+it requires or reduce, right?
+
+389
+00:27:40,649 --> 00:27:47,079
+好的，现在我们来画一下两层MLP的图，对吧？
+Okay. Now, let's draw them graph for two layer MLP, right?
+
+390
+00:27:47,079 --> 00:27:49,280
+这里是前向路径。
+So here is a forward path.
+
+391
+00:27:49,280 --> 00:27:54,119
+湿的W一和W二基本上是复制的。这就是数据并行吗？
+The wet W one and W two are basically replicated. This is data partism?
+
+392
+00:27:54,119 --> 00:27:57,299
+其他所有的通信，比如Mat Moss和Relu，
+And all other communications such as Mat Moss and Relu,
+
+393
+00:27:57,299 --> 00:28:00,120
+它们都是沿着批次维度进行分区的。
+um, they are partition along the batch dimension.
+
+394
+00:28:00,120 --> 00:28:02,739
+明白了吗？呃，没有通信。
+Okay? Uh, there's no communication.
+
+395
+00:28:02,739 --> 00:28:05,830
+所以运行这个过程不需要通信。
+So running this requires no communication.
+
+396
+00:28:05,830 --> 00:28:08,179
+然后我们画出反向传播的计算图，对吧？
+Then we draw the backward graph, right?
+
+397
+00:28:08,179 --> 00:28:10,999
+现在，我把整个图展示给你看。
+And now, I reveal the whole figure to you.
+
+398
+00:28:10,999 --> 00:28:13,320
+我在讲数据并行的时候做过这个。
+I think I did this when I talk about data pism.
+
+399
+00:28:13,320 --> 00:28:19,259
+反向传播包括一种类型一的备忘录和类型二的备忘录。
+Um, the backward pass consists of one type one memo and Type two memo.
+
+400
+00:28:19,259 --> 00:28:22,819
+对，一种类型一备忘录和两种类型二备忘录。
+Right. One type one memo and two Type two memo. Okay.
+
+401
+00:28:22,819 --> 00:28:30,479
+嗯，所以在渐变上需要一些红色，这基本上和datapism是一样的。
+Um, so it requires some reds on the gradients, and this is basically the same as datapism.
+
+402
+00:28:30,479 --> 00:28:36,260
+好吗？现在，我基本上把这个datapism通信连接到这个操作分区上。
+Okay? Now, I basically connect this datapism communication to this operative partitioning.
+
+403
+00:28:36,260 --> 00:28:41,219
+现在你可以看到，Datapism之所以需要reduce，是因为我们
+And now you can see, Datapism the reason dataparism requires reduce is because we
+
+404
+00:28:41,219 --> 00:28:46,440
+选择以这种方式对循环、metamo进行分区，对吧？
+choose to partition the loop, the metamo in this way, okay?
+
+405
+00:28:46,440 --> 00:28:50,639
+等会儿我会给你展示很多其他的并行策略，
+Later, I will show you a lot of other parallel strategies that they
+
+406
+00:28:50,639 --> 00:28:52,379
+它们基本上也都是像这样的特殊情况。
+are basically just special cases like this.
+
+407
+00:28:52,379 --> 00:28:56,680
+所以基本上，我们就是在玩一个上色游戏，我们给操作符的不同区域上不同的颜色，
+So basically, we're basically playing this coloring game, we give different color
+
+408
+00:28:56,680 --> 00:29:00,840
+这样就会导致不同的通信方式。
+to different regions of the operator, and it will result into different communication.
+
+409
+00:29:00,840 --> 00:29:04,839
+好吗？有问题吗？
+Okay? Any question?
+
+410
+00:29:05,970 --> 00:29:08,629
+很好，我们继续。
+Cool. Let's continue.
+
+411
+00:29:08,629 --> 00:29:14,230
+好的。那么当你把这种内部算法应用到整个图上时，
+Okay. So when you're applying this intra alismu for whole graph,
+
+412
+00:29:14,230 --> 00:29:18,310
+在边上会产生重新分区的通信成本。
+there are repartitioning communication cost on the edges.
+
+413
+00:29:18,310 --> 00:29:24,449
+好的，我来解释一下。这是因为不同的算子并行策略可能需要
+Okay, let me explain. This is because different operators paralyzing strategy might require
+
+414
+00:29:24,449 --> 00:29:27,370
+不同的分区格式来处理这些症状。
+different partitioning formats of the symptoms.
+
+415
+00:29:27,370 --> 00:29:30,829
+所以我们需要进行重新分区或者重新分配。
+So we need to do repartition or recharging.
+
+416
+00:29:30,829 --> 00:29:34,489
+我们还是以这个两层的MLP为例。
+Let's still use this two layer MLP as an example.
+
+417
+00:29:34,489 --> 00:29:37,309
+考虑一下
+Consider the edge between
+
+418
+00:29:37,309 --> 00:29:41,630
+Lu和第二个mano之间的边，就是那条较长的边。
+Lu and the second mano, the longer edge.
+
+419
+00:29:41,630 --> 00:29:48,549
+这个al的分区格式，实际上是继承自前一个memo的分区格式。
+The partitioning format of this al uh, follows the partitioning format of the previous memo.
+
+420
+00:29:48,549 --> 00:29:51,329
+基本上就是从那里继承过来的，明白吗？
+It's basically inherent from there. Okay?
+
+421
+00:29:51,570 --> 00:29:56,230
+假设这个图，假设Lu是低分区。
+Assuming this figure, assuming the Lu is low partition.
+
+422
+00:29:56,230 --> 00:29:59,589
+也就是说，我假设前面的图是低分区。
+That is, I assume the previous graph was low partition.
+
+423
+00:29:59,589 --> 00:30:03,190
+好的。它基本上继承了分片，虽然是Lu，因为Lu
+Okay. It basically inherits the sharding, although it's Lu because Lu
+
+424
+00:30:03,190 --> 00:30:04,870
+是按元素操作的，所以你什么都不用做。
+is element wise, you don't have to do anything.
+
+425
+00:30:04,870 --> 00:30:11,279
+明白了吗？那么对于第二个备忘录，根据它选择的分区策略，
+Okay? So for the second memo, um, depending on its chosen paten strategy,
+
+426
+00:30:11,279 --> 00:30:15,440
+类型一、类型二或类型三，它对输入的分区格式
+type one or type two or type three, it may have a different requirement
+
+427
+00:30:15,440 --> 00:30:18,340
+可能有不同的要求。
+of the input for the input partin format.
+
+428
+00:30:18,340 --> 00:30:23,679
+所以如果第二个备忘录也采用类型一的分区策略，
+So if the second, meto also use a type one partitioning strategy,
+
+429
+00:30:23,679 --> 00:30:25,359
+就像我两页前展示的那样，对吧？
+which I showed two slides before, right?
+
+430
+00:30:25,359 --> 00:30:26,639
+你沿着行进行分区。
+You parting along the row.
+
+431
+00:30:26,639 --> 00:30:29,519
+好吗？如果你选择类型一的分区策略，
+Okay? If you choose type one paren strategy,
+
+432
+00:30:29,519 --> 00:30:33,399
+那么这个Lu其实也需要是行分区，对吧？
+then this Lu actually also needs to be row paten, right?
+
+433
+00:30:33,399 --> 00:30:36,879
+记住，在类型一中，第一个输入需要是行分区，第二个
+Remember in type one, the first input need to be row partition and the second
+
+434
+00:30:36,879 --> 00:30:38,240
+输入需要是复制的。
+input need to be replicated.
+
+435
+00:30:38,240 --> 00:30:45,060
+好吗？所以如果我们让这个备忘录选择类型一的分区策略，好，
+Okay? So if we like this memo to choose the type one partin strategy, Okay, um,
+
+436
+00:30:45,060 --> 00:30:49,140
+我们发现这个rio实际上和之前的rival是匹配的。
+We found that this rio actually matches with the previous rival.
+
+437
+00:30:49,140 --> 00:30:50,739
+它们都是行分区。
+They are both row partition.
+
+438
+00:30:50,739 --> 00:30:55,700
+因此，这个是好的，因为你可以顺利地进行计算，没有任何问题。
+Therefore, this one is good because you can proceed with the competon without any problem.
+
+439
+00:30:55,700 --> 00:31:00,339
+因为那个alo在每个设备上都有它需要的所有内容，好吗？
+Because that alo has all the content it needed on each device, okay?
+
+440
+00:31:00,350 --> 00:31:08,049
+但是如果第二个Mdm使用了稍微不同的分区策略，比如这里的freedom。
+But if the second Mdm use a slightly different par strategy, freedom here.
+
+441
+00:31:08,049 --> 00:31:10,029
+我选择了一种不同类型的策略。
+I choose a different type of strategy.
+
+442
+00:31:10,029 --> 00:31:15,050
+我需要你复制这个u，但W的两个要作为列部分。
+Well, I require this u to be replicated, but the W two to be column part.
+
+443
+00:31:15,050 --> 00:31:20,649
+好吗？在这种情况下，这个alo也需要被复制，对吧？
+Okay? And in this case, this alo needs to be replicated, right?
+
+444
+00:31:20,649 --> 00:31:24,789
+这意味着两个设备都需要有Lu结果的副本。
+Which means that both devices need to have a copy of the Lu results.
+
+445
+00:31:24,789 --> 00:31:33,150
+好吗？在这种情况下，你可以看到边变得有点不同。那么那条边是什么？
+Okay? Uh, in this case, you can see the edge becomes a slightly different one. So what is that edge?
+
+446
+00:31:35,750 --> 00:31:39,470
+它是一个连接通信参数。
+It is a connective communication parameter.
+
+447
+00:31:39,470 --> 00:31:43,670
+我想我讲完了。好的，没错，是all gather。
+I think I cover. Okay. Yeah, it's all gather.
+
+448
+00:31:43,670 --> 00:31:47,189
+是的，所以如果你为不同的patina选择不同的策略，
+Yeah. So in this way, if you choose different patina strategy for
+
+449
+00:31:47,189 --> 00:31:53,849
+对于不同的metamol，你会承担重新分区的成本，这种重新分区的成本会变成
+different metamol you suffer a repartitioning cost, and this repartiting cost will become
+
+450
+00:31:53,849 --> 00:31:57,029
+一种连接许可的形式。
+a format of a connective permissive. Okay.
+
+451
+00:31:57,029 --> 00:32:00,529
+在这个图中基本上都是聚合操作。
+And in this figure is basically all gather.
+
+452
+00:32:00,529 --> 00:32:07,729
+好的，明白。那么为了最小化执行整个计算图的成本，
+Okay. Cool. So in order to minimize the cost of executing the entire graph,
+
+453
+00:32:07,729 --> 00:32:12,249
+我们还需要为每个算子仔细选择策略，
+we also need to carefully choose strategies for each operator to
+
+454
+00:32:12,249 --> 00:32:17,609
+以在设计整个新网络的分区策略时最小化这种重分区的成本。
+minimize this repartining cost when we design our partin strategy for the entire new network.
+
+455
+00:32:17,609 --> 00:32:21,899
+这就是我想表达的重点。简单回顾一下，对吧？
+That's the point I want to make. Just to recap, right?
+
+456
+00:32:21,899 --> 00:32:25,920
+所以我认为现在你基本上可以枚举所有可能的通信成本，
+So I think now you can basically enumerate all the possible communicating costs
+
+457
+00:32:25,920 --> 00:32:27,079
+当你进行重分区时，对吧？
+when you do recharging, right?
+
+458
+00:32:27,079 --> 00:32:29,620
+我觉得你们对这个图已经非常熟悉了。
+I think you guys are very familiar with this figure already.
+
+459
+00:32:29,620 --> 00:32:37,939
+嗯，重分区基本上就像我们让你去交换张量的着色方案一样，对吧？
+Um, repartitioning is basically like we ask you to swap the coloring scheme of the tensors, right?
+
+460
+00:32:37,939 --> 00:32:42,580
+而且根据你想怎么交换，基本上就会引入连接原语。
+And depending on how you want to swap, you basically introduce connective primitive.
+
+461
+00:32:42,580 --> 00:32:51,520
+好的。好的，我们来总结一下让你图中所有算子并行化的问题，好吗？
+Okay. Okay, let's summarize the problem of paralyzing all the operators in your graph, okay?
+
+462
+00:32:51,520 --> 00:32:57,559
+所以，给定一个图，对于每个算子，都有多种并行化策略，对吧？
+So given a graph, for each operator, there are multiple paralyzing strategies for it, okay?
+
+463
+00:32:57,559 --> 00:33:04,639
+我们的目标是为每个算子选择一种并行策略，这样我们就可以
+And our goal is to pick one parallel strategy for each operator so that we can
+
+464
+00:33:04,639 --> 00:33:08,435
+最小化整个图的执行成本。
+minimize the cost of executing the entire graph.
+
+465
+00:33:08,435 --> 00:33:13,250
+明白了吗？所以我现在基本上把这个问题表述为一个优化问题。
+Does that make sense? So I'm basically stating this problem as an optimization now.
+
+466
+00:33:13,250 --> 00:33:18,170
+好吗？你需要为每个节点选择一种着色方案，然后枚举
+Okay? You want to pick a coloring scheme for each node, and then you enumerate
+
+467
+00:33:18,170 --> 00:33:21,890
+所有可能的通信成本，并且你要最小化这个成本。
+all the possible commuting costs and you want to minimize that cost.
+
+468
+00:33:21,890 --> 00:33:25,809
+这样基本上就能让你的图运行得更快，对吧？
+That will basically make your graph run fast. Okay?
+
+469
+00:33:26,530 --> 00:33:32,670
+所以成本基本上包括节点成本和边的成本。
+So the cost basically consists of the node cost and the edge cost.
+
+470
+00:33:32,670 --> 00:33:36,630
+节点成本主要是计算和通信成本。
+Okay? The node cost are basically computation and communication cost.
+
+471
+00:33:36,630 --> 00:33:43,370
+因为当你选择的时候，当你选择某种特定类型的鸽子时，你已经有了一些成本。
+Because when you choose, when you choose a particular type of pigon you already have some cost.
+
+472
+00:33:43,370 --> 00:33:46,874
+你选择第二类型的妈妈鸽子，你有或者减少了成本。
+You choose type two mama paig you have or reduce.
+
+473
+00:33:46,874 --> 00:33:51,520
+对，好的。第二个成本是边缘情况。
+Right. Okay. And the second cause is edge case.
+
+474
+00:33:51,520 --> 00:33:57,040
+也就是说，你为那个节点选择了蛋白质策略，为第二个节点选择了蛋白质单元。
+That is, you choose protein srgy for that node, and you choose protein unit for second node.
+
+475
+00:33:57,040 --> 00:34:03,860
+并且因为第一个节点的输出和第二个节点的输入不是完全一致的。
+And because of the sharing of the first node, output and the second nodes input are not all green.
+
+476
+00:34:03,860 --> 00:34:05,480
+所以你遇到了边缘情况。
+So you're suffering edge case.
+
+477
+00:34:05,480 --> 00:34:11,000
+也就是说，你需要重新分片，而这个分片以连接的形式出现。
+That is, you need to reshare and that shard comes at a form of connecting.
+
+478
+00:34:11,000 --> 00:34:14,060
+因此，如果你想写下这个问题，基本上就是，
+Therefore, if you want to write down this problem is basically,
+
+479
+00:34:14,060 --> 00:34:19,319
+嗯，就是那个公式，节点成本加上边缘成本。
+um, that equation, node cost plus edge cost.
+
+480
+00:34:19,319 --> 00:34:26,139
+边缘成本是剩余成本，节点成本是特定类型本身的成本。
+Edge cost is a resting cost and nod cost is a cost inherent to the specific type of
+
+481
+00:34:26,139 --> 00:34:29,439
+
+parting strategy you choose for our p. Okay.
+
+482
+00:34:29,439 --> 00:34:35,599
+
+And now I think you roughly have an idea how to solve this question, right?
+
+483
+00:34:35,599 --> 00:34:40,619
+
+One easy way to solve this problem is basically, you enumerate all the possibilities.
+
+484
+00:34:40,619 --> 00:34:46,200
+
+You keep enumeraating the graph, and you basically enumeraating every type every possibility,
+
+485
+00:34:46,200 --> 00:34:47,820
+
+how you can partition operator.
+
+486
+00:34:47,820 --> 00:34:52,180
+
+And once you lock down a possibility of the partitioning of all the operators,
+
+487
+00:34:52,180 --> 00:34:55,039
+
+you basically can't derive all the cost, right?
+
+488
+00:34:55,039 --> 00:34:57,660
+
+You write down, how many connective communication
+
+489
+00:34:57,660 --> 00:34:59,799
+
+I incurred because I choose this.
+
+490
+00:34:59,799 --> 00:35:03,979
+
+And basically, then you start optimizing right you try to figure out
+
+491
+00:35:03,979 --> 00:35:05,984
+基本上就是成本最低的那个。
+the one that basically has the lowest cost.
+
+492
+00:35:05,984 --> 00:35:08,690
+好的，这基本上就是内部并行。
+Okay. That is basically intraparism.
+
+493
+00:35:08,690 --> 00:35:11,429
+明白了吗？它和外部并行有点不同。
+Okay? It is slightly different from Inter.
+
+494
+00:35:11,429 --> 00:35:15,670
+还记得在外部并行中，我们的目标是最小化气泡数。
+Still remember in Inter, our goal is to minimize bubbles.
+
+495
+00:35:15,670 --> 00:35:20,570
+谁能安排一个最小化气泡的调度，我们还要确保各个阶段是等价的。
+Who a schedule that minimize bubbles, and we want to make sure the stages are equivalent.
+
+496
+00:35:20,570 --> 00:35:24,189
+明白了吗？但在内部并行中，基本上就是这个公式。明白了吗？
+Okay? But in Intra is basically this equation. Okay?
+
+497
+00:35:24,189 --> 00:35:29,939
+有什么问题吗？很好。希望你明白了，好吗？
+Any question? Cool. I hope you get it, okay?
+
+498
+00:35:29,939 --> 00:35:33,939
+如果你还不明白，希望你能花更多时间理解这些幻灯片，好吗？
+If you don't I hope you spending more time understanding the slides, okay?
+
+499
+00:35:33,939 --> 00:35:39,280
+这非常重要，因为一旦你理解了数学原理，你就能理解
+And this is very important because once you understand mathematics, you will be able to understand
+
+500
+00:35:39,280 --> 00:35:41,139
+今天所有人发明的并行方法。
+all the partisan people invented today.
+
+501
+00:35:41,139 --> 00:35:44,259
+好吗？他们所做的基本上就是试图最小化这个成本。
+Okay? What they are doing is basically try to minimize this cost.
+
+502
+00:35:44,259 --> 00:35:49,760
+好吗？所以为了解决这个问题，人们采用了各种各样的解决方案，
+Okay? So to solve this problem, people have used various solutions,
+
+503
+00:35:49,760 --> 00:35:53,519
+包括手动设计、随机搜索、
+including, manual design, randomized search,
+
+504
+00:35:53,519 --> 00:35:56,280
+动态规划和整数线性规划。
+dynamic programming, and the integer linear programming.
+
+505
+00:35:56,280 --> 00:35:59,439
+正如我所说，他们基本上是在优化服务器来解决这个问题。
+As I said, they are basically the optimizing servers to solve this problem.
+
+506
+00:35:59,439 --> 00:36:03,490
+好吗？我会展示一些非常有代表性的解决方案。
+Okay? And I will show a few solutions which are very notable.
+
+507
+00:36:03,490 --> 00:36:12,460
+好的。我首先会介绍一些为特定节点手动设计的策略，
+Okay. I will first introduce some strategies that are manually designed for specific notes,
+
+508
+00:36:12,460 --> 00:36:16,520
+包括AlexNet、Makaton RM和THR MOE。
+including AlexNet Makaton RM and THR MOE.
+
+509
+00:36:16,520 --> 00:36:18,819
+AlexNet是深度学习的开端，对吧？
+AlexNet is the beginning of deep learning, right?
+
+510
+00:36:18,819 --> 00:36:22,539
+Macron RM是为媒体设计的，好吗？每天都在用。
+Macron RM is the one for media, okay? Use every day.
+
+511
+00:36:22,539 --> 00:36:24,420
+TR 是谷歌推出的一个系统。
+TR is a one by Google.
+
+512
+00:36:24,420 --> 00:36:30,299
+好吗？我还介绍了几个基本上为此设计的系统。
+Okay? As well I introduced several systems that basically, designed for this.
+
+513
+00:36:30,299 --> 00:36:37,810
+好吗？所以从现代深度学习一开始，人们就开始使用分区方法。
+Okay? So right from the beginning of modern deep learning, um, people start using intra partism.
+
+514
+00:36:37,810 --> 00:36:40,449
+好吗？Alex 就是一个很好的例子。
+Okay? Um, Alex a good example.
+
+515
+00:36:40,449 --> 00:36:44,149
+这张图引用自 Axon 论文，对吧？
+This figure was quoted from Axon paper, right?
+
+516
+00:36:44,149 --> 00:36:46,569
+我在第一节课上也展示过这张图，好吗？
+And I also showed this figure in my first lecture, okay?
+
+517
+00:36:46,569 --> 00:36:53,089
+基本上在这张图中，你可以看到，作者试图传达一个想法，
+Um so basically in this figure, you can see, the author tries to convey a idea where
+
+518
+00:36:53,089 --> 00:37:00,229
+即每一层都被分区，每一层的部分分布在不同的设备上，好吗？
+the layer was partitioned and each layer has a part, acute different uh on different devices, okay?
+
+519
+00:37:00,229 --> 00:37:06,970
+基本上它把一个分组卷积分成两部分，并将它们对齐到 GPU 上，
+And basically it partitions a group convolution, uh into two parts and align them to GPS
+
+520
+00:37:06,970 --> 00:37:11,350
+这让 Alexa 能够提升 top-1 的准确率。
+this enables Alexa to basically increase the top one accuracy.
+
+521
+00:37:11,350 --> 00:37:14,509
+呃，EB净值上几乎上涨了2%。
+Uh, buy almost like 2% on EB net.
+
+522
+00:37:14,509 --> 00:37:16,769
+但这样做只是因为你家里有很多人一起训练。
+But just doing this because you home multi people who train.
+
+523
+00:37:16,769 --> 00:37:24,189
+一个更近的例子基本上是Microtron RM，这是一个给定的阅读材料。
+E. A more recent example is basically Microtron RM, and this is a given reading.
+
+524
+00:37:24,189 --> 00:37:26,649
+我觉得在这一点上，你们已经理解那篇论文了。
+I think at this point, you guys already understand that paper.
+
+525
+00:37:26,649 --> 00:37:28,989
+但我想做的是，我基本上试图画出
+But what I try to do is I basically try to draw
+
+526
+00:37:28,989 --> 00:37:32,049
+那篇论文中的策略和
+the connection between the strategies in that paper and,
+
+527
+00:37:32,049 --> 00:37:34,530
+我在数学建模中解释的内容之间的联系。
+what I explained in the mathematical modeling.
+
+528
+00:37:34,530 --> 00:37:41,230
+好吗？所以基本上，它用intraoperatism来训练语言模型，
+Okay? So basically, it used intraoperatism to train the language models,
+
+529
+00:37:41,230 --> 00:37:47,930
+并且它设计了一种非常具体的策略来并行化transformer中的MLP和数学注意力机制。
+and it designs a very specific strategy to paralyze the MLP and math attention in the transformer.
+
+530
+00:37:47,930 --> 00:37:54,090
+所以在这里，嗯，我基本上展示了论文中的图三，说明如何并行化MLP。
+So here, um, I basically show the figure three from the paper on how to paralyze the MLP.
+
+531
+00:37:54,090 --> 00:38:00,649
+嗯，如果你读过论文，类似的处理也应用在多头注意力机制上。
+Um, and a similar stretch is also applied to the multi head attention if you read a paper.
+
+532
+00:38:00,649 --> 00:38:03,970
+好吗？这些图看起来非常非常复杂。
+Okay? These figure looks very very complicated.
+
+533
+00:38:03,970 --> 00:38:07,910
+一旦你理解了我们的模型，我们就可以简化它。
+And we can simplify it once you understand our model.
+
+534
+00:38:07,910 --> 00:38:10,949
+没有成本和边缘成本。那么该如何简化呢？
+No cost and edge cost. So how to simplify it.
+
+535
+00:38:10,949 --> 00:38:17,549
+基本上，对于这个两层的MLP，我们无法进行数据并行，因为权重矩阵太大了。
+Basically for this two layer MLP, we cannot do data parison because the weight matrix is too large.
+
+536
+00:38:17,549 --> 00:38:22,050
+为了在最小化通信成本的同时进行分区，
+To partition it while minimizing the communication cost,
+
+537
+00:38:22,050 --> 00:38:28,590
+我们可以将第一个权重矩阵按列分区，第二个按行分区。
+we can make the first weight matrix column partition and the second row partition.
+
+538
+00:38:28,590 --> 00:38:32,429
+通过这样做，我们在前向传播时只需要做一次归约，
+And by doing this, we only need to do one or reduce during the forward and
+
+539
+00:38:32,429 --> 00:38:34,200
+在反向传播时再做一次归约。
+another reduced during backward.
+
+540
+00:38:34,200 --> 00:38:40,169
+好的，这基本上就是我们对microtome论文的可视化。
+Okay. This is basically our visualization for the microtome paper.
+
+541
+00:38:40,169 --> 00:38:43,669
+这样说有道理吗？可以吗？
+Does this make sense? Okay?
+
+542
+00:38:43,669 --> 00:38:50,109
+可以。如果你只是试着解析这个图，你会发现我们基本上只需要用到这些。
+Yeah. And if you just read try to parse the graph, you can see, we basically just have to use.
+
+543
+00:38:50,109 --> 00:38:58,210
+好的。嗯，需要注意的是，有些计算比如dropout
+Okay. Yeah. Um, and note that some compution such as dropout
+
+544
+00:38:58,210 --> 00:39:00,869
+是被重复的，因为dropout的计算量其实很小。
+are replicated because dropout is pretty minimal.
+
+545
+00:39:00,869 --> 00:39:02,489
+好的，所以我们只需要把它们复制一下就行了。
+Okay, so we just need to replicate them.
+
+546
+00:39:02,489 --> 00:39:06,449
+好的？但这样做的成本其实很低。
+Okay? But this is pretty affordable, yeah.
+
+547
+00:39:06,449 --> 00:39:10,229
+好的。而且现在，这种策略有一个名字。
+Okay. And today, this strategy has a lame.
+
+548
+00:39:10,229 --> 00:39:11,570
+它被称为tenser Perl。
+It's called tenser Perl.
+
+549
+00:39:11,570 --> 00:39:13,329
+好的。如果你去任何一个库，比如
+Okay. If you go to any library like
+
+550
+00:39:13,329 --> 00:39:17,629
+VOMhuinf、deep speed、microphones，都叫tenser Barrel。
+VOMhuinf deep speed microphones called tenser Barrel.
+
+551
+00:39:17,629 --> 00:39:19,110
+它基本上就是这样描述的。
+And it's essentially described.
+
+552
+00:39:19,110 --> 00:39:24,779
+好的，好的。现在你了解了Megatro RM。
+Okay. Okay. Now, you understand Megatro RM.
+
+553
+00:39:24,779 --> 00:39:30,900
+另一个例子基本上是G hard MOE，这个hard MOE基本上是
+Another example is basically G hard MOE, this hard MOE is basically
+
+554
+00:39:30,900 --> 00:39:34,420
+所谓per parallel的第一个发明者。
+the first inventor of the so called per parallel.
+
+555
+00:39:34,420 --> 00:39:40,600
+这是一种在MOE模型中划分专家的新策略，
+Okay. It is a new strategy for partitioning experts in MOE model,
+
+556
+00:39:40,600 --> 00:39:42,200
+我将在下一节课讲解这个内容。
+and I'm going to cover the next lecture.
+
+557
+00:39:42,200 --> 00:39:46,979
+Per parallel基本上是实现Deepi with three的关键技术。
+Okay. Per parallel is basically the key technology enables Deepi with three.
+
+558
+00:39:46,979 --> 00:39:53,600
+好的？我会再次展示论文中的图，说明如何并行化
+Okay? Again, I will show the figure from the paper on how to paralyze
+
+559
+00:39:53,600 --> 00:39:56,960
+模型，你可以看到这个图非常复杂。
+model you can see this figure is very complicated.
+
+560
+00:39:56,960 --> 00:40:01,770
+然后，我将用我们的符号来简化它。
+And uh I'm going to simplify it using our notation.
+
+561
+00:40:02,090 --> 00:40:07,750
+基本上，这篇论文所做的就是针对普通的transformer层，
+So basically what this paper is doing is basically for the normal transformer layers,
+
+562
+00:40:07,750 --> 00:40:11,309
+它基本上进行数据并行，这很直接。
+it basically does data paring which is straightforward.
+
+563
+00:40:11,309 --> 00:40:16,050
+所以基本上权重会被复制，用于普通层。
+So basically the weights, and basically replicate it for the normal layers.
+
+564
+00:40:16,050 --> 00:40:24,210
+但对于MOE层，我们会在专家维度上对权重和批量矩阵进行分区。
+But for the MOE layers, we partition the weights and the batch met along the expert dimension.
+
+565
+00:40:24,210 --> 00:40:26,990
+这样可以最小化通信量。
+And this minimize the communication.
+
+566
+00:40:26,990 --> 00:40:30,650
+你还可以回头枚举所有可能的分区方式。
+And you can go back and enumerate all possible partition.
+
+567
+00:40:30,650 --> 00:40:32,410
+这是能够最小化通信量的分区方式。
+This is the one that minimize the communication.
+
+568
+00:40:32,410 --> 00:40:36,490
+你可以看到专家设计确实是专家设计。
+Okay. And you can see expert design is indeed expert design.
+
+569
+00:40:36,490 --> 00:40:39,909
+对吧？是的，有很多增强方法。
+Okay? Yeah, a lot of augmentation.
+
+570
+00:40:39,909 --> 00:40:47,669
+而且在普通层和MOE层之间切换时，我们需要进行通信。
+And to switch between the normal layers to the MOE layers, we need a communication.
+
+571
+00:40:47,669 --> 00:40:54,369
+那么这里的通信是什么？让我来强调一下。
+So what is the communication? Let me highlight it.
+
+572
+00:40:56,570 --> 00:40:59,689
+那么这里的通信是什么？
+So what is the communication here?
+
+573
+00:41:01,130 --> 00:41:04,609
+什么？是在这里。
+Sorry? It's at.
+
+574
+00:41:04,609 --> 00:41:05,969
+对，基本上是自动的。
+Yeah. It's basically auto.
+
+575
+00:41:05,969 --> 00:41:08,209
+好的，这样说得通吧？
+Okay. Makes sense, right?
+
+576
+00:41:08,209 --> 00:41:11,410
+因为我们在交换分区的维度。
+Because we are swapping the partitioning dimension.
+
+577
+00:41:11,410 --> 00:41:12,949
+所以这就是为什么是自动的。
+So that's why it's auto.
+
+578
+00:41:12,949 --> 00:41:18,229
+现在你明白为什么deep sig在实现一个非常非常快的auto上花了很多精力，
+Now, you understand why deep sig inte a lot of effort on implementing a really,
+
+579
+00:41:18,229 --> 00:41:25,450
+auto其实非常小，因为你想在维度上进行分区，
+really fast auto auto is super small, because you want to partition in dimension,
+
+580
+00:41:25,450 --> 00:41:31,199
+你就必须用Auto，而且这一切都需要非常快，否则就会出问题，明白吗？
+you have to do Auto and that's all need to be fast otherwise sonal, okay?
+
+581
+00:41:33,930 --> 00:41:38,230
+很好，你明白了。在这次作业中，
+Cool. You get it. In this homework,
+
+582
+00:41:38,230 --> 00:41:41,729
+我让你实现auto，但我从没要求你一定要用它，
+I ask you to implement auto, but I never ask you to use it
+
+583
+00:41:41,729 --> 00:41:43,870
+因为在作业的第三部分，
+because in the third part of the homework,
+
+584
+00:41:43,870 --> 00:41:52,049
+我让你基本上用你写的auto来实现Tinder Parl，就是让你做这个。
+I ask you to basically use or reduce you write to Tinder Parl which is this one ask you to do this.
+
+585
+00:41:52,049 --> 00:41:57,929
+但是在下一次作业的第一个任务中，你就要做这个了。
+But in the next homework, the first assignment, you're going to do this.
+
+586
+00:41:57,929 --> 00:42:01,709
+基本上你要用你自己的auto来实现这部分内容。
+Basically you use your own auto to implement this part.
+
+587
+00:42:01,709 --> 00:42:07,290
+好的。好的。所以这一页幻灯片对你完成
+Okay. Okay. So this slide is pretty important for you to finish the alignment,
+
+588
+00:42:07,290 --> 00:42:08,990
+下一次作业的第一个对齐问题非常重要。
+first problem of the next homework.
+
+589
+00:42:08,990 --> 00:42:12,149
+好的，很棒。
+Okay. Cool.
+
+590
+00:42:13,710 --> 00:42:15,509
+好的。
+Okay.
+
+591
+00:42:15,509 --> 00:42:22,770
+有什么问题吗？这两种基本上是最常用的内部并行策略。
+Any question. These two are basically the most used intra parallel strategy.
+
+592
+00:42:22,770 --> 00:42:27,890
+我再重复一遍，张量并行，基本上就是把矩阵分区。
+Let me repeat again, ten parallel, where basically you partition
+
+593
+00:42:27,890 --> 00:42:33,630
+两个权重矩阵分别在不同的行、列进行分区，这样你就会有一次通信或减少一次通信。
+the two weed matrix follow in different one row, column, and you incur one or reduce.
+
+594
+00:42:33,630 --> 00:42:37,550
+另一种是专家并行，基本上就是把分区
+Another is expert parallel, where you basically partition
+
+595
+00:42:37,550 --> 00:42:43,410
+补丁矩阵按照MOE的专家维度分区，但在普通层做数据并行。
+the patch met follow the expert dimension at the MOE, but you do data parallel at the normal layers.
+
+596
+00:42:43,410 --> 00:42:47,804
+当你从第一种并行切换到第二种并行时，你会产生一次自动通信。
+And when you switch from the first party to the second parity you incur auto.
+
+597
+00:42:47,804 --> 00:42:49,519
+好，这就是基本思路。
+Okay. That is the idea.
+
+598
+00:42:49,519 --> 00:42:53,640
+明白了吗？现在我要介绍第三种并行方式。
+Okay? Now I'm going to introduce a third part of interop.
+
+599
+00:42:53,640 --> 00:42:55,659
+它叫做Zero优化器。
+It's called zero optimor.
+
+600
+00:42:55,659 --> 00:43:00,379
+这个是由Deep Speed团队发明的，也是其中之一。
+This one was invented by Deep Speed Team, this one is also one of
+
+601
+00:43:00,379 --> 00:43:04,720
+最常用的优化器、参数划分策略。
+the most used um optimizer, parting strategy.
+
+602
+00:43:04,720 --> 00:43:07,879
+在岩石学中，你会想给它取一个不同的名字。
+In petrology you want to find a different name for it.
+
+603
+00:43:07,879 --> 00:43:12,100
+它被称为FSDP，全称是完全共享数据并行。
+It's called FSDPFully shared data parallel.
+
+604
+00:43:12,100 --> 00:43:18,989
+但本质上，他们的机制基本上是基于这个Zero Optimizer。让我来解释一下。
+But essentially, their mechanism is basically based on this zero opmeor. Let me explain.
+
+605
+00:43:18,989 --> 00:43:21,519
+基本上，这个项目叫做
+So basically, uh, this project is called
+
+606
+00:43:21,519 --> 00:43:26,759
+Zero Optimizer，它是一种数据并行的内存优化方法。
+Zero oppmentar and it's a memory oppmentation, um, of data datapoism.
+
+607
+00:43:26,759 --> 00:43:30,459
+回想一下，在数据并行中我们会复制模型权重，对吧？
+So recall in datapoism we replicate motor ways, right?
+
+608
+00:43:30,459 --> 00:43:33,680
+但这并不是我们复制的唯一内容。
+Um but this is not the only thing we replicate.
+
+609
+00:43:33,680 --> 00:43:39,944
+比如说，当我们选择使用那个Adam优化器时，
+So for example, when we choose to use that atom Oppener, um,
+
+610
+00:43:39,944 --> 00:43:44,069
+当我们进行这种混合精度训练时，
+uh, when we do this kind of mixed precision training,
+
+611
+00:43:44,069 --> 00:43:48,349
+我们还需要存储FP32主副本，对吧？
+we also need to store FP 32 master copy, right?
+
+612
+00:43:48,349 --> 00:43:54,910
+我还记得在内存讲座中，我们还需要存储所有那些优化器状态，
+I still remember in memory lecture, we also need to store all those optimal states,
+
+613
+00:43:54,910 --> 00:43:59,710
+一阶和二阶矩，也都是以LP32高精度存储的。
+first and second moments, which are also stored in LP 32 high precision.
+
+614
+00:43:59,710 --> 00:44:08,530
+明白了吗？而且这些来自优化器的辅助状态实际上比LP16权重大得多。
+Okay? And this auxiliary states from optimor actually is much larger than LP 16 weights.
+
+615
+00:44:08,530 --> 00:44:10,129
+它占用了大量内存。
+It takes a lot of memory.
+
+616
+00:44:10,129 --> 00:44:12,190
+我希望你还记得那个系数。
+I hope you still remember the factor.
+
+617
+00:44:12,190 --> 00:44:15,909
+对于Adam优化器来说，它需要12倍的系数，对吧？
+So for the atom Opmeor it takes a factor of 12, right?
+
+618
+00:44:15,909 --> 00:44:18,584
+而对于其他的，只需要4倍的系数。
+And for the rest, it only take a factor of four.
+
+619
+00:44:18,584 --> 00:44:21,300
+也就是说，是权重和梯度的三倍。
+Okay, it's three times the weight and gradients.
+
+620
+00:44:21,300 --> 00:44:27,920
+为了解决这个问题，这篇论文提出将所有这些张量进行分区，
+Okay? And to solve this problem, this paper proposed to partition all these sensors,
+
+621
+00:44:27,920 --> 00:44:30,500
+好的，分为三个阶段。
+okay, into three stages.
+
+622
+00:44:30,500 --> 00:44:37,019
+好的，这个表基本上展示了内存使用和通信成本。
+Okay. Uh This table basically shows, the memory usage and communicating cost of
+
+623
+00:44:37,019 --> 00:44:41,379
+一个是在数据并行下，另外三个阶段是他们的优化方法。
+one in a data parallel and three stages of their oppumentu.
+
+624
+00:44:41,379 --> 00:44:45,839
+好吗？而且这个表也是今天最重要的幻灯片之一，好吗？
+Okay? And this table is one of the most important slides today as well, okay?
+
+625
+00:44:45,839 --> 00:44:47,939
+你之后应该好好理解这个内容。
+And you should internalize this later.
+
+626
+00:44:47,939 --> 00:44:55,279
+好的，这对你分析FSDP时的成本会非常有帮助，好吗？
+Okay. And this will be super helpful for you to analyze the cost when you do FSDP, okay?
+
+627
+00:44:55,400 --> 00:44:59,240
+嗯，这里我来介绍一下符号表示方法。
+Um, and here, basically, let me introduce a notation.
+
+628
+00:44:59,240 --> 00:45:04,160
+设M为参数数量，N为设备数量。
+So let M be the amber parameters and M be the ambo devices.
+
+629
+00:45:04,160 --> 00:45:05,980
+你将要进行并行计算。
+You are going to perform parallelism.
+
+630
+00:45:05,980 --> 00:45:08,939
+好的，假设我们使用
+Okay? Um assuming we use
+
+631
+00:45:08,939 --> 00:45:17,079
+Atom优化器使用LP 16混合精度训练，优化器状态需要多少？
+Atom optimizer with LP 16 mixed precision training, the optimeor states, it takes how many?
+
+632
+00:45:17,820 --> 00:45:22,460
+12，对吧？我已经重复很多很多次了。好，你需要记住。
+12, right? I repeat this many, many times. Okay. You need to remember.
+
+633
+00:45:22,460 --> 00:45:24,659
+梯度是2，对吧？
+The gradients is two, right?
+
+634
+00:45:24,659 --> 00:45:26,679
+因为是PC 16，对吧？
+Because it's PC 16, right?
+
+635
+00:45:26,679 --> 00:45:28,819
+是两个字节，这就是2的原因。
+It's two bytes. That's what two.
+
+636
+00:45:28,819 --> 00:45:32,319
+模型也是2，因为它也是2。
+The model is two, because it's also two.
+
+637
+00:45:32,319 --> 00:45:37,299
+好的。所以，如果你进行数据并行，基本上你是在说，
+Okay. Therefore, if you do data partism, sically you are saying,
+
+638
+00:45:37,299 --> 00:45:41,520
+我会在所有设备上复制全部内容，只在batch维度上进行切分。
+I'm going to replicate all on all devices only partision along the badge dimension.
+
+639
+00:45:41,520 --> 00:45:45,240
+因此，每个设备的内存消耗基本上是16。
+Therefore, the memory cost of each device is basically 16.
+
+640
+00:45:45,240 --> 00:45:46,779
+这样说有道理吗？
+Does that make sense?
+
+641
+00:45:46,779 --> 00:45:49,014
+好的，你会复制所有内容，对吧？
+Okay, you replicate everything, right?
+
+642
+00:45:49,014 --> 00:45:51,669
+那通信成本是多少呢？
+And what's the communicating cost?
+
+643
+00:45:51,669 --> 00:45:54,129
+我已经解释过很多很多次了，
+I already explained many many times,
+
+644
+00:45:54,129 --> 00:45:58,870
+在数据划分中，通信成本基本上就是所有权重的全量归约。
+In data partism the communing cost is basically all reduced of the weights.
+
+645
+00:45:58,870 --> 00:46:01,529
+因此，都是全量归约。
+Therefore, it's all reduced to.
+
+646
+00:46:02,090 --> 00:46:06,909
+并且根据你选择在哪个阶段应用Zero，
+And depending on the stages you choose to apply zero,
+
+647
+00:46:06,909 --> 00:46:11,349
+你实际上是在划分不同的部分。
+you are essentially partitioning different parts of this.
+
+648
+00:46:11,349 --> 00:46:14,709
+在Zero第一阶段，你选择在最优状态下划分。
+In zero stage one, you choose to parti in optimal states.
+
+649
+00:46:14,709 --> 00:46:20,369
+在Zero第二阶段，你选择划分可选状态和参数，在第三阶段，
+In zero stage two, you choose to partition optional states and ingredients, and in stage three,
+
+650
+00:46:20,369 --> 00:46:25,780
+你全部划分，根据你的划分方式，通信量也会不同。
+you pi in all and depending on how you partition it, you will incur different communication,
+
+651
+00:46:25,780 --> 00:46:27,699
+接下来我会帮你一起学习这个内容。
+which I will help you go through next.
+
+652
+00:46:27,699 --> 00:46:33,499
+但现在，假设你已经了解了这个划分方式，我们就可以推导出内存消耗
+But now, assume you already know this petition, we are able to derive the memory cost
+
+653
+00:46:33,499 --> 00:46:35,479
+和通信消耗，对吧？
+and communicating cost, right?
+
+654
+00:46:35,479 --> 00:46:40,759
+那我们先跳过通信消耗，因为我需要解释一下。
+So maybe let's skip communicating cost first because I need to explain it.
+
+655
+00:46:40,759 --> 00:46:43,039
+但内存部分其实很容易理解，对吧？
+But for memory it's very easy to understand, right?
+
+656
+00:46:43,039 --> 00:46:46,984
+如果你只划分了状态，但没有划分参数和模型权重，
+So if you're part various states but not partying ingredients and model ways,
+
+657
+00:46:46,984 --> 00:46:51,450
+那么每个设备的内存其实就是这两部分会被复制。
+then your per device memory is basically these two will be replicated.
+
+658
+00:46:51,450 --> 00:46:53,969
+这里有一个乘以四的项。
+There is a term of four.
+
+659
+00:46:53,969 --> 00:46:57,370
+但这一项会在所有N个设备之间划分。
+But this one is partition across all N devices.
+
+660
+00:46:57,370 --> 00:47:00,709
+因此，每个设备只需要存储12除以
+Therefore, each device only need to stor 12 divided by
+
+661
+00:47:00,709 --> 00:47:06,030
+N。这基本上就是01的内存开销。
+N. This is basically the memory cost of 01.
+
+662
+00:47:06,030 --> 00:47:10,229
+同样地，你可以做完全一样的事情，不断地堆叠更多，
+Similarly, you can do exactly the same thing that you keep piting more and more,
+
+663
+00:47:10,229 --> 00:47:14,270
+然后你基本上就是把这两个项的开销摊到所有设备上。
+and then you are basically amortize these two terms across all devices.
+
+664
+00:47:14,270 --> 00:47:19,809
+这就是为什么在第三阶段，每个设备只需要存储16除以
+That's why in sty three, each device only need to store 16 divided by
+
+665
+00:47:19,809 --> 00:47:24,360
+N。相比于datapat，这是一个很大的内存节省。
+N. That's a big memory saving compared to datapat.
+
+666
+00:47:24,360 --> 00:47:29,889
+好的。你也知道，基本上零阶段、一阶段、二阶段、
+Okay. And you also know that basically, the difference between zero stage one, two,
+
+667
+00:47:29,889 --> 00:47:32,289
+三阶段，它们本质上就是这两种。
+three, they are essentially like these two.
+
+668
+00:47:32,289 --> 00:47:37,409
+好的。最重要的部分就像我说的，是操作状态，因为有一个12。
+Okay. And the big part is, like I said, operal state because there's a 12.
+
+669
+00:47:37,409 --> 00:47:41,689
+好的。现在你明白数学原理了。
+Okay. Okay. Now, you understand the math.
+
+670
+00:47:41,689 --> 00:47:43,750
+我们来逐步看看每个阶段。
+Let's go through each stage.
+
+671
+00:47:43,750 --> 00:47:46,230
+我们来试着理解一下这个通信。
+Let's try to understand the communication.
+
+672
+00:47:46,230 --> 00:47:51,379
+有什么问题吗？好，再说一个词。
+Any question? Okay. One more word.
+
+673
+00:47:51,379 --> 00:47:56,139
+所以如果你用FSDP，就是全共享数据桶，基本上就是这个。
+So I petric if you do FSDP that is fully shaded data Barrels basically this one.
+
+674
+00:47:56,139 --> 00:47:59,159
+这里会说有三个，这叫全共享数据桶。
+There will say three. It's called fully shaded data Barrel.
+
+675
+00:47:59,159 --> 00:48:01,499
+这里的“全”意思是所有东西都共享。明白了吗？
+That fully means everything is shared. Okay.
+
+676
+00:48:01,499 --> 00:48:03,800
+好吧？这样有助于你记住。
+Okay? To help you remember.
+
+677
+00:48:03,800 --> 00:48:07,080
+好，我们来看一下zero是怎么做的，好吗？
+Okay, let's see what zero does, okay?
+
+678
+00:48:07,080 --> 00:48:14,659
+zero的核心思想是用reduce scatter和gather来替换或减少操作。
+So the key idea of zero is to replace or reduce with reduce scatter and or gather.
+
+679
+00:48:14,659 --> 00:48:17,699
+这个公式，你还记得吧？
+Okay? This equation, help you still remember, right?
+
+680
+00:48:17,699 --> 00:48:19,940
+我在集体通信那部分讲过这个。
+I covered this in collective communication.
+
+681
+00:48:19,940 --> 00:48:22,399
+好的，让我更改一下我的密码。
+Okay, let me change my pin.
+
+682
+00:48:22,399 --> 00:48:28,199
+好的，所以左侧和右侧的通信成本是一样的。
+Okay. So the left hand side and the right hand side have the same communicating cost.
+
+683
+00:48:28,199 --> 00:48:34,879
+但通过这种分解，我们可以划分出更多的复制答案和计算。
+But by doing this decomposition, we can partition more replicate answers and computations.
+
+684
+00:48:34,879 --> 00:48:39,565
+这里是Wanina数据对比。
+So here is Wanina data parison.
+
+685
+00:48:39,565 --> 00:48:45,669
+它运行或归约以累积部分结果，也就是部分梯度，我刚才说过。
+And it runs or reduce to accumulate partial results, partial gradients, I said
+
+686
+00:48:45,669 --> 00:48:49,630
+其他方式和opener状态也是被复制的。
+that other ways and opener states are replicated.
+
+687
+00:48:49,630 --> 00:48:51,349
+这就是为什么这个图看起来是这样的。
+That's why this graph looks like this.
+
+688
+00:48:51,349 --> 00:48:54,469
+好吗？不，我已经把视角放大到opener部分了。
+Okay? No, I already zoom into the opener part.
+
+689
+00:48:54,469 --> 00:48:56,509
+好的，我忽略了前向和反向部分。
+Okay, I ignore the forward and backward part.
+
+690
+00:48:56,509 --> 00:49:01,789
+好的，所以我们从部分梯度开始，因为我们沿着一行进行划分。
+Okay. So here we start with a partial gradient because we part in along a row.
+
+691
+00:49:01,789 --> 00:49:05,930
+在反向推荐之后，每个设备都有一个部分梯度。
+And after the backward recommendation, each device has a partial gradient.
+
+692
+00:49:05,930 --> 00:49:12,249
+但正如我所说，在数据并行中，我们会复制所有内容，包括open mender的状态，对吧？
+But as I said, in data parism we replicate everything, including open mender states, right?
+
+693
+00:49:12,249 --> 00:49:20,179
+为了让open miner进行计算，我们发现会有一个重启的开销，对吧？
+In order for the open miner to compute, we find that there's a there's a restarting cost, right?
+
+694
+00:49:20,179 --> 00:49:25,380
+这个opium需要在HDS上有完整的成分副本，因为它是被复制的。
+This opium need a full copy of ingredients on HDS because it's replicated.
+
+695
+00:49:25,380 --> 00:49:29,000
+但一开始，我们只有一部分。
+But at the beginning, we only have a partile.
+
+696
+00:49:29,000 --> 00:49:31,120
+因此，这一切都被归约了。
+Therefore, this is all reduced.
+
+697
+00:49:31,120 --> 00:49:35,059
+好吗？但这很合理，这就是数据并行，好吗？
+Okay? But that makes sense This is data partism, okay?
+
+698
+00:49:36,310 --> 00:49:46,789
+那么02是什么？在错误二中，基本上是用reduced scatter替换或归约操作，好吗？
+So what is 02? In error two, um, it basically replace or reduce with reduced scatter. Okay?
+
+699
+00:49:46,789 --> 00:49:52,869
+所以，结果是，基本上就是这样。
+So the result of, um, so basically here.
+
+700
+00:49:52,910 --> 00:49:57,889
+在R2中，我们说我们要对所有operar状态进行分区，对吧？
+In R two, we said that we are going to partition all the operar states, right?
+
+701
+00:49:57,889 --> 00:50:03,149
+因此，open states 这种动量就像是一阶、二阶矩一样。
+Therefore, open states this momentum like first, second moment,
+
+702
+00:50:03,149 --> 00:50:06,505
+它们在 batch 维度上进行了分区。
+they partisonFolloing in the batch dimension.
+
+703
+00:50:06,505 --> 00:50:13,299
+在这里，在 S2 中，它被替换或用 reduced scatter 来简化了。
+And here in S two, it replaced or reduced with reduced scatter here.
+
+704
+00:50:13,299 --> 00:50:17,599
+reduced scatter 的结果仍然是分区的。
+The result or reduced scatter is still partitioned.
+
+705
+00:50:17,599 --> 00:50:21,379
+因为后续的大多数计算都是按元素进行的，
+Because most of the later competon are element wise,
+
+706
+00:50:21,379 --> 00:50:24,380
+这些计算可以在分区格式下完成。
+the computation can be done on partition format.
+
+707
+00:50:24,380 --> 00:50:31,680
+没问题。也就是说，open states 是分区的，每个分区只执行自己的计算。
+No problem. That is open states are patina and each partin only perform its own competition.
+
+708
+00:50:31,680 --> 00:50:34,020
+这样是可以的，没问题。
+It's fine. Okay.
+
+709
+00:50:35,960 --> 00:50:40,819
+但在某些时候，我们需要以分区格式存储梯度和 open states。
+But at some point, we need to store the gradits and open states in parison format.
+
+710
+00:50:40,819 --> 00:50:46,480
+但正因为如此，对吧，记住这个因素。
+But because of this, right, remember this factor.
+
+711
+00:50:46,880 --> 00:50:49,239
+我们从中获得了好处，对吧？
+We have a benefit of this, right?
+
+712
+00:50:49,239 --> 00:50:53,240
+所以这些开放状态基本上是在所有设备之间摊销的。
+So the open states are basically amortized across all devices.
+
+713
+00:50:53,480 --> 00:50:58,059
+好的，嗯，这样可以减少内存成本。
+Okay. Um, and this reduce the memory cost.
+
+714
+00:50:58,059 --> 00:51:02,884
+在每次更新后，我们基本上可以使用它们或者收集。
+And after always updated, we can basically use them or gather.
+
+715
+00:51:02,884 --> 00:51:06,710
+以获得下一次迭代所需的复制宽度。
+To get the replicate width for the next iteration.
+
+716
+00:51:06,710 --> 00:51:08,930
+然后我们继续进行计算。
+Then we proceed to competation.
+
+717
+00:51:08,930 --> 00:51:12,289
+实际上，我们的做法是每一层都这样做。
+In reality, what we do is we do this per layer.
+
+718
+00:51:12,289 --> 00:51:18,869
+每次进入一层时，我们发现，呃，抱歉，其实不是每一层。
+Every time we go to one layer, we find that um uh sorry, it's not per layer.
+
+719
+00:51:18,869 --> 00:51:20,929
+是03，三，我们是按层处理的。
+It's 03, three, we do it per layer.
+
+720
+00:51:20,929 --> 00:51:25,370
+但对于这个操作状态，一旦我们进入操作状态计算，
+But for this in opera state, that is once we proceed into the operar state competition,
+
+721
+00:51:25,370 --> 00:51:29,770
+我们发现任何需要重新充电的地方，我们都会进行充电。
+we find anything that is require recharging, we will perform recharging.
+
+722
+00:51:29,770 --> 00:51:34,070
+如果你做一下分析，你会发现本质上我们基本上是在
+If you do the um, analysis, you'll find that essentially we are basically
+
+723
+00:51:34,070 --> 00:51:37,730
+分解或者简化为简化的调度和收集器。
+decomposing or reduce into reduced schedule and getter.
+
+724
+00:51:37,730 --> 00:51:43,779
+如果你比较上面的图和下面的图，你会发现通信
+If you compare the upper graph and lower graph, you'll find that the communicating
+
+725
+00:51:43,779 --> 00:51:48,759
+成本是完全一样的，因为all reduce等于reduce scatter加上orgather，对吧？
+cost is exactly the same, because all reduce equals to reduce scatter plus or gather, right?
+
+726
+00:51:48,759 --> 00:51:50,659
+在这个图中，你做了一次reduce。
+In this graph, you do one reduce.
+
+727
+00:51:50,659 --> 00:51:52,960
+在这个图中，你做了reduce scatter加上orgather。
+In this graph, you do reduce scatter plus orgater.
+
+728
+00:51:52,960 --> 00:51:54,659
+但是内存表现要好得多。
+But the memory is much better.
+
+729
+00:51:54,659 --> 00:51:57,860
+在第二个图中，所有的操作数状态都是分区的。
+In the second graph, all the operant states they are partition.
+
+730
+00:51:57,860 --> 00:52:00,300
+但在第一个图中，它们是复制的。
+But in the first graph, they are replicated.
+
+731
+00:52:00,300 --> 00:52:02,839
+这是零C二阶段。
+This is zero C two.
+
+732
+00:52:04,760 --> 00:52:14,019
+现在让我们看看如何划分更多阶段、更多张量，以实现零C三阶段。
+And now let's try to see how we can partition more stages, more tensors to get zero C three.
+
+733
+00:52:14,019 --> 00:52:17,359
+这里仍然是零C二阶段。
+Here is still zero C two.
+
+734
+00:52:17,359 --> 00:52:22,239
+基本上，权重还是被复制的，对吧？
+Basically, um, the widths are still replicated, right?
+
+735
+00:52:22,239 --> 00:52:28,599
+在零阶段二中，我们只划分了梯度和操作状态。
+I zero stage two, we only partition the um, gradients and the operant states.
+
+736
+00:52:28,599 --> 00:52:31,760
+权重还是被复制的，因为前向传播
+The widths are still replicated because both forward
+
+737
+00:52:31,760 --> 00:52:35,220
+和反向传播都需要完整的权重副本，
+and backward requires a full copy of the weights,
+
+738
+00:52:35,220 --> 00:52:38,500
+所以我们复制权重以减少通信量。
+so we replicate the weights to reduce the communication.
+
+739
+00:52:38,500 --> 00:52:45,179
+但如果模型太大，我们也可以划分权重，从而实现零阶段三。
+But if the model is too large, we can also part in the width, as well to get zero stage three.
+
+740
+00:52:45,179 --> 00:52:49,259
+如你所见，与零S二和零阶段三相比，
+As you can see, compared to zero S two and zero stage three,
+
+741
+00:52:49,259 --> 00:52:52,765
+我们要做的是继续对这些权重进行分区。
+what do we do is we continue to part in these weights.
+
+742
+00:52:52,765 --> 00:52:56,329
+好的。在这两个里面，我们复制宽度。
+Okay. Here in those two, we replicate the width.
+
+743
+00:52:56,329 --> 00:52:58,769
+但我说过，这个宽度会非常大。
+But I said, this width is going to be pretty big.
+
+744
+00:52:58,769 --> 00:53:01,349
+比如说，当你GB真的很大时。
+For example, when you GB really is big.
+
+745
+00:53:01,349 --> 00:53:03,149
+你也想对它进行分区。
+You also want to partition it.
+
+746
+00:53:03,149 --> 00:53:04,729
+那你怎么分区呢？
+And what's your partition it?
+
+747
+00:53:04,729 --> 00:53:11,649
+因为在规范竞赛期间，你需要这个是一个完整的副本，就像这样。
+Because during the spec competition, uh, you require this one to be a full copy like this.
+
+748
+00:53:11,649 --> 00:53:17,010
+所以为了从这里恢复到这里，你要做的基本上是全部一起执行。
+So in order to recover from here to here, what do you do is basically you perform all together.
+
+749
+00:53:17,010 --> 00:53:18,929
+而且你可以逐层进行这个操作。
+And you can do this layer by layer.
+
+750
+00:53:18,929 --> 00:53:22,889
+这是因为你的权重现在已经被分区了，对吧？
+That is because your weight is is partion now, right?
+
+751
+00:53:22,889 --> 00:53:28,090
+然后你进入一层，并且你会发现这些层在所有设备上进行了分区。
+And you proceed to one layer and you find the layers with partition across all devices.
+
+752
+00:53:28,090 --> 00:53:32,209
+但为了进行前向计算，你必须获得完整的宽度。
+But in order to compute the forward, you have to get the full version of the width.
+
+753
+00:53:32,209 --> 00:53:36,530
+你需要做的是执行一次gather操作来获得宽度，然后继续进行计算。
+What do you do is you perform an gather to get the width, and you proceed to commutation.
+
+754
+00:53:36,530 --> 00:53:39,289
+一旦你完成计算，就进入下一层，然后
+And once you finish computation, you proceed to the next layer and you
+
+755
+00:53:39,289 --> 00:53:40,990
+丢弃之前gather的结果。
+throw away the or gather results.
+
+756
+00:53:40,990 --> 00:53:44,689
+你仍然会在你的设备上保留一份分片。
+You still preserve one chart on your device.
+
+757
+00:53:44,930 --> 00:53:49,710
+好的，总结一下，区别在于
+Okay. To summarize, the difference
+
+758
+00:53:49,710 --> 00:53:53,810
+02-03基本上是在内存和通信之间做权衡。
+02-03 is basically a trade off between memory and communication.
+
+759
+00:53:53,810 --> 00:53:58,490
+所以如果你想升级到02-03，你会看到需要更多的内存，
+So if you want to upgrade 02-03, you are going to see be more memory,
+
+760
+00:53:58,490 --> 00:54:02,190
+但你需要为一次gather操作付出通信的代价。
+but you are going to pay the cost of one or gather.
+
+761
+00:54:02,190 --> 00:54:08,090
+这就是为什么03的通信成本是1.5个ordos。
+That's why the communicating cost of 03 is 1.5 ordos.
+
+762
+00:54:08,090 --> 00:54:15,489
+因为减少了Gater和orgaeryeach，基本上是减少了一半的redos。有问题吗？
+Because reduce Gater and orgaeryeach basically half or redos. Any question?
+
+763
+00:54:16,560 --> 00:54:20,600
+好的，让我来整合一下这个理解。
+Okay. Let me consolidate this understanding.
+
+764
+00:54:20,600 --> 00:54:27,159
+我想我已经解释了这四种不同模式在内存成本上的区别，
+I think I explained the difference between all these four different paten the memory cost,
+
+765
+00:54:27,159 --> 00:54:31,679
+现在你明白了，其实就是在这个上面再加一个。
+now you understand it is basically putting one more into the upper part of this one.
+
+766
+00:54:31,679 --> 00:54:34,119
+现在你明白了通信成本。
+Now you understand the community cost.
+
+767
+00:54:34,119 --> 00:54:36,980
+在数据并行中，通信成本被降低了。
+In dataparism community cost is reduced.
+
+768
+00:54:36,980 --> 00:54:42,220
+在第12阶段，通信成本基本上是把这个reduce分解为
+In stage 12, the commuting cost is basically decomposing this reduced
+
+769
+00:54:42,220 --> 00:54:44,959
+reduce setter和orgether，是一样的。
+into reduced setter and orgether, it's the same.
+
+770
+00:54:44,959 --> 00:54:51,240
+但如果我们继续演化到03，我们会再引入一个orgether。
+But if we continue to evolve into 03, we are introduced one more orgether.
+
+771
+00:54:51,240 --> 00:54:53,410
+这是1.5个红色的。
+It's 1.5 reds.
+
+772
+00:54:53,410 --> 00:54:57,539
+是的。有什么理由要用这个吗？
+Yeah. Reason to use one?
+
+773
+00:54:57,539 --> 00:55:00,779
+很好的问题。01已经基本没人用了。
+Very good question. 01 is already like no one use that.
+
+774
+00:55:00,779 --> 00:55:06,739
+是的。为什么？因为如果你比较这两个数字，通信成本是一样的。
+Yeah. Why? Because if you compare these two numbers, communication cost is the same.
+
+775
+00:55:06,739 --> 00:55:09,160
+但是zero C two能节省更多内存。
+But zero C two saves more memory.
+
+776
+00:55:09,160 --> 00:55:11,779
+是的。所以现在大家都是从02开始的。
+Yeah. So today, people start with 02.
+
+777
+00:55:11,779 --> 00:55:21,019
+好吗？这个非常重要，我觉得这会让你有很多相关的阅读材料，
+Yeah. Okay? Okay, this is very important, and I think that give you a lot of reading on this,
+
+778
+00:55:21,019 --> 00:55:24,160
+你应该把那些阅读内容和这个例子结合起来，
+and you should connect those readings to this illustration,
+
+779
+00:55:24,160 --> 00:55:25,980
+我认为这会提升你的理解。
+and I think it will enhance your understanding.
+
+780
+00:55:25,980 --> 00:55:31,439
+好，下一个项目基本上就是匹配tender flow。
+Okay. Next project is basically match tender flow,
+
+781
+00:55:31,439 --> 00:55:37,360
+这是谷歌开发的一套用于编写模型并行TensorFlow程序的系统。
+It is a system developed by Google for writing model parallel tender flow programs.
+
+782
+00:55:37,360 --> 00:55:42,239
+这里的关键思想基本上是通过指定分页策略来实现的。
+And the key idea here is basically specify the Pagen strategy by
+
+783
+00:55:42,239 --> 00:55:44,780
+方法是将张量的维度映射到匹配的维度上。
+mapping tenser dimension to match dimensions.
+
+784
+00:55:44,780 --> 00:55:47,580
+下面是一个代码示例。
+So here is a code example.
+
+785
+00:55:47,580 --> 00:55:51,480
+用户需要使用这个特殊的API来编写程序。
+User need to use this special API for writing programs.
+
+786
+00:55:51,480 --> 00:55:55,159
+在代码中，用户为每个张量维度和每个匹配维度都指定了一个标签。
+And in the code, users give every tensor dimension a lime and
+
+787
+00:55:55,159 --> 00:55:57,299
+那么，什么是mash呢？
+every match dimension lime. So what is mash?
+
+788
+00:55:57,299 --> 00:56:01,660
+Mash基本上是一个由设备组成的矩阵，
+So Mash is basically a matrix of devices arranged,
+
+789
+00:56:01,660 --> 00:56:04,939
+例如，可以排列成二维的形式，对吧？
+for example, arranged in like two dimension, okay?
+
+790
+00:56:04,939 --> 00:56:11,480
+用户定义了一个映射，将张量的维度映射到匹配的维度上。
+And, um the user defined a mapping that basically maps the tinder dimension to match dimension.
+
+791
+00:56:11,480 --> 00:56:15,799
+然后系统基本上会生成一个并行化的Tinder流图
+And the system will basically generate a paralyzed tinder flow graph
+
+792
+00:56:15,799 --> 00:56:18,399
+按照专门的映射方式进行，好吗？
+following the specialized mapping, okay?
+
+793
+00:56:18,399 --> 00:56:22,840
+这个系统需要重写整个程序。
+And this system requires a rewriting of the whole program.
+
+794
+00:56:22,840 --> 00:56:28,720
+所以它不是很友好，后来被另一个系统取代了，好吗？
+So it is not very user friendly and later it was replaced by another system, okay?
+
+795
+00:56:29,190 --> 00:56:36,649
+这个GSMPDPMD基本上被认为是Messenger Flow的继任者。
+And this is GSMPDPMD is basically considered as a successor of the messenger flow.
+
+796
+00:56:36,649 --> 00:56:42,369
+它采用了非常类似的基于编译器的方法，但它生成了那个概念，好吗？
+It follows a very similar compiler based approach, but it generates that idea, okay?
+
+797
+00:56:42,369 --> 00:56:45,409
+用户不需要编写整个流图。
+User do not need to write the whole graph.
+
+798
+00:56:45,409 --> 00:56:50,670
+相反，他们只需插入一些符号来指定并行策略
+Instead, they just insert some notations to specify the parallel strategy
+
+799
+00:56:50,670 --> 00:56:52,590
+针对某些重要的张量。
+of certain important tensors.
+
+800
+00:56:52,590 --> 00:56:57,109
+后续编译器会自动将并行策略传播到整个流图
+And later the compiler will basically propagate the partntrategy to the whole graph
+
+801
+00:56:57,109 --> 00:56:59,889
+并为整个计算图生成一个分区策略。
+and generate a partons strategy for the entire graph.
+
+802
+00:56:59,889 --> 00:57:02,629
+这里有一些自动化的内容。
+There are some automation here.
+
+803
+00:57:05,410 --> 00:57:12,710
+好的。最后我想指出，intraop 和 interop 应该结合起来。
+Okay. And last, I want to point out that intraop and interop, they should be combined.
+
+804
+00:57:12,710 --> 00:57:17,589
+明白吗？因为这两种并行方式之间存在权衡，我们可以
+Okay? Because there are trade offs between these two kinds of parisms and we can
+
+805
+00:57:17,589 --> 00:57:22,950
+结合它们来利用这种权衡，从而获得最佳性能。
+combine them to exploit the trade off and achieve the optimal performance.
+
+806
+00:57:22,950 --> 00:57:25,249
+好的？这是计算图，对吧？
+Okay? Here is the computer graph, right?
+
+807
+00:57:25,249 --> 00:57:29,490
+然后，我们把它切分成四个阶段。
+And, which we slice into four stages.
+
+808
+00:57:29,490 --> 00:57:33,569
+好的。我们不再把一个阶段分配到一个设备上，
+Okay. And instead of assigning a stage on one device,
+
+809
+00:57:33,569 --> 00:57:38,499
+而是可以把每个阶段分配到一个设备网格上。
+we can basically assign each stage to a to a device mesh.
+
+810
+00:57:38,499 --> 00:57:45,839
+也就是一组设备。比如说，我们可以把四个 GPU 分配给第一个阶段。
+A group of devices. And, um, for example, we can add four GPUs to ask you the first stage,
+
+811
+00:57:45,839 --> 00:57:51,000
+两个GB是第二阶段，六个GB是第三阶段，两个GB是第一阶段。
+two GBs second stage, and six GB the third stage, and two GB first stage.
+
+812
+00:57:51,000 --> 00:57:58,729
+那为什么要这么做呢？原因其实很简单，就像我刚才说的，
+So why would do this? Reason is pretty simple because like I said,
+
+813
+00:57:58,729 --> 00:58:02,749
+在流水线并行中，你要确保每个阶段的执行时间是一样的。
+in Pipeline parism you want to make sure the ascuon time of which stage is the same.
+
+814
+00:58:02,749 --> 00:58:09,149
+所以，如果你的神经网络结构是异构的，也就是说各层并不等价，
+So model, if your neuralnetwork graph is heterogeneous, that it's not like equivalent layers,
+
+815
+00:58:09,149 --> 00:58:13,209
+那你就需要为不同阶段的不同部分分配不同的设备，对吧？
+then you have to align different devices for different parts of the stage, right?
+
+816
+00:58:13,209 --> 00:58:18,269
+好的。当你完成这个分配后，你会发现对于那个小的蓝色阶段，
+Okay. And once you align this you notice that actually for that small stage blue stage,
+
+817
+00:58:18,269 --> 00:58:23,470
+我们实际上是在四个设备上分配它，那怎么在四个设备上分配一个阶段呢？
+we are asking them in four devices and how to ask you a stage in four devices.
+
+818
+00:58:23,470 --> 00:58:26,829
+这就是你还需要做内部并行的地方，对吧？
+That is where you how to also do intraparis, right?
+
+819
+00:58:26,829 --> 00:58:31,740
+所以基本上在G阶段内部，你会用到多个设备。
+So so basically inside of the G stage, you hold multiple devices.
+
+820
+00:58:31,740 --> 00:58:37,799
+你要做的其实就是，在G阶段内部引入某种形式的内部并行。
+And what you do is basically, um, you also introduce some sort of intraparism inside of G stage.
+
+821
+00:58:37,799 --> 00:58:41,820
+这种方法实际上已经实现了最佳的可扩展性，对吧？
+And this method has actually achieved the best scalability, okay?
+
+822
+00:58:41,820 --> 00:58:47,759
+你要把这种深度神经计算扩展到比如说一千块GPU，基本上就是用这种方式。
+The way you skill this deep neuronal computation beyond say 1,000 GPU is basically this.
+
+823
+00:58:47,759 --> 00:58:52,499
+好的。我认为现在如果你想在一万或两万块GPU上训练神经网络，
+Okay. And I think today, if you want to train a neurotro on say, ten k or 20 GPU,
+
+824
+00:58:52,499 --> 00:58:54,160
+你必须使用这种策略。
+you have to use this kind of strategy.
+
+825
+00:58:54,160 --> 00:58:57,839
+好的，有什么问题吗？
+Okay. Any question?
+
+826
+00:58:59,909 --> 00:59:06,769
+那么总结一下，我们可以通过利用
+Okay. So to summarize, okay, um, we can paralyze a single operator by exploiting,
+
+827
+00:59:06,769 --> 00:59:08,529
+它的内部并行性来并行化单个算子。
+uh, its internal partism.
+
+828
+00:59:08,529 --> 00:59:14,909
+为了做到这一点，对于整个计算图，我们需要为图中的所有节点选择策略，
+To do this, for Hu computation graph, we need to choose strategies for all nodes in
+
+829
+00:59:14,909 --> 00:59:18,409
+以最小化节点成本和边的成本，对吧？
+the graph to minimize the node cost and edge cost. Okay?
+
+830
+00:59:18,409 --> 00:59:21,409
+最后，这个中断和中断
+Um, and last, this interrupt and the interrupt
+
+831
+00:59:21,409 --> 00:59:24,489
+可以结合使用以获得最佳性能，明白吗？
+can be combined to achieve the best performance, okay?
+
+832
+00:59:24,489 --> 00:59:27,049
+在这一部分，
+And in this part,
+
+833
+00:59:27,049 --> 00:59:30,329
+我认为我们主要关注分区。
+I think we primarily focus on partism.
+
+834
+00:59:30,329 --> 00:59:33,729
+但实际上，你所做的基本上也是，你还想把这个
+But in reality, what you do is basically, you also want to combine this
+
+835
+00:59:33,729 --> 00:59:36,089
+和我在上一节课讲过的内容结合起来。
+with what I covered in my previous lecture.
+
+836
+00:59:36,089 --> 00:59:40,869
+明白吗？你想要在启用分区的同时，也启用某种内存对抗机制。
+Okay? You want to enable this partism while you also enable some sort of memory opposition.
+
+837
+00:59:40,869 --> 00:59:44,669
+你开启梯度检查点，开启交换机制。
+You turn on grading checkpointing, you turn on swapping.
+
+838
+00:59:44,669 --> 00:59:49,289
+你还要开启量化、剪枝以及一些低秩近似，
+You also turn on quantization, specification and some low rank approximation in order to
+
+839
+00:59:49,289 --> 00:59:52,329
+以便让你的模型适配有限的边缘设备，明白吗？
+fit your model into limited lumbo devices, okay?
+
+840
+00:59:52,329 --> 00:59:53,829
+因为TPU太贵了。
+Because TPU is so expensive.
+
+841
+00:59:53,829 --> 00:59:57,189
+你想要用很多成本来对待你的模型。
+You want to treat your model with a lot of its cost.
+
+842
+00:59:57,230 --> 01:00:02,050
+好的，所以这基本上就是，呃，内部部分的结束。
+Okay, so this is basically the end of, uh intra partism.
+
+843
+01:00:02,050 --> 01:00:09,209
+有什么问题吗？有。好的，嗯哼。
+Any question? Yeah. Okay. Uh huh.
+
+844
+01:00:11,890 --> 01:00:14,189
+两者。当然是两者。
+Both. Of course, both.
+
+845
+01:00:14,189 --> 01:00:19,929
+是的。因为在这个过程中你是在做内部操作。
+Yeah. Because inside the mess you are doing intra op.
+
+846
+01:00:24,010 --> 01:00:30,070
+你有一个“我”，是的，但minic就像你有一个超高带宽一样。
+You have a me, yes, but minic is just like you have a super high bandwidth.
+
+847
+01:00:30,070 --> 01:00:34,689
+你仍然希望最小化你在An之间交流的信息量。
+You still want to minimize the lumbar, the volume of the message you communicate between An.
+
+848
+01:00:34,689 --> 01:00:42,729
+这样说有道理吗？有。这并不意味着你的通信是无限的，没有成本。
+Does that make sense? Yeah. You does not mean that you have infinite the communication has no cost.
+
+849
+01:00:42,729 --> 01:00:47,129
+是的。如果你在设计策略时不小心，你仍然会很小。
+Yeah. If you are not careful on designing the strate, you are still going to be small.
+
+850
+01:00:47,129 --> 01:00:56,290
+好的。那我们继续进入最后一部分，自动部分编辑。
+Okay. Okay, then let's move on to the final section, auto part edition.
+
+851
+01:00:56,290 --> 01:01:01,890
+好的。嗯，我认为Autopart版本的理念和编译器非常非常相似。
+Okay. Um, I think the idea of Autopart edition is very very similar to compiler.
+
+852
+01:01:01,890 --> 01:01:07,149
+所以你知道，计算机科学家总是想要自动化工作流程，对吧？
+So, you know, computer scientists they always want to automate on workflow, right?
+
+853
+01:01:07,149 --> 01:01:09,054
+设计这种类型的，嗯，
+Designing this kind of, like, um,
+
+854
+01:01:09,054 --> 01:01:11,880
+呃，参数现实非常繁琐而且非常困难。
+Uh, paras reality is very tedious and very difficult.
+
+855
+01:01:11,880 --> 01:01:14,759
+你必须像我说的那样枚举，然后计算成本。
+You have to enumerate, like I said, and you count cost.
+
+856
+01:01:14,759 --> 01:01:18,619
+好吗？所以这个想法是，为什么我们不把它们自动化呢？
+Okay? So the idea is why don't we actually automate them?
+
+857
+01:01:18,619 --> 01:01:24,259
+事实上，自动化非常有意义，因为我觉得在过去几年里，
+In fact, automation makes lot of sense because I think in basically past few years,
+
+858
+01:01:24,259 --> 01:01:26,719
+你可以看到人们开发了许多不同的模型。
+you can see people develop many different models.
+
+859
+01:01:26,719 --> 01:01:29,859
+好的。即使是现在，模型也还在不断发展。
+Okay. Even today, models are still evolving a little bit.
+
+860
+01:01:29,859 --> 01:01:30,939
+比如说，你从……
+For example, you evolving from
+
+861
+01:01:30,939 --> 01:01:34,814
+GBR转化为MOE，再转化为类似MLA的东西，对吧？
+GBR rmers into MOE into something like MLA, right?
+
+862
+01:01:34,814 --> 01:01:38,209
+与此同时，你还会有不同类型的分区，比如数据分区。
+And meanwhile, you have different sorts of pisms like data.
+
+863
+01:01:38,209 --> 01:01:40,490
+操作员，零流水线分区。
+Operator, zero Pipeline Pism.
+
+864
+01:01:40,490 --> 01:01:44,609
+取决于你设计的是哪种模型，以及我们要选择哪种分区方式？
+And depending on which model you design and which partism we are going to choose?
+
+865
+01:01:44,609 --> 01:01:47,789
+人们大致设计了一个系统。好的，就这样。
+People roughly design a system. Okay, for it.
+
+866
+01:01:47,789 --> 01:01:52,650
+好的。你可以看到，如果我们继续扩展模型和分区的数量，
+Okay. And you can see, if we continue to skill the number of models and pisms,
+
+867
+01:01:52,650 --> 01:01:54,750
+我们将要设计更多的系统。
+we are going to design one more systems.
+
+868
+01:01:54,750 --> 01:01:58,110
+基本的想法是，为什么我们不复用一些已有的系统，
+The idea is basically, why don't we just actually reuse some of the systems,
+
+869
+01:01:58,110 --> 01:02:00,169
+对吧？这就是编译器的理念。
+right? The compiler philosophy.
+
+870
+01:02:00,169 --> 01:02:03,670
+为什么我们不复用一些组件，这样我们就可以自动化这个过程。
+Why don't we reuse some component, so we can automate this process.
+
+871
+01:02:03,670 --> 01:02:06,619
+好的，明白了。
+Okay. Yeah.
+
+872
+01:02:06,619 --> 01:02:10,479
+这也解决了许多开发者面临的问题，
+And also it solves the problem that facing many, many developers, which are
+
+873
+01:02:10,479 --> 01:02:13,220
+他们并不是并行系统开发者。
+not parallel system developers.
+
+874
+01:02:13,220 --> 01:02:17,779
+也就是说，哪种并行主义才最适合我的模型，对吧？
+That is, which one is which podism is the right fit for my model, right?
+
+875
+01:02:17,779 --> 01:02:26,219
+好的。那么如果你不考虑现有的系统，如果我告诉你有这样一个系统呢？
+Okay. So if you forget about exist systems, so what if I tell you that there's such a system am?
+
+876
+01:02:26,219 --> 01:02:29,560
+给定任意模型和类的配置，
+Given arbitrary model and class config,
+
+877
+01:02:29,560 --> 01:02:34,440
+我会自动找出最合适的并行策略，
+I will automatically figure out the best suitable parallel strategy
+
+878
+01:02:34,440 --> 01:02:37,139
+例如，最大化训练性能。
+that maximize the training performance, for example.
+
+879
+01:02:37,139 --> 01:02:40,859
+基本上我们可以把它写成这样一个开放的方程式，对吧？
+And basically we write down into this kind of opening equation, right?
+
+880
+01:02:40,859 --> 01:02:46,979
+我们想要最大化性能，也就是要找出最优的策略和方案。
+We want to maximize the performance, where we want to figure out the best strategy and the strategy
+
+881
+01:02:46,979 --> 01:02:52,439
+策略可以看作是由多个内部部分组合而成的。
+is strategy shoot as a combination of inter inter parts.
+
+882
+01:02:52,439 --> 01:02:58,239
+好吗？这基本上就是autoparts试图解决的问题，对吧？
+Okay? And this is basically the problem that autoparts trying to solve, okay?
+
+883
+01:02:58,239 --> 01:03:00,119
+那我们该如何解决这个问题呢？
+So how can we solve this problem?
+
+884
+01:03:00,119 --> 01:03:04,579
+在前面的课程内容中，我们基本上已经建立了
+In the previous content of the lecture, we have basically established
+
+885
+01:03:04,579 --> 01:03:09,319
+一些关于如何分析内部和外部成本的数学理解，对吧？
+some mathematical understanding of how to analyze the cost of inter and intra, right?
+
+886
+01:03:09,319 --> 01:03:12,939
+现在，我们要做的基本上就是把成本写成一个方程，然后尝试去求解它。
+Now, what we do is basically we write down the cost into one equation and we try to solve it.
+
+887
+01:03:12,939 --> 01:03:17,959
+好吗？所以请记住，我们的模型是一个通信图，对吧？
+Okay? So remember, our model is a comio graph, right?
+
+888
+01:03:17,959 --> 01:03:19,880
+就像这个MLP一样。
+And such as this MLP.
+
+889
+01:03:19,880 --> 01:03:25,599
+在我们的大多数设置中，我们的集群基本上是由多个节点组成的，每个节点
+And our class in most setup is basically a cluster of nodes where each node
+
+890
+01:03:25,599 --> 01:03:28,139
+都配备了几个GPU。
+is installed with a few GPUs.
+
+891
+01:03:28,139 --> 01:03:33,099
+就像我说的，在GPU内部，你有manik，这样你就有了相当可观的带宽。
+And like I said, inside of GPU, you have manik which you have a decent amount of bandwidth.
+
+892
+01:03:33,099 --> 01:03:36,825
+但是在节点之间，你只有很少的带宽可以通信。
+But between nodes, you have just a little bandwidth to communicate.
+
+893
+01:03:36,825 --> 01:03:41,369
+我们试图找出一种策略，把这个图划分成某种方式，
+And we try to figure out a strategy where we put this, we partition the graph in a way that
+
+894
+01:03:41,369 --> 01:03:45,349
+以最有效的方式运行。明白吗？
+run in the most efficient way. Okay.
+
+895
+01:03:45,349 --> 01:03:47,669
+正如你可以想象的，嗯，
+And as you can imagine, um,
+
+896
+01:03:47,669 --> 01:03:52,969
+我已经讲了很多关于如何划分算子和阶段的可能性。
+I already talked about so many possibilities how to partition operators and stages.
+
+897
+01:03:52,969 --> 01:03:55,729
+显然，搜索空间非常庞大。
+And apparently the sur space is huge.
+
+898
+01:03:55,729 --> 01:03:59,289
+为了让你感受一下搜索空间有多大，嗯，
+To give you a sense how large the sur space is, um,
+
+899
+01:03:59,289 --> 01:04:04,529
+真实模型中的操作数量大约在11万左右，对吧？有很多矩阵乘加操作。
+the number of operations in real model is between 110 k, right? A lot of mad mods.
+
+900
+01:04:04,529 --> 01:04:10,449
+好的。算子类型的数量基本上是2200，如果你想要更详细地建模的话。
+Okay. Number of operator types is basically 2,200 and if you want to model them more.
+
+901
+01:04:10,449 --> 01:04:14,389
+但我已经说过，最重要的操作空间是Mm。
+But I already said that the most important operator space is Mm.
+
+902
+01:04:14,389 --> 01:04:19,569
+好的，还有教室的大小，对吗？
+Okay. And the classroom size, right?
+
+903
+01:04:19,569 --> 01:04:21,929
+你实际上可以建模多达1000个GPS，甚至更多。
+You can actually models up to 1,000 GPS or even more.
+
+904
+01:04:21,929 --> 01:04:24,749
+好的，所以你基本上需要在这个空间上不断迭代。
+Okay. So you have to basically iterate on this space.
+
+905
+01:04:24,749 --> 01:04:32,889
+好的，以前这个领域的研究人员，基本上发展出了三类
+Okay. So in the past, researchers in the area, they basically developed three categories of
+
+906
+01:04:32,889 --> 01:04:36,189
+可以自动化这种过程的方法。
+methods that can basically automate this kind of pardon.
+
+907
+01:04:36,189 --> 01:04:38,049
+第一类是基于搜索的方法。
+The first one is search based.
+
+908
+01:04:38,049 --> 01:04:40,419
+这一类非常容易理解。
+This one is very easy to understand.
+
+909
+01:04:40,419 --> 01:04:42,430
+你只需要不断枚举即可。
+You just keep enumerating.
+
+910
+01:04:42,430 --> 01:04:51,129
+好的，一旦你有了策略，你就在你的教室上运行它，然后你就会得到一个运行时间，对吗？
+Okay. And once you have a strategy, you run um on your classroom and you get a run time, right?
+
+911
+01:04:51,129 --> 01:04:58,849
+一旦你有了运行时间，你基本上会在你认为更有希望的区域周围进行搜索。
+And once you have a run time, you basically try to search around those areas where you think are
+
+912
+01:04:58,849 --> 01:05:03,149
+当你的预算用完后，你就返回最好的那个结果。
+more promising and you return the best one after your budget was exhausted.
+
+913
+01:05:03,149 --> 01:05:06,329
+明白了吗？这确实是最有效的方法之一。
+Okay? And that's indeed one of the most effective way.
+
+914
+01:05:06,329 --> 01:05:07,709
+大多数公司都是这么做的。
+That most companies are doing.
+
+915
+01:05:07,709 --> 01:05:09,669
+他们基本上就是在进行搜索。
+They're basically searching.
+
+916
+01:05:09,730 --> 01:05:15,630
+第二种方式，就像我说的，类似的思路，是基于学习的方法，用于系统的合并学习。
+The second way, like I said, similar recipe, learning based, merge learning for systems.
+
+917
+01:05:15,630 --> 01:05:21,729
+我们基本上把它表述为一个学习问题，并尝试训练一个模型，
+And we basically formulate it as a learning problem and we try to train a model
+
+918
+01:05:21,729 --> 01:05:24,290
+能够预测出最优的策略。
+that can predict what's the best strategy.
+
+919
+01:05:24,290 --> 01:05:28,009
+这种方法比基于搜索的方法稍微好一些，因为在基于搜索的方法中，
+And it's slightly better than search base because in search base,
+
+920
+01:05:28,009 --> 01:05:31,970
+你基本上是在做某种暴力搜索。
+you're basically doing some kind of a brute force searching.
+
+921
+01:05:31,970 --> 01:05:36,190
+但在基于学习的方法中，你要做的是在收集完数据点之后，
+But in learning based, what you do is after you collecting of your data points,
+
+922
+01:05:36,190 --> 01:05:37,689
+你可以训练一个模型。
+you are able to train a model.
+
+923
+01:05:37,689 --> 01:05:41,590
+希望这些数据点中有一些趋势是你的模型可以捕捉到的。
+Hopefully, this data points some trends that your model can capture.
+
+924
+01:05:41,590 --> 01:05:44,709
+因此，它基本上可以帮助你加速搜索过程。
+Therefore, it can basically help you accelerate your search.
+
+925
+01:05:44,709 --> 01:05:48,910
+好的。第三种方法基本上就是开放式搜索。
+Okay. And the third method is basically opienhmbs.
+
+926
+01:05:48,910 --> 01:05:54,650
+对于开放式搜索，本质上和普通搜索类似，但你引入了一些更智能的
+For Opiend hin Base, essentially the same as search, but you are introducing some smarter
+
+927
+01:05:54,650 --> 01:05:57,669
+比如开放式服务器，可以加速你的搜索。
+like open ended servers that can accelerate your search.
+
+928
+01:05:57,669 --> 01:06:01,309
+好的。接下来我要做的是
+Okay. What I'm going to do next is I'm going to very
+
+929
+01:06:01,309 --> 01:06:05,229
+很快地讲一下第二种和第三种方法。
+quickly go through the second one and the third one.
+
+930
+01:06:05,229 --> 01:06:11,449
+好吗？那我们来看第二种。
+Okay? So the second one,
+
+931
+01:06:11,449 --> 01:06:17,550
+我认为最著名的工作之一就是这个，叫做设备放置组织，
+I think one of the most famous work is this one, it's called device placement organization,
+
+932
+01:06:17,550 --> 01:06:19,049
+还是来自Google Brain。
+still from Google Brain.
+
+933
+01:06:19,049 --> 01:06:21,709
+现在这篇论文的第一作者是斯坦福的教职员工。
+And the first author now is faculty at Stanford.
+
+934
+01:06:21,709 --> 01:06:25,789
+如果你有兴趣申请BC，她非常优秀。好的。
+If you're interested in applying for BC, she's pretty good. Okay.
+
+935
+01:06:25,789 --> 01:06:33,069
+在这门课上，基本上大家用基于学习的方法来解决
+And um um, in this class, basically, people use learning based methods to solve
+
+936
+01:06:33,069 --> 01:06:36,049
+这个基本上是离散优化问题。
+this basically, uh discrete ogenation.
+
+937
+01:06:36,049 --> 01:06:40,230
+最具代表性的方法之一其实就是这个RO，
+One of the most representative approach is basically this RO,
+
+938
+01:06:40,230 --> 01:06:45,509
+Clock RL，也叫做设备放置组织。
+um, Clock RL also called device placement organization.
+
+939
+01:06:45,509 --> 01:06:49,469
+左边我们看到的是一个TensorFlow的计算图，
+So on the left, we see a tensor flow, continuo graph,
+
+940
+01:06:49,469 --> 01:06:56,770
+可视化地展示了这个方法，基本目标是设计和分配设备放置。
+visualized interparty the approach basically aims to design assign a device placement
+
+941
+01:06:56,770 --> 01:06:58,049
+针对图中的每个节点。
+for each node in the graph.
+
+942
+01:06:58,049 --> 01:07:04,749
+也就是说，为每个节点分配一个设备颜色，以最大化分布式执行性能。
+That is giving each node a device color in order to maximize the distributed execution performance.
+
+943
+01:07:04,749 --> 01:07:10,489
+在这里，这种方法基本上只在互操作性的空间中起作用，
+And here, the approach basically works only on the space of interoperatism,
+
+944
+01:07:10,489 --> 01:07:14,789
+正如你可以想象的，因为它实际上只为每个节点分配一种颜色。
+as you can imagine, because it actually only assigns one color for each node.
+
+945
+01:07:14,789 --> 01:07:19,444
+这就是为什么它只能捕捉到中断与不中断的可能性。
+That's why it only captures the possibility in interrupt not interrupt.
+
+946
+01:07:19,444 --> 01:07:23,379
+在这个空间下，基本上是用一个机器模型来
+And given this space, it's basically use a machinery model to
+
+947
+01:07:23,379 --> 01:07:26,599
+预测图中每个节点的放置位置。
+predict the placement of each node in the graph.
+
+948
+01:07:26,599 --> 01:07:31,779
+有时候，尤其是在训练的早期阶段，机器模型可能会出错。
+Well, sometimes, especially in the early phase of training, the machinary model can go wrong.
+
+949
+01:07:31,779 --> 01:07:38,070
+我基本上是在真实集群上评估这个预测，以获得它的真实运行时间，也就是性能。
+I basically evaluated this prediction on real cluster to get its real runtime. Uh, performance.
+
+950
+01:07:38,070 --> 01:07:42,609
+然后我需要把真实的随机数据反馈给预测模型，并且
+I need to then fits the real random data back to the predictive model and
+
+951
+01:07:42,609 --> 01:07:44,970
+使用策略梯度来更新其性能。
+update its performance using policy gradients.
+
+952
+01:07:44,970 --> 01:07:50,249
+所以策略梯度基本上就是我们现在用来训练强化学习模型的方法。
+So policy gradient is basically the one we use to train reimburse learning models today.
+
+953
+01:07:50,249 --> 01:07:54,789
+PPO、DPO、GRPO，它们都是策略梯度方法。
+And um PPO, DPO GRPO, they are all policy gradients.
+
+954
+01:07:54,789 --> 01:08:01,609
+好的。我需要重复这个策略梯度更新过程，直到找到一个足够好的模型。
+Okay. I need to repeat this policy gradient update process until a good enough model is fun.
+
+955
+01:08:01,609 --> 01:08:03,249
+足够好的策略就可以了。
+Good enough strategy is fine.
+
+956
+01:08:03,249 --> 01:08:06,829
+好的，就像这样。
+Okay? Like this.
+
+957
+01:08:08,250 --> 01:08:12,709
+好的，在这些圆圈中，机械模型基本上被具体化为
+Okay. And in the circles the machinery model is basically materialized as
+
+958
+01:08:12,709 --> 01:08:16,469
+一个简单的循环神经网络，如这张幻灯片所示。
+a simple recurrent neural network shown on this slide.
+
+959
+01:08:16,469 --> 01:08:19,289
+好的，这个部分的工作原理如下。
+Okay. This arm basically works as follows.
+
+960
+01:08:19,289 --> 01:08:24,844
+首先，它将控制图线性化为一个节点序列。
+So it first, nearize the cotero graph as a sequence of nodes.
+
+961
+01:08:24,844 --> 01:08:27,239
+
+And then each node corresponds to one operator.
+
+962
+01:08:27,239 --> 01:08:32,899
+
+That is nariz entire graph as a sequence, like a sentence, sting language model.
+
+963
+01:08:32,899 --> 01:08:37,579
+
+Okay. And I give you a name, for example, op one up to op 100, blah, blah, blah.
+
+964
+01:08:37,579 --> 01:08:41,639
+
+Okay. And then it will embed each node as a feature actor embedding.
+
+965
+01:08:41,639 --> 01:08:46,299
+
+So it's a typical recipe of train language models, but it's for training commit graph.
+
+966
+01:08:46,299 --> 01:08:50,699
+
+Okay. And then you basically once you get the embedding, you are able to fit this into a sequence
+
+967
+01:08:50,699 --> 01:08:51,979
+
+to sequence prediction model, right?
+
+968
+01:08:51,979 --> 01:08:55,739
+
+You basically predict the placement of each node. That's it.
+
+969
+01:08:55,739 --> 01:08:58,519
+
+Okay. Very simple.
+
+970
+01:08:58,790 --> 01:09:03,669
+
+Another objective is a typical reinforced learning objective, where you try to maximize
+
+971
+01:09:03,669 --> 01:09:06,089
+你的位置条件下的期望奖励。
+the expected reward conditional on your placement.
+
+972
+01:09:06,089 --> 01:09:09,949
+这个目标可以通过策略成分进行优化。
+And this objective can be optimized using policy ingredient.
+
+973
+01:09:09,949 --> 01:09:16,049
+好的，那它的表现如何呢？
+Okay, so how does this perform?
+
+974
+01:09:16,049 --> 01:09:21,329
+根据论文，它确实返回了一些
+According to the paper, um, it indeed return some placement strategies that are
+
+975
+01:09:21,329 --> 01:09:26,549
+比专家设计的最佳方案还要好20%到30%的布局策略。
+20 to 30% better than the best available ones designed by experts.
+
+976
+01:09:26,549 --> 01:09:34,149
+如果你看看可视化结果，就是用这种方法为
+And if you take a look, um, at the visualization, which is a strategy found by this method for
+
+977
+01:09:34,149 --> 01:09:40,289
+谷歌著名的Inception WT模型找到的策略，我会说
+the very famous inception WT model by Google, um, I would say
+
+978
+01:09:40,289 --> 01:09:43,189
+这绝对不是人类能想到的东西。
+it's certainly something that cannot be found by human.
+
+979
+01:09:43,189 --> 01:09:48,049
+好吗？我觉得人类很难直观地设计出这种布局，
+Okay? I don't think a human is very intuitive to design this kind of like a placement,
+
+980
+01:09:48,049 --> 01:09:50,189
+对吧？是的，这很奇怪。
+right? Yeah, it's weird.
+
+981
+01:09:50,189 --> 01:09:57,969
+但就像我说的，这种方法的资源利用率并不高，因为它需要用整个集群
+But like I said, this method is not very resource efficient because it has to use the entire cluster
+
+982
+01:09:57,969 --> 01:10:01,949
+来对某一个给定的部署策略进行真实评估。
+to perform a real evaluation for one given placement strategy.
+
+983
+01:10:01,949 --> 01:10:03,769
+这会消耗大量资源。
+That takes a lot of resources.
+
+984
+01:10:03,769 --> 01:10:05,889
+而且你们可能已经知道，
+And as you probably already know,
+
+985
+01:10:05,889 --> 01:10:07,969
+O 的效率也不是很高。
+O is not very efficient as well.
+
+986
+01:10:07,969 --> 01:10:11,749
+是的，这不是一种很高效的学习策略，所以需要很多次迭代。
+Yeah, it's not a very efficient learning strategy, so it takes a lot of iterations.
+
+987
+01:10:11,749 --> 01:10:15,489
+这也是为什么这种方法只在 Google 内部使用。
+That's why this method is only populated inside of Google.
+
+988
+01:10:15,489 --> 01:10:19,329
+我觉得在 Google 之外，没人用这种方法。
+I think outside of Google, nobody uses this one.
+
+989
+01:10:20,770 --> 01:10:26,764
+我们接下来讲第二种课堂方法，基本上是最优实例化方法。
+Let's move on to second classroom method, basically optimal inst based method.
+
+990
+01:10:26,764 --> 01:10:32,619
+因为这个离散策略空间极其复杂。
+So um, since this discrete strategy space is extremely complex.
+
+991
+01:10:32,619 --> 01:10:37,039
+所以这种基于选项的方法的基本原理其实是，嗯，
+So the rationale behind this option based method is basically, um,
+
+992
+01:10:37,039 --> 01:10:40,439
+我们尝试利用分割策略的一些结构来减少
+we try to leverage some structures of the parting strategy to reduce
+
+993
+01:10:40,439 --> 01:10:47,299
+空间，直到问题规模变得可以用现有的操作器解决，明白吗？
+the space until the problem size is, um, doable, using existing opiors, okay?
+
+994
+01:10:47,299 --> 01:10:51,219
+比如说，IOP服务器，或者像DP这样的东西，明白吗？
+For example, IOP server or like DP over, this kind of thing, okay?
+
+995
+01:10:51,219 --> 01:10:58,580
+希望这种空间缩减的启发式方法不会损失最优性，
+And the hope is that this space reduction, um, uh, heuristic does not actually lose any optimality,
+
+996
+01:10:58,580 --> 01:11:01,019
+有时候确实是这样的，明白吗？
+which sometimes could be true, okay?
+
+997
+01:11:01,019 --> 01:11:04,104
+嗯，让我来介绍一下这个方法，这也是我的论文。
+Um, let me introduce this method and this is my paper.
+
+998
+01:11:04,104 --> 01:11:06,409
+好的，我觉得这是一篇不错的论文。
+Okay. And I think this is a good paper.
+
+999
+01:11:06,409 --> 01:11:09,659
+是的，我用这篇论文拿到了南加大的教职。
+Yeah, I use this paper to get a faculty at USD. Yeah.
+
+1000
+01:11:09,659 --> 01:11:18,919
+好的，嗯，首先，回忆一下在本部分一开始，我们是怎么解释很多内容的
+Okay. Um, to begin, um, recall that at the beginning of this part, right, how we explained a lot in
+
+1001
+01:11:18,919 --> 01:11:23,620
+互操作和互操作部分及其独特特性。
+interop and interop parts and their unique characteristics.
+
+1002
+01:11:23,620 --> 01:11:30,659
+所以基本上，互操作通信，呃，通信较少，但有设备ID，对吧？
+So basically, basically interop communication, uh communicate less, but has device id, right?
+
+1003
+01:11:30,659 --> 01:11:36,820
+气泡。但实际上互操作通信更多，嗯，但它有更高的统一性。
+Bubble. But the interop actually communicate more, um, but it has a higher unition.
+
+1004
+01:11:36,820 --> 01:11:44,099
+好的。那么给定一个社区图和一个集群，我们如何找到一个好的策略
+Okay. So given a communal graph and a cluster, so how can we find the good strategy
+
+1005
+01:11:44,099 --> 01:11:49,359
+从互操作和互操作分区的组合空间中？这就是我们的问题。
+from the combined space of Inter and interop partism? That's our problem.
+
+1006
+01:11:49,970 --> 01:11:53,269
+所以我们基本上设计了一个叫Opa的算法。
+So we basically design this algorithm called Opa.
+
+1007
+01:11:53,269 --> 01:11:59,469
+这个Opa算法基本上利用了如今许多集群具有对应结构的事实。
+And this Opa basically leverage the fact that many today cluster has a corresponding structure.
+
+1008
+01:11:59,469 --> 01:12:04,289
+即紧密分布在一个节点上的设备，它们可以通过Minik通信
+That is closely located devices in one node, they can communicate with Minik
+
+1009
+01:12:04,289 --> 01:12:05,589
+也就是高带宽，对吧？
+which is high bandwidth, right?
+
+1010
+01:12:05,589 --> 01:12:09,589
+而分布在不同节点的远程设备，它们可以通过……
+And distant devices across different nodes, they can communicate with they
+
+1011
+01:12:09,589 --> 01:12:11,389
+只能以低带宽进行通信。
+can only communicate with low bandwidth.
+
+1012
+01:12:11,389 --> 01:12:19,670
+好吗？鉴于这种，嗯，嗯，鉴于这种特性
+Okay? And given this kind of like, um, um, given this kind of characteristics
+
+1013
+01:12:19,670 --> 01:12:25,900
+你基本上可以找到一种对齐方式，就是在互操作性上层的那部分，
+and you can basically find alignment that is, in the upper part of the interperism,
+
+1014
+01:12:25,900 --> 01:12:32,719
+他们基本上倾向于，呃，他们倾向于选择带宽不是很高的通信方式，
+they basically favor, uh they favor some communication bandwidths that is not so high,
+
+1015
+01:12:32,719 --> 01:12:34,439
+因为它们通信量很少。
+because it communicate pretty less.
+
+1016
+01:12:34,439 --> 01:12:37,219
+所以你基本上可以在节点之间映射这种互操作性。
+So basically you can map this interopism across nodes.
+
+1017
+01:12:37,219 --> 01:12:42,099
+你让大部分的并行发生在不同节点之间的TPU之间分布。
+You let most of the parism happening between TPUs distribute across different nodes.
+
+1018
+01:12:42,099 --> 01:12:45,539
+但对于互操作性，就像我说的，他们需要大量带宽来
+But for interperism, like I said, they need a lot of bandwis to
+
+1019
+01:12:45,539 --> 01:12:47,319
+通信以提高效率。
+communicate in order to be efficient.
+
+1020
+01:12:47,319 --> 01:12:50,979
+所以你必须把这种互操作性映射到分组中。
+So you have to map this kind of inter parism into veining.
+
+1021
+01:12:50,979 --> 01:12:54,579
+所以你只允许这些通信发生在aminis中。
+So you only allow those communication happening into aminis.
+
+1022
+01:12:54,579 --> 01:12:56,959
+这基本上就给你带来了这样的对齐方式。
+And this basically give you alignment like this.
+
+1023
+01:12:56,959 --> 01:13:03,999
+那你觉得如果让所有的交互都发生在链路之间，这样工作怎么样？
+So how about you just part in working in a way that all the inter parism happening across link.
+
+1024
+01:13:03,999 --> 01:13:08,459
+但所有的交互基本上都是在不同节点之间发生的。
+But all the interparism basically happen across different nodes.
+
+1025
+01:13:08,459 --> 01:13:12,959
+这是一个很强的启发式方法，因为你现在不需要在所有空间中搜索了。
+This is a strong heuristics because now you don't have to search over all the spaces.
+
+1026
+01:13:12,959 --> 01:13:15,754
+你只需要为每个子问题进行搜索。
+You just need to search for each subproblem.
+
+1027
+01:13:15,754 --> 01:13:18,189
+这样说有道理吗？
+Does this into make sense?
+
+1028
+01:13:18,189 --> 01:13:19,989
+好的，酷，这也许可行。
+Okay. Cool. Yeah, this may work.
+
+1029
+01:13:19,989 --> 01:13:21,269
+是的，我希望这样说清楚了。
+Yeah, I hope that makes sense.
+
+1030
+01:13:21,269 --> 01:13:28,869
+好的，嗯，这个原理帮助Opa基本上解耦并重新组织了搜索空间。
+Okay um the rationale helps Opa to basically decouple and reorganize the search space.
+
+1031
+01:13:28,869 --> 01:13:32,029
+基本上，这个Opa实现了完整的模型并行。
+Basically, this Opa generates a full model parallel.
+
+1032
+01:13:32,029 --> 01:13:36,909
+通过分层指定互操作和并行策略来进行策略选择。
+Asking strategy by hierarchically specifying interop
+
+1033
+01:13:36,909 --> 01:13:40,089
+并且在每一层分别指定互操作和并行策略。
+and inter parallel strategy respectively at each level.
+
+1034
+01:13:40,089 --> 01:13:46,169
+更具体地说，这个Opa基本上会在第一层搜索互操作并行方案，
+More specifically, this Opa will basically, uh search for inter parallel plan at
+
+1035
+01:13:46,169 --> 01:13:49,689
+也就是如何把计算图切分成不同的阶段。
+the first level that is how to cut the graph into different stages.
+
+1036
+01:13:49,689 --> 01:13:55,389
+然后在下一层，Opa会为每个互操作并行阶段推导出最佳的并行方案。
+And then at the next level, uh, upper derives the best interop parallel plan
+
+1037
+01:13:55,389 --> 01:13:58,889
+对于互操作并行方案的每个阶段，都会推导出最佳的并行方案。
+for each stage of the interop parallel plan.
+
+1038
+01:13:58,889 --> 01:14:05,970
+通过设计一种算法，使得每个子问题在局部上都是最优的。
+And by designing an algorithm that are basically both locally optimal for each subproblem.
+
+1039
+01:14:05,970 --> 01:14:08,290
+但我们并不保证全局最优。
+But we don't guarantee global optimality.
+
+1040
+01:14:08,290 --> 01:14:12,409
+我们只是设计了一些算法，能够保证在第一层是最优的。
+We are just designing algorithms that can guarantee like we are optimal at the first level
+
+1041
+01:14:12,409 --> 01:14:18,229
+并且在第二层达到最优，我们希望得到的策略足够好，
+and optimal at the second level, and we hope the yielded strategy is good enough,
+
+1042
+01:14:18,229 --> 01:14:23,449
+因为我们已经利用了理论上的映射，将二进制文件在并行方式之间进行了转换。好的。
+because we already leverage the uretical mapping the binaries between parisms. Okay.
+
+1043
+01:14:23,530 --> 01:14:27,549
+这是一个很棒的想法。好的。这一页是
+That's a Halla idea. Okay. And this slide is
+
+1044
+01:14:27,549 --> 01:14:31,249
+基本上给出了优化流程的一个概览，好吗？
+basically give an overview of ogenation processes, okay?
+
+1045
+01:14:31,249 --> 01:14:36,469
+输入是计算图和计算集群。
+The inputs, computational graph and computer cluster.
+
+1046
+01:14:36,469 --> 01:14:41,210
+这个OPA会经过两次遍历来完成这个优化过程。
+And this OPA goes through two passes to do this openation.
+
+1047
+01:14:41,210 --> 01:14:47,289
+第一次中断遍历，主要是找到最佳的中断部分策略，
+So the first interrupt pass, it basically finds the best interrupt part strategy
+
+1048
+01:14:47,289 --> 01:14:50,784
+使用动态规划算法，这个我稍后会解释。
+with the dynamic programming algorithm, which I explain later.
+
+1049
+01:14:50,784 --> 01:14:56,259
+然后第二次中断遍历会找到最佳的跨并行策略，
+And then the second interrup path will find the best inter parallel strategy
+
+1050
+01:14:56,259 --> 01:14:58,839
+通过整数规划来实现优化。
+with integer a programming organization.
+
+1051
+01:14:58,839 --> 01:15:06,199
+好吗？这个优化是分层的，这意味着更高层级的中断路径会导致
+Okay? And this optim is hierarchical, which means that the higher level interrupt paths will cause
+
+1052
+01:15:06,199 --> 01:15:12,099
+更低层级的中断路径多次做出决策，这些决策是基于反馈格式的。
+lower level interruple paths multiple times to make a decision based on feedback format.
+
+1053
+01:15:12,099 --> 01:15:14,519
+也就是说，在两个层级上进行优化，明白吗？
+That is optimize at two levels, okay?
+
+1054
+01:15:14,519 --> 01:15:17,139
+我会尝试以某种方式将结果结合起来。
+And I try to combine the results in some way.
+
+1055
+01:15:17,139 --> 01:15:19,529
+好的。那么你是怎么做到的呢？
+Okay. So how do you do this?
+
+1056
+01:15:19,529 --> 01:15:23,499
+那我们通过一个例子来演示一下op引擎是如何工作的。
+So let's walk through an example and show how the op engine works.
+
+1057
+01:15:23,499 --> 01:15:28,059
+好吗？对于中断传递，基本上，给定这样一个可交换图，
+Okay? So for the interrupt pass, um, so basically, given this commuting graph,
+
+1058
+01:15:28,059 --> 01:15:33,059
+我们需要把图切分成多个阶段，以形成流水线。
+right, we need to cut graph into multiple stages to form a pipeline.
+
+1059
+01:15:33,059 --> 01:15:37,339
+这就是中断。而且对这个图有不同的分页方式，
+That's interrupt. And there are different ways of paging this graph,
+
+1060
+01:15:37,339 --> 01:15:40,679
+在这个中断策略空间里。
+um, in this interrupt strategy space.
+
+1061
+01:15:40,679 --> 01:15:42,799
+所以我们想要得到最优的方案，对吧？
+So we want to get the best one. Okay?
+
+1062
+01:15:42,799 --> 01:15:44,579
+我只解决子问题，
+I only solve for the subroglem,
+
+1063
+01:15:44,579 --> 01:15:47,499
+目前我不担心如何在这个阶段内部解决它。
+I don't worry at this moment how to solve it inside of this stage.
+
+1064
+01:15:47,499 --> 01:15:55,199
+好的，所以即使我们选择了一种划分图的方法，比如像这个选择，假设
+Okay. So even if we pick a way to part a graph, such as this one choose, suppose
+
+1065
+01:15:55,199 --> 01:15:57,239
+我们选择了这个，这个是最优的。
+we pick this one, this one is optimal.
+
+1066
+01:15:57,239 --> 01:16:03,499
+我们仍然需要为每个阶段分配一组设备，来让阶段使用内部划分。
+We still need to assign each stage to a set of devices to ask the stage using intrap parti.
+
+1067
+01:16:03,499 --> 01:16:05,784
+这是问题的第二层。
+That's the second level of the problem.
+
+1068
+01:16:05,784 --> 01:16:11,309
+所以为了做到这一点，基本上我们把所有设备抽象成二维的。
+So in order to do so, basically we abstract out all the devices as two D.
+
+1069
+01:16:11,309 --> 01:16:13,409
+设备网格，像这样，四乘四。
+Device mash like this, four by four.
+
+1070
+01:16:13,409 --> 01:16:18,749
+并且假设每个网格维度上的设备具有相同的通信带宽。
+Okay. And assume that the device along each match dimension has the same communicating bandwidth.
+
+1071
+01:16:18,749 --> 01:16:24,189
+比如说，对于像这样的TPGPU教室，我们可以把一个维度设置为所有节点。
+For example, for TPGPU classroom like this, we can set one dimension to
+
+1072
+01:16:24,189 --> 01:16:26,809
+节点，好的。
+be all the nodes, nodes, okay.
+
+1073
+01:16:26,809 --> 01:16:30,309
+并且所有沿着这个维度的通信都会经过，
+And all the communication along this dimension will go through,
+
+1074
+01:16:30,309 --> 01:16:33,449
+就像我说的，慢速的跨节点互连，对吧？
+like I said, slow cross node interconnects, right?
+
+1075
+01:16:33,449 --> 01:16:37,509
+我们可以把另一个维度设置为所有GPU，而不是节点。
+We can set another dimension to be all the GPs instead of node.
+
+1076
+01:16:37,509 --> 01:16:41,449
+所以沿着这个维度通信会非常快，通过Milink。
+So communicating along this dimension is pretty fast. Go through Milink.
+
+1077
+01:16:41,449 --> 01:16:49,429
+好的。所以我们的做法基本上是为每个阶段分配设备，呃，呃，通过从这个设备教室中选择
+Okay. So what we do is basically we assign devices, um, um, uh, to each stage by pick
+
+1078
+01:16:49,429 --> 01:16:53,169
+最佳的子匹配方案。
+the best submatch choice from this device classroom.
+
+1079
+01:16:53,169 --> 01:16:54,729
+所以我们会不断枚举。
+So we keep enumerating.
+
+1080
+01:16:54,729 --> 01:16:59,789
+好的，我们把设备划分成子组，然后把它分配给上层的分区，我们
+Okay, we partition the device into subgroups and we assign that to the upper partitioning and we
+
+1081
+01:16:59,789 --> 01:17:01,889
+评估并找出运行时间。
+evaluate and find out the runtime.
+
+1082
+01:17:01,889 --> 01:17:07,339
+然后我们会不断尝试，直到找到最优的方案。好的。
+And then we keep trying until we figure out the one that is the best. Okay.
+
+1083
+01:17:07,779 --> 01:17:15,139
+嗯，所以基本上我们发现这个联合问题，就是如何划分
+Um, so basically we basically find that this joint problem of how to partition
+
+1084
+01:17:15,139 --> 01:17:20,619
+计算图，以及如何为每个阶段分配
+the computi graph and how to assign each assign how to assign each parton stage to
+
+1085
+01:17:20,619 --> 01:17:22,899
+设备网格中的一组设备。
+a set of device from the device mesh.
+
+1086
+01:17:22,899 --> 01:17:27,779
+它们可以很好地被表述为一个动态规划程序，基本目标是最小化
+They can be nicely formulated as a dynamic programming program, which basically minimize
+
+1087
+01:17:27,779 --> 01:17:30,079
+流水线的执行时间，对吧？
+the pipeline execution time, okay?
+
+1088
+01:17:30,079 --> 01:17:35,819
+但是，为了解决这个动态规划问题，我们还需要知道
+Um, but in order to solve this dynamic programming, uh, we also need to know the optimal time
+
+1089
+01:17:35,819 --> 01:17:38,499
+在对齐的网格上运行一个阶段的最优时间。
+of running a stage on align mesh.
+
+1090
+01:17:38,499 --> 01:17:45,419
+因为，如果你为这个设备选择了动态网格，如果你为这个阶段的这一部分选择了这个子网格，
+Because S, if you pick dynamesh for this device, if you pick this submash for this part of stage,
+
+1091
+01:17:45,419 --> 01:17:50,039
+你仍然需要知道在这个平台上运行那个图的最佳方式是什么，
+you still need to know what is the best way of running that graph on this mash,
+
+1092
+01:17:50,039 --> 01:17:52,319
+使用你最好的内部并行方式。
+using your best introp partism.
+
+1093
+01:17:52,319 --> 01:17:57,679
+所以你还会遇到另一个你可能想要解决的层级选项，就是关于内部并行的。
+So you are subject to another level option you probably want to solve, which is for the intrap.
+
+1094
+01:17:57,679 --> 01:18:03,119
+好吗？嗯，我今天大概就这些内容了。
+Okay? Yeah, I think that is all I have today.
+
+1095
+01:18:03,119 --> 01:18:10,119
+我打算下次，也许周四完成这个，然后我们再转到Mo。好的，谢谢。
+I'm going to finish this next maybe on Thursday and then we move onto Mo. Cool. Thank you.

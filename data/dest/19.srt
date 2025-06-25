@@ -1,0 +1,5749 @@
+1
+00:03:27,250 --> 00:03:30,770
+好的，那我们开始吧。
+Okay, yeah, let's get started.
+
+2
+00:03:31,290 --> 00:03:38,749
+首先，关于后勤安排，请尽快完成交叉阀门，好吗？
+So so logistics update, please finish the cross valve, okay?
+
+3
+00:03:38,749 --> 00:03:41,490
+完成80%你就能得到两分。
+80% and you'll get two points.
+
+4
+00:03:41,490 --> 00:03:47,749
+下周二我们有考试，我已经让助教安排答疑课，
+Next Tuesday, we'll have exam, and I have asked TA to hold recitation,
+
+5
+00:03:47,749 --> 00:03:52,190
+可能是这周五或下周一，确保你们能通过考试，好吗？
+probably this Friday or next Monday, to make sure you pass exam, okay?
+
+6
+00:03:52,190 --> 00:03:57,490
+如果你不能来，我们当然会有录播，
+And we will have a recording, of course, if you're not able to attend,
+
+7
+00:03:57,490 --> 00:03:59,710
+你只需要看录播就行了。
+just, you know, watch the recording.
+
+8
+00:03:59,710 --> 00:04:04,730
+好的，那我们回到主要内容。
+Yeah. Okay. Yeah, let's back to the main content.
+
+9
+00:04:04,730 --> 00:04:08,970
+今天我们要讲一些非常非常及时的内容。
+So today, we are going to talk about some really, really, I would say timely content.
+
+10
+00:04:08,970 --> 00:04:10,569
+也就是模型推理和服务。
+So m serving an inference.
+
+11
+00:04:10,569 --> 00:04:15,650
+好吗？我觉得这基本上就是现在硅谷正在努力做的事情，
+Okay? I think this is basically what the current Silicon Valley is grinding,
+
+12
+00:04:15,650 --> 00:04:19,270
+比如开放 Google Demand，所有这些基础设施公司。
+like open Google Demand, all these infrastructure companies.
+
+13
+00:04:19,270 --> 00:04:21,749
+他们基本上都在实现 M 推理。
+They are basically opplementing M inference.
+
+14
+00:04:21,749 --> 00:04:26,669
+是的，为了获得完美的利润率，嗯，来为 Ms 提供服务。
+Yeah, in order to make a perfect margin, um, for serving Ms.
+
+15
+00:04:26,669 --> 00:04:28,365
+好吗？我们回到刚才的话题。
+Okay? Let's go back.
+
+16
+00:04:28,365 --> 00:04:30,259
+简单回顾一下，好吗？
+Just a little bit recap, okay?
+
+17
+00:04:30,259 --> 00:04:33,220
+所以这是我们的 RM，对吧？
+So this is our RM, right?
+
+18
+00:04:33,220 --> 00:04:35,719
+我们基本上得到了一个 ex token 预测器。
+So we basically get a ex token predictor.
+
+19
+00:04:35,719 --> 00:04:38,099
+我觉得你明白这个意思，对吧？
+I think you understand this, okay?
+
+20
+00:04:38,099 --> 00:04:41,640
+这就是我们的 M 推理过程，对吧？
+And this is our M inference process, right?
+
+21
+00:04:41,640 --> 00:04:46,660
+基本上，我们有一个prom，也就是一串token序列。
+So basically, we have a prom, which is a sequence of tokens.
+
+22
+00:04:46,660 --> 00:04:49,160
+然后我们把这个token输入到
+And we give this token to
+
+23
+00:04:49,160 --> 00:04:53,939
+RM中，经过所有层的前向传播，我们预测下一个token。
+RM and we perform forward pass through all the layers, and we predict next token.
+
+24
+00:04:53,939 --> 00:04:59,400
+这是第一步，叫做prefile或者prompt组合。
+That is the first step, which is called prefile or prompt combination.
+
+25
+00:04:59,400 --> 00:05:02,389
+好的，然后在第一步之后，
+Okay. And then after the first step,
+
+26
+00:05:02,389 --> 00:05:10,599
+我们基本上开始生成新的token，然后把新token再输入到神经网络中，
+We basically start, um, generating new token and, um, we give the new token back to the neurotw arm,
+
+27
+00:05:10,599 --> 00:05:12,119
+并尝试生成下一个token。
+and we try to generate next token.
+
+28
+00:05:12,119 --> 00:05:18,380
+我们会重复这个过程，直到达到arm的最大序列长度，或者
+We repeat until we hit in, say, the maximum sequence length of the arm or when
+
+29
+00:05:18,380 --> 00:05:22,100
+生成了序列结束的token，对吧？
+we generate end of sequence token, US, right?
+
+30
+00:05:22,100 --> 00:05:24,234
+这就是推理过程。
+This is the inference process, okay?
+
+31
+00:05:24,234 --> 00:05:29,170
+简单总结一下，我们可以从计算的角度来看，
+To summarize a little bit, we can from a computational perspective,
+
+32
+00:05:29,170 --> 00:05:31,689
+嗯，我的推理基本上分为两个阶段。
+um, my inference is essentially two phases.
+
+33
+00:05:31,689 --> 00:05:34,229
+第一个阶段我们称之为预填充。
+The first phase we call prefill.
+
+34
+00:05:34,229 --> 00:05:36,829
+也就是你在计算提示词。
+That is you are computing the prompt.
+
+35
+00:05:36,829 --> 00:05:39,370
+第二个阶段叫做解码。
+The second phase is called decoding.
+
+36
+00:05:39,370 --> 00:05:43,170
+很明显，预填充对应于第零次迭代，
+And apparently prefill corresponds to the zeros iteration that is
+
+37
+00:05:43,170 --> 00:05:47,710
+也就是你处理提示词并尝试立即生成提示词后的下一个标记。
+you process a prompt and try to generate it immediately the next token, after the prompt.
+
+38
+00:05:47,710 --> 00:05:51,070
+然后这个预填充只进行一次，
+And then this prefill is only conducted once,
+
+39
+00:05:51,070 --> 00:05:53,870
+对吧，因为你只需要处理一次预填充，
+right because you just need to process your prefill once,
+
+40
+00:05:53,870 --> 00:05:56,249
+然后你就开始重复你的解码过程，
+and then you start repeating your decoding,
+
+41
+00:05:56,249 --> 00:05:57,789
+每次你只能解码一个标记。
+Every time you only decode one token.
+
+42
+00:05:57,789 --> 00:06:00,410
+为什么？因为这是自回归解码，我已经重复过了。
+Why? Because it's autoregressive decoding, I already repeat that.
+
+43
+00:06:00,410 --> 00:06:04,434
+在你知道当前标记之前，你无法预测未来的标记，明白吗？
+You cannot predict future tokens before you know the current token, okay?
+
+44
+00:06:04,434 --> 00:06:07,459
+嗯，记住这一点，好吗，预字段解码。
+Um, remember this, okay, pre field decoding.
+
+45
+00:06:07,459 --> 00:06:12,920
+这是推理的计算特性。
+That is the computational characteristics of inference.
+
+46
+00:06:12,920 --> 00:06:21,100
+好的。还有一个关于M推理的组成部分是，我们实际上还维护了另一个，我可以说，
+Okay. And one more component for M inference is, we actually maintain another, I would say,
+
+47
+00:06:21,100 --> 00:06:24,819
+数据或数据结构，这叫做键值缓存。
+data or data structure, which is called key value cache.
+
+48
+00:06:24,819 --> 00:06:32,079
+在这里，键值基本上对应于注意力机制中的键和值。
+So here, key value basically corresponds to the QQVuh in attention the key and the values.
+
+49
+00:06:32,079 --> 00:06:39,700
+好的，所以从高层来看，这个键值缓存基本上帮助我们节省了一些计算。
+Okay. So high level, at a high level, this key value cache basically help us save some competion.
+
+50
+00:06:39,700 --> 00:06:42,919
+但让我们看看什么是键值缓存。
+But let's look at what is key value cache.
+
+51
+00:06:42,919 --> 00:06:45,490
+好的。那么在左边，
+Okay. So on the left hand side,
+
+52
+00:06:45,490 --> 00:06:50,050
+我认为这基本上就是你们非常熟悉的对话图。
+I think it's basically the conversational graph that you guys have been very familiar with.
+
+53
+00:06:50,050 --> 00:06:52,449
+而在右边，基本上是一个图表，
+And on the right hand side is basically a chief,
+
+54
+00:06:52,449 --> 00:06:58,050
+我从某处引用的，它展示了推理过程，好吗？
+I quoted from somewhere, which shows the inference process, okay?
+
+55
+00:06:58,050 --> 00:07:02,595
+当你计算左边的部分，嗯，就是在注意力机制时，对吧？
+When you compute that left part of, um, at tensing, right?
+
+56
+00:07:02,595 --> 00:07:06,059
+所以如果你看这个，当我们进行推理时，
+So if you look at this, so when we do our inference,
+
+57
+00:07:06,059 --> 00:07:10,579
+我们每次做的事情就是观察在上一步生成的新token。
+what do we do is every time we observe a new token, generated in the previous step.
+
+58
+00:07:10,579 --> 00:07:15,380
+然后我们把这个新token和之前已经
+And then we concatenate this new token with the previous already
+
+59
+00:07:15,380 --> 00:07:19,939
+生成的token以及前缀拼接起来，然后输入到神经网络中，
+generated token and the prefel and we forward that into the neural network
+
+60
+00:07:19,939 --> 00:07:21,559
+以便计算下一个token。
+in order to compute the next togen.
+
+61
+00:07:21,559 --> 00:07:25,940
+
+When we compute the next token, we only care about the query of the next togen, right?
+
+62
+00:07:25,940 --> 00:07:32,080
+
+And we like this query of next token to attend to all the key values of previous tokens, right?
+
+63
+00:07:32,080 --> 00:07:35,899
+
+So if you look at this computation, this chief is basically trying to illustrate
+
+64
+00:07:35,899 --> 00:07:38,789
+
+the process I just described, okay?
+
+65
+00:07:38,789 --> 00:07:45,079
+
+So why there is a key value catch is because basically we compute
+
+66
+00:07:45,079 --> 00:07:49,380
+
+this when we continue this decoding process, if we are able to save the previous tokens,
+
+67
+00:07:49,380 --> 00:07:52,759
+
+Q and V, we can avoid a lot of computation, okay?
+
+68
+00:07:52,759 --> 00:07:56,439
+
+And to illustrate this, you basically can look at these two differs, okay?
+
+69
+00:07:56,439 --> 00:07:59,980
+
+On the upper hand side, um, you basically see a computation
+
+70
+00:07:59,980 --> 00:08:02,099
+
+where the key value caches are not catched.
+
+71
+00:08:02,099 --> 00:08:04,100
+
+Key values are not catched, okay?
+
+72
+00:08:04,100 --> 00:08:06,959
+
+And on the bottom part, you are seeing a computation where the keys
+
+73
+00:08:06,959 --> 00:08:10,154
+
+and values of previous steps are catched.
+
+74
+00:08:10,154 --> 00:08:12,090
+
+And you can clear the difference, right?
+
+75
+00:08:12,090 --> 00:08:17,109
+
+So basically, every time, if we don't save the key keys and values in attention of previous tokens.
+
+76
+00:08:17,109 --> 00:08:22,029
+
+So every time we decode the new token, we need to this query we need to recompute
+
+77
+00:08:22,029 --> 00:08:26,030
+
+the previous KV and then this new token query to attend to all the KVs, right?
+
+78
+00:08:26,030 --> 00:08:33,169
+
+But if you are able to catch this KV of previous generating steps, then we just need to perform one,
+
+79
+00:08:33,169 --> 00:08:37,769
+
+uh attention competition, and we already know the previous KVs.
+
+80
+00:08:37,769 --> 00:08:43,190
+
+We just like this query to attend to all the keys and values to generate, you know, the results.
+
+81
+00:08:43,190 --> 00:08:46,629
+好吗？这部分有任何问题吗？
+Okay? Any questions on this part?
+
+82
+00:08:47,480 --> 00:08:54,099
+好的。本质上，KV缓存是一种计算优化方式，
+Okay. Essentially, KV catch is a kind of a computation optation where
+
+83
+00:08:54,099 --> 00:09:00,199
+我们用一些额外的内存来保存中间结果，对吧？这样可以加速解码过程，对吗？
+we treat some additional memory to save for commutation, right to accelerate the decoding, okay?
+
+84
+00:09:00,199 --> 00:09:05,359
+那么我有两个问题，想确保你真的理解了这个过程。
+Then I have two questions, okay, to make sure you really understand this process.
+
+85
+00:09:05,359 --> 00:09:10,080
+好吗？第一个问题是，在预填充阶段，KV缓存会发生什么？
+Okay? The first one is what happens on KV catch in prefilled phase?
+
+86
+00:09:10,440 --> 00:09:15,919
+那为什么在预填充阶段会有所谓的QV缓存呢？
+So why in prefilled there's like a so called QV catch?
+
+87
+00:09:17,380 --> 00:09:20,440
+这是因为在预填充阶段我们能看到所有的token。
+It's because in pref we see all the tokens.
+
+88
+00:09:20,440 --> 00:09:22,859
+我们只需要对所有token做一次前向计算，
+We just perform one forward across all the tokens and
+
+89
+00:09:22,859 --> 00:09:25,880
+每个token位置都会生成对应的KV缓存。
+all the KV catches are generated for each token position.
+
+90
+00:09:25,880 --> 00:09:30,879
+所以我们不需要缓存之前的token，然后等待下一个token生成。
+So we don't how to basically catch the previous tokens and wait for the next token to generate.
+
+91
+00:09:30,879 --> 00:09:38,199
+好吗？在性能阶段的KV缓存中，我们正在一次性生成所有已观察到的token的QV缓存。
+Okay? What happens on KV catch in perfs phase, we are generating a QV cache of
+
+92
+00:09:38,199 --> 00:09:41,260
+只需一遍就能把所有token都缓存下来。
+all observed tokens in one pass.
+
+93
+00:09:42,240 --> 00:09:45,220
+我们需要缓存Q查询吗？
+Do we need to catch Q query?
+
+94
+00:09:45,220 --> 00:09:46,479
+因为在注意力机制中，我们有
+Because in attention, we have
+
+95
+00:09:46,479 --> 00:09:48,620
+QQV，我们需要缓存查询吗？
+QQV do we need to catch query?
+
+96
+00:09:48,620 --> 00:09:52,680
+不，我们不知道查询，因为我们必须看到那个token才能知道查询内容。
+No, we don't know the query because we have to see that token in order to know the query.
+
+97
+00:09:52,680 --> 00:09:57,360
+当我们计算下一个token的结果时，我们用当前token的查询去
+And when we compute the results of the next token, we are using the current tokens query to
+
+98
+00:09:57,360 --> 00:09:59,859
+关注所有之前token的QV。
+attend to all previous token QVs.
+
+99
+00:09:59,859 --> 00:10:03,420
+如果我们没看到那个token，就不知道查询是什么。
+Don't know if we don't see that token, we don't know the query.
+
+100
+00:10:03,420 --> 00:10:07,459
+所以我们不能缓存Q，明白了吗？
+Therefore, we cannot catch Q. Okay?
+
+101
+00:10:07,459 --> 00:10:11,979
+好的。现在你理解了QV捕获，我们再来做一次。
+Okay. Now you understand QV catch and then let's do this again,
+
+102
+00:10:11,979 --> 00:10:16,960
+我认为我们之前是为了训练做的，现在我们再为推理做一次。
+I think we do this for training and now, let's do this for uh inference again.
+
+103
+00:10:16,960 --> 00:10:20,760
+所以，我们还要关注计算机内存和通信。
+So, we also want to look at computer memory and communication.
+
+104
+00:10:20,760 --> 00:10:25,179
+那么在推理中会发生什么，以及可能出现的瓶颈是什么。
+So what happens in inference and what could be the potential for the neck.
+
+105
+00:10:25,179 --> 00:10:32,139
+好吗？如果我们看计算，就像我说的，对于推理来说，计算机基本上是
+Okay? If we look at compute, okay, like I said, for inference, the computer essentially um is
+
+106
+00:10:32,139 --> 00:10:35,100
+由两个阶段组成的，预填充和解码。
+consisted of two phases, prefill and decoding.
+
+107
+00:10:35,100 --> 00:10:40,540
+我们一个一个来看。对于预填充来说，基本上和训练是一样的。
+So we look at one by one. So for prefills essentially the same training.
+
+108
+00:10:40,540 --> 00:10:43,159
+没有变化，对吧？你观察整个序列，
+Nothing changes, right? You observe the entire sequence,
+
+109
+00:10:43,159 --> 00:10:46,319
+你只是把这个序列输入到语言模型中，对吧？
+you just forward that sequence into language model, okay?
+
+110
+00:10:46,319 --> 00:10:53,039
+所以没有区别。那么对于解码，你会注意到一件事
+So no difference. So for decoding, one thing you noted that is
+
+111
+00:10:53,039 --> 00:10:58,519
+因为每次我们只生成一个标记，我们无法生成未来的标记，对吧。
+because every time we only generate the one token, we are not able to generate future tokens, right.
+
+112
+00:10:58,519 --> 00:11:04,780
+所以在解码时，当我们将这个标记输入到神经网络中时，
+So therefore, in decoding, when we forward this token into through the neural network,
+
+113
+00:11:04,780 --> 00:11:07,519
+我们必须将S设置为1，对吗？
+we have to set S equal to one, right?
+
+114
+00:11:07,519 --> 00:11:10,120
+也就是生成一个标记，我们只计算一个标记。
+That is generating one token, we're computing one token.
+
+115
+00:11:10,120 --> 00:11:12,420
+明白了吗？我觉得如果你看这个图表，
+Okay? I think if you look at this graph,
+
+116
+00:11:12,420 --> 00:11:14,060
+我希望能一再强调这一点。
+I hoping emphasize this again and again.
+
+117
+00:11:14,060 --> 00:11:16,499
+那么S等于1的问题是什么？
+So what is the problem of S equal to one?
+
+118
+00:11:16,499 --> 00:11:21,599
+它会影响我们的算术强度，因为最大尺寸
+It will hurt our arithmetic intensity, because the maximal sizes are
+
+119
+00:11:21,599 --> 00:11:25,919
+被缩减成一维，也就是1，明白吗？
+being reduced into one dimension is one, okay?
+
+120
+00:11:25,930 --> 00:11:35,750
+神经网络的内存方面，有一点新的是在训练时，我们基本上把所有序列都放进网络
+The net spoken memory, one thing new is in training, we all basically put all the sequence network
+
+121
+00:11:35,750 --> 00:11:40,149
+或者我们可以一次性计算出QBatch，然后我们丢弃梯度并更新参数，
+or compute the QBach in one pass, and then we drup gradients and we updated parameters,
+
+122
+00:11:40,149 --> 00:11:41,589
+然后我们把所有东西都丢掉，对吧？
+and we throw everything away, right?
+
+123
+00:11:41,589 --> 00:11:44,489
+但在推理时，我们不能把这个QB缓存丢掉。
+But in inference, we cannot throw this QB cache away.
+
+124
+00:11:44,489 --> 00:11:47,750
+为什么？因为我们要不断地生成一个token、一个token、一个token，好吗？
+Why? Because we continue to generate one token, one token, one token, okay?
+
+125
+00:11:47,750 --> 00:11:51,849
+而且每次我们只能生成一个token，不能多于一个。
+And every time we can only generate one token, but not more than one.
+
+126
+00:11:51,849 --> 00:11:56,770
+所以我们必须在这个请求的整个生命周期内保留这个QB缓存，
+So we have to persist this QB cache, right through the lifetime of this request,
+
+127
+00:11:56,770 --> 00:12:00,425
+直到这个序列的所有token都被生成并完成。
+this sequence until all the tokens have been generated and excited.
+
+128
+00:12:00,425 --> 00:12:07,519
+这意味着我们必须长时间保存这个缓存。
+That means that we have to always save this vocacy for considerably long period of time.
+
+129
+00:12:07,519 --> 00:12:12,679
+这会给我们的内存带来一些压力，稍后我会详细讲。
+This will give us a little bit memory pressure, which I will talk about later.
+
+130
+00:12:15,080 --> 00:12:17,719
+那通信方面呢？
+What about the communication?
+
+131
+00:12:17,719 --> 00:12:20,120
+实际上，通信方面没有任何变化。
+In fact, there's nothing changed for communication.
+
+132
+00:12:20,120 --> 00:12:23,519
+基本上是一样的，因为偏好和解码通信是一样的。
+It's almost the same because prefer and decoding communication is the same.
+
+133
+00:12:23,519 --> 00:12:28,579
+无论你选择哪种并行方式，你基本上都会继承
+Whatever kind palism you want to choose, you will basically inherit from
+
+134
+00:12:28,579 --> 00:12:30,900
+我们在训练中讨论过的那些技术。
+the same techniques we talked about in training.
+
+135
+00:12:30,900 --> 00:12:33,939
+事实上，在推理阶段，并行性甚至更简单，为什么呢？
+In fact, inference, the paralysm is even simpler, why?
+
+136
+00:12:33,939 --> 00:12:36,270
+因为我们没有梯度。
+Because we don't have a gradient.
+
+137
+00:12:36,270 --> 00:12:40,090
+我们基本上没有反向传播计算图。
+We don't have um, basically, we don't have that back chord graph.
+
+138
+00:12:40,090 --> 00:12:41,830
+我们没有最优状态。
+We don't have optimal states.
+
+139
+00:12:41,830 --> 00:12:47,710
+记住，在训练中，最优状态是你消耗最多内存的地方，16。
+Remember in arm training, optimal states is where you consume the most memory, 16.
+
+140
+00:12:47,710 --> 00:12:50,249
+记住这个因素。而在这里，我们没有这个问题。
+Remember that factor. And here we don't have that.
+
+141
+00:12:50,249 --> 00:12:55,169
+这意味着我们在保存中间状态、保存参数时的内存压力要小得多。
+That means that our memory pressure on saving the intermediate states on saving the parameters on
+
+142
+00:12:55,169 --> 00:12:57,590
+保存最优状态时的压力也要低很多。
+saving the optimal states are much lower.
+
+143
+00:12:57,590 --> 00:13:00,550
+主要是哈希缓存，对吧？
+It's mainly caving hash, okay?
+
+144
+00:13:01,900 --> 00:13:08,459
+好的，我觉得我们基本上看完了这些，已经涵盖了计算机内存和通信部分。
+Okay, I think we basically look at this, we go through computer memory and communication.
+
+145
+00:13:08,459 --> 00:13:12,779
+我还有一个问题。那么比特大小B怎么办？
+I have additional question. So how about bit size B?
+
+146
+00:13:14,940 --> 00:13:18,780
+那么这和推理有什么不同？
+So what makes this different inference?
+
+147
+00:13:18,780 --> 00:13:21,300
+好的，我们来谈谈这个问题，好吗？
+Okay, let's talk about that, okay?
+
+148
+00:13:21,300 --> 00:13:24,199
+在训练时，你总是固定一个静态的比特集，对吧？
+So in training, you always fixed a static bisets right?
+
+149
+00:13:24,199 --> 00:13:27,360
+因为你有一个数据集，你只需要获取一个静态的比特集。
+So because you have a dataset, you just fetch a static body sets.
+
+150
+00:13:27,360 --> 00:13:29,639
+但在推理时，这就不一样了。
+But in inference, it's different.
+
+151
+00:13:29,639 --> 00:13:32,900
+你的批量大小取决于你收到多少流量。
+Your boy size is determined by how many traffic you receive.
+
+152
+00:13:32,900 --> 00:13:34,980
+就像我在控制终端点一样。
+Like I'm holding arm end point.
+
+153
+00:13:34,980 --> 00:13:37,479
+我不知道我的用户什么时候会提交请求。
+I don't know when my users will submit my request.
+
+154
+00:13:37,479 --> 00:13:40,360
+就像我什么时候会提交一个谷歌查询一样，
+It's like when I will submit a google query,
+
+155
+00:13:40,360 --> 00:13:44,040
+我必须非常聪明地决定如何设置电池容量。
+I have to make a very smart decision how I make the battery size.
+
+156
+00:13:44,040 --> 00:13:45,719
+我应该发送一批
+Should I send a batch of
+
+157
+00:13:45,719 --> 00:13:50,900
+1000个到终端点，以最大化我的原始强度，
+1,000 to the endpoint to maximize my original intensity,
+
+158
+00:13:50,900 --> 00:13:53,759
+还是我一收到一个请求，
+or should I just once I receive one request,
+
+159
+00:13:53,759 --> 00:13:56,079
+就立刻把它发送到终端点。
+I immediately send it to endpoint.
+
+160
+00:13:56,079 --> 00:14:00,760
+这两种方式有区别吗？因为如果我等着累积到1000的批量大小，
+This two has difference? Because if I wait to accumulate a batch size of 1,000,
+
+161
+00:14:00,760 --> 00:14:07,079
+
+then the first user will be mad with me because he's waiting for other users to submit queries.
+
+162
+00:14:07,079 --> 00:14:09,799
+
+But if I receive one request,
+
+163
+00:14:09,799 --> 00:14:13,829
+
+I immediately submit, what's the problem? My bist is equal to one.
+
+164
+00:14:13,829 --> 00:14:16,170
+
+Then my TPU is under utilized.
+
+165
+00:14:16,170 --> 00:14:19,309
+
+Okay? So you are facing a very like a customer phasing question.
+
+166
+00:14:19,309 --> 00:14:22,450
+
+That is how you exactly make this batch, okay?
+
+167
+00:14:22,450 --> 00:14:26,249
+
+Which means that in inference, the speed is variable.
+
+168
+00:14:26,249 --> 00:14:31,469
+
+Okay? You have to correlate the speed with your traffic with a lot of computation
+
+169
+00:14:31,469 --> 00:14:33,855
+
+or utilization kind of thing, okay?
+
+170
+00:14:33,855 --> 00:14:39,099
+
+So that's why inference, basically the techniques are developed around this B.
+
+171
+00:14:39,099 --> 00:14:42,259
+好的。我们基本上考虑两种情况。
+Okay. And we essentially consider two scenarios.
+
+172
+00:14:42,259 --> 00:14:44,739
+第一种情况是我们有一个很大的B。
+The first scenario is that we have a large B.
+
+173
+00:14:44,739 --> 00:14:47,219
+第二种情况是我们有一个很小的B。
+The second scenario, we have a small B.
+
+174
+00:14:47,219 --> 00:14:49,820
+我还要让这个对比更加极端，好吗？
+And I'm going to make this even more extreme, okay?
+
+175
+00:14:49,820 --> 00:14:52,939
+所以当我们有一个很大的B时，我们基本上就像谷歌和OpenAI一样。
+So we have a large B, we are basically Google and open a.
+
+176
+00:14:52,939 --> 00:14:58,199
+我们在服务一个arm，每天都会收到数百万的请求，对吧？
+We are serving arm where every day we observe millions of requests, okay?
+
+177
+00:14:58,199 --> 00:15:00,919
+我们把这种情况称为arm服务。
+And we call this arm serving, okay?
+
+178
+00:15:00,919 --> 00:15:05,699
+另一种情况下，我们有一个很小的B，比如B等于1。
+And in another case, basically, we have a small B, for example, B equal to one.
+
+179
+00:15:05,699 --> 00:15:10,879
+也就是说，你在你的笔记本电脑上部署了arm，你将是唯一的用户，对吗？
+That is, develop you deploy your arm on your laptop and you will be the only user, right?
+
+180
+00:15:10,879 --> 00:15:13,300
+你想要针对这种小规模进行优化。
+And you want to optimize for this small
+
+181
+00:15:13,300 --> 00:15:19,359
+B. 我想在上周四，你们已经听说过这种用于优化小B的数据技术了。
+B. I think in last Thursday, you have already heard this data technique for optimizing small B.
+
+182
+00:15:19,359 --> 00:15:21,220
+它基本上就是推测解码。
+It's basically speculative decoding.
+
+183
+00:15:21,220 --> 00:15:24,020
+你不用关心比特集，只是想加速
+You don't care about the bit sets, and you just want to accelerate
+
+184
+00:15:24,020 --> 00:15:27,539
+单个请求的推理延迟。
+the inference latency of a single request.
+
+185
+00:15:27,539 --> 00:15:31,879
+因此，我们一直在开发很多推测编码技术，
+Therefore, we have been developing a lot of speculative coding techniques,
+
+186
+00:15:31,879 --> 00:15:34,159
+比如 equal one、two、three。
+for example, equal one, two, three.
+
+187
+00:15:34,159 --> 00:15:40,410
+但今天，我会把你们的注意力转移到第一个，也就是如何优化RTB。
+But today, I will shift your focus to the first one, how will optimize RTB.
+
+188
+00:15:40,410 --> 00:15:46,309
+在这里，你们可能已经感觉到为什么Open和Google会投入大量资源在这上面。
+And here, you probably already sense why Open and Google, they put a lot of resources on this.
+
+189
+00:15:46,309 --> 00:15:52,670
+因为如果你能把这个做得更好，基本上你可以用更少的GPU来服务更多的请求。
+Because if you can do this better, you can basically you can use less GPUs to serve more requests.
+
+190
+00:15:52,670 --> 00:15:55,550
+如果你能用更少的GPU解决更多的请求，
+And if you're able to solve more requests using less GPUs,
+
+191
+00:15:55,550 --> 00:16:00,590
+你可以获得更高的利润率，因为你会根据用户消耗的每个 token 收费。
+you are creating a higher profit margin because you charge your der for each token they consumed.
+
+192
+00:16:00,590 --> 00:16:06,129
+基本上，如果你能降低成本，剩下的部分就很完美了。你可以从中赚钱。
+Basically, if you can reduce your cost, then the rest is perfect. You can make money from that.
+
+193
+00:16:06,129 --> 00:16:11,850
+明白吗？这就是为什么很多公司会投入大量资金，确保他们能解决
+Okay? That's why a lot of sitting companies they are investing a lot to make sure they can solve
+
+194
+00:16:11,850 --> 00:16:15,075
+尽可能多的请求，同时使用最少的 GPU。
+the most request using the fewest GPUs.
+
+195
+00:16:15,075 --> 00:16:16,900
+好的，明白了。
+Okay, cool.
+
+196
+00:16:16,900 --> 00:16:19,279
+那么，在这个大模型 B 的场景下，
+Then, in this large B scenario,
+
+197
+00:16:19,279 --> 00:16:24,599
+我想我已经强调过，主要的衡量指标是我们称之为“每次查询成本”的指标。
+I think I already emphasized the main metric is one metric we called cost per query.
+
+198
+00:16:24,599 --> 00:16:30,499
+也就是你解决一个查询需要花多少钱。
+That is how much you can solve a query, how much you need to pay.
+
+199
+00:16:30,499 --> 00:16:34,759
+如果我们把这个“每次查询成本”翻译一下，其实就是一个商业术语，对吧？
+And if we translate this cross query is basically a business term, right?
+
+200
+00:16:34,759 --> 00:16:37,079
+但如果我们把这个商业术语再转化为一些更具体的东西的话
+But if we translate this business term into something that is
+
+201
+00:16:37,079 --> 00:16:40,720
+更准确地说，一个系统基本上就是吞吐量。
+more like a system is basically throughput.
+
+202
+00:16:40,720 --> 00:16:45,720
+比如说，你每秒能处理多少个token，比如用八块GPU或六块GPU。
+For example, how many tokens you can solve per second, using say, eight GPs or six GPUs.
+
+203
+00:16:45,720 --> 00:16:50,259
+好吗？接下来，我们要讲几个非常关键的技术，
+Okay? Next, we are going to talk about a few very key techniques that we
+
+204
+00:16:50,259 --> 00:16:53,114
+可以最大化这个吞吐量，好吗？
+can maximize this throughput, okay?
+
+205
+00:16:53,114 --> 00:17:00,009
+但在那之前，我想更深入地探讨一下大B推理时遇到的问题。
+But before that, I want to dive deeper into the problems of inference at a large B.
+
+206
+00:17:00,009 --> 00:17:02,630
+也就是一个很大的B size。
+So basically a large B size.
+
+207
+00:17:02,910 --> 00:17:08,429
+有几个问题我想指出来，我希望你们真的能理解这一点。
+So, there are a few problems that I want to point out and I want you to indeed understand this.
+
+208
+00:17:08,429 --> 00:17:12,889
+我们还是会这样做，主要是计算机内存和通信。
+Again, I think we are going to do this, computer memory and communication.
+
+209
+00:17:12,889 --> 00:17:17,849
+至于通信，这不是问题，因为它和训练时是一样的。
+And for communication, not a problem, because, uh it's the same with the training.
+
+210
+00:17:17,849 --> 00:17:21,170
+没有什么变化，甚至更简单，因为没有开放状态。
+Nothing changes and it's easier, even easier because there is no open state.
+
+211
+00:17:21,170 --> 00:17:23,525
+那我们就专注于计算和内存，好吗。
+So we'll focus on compute and memory, okay.
+
+212
+00:17:23,525 --> 00:17:27,499
+关于计算，我刚才说了，在推理阶段，有预取和解码两个部分。
+So for computer, I said, I'm inference, there's prefew and decode.
+
+213
+00:17:27,499 --> 00:17:28,879
+那我们就一个一个来看。
+So let's look at one by one.
+
+214
+00:17:28,879 --> 00:17:30,680
+那预取阶段有什么问题呢？
+So for prefew what's the problem.
+
+215
+00:17:30,680 --> 00:17:35,240
+现在你有一个很大的字节大小，这一批请求是由用户提交的，
+So now you have a large bite size, and this batch of requests are submitted by users,
+
+216
+00:17:35,240 --> 00:17:39,400
+而你的用户基本上每个人输入的提示词都不一样。
+and your user basically type a different prompt to the point.
+
+217
+00:17:39,400 --> 00:17:43,340
+你无法控制我们输入了什么提示词。
+And you have no control of what prompts the we type.
+
+218
+00:17:43,340 --> 00:17:45,280
+那第一个问题是什么呢？
+So what's the first problem?
+
+219
+00:17:45,280 --> 00:17:51,339
+如果你还记得我这门课的第一节课，我说过，你们面临的问题是
+If you remember my first lecture in this course, I said, you are facing a problem where
+
+220
+00:17:51,339 --> 00:17:55,019
+每个请求的 token 数量都不一样，对吧？
+each request has a different number of tokens. Right?
+
+221
+00:17:55,019 --> 00:17:57,899
+因为我可以问一个更简短的问题，而你可以问一个更长的问题。
+Because I can ask a shorter question and you can ask a longer question.
+
+222
+00:17:57,899 --> 00:18:02,540
+然后你们都把这些问题交给我，让我想办法怎么让电池比赛变得更好。
+And you all give these questions to my arm on how I can make the battery competition.
+
+223
+00:18:02,540 --> 00:18:07,199
+好吗？我记得在我的第一堂课上，我说过，有一种解决方法其实就是，
+Okay? I think in my first lecture, I said, one way to address that is basically,
+
+224
+00:18:07,199 --> 00:18:10,799
+不管问题多短还是多长，你基本上把最短的补齐到最长的长度。
+no matter how short or how long, you basically pad the shortest to longest.
+
+225
+00:18:10,799 --> 00:18:12,839
+这其实非常愚蠢。
+And this is super stupid.
+
+226
+00:18:12,839 --> 00:18:17,219
+就像我说的，如果你这么做，你在提供服务时是赚不到钱的。
+Like I said, if you do this, you are going to not make any money from serving irons.
+
+227
+00:18:17,219 --> 00:18:21,560
+好，第一个问题是，不同的提示长度差异很大。
+Okay? So the first problem is different prompts have very different lens.
+
+228
+00:18:21,560 --> 00:18:23,480
+那你到底应该怎么补齐它们呢？
+So how you exactly should patch them?
+
+229
+00:18:23,480 --> 00:18:24,879
+绝对不是用补齐的办法。
+Okay, definitely not padding.
+
+230
+00:18:24,879 --> 00:18:27,380
+补齐其实是在浪费TPR，明白吗？
+Padding is wasting TPRs, ok?
+
+231
+00:18:27,380 --> 00:18:31,825
+第二个问题是无法解码，解码是个问题。
+The second problem is undecodeUndecod was a problem.
+
+232
+00:18:31,825 --> 00:18:36,550
+我可以问你非常难的问题，也可以让另一个人问很简单的问题，
+I can ask you very difficult query and another person as simple query,
+
+233
+00:18:36,550 --> 00:18:38,229
+比如“一加一等于几”，对吧？
+like what is one plus one, right?
+
+234
+00:18:38,229 --> 00:18:39,650
+而答案只需要一个词。
+And the answer is a single token.
+
+235
+00:18:39,650 --> 00:18:42,670
+但我也可以让你做一些深度研究，
+But I can let you do some kind of deep research,
+
+236
+00:18:42,670 --> 00:18:45,949
+基本上就是告诉我整个领域的最新进展。
+basically tell me what's going on in this entire field.
+
+237
+00:18:45,949 --> 00:18:52,029
+所以问题在于，不同的用户可以提交不同的问题，你事先并不知道
+So the problem is different user can submit different queries and you don't know ahead of time
+
+238
+00:18:52,029 --> 00:18:54,550
+每个问题你会生成多少词。
+that how many tokens you will generate for each query.
+
+239
+00:18:54,550 --> 00:18:59,029
+可能会非常长，也可能会非常短，对吧？你永远无法预知。
+It could be super long or it could be super short, right? And you never know.
+
+240
+00:18:59,029 --> 00:19:02,330
+即使作为开放者，我也不知道，因为这取决于RM。
+Even as open, I don't know because this is up to the RM.
+
+241
+00:19:02,330 --> 00:19:06,029
+如果RM到达美国，基本上就会被终止。
+And if the RM reach US, it will basically be terminated.
+
+242
+00:19:06,029 --> 00:19:10,089
+所以第二个问题是在阶段中的理想状态。这是非常动态的。
+So the second problem is ideal in phase. This is super dynamic.
+
+243
+00:19:10,089 --> 00:19:15,149
+明白吗？你不知道不同的提示会生成不同数量的未知token。
+Okay? You don't know different prompts have different unknown number generated tokens.
+
+244
+00:19:15,149 --> 00:19:19,470
+明白吗？但你仍然希望从服务提供者的角度来看，
+Okay? But you still want to make sure from a service provider's perspective,
+
+245
+00:19:19,470 --> 00:19:25,569
+你想确保最大限度地利用你的GPU来处理各种请求，对吧？
+you want to make sure you maximally utilize your GPUs to service kind of requests, okay?
+
+246
+00:19:25,800 --> 00:19:29,920
+就像我说的，解码还有另一个问题，我再强调一下。
+And like I said, another problem with decoding I reiterate, okay.
+
+247
+00:19:29,920 --> 00:19:33,140
+所以基本上每个请求进入解码阶段时，
+So basically for each request, when they enter decoding phase,
+
+248
+00:19:33,140 --> 00:19:34,819
+他们的序列长度等于一。
+they have a sequence that equal to one.
+
+249
+00:19:34,819 --> 00:19:37,080
+那问题是什么呢？
+And what's the problem?
+
+250
+00:19:37,080 --> 00:19:40,139
+如果你无法组成一个非常大的批次，对吧？
+So if you are not able to make a super big batch, right?
+
+251
+00:19:40,139 --> 00:19:46,480
+对于所有这些序列等于一次解码请求的情况，你的GPO肯定没有被充分利用，
+For all these sequence equal to one decoding requests, your GPO is definitely under utilized,
+
+252
+00:19:46,480 --> 00:19:49,760
+因为GPO在标量推荐方面并不是特别擅长。
+because GPO is not super good at scalar recommendation.
+
+253
+00:19:49,760 --> 00:19:53,159
+它在其他方面还不错，比如说在某些任务上，对吧？
+It's pretty good at, uh like met more, right?
+
+254
+00:19:53,159 --> 00:19:57,100
+所以基本上在解码阶段，你必须做一个非常大的批处理。
+Okay? So basically decoding phase, you have to make a super big batch.
+
+255
+00:19:57,100 --> 00:19:58,975
+但是怎么做到这一点呢？这是个问题。
+But how to make that? That's a problem.
+
+256
+00:19:58,975 --> 00:20:03,289
+好的，而且在内存方面，我们还有另一个问题，对吧。
+Okay. And also on memory, we have another problem, right.
+
+257
+00:20:03,289 --> 00:20:09,290
+因为B很大，这意味着你会有很多很多的请求。
+So because B is large, right, that means that you are going to have many many requests.
+
+258
+00:20:09,290 --> 00:20:12,389
+每个请求都会生成、生成、再生成。
+Ich request is going to generate generator generate.
+
+259
+00:20:12,389 --> 00:20:14,890
+所以基本上，纵向上，你有很大的位宽，
+So basically, vertically, you have a large bit size,
+
+260
+00:20:14,890 --> 00:20:17,110
+这对应着很多请求，而横向上，
+which corresponds to many requests, and horizontally,
+
+261
+00:20:17,110 --> 00:20:20,549
+你有请求在持续生成tokens，并且你不会释放
+you have Is requests continue to generate tokens, and you are not going to release
+
+262
+00:20:20,549 --> 00:20:24,549
+某个请求的KV缓存，直到该请求完成。
+a QB cache for I request until that request finishes.
+
+263
+00:20:24,549 --> 00:20:28,109
+这意味着如果你持续增加你的batch size，并且继续
+That means that if you continue to increase your Bdysize and you continue
+
+264
+00:20:28,109 --> 00:20:34,650
+生成更多的tokens，你就必须线性地增加分配给KV缓存的内存。
+to generate one more tokens, you have to linearly increase the memory you allocate to see QB caches.
+
+265
+00:20:34,650 --> 00:20:39,769
+在某个时刻，这些KV缓存会占据你大部分的内存，最终会导致你的GPU崩溃。
+And at some point, that QV case will dominate your memory usage, and it will explode your GPU.
+
+266
+00:20:39,769 --> 00:20:42,929
+那么你如何管理这个问题呢？这就涉及到KV缓存了，好吗？
+So how you manage this is going to KV cash, okay?
+
+267
+00:20:42,929 --> 00:20:49,710
+基本上，为了解决这些问题，接下来我们要讨论两个非常基础
+Um, so basically to address these problems, we Next are going to talk about the two very fundamental
+
+268
+00:20:49,710 --> 00:20:52,389
+并且非常及时的技术。
+and very, very, timely techniques.
+
+269
+00:20:52,389 --> 00:20:54,029
+其中一个叫做连续补丁（continuous patching）。
+One is called continuous patching.
+
+270
+00:20:54,029 --> 00:21:00,449
+这是一个关键技术，大约在一年前，也许是两年前，也就是2023年被发明出来的。
+That is a key technique that invented one year ago, maybe two years ago, 2023.
+
+271
+00:21:00,449 --> 00:21:03,470
+嗯，这项技术基本上提升了吞吐量。
+Um that technique basically improves the throughput.
+
+272
+00:21:03,470 --> 00:21:06,730
+也就是说，你可以生成的token数量提升了20倍。
+That is the number of tokens you can generate by 20 X.
+
+273
+00:21:06,730 --> 00:21:08,629
+明白吗？这是一个关键性的突破。
+Okay? That is a key breakthrough.
+
+274
+00:21:08,629 --> 00:21:11,530
+第二项技术主要是解决内存问题。
+And the second technique is basically addressing the memory problem.
+
+275
+00:21:11,530 --> 00:21:14,090
+也就是你如何高效地管理KB缓存。
+That is how you can efficiently manage KB cache.
+
+276
+00:21:14,090 --> 00:21:15,950
+这项技术被称为页面注意力（page attention），
+And that technique is called page attention,
+
+277
+00:21:15,950 --> 00:21:18,750
+页面注意力基本上也提升了吞吐量。
+and that page attention basically improve the throughput.
+
+278
+00:21:18,750 --> 00:21:20,530
+也就是说，你可以服务的token数量增加了。
+That is the number token you can serve.
+
+279
+00:21:20,530 --> 00:21:22,949
+但又提升了三倍。基本上，
+But another three times. Basically, what
+
+280
+00:21:22,949 --> 00:21:27,389
+我想说的是，在过去一年半里，所有人都在运行
+I'm trying to say is in the past 1.5 a year, all the people are running
+
+281
+00:21:27,389 --> 00:21:30,870
+这样他们基本上能够，至少提供
+this and they are able to basically, improve at least provide
+
+282
+00:21:30,870 --> 00:21:33,470
+比两年前提升了60倍的改进。
+improvement of 60 times compared to two years ago.
+
+283
+00:21:33,470 --> 00:21:37,409
+好的。这意味着推理正在变得有点商品化，
+Okay. So that means m inference is being kind of commoditized,
+
+284
+00:21:37,409 --> 00:21:40,310
+嗯，但在我讲解技术之前，
+o. Um, but before I move into techniques,
+
+285
+00:21:40,310 --> 00:21:47,519
+我还想再重申一下，以帮助你更好地理解，比如说等于一的情况。
+I want to also, reiterate a little bit to enhance your understanding of um, would be equal to one.
+
+286
+00:21:47,519 --> 00:21:50,440
+好的？那么等于一，会有什么问题呢？
+Okay? So equal to one, what's the problem.
+
+287
+00:21:50,440 --> 00:21:52,340
+那么为什么推测性编码有效呢？
+So why is speculative coding works?
+
+288
+00:21:52,340 --> 00:21:57,699
+我认为到目前为止，你已经理解了推测性编码的基本原理。
+I think by far, you already understood the basic rationale behind speculative.
+
+289
+00:21:57,699 --> 00:22:02,060
+但让我们从系统的角度来看，而不是从算法的角度。
+But let's look at it from a system perspective, but not from algorithm perspective.
+
+290
+00:22:02,060 --> 00:22:04,860
+那么对于B等于一，会有什么问题呢？
+So for B B equal to one. What's the problem?
+
+291
+00:22:04,860 --> 00:22:07,419
+所以前馈阶段，就像我说的，没有问题，对吧，
+So for pre field, like I said, there's no problem, right,
+
+292
+00:22:07,419 --> 00:22:11,120
+因为它基本上是一个单一序列，你像训练一样进行计算。
+because it's basically a single sequence and you proceed the computation
+
+293
+00:22:11,120 --> 00:22:13,575
+没问题。
+as if you are doing training. Okay, no problem.
+
+294
+00:22:13,575 --> 00:22:17,969
+但是在解码时，也会面临同样的问题，就是你不知道
+But for decode, it also face the same problem that is you don't know
+
+295
+00:22:17,969 --> 00:22:19,929
+你会生成多少个token，对吧？
+how many token you are going to generate, right?
+
+296
+00:22:19,929 --> 00:22:25,289
+但这没关系。这总比B等于一个很大的B要好。
+But that's okay. It's better than B equal to great B is a large number.
+
+297
+00:22:25,289 --> 00:22:34,859
+另一个B等于1的问题在于，这里你有B等于1，S也等于1。
+Okay? Another problem for Bequal to one is here, you have B equal to one, you have S equal to one.
+
+298
+00:22:34,859 --> 00:22:36,770
+好的，现在你看到问题了。
+Okay. And now you see the problem.
+
+299
+00:22:36,770 --> 00:22:43,350
+如果你基本上移动你的呃，如果你把你的眼睛放在这里，记住，这里只有三个维度。
+If you basically shift your uh if you put your eye here, remember, these are only three dimensions.
+
+300
+00:22:43,350 --> 00:22:45,489
+现在，你有两个维度都等于1。
+Now, you have two dimension which are equal to one.
+
+301
+00:22:45,489 --> 00:22:50,029
+你只有一个维度基本上不等于一。
+You only have one dimension that is basically not equal to one.
+
+302
+00:22:50,029 --> 00:22:55,889
+这意味着无论你在这里启动什么内核，都不会特别高效，
+This means that whatever kernels you launch here, it's not going to be super efficient,
+
+303
+00:22:55,889 --> 00:22:58,650
+因为它无法利用所有的GPU。
+because it's not able to uti all the GPUs.
+
+304
+00:22:58,650 --> 00:23:00,570
+明白了吗？那么问题是什么？
+Okay? So what's that problem?
+
+305
+00:23:00,570 --> 00:23:02,269
+明白了吗？我稍后会再讲解。
+Okay? I will review later.
+
+306
+00:23:02,269 --> 00:23:05,909
+但在我结束之前，关于内存我没有问题，因为
+But before I finish, um for memory I don't have a problem because
+
+307
+00:23:05,909 --> 00:23:07,390
+我只需要解决一个请求。
+I only need to solve one request.
+
+308
+00:23:07,390 --> 00:23:11,250
+所以很难让一个请求占满P的内存，除非
+So it's very hard for one request to set by P memory unless
+
+309
+00:23:11,250 --> 00:23:12,890
+你真的为那个请求生成了很多tokens。
+you generally want me tokens for that request.
+
+310
+00:23:12,890 --> 00:23:15,169
+好的，那我们回到这个问题。
+Okay. Then let's go back to this one.
+
+311
+00:23:15,169 --> 00:23:17,909
+问题是S等于1，B等于1。
+What's the problem as equal to one, B equal to one.
+
+312
+00:23:17,909 --> 00:23:21,589
+如果你还记得，我们想要最大化这个。
+If you remember this, we want to maximize this.
+
+313
+00:23:21,589 --> 00:23:24,449
+但在这里你有S等于1，B等于1。
+But here you have equals one, B equal to one.
+
+314
+00:23:24,449 --> 00:23:27,829
+记住，当S等于1时，
+Remember, when S equal to one,
+
+315
+00:23:27,829 --> 00:23:31,790
+B等于1，浮点运算非常少。
+B one, the floating point operation is very small.
+
+316
+00:23:31,790 --> 00:23:38,750
+但是你想在内存层级之间读取的数字位数呢？是一样的。
+But how about the lumber bits you want to read between memory hierarchies? It's the same.
+
+317
+00:23:38,750 --> 00:23:43,750
+每次你尝试计算一个token时，你至少需要移动模型权重
+Every time when you try to compute one token, you have to move at least the model weights
+
+318
+00:23:43,750 --> 00:23:49,070
+从GBM到SRM，然后你在GPU核心上执行计算。
+from GBM to SRM, and you perform a competion GPU course.
+
+319
+00:23:49,070 --> 00:23:54,450
+这意味着如果你进行很多次计算，你只需要移动那一批数据一次。
+That means that if you perform a lot of dance competition, you move that lumber bats once.
+
+320
+00:23:54,450 --> 00:23:59,410
+但如果你只进行很少的计算，你仍然要移动那一批数据一次。
+But if you perform very few competition, you still move that lumber bats once,
+
+321
+00:23:59,410 --> 00:24:03,889
+当B变成1，S你也变成1时，在这个解码过程中会发生什么，
+when B goes to one, S you go to one, what happens is that during this decoding process,
+
+322
+00:24:03,889 --> 00:24:10,129
+每次你进行一次传递时，你都要付出将权重从GBM移动到SRM的代价，
+every time when you do a pass, you pay the cost of moving the weights from GBM to SRM,
+
+323
+00:24:10,129 --> 00:24:12,290
+但你实际计算的内容非常少。
+but you only compute very little.
+
+324
+00:24:12,290 --> 00:24:17,350
+明白了吗？这就是为什么推测编码有效的问题吗？
+Okay? That's a problem why speculative coding works?
+
+325
+00:24:17,350 --> 00:24:22,809
+因为我想我一周前讲过，推测之所以有效，是因为它
+Because I think I talked about this one week ago, the reason speculating work is because it
+
+326
+00:24:22,809 --> 00:24:24,909
+可以减少步骤的数量。
+can reduce the number of steps.
+
+327
+00:24:24,909 --> 00:24:28,650
+你会生成一个手动的token，因为你进行了推测。
+You are going to generate a manual token, because you speculate.
+
+328
+00:24:28,650 --> 00:24:34,229
+你用一个小模型来推测，比如说五个token，然后把这五个token都交给
+You use a small model to speculate, say, five tokens, and you give all these five tokens to
+
+329
+00:24:34,229 --> 00:24:38,330
+大的目标模型去做一次验证。
+the large target arm to perform one verification.
+
+330
+00:24:38,330 --> 00:24:44,499
+当你进行这个验证时，你实际上花了很多代价去计算四个token。
+And when you perform this verification, so you pay a lot of cost to compute four tokens.
+
+331
+00:24:44,499 --> 00:24:47,619
+但问题是，这个原始强度看起来并没有好多少
+But the problem is, this original intensity don't look
+
+332
+00:24:47,619 --> 00:24:51,300
+因为低效操作在增加。
+much better because the lamer ops is increasing.
+
+333
+00:24:51,300 --> 00:24:55,080
+比如说，如果你运气好，四个token都被接受了，
+Say, if you get lucky and all the four tokens are accepted,
+
+334
+00:24:55,080 --> 00:24:57,700
+那你就大大提升了这个效率。
+then you are making this equity much better.
+
+335
+00:24:57,700 --> 00:25:04,529
+你把在内存层级之间移动宽度的成本，分摊到了很多token上。
+You are amortizing the cost of moving width between the memory hierarchy across many many tokens.
+
+336
+00:25:04,529 --> 00:25:10,660
+好的，这基本上就是从计算角度来看，为什么推测性编码可以加速。
+Okay. So that is basically from a computational perspective why speculative coding can accelerate.
+
+337
+00:25:10,660 --> 00:25:13,420
+它分摊了内存移动的成本。
+It amortize the memory movement cost.
+
+338
+00:25:13,420 --> 00:25:18,499
+但就像我说的，如果你不走运，比如你的接受率很低，
+But like I said, if you are not lucky, if your acceptance rate is low, for example,
+
+339
+00:25:18,499 --> 00:25:24,779
+你的token被错误地提议了，目标端没有接受这些token，
+your token was proposed wrong incorrectly and your target arm is not accepting these tokens,
+
+340
+00:25:24,779 --> 00:25:30,860
+那你就要付出额外的代价，因为你还要多付一次验证的成本。
+then you are paying extra cost, because you are paying extra uh verification cost,
+
+341
+00:25:30,860 --> 00:25:33,259
+这会让你的推理变得更慢。
+which we are making your inference even slower.
+
+342
+00:25:33,259 --> 00:25:35,439
+明白了吗？那就是推测编码。
+Okay? That is specultive coding.
+
+343
+00:25:35,439 --> 00:25:39,039
+有什么问题吗？有的。
+Any problem? Yeah.
+
+344
+00:25:39,039 --> 00:25:44,660
+为什么要用推测或者更大的子集？
+Why speculative or large subset.
+
+345
+00:25:44,660 --> 00:25:49,759
+这是个非常好的问题，这其实也是现在人们正在研究的内容。
+That's really great question. Is basically what people are doing research now.
+
+346
+00:25:49,759 --> 00:25:54,719
+是的，我们想在更大的B上应用推测编码，但问题是，
+Yeah. We want to apply speculate coding at a larger B, but the problem is,
+
+347
+00:25:54,719 --> 00:26:01,240
+记住，推测编码的原理是你可以摊销内存移动的成本。
+remember, the rationale of speculate encoding is that you amortize the memory movement cost.
+
+348
+00:26:01,240 --> 00:26:06,399
+但问题是，推测编码会消耗比没有推测编码更多的浮点运算。
+But the problem is spectu encoding will consume more flops without a speculate code.
+
+349
+00:26:06,399 --> 00:26:11,980
+在更大的B下，你的系统不是受内存带宽限制，而是受计算能力限制，你在说，
+At a larger B, your system is not memory bond with bond, it's computer bond, and you are saying,
+
+350
+00:26:11,980 --> 00:26:13,499
+我要付出更多的计算资源。
+I'm going to pay more computer.
+
+351
+00:26:13,499 --> 00:26:17,279
+那么你就是在你的等价系统中加入了更多的计算机绑定。
+Then you are adding more computer bond into your equiden system.
+
+352
+00:26:17,279 --> 00:26:21,420
+这就是为什么实际上很少有工作会这样做。这样说有道理吗？
+That's why very few works actually do this. Does that make sense?
+
+353
+00:26:21,420 --> 00:26:29,839
+嗯，好。好的。不，我想我希望我能把这个联系到上周四的讲座，
+Yeah. Okay. Okay. No, I think I hope I connect this back to the last Thursday's lecture,
+
+354
+00:26:29,839 --> 00:26:33,800
+这样你就能更好地理解为什么si degree从系统角度来看是有效的。
+and you have a better understanding of why si degree works from a system perspective.
+
+355
+00:26:33,800 --> 00:26:37,360
+好的，那我们接下来进入今天的主要话题，可以吗？
+Okay. Then let's move on to today's major topic, okay?
+
+356
+00:26:37,360 --> 00:26:41,480
+那么我们到底该如何解决这个问题呢？其中一个是批处理问题。
+So how exactly, um, we solve that problem? One is the batching problem.
+
+357
+00:26:41,480 --> 00:26:45,120
+另一个是在大型数据库中的内存问题，对吧？
+The other is the memory problem in large bases, okay?
+
+358
+00:26:45,120 --> 00:26:49,120
+所以我们要讨论的两种技术，基本上是连续批处理和付费
+So the two techniques, we are going to talk about is basically continuous batching and pay
+
+359
+00:26:49,120 --> 00:26:50,739
+请大家注意。我们先从第一个开始。
+your attention. Let's start with the first one.
+
+360
+00:26:50,739 --> 00:26:54,060
+好吗？还记得我们的问题吗？
+Okay? So remember our problem, okay?
+
+361
+00:26:54,060 --> 00:26:56,919
+对于连续批处理，我们试图解决第一个不同的问题
+For continuous batching, we try to solve the first problem that is different
+
+362
+00:26:56,919 --> 00:26:58,540
+提示的长度各不相同。
+proms have different lens.
+
+363
+00:26:58,540 --> 00:27:01,999
+而且不同的提示有不同数量的不确定通用标记。
+And different proms have different unknown number general tokens.
+
+364
+00:27:01,999 --> 00:27:04,799
+那么到底该如何进行批处理呢？
+So how exactly batch them.
+
+365
+00:27:04,799 --> 00:27:13,160
+好的，首先，我认为我们需要可视化一下推理或解码的过程，
+Okay. To begin, I think, we want to visualize, the arm inference or decoding,
+
+366
+00:27:13,160 --> 00:27:15,919
+呃，沿着时间的计算过程。
+uh, commutation along time.
+
+367
+00:27:15,919 --> 00:27:19,299
+好的，所以你基本上可以看到这个图，对吧？
+Okay. So here you basically can see this figure, right?
+
+368
+00:27:19,299 --> 00:27:23,300
+你有几个时间步，从T1到T8，对吧？
+So you have a few times step from T one to T eight, okay?
+
+369
+00:27:23,300 --> 00:27:29,260
+基本上，你开始收到一个包含三个标记的请求，颜色是黄色，对吧？
+And basically, you start receiving a request with three tokens, colour a yellow, okay?
+
+370
+00:27:29,260 --> 00:27:33,659
+在第一步，也就是这里。
+And in the first step, which is this.
+
+371
+00:27:35,080 --> 00:27:39,380
+这一步你要计算预文件的竞争。
+This step you compute prefile prefile compition.
+
+372
+00:27:39,380 --> 00:27:43,100
+然后当你完成预文件后，你要做的是权威解码。
+And then once you finish prefile, what you do is you do authorizive decoding.
+
+373
+00:27:43,100 --> 00:27:48,680
+每次你解码一个，直到你解码到EOS，然后就完成了。
+Every time you decode one, until you decode that EOS, and you finish.
+
+374
+00:27:48,680 --> 00:27:52,419
+这就像是实时可视化。明白吗？
+This is like visualize on time. Okay?
+
+375
+00:27:52,419 --> 00:27:55,539
+现在，我想让你考虑一下说“不”，
+Now, I want to think about say no,
+
+376
+00:27:55,539 --> 00:27:57,250
+我有多个请求进来了。
+I have multiple requests coming.
+
+377
+00:27:57,250 --> 00:27:59,719
+我该如何实时计算呢？
+How do I do compute on time?
+
+378
+00:27:59,719 --> 00:28:06,619
+明白吗？有一种方法，就是，比如这里，我有四个请求进来了，对吧？
+Okay? One way, that is, um, here, I have four requests come in, right?
+
+379
+00:28:06,619 --> 00:28:09,680
+它们基本上有不同的首选长度。
+They have different basically prefer lens.
+
+380
+00:28:09,680 --> 00:28:12,680
+第一个是三个，第二个是两个，依此类推，明白了吗？
+The first one has three, second has two, et cetera, okay?
+
+381
+00:28:12,680 --> 00:28:14,879
+然后你为他们制作一批，好吗？
+And you make them a batch, okay?
+
+382
+00:28:14,879 --> 00:28:18,399
+呃，我们稍后再谈自动批处理，但你可以想象一下，你可以把它做成一个
+Uh, let's talk about auto batch later, but just think about, you can make it a
+
+383
+00:28:18,399 --> 00:28:20,319
+批次，然后把批次工作转发出去。
+batch and forward a batches work.
+
+384
+00:28:20,319 --> 00:28:25,469
+然后你计算前缀R并开始生成。好的。
+And you compute the prefiR and you start generating. Okay.
+
+385
+00:28:25,469 --> 00:28:29,469
+但是如果你看红色的图表，你会注意到第一个请求，
+But if you look at the red graph, you will notice that the first request,
+
+386
+00:28:29,469 --> 00:28:33,109
+它只会生成两个标记，然后你到达结尾，
+it will only generate two tokens, and then you enter the end,
+
+387
+00:28:33,109 --> 00:28:35,770
+辛普森，它只生成一个标记。
+Simpson, it's only generate one token.
+
+388
+00:28:35,770 --> 00:28:41,269
+但是这个批次被第二个请求卡住了，第二个请求会生成很多标记。
+But this batch was bott encked by the second request, which will generate a lot of tokens.
+
+389
+00:28:41,269 --> 00:28:44,729
+直到它在最后一个sems完成。
+Until it finished at the last sems.
+
+390
+00:28:44,729 --> 00:28:49,105
+但我觉得从服务的角度来看，用户会发生什么？
+But I think from a service perspective, what happened to the users?
+
+391
+00:28:49,105 --> 00:28:54,740
+实际上，对于第一个ers请求，它已经在时间步T6完成了。
+So actually, for the first ers request, it already finished at the Time step T six.
+
+392
+00:28:54,740 --> 00:28:58,539
+但是因为这个请求和第二个请求被一起打包处理了。
+But because this request was batched together with the second request.
+
+393
+00:28:58,539 --> 00:29:05,755
+所以第一个请求不会在结果中被观察到，直到整个批次完成为止，对吧？
+So the first der is not going to observe in the results, right until the entire batch completes.
+
+394
+00:29:05,755 --> 00:29:10,829
+这实际上意味着，理想情况下，这个请求应该立即从
+What it means, actually, ideally, okay, this request should immediately exit from
+
+395
+00:29:10,829 --> 00:29:13,709
+这个批次中退出，并将结果返回给用户。
+that batch and go back to the user with the results.
+
+396
+00:29:13,709 --> 00:29:18,789
+但由于它们在计算图中被一起打包处理，它们必须反复经历
+But because they are batting together in the computer graph, they have to repeatedly go through that
+
+397
+00:29:18,789 --> 00:29:21,189
+对每个请求都无所事事，对吗？
+doing nothing for each request. Okay?
+
+398
+00:29:21,189 --> 00:29:26,490
+这就是传统批处理的一个例子，以及为什么
+And this is one example of traditional batching and why
+
+399
+00:29:26,490 --> 00:29:30,209
+这个问题只会出现在RM，因为在之前，
+this problem only happens for RM Because in previous,
+
+400
+00:29:30,209 --> 00:29:33,110
+在RM之前，人们都在服务什么样的模型？
+before RM what kind of model people are serving?
+
+401
+00:29:33,110 --> 00:29:38,179
+比如说，非常典型的卷积神经网络，对吧？你不会遇到这个问题。
+For example, uh, you know, very typical convolutionar networks, right? You don't have this problem.
+
+402
+00:29:38,179 --> 00:29:43,659
+为什么？因为如果你要解决这种场景，基本上就是一批图片，
+Why? Because if you are going to solve this kind of scenes, you basically have a batch of images,
+
+403
+00:29:43,659 --> 00:29:47,500
+然后你把一批图片输入到网络里，所有图片都在同一个批次里，
+and you throw a batch of images through network, and all the images in batches,
+
+404
+00:29:47,500 --> 00:29:50,779
+它们都以完全相同的速度完成，然后你返回结果。
+they all follow exactly the same pace to finish and you return.
+
+405
+00:29:50,779 --> 00:29:55,419
+但在RM中，每个请求通常都有不确定数量的token，对吧？
+But in RM, each request has undetermined lumber generally tokens, right?
+
+406
+00:29:55,419 --> 00:29:58,620
+这是RM独有的问题，明白吗？
+That's the unique problem to RMs, okay?
+
+407
+00:29:58,620 --> 00:30:03,180
+你可以说，如果你用传统的批处理方式，我们会遇到很大的问题。
+And you can say if you do this traditional batching, um, we have a big problem.
+
+408
+00:30:03,180 --> 00:30:08,800
+第一个问题当然就是，这个请求的延迟会被拖慢，对吧。
+Like the first problem is, of course, the latency of this request you are delayed. Right.
+
+409
+00:30:08,800 --> 00:30:14,760
+第二个问题是，你可以看到，在过去两轮的竞争中，
+A second problem is, you can see, during this left, during the competition over the last two wins,
+
+410
+00:30:14,760 --> 00:30:19,440
+所有这些地方都是气泡，这意味着我们的TP没有被充分利用。
+all these sorts are bubbles, which means our TP is under utilized.
+
+411
+00:30:19,440 --> 00:30:22,480
+还有一个问题，我稍后会复查。
+There's one more problem. I will review later.
+
+412
+00:30:22,480 --> 00:30:27,999
+好的。但总结来说，请求可能会在不同的迭代中完成，
+Okay. But to summarize request may complete at different iterations in
+
+413
+00:30:27,999 --> 00:30:32,979
+因为生成的token数量不同，我们正面临着Ido GP循环的问题。
+arms because different number of generate tokens, and we are facing Ido GP cycles.
+
+414
+00:30:32,979 --> 00:30:38,000
+第三点，基本上就是想象一下当我们计算这个批次时会发生什么。
+The third point is basically imagine when we compute this batch, what will happen.
+
+415
+00:30:38,000 --> 00:30:42,920
+所以我们的用户会继续向我们的端点提交请求，
+So our user is going to continue to submit requests to our endpoint,
+
+416
+00:30:42,920 --> 00:30:46,220
+而我们会在这里维护一个队列，请求排队。
+and we are going to maintain a queue here, Queue in requests.
+
+417
+00:30:46,220 --> 00:30:50,179
+如果这个批次没有超出限制，那么我们必须
+If this batch is not going to exceed then we have to
+
+418
+00:30:50,179 --> 00:30:54,019
+让队列中的后续请求继续等待，这基本上会导致
+let the order requests in the queue to continue to wait, and that will basically increase
+
+419
+00:30:54,019 --> 00:30:55,639
+一个叫做水管线阻塞的问题。
+a problem called hydro line blocking.
+
+420
+00:30:55,639 --> 00:30:58,699
+也就是说你的请求会被延迟。
+That is your requests are being delayed.
+
+421
+00:30:58,699 --> 00:31:01,480
+我们来看看如何解决这个问题。
+Let's see how we fix this problem.
+
+422
+00:31:01,480 --> 00:31:07,640
+我们解决这个问题的方法是可以把这种传统的批处理方式转换成
+The way we fix the problem is that we can convert this kind of, like, traditional batching into
+
+423
+00:31:07,640 --> 00:31:09,580
+一种叫做连续批处理的新技术。
+a new technique called continuous batching.
+
+424
+00:31:09,580 --> 00:31:11,880
+这种连续批处理是为arms设计的。
+And this continue batching was designed for arms.
+
+425
+00:31:11,880 --> 00:31:17,060
+明白了吗？连续批处理的好处是我们有更高的GP利用率
+Okay? And highlight was the benefit of continued batching that we have a higher GP radiation
+
+426
+00:31:17,060 --> 00:31:20,020
+而且新的请求可以立即开始。
+and new request can start immediately.
+
+427
+00:31:20,020 --> 00:31:24,019
+老的请求一旦完成，就可以被推出去。
+And an older request, once they finish, they can be basically pushed out.
+
+428
+00:31:24,019 --> 00:31:25,680
+它们可以立即被执行。
+They can be excited immediately.
+
+429
+00:31:25,680 --> 00:31:28,599
+那么，我们来看看具体怎么做。
+So, let's see how we do that.
+
+430
+00:31:29,020 --> 00:31:33,739
+好的，现在我们来逐步迭代地运行一下这个过程。
+Okay. Now, let's run through this iteration by iteration. Okay.
+
+431
+00:31:34,100 --> 00:31:36,539
+所以这里我们有一个拉取请求，对吧。
+So here we have a request to pull right.
+
+432
+00:31:36,539 --> 00:31:37,799
+这是我们的队列。
+This is our queue.
+
+433
+00:31:37,799 --> 00:31:39,860
+好吗？我们正在监听。这是一个调查。
+Okay? We are listening. This is a survey.
+
+434
+00:31:39,860 --> 00:31:42,359
+好的。想象一下你自己在户外。
+Okay. And see. Imagine yourself is open air.
+
+435
+00:31:42,359 --> 00:31:47,219
+好的，你这里有一个队列，很多人在他们的浏览器上提交请求。
+Okay, you have a queue here, a lot of requests on their browser, they are submitting requests.
+
+436
+00:31:47,219 --> 00:31:50,439
+一旦请求被提交，这个请求就会进入队列。
+And once the submitted request, this request will go into a queue.
+
+437
+00:31:50,439 --> 00:31:53,360
+好的？所以这里我们观察到r1和r2。
+Okay? So here we observe r1r2.
+
+438
+00:31:53,360 --> 00:31:59,140
+好的？然后我们有一个执行引擎，正在尝试执行任务，
+Okay? And again, we have execution engine, which is trying to perform expedition,
+
+439
+00:31:59,140 --> 00:32:00,659
+这发生在GPU上。
+and this happens on GPU.
+
+440
+00:32:00,659 --> 00:32:06,639
+这里，假设我们有一个GPU P，我们只能，嗯，服务于等于的基础。
+And here, suppose we are pretty GPU P and we can only, um serve a basis equal to
+
+441
+00:32:06,639 --> 00:32:09,700
+最多三个，好吗？只是举个例子。
+three at maximum, okay? Just example.
+
+442
+00:32:09,700 --> 00:32:15,799
+所以在第一次迭代中，我们可以看到在我们的队列里有两个请求，对吧？
+So in the first iteration, we observe that in our Q, there are two requests, right?
+
+443
+00:32:15,799 --> 00:32:22,400
+所以我们基本上是把它们从CPU取到GPU，然后说，我们要把它们一起打包到Act里。
+So we basically fetch them from CPU to GPU and we say, we are going to batch them together to Act.
+
+444
+00:32:22,400 --> 00:32:26,619
+好的？所以在这里，我的第一个问题是你是怎么进行批处理的。
+Okay? So here, my first problem is how you basically batch this.
+
+445
+00:32:28,580 --> 00:32:31,559
+好的，我想看看这个并思考一下
+Okay, I would like to look at this and think about
+
+446
+00:32:31,559 --> 00:32:35,460
+用30秒的时间，我去拿一下鼠标。不好意思。
+for 30 seconds where I grab my mouse. Yeah, sorry.
+
+447
+00:33:01,780 --> 00:33:04,499
+好的，我们继续。
+Okay, let's continue.
+
+448
+00:33:04,499 --> 00:33:07,120
+所以其实这真的很混乱。
+So this is actually pretty messy, okay.
+
+449
+00:33:07,120 --> 00:33:10,959
+我之所以讲得这么详细，是因为我想确保你
+The reason I do this in such detail is because I want to make sure you
+
+450
+00:33:10,959 --> 00:33:13,679
+明白这个批处理绝对不是简单的事情。
+understand this batch is definitely non trivial.
+
+451
+00:33:13,679 --> 00:33:18,999
+为什么？因为想想看，如果这不是RM，只是一个普通的东西，
+Why? Because consider if this is not RM if this is just a thing
+
+452
+00:33:18,999 --> 00:33:21,100
+这个批处理其实非常直接。
+this batching is super straight forward.
+
+453
+00:33:21,100 --> 00:33:25,799
+基本上我的意思是，你观察两张图片，然后把这两张图片放到
+Basically I'm saying you're observing two images, and you put these two images on
+
+454
+00:33:25,799 --> 00:33:28,239
+批次里，然后通过神经网络处理。
+the batch and you go through the neural work.
+
+455
+00:33:28,239 --> 00:33:32,520
+而且这两张图片肯定会被重新调整到相同的尺寸，
+And these two images is definitely, will be reshipped into the same size,
+
+456
+00:33:32,520 --> 00:33:35,060
+相同的分辨率，所以你不会有批处理的问题。
+same resolution, so you don't have a batching problem.
+
+457
+00:33:35,060 --> 00:33:40,119
+但在这里，如果我们细分一下，好吧，我们实际操作一下。
+But here, if we break it down, okay, let's be very hands on this.
+
+458
+00:33:40,119 --> 00:33:47,699
+如果我们决定对r1r2进行批处理，第一个遇到的问题是，它们很可能有不同的序列长度。
+If we decide to batch r1r2, the first problem we facing is, they likely have different seqns.
+
+459
+00:33:47,699 --> 00:33:51,760
+但这里，我给了你一个很糟糕的例子，或者说有三个工作。
+But here, I give you a pretty bad example or have three works.
+
+460
+00:33:51,760 --> 00:33:55,620
+但我们想一想，如果它们有不同数量的token，会出现什么问题。
+But let's think about they have different umber tokens. Then what's the problem.
+
+461
+00:33:55,620 --> 00:34:00,940
+所以我们要通过第一个注意力层转发两个具有不同序列的请求
+So we are going to forward two requests with different sequence through first attention
+
+462
+00:34:00,940 --> 00:34:02,919
+然后再通过MLP，对吗？
+and then MLP, right?
+
+463
+00:34:02,919 --> 00:34:05,239
+那我问两个问题。
+So let me ask two questions.
+
+464
+00:34:05,239 --> 00:34:08,100
+那我们可以把它们一起在注意力层做批处理吗？
+So can we batch them together in attention?
+
+465
+00:34:10,640 --> 00:34:20,239
+我们可以，除非我们不能，除非我们基本上把较短的那个填充到长度等于四，对吧？
+We can unless we cannot unless we basically pad the shorter one into six s equal to four, right?
+
+466
+00:34:20,239 --> 00:34:22,880
+因为注意力机制是依赖序列的。
+Because attention is sequence dependent.
+
+467
+00:34:22,880 --> 00:34:25,259
+Attention必须按序列操作。
+Atgen has to operate to.
+
+468
+00:34:25,259 --> 00:34:29,319
+如果你想把所有操作都批处理，就必须让它们有相同的序列长度。
+And if you want to batch all the operators, you have to make them have the same sequence mass.
+
+469
+00:34:29,319 --> 00:34:33,140
+这意味着此时你实际上已经
+Which means that at this moment, you are already basically
+
+470
+00:34:33,140 --> 00:34:36,359
+如果你做了这种填充，其实会损失一些算力，对吧？
+losing some flops if you do this patty, right?
+
+471
+00:34:36,359 --> 00:34:44,139
+所以这是一个很多人在做决策时会考虑的问题，是否要批量处理这个问题。
+So this is a decision that many serving frame how to fix to decide if you want to batch this a lot.
+
+472
+00:34:44,139 --> 00:34:50,559
+好吗？我稍后会回到这个话题，但现在让我们继续进入第二部分。就在这里。
+Okay? I will come back to this later, but let's move forward to the second part. Okay, here.
+
+473
+00:34:53,800 --> 00:35:01,239
+假设你完成了注意力机制，这两个请求基本上就进入了MLP模块，对吧？
+Suppose you finish your attention, and these two requests basically entering the MLP module, right?
+
+474
+00:35:01,239 --> 00:35:05,319
+那么你能在MP模块中批量处理这两个序列吗？
+So can you bet these two sequence in MP module?
+
+475
+00:35:05,920 --> 00:35:09,179
+你可以，这很容易做到，对吧？
+You can, that can be easily done, right?
+
+476
+00:35:09,179 --> 00:35:12,700
+因为在MLP模块中，它不是依赖于序列的。
+Because in MLP module, it's not sequence dependent.
+
+477
+00:35:12,700 --> 00:35:15,239
+这一点非常重要，好吗？
+And this is extremely important, okay?
+
+478
+00:35:15,239 --> 00:35:16,819
+所以在MLP模块中，
+So in MLP module,
+
+479
+00:35:16,819 --> 00:35:19,475
+我甚至不关心序列维度。
+I even don't care about sequence dimension.
+
+480
+00:35:19,475 --> 00:35:26,689
+对，因为在MLP中，如果你还记得计算过程，基本上每个token都会
+Right. Because in MLP, if you still remember the computation, is basically each token will
+
+481
+00:35:26,689 --> 00:35:28,590
+有上投影和下投影。
+be upper project and down project.
+
+482
+00:35:28,590 --> 00:35:30,290
+这意味着在MLP中，
+Which means that in MLP,
+
+483
+00:35:30,290 --> 00:35:31,730
+在这个例子里，
+I'm in this example,
+
+484
+00:35:31,730 --> 00:35:34,949
+实际上我得到的比特集等于六。
+I'm actually getting a bit set equal to six.
+
+485
+00:35:34,949 --> 00:35:37,909
+它不是等于二。这说不通。
+It's not equal to two. Doesn't make sense.
+
+486
+00:35:37,909 --> 00:35:49,050
+因为我把我的六个NS注册到之前的B乘以H里。现在，一旦我进入MLP，这个BNS，
+Because I enroll my six NS into previously I B times times H. Now, once I enter MLP, this BNS,
+
+487
+00:35:49,050 --> 00:35:52,690
+我的MLP基本上无法处理这个S维度。
+my MLP is basically I cannot speak to this S dimension.
+
+488
+00:35:52,690 --> 00:35:57,880
+基本上，MLP执行的是一种数学模式，即第一个维度是B乘以。
+Basically, MLP is performing a math mode that is the first dimension is B times.
+
+489
+00:35:57,880 --> 00:36:04,270
+然后是H。这意味着在MLP中，计算是token独立的。
+And set H. Which means that in MLP, the computation is token independent.
+
+490
+00:36:04,270 --> 00:36:07,410
+每个token都会执行自己的计算。
+Each token will perform its own communication.
+
+491
+00:36:07,770 --> 00:36:13,029
+为什么这是一个非常重要的观察，我们将在下一页回顾它。
+Why this is super important observation and we'll review it next slide.
+
+492
+00:36:13,029 --> 00:36:20,110
+但为了回答这个问题，为了进行批处理，你基本上是在观察
+But to answer this question, in order to batch it, you are basically observing
+
+493
+00:36:20,110 --> 00:36:23,929
+两个请求，然后你把这两个请求合成一个批次，通过
+two requests and you make this two requests one batch and you forward it through
+
+494
+00:36:23,929 --> 00:36:26,070
+RM转发以计算预填充。
+the RM to compute the prefile.
+
+495
+00:36:26,070 --> 00:36:28,750
+在这个预填充竞争中，你要做的是在注意力机制中，
+In this prefile competon, what you do is in the attention,
+
+496
+00:36:28,750 --> 00:36:33,310
+你可能会把它们一起填充到相同的长度，然后执行一次注意力操作。
+you probably pad them together into the same lens, and you perform a attention.
+
+497
+00:36:33,310 --> 00:36:38,279
+在MLP中，你总是可以直接批处理，不需要做任何填充，这样就可以了。
+In the MLP, you can always do batching without doing any padding. You are good.
+
+498
+00:36:38,279 --> 00:36:44,509
+好的，然后你看，我们进入了中间阶段一，好吗？
+Okay. And then, see, we are entering our interim one, okay?
+
+499
+00:36:44,509 --> 00:36:49,969
+在我们的中间阶段一中，发生的事情是，我们完成了预填充，
+In our interim one, what happened is, we finish prefill we
+
+500
+00:36:49,969 --> 00:36:52,049
+在这个批次中我们仍然有两个正在运行的请求，
+still have two running requests in the batch,
+
+501
+00:36:52,049 --> 00:36:56,490
+我们现在将进入解码阶段，并且我们将要进行解码。
+and we are going to transition into the decoding phase, and we are going to decode
+
+502
+00:36:56,490 --> 00:36:58,070
+为每个请求解码第一个标记。
+the first token for each request.
+
+503
+00:36:58,070 --> 00:37:02,049
+与此同时，在我们的第三方，我们正在观察一个新的请求吗？
+And meanwhile, on our third side, we are observing a new request?
+
+504
+00:37:02,049 --> 00:37:05,049
+那我再问你一个问题。
+Then let me ask you another question.
+
+505
+00:37:05,049 --> 00:37:10,950
+那么在这种组合中，好吧，在临时竞争中，发生的事情是每个请求基本上
+So in this combination, okay in the Interim one competon what happens is each request is basically
+
+506
+00:37:10,950 --> 00:37:13,129
+都在执行解码组合，对吧？
+performing the decoding combination, right?
+
+507
+00:37:13,129 --> 00:37:19,470
+所以我的问题是，你们到底是如何将这两个解码批处理的？
+So my question is, how you exactly batch these two decoding.
+
+508
+00:37:22,470 --> 00:37:24,689
+好的，让我们更深入一点，好吗？
+Okay, let's step deeper, okay?
+
+509
+00:37:24,689 --> 00:37:26,689
+如果你看左边，情况也是一样的，对吧。
+If you look at left hand side, same thing, right.
+
+510
+00:37:26,689 --> 00:37:30,170
+当我们进行解码时，我们首先会经过注意力机制和MLP。
+When we perform decoding, we first go through attention the MLP.
+
+511
+00:37:30,170 --> 00:37:32,749
+那么对于MLP，我们可以批处理吗？
+So for MLP, can we batch?
+
+512
+00:37:32,749 --> 00:37:36,390
+可以，正如我刚才说的，MLP是对每个token独立的。
+Yes, like I said, the MLP is token independent.
+
+513
+00:37:36,390 --> 00:37:38,629
+那里面有什么问题吗？
+So what's the bad inside?
+
+514
+00:37:39,190 --> 00:37:42,170
+有两个，对吧？因为我们是在比较两个token。
+Two, right? Because we are comparing two tokens.
+
+515
+00:37:42,170 --> 00:37:44,989
+好的。但对于注意力机制，我们可以批处理吗？
+Okay. But for attention, can we batch.
+
+516
+00:37:45,880 --> 00:37:49,620
+不行，因为这里有一个不好的例子。
+No, because here is a bad example.
+
+517
+00:37:49,620 --> 00:37:54,799
+假设第一个有一个token，第二个有三个token，那么你就不能批处理，因为它们
+Assuming the first has first token, second half three tokens, then you cannot batch because they
+
+518
+00:37:54,799 --> 00:37:56,500
+基本上是在执行不同的计算。
+basically are performing different competition.
+
+519
+00:37:56,500 --> 00:38:00,200
+一个是在关注前面的三个token，另一个是在关注前面的两个token。
+One is attending to previous three tokens and the other is attending to previous two tokens.
+
+520
+00:38:00,200 --> 00:38:02,559
+它们的形状不同，不能批处理。
+Their ship are different. You cannot batch.
+
+521
+00:38:02,559 --> 00:38:06,559
+好吗？如果你想击球，你就得穿护具，而如果你穿了护具，你就输了，对吧？
+Okay? If you want to bat, you have to pad, and if you pad, you lose, right?
+
+522
+00:38:06,559 --> 00:38:10,460
+所以本质上，在今天的框架下，当你进行这种竞争时，
+So essentially in today's framework, when you do this kind of competition,
+
+523
+00:38:10,460 --> 00:38:11,979
+它比你想象的要复杂得多。
+it's much more complexe than your thought.
+
+524
+00:38:11,979 --> 00:38:15,540
+这不像你把一批数据直接输入petty然后得到结果那么简单。
+It's not like you forwarding a batch through petty and you get results.
+
+525
+00:38:15,540 --> 00:38:20,880
+他们做的基本上是，对tinin和MLP进行非常详细的拆解，
+And what they do is basically, they do very detailed breakdown for tinin and MLP,
+
+526
+00:38:20,880 --> 00:38:23,974
+并且他们为十个MLP执行不同的击球策略。
+and they perform in different batting strategy for ten MLP.
+
+527
+00:38:23,974 --> 00:38:25,949
+那么，在这种情况下，我们该怎么办？
+Okay. So in this case, what do we do?
+
+528
+00:38:25,949 --> 00:38:29,610
+比如说，在今天的服务框架VIM中，
+For example, in today's um, serving framework VIM,
+
+529
+00:38:29,610 --> 00:38:36,169
+他们会为每个序列独立执行tensing内核，
+they will basically execute the tensing kernels for each sequence independently without
+
+530
+00:38:36,169 --> 00:38:38,010
+而不是用一个批次，因为他们想节省流量。
+one batch because they want to save flows.
+
+531
+00:38:38,010 --> 00:38:41,489
+但是一旦他们完成了分组，他们会把所有的token放到
+But once they finish the tenting, they are going to put all tokens into
+
+532
+00:38:41,489 --> 00:38:43,570
+一个大批次里，然后执行一个MLP。
+one big batch and perform an MLP.
+
+533
+00:38:43,570 --> 00:38:47,049
+接着在下一层，他们基本上会把一个批次拆开，
+And then unter the next layer, they are going to basically break down a batch,
+
+534
+00:38:47,049 --> 00:38:52,249
+分别执行不同的内核，然后再重新批量处理，批量又批量。
+perform separate kernels, and then batching together, and then batch batch and batch batch.
+
+535
+00:38:52,249 --> 00:38:55,264
+你明白我的意思了吗？好吧，这真的很复杂，好吗？
+You got me right? Okay. It's very complicated, okay?
+
+536
+00:38:55,264 --> 00:38:58,219
+你为什么要这么做？我们来看一下Eteren三。
+Why did you do that? Let's see Eteren three.
+
+537
+00:38:58,219 --> 00:39:04,400
+但在我讲E三之前，让我们做一个心理实验。
+But before I move to eat three, let's perform a mental experiment.
+
+538
+00:39:04,400 --> 00:39:07,840
+如果我们采用传统的批处理，会发生什么？
+What would happen if we do traditional batching.
+
+539
+00:39:07,840 --> 00:39:11,679
+好的，现在我们进入interim二，对吧？
+Okay. So now, we move to interim two, right?
+
+540
+00:39:11,679 --> 00:39:15,580
+因为在interim一，如果我们按照传统的批处理方式，
+Because at interim one, if we follow traditional batching,
+
+541
+00:39:15,580 --> 00:39:22,040
+我们已经决定发起一批两个请求，并且我们继续解码
+we already decided to issue a batch of two requests, and we continue to decode
+
+542
+00:39:22,040 --> 00:39:23,839
+当前正在运行批次的下一个token。
+next token for the current running batch.
+
+543
+00:39:23,839 --> 00:39:29,180
+但在中间阶段二，发生的情况是我们继续观察到另外两个请求RF和FL。
+But at interim two, what happens is we continue to observe another two requests RF and FL.
+
+544
+00:39:29,180 --> 00:39:33,899
+但如果我们遵循传统的批处理方式，问题是，嗯，我们发出这一批，
+But if we follow traditional batching, the problem is um, we issue this batch,
+
+545
+00:39:33,899 --> 00:39:38,739
+然后我们必须等这一批完成，然后再取下一批，
+and we have to wait for this batch to finish, and then we take another batch,
+
+546
+00:39:38,739 --> 00:39:41,019
+你可以想象这样有多糟糕，对吧？
+you can imagine how bad this is, right?
+
+547
+00:39:41,019 --> 00:39:46,480
+基本上，当你在运行r1r2时，你的队列在增加。队列的大小在增加。
+Basically, when you are running r1r2, your queue is increasing. The size is increasing.
+
+548
+00:39:46,480 --> 00:39:51,099
+有更多的请求到达，但你基本上无法添加
+A lot of more requests are arrival but arriving, but you are not able to basically add
+
+549
+00:39:51,099 --> 00:39:54,439
+或者说无法向当前正在运行的批次中添加任何内容。
+or basically add anything into the current running batch.
+
+550
+00:39:54,439 --> 00:40:04,970
+好吗？很棒。在运行连续批处理的实习生之前，我们来总结一下。
+Okay? Cool. To summarize before running interns for continuous batching,
+
+551
+00:40:04,970 --> 00:40:07,590
+我想总结一下传统批处理的缺点。
+I want to summarize the drawbacks or traditional batching.
+
+552
+00:40:07,590 --> 00:40:10,929
+正如你所看到的，在传统批处理方式中，一旦你发出一个批次，你就需要
+So as you can see, in traditional batting, once you issue a batch, you are going to
+
+553
+00:40:10,929 --> 00:40:13,290
+等待这个批次完成。
+wait for that batch to complete.
+
+554
+00:40:13,290 --> 00:40:19,009
+基本上，如果你这样做，问题就在于队列中的请求无法进入，对吧？
+So basically, if you do this, the issue is that request in the queue they cannot enter, right?
+
+555
+00:40:19,009 --> 00:40:21,749
+而且提前完成的请求也无法退出。
+And also request finished early cannot exit.
+
+556
+00:40:21,749 --> 00:40:27,770
+在这个例子中，你可以看到这个请求已经到达了US，这意味着它本应该退出。
+In this example, you see this request to it already hit US, which means that it should be exited.
+
+557
+00:40:27,770 --> 00:40:30,350
+但是，你知道，在我之前的示意图中，
+But, you know, in my previous illustrating,
+
+558
+00:40:30,350 --> 00:40:32,864
+我展示了你无法让这个批次中的请求退出。
+I showed that you cannot exit this batch.
+
+559
+00:40:32,864 --> 00:40:39,160
+正因为如此，由于每个请求所需的通用令牌数量不同，GPO 可能会处于空闲状态。
+And because of this, GPO could be idle due to a different number of general tokens per request.
+
+560
+00:40:39,160 --> 00:40:42,579
+接下来让我们看看连续批处理是如何解决这个问题的。
+Then let's see how continuous batching addresses this problem.
+
+561
+00:40:42,579 --> 00:40:49,679
+好吗？所以目前我们的状态是在第一步，我们有一个正在运行的一批或两批任务。
+Okay? So still, this is our current status at one, where we have a running batch or two.
+
+562
+00:40:49,679 --> 00:40:54,880
+我们批次中的每个请求已经解码了一个标记，这时我们观察到一个新请求。
+Each request in our batch already decoded one token and we observe a new request.
+
+563
+00:40:54,880 --> 00:40:58,880
+那么在连续批处理的情况下会发生什么呢？
+So what will happen in continuous batching is that in continuous batching,
+
+564
+00:40:58,880 --> 00:41:02,840
+只要，比如说，空间允许，只要我们的策略允许，
+as long as, for example, space allows, as long as our policy allows,
+
+565
+00:41:02,840 --> 00:41:09,284
+我们会立刻接收请求R3，并把R3加入正在运行的批次中。
+we are going to immediately pick up the request R three and put R three into the running batch.
+
+566
+00:41:09,284 --> 00:41:13,830
+好的，我们不会等待。也就是说，我们不会让批处理成为实体，
+Okay, we're not waiting. That is, we're not making batting entity,
+
+567
+00:41:13,830 --> 00:41:16,550
+我们让请求成为实体，迭代成为实体。
+we are making requests entity, iterating entity.
+
+568
+00:41:16,550 --> 00:41:23,310
+所以只要有空间，我们就会立即接收请求并把它放入队列中。
+So as long as space allows, we are going to immediately pick up or request and put that into queue.
+
+569
+00:41:23,310 --> 00:41:25,849
+但在这里你会遇到一个非常棘手的问题。
+But here you are facing a very difficult problem.
+
+570
+00:41:25,849 --> 00:41:30,259
+什么问题呢？如果你这样做，如果你接收了R3，对吧？
+What's the problem? If you do this, if you pick up R three, right?
+
+571
+00:41:30,259 --> 00:41:32,359
+然后你把cary放进了一个运行中的批次里。
+And you put cary into a running badge.
+
+572
+00:41:32,359 --> 00:41:39,170
+你现在面临的问题是，你明白我试图说明的意思吗？
+You are facing a problem that is you see what I try to illustrate.
+
+573
+00:41:39,170 --> 00:41:41,850
+好吗？所以这里，三，只是进入了电池。
+Okay? So here, three, just enter the battery.
+
+574
+00:41:41,850 --> 00:41:48,149
+记住，推理时，请求的第零步总是执行预填充。
+Remember, inference, the first step the zero step for request is always doing pre fill.
+
+575
+00:41:48,149 --> 00:41:51,910
+但是在这里，R1和R2，它们是推理的不同状态。
+But here, R one and R two, they are different states of the inference.
+
+576
+00:41:51,910 --> 00:41:53,970
+它们在解码，它们在解码。
+They are decoding they are decoding.
+
+577
+00:41:53,970 --> 00:41:58,870
+所以这里你的意思是，我正在创建一个批次，其中有些请求需要执行
+So here you are saying I'm making a batch where some requests need to perform
+
+578
+00:41:58,870 --> 00:42:01,570
+预填充，但有些请求需要执行解码。
+prefill but some requests need to perform decoding.
+
+579
+00:42:01,570 --> 00:42:04,489
+这样说有道理吗？这完全是不同的计算，对吧？
+Does that make sense? This is a totally different competion, right?
+
+580
+00:42:04,489 --> 00:42:05,909
+一个就像你在观察一样。
+One is like you observe to.
+
+581
+00:42:05,909 --> 00:42:09,109
+另一个就像你在解码，对吗？
+The other is like you are decoding, right?
+
+582
+00:42:09,109 --> 00:42:13,909
+表面上看这张图，这根本不是batchb，对吧？
+Superficially if you look at this picture, this is not batchb at all, right?
+
+583
+00:42:13,909 --> 00:42:16,010
+计算图是不同的。
+Be computation graph is different.
+
+584
+00:42:16,010 --> 00:42:19,270
+但我们再深入一步。
+But again, let's step deeper.
+
+585
+00:42:19,270 --> 00:42:21,850
+我来解释为什么这是蔬菜。
+I explain to you why this is vegetable.
+
+586
+00:42:21,850 --> 00:42:24,309
+我们再把它分解一下。
+Again, let's break it down.
+
+587
+00:42:24,309 --> 00:42:28,489
+计算由两部分组成，注意力和MLP。
+The computation composed of two parts, attention and MLP.
+
+588
+00:42:28,489 --> 00:42:32,670
+好吗？如果你想让这三个请求的计算一起运行，
+Okay? So if you want to make these three request computation run together,
+
+589
+00:42:32,670 --> 00:42:34,229
+我们一个一个来看，好吗？
+we look at one by one, okay?
+
+590
+00:42:34,229 --> 00:42:36,989
+那么对于它们的注意力部分，我们能把它们批处理吗？
+So for their attention, can we batch them?
+
+591
+00:42:38,730 --> 00:42:44,930
+从根本上说我们做不到，因为一个是在处理一个token，另一个是在处理多个token。
+Fundamentally we cannot because one is attending to one token attend to operate tokens.
+
+592
+00:42:44,930 --> 00:42:49,190
+另一个是三个token，你需要对神经网络进行批量处理。
+The other is three tokens, you need to perform a batch pass of the neural network.
+
+593
+00:42:49,190 --> 00:42:52,589
+这意味着它们不是蔬菜，这似乎不对。
+Which means that they are not a vegetable, and this seems wrong.
+
+594
+00:42:52,589 --> 00:42:56,129
+如果它们不是蔬菜，为什么要把它们放在一起？
+If they are not vegetable why are putting them together.
+
+595
+00:42:56,129 --> 00:43:00,669
+但实际上，如果你更注意细节，
+But in fact, if you pay more attention to detail,
+
+596
+00:43:00,669 --> 00:43:04,024
+你会发现，如果你看像MLP，我们能批量处理它们吗？
+you'll find that if you look like MLP, can we batch them?
+
+597
+00:43:04,024 --> 00:43:06,359
+是的，对于MLP，我们可以批量处理它们。
+Yes, for MLP, we can batch them.
+
+598
+00:43:06,359 --> 00:43:11,220
+即使是在预处理和解码时，我们也可以把MLP放到一次批量运行的新网络中。
+Even for prefer and decoding, we can put the MLP into one single battered run new network.
+
+599
+00:43:11,220 --> 00:43:16,760
+为什么？因为就像我说的，无论是在预处理还是解码中，MLP总是与token独立的。
+Why? Because like I said, no matter in prefer decoding, the MLP is always token independent.
+
+600
+00:43:16,760 --> 00:43:20,019
+它是自己对token进行操作的。
+It performs on the tokens by itself.
+
+601
+00:43:20,019 --> 00:43:24,460
+好吗？这意味着按照这个拆分方式，不会得到新的内部结构。
+Okay? That means that with this breakdown, will not get a new inside.
+
+602
+00:43:24,460 --> 00:43:28,629
+也就是说，即使我们把prefer和cooling放到同一批次里，
+That is, even if we put prefer and cooling into the same batch,
+
+603
+00:43:28,629 --> 00:43:31,410
+我们实际上至少可以把它们的MLP合并处理。
+we can actually at least batch their MLP.
+
+604
+00:43:31,410 --> 00:43:36,649
+好吗？现在，我想提醒你们上周我们做了什么，好吗？
+Okay? Now, I want to remind you what we did last week, okay?
+
+605
+00:43:36,649 --> 00:43:44,870
+我记得我们为RM做了flops的计算，并且统计了tensing和MLP中的flops数量。
+I think we run the flops calculation for RMs, and we count the number of flops in a tensing and MLP.
+
+606
+00:43:44,870 --> 00:43:47,309
+我希望你们还记得那个百分比。
+I hope you still remember the percentage.
+
+607
+00:43:47,309 --> 00:43:51,630
+那么，RM中哪个部分占用了最多的flops？
+So which component in RM occupy the most flops?
+
+608
+00:43:52,340 --> 00:43:55,180
+大多数情况下是MLP，对吧？
+MLP in most cases, okay?
+
+609
+00:43:55,180 --> 00:43:57,299
+除非你有一个超级长的序列，对吗？
+Unless you have a super long sequence ance, right?
+
+610
+00:43:57,299 --> 00:44:01,059
+但在大多数情况下，你实际上只有中等或较短的序列。
+But in most cases, you have actually medium to low sequenans.
+
+611
+00:44:01,059 --> 00:44:05,140
+这意味着如果你这么做，是的，你的系统会变得更复杂。
+Which means that if you do this, yes, your system is going to be more complicated.
+
+612
+00:44:05,140 --> 00:44:07,699
+但实际上你能获得很多好处。
+But you actually can win a lot.
+
+613
+00:44:07,699 --> 00:44:12,379
+为什么？因为就像我说的，在大多数请求和大多数序列场景下，
+Why? Because like I said, in most requests in most sequence ans regime,
+
+614
+00:44:12,379 --> 00:44:17,759
+那个MLP会占用你90%的计算量，如果你能把它批量处理，你就赢了，对吧？
+that MLP is going to take 90% of your flops, and if you are able to batch it, you win, right?
+
+615
+00:44:17,759 --> 00:44:24,320
+至于注意力机制，是的，你无法批量处理它，但没关系，因为它只占10%的计算量。
+And for attention, yes, you are not able to batch it, but it's fine because it's only 10% of flops.
+
+616
+00:44:24,320 --> 00:44:27,459
+我们来算一下，如果按顺序处理是否可行。
+Let's just compute if the sequential is okay.
+
+617
+00:44:27,459 --> 00:44:32,660
+好吗？所以这是最重要的见解，来自于连续批处理。
+Okay? So this is the biggest insight, taken from continuous batching.
+
+618
+00:44:32,660 --> 00:44:34,180
+现在你明白了。
+And now you understand.
+
+619
+00:44:34,180 --> 00:44:36,999
+好吗？那为什么人们会发现这种形式呢？
+Okay? So why people discover this form?
+
+620
+00:44:36,999 --> 00:44:42,979
+因为在所有像petrogTener flow这样的框架出现之前，他们并不了解这种方式。
+Because before all frameworks like petrogTener flow, they don't understand this kind of
+
+621
+00:44:42,979 --> 00:44:45,379
+就像他们在这个层面上没有被详细处理一样。
+like they are not handled in detail at this level.
+
+622
+00:44:45,379 --> 00:44:50,300
+所以基本上他们把计算机当作静态的，然后通过新网络进行转发。
+So basically they treat the computer as static and they forward about through the new network.
+
+623
+00:44:50,300 --> 00:44:58,779
+明白了吗？这就是为什么在C批处理之前，如果人们把请求放到petrog或者Tinder flow里，
+Okay? That's why before C batching, if people put the request into petrog or into Tinder flow,
+
+624
+00:44:58,779 --> 00:45:00,620
+你是得不到很高的效率的。
+you are not going to get great efficiency.
+
+625
+00:45:00,620 --> 00:45:05,939
+但后来，我记得大约一年半前在OSDI 2023上有一篇论文发表，
+But later, I think there's a paper published in OSDI 2023, basically 1.5 years ago,
+
+626
+00:45:05,939 --> 00:45:09,179
+他们提出了一种技术，能够把这个问题分解成
+they discourage technique, and they are able to break this down into
+
+627
+00:45:09,179 --> 00:45:14,669
+MLP，并且对图的不同部分采用不同的批处理策略。明白了吗？嗯。
+MLP and they do different batching strategy for different parts of the graph. Okay. Yeah.
+
+628
+00:45:21,030 --> 00:45:23,229
+抱歉。
+Sorry.
+
+629
+00:45:24,590 --> 00:45:34,729
+嗯，是的，这是个很好的问题。
+Uh huh. Yes, that's a really good question.
+
+630
+00:45:34,729 --> 00:45:37,690
+这是个很好的问题。所以你的意思是如果我们批处理的话
+That's a really good question. So you're saying if we batch
+
+631
+00:45:37,690 --> 00:45:42,309
+rthter prefer 和 Ring 更喜欢 MLP，因为动脉非常长，
+the MLP of rthter prefer and Ring together, because artery is super long,
+
+632
+00:45:42,309 --> 00:45:44,810
+那么 r1r2 就会被延迟。
+then r1r2 is going to be delayed.
+
+633
+00:45:44,810 --> 00:45:46,789
+这个问题问得很好。我会讲到这个。
+Really good question. I'm going to cover that.
+
+634
+00:45:46,789 --> 00:45:49,734
+好吗？是的，我在这方面发表过论文。
+Okay? Yeah, I publish paper on that. Yeah.
+
+635
+00:45:49,734 --> 00:45:53,499
+为了解决这个问题。是的，我可以再多讲一些。
+To solve that problem. Yeah. I can give you more.
+
+636
+00:45:53,499 --> 00:45:55,859
+这叫做前缀解码分离。
+It's called prefiw decode disaggregation.
+
+637
+00:45:55,859 --> 00:45:57,920
+这叫做分离式预防解码。
+It's called disaggregated prevent decoding.
+
+638
+00:45:57,920 --> 00:46:00,839
+这是目前存储超大数据的默认技术。
+That is the default technique today for storing really large bits.
+
+639
+00:46:00,839 --> 00:46:02,919
+我觉得你已经发现了这个问题。
+And I think you already spotted that problem.
+
+640
+00:46:02,919 --> 00:46:05,419
+但我们先把这个问题讲完。好的，现在，
+But let's finish this problem. Okay. And now,
+
+641
+00:46:05,419 --> 00:46:07,899
+你明白条件批处理的本质，对吧？
+you understand the essence of condition batching, right?
+
+642
+00:46:07,899 --> 00:46:13,359
+所以这是条件批处理的第一个非常好的好处，但还有更多。
+So this is the first, very good benefit of condi batching, but there are more.
+
+643
+00:46:13,359 --> 00:46:16,380
+为什么？因为现在你变得更加灵活了，
+Why? Because now you become more flexible,
+
+644
+00:46:16,380 --> 00:46:20,560
+以前，你总是运行静态批处理，并且等待那个批次完成。
+Previously, you always run static batch and you wait for that batch to finish.
+
+645
+00:46:20,560 --> 00:46:24,159
+现在因为你能够把这个组合图分解成一个小型的MLP，
+And now because you are able to break this cobion graph into a tinging MLP and
+
+646
+00:46:24,159 --> 00:46:25,640
+你可以采用不同的批处理策略。
+you do different batching strategy.
+
+647
+00:46:25,640 --> 00:46:27,320
+所以你可以更加灵活。
+So you can be more flexible.
+
+648
+00:46:27,320 --> 00:46:28,959
+那么我说的灵活性是什么意思呢？
+So what do I mean by flexibility?
+
+649
+00:46:28,959 --> 00:46:33,679
+在这里，你总是可以接收一个新的请求并把它加入到一个批次中，
+So here, you can always pick up a new request and put it into a batch,
+
+650
+00:46:33,679 --> 00:46:37,200
+并且让它和其他正在解码的批次一起运行。
+and make it running with other ongoing batches, which are in decoding.
+
+651
+00:46:37,200 --> 00:46:43,739
+你还可以做另一件事，比如说，如果艺术品完成了，好吧，我刚刚搞定了。
+And you can also do another thing that is say, if the art is finished, okay, I just aced it.
+
+652
+00:46:43,739 --> 00:46:45,519
+是的，我会把它还给用户。
+Yeah, I just return it to users.
+
+653
+00:46:45,519 --> 00:46:49,899
+这就是为什么我会留出另一个存储点，从队列中接收新的请求，对吧？
+And that's why leave another store for me to pick up another request from the queue, right?
+
+654
+00:46:49,899 --> 00:46:54,860
+这大大解决了halo行阻塞的问题，因为如果你对比传统批处理，
+And this greatly address the halo line blocking because if you compare traditional batching,
+
+655
+00:46:54,860 --> 00:46:56,540
+和连续批处理。
+and continuous batching.
+
+656
+00:46:56,540 --> 00:46:59,799
+传统批处理中，正在运行的批次必须等待
+What happens is in traditional batching, that running batch has to wait
+
+657
+00:46:59,799 --> 00:47:01,400
+最慢的请求完成。
+for the slowest request to finish.
+
+658
+00:47:01,400 --> 00:47:04,700
+但在连续批处理中，因为批处理策略本质上是不同的，
+But in continuous batching, because the batching strategy are fundamentally different,
+
+659
+00:47:04,700 --> 00:47:06,860
+我会不断接收新的请求。
+I'm going to always pick up a new request.
+
+660
+00:47:06,860 --> 00:47:09,380
+我会用不同的方式批处理它们在MLP上的注意力。
+I batch their attention on MLP differently.
+
+661
+00:47:09,380 --> 00:47:13,359
+好吗？这样你就可以看到，在传统批处理方式下，
+Okay? And in that way, you can see at its sp in traditional batching,
+
+662
+00:47:13,359 --> 00:47:16,559
+动脉在等待，但在连续批处理下，动脉会进入
+artery is waiting, but in continuous batching, artery is going to enter
+
+663
+00:47:16,559 --> 00:47:18,060
+电池并开始竞争。
+the battery and start competition.
+
+664
+00:47:18,060 --> 00:47:24,024
+从用户的角度来看，他们基本上会体验到更低的延迟，好吗？
+And from a user's perspective, they will basically experience a much lower latency, okay?
+
+665
+00:47:24,024 --> 00:47:26,429
+我会继续把这个讲完，好吗。
+And I will continue to finish this, okay.
+
+666
+00:47:26,429 --> 00:47:30,449
+所以在这一步，你正在计算首选ASR和解码环境在两个，
+So at this step, you are computing the prefer ASR and decoding environment at two,
+
+667
+00:47:30,449 --> 00:47:32,889
+但你观察到一个或两个请求，对吧？
+but you observe one er two request, right?
+
+668
+00:47:32,889 --> 00:47:36,590
+你要做的就是继续选择请求。
+And what you do is you continue to pick up to request.
+
+669
+00:47:36,590 --> 00:47:39,469
+所以在这里，很明显你不能选择，因为就像我说的，
+So here, apparently, you cannot pick up because like I said,
+
+670
+00:47:39,469 --> 00:47:42,470
+这个TP只有能力支持请求。
+this TP only have capacity to support request.
+
+671
+00:47:42,470 --> 00:47:45,810
+所以你要做的是观察到请求二正在命中我们。
+So what you do is you observe that two is hitting US.
+
+672
+00:47:45,810 --> 00:47:49,460
+所以你基本上退出那个请求，返回给用户。
+So you basically exit that request, return to users.
+
+673
+00:47:49,460 --> 00:47:52,290
+对吧？然后你立刻接手我们的请求。
+Right? And you pick up our immediately.
+
+674
+00:47:52,290 --> 00:47:54,429
+在这个批次中，发生的情况是R三，
+In this batch, what happens is R three,
+
+675
+00:47:54,429 --> 00:47:58,669
+R一基本上进入了解码阶段，但R四在做预处理。
+R one are basically entering decoding, but R four is doing pre few.
+
+676
+00:47:58,669 --> 00:48:03,389
+你基本上分别处理它们的注意力核，但你把MLP的通信合并成
+You basically act their attention kernel separately, but you batch the MLP communication into
+
+677
+00:48:03,389 --> 00:48:06,050
+一个大批次，以利用diplls。
+one big batch to leverage diplls.
+
+678
+00:48:06,050 --> 00:48:09,229
+明白了吗？同样的道理，对吧？
+Okay? And same thing, right?
+
+679
+00:48:12,910 --> 00:48:18,150
+所以同样的，你一直这样做，直到你观察到没有请求为止。
+So same thing, you keep doing this until you observe no requests.
+
+680
+00:48:18,150 --> 00:48:21,789
+好的，总结一下，好吗？
+Okay. To summarize, okay?
+
+681
+00:48:21,789 --> 00:48:26,189
+所以连续批处理非常聪明，因为它能更高效地处理提前完成和低速率的请求。
+So continuous batching is really smart because it handles early finished and
+
+682
+00:48:26,189 --> 00:48:28,410
+而且显然，由于你能够组成更大的批次，所以可以提升你的吞吐量。
+little rate requests more efficiently.
+
+683
+00:48:28,410 --> 00:48:35,009
+关键的见解是，注意力机制只消耗很小比例的计算量。
+And apparently because you are able to make a bigger batch size, so you can improve your tion.
+
+684
+00:48:35,009 --> 00:48:39,730
+至少对于短到中等长度的序列来说是这样。
+And the key insight here is attention consumes small percentage of flops,
+
+685
+00:48:39,730 --> 00:48:43,289
+并且MLP核对序列长度这个维度是无关的。
+Okay, at least for short to medium six lengths.
+
+686
+00:48:43,289 --> 00:48:46,390
+所以你总是可以把transformer里的各种计算批量处理。
+And MLP kernels are agnostic to the six dimension.
+
+687
+00:48:46,390 --> 00:48:49,390
+更倾向于把解码合并成一个大批次来提升吞吐量。
+So you can always batch whatever kind of computation in transformer
+
+688
+00:48:49,390 --> 00:48:53,949
+好的，有关于连续批处理的问题吗？很好。
+prefer decoding into one big batch to improve don.
+
+689
+00:48:53,949 --> 00:48:59,679
+没问题。之前我还以为可以给你们留个作业。
+Okay. Any question for continuous batching? Cool.
+
+690
+00:48:59,679 --> 00:49:04,219
+
+We are good. Previously, I thought I could make a homework for you to
+
+691
+00:49:04,219 --> 00:49:06,499
+写连接代码，但我现在没有时间。
+write connection, but I don't have time.
+
+692
+00:49:06,499 --> 00:49:10,720
+不过我认为这是一个很好的练习，因为你必须能够实现
+But I think this is a pretty good practice, because you have to be able to implement
+
+693
+00:49:10,720 --> 00:49:14,819
+这种服务器-客户端架构，这也是我们今天默认的架构。
+this server client architecture, which is a default here today.
+
+694
+00:49:14,819 --> 00:49:17,519
+但也许我们下次再做这个吧。
+But maybe let's do that next time.
+
+695
+00:49:17,720 --> 00:49:20,999
+那么我们来试着解决第二个问题。
+Then let's try to address the second problem.
+
+696
+00:49:20,999 --> 00:49:26,559
+我认为第二个问题更加难以理解，很多人都发现不了这个问题。
+I think a second problem is even more opaque and many people they cannot discover this problem.
+
+697
+00:49:26,559 --> 00:49:29,859
+它隐藏在更底层。
+It's hidden in a lower layer.
+
+698
+00:49:29,859 --> 00:49:31,984
+我们来看看这个问题是什么，好吗？
+Let's see what's the problem, okay?
+
+699
+00:49:31,984 --> 00:49:36,289
+那么，在推理过程中，让我再重复一遍，对吧？
+So so in inference process, let me repeat, right?
+
+700
+00:49:36,289 --> 00:49:40,569
+所以M有一个独特的组件，叫做KB缓存，对吗？
+So M has a unique component, which is called KB catch, right?
+
+701
+00:49:40,569 --> 00:49:45,989
+嗯，所以基本上，在处理新标记时，模型实际上需要
+Um, so basically, in processing new tokens, the model actually needs to
+
+702
+00:49:45,989 --> 00:49:51,790
+不仅需要当前标记的表示，还需要之前标记的表示，
+not only the repent of the current token, it also needs the repenting of the previous tokens,
+
+703
+00:49:51,790 --> 00:49:53,789
+而这种表示基本上就是KB缓存。
+and that rent is basically the KB cache.
+
+704
+00:49:53,789 --> 00:49:58,270
+明白了吗？所以之前标记的这些状态应该保存在内存中，
+Okay? So this states of previous tokens should be kept in memory,
+
+705
+00:49:58,270 --> 00:50:00,449
+这基本上就叫做KB缓存。
+and this is basically called KB catch.
+
+706
+00:50:00,449 --> 00:50:11,439
+明白了吗？比如说，在这个例子里，一个新标记，比如“未来”，对吧？
+Okay? So so a new token, for example, in this example, the future uh the future comes, right?
+
+707
+00:50:11,439 --> 00:50:16,139
+所以除了当前的标记本身，我们还需要关注所有之前标记的KB缓存，
+So besides the token itself, we also need to attend to all the KB caches
+
+708
+00:50:16,139 --> 00:50:17,819
+对吧？
+of the previous tokens, right?
+
+709
+00:50:17,819 --> 00:50:22,759
+所以我们基本上会持续关注之前的KB缓存，然后生成下一个标记。
+So we basically keep attending to the previous KB catch and we generate next token.
+
+710
+00:50:23,920 --> 00:50:30,039
+好的，总结一下刚才说的内容。
+Okay. So basically, to recap a little bit, okay.
+
+711
+00:50:30,039 --> 00:50:37,320
+基本上，KV缓存是一个用于存储标记中间向量表示的内存空间。
+So basically KV catch is a memory space to store the intermediate vector representations of tokens.
+
+712
+00:50:37,320 --> 00:50:45,299
+我们其实可以把它理解为一个工作集，而不是缓存。
+And um, and basically, we can understand it as a working set rather than a catch.
+
+713
+00:50:45,299 --> 00:50:47,959
+所以我想纠正一下这个词，好吗？
+So I want to correct this word, okay?
+
+714
+00:50:47,959 --> 00:50:51,899
+这个领域的人都叫它缓存，但你们可能知道
+People in this field, they call this catch, but you probably know what
+
+715
+00:50:51,899 --> 00:50:53,659
+缓存的正式定义是什么。
+is the formal definition of catch.
+
+716
+00:50:53,659 --> 00:50:56,679
+缓存是你可能命中也可能不命中的东西。
+So catch is something that you can hit or may not hit.
+
+717
+00:50:56,679 --> 00:51:01,499
+但在这个例子里，它其实不是缓存，因为它总是会被命中，对吧？
+But in this example, it is not a cache why because it'll always be hit, right?
+
+718
+00:51:01,499 --> 00:51:04,919
+这个名字有点奇怪，因为是做硬件的人起的，
+Um I had a weird name because the name was come up with by machinery people,
+
+719
+00:51:04,919 --> 00:51:06,480
+不是系统领域的人，所以不严谨。
+not system people. It's not rigorous.
+
+720
+00:51:06,480 --> 00:51:08,739
+但我们就这样理解它吧，好吗？
+But let's just understand it that way, okay?
+
+721
+00:51:08,739 --> 00:51:12,699
+这是百分之百的隐藏缓存，好吗？所以
+This is 100% hid cache, okay? So
+
+722
+00:51:13,360 --> 00:51:18,379
+如果你把记忆看作一种模式，其实有两种模式，对吧？
+So if you look at the memories, kind of like a pattern, there are two patterns, right?
+
+723
+00:51:18,379 --> 00:51:22,879
+一种是 QVC 的大小会动态增长。
+One is, the size of the QVC what dynamic grows.
+
+724
+00:51:22,879 --> 00:51:29,139
+因为随着你的解码过程继续，QB 缓存的大小
+Because as your decoding continues, the size of the QB cash
+
+725
+00:51:29,139 --> 00:51:31,239
+与请求对应的缓存也会增长。
+corresponding to the request is going to grow.
+
+726
+00:51:31,239 --> 00:51:33,459
+但在某个时刻，它会缩小。
+But at some point, it will shrink.
+
+727
+00:51:33,459 --> 00:51:36,940
+为什么？因为那个请求已经结束了。
+Why? Because that requests finishing.
+
+728
+00:51:36,940 --> 00:51:39,020
+并且因为我们应用了条件批处理。
+And because we apply conditions batching.
+
+729
+00:51:39,020 --> 00:51:41,980
+一旦那个请求结束，我们就会执行请求，
+Once that request is finished, we are going to act request,
+
+730
+00:51:41,980 --> 00:51:45,680
+把它返回给用户，然后释放对应的内存空间
+return it to users, and we are going to release the memory space corresponding
+
+731
+00:51:45,680 --> 00:51:47,459
+到该请求的Qcache中。
+to the Qcache of that request.
+
+732
+00:51:47,459 --> 00:51:53,660
+基本上，从我们的请求角度来看，QB缓存的内存就是这样工作的。
+Basically, from our request perspective, the memory of the QB caches like this it inarly
+
+733
+00:51:53,660 --> 00:51:56,839
+女孩，然后突然就变了。明白吗？
+girl and then suddenly becomes. Okay?
+
+734
+00:51:56,839 --> 00:52:03,589
+这样说有道理吗？好的，明白了。那么接下来，
+Does that make sense? Okay. Cool. Okay, so with that,
+
+735
+00:52:03,589 --> 00:52:06,869
+嗯，呃，我们可以直接把Kcatch放到内存里，对吧？
+um, uh, we can just put K catch in memory, right?
+
+736
+00:52:06,869 --> 00:52:09,170
+那么我们为什么要关心这些缓存呢？
+So why do we care about these catches?
+
+737
+00:52:09,170 --> 00:52:16,129
+好的，接下来我要给大家展示今天讲座中最重要的幻灯片之一。
+Okay. And next, I'm going to give you one of the most important slides for today's lecture.
+
+738
+00:52:16,129 --> 00:52:17,790
+那么为什么QBCach很重要呢？
+So why QBCach matters.
+
+739
+00:52:17,790 --> 00:52:23,229
+好，如果我告诉你，其实高效地管理Kcatch在
+Okay. So what if I tell you that basically efficient management of Kcatch in
+
+740
+00:52:23,229 --> 00:52:27,050
+内存中实际上可以提升AM服务的吞吐量。
+memory can actually improve the AM service throughput.
+
+741
+00:52:27,050 --> 00:52:29,149
+这其实挺反直觉的，对吧。
+This is pretty counterintuitive, right.
+
+742
+00:52:29,149 --> 00:52:31,330
+为什么管理内存可以提升吞吐量。
+Why managing memory can improve throughput.
+
+743
+00:52:31,330 --> 00:52:36,639
+但事实就是这样。明白吗？我们来看一下，我们运行一个130亿参数的模型。
+But this is the case. Okay? So let's see, we run a 13 billion model.
+
+744
+00:52:36,639 --> 00:52:40,789
+嗯，40G的GPU，这就是A100，对吧，
+Um, 40 gigaGPU, this is A 100 right,
+
+745
+00:52:40,789 --> 00:52:44,850
+40G内存，我们基本上是在运行一个130亿参数的ama模型。
+40 giga memory, and we are basically running a 13 billion ama.
+
+746
+00:52:44,850 --> 00:52:49,070
+如果你看这个分解，因为我们有130亿个参数，
+So if you look at this breakdown, because we have 13 billion parameters,
+
+747
+00:52:49,070 --> 00:52:55,715
+所以我们首先会消耗26G来存储权重，对吧，乘以二，明白吗？
+so we are going to first consume 26 giga to store we, right time two, okay?
+
+748
+00:52:55,715 --> 00:53:01,960
+另外，我们还有一小块区域，主要用来生成那些中间状态。
+And in addition, we have a small other area which will basically generate those intermediate states.
+
+749
+00:53:01,960 --> 00:53:04,139
+但因为这是推理，我们不需要存储它们。
+But because it's inference, we don't have to store them.
+
+750
+00:53:04,139 --> 00:53:05,879
+一旦生成了这些状态，我们就把它们丢弃。
+Once we generate the we throw them away.
+
+751
+00:53:05,879 --> 00:53:08,439
+我们转到下一层。所以这是一个小区域。
+We forward to next layer. So it's a small area.
+
+752
+00:53:08,439 --> 00:53:13,479
+基本上，如果你看粉色部分，基本上就是剩下的内存，
+So basically, uh, if you look at the pink part, is basically the rest of memory that is
+
+753
+00:53:13,479 --> 00:53:16,340
+用于存储推理时的QB案例。
+used to store QB case for inference.
+
+754
+00:53:16,340 --> 00:53:30,039
+所以，我们基本上有一条曲线图，X轴是运行中的字节大小。
+So, we basically have a curve plot where um, the X access is running byte size.
+
+755
+00:53:30,440 --> 00:53:34,559
+连续批处理会不断将请求加入批次中。
+Continuous batching continue to pick up requests into the batch.
+
+756
+00:53:34,559 --> 00:53:38,759
+所以X轴是当前批次的字节大小，也就是你同时运行的
+So the X access is the running batch bite size, which is the number of
+
+757
+00:53:38,759 --> 00:53:40,360
+请求数量。
+requests you are running concurrently.
+
+758
+00:53:40,360 --> 00:53:42,919
+Y轴是内存使用量。
+Where access is the memory usage.
+
+759
+00:53:42,919 --> 00:53:45,180
+所以你的起点是26。
+So your starting point is 26.
+
+760
+00:53:45,180 --> 00:53:48,540
+为什么？因为你已经消耗了26条主干道。
+Why? Because you already consuming 26 motorways.
+
+761
+00:53:48,540 --> 00:53:52,379
+那么如果你继续像我说的那样，接收更多要在GPU上运行的请求，
+Then if you continue to pick up more requests to run on the GPU like I said,
+
+762
+00:53:52,379 --> 00:53:55,860
+QV模式会继续增长然后收缩。
+the QV pattern will continue to grow and then shrink.
+
+763
+00:53:55,860 --> 00:53:59,939
+但现在假设我们正在运行spatch，并且持续增加bite size。
+But now let's assume we are running spatch we continue to increase bite size.
+
+764
+00:53:59,939 --> 00:54:03,159
+那么你的内存曲线会像这样。
+Then your memory curve will be looking like this.
+
+765
+00:54:03,180 --> 00:54:05,460
+所以你会持续增长。
+So you will continue to grow.
+
+766
+00:54:05,460 --> 00:54:09,099
+一旦你接收请求，你会为bias消耗一些内存。
+Once you pick up request, you consume some memory for bias.
+
+767
+00:54:09,099 --> 00:54:12,219
+在某个时刻，你会达到40G。
+And at some point, you are going to kit 40 giga.
+
+768
+00:54:12,219 --> 00:54:15,459
+那意味着你的内存已经满了。
+That means that full you're full on memory.
+
+769
+00:54:15,459 --> 00:54:21,560
+好吗？好，你可能会好奇为什么我画了这个滚动条，但如果你做一个预测，
+Okay? Okay, you probably wonder why I draw this scroll, but if you do a projection,
+
+770
+00:54:21,560 --> 00:54:26,240
+你会发现，在某个时刻，好吗？我正在服务。
+you'll find that at some point, okay? I'm serving.
+
+771
+00:54:26,240 --> 00:54:30,659
+这个运行的批量大小受内存大小的限制。
+This running bitty size is limited by memory size.
+
+772
+00:54:30,700 --> 00:54:33,899
+如果你的内存不够大，你就无法容纳更大的批量大小。
+If you don't have enough memory, you are not going to accommodate
+
+773
+00:54:33,899 --> 00:54:37,180
+那么，为什么这很重要呢？
+a larger bit size. So why is this important?
+
+774
+00:54:40,180 --> 00:54:43,460
+是的，没错，因为这是GPU。
+Yeah, exactly, because this is GPU.
+
+775
+00:54:43,460 --> 00:54:48,899
+只要你的GPU计算没有成为瓶颈，你就可以继续增加你的批量大小，
+As long as your GPU compute is not bottleneck, you can continue to increase your bad size,
+
+776
+00:54:48,899 --> 00:54:51,719
+并且你的计算将在相同的时间内完成，
+and your commutation is going to finish in the same amount of time,
+
+777
+00:54:51,719 --> 00:54:54,019
+即使你有更大的批量大小。
+even if you have a larger bite size.
+
+778
+00:54:54,019 --> 00:54:59,679
+这意味着在推理服务中，基本上你的工作负载会受到内存瓶颈的限制。
+Which means that in serving, basically, your workload becomes memory bottlenecked.
+
+779
+00:54:59,679 --> 00:55:03,660
+你首先会遇到内存瓶颈，然后才会遇到计算瓶颈。
+You first hit the bottleneck memory, and then you hit the bottnFlops.
+
+780
+00:55:03,660 --> 00:55:11,029
+明白了吗？所以假设我们有一种方法，基本上可以把这条绿色曲线从陡峭的曲线变得平缓。
+Okay? So suppose if we have a way to basically flatten this green curve from this pretty steep curve
+
+781
+00:55:11,029 --> 00:55:14,329
+变成了一个稍微更好看的曲线，就是这个蓝色的。
+into a slightly more flattering curve, this blue one.
+
+782
+00:55:14,329 --> 00:55:19,269
+这意味着每次我们在运行批次中加入一个新请求时，我的曲线
+That means that every time we add a new request into running batch my curve
+
+783
+00:55:19,269 --> 00:55:22,669
+只会增加一点点，增长速度比之前的曲线慢很多。
+is only going to increase a little bit, much slower than previous curve.
+
+784
+00:55:22,669 --> 00:55:29,569
+然后如果你继续沿着这条曲线走，直到我碰到40G内存的限制，你可以看到，
+Then if you continue to trouble this curve until I hit the 40 giga memory limit, you can see,
+
+785
+00:55:29,569 --> 00:55:36,709
+如果我足够聪明地画出那条曲线，我再做一次垂直投影，
+I do another vertical projection if I'm smart enough to make that curve,
+
+786
+00:55:36,709 --> 00:55:39,699
+那么我就可以运行40个批次。
+then I can run running bats of 40.
+
+787
+00:55:39,699 --> 00:55:44,609
+问题在于GPU的计算量其实更少了。
+The problem is GPUs computation is looking at less.
+
+788
+00:55:45,010 --> 00:55:49,509
+基本上，吞吐量是批次大小的函数。
+Basically, the throughput is a function of bite size.
+
+789
+00:55:49,509 --> 00:55:55,289
+所以如果你能够更好地利用GPU，那么当你增加批次大小时，GPU的利用率
+So if you are able to uti GPU better, then your GPO is not going
+
+790
+00:55:55,289 --> 00:56:00,269
+并不会显著提升，这意味着运行一个批次
+to increase significantly if you increase the bite size, which means that running a bat
+
+791
+00:56:00,269 --> 00:56:03,169
+等于八并且运行速度等于四十时，它们花费的时间是一样的。
+equal to eight and running at equal to 40, they take same amount of time.
+
+792
+00:56:03,169 --> 00:56:06,969
+但因为你运行的电池等于四十，你每秒会产生更多的令牌。
+But because you are running a battery equal to 40, you are going to produce more tokens per second.
+
+793
+00:56:06,969 --> 00:56:09,969
+因此，如果你再画一条水平曲线，你的吞吐量会增加。
+Therefore, your throughput, if you draw another horizontal curve,
+
+794
+00:56:09,969 --> 00:56:12,834
+你会发现，吞吐量几乎增加了四倍。
+you say, the throughput increase almost four times.
+
+795
+00:56:12,834 --> 00:56:15,979
+好的，这其实是一个更深层次的见解。
+Okay. And this is a pretty deeper inside.
+
+796
+00:56:15,979 --> 00:56:18,079
+如果你不这样做，你可能永远不会注意到这一点。
+If you don't do this, you probably never observe this.
+
+797
+00:56:18,079 --> 00:56:21,480
+这是我的论文，VM。
+And this is my paper, VM.
+
+798
+00:56:21,480 --> 00:56:25,639
+显然，我们之所以这样做，是因为我们是GPU四。
+Apparently, the reason we did this is because we are GPU four.
+
+799
+00:56:25,639 --> 00:56:29,460
+假设你是谷歌，你用很多GPU在处理大量请求，
+Consider you are Google and you are serving a lot of requests using a lot of GPS,
+
+800
+00:56:29,460 --> 00:56:32,659
+你永远不会注意到这一点，因为你没有遇到内存瓶颈。
+you are never observing this because you are not hitting that memory of the neck.
+
+801
+00:56:32,659 --> 00:56:38,999
+好吗？我们观察到这一点，然后我们基本上构建了一个叫做VM的系统，这个VM基本上就是利用
+Okay? And we observe this and we basically build a system called VM, and this VM basically using
+
+802
+00:56:38,999 --> 00:56:41,519
+这个技巧来高效地管理
+this trick to efficiently manage
+
+803
+00:56:41,519 --> 00:56:46,760
+P内存，并将P内存转化为更高的吞吐量。
+P memory and convert that P memory into improved throughput.
+
+804
+00:56:46,760 --> 00:56:49,719
+明白了吗？现在你了解了内部原理。
+Okay? Now, you understand the inside.
+
+805
+00:56:49,719 --> 00:56:51,279
+那么它到底是怎么做到的呢？
+So how exactly did that?
+
+806
+00:56:51,279 --> 00:56:53,520
+我们来深入了解一下这个技术。
+Let's dive into the technique.
+
+807
+00:56:53,520 --> 00:56:59,280
+那么，为什么现有的系统在内存上效率低下呢？
+So basically why existing systems there memory inefficient, okay?
+
+808
+00:56:59,280 --> 00:57:05,279
+这是使用以前系统时KV缓存的一个快照。
+So so this is a snapshot of the KV catch when using a previous system, okay?
+
+809
+00:57:05,279 --> 00:57:08,560
+在这里我们发现了三种类型的内存浪费。
+So where we find out three types of memory waste.
+
+810
+00:57:08,560 --> 00:57:10,500
+第一种是预留。
+So the first is reservation.
+
+811
+00:57:10,500 --> 00:57:15,279
+也就是说你会保存很多内存存储，对吧，每个存储基本上都保存着
+So which means that you hold many memory stores, right, and each story basically saives
+
+812
+00:57:15,279 --> 00:57:17,419
+每个token的QV缓存，对吗？
+the QV cache for each token, okay?
+
+813
+00:57:17,419 --> 00:57:22,129
+第一种宽度类型是物理预留。那么什么是retbon？
+So, the first type of width is physical reserviion. So what is retbon?
+
+814
+00:57:22,129 --> 00:57:26,349
+Retbon的意思是那些此刻没有被使用的词，
+Rtobon means that those words that are not used at this moment,
+
+815
+00:57:26,349 --> 00:57:30,409
+但在之后的序列中会被使用。
+but will be used um for that sequence in the future.
+
+816
+00:57:30,409 --> 00:57:32,409
+为什么会有这种情况？
+Why why there is such a case?
+
+817
+00:57:32,409 --> 00:57:34,609
+因为你通常是一个一个地处理。
+Because you're talking generally one by one.
+
+818
+00:57:34,609 --> 00:57:40,289
+所以当你为那个token分配内存以存储keV时，你可以先让分配器给你，
+So when you allocate memory to see the keV for that token, you can first ask the allocator to give,
+
+819
+00:57:40,289 --> 00:57:43,829
+呃，我打算生成100个token。
+uh, I'm going to generate 100 tokens.
+
+820
+00:57:43,829 --> 00:57:45,949
+那你为什么不直接给我100个呢，对吧？
+Why don't you just give me 100, right?
+
+821
+00:57:45,949 --> 00:57:52,029
+但是一旦你请求了这100个，在你请求的那一刻，你就被分配了这100个槽位。
+But once you ask for this 100, at the moment you ask you are granted this 100 slots.
+
+822
+00:57:52,029 --> 00:57:54,170
+实际上你并没有生成100个token。
+You're actually not generating 100 tokens.
+
+823
+00:57:54,170 --> 00:57:56,690
+这就叫做报应，明白吗？
+So that's called retribution, okay.
+
+824
+00:57:56,690 --> 00:58:00,400
+所以，这里中间的这些词。
+So so here these words in the middle.
+
+825
+00:58:00,400 --> 00:58:05,220
+它们被保留了，因为在当前步骤并没有存储任何token，
+Okay, they are reserved because they don't store any token at the current step
+
+826
+00:58:05,220 --> 00:58:10,460
+在当前解码步骤没有存储，但会用于存储未来的token。
+at the current deconing step, but will be used to store, uh like future tokens.
+
+827
+00:58:10,460 --> 00:58:15,859
+明白了吗？第二种基本上被称为，这是一个保留token。
+Okay? So the second is basically called, um, this is a reserved token.
+
+828
+00:58:15,859 --> 00:58:20,759
+你看到了吧。所以它最终会被使用，但在当前步骤不会被用到，明白吗？
+You see that right. So it will be used eventually but not used at the current step. Okay?
+
+829
+00:58:20,759 --> 00:58:23,019
+第二种基本上被称为，嗯，
+The second is basically called, um,
+
+830
+00:58:23,019 --> 00:58:27,039
+我希望你学过操作系统课程，对吧？你知道这个，对吧？
+I hope you have taken operating system class, right? You know this right?
+
+831
+00:58:27,039 --> 00:58:31,100
+这被称为内部碎片化，意思是那些单词被分配了，
+It's called internal fragmentation, which means that those words
+
+832
+00:58:31,100 --> 00:58:33,279
+但实际上永远不会被使用。
+allocated for sequence, but will never be used.
+
+833
+00:58:33,279 --> 00:58:34,935
+那些都是已经分配的。
+That is all allocated.
+
+834
+00:58:34,935 --> 00:58:40,790
+好的。这种情况发生是因为序列的输出长度事先是未知的。
+Okay. So this happens because the output length of the sequence is not known or priory.
+
+835
+00:58:40,790 --> 00:58:43,830
+所以，实际上你根本不知道要分配多少，好吗？
+So, in fact, you don't know how much to allocate at all, okay?
+
+836
+00:58:43,830 --> 00:58:45,369
+所以你只能尝试一下。
+So you just try.
+
+837
+00:58:45,369 --> 00:58:47,889
+比如说，我就分配了，比如说，最大序列长度，
+For example, I just allocate, for example, the maximum sequence length,
+
+838
+00:58:47,889 --> 00:58:51,550
+我希望我的序列会用到那么多的token，但实际上它会提前结束，
+and I hope my sequence is going to use that many tokens, but in fact, it will exceed
+
+839
+00:58:51,550 --> 00:58:53,270
+在用完最大信号之前就结束了。
+earlier than using the maximum signals.
+
+840
+00:58:53,270 --> 00:58:55,190
+这就是所谓的内部碎片化。
+So this is what calls internal fragmentation.
+
+841
+00:58:55,190 --> 00:58:59,609
+当然，最后你会遇到一些外部碎片问题，
+And, of course, finally, you have some sort of external fragmentation that is because you
+
+842
+00:58:59,609 --> 00:59:04,370
+因为你为不同的请求分配了不同的空间，中间就会产生一些碎片，
+allocate different different sorts to different requests and there are some fragmentation between,
+
+843
+00:59:04,370 --> 00:59:06,719
+而你无法利用这些碎片空间。
+and you're not able to use this kind of thing.
+
+844
+00:59:06,719 --> 00:59:10,089
+那么，这个问题到底有多严重呢？
+So so how severe this is, okay?
+
+845
+00:59:10,089 --> 00:59:12,789
+如果你看看这个内存分布情况，
+So if you look at this, memory breakdown, okay?
+
+846
+00:59:12,789 --> 00:59:15,370
+内存浪费其实非常严重。
+The memory waste is very significant.
+
+847
+00:59:15,370 --> 00:59:20,170
+基本上，在这个分析中，针对不同的内存管理方案，
+So basically in this profile, data with different memory management schemes,
+
+848
+00:59:20,170 --> 00:59:25,989
+我们发现只有20%到30%的缓存实际上被用来存储token ss。
+we observe only 20 to 30% of kebic ash is actually utilized to store the token ss.
+
+849
+00:59:25,989 --> 00:59:29,209
+剩下的空间基本上都被浪费在了保留、
+The rest of the space is basically being wasted for reservation for
+
+850
+00:59:29,209 --> 00:59:30,770
+内部碎片和外部碎片上。
+internal and external fragmentation.
+
+851
+00:59:30,770 --> 00:59:38,329
+好吗？基本上我们做的就是，基本上试图让我们
+Okay? And basically what we do is, we basically, try to leave that we
+
+852
+00:59:38,329 --> 00:59:41,870
+基本上试图让那条绿色的进度条一直保持到99%。
+basically try to leave that green ban all the way to 99%.
+
+853
+00:59:41,870 --> 00:59:46,135
+好吗？也就是说，所有的内存最终都会被用来保存tokens。
+Okay? That is all the memory will be eventually utilized to save tokens.
+
+854
+00:59:46,135 --> 00:59:50,360
+我觉得在这一点上，如果你非常熟悉
+And I think at this point, you already, if you are very familiar
+
+855
+00:59:50,360 --> 00:59:53,899
+操作系统中的内存管理，你可能已经知道我们的技巧是什么了，对吧？
+with memory management in operating systems, you probably know what's our trick, right?
+
+856
+00:59:53,899 --> 00:59:58,820
+基本上你可以用所谓的虚拟内存，好吗，用页表。
+It's basically you can use a so called virtual memory, okay, use page tables.
+
+857
+00:59:58,820 --> 01:00:01,770
+但是你必须在机器学习系统中做这件事。
+Okay. But you have to do this machine learning systems.
+
+858
+01:00:01,770 --> 01:00:05,799
+这基本上就是我们试图把你在操作系统中学到的知识和
+Okay, that is basically like we try to connect the dots, what you have learned in OS and
+
+859
+01:00:05,799 --> 01:00:07,860
+我们今天在紧急系统中所做的事情联系起来。
+what we are doing today emergency systems.
+
+860
+01:00:07,860 --> 01:00:11,660
+所以现在你明白问题了。那么解决方案是什么呢？
+So now you understand the problem. So what's the solution?
+
+861
+01:00:11,660 --> 01:00:13,659
+这是一个非常古老的问题，对吧？
+This is a very old problem, okay?
+
+862
+01:00:13,659 --> 01:00:18,739
+所以我们解决这个问题的方法，基本上是采用了
+So the way we solve this problem is basically we employ the old idea of
+
+863
+01:00:18,739 --> 01:00:21,440
+操作系统中的虚拟内存和分页的老思路。
+virtual memory and paging in opening systems.
+
+864
+01:00:21,440 --> 01:00:23,299
+正如我们都知道的，
+So as we all know,
+
+865
+01:00:23,299 --> 01:00:29,919
+操作系统基本上使用分页来减少物理内存空间的碎片化，对吧？
+OS use basically pages to um to reduce fragmentation in the physical memory space, right?
+
+866
+01:00:29,919 --> 01:00:35,400
+并且使用虚拟内存来高效地实现不同进程之间的空间复用。
+So, and use virtual memory for efficient space multiplexing for different processes.
+
+867
+01:00:35,400 --> 01:00:41,909
+那么在这里，我们所做的基本上是，你可以把每个处理操作系统看作是一个请求。
+So here, what we do is basically you can think about each processing OS as a request in, Okay.
+
+868
+01:00:41,909 --> 01:00:46,269
+我采用了类似的思路来解决
+I use similar kind of idea to reserve the fragmentation in
+
+869
+01:00:46,269 --> 01:00:50,990
+KBCche中的碎片化问题，并实现请求之间的高效空间共享。
+KBCche and the unable efficient space sharing between requests.
+
+870
+01:00:50,990 --> 01:00:54,390
+这也是为什么这个注意力机制被称为分页注意力的原因。
+And this is why the other attention is called page attention.
+
+871
+01:00:54,390 --> 01:00:55,849
+好的，酷。让我们看看吧。
+Okay. Cool. Let's see.
+
+872
+01:00:55,849 --> 01:00:57,889
+我们尽快运行这个，好吗？
+Let's run this pretty quickly, okay?
+
+873
+01:00:57,889 --> 01:01:05,089
+首先，我们要为我的内存分解图中那个粉色部分的GPU内存进行分区，
+So to begin with, we first partition the GPU memory for that pink body in my memory breakdown graph,
+
+874
+01:01:05,089 --> 01:01:08,710
+分成，嗯，分成一个个的token块数组。
+into, um, into an array of token blocks.
+
+875
+01:01:08,710 --> 01:01:13,449
+这里，token块基本上就是一个固定大小的内存块，
+So here, a token block is basically a fixed size of chunk of memory that can
+
+876
+01:01:13,449 --> 01:01:16,149
+可以从左到右存储状态。
+store the states from left to right.
+
+877
+01:01:16,149 --> 01:01:18,309
+这里我持有很多很多块，对吧？
+Here I hold many many blocks, right?
+
+878
+01:01:18,309 --> 01:01:20,604
+我的块数量等于四。
+My blocks are equal to four.
+
+879
+01:01:20,604 --> 01:01:28,500
+好的，为了澄清一下，这里的token不是字符串。
+Okay. So to clarify a little bit, so the tokens here are not strings.
+
+880
+01:01:28,500 --> 01:01:30,840
+它基本上是KB案例对应的token。
+It's basically the KB case corresponding tokens.
+
+881
+01:01:30,840 --> 01:01:35,099
+所以基本上每个token块都会存储每个token的键向量。
+So basically each token block will store the key vectors for each token.
+
+882
+01:01:35,099 --> 01:01:41,420
+好的，所以实际上这不仅仅是一个字节或者类似的东西，而是一个固定大小。
+Okay. So it's actually more than just one bites or whatever. It's a fixed size.
+
+883
+01:01:41,420 --> 01:01:45,700
+这些是token状态，也就是序列中token的向量表示。
+So these are token states the vector repetition of the token in sequence.
+
+884
+01:01:45,700 --> 01:01:52,260
+比如说，在Lama 13 bin模型中，每个token状态会占用大约1兆字节的内存。
+So for example, in Lama 13 bin model, each token state would consume about 1 megabyte memory.
+
+885
+01:01:52,260 --> 01:01:55,899
+这意味着每个token块就是1兆字节，对吧？
+Which means that each token block is one megabytte, okay?
+
+886
+01:01:57,960 --> 01:02:03,480
+是的，所以在此基础上，我们引入了页面注意力机制。
+Yeah. So, so on top of this, we basically introduce page attention.
+
+887
+01:02:03,480 --> 01:02:06,499
+这是注意力核的新实现方式。
+So this is a new implementation of the attention kernel.
+
+888
+01:02:06,499 --> 01:02:11,139
+我们完全改变了执行注意力时的方式，
+So we completely change the way like when you perform attention,
+
+889
+01:02:11,139 --> 01:02:13,919
+也就是你如何从GPU内存中获取内存数据。
+how you fetch memories from GPU memory.
+
+890
+01:02:13,919 --> 01:02:17,019
+之前，你只是从一段连续的内存块中获取数据。
+Okay. Previously, you just fetch it from a continuous trunkil memory right on
+
+891
+01:02:17,019 --> 01:02:18,679
+TBM，但现在我们把它做成了分页的。
+TBM but now we make it pages.
+
+892
+01:02:18,679 --> 01:02:20,599
+所以你必须重新做那个内核初始化。
+So you have to redo that kernel inpation.
+
+893
+01:02:20,599 --> 01:02:25,699
+明白了吗？所以基本上，我们发现了之前系统的根本限制，
+Okay? So basically, we find out the fundamental limitation of the previous system that they
+
+894
+01:02:25,699 --> 01:02:32,019
+他们要求所有QB状态都必须存储在GPU的连续块状内存中。
+require all QB states right for a sequence to be stored in a continuous trunkil memory in GPU.
+
+895
+01:02:32,019 --> 01:02:37,269
+这其实是沿用了典型深度学习工作负载中的一种惯例，
+And this is a convention over like in typical deep learning workloads
+
+896
+01:02:37,269 --> 01:02:40,409
+也就是输入和输出的形状是静态的。
+where the input and output ships are static.
+
+897
+01:02:40,409 --> 01:02:46,229
+我认为很多深度学习框架，比如entropy和priority，都默认采用了这种方式。
+I think this was taken by granted by many deep learning frameworks like entropy and priority, okay?
+
+898
+01:02:46,229 --> 01:02:51,649
+但事实证明，这种方式在推理时非常低效，
+But it turns out that uh this is highly inefficient for inference where,
+
+899
+01:02:51,649 --> 01:02:55,469
+因为序列长度是高度动态的，你无法预知要生成多少个token。
+the sequence length are highly dynamic and you don't know how many token you are going to generate.
+
+900
+01:02:55,469 --> 01:02:58,529
+所以分页注意力机制就是直接针对这个限制提出的。
+So basically page attention directly address this limitation.
+
+901
+01:02:58,529 --> 01:03:02,030
+所以在页面注意力机制中，基本上 QV 缓存是存储在非连续的块状内存中的
+So with page attention, basically, the QV catch are basically stored
+
+902
+01:03:02,030 --> 01:03:07,969
+它们可以被存储在 GPU 内存中的任意位置
+in non continuous trunkle memory, and they can be stored in arbitrary position in the GP memory,
+
+903
+01:03:07,969 --> 01:03:10,969
+但我们有一种机制可以通过页面来管理它们
+but we have a mechanism to many them using pages.
+
+904
+01:03:10,969 --> 01:03:16,530
+所以我们基本上把这个 QV 缓存虚拟化成逻辑和物理的块
+So we basically virtualize this QV catch, uh to logical and physical talking blocks.
+
+905
+01:03:16,530 --> 01:03:19,690
+好的，那我们来看一个例子，看看它是怎么工作的
+Okay? So let's see how it works with the example.
+
+906
+01:03:19,690 --> 01:03:25,314
+这里我有一个请求，提示是“艾伦·图灵是一位计算机科学家”，对吧？
+Here I have a request with the prompt Alan Turing is a computer scientist, okay?
+
+907
+01:03:25,314 --> 01:03:31,139
+所以在逻辑视图中，token 还是被连续地存储在块中
+So basically in the logical view, okay, the tokens are still stored in consecutive blocks,
+
+908
+01:03:31,139 --> 01:03:36,059
+并且 token 的顺序从第一个到最后一个都被保留了
+um, and the order is preserved from the first token to the last token.
+
+909
+01:03:36,059 --> 01:03:42,199
+但我会引入一个页表，这个页表在中间，就是我现在画的这个
+But I'm going to introduce a page table where the page table is in the middle, which I who here.
+
+910
+01:03:42,199 --> 01:03:47,999
+它会把虚拟表映射到实际的物理表，也就是 GPU 内存中的表
+And it's going to map the virtual table into the actual physical table, in the GPO memory.
+
+911
+01:03:47,999 --> 01:03:53,839
+所以基本上在物理视图中，嗯，另一方面，同一序列中的token，
+So basically in the physical view, um, on the other hand, the tokens in the same sequence,
+
+912
+01:03:53,839 --> 01:03:59,859
+它们可能不会被存储在相邻的块中，而且这些块之间的顺序，
+they may not be stored in uh adjain blocks, and the order, the orders
+
+913
+01:03:59,859 --> 01:04:01,979
+是任意的。
+between different blocks are arbitrary.
+
+914
+01:04:01,979 --> 01:04:03,939
+但是我们在这里引入了映射。
+But we introduce the mapping here.
+
+915
+01:04:03,939 --> 01:04:08,319
+基本上，这个映射会告诉你每个逻辑视图
+Basically, this mapping is going to tell you how each other logical view
+
+916
+01:04:08,319 --> 01:04:09,699
+是如何映射到物理视图的。
+is going to map to the physical view.
+
+917
+01:04:09,699 --> 01:04:15,060
+这和操作系统中的页是完全一样的，明白吗？
+It's exactly the same as pages in operating systems, okay?
+
+918
+01:04:15,070 --> 01:04:17,609
+那我们继续这个例子，对吧？
+So let's continue with the example, right?
+
+919
+01:04:17,609 --> 01:04:21,949
+那我们来看一下模型通常预测下一个token的情况。
+So let's see the model has generally the next token end.
+
+920
+01:04:22,309 --> 01:04:27,829
+我们会在逻辑视图中把它写成下一个token是连续的。
+And we are going to write this in a logical view as the next token continuously.
+
+921
+01:04:27,829 --> 01:04:32,689
+但实际发生的是，我们使用块表来查询
+But what happened is using the block table, we are going to query where exactly
+
+922
+01:04:32,689 --> 01:04:34,409
+我们到底应该在物理内存的哪个位置写入数据。
+should we write in the physical memory.
+
+923
+01:04:34,409 --> 01:04:37,549
+在这个表中，它告诉我们应该把u写在
+In this table, it tells that we should write u at
+
+924
+01:04:37,549 --> 01:04:41,589
+物理块编号1的第三个位置。
+the physical block number one at the third position.
+
+925
+01:04:41,589 --> 01:04:46,129
+我们进行索引，找到物理块1的第三个位置，
+We do that indexing and we find a physical block one third position,
+
+926
+01:04:46,129 --> 01:04:48,889
+然后我们就把实际的QB catch写进去。
+and we basically write the actual QB catch.
+
+927
+01:04:48,889 --> 01:04:55,909
+好的。接着我们生成下一个数学家，然后继续
+Okay. So then we generate the next to mathematician and we keep
+
+928
+01:04:55,909 --> 01:04:58,209
+查询这个表，并在对应的位置写入，对吧？
+querying the table, and we're right there, right?
+
+929
+01:04:58,209 --> 01:05:02,070
+你可以看到实际写入并不是连续的。
+You can see the actual writing is not continuous.
+
+930
+01:05:02,150 --> 01:05:08,749
+最后，我们又生成了一个令牌，发现第二个块已经用完了。
+And finally, we generate another token and we find the second block is used up.
+
+931
+01:05:08,749 --> 01:05:14,509
+那我们该怎么办，我们要让内存分配器再给我们一行，对吧？
+So what do we do, we are going to ask the memory allocator to give us one more low, right?
+
+932
+01:05:14,509 --> 01:05:17,269
+这就是我为什么要强调这一点。
+So here why I emphasize this.
+
+933
+01:05:18,139 --> 01:05:22,199
+因为我只是让我的分配器只给我一个。
+Because I'm only asking my allocator to give me one
+
+934
+01:05:22,199 --> 01:05:26,059
+只有在我之前的块用完的时候才再要一个。
+more only when my previous talking block was used up.
+
+935
+01:05:26,059 --> 01:05:28,979
+这样就完全消除了预留的问题。
+And this completely remove reservation.
+
+936
+01:05:28,979 --> 01:05:31,599
+我再也不需要预留了。
+I never need to reserve anymore.
+
+937
+01:05:31,599 --> 01:05:34,719
+为什么预留很糟糕。
+Why reservation is pretty bad.
+
+938
+01:05:34,719 --> 01:05:37,819
+你会承受很大的机会成本。
+You suffer a strong opportunity cost.
+
+939
+01:05:37,819 --> 01:05:40,879
+如果你预留了内存，那些内存就不能被所有集合中的新请求使用。
+If you reserve memory, you are not going to make that memory
+
+940
+01:05:40,879 --> 01:05:44,159
+这样就无法让内存对所有即将到来的请求都可用。
+usable for the incoming requests in all set.
+
+941
+01:05:44,159 --> 01:05:48,939
+这和操作系统中的页表完全一样。
+That's exactly the same with page tables in operating systems.
+
+942
+01:05:48,939 --> 01:05:51,624
+你基本上消除了机会成本。
+You basically eliminate the opportunity cost.
+
+943
+01:05:51,624 --> 01:05:56,549
+好的。那么这里，我发现我的第二个块表已经完成了。
+Okay. So here, I found my second block table is done.
+
+944
+01:05:56,549 --> 01:06:03,249
+我移动到了我的第三行，这一行只在运行时需要时才分配。
+I moved to my third third row and this third row was allocated in runtime only when needed.
+
+945
+01:06:03,249 --> 01:06:09,999
+我一直这样做，按需分配，并继续写入下一个o。好的。
+I keep doing this, allocate it on demand and keep writing to next o. Okay.
+
+946
+01:06:09,999 --> 01:06:14,739
+当有多个请求进入队列时，这种方式效果更好，对吧？
+And this is even better when we have multiple requests coming to the queue, right?
+
+947
+01:06:14,739 --> 01:06:18,819
+因为如果有多个请求，我们基本上会给它们不同的逻辑视图，
+Because if you have multiple requests we basically, give them different logical views,
+
+948
+01:06:18,819 --> 01:06:23,299
+而这些逻辑视图其实都映射到同一个物理空间，
+and this logical view we all basically mapped into the same physical space,
+
+949
+01:06:23,299 --> 01:06:26,240
+这个空间是由内核分页的，对吧？
+which is paged, okay, by kernels.
+
+950
+01:06:26,240 --> 01:06:34,559
+好的，酷。那么总结一下，让我们分析一下页注意力的内存效率。
+Okay. Cool. To summarize, okay, uh, let's analyze the memory efficiency of page attention.
+
+951
+01:06:34,559 --> 01:06:39,999
+所以首先，我们的内部碎片非常少。
+So first, we have very minimal internal fragmentation.
+
+952
+01:06:39,999 --> 01:06:46,659
+为什么？这是因为内部碎片只会出现在序列的最后一个块。
+Why? This is because the internal fragmentation only happens at the last block of the sequence.
+
+953
+01:06:46,659 --> 01:06:51,039
+所以我们的内部碎片被块的大小所限制。
+So our internal fragmentation is bonded by the block size.
+
+954
+01:06:51,039 --> 01:06:54,759
+它不会超过我之前例子中的四个标记。
+It's not going to be greater than in my previous example, four tokens.
+
+955
+01:06:54,759 --> 01:06:57,419
+最多我们只会浪费三个标记。
+At most we only wait three tokens.
+
+956
+01:06:57,419 --> 01:07:01,145
+这基本上消除了内部碎片的问题。
+That basically eliminated the internal fragmentation.
+
+957
+01:07:01,145 --> 01:07:03,709
+我们也没有外部碎片。
+We also don't have external fragmentation.
+
+958
+01:07:03,709 --> 01:07:09,869
+为什么？因为现在我们总是分配固定大小的块，也就是四个标记，
+Why? Because now we always allocate a block of fixed size that is four tokens,
+
+959
+01:07:09,869 --> 01:07:12,129
+所以没有外部碎片。
+so there's no external fragmentation.
+
+960
+01:07:12,129 --> 01:07:18,329
+最后，我们没有预留空间，因为每个块都是按需分配的。
+Finally, we don't have reservation because each block is allocated on demand.
+
+961
+01:07:18,329 --> 01:07:21,429
+所以每当我们需要的时候，我们才分配内存，我们并没有预留任何东西。
+So whenever we need it, we allocate we're not reserving anything.
+
+962
+01:07:21,429 --> 01:07:24,089
+我们完全消除了机会成本。
+We completely eliminate the opportunity cost.
+
+963
+01:07:24,089 --> 01:07:30,790
+基本上因此，你可以在VOM中看到内存利用率大大提高。没错。
+Basically as a result, you can see in VOM the memory utilition is greatly improved. Agree.
+
+964
+01:07:30,790 --> 01:07:36,569
+是的。我们基本上消除了外部和重分配的成本。
+Yeah. We basically eliminate the external and retribon cost.
+
+965
+01:07:37,010 --> 01:07:42,130
+好的。我们得到了96.3%的利用率，你的补充也没问题。
+Okay. And we get a 96.3% okay your addition.
+
+966
+01:07:42,130 --> 01:07:44,589
+好的，那这基本上就结束了。
+Okay, so that'll basically wrap up.
+
+967
+01:07:44,589 --> 01:07:48,449
+请大家注意一下。有问题吗？可以提问。
+Put your attention. Any question? Yeah.
+
+968
+01:07:50,430 --> 01:07:53,589
+嗯，我们需要……对。
+Um, we need. Yeah.
+
+969
+01:07:55,870 --> 01:07:58,729
+好的。我这里有一些传闻。
+Okay. I have some rumors here.
+
+970
+01:07:58,729 --> 01:08:01,949
+基本上当我们构建这个V的时候，我觉得Jensen非常生气。
+Basically when we build this V I think Jensen is pretty mad.
+
+971
+01:08:01,949 --> 01:08:07,369
+嗯，他的意思是，你应该是构建这个B媒体的人，B媒体应该更加
+Um he sort of like, you should be media who builds this B media should be more
+
+972
+01:08:07,369 --> 01:08:11,510
+熟悉他们的硬件，并且应该以分页的方式来管理他们的GPU内存。
+familiar with their hardware and this should manage their GPU memory in a way that is page.
+
+973
+01:08:11,510 --> 01:08:13,269
+但事实证明，是我们先做到了这一点。
+But it turns out that we build this first.
+
+974
+01:08:13,269 --> 01:08:18,409
+是的。这也是为什么我们现在和媒体公司密切合作，并且我们试图将这个功能
+Yeah. That's why we now collaborating with media pretty closely, and we try to push this into
+
+975
+01:08:18,409 --> 01:08:19,829
+推进到他们的GPU中，作为一个原生特性。
+their GPU as a native feature.
+
+976
+01:08:19,829 --> 01:08:23,749
+嗯，好的，好的，很酷。
+Yeah. Okay. Okay, cool.
+
+977
+01:08:23,749 --> 01:08:29,049
+我想我已经介绍了第二个关键技术，分页注意力，显然这个分页注意力
+I think I covered the second key technique, page attention, and apparently this page attention
+
+978
+01:08:29,049 --> 01:08:31,154
+已经开始流行起来了。请继续。
+has already taken off. Yeah, please.
+
+979
+01:08:31,154 --> 01:08:43,639
+嗯，我不太确定，但我觉得当我们在2023年发布这个的时候，我们在推理服务上领先于open。
+Yeah. I don't know, but I think when we part this in 2023, we are ahead of open on serving.
+
+980
+01:08:43,639 --> 01:08:45,579
+是的，所以基本上，当我们发布这个的时候，
+Yeah. So basically, when we put this,
+
+981
+01:08:45,579 --> 01:08:46,919
+我认为这会带来巨大的影响
+I think this make a huge impact to
+
+982
+01:08:46,919 --> 01:08:50,744
+Google Dibne 和 Open Air，他们都在尝试模仿我们的技术。
+Google Dibne and open air, they all try to mimic our technique.
+
+983
+01:08:50,744 --> 01:08:56,629
+是的。好的。是个很好的问题。
+Yeah. Okay. Yeah. Very good question.
+
+984
+01:08:56,629 --> 01:09:00,209
+你做应用时，是的。你运行16的块大小，
+You do application. Yeah. You run block size of 16,
+
+985
+01:09:00,209 --> 01:09:04,469
+32、64，然后找出最优的那个，调优内核。
+32, 64 and you figure out the one that is best, you tune the kernels.
+
+986
+01:09:04,469 --> 01:09:12,269
+是的，是的。这基本上取决于块的大小。
+Yeah. Yeah. It depends on basically block size.
+
+987
+01:09:12,269 --> 01:09:14,029
+我觉得我是在提问的时候想到的。
+I think I create with asking the question.
+
+988
+01:09:14,029 --> 01:09:17,509
+如果你的块大小很小，那么你的索引成本会更高。
+If you have very small block size, then your indexing cost is higher.
+
+989
+01:09:17,509 --> 01:09:20,189
+如果你的块很大，基本上就回到了
+If you have a large piece you basically go back to
+
+990
+01:09:20,189 --> 01:09:23,389
+连续内存的模式。所以你需要进行调优。
+the continuous memory regime. So you have to tune it.
+
+991
+01:09:23,389 --> 01:09:30,110
+嗯，好吧。我觉得这基本上是很多人2023年最喜欢的论文。
+Yeah. Okay. And this is basically I think this is many people's favorite paper in 2023.
+
+992
+01:09:30,110 --> 01:09:36,449
+因为这将推理的成本提升了三倍。是的，非常不错。
+Because this improves the inference soaring cost by three X. Yeah, pretty good.
+
+993
+01:09:36,449 --> 01:09:39,129
+好的，希望你喜欢这一部分，好吗？
+Okay. I hope you enjoy this part, okay?
+
+994
+01:09:39,129 --> 01:09:41,889
+那我们接下来来看一个更新的技术。
+And then let's move on to an even newer technique.
+
+995
+01:09:41,889 --> 01:09:43,529
+我想我已经尝试回答了你的问题。
+And I think I try to answer your question.
+
+996
+01:09:43,529 --> 01:09:46,949
+很明显那个学生已经帮忙回答了这个问题，对吧？
+So apparently that student already aided the question, right?
+
+997
+01:09:46,949 --> 01:09:50,709
+所以当你进行连续批处理时，确实提升了加法的效率，因为你
+So when you do continuous batching, you indeed improve the addition because you
+
+998
+01:09:50,709 --> 01:09:53,689
+批处理时，在运行MLP时会做一个很大的批次。
+batch you make a pretty batch when you run MLP per.
+
+999
+01:09:53,689 --> 01:09:57,269
+但问题是，比如说前缀非常长，对吧？
+But the problem is, say a prefew is super long, right?
+
+1000
+01:09:57,269 --> 01:10:00,929
+所以解码时每个请求只有一个token。
+So a decode only have one token per request.
+
+1001
+01:10:00,929 --> 01:10:04,709
+本质上，如果你把它们全部放在一起，你其实是在说只做
+Essentially, if you put all them together, you are saying only doing
+
+1002
+01:10:04,709 --> 01:10:07,929
+你最大化吞吐量的事情，是的，但你会延迟其他解码请求的延迟。
+what you maximize your throughput, yes, but you are delaying the latency
+
+1003
+01:10:07,929 --> 01:10:09,629
+那么我们该如何解决这个问题呢？
+for other decoding requests.
+
+1004
+01:10:09,629 --> 01:10:11,549
+让我们看看吧。这是一个非常热门的话题
+So how do fix that problem?
+
+1005
+01:10:11,549 --> 01:10:14,209
+我必须要讲，因为我认为今年，
+Let's see. This is a pretty hot topic
+
+1006
+01:10:14,209 --> 01:10:16,769
+2025年，很多公司都在从C speci架构转向这种架构。
+I have to cover because I think this year,
+
+1007
+01:10:16,769 --> 01:10:21,209
+它被称为预字段解码解耦，我说，这有什么问题吗？
+2025, a lot of company they are moving into this architecture from C speci.
+
+1008
+01:10:21,209 --> 01:10:24,549
+好的。所以我觉得，正如我已经多次强调的那样，好吗？
+It's called pre field decode desegregation and I say, what's the problem?
+
+1009
+01:10:24,549 --> 01:10:29,909
+至少在2023年和2024年，人们基本上都在追求所谓的吞吐量指标。
+Okay. So I think, as I have already ind many times, okay?
+
+1010
+01:10:29,909 --> 01:10:36,029
+
+So at least in 2023 and 24, people are basically trying to grind this so called throughput metric.
+
+1011
+01:10:36,029 --> 01:10:41,829
+他们试图在有限的资源下，最大化每秒可以处理的token数量。
+They try to maximize the number of tokens they can serve per second given a limited lumbaus you
+
+1012
+01:10:41,829 --> 01:10:45,869
+你可以看到这个上限一直在被突破，比如24倍、3.5倍之类的。
+can see this limit keep being pushed higher, uh, like 24 X,
+
+1013
+01:10:45,869 --> 01:10:47,669
+3.5倍或者其他数值。
+3.5 X or whatever.
+
+1014
+01:10:47,669 --> 01:10:50,269
+L基本上就是决定了这个吞吐量。
+L basically ground this throughput.
+
+1015
+01:10:50,269 --> 01:10:53,619
+明白了吗？但除了吞吐量之外，好吗？
+Okay? But besides throughput, okay?
+
+1016
+01:10:53,619 --> 01:10:58,159
+许多应用是作为服务提供给用户的。
+Many applications, they are offered as a service to users.
+
+1017
+01:10:58,159 --> 01:11:02,499
+因此，对于这些服务来说，我们还有一些同样重要的指标，
+Therefore, for such services, we do have some equally important metrics,
+
+1018
+01:11:02,499 --> 01:11:07,119
+我们称之为服务级别目标，简称SLO。
+which we call service level objectives, or in short, SO.
+
+1019
+01:11:07,119 --> 01:11:10,519
+你可能在很多地方、很多公司都听说过这个词，
+You've probably heard about this work many many places many companies,
+
+1020
+01:11:10,519 --> 01:11:12,039
+他们都想保证所谓的SLO。
+they want to guarantee so called SO.
+
+1021
+01:11:12,039 --> 01:11:18,260
+好吗？在ARM中，有两个最重要的服务级别目标。
+Okay? So in ARM there are uh two most important service level objectives.
+
+1022
+01:11:18,260 --> 01:11:22,459
+一个叫做TTFT，另一个叫做TPOT。
+One is called TTFToh the other is called TPOT.
+
+1023
+01:11:22,459 --> 01:11:26,459
+这两个词听起来有点奇怪，但我们试着记住它们。
+This is a pretty weird, word, but let's try to remember them.
+
+1024
+01:11:26,459 --> 01:11:29,424
+所以TTFT是指第一个……
+So TTFTT to first too.
+
+1025
+01:11:29,424 --> 01:11:32,869
+TPOT是每个输出标记的时间。那么它们是什么意思呢？
+TVOT time per output token. So what do they mean?
+
+1026
+01:11:32,869 --> 01:11:40,269
+好的。像HGBT这样的聊天机器人，需要有相对较快的初始响应。
+Okay. So a chat bot, like HGBT, they need to have a relatively fast initial response.
+
+1027
+01:11:40,269 --> 01:11:42,049
+因此，TDOT越低越好。
+Therefore, lower TDOT.
+
+1028
+01:11:42,049 --> 01:11:45,769
+也就是说，当你在HTP中输入内容时，你希望尽快看到第一个词。
+That is when you type a car into HTP, you expect to see the first word as soon as possible.
+
+1029
+01:11:45,769 --> 01:11:49,049
+你不想等待，否则体验会很差，对吧？
+You don't want to wait. Otherwise, it's a pretty bad experience, right?
+
+1030
+01:11:49,049 --> 01:11:55,149
+但是当第一个标记被生成出来时，如果你……
+But when the first token was generated, if you ever I'm
+
+1031
+01:11:55,149 --> 01:11:57,409
+你应该用过CHITP吧，对吧？
+pretty sure you have ever used the CHITP right?
+
+1032
+01:11:57,409 --> 01:12:00,109
+你可以看到ChatB的token是一个接一个地被流式输出的。
+You can see the ChatB token was streamed, one by one.
+
+1033
+01:12:00,109 --> 01:12:03,689
+所以一旦你看到第一个token，你就会从第一个token开始阅读。
+So once you observe the first token, you are going to read from the first token.
+
+1034
+01:12:03,689 --> 01:12:07,169
+从服务提供者的角度来看，这就是一个问题。
+And from a service provider's perspective, what a problem.
+
+1035
+01:12:07,169 --> 01:12:12,269
+只要他们生成token的速度和你的阅读速度一样快，那就没问题。
+So as long as they can generate tokens as fast as your reading speed, they are good.
+
+1036
+01:12:12,269 --> 01:12:15,489
+因为你不可能比生成的速度读得更快，对吧？
+Because you are not going to read faster than what the generated, okay?
+
+1037
+01:12:15,489 --> 01:12:22,449
+所以，基本上，为了让用户体验更好，他们需要更低的DFT。
+So um so basically, um, in order to make the user experience better, they need to have a lower DFT.
+
+1038
+01:12:22,449 --> 01:12:26,789
+但在那之后，后续生成的文本就不需要
+But after that, okay, the following generated text doesn't have to
+
+1039
+01:12:26,789 --> 01:12:30,369
+比人类的平均阅读速度更快了。
+be faster than the average reading speed over human.
+
+1040
+01:12:30,369 --> 01:12:34,079
+那你每分钟能读多少个单词？
+So how many words you can read per minute?
+
+1041
+01:12:34,079 --> 01:12:35,749
+我可以告诉你数字。
+I can tell you number.
+
+1042
+01:12:35,749 --> 01:12:38,829
+大约是15550个英文单词。是的。
+It's roughly 15550 words in English. Yeah.
+
+1043
+01:12:38,829 --> 01:12:42,689
+好的。所以你不知道怎么比这个更快，但你不能比这个更慢。
+Okay. So you don't know how to be faster than that, but you cannot be slower than that.
+
+1044
+01:12:42,689 --> 01:12:44,029
+否则，你就不需要等待了。
+Otherwise, you don't have to wait.
+
+1045
+01:12:44,029 --> 01:12:49,669
+好的。这意味着TPOT，也就是每个输出token的时间，
+Okay. So this means that the TPOT that is the time per output token
+
+1046
+01:12:49,669 --> 01:12:53,989
+在生成第一个token之后，其实不需要很快，
+after the initial token generated, doesn't have to be fast,
+
+1047
+01:12:53,989 --> 01:12:57,329
+才能满足用户体验。
+in order to make satisfy the user experience.
+
+1048
+01:12:57,329 --> 01:13:03,409
+好的。但相反，比如说，我们有另一个任务M任务，就是摘要，对吧？
+Okay. But in contrast, okay, say, we have another task M task, which is summarization, right?
+
+1049
+01:13:03,409 --> 01:13:09,269
+所以用户会用一个摘要应用，他们其实可以接受
+So der will use a summarizing application, and they can actually tolerate
+
+1050
+01:13:09,269 --> 01:13:13,449
+更长的初始响应时间，因为当你试图向RM提交一批文档时，
+a longer initial response because when you try to submit a batch of documents to RM,
+
+1051
+01:13:13,449 --> 01:13:16,169
+
+you don't want to see the first token immediately, you want to see
+
+1052
+01:13:16,169 --> 01:13:18,569
+
+the eventual results as early as possible.
+
+1053
+01:13:18,569 --> 01:13:23,009
+
+So in that case, you don't have to prioritize your time to first token because the user doesn't
+
+1054
+01:13:23,009 --> 01:13:24,629
+
+care about that. They just want to see.
+
+1055
+01:13:24,629 --> 01:13:28,949
+
+S, after 1 hour I eventually see, uh, my summarizations, right.
+
+1056
+01:13:28,949 --> 01:13:31,229
+
+So in this case,
+
+1057
+01:13:31,229 --> 01:13:36,139
+
+TTF T is not important, but TPOT is important because we want to generate as far as possi.
+
+1058
+01:13:36,139 --> 01:13:41,069
+
+Okay. And this gives you a sense of what is TDFD and TOT, okay?
+
+1059
+01:13:41,150 --> 01:13:45,989
+
+So then the question is, in the presence of these two SOs,
+
+1060
+01:13:45,989 --> 01:13:52,249
+
+TDFT and TBOTuh is throughput sufficiently good measure for arm serving systems?
+
+1061
+01:13:52,249 --> 01:13:54,589
+事实证明，情况并不总是如此。
+And turns out that this is not always the case.
+
+1062
+01:13:54,589 --> 01:13:58,629
+假设我们有一个系统，每秒可以处理十个请求。
+So, suggest that we have a system that can serve ten requests per second.
+
+1063
+01:13:58,629 --> 01:14:01,469
+这是我们的系统容量，对吧？
+That's our system capacity, okay?
+
+1064
+01:14:01,580 --> 01:14:08,679
+但是当我们对TDFE和TPOT施加实际约束时，也就是说我们需要解决t个请求，
+But when we post actual constraint on TDFE and TPOT, okay, that is we need to solve t requests,
+
+1065
+01:14:08,679 --> 01:14:11,739
+并且还需要满足服务级别目标。
+and we also need to satisfy the service level objective.
+
+1066
+01:14:11,739 --> 01:14:18,359
+也就是说，TTFT需要保持在200毫秒以内，TPOT需要保持在50毫秒以内。
+That is, TTFT need to stay within 200 milliseconds, and TPOT need to stay within 50 minutes seconds.
+
+1067
+01:14:18,359 --> 01:14:20,739
+好，我们加上这两个约束。
+Okay, we put these two constraints.
+
+1068
+01:14:21,460 --> 01:14:25,739
+如果我加上这两个约束，你会发现，很多请求
+And if I put this two constraints, you can see, many requests
+
+1069
+01:14:25,739 --> 01:14:27,659
+并没有满足这个约束，对吧？
+are not satisfying request this constraint, right?
+
+1070
+01:14:27,659 --> 01:14:31,699
+也就是说，它们实际上并没有达到服务质量要求。
+Meaning that they are not actually meeting the service level quality, okay?
+
+1071
+01:14:31,699 --> 01:14:39,309
+所以我们把这部分受限于约束的吞吐量称为有效吞吐量。
+So we call the portion of this throughput that is subject to the constraint as as goodput.
+
+1072
+01:14:39,309 --> 01:14:41,529
+也就是说，这是吞吐量中“有效”的那一部分。
+So that is the good part of this throughput.
+
+1073
+01:14:41,529 --> 01:14:42,829
+这就是为什么它被称为有效吞吐量。
+That's why it's called goodput.
+
+1074
+01:14:42,829 --> 01:14:50,049
+明白了吗？所以你可以看到，“有效吞吐量”这个词其实会让你想起一些很早以前学过的东西，
+Okay? So you can see, um, the term goodput properly, reminds you of some very old things
+
+1075
+01:14:50,049 --> 01:14:53,209
+可能是你在学计算机网络时学到的。
+that you learned from, uh, maybe computer networks.
+
+1076
+01:14:53,209 --> 01:14:57,929
+我觉得在快递包裹时，他们也会对这些东西加以限制，对吧？
+I think when they do package delivery, they also put a constraint on these kind of things, right?
+
+1077
+01:14:57,929 --> 01:15:00,889
+所以在这里，你可以看到。
+So here, you can see.
+
+1078
+01:15:00,889 --> 01:15:04,609
+嗯，对不起，其实我还想补充一些类似的想法。
+Um, I'm sorry indeed share some more similar idea.
+
+1079
+01:15:06,240 --> 01:15:12,839
+这基本上意味着高吞吐量并不总是能转化为高有效吞吐量，
+So this basically means that high throughput cannot always translate into high goodput once we
+
+1080
+01:15:12,839 --> 01:15:16,679
+一旦我们把延迟因素考虑进来，就是这样。
+factor the latency into this picture, okay?
+
+1081
+01:15:17,440 --> 01:15:23,299
+嗯，好吧。这引出了我们要问的另一个重要问题。
+Um, Okay. So this leads us to ask another important question.
+
+1082
+01:15:23,299 --> 01:15:27,899
+那么，为什么现有系统无法实现这种高吞吐量呢？
+So why do existing systems they fail to achieve this kind of high goodput.
+
+1083
+01:15:27,899 --> 01:15:33,259
+好吗？让我们退一步，来了解一下一个请求是如何通过RM的。
+Okay? And let's take a step back and understand how a request goes through the RM.
+
+1084
+01:15:33,259 --> 01:15:36,119
+在这里，我为你画了一个很漂亮的G，好吗？
+And here I make a pretty nice G for you, okay?
+
+1085
+01:15:36,119 --> 01:15:48,189
+我会让你看10秒钟，好吗。
+So I will let you look at it for 10 seconds. Okay.
+
+1086
+01:15:48,189 --> 01:15:53,449
+基本上，我想我在图中想表达的是我在条件批处理中介绍的内容，
+So basically, I think what I try to convey in chief is what I introduced in condition batching,
+
+1087
+01:15:53,449 --> 01:15:56,889
+你的预取和解码，它们是一起批处理的。
+uh your prefuel and decoding, they are batched together.
+
+1088
+01:15:56,889 --> 01:15:59,789
+好的，我想你已经读到了那个问题。
+Okay. And I think you already read that question.
+
+1089
+01:15:59,789 --> 01:16:03,329
+所以如果预取非常繁重，那么你的解码就会被延迟
+So if the prefel is pretty heavy, then your decoding is going to be delayed
+
+1090
+01:16:03,329 --> 01:16:05,549
+因为高速公路上的预取工作负载。
+because of the highway work load prefuel.
+
+1091
+01:16:05,549 --> 01:16:10,349
+好吗？这就是条件批处理的一个主要缺点。
+Okay? That is one major drawback for conditions batching.
+
+1092
+01:16:10,349 --> 01:16:19,069
+好吗？所以，嗯，让我再重申一下，基本上预填充是非常依赖计算的，
+Okay? So, um, so let me reiterate basically prefuel is very compute bond,
+
+1093
+01:16:19,069 --> 01:16:24,069
+意思是说，一个小批量的预填充，当你计算预填充阶段时，
+meaning that a small batch of prefill they are like when you compute the prefiel face,
+
+1094
+01:16:24,069 --> 01:16:26,209
+它们就像你在做训练一样。
+they are like you are doing training.
+
+1095
+01:16:26,209 --> 01:16:31,809
+这非常消耗计算资源，即使是一个小批量的预填充，也能让GPU的计算资源饱和。
+It's pretty computer heavy, and a small batch of pre fuel, they can saturate the GPU competition.
+
+1096
+01:16:31,809 --> 01:16:34,709
+但另一方面，解码，对吧，他们需要
+But on the other hand, the decode, right, they need
+
+1097
+01:16:34,709 --> 01:16:36,789
+更大的批量，因为S等于1，对吧。
+a much bigger size because S equal to one, right.
+
+1098
+01:16:36,789 --> 01:16:40,029
+所以他们需要更大的批量才能真正饱和计算资源，这意味着他们有
+So they need a much bigger size to actually sat with the competition, which means that they have
+
+1099
+01:16:40,029 --> 01:16:42,870
+非常不同的计算特性。
+very distinct computational characteristics.
+
+1100
+01:16:42,870 --> 01:16:47,329
+而且，因为连续批处理基本上会优先考虑解码。
+And, um, and because continuous batching basically cool case prefer decode,
+
+1101
+01:16:47,329 --> 01:16:52,269
+在同一个批次中，这两个阶段实际上会相互干扰。
+right into the same batch, the two phases actually interfere with each other.
+
+1102
+01:16:52,269 --> 01:16:54,269
+好的，那我们来看一下对比。
+Okay. So let's see a comparison here.
+
+1103
+01:16:54,269 --> 01:17:03,439
+在左边，呃，我们批处理RON R二，你可以看到第一个是RN，第二个是R二，RA
+So on the left, um, uh, we batch RON R two, o you can see the first is RN second R two and RA
+
+1104
+01:17:03,439 --> 01:17:04,979
+正在经历解码阶段，
+is going through the decoding phase and
+
+1105
+01:17:04,979 --> 01:17:09,059
+R R二正在经历预填充阶段，我们将把这两个批次合并在一起。
+R R two is going through the prefill phase, and we are going to put these two batches together.
+
+1106
+01:17:09,059 --> 01:17:14,379
+好的，我们可以看到在红色窗口和粉色窗口中，
+Okay. So we can see that in the red window in the pink window,
+
+1107
+01:17:14,379 --> 01:17:17,859
+当Art到达时，RO的解码时间是在蓝色区域。
+when Art arrives, ROs decode time, which is in blue.
+
+1108
+01:17:17,859 --> 01:17:21,339
+一旦你用并行批处理把它们放到同一个批次里，
+It will once you put it into the same batch using con batching,
+
+1109
+01:17:21,339 --> 01:17:23,399
+它会被明显延迟，对吧？
+it will be significantly delayed, right?
+
+1110
+01:17:23,399 --> 01:17:25,859
+因为Rtools的预填充会花更长时间。
+Because Rtools prefer will take longer. Okay.
+
+1111
+01:17:25,859 --> 01:17:28,859
+
+And same thing, actually arts prefel also get a little bit
+
+1112
+01:17:28,859 --> 01:17:32,044
+
+delayed because you batch the decode into Rtools perfil.
+
+1113
+01:17:32,044 --> 01:17:36,709
+
+Okay. But if I do this, suppose I have a way.
+
+1114
+01:17:36,709 --> 01:17:41,109
+
+Basically I run RN RT to prevent decoding on different dips. I don't have this problem.
+
+1115
+01:17:41,109 --> 01:17:47,309
+
+So RN decode will continue following its own pace, and RT will just do its profile.
+
+1116
+01:17:47,309 --> 01:17:52,189
+
+Okay? And I can make this even more serious.
+
+1117
+01:17:52,189 --> 01:17:57,839
+
+In reality, what happens is, you have a streaming of requests coming. Okay.
+
+1118
+01:17:57,839 --> 01:18:01,639
+
+Every time you pick up new requests, put into the continued batching,
+
+1119
+01:18:01,639 --> 01:18:07,379
+
+you are going to introduce a pre fuel that is going to interfere with the decode or other requests.
+
+1120
+01:18:07,379 --> 01:18:10,259
+
+And this can create a cascade of interference.
+
+1121
+01:18:10,259 --> 01:18:16,219
+所以基本上，如果你继续批处理，是的，效用会很高，但这个解码，
+So basically, if you continue to continue batching, yes, utility is high, but this decode,
+
+1122
+01:18:16,219 --> 01:18:17,859
+它们就会被延迟。
+they are going to be delayed.
+
+1123
+01:18:17,859 --> 01:18:22,399
+如果你对解码有延迟限制，你就无法满足收听延迟。
+And if you have a latency constraint on decode, you are not going to meet listening delay.
+
+1124
+01:18:22,399 --> 01:18:23,579
+好的，收听限制。
+Okay, listening constraint.
+
+1125
+01:18:23,579 --> 01:18:30,459
+抱歉。好的。那么如果你想要像GBT那样提供优质服务，
+Sorry. Okay. So then if you want to basically to a good service like GBT,
+
+1126
+01:18:30,459 --> 01:18:34,669
+你想在满足收听限制的同时最大化吞吐量，你该怎么做。
+you want to maximize your sput while you still meet the listening constraint what you do.
+
+1127
+01:18:34,669 --> 01:18:42,339
+好的。由于这种干扰，当服务必须同时满足TDF和TPOT时，
+Okay. As a result of this interference, uh, when service must satisfy both TDF and TPOT,
+
+1128
+01:18:42,339 --> 01:18:45,319
+他们的做法基本上是增加倍数。
+um, what they do is they basically add multiples.
+
+1129
+01:18:45,319 --> 01:18:50,280
+是的，他们分配多个倍数来减少干扰。
+Yeah, they allocate multiples to basically diminish the interference.
+
+1130
+01:18:50,280 --> 01:18:56,739
+好的。显然，增加倍数的问题在于你要付出代价。
+Okay. Um apparently, the reason the problem of adding multiple is that you're going to pay
+
+1131
+01:18:56,739 --> 01:19:00,179
+更多的是为了满足你的服务质量，对吧？
+more to satisfy your service quality, right?
+
+1132
+01:19:00,179 --> 01:19:04,039
+好吗？那解决方案是什么？
+Okay? So what's the solution?
+
+1133
+01:19:04,039 --> 01:19:05,179
+解决方案其实很简单。
+The solution is pretty simple.
+
+1134
+01:19:05,179 --> 01:19:06,319
+我觉得你已经明白了。
+I think you already get that.
+
+1135
+01:19:06,319 --> 01:19:09,439
+我们为什么不把预览和解码放在不同的GPU上呢？
+Why don't we just put preview and decod on different dips.
+
+1136
+01:19:09,439 --> 01:19:11,639
+我们不再进行批处理了。
+We're not going to batch anymore.
+
+1137
+01:19:11,639 --> 01:19:17,799
+我们基本上就是把预览和解码放在不同的GPU上，这其实就是一个例子，
+We just basically put prefer and deco on different dipUsT if basically gives you an example where,
+
+1138
+01:19:17,799 --> 01:19:19,859
+嗯，我分配了两块GPU。
+um, I allocate two GPUs.
+
+1139
+01:19:19,859 --> 01:19:22,179
+第一块GPU基本上处理所有的预览任务。
+The first GPU basically take all the preview job.
+
+1140
+01:19:22,179 --> 01:19:24,019
+一旦它完成了预览，
+And once it finishes prefiw,
+
+1141
+01:19:24,019 --> 01:19:29,379
+我将把第一个DPU的QB捕获转发到第二个DPU。
+I'm going to forward the QB catch from the first DPU to second DPU.
+
+1142
+01:19:29,379 --> 01:19:32,739
+然后我会在第二个DPO中批量处理所有解码。
+And then I batch all the decode in the second DPO.
+
+1143
+01:19:32,739 --> 01:19:39,199
+这样，我可以完全消除优先解码之间的干扰。
+In that way, I can completely eliminate the interference between preferent decode.
+
+1144
+01:19:39,320 --> 01:19:42,079
+这让系统变得更加复杂。
+This makes the system even more complicated.
+
+1145
+01:19:42,079 --> 01:19:46,419
+为什么？之前我是在一块GPU上完成所有操作，对吧？
+Why? Previously, I do everything on one single GPU, right?
+
+1146
+01:19:46,419 --> 01:19:50,119
+我只是把所有事情都在内核级别完成，现在你让我
+I just do everything in a kernel level, and now you're asking me to do
+
+1147
+01:19:50,119 --> 01:19:52,579
+搭建一个分布式系统来进行通信。
+a distribute system on how to communicate.
+
+1148
+01:19:52,579 --> 01:19:54,459
+但这就是我们现在正在做的，好吗？
+But this is what we do today, okay?
+
+1149
+01:19:54,459 --> 01:19:58,199
+我会在最后一节课揭示为什么这样做会更好。
+I'm going to reveal why this can be better in the last lecture.
+
+1150
+01:19:58,199 --> 01:19:59,839
+好的，谢谢大家。
+Okay, thank you.

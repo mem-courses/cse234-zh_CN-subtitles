@@ -1,0 +1,5504 @@
+1
+00:00:04,920 --> 00:00:08,719
+好的，呃，是的，谢谢大家的到来。
+Okay, uh, yeah, thanks for coming.
+
+2
+00:00:08,719 --> 00:00:11,540
+那我们现在开始吧，今天的内容。
+Let's Let's get started, but today.
+
+3
+00:00:11,540 --> 00:00:18,060
+好的，那我们先回顾一下上节课的内容。
+Yeah. Yeah, so let's do a recap of last lecture.
+
+4
+00:00:18,500 --> 00:00:24,520
+上节课我们讲了GPU，对吧，还有奥林匹克Coda。
+So last lecture, we talk about GPUs, right, and Olympic Coda.
+
+5
+00:00:24,520 --> 00:00:31,999
+我们学到的是GPU的执行模型，我们知道GPU有线程层级结构，
+So what we learned is the GPU execution model, where we know GPU has thread hierarchy,
+
+6
+00:00:31,999 --> 00:00:34,899
+从网格到块再到线程。
+from grade to block to threads.
+
+7
+00:00:34,899 --> 00:00:40,259
+当你编写GPO代码时，我们称之为GPO内核，我们
+And when you write the GPO code, we call it a GPO kernel and the way we
+
+8
+00:00:40,259 --> 00:00:44,599
+基本上写的代码就是通过这个线程层级结构，把内核启动到很多很多线程上。
+basically write that code is basically we launch that kernel to many many threads through this,
+
+9
+00:00:44,599 --> 00:00:48,220
+呃，就是通过线程层级结构，好吗？
+uh thread hierarchy, okay?
+
+10
+00:00:48,640 --> 00:00:54,340
+我们还知道GPU有独立于主机内存的地址空间。
+And we know GPU has a distinct address space compared to the host memory,
+
+11
+00:00:54,340 --> 00:01:00,460
+我们称之为GPU内存，或者设备内存，或者HBM，高带宽内存。
+and we call that GPU memory or device memory or HBM, high bandwidth memory.
+
+12
+00:01:00,460 --> 00:01:04,880
+为了让你的程序访问这部分内存，
+And in order for your program to access this part of memory,
+
+13
+00:01:04,880 --> 00:01:12,300
+CUDA为你提供了一些API，比如像cudaMemcpy这样的函数。
+Coda provides you some APS, like Mock Coda memo copy, something like that. Okay.
+
+14
+00:01:12,300 --> 00:01:18,000
+还记得pin memory的定义吗？pin memory是
+And there's still remember the definition of pin memory, pin memory is a part of
+
+15
+00:01:18,000 --> 00:01:21,679
+为GPU保留的主机内存的一部分。
+the host memory that is reserved for GPUs.
+
+16
+00:01:25,020 --> 00:01:31,699
+在GPU内部，除了HBM之外，我们还有其他的内存层次结构
+On the inside of GPO, besides the HBM, we also have other memory hierarchy built
+
+17
+00:01:31,699 --> 00:01:34,360
+集成在GPU本身内部。
+into the GPO itself.
+
+18
+00:01:34,360 --> 00:01:37,060
+我们有每个线程的私有内存。
+We have per thread, private memory.
+
+19
+00:01:37,060 --> 00:01:41,879
+例如，当我们编写GPU内核时，如果我们需要临时变量，
+For example, when we write a GPO kernel, when we try to ask for temporal variable,
+
+20
+00:01:41,879 --> 00:01:45,959
+这个变量基本上就是在线程本地内存中创建的。
+that variable was basically created in thread local memory.
+
+21
+00:01:45,959 --> 00:01:49,720
+我们有每个块的内存，我们称之为SRAM，对吧？
+And we have per block memory, which we call SRAM, right?
+
+22
+00:01:49,720 --> 00:01:52,619
+一个块中的所有线程都可以访问这块内存。
+All the threads in one block can access memory.
+
+23
+00:01:52,619 --> 00:01:59,520
+我们访问这块内存的方式是使用前缀shared，下划线shared，好吗？
+And the way we access that memory is we use prefix called shared, under square shared, okay?
+
+24
+00:01:59,520 --> 00:02:04,579
+就像我说的，我们有HBM，也就是全局设备级别的内存。
+And like I said, we have HBM, which is the global device level memory.
+
+25
+00:02:04,580 --> 00:02:09,539
+我们还简单介绍了两种同步原语。
+And we also touch base on two synchronization primitives.
+
+26
+00:02:09,539 --> 00:02:12,399
+一种是CPU和GPU之间的同步。
+One is the synchronization between CPU and GPU.
+
+27
+00:02:12,399 --> 00:02:17,940
+另一种是同一个块中所有线程之间的同步，好吗？
+The other is the synchronization between all the threads in one block, okay?
+
+28
+00:02:18,300 --> 00:02:26,750
+我们还完成了第一个GPU程序，就是窗口平均或者等价的一维卷积，好吗？
+And we also finish our first GPU program, which is the Window average or equivalent com one D, okay?
+
+29
+00:02:26,750 --> 00:02:32,499
+很好。那么今天的学习目标是，我们要在GPU上深入学习矩阵乘法。
+Cool. Okay. Today's learning goal, we are going to grind the math mo on GPU.
+
+30
+00:02:32,499 --> 00:02:35,359
+我们大概会用半节课的时间来讲这个内容。
+We'll probably spend half of the class on that.
+
+31
+00:02:35,920 --> 00:02:39,620
+那么我们基本上完成了GPU编程课程。
+Then we basically finish our GPU programming class.
+
+32
+00:02:39,620 --> 00:02:44,379
+好的。接下来我们要讨论一些其他可以让算子更快的方法，
+Okay. And we're going to talk about how we can there are some other alternative methods
+
+33
+00:02:44,379 --> 00:02:47,340
+其实主要就是编译器。
+to make operator faster, which is basically compiler.
+
+34
+00:02:47,340 --> 00:02:50,540
+所以我们会稍微讲一下编译器，好吗？
+So we are going to talk about compiler a little bit, okay.
+
+35
+00:02:50,540 --> 00:02:57,879
+嗯，是的。如果时间允许的话，我们基本上会总结一下这个算子增强层，
+Um, yeah. And if time permits, we are going to basically wrap up this operator augmentation layer,
+
+36
+00:02:57,879 --> 00:03:01,065
+然后我们会涉及到另一个层次，就是图增强。
+and we are going to touch another layer which is graph ogenation.
+
+37
+00:03:01,065 --> 00:03:11,549
+很好。那么在我们深入讲解Koda编程之前，我们要尝试
+Cool. Okay. So before we get deep into Koda programming on met, we try to basically, uh,
+
+38
+00:03:11,549 --> 00:03:15,729
+改变你平时的编程方式，对吧？
+change your way your normal way of programming, right?
+
+39
+00:03:15,729 --> 00:03:20,409
+所以在我们开始写Koda代码之前，需要做一些准备。
+So before we try to program some Koda, we need to do a few things.
+
+40
+00:03:20,409 --> 00:03:24,990
+你需要把你的思维方式转变成SIMD模式，因为Koda是SMD。
+So you need to convert your brain to SIMD because Koda is SMD.
+
+41
+00:03:24,990 --> 00:03:31,209
+好的。所以每当我给你一个操作符，并让你写一个Koda时，
+Okay. So whenever I give you say operator and I ask you to write a Koda,
+
+42
+00:03:31,209 --> 00:03:33,350
+你应该考虑三个步骤。
+you should think about three steps.
+
+43
+00:03:33,350 --> 00:03:38,289
+第一步，你需要识别可以并行执行的工作，对吧？
+The first one is you should identify the work that can be performed in parallel, right?
+
+44
+00:03:38,289 --> 00:03:40,179
+然后你对工作进行划分。
+And then you partition the work.
+
+45
+00:03:40,179 --> 00:03:43,869
+同时你还需要对与工作相关的数据进行划分，对吧？
+And also you need to partition the data associated with our work, right?
+
+46
+00:03:43,869 --> 00:03:49,009
+接着你将工作划分和数据划分映射到Koda线程上，对吧？
+And then you map the partition and the data partition to Koda thread, right?
+
+47
+00:03:49,009 --> 00:03:51,370
+然后你在那个oda内核中实现逻辑。
+And you implement the logic in that oda kernel.
+
+48
+00:03:51,370 --> 00:03:55,030
+GPU基本上会把你的代码启动到很多很多线程上，明白吗？
+And GPU will basically launch your code onto many many threads, okay?
+
+49
+00:03:55,030 --> 00:03:58,510
+这就是你在编写Coda程序时的思考方式。
+That's the way how you think when you program Coda.
+
+50
+00:03:58,520 --> 00:04:01,460
+而为了让这个程序运行得更快，
+And in order to make this program fast,
+
+51
+00:04:01,460 --> 00:04:07,479
+我希望你们还记得上节课我们是如何改进CdI编程以适应CD的，对吧？
+I hope you still remember how we improve our CdI programming for the C D last class, right?
+
+52
+00:04:07,479 --> 00:04:11,599
+首先，我们需要确保对GPU进行超额订阅。
+So first, we need to make sure we oversubscribe the GPUs.
+
+53
+00:04:11,599 --> 00:04:15,759
+我们要创建大量的分区任务，并尝试将它们全部
+We create a lot of partition work, and we try to push all of them
+
+54
+00:04:15,759 --> 00:04:19,139
+推送到GPU有限数量的块中，
+into the limited number of blocks on GPU,
+
+55
+00:04:19,139 --> 00:04:21,340
+这就叫做超额订阅。
+That is called oversubscription.
+
+56
+00:04:21,340 --> 00:04:23,440
+我们还需要减少拖慢进度的线程。
+We also need to mitigate stragglers.
+
+57
+00:04:23,440 --> 00:04:27,139
+我们希望尽量将工作负载分配得均等一些。
+We don't want to we want to part workload as equal as possible.
+
+58
+00:04:27,139 --> 00:04:29,620
+这样每个线程大致能获得相同的工作量，对吧？
+So every thread roughly get the same workload, right?
+
+59
+00:04:29,620 --> 00:04:34,140
+所以我们不想写那种ELs代码，因为那样有些线程会有工作，
+So we don't want to write those kind of ELs, right, because some thread will get work,
+
+60
+00:04:34,140 --> 00:04:36,314
+而其他线程却没有，对吧？
+but other threads are not, okay?
+
+61
+00:04:36,314 --> 00:04:38,430
+我们需要尽量减少通信。
+And we need to minimize communication.
+
+62
+00:04:38,430 --> 00:04:44,450
+这里的通信指的是我们需要尽量减少内存层级之间的数据移动。
+And here, communication means we need to minimize the data movement between memory hierarchies,
+
+63
+00:04:44,450 --> 00:04:46,770
+我们应该尽可能多地使用共享内存。
+we should use the shared memory as much as possible.
+
+64
+00:04:46,770 --> 00:04:49,489
+明白了吗？但要遵守它们的约束条件，好吗？
+Okay? But subject to their constraints, okay?
+
+65
+00:04:49,489 --> 00:04:52,370
+好的，那我们开始吧。
+Cool. Then let's get started.
+
+66
+00:04:52,370 --> 00:04:55,790
+所以我们要做的是，S 等于 A，
+So we're going to do this, right, S equals to A,
+
+67
+00:04:55,790 --> 00:05:01,210
+Mtmo B，这基本上让你看到 Mtmo 在做什么，对吧？
+Mtmo B and this basically give you visualizing what is Mtmois doing, right?
+
+68
+00:05:01,210 --> 00:05:05,190
+然后我们按照我们的三个步骤来进行，好吗？
+And let's follow our three steps, right?
+
+69
+00:05:05,190 --> 00:05:08,429
+我们先尝试找出可以并行执行的工作。
+Let's try to first identify work that can be performed in parallel.
+
+70
+00:05:08,429 --> 00:05:11,790
+那么哪些工作是可以并行执行的呢？
+So what is the work that can be performed in parallel?
+
+71
+00:05:14,010 --> 00:05:20,190
+所以基本上，每次我们可以取A的一行和B的一列，对吧？
+So basically, every time we can grab a row on A and a column on B right and we
+
+72
+00:05:20,190 --> 00:05:22,449
+然后我们只需要对行和列做点积运算。
+just do a dot product between row and columns.
+
+73
+00:05:22,449 --> 00:05:28,449
+所以我们基本上可以得到C中的一个结果元素，而所有这些行和列的乘积
+So we basically can get one result entry in C, and all this row and column product
+
+74
+00:05:28,449 --> 00:05:30,030
+都可以并行完成。
+can be done in parallel.
+
+75
+00:05:30,030 --> 00:05:35,710
+所以对于这个核函数，最直接的实现方式就是我们刚才描述的那样。
+So the most straightforward implementation for this kernel is basically we do what I just described.
+
+76
+00:05:35,710 --> 00:05:39,370
+每个GPU线程取一行和一列，对吧？
+Each GPU thread to grab one row and one column, right?
+
+77
+00:05:39,370 --> 00:05:42,570
+然后我们把它们分配到许多许多带有线程的块中去。
+And then we launch them to many many blocks with threads.
+
+78
+00:05:42,570 --> 00:05:48,580
+好吗？为了编写这个核函数，呃，我们要做的是，
+Okay? And in order to write that kernel, uh, what do we do is, we
+
+79
+00:05:48,580 --> 00:05:53,819
+基本上每个线程计算一个元素，最后我们得到了这个核函数。
+basically each thread compte one element, and we ended up with this kernel.
+
+80
+00:05:53,819 --> 00:05:58,759
+请大家看一下，大概15秒钟。
+And please look at that for maybe 15 seconds.
+
+81
+00:06:14,400 --> 00:06:17,840
+好的，是的，我们来试着过一遍。
+Okay, yeah, let's try to go through it.
+
+82
+00:06:19,640 --> 00:06:22,220
+那这个是三，四，对吧？
+So this one is three, four, right?
+
+83
+00:06:22,220 --> 00:06:29,859
+我们有一个矩阵，我们要有一个矩阵，这里的维度N大约是1024。
+We have matrix we have to matrix which is the dimension N here N is roughly 1024.
+
+84
+00:06:29,859 --> 00:06:33,399
+我们接下来要申请几个块。
+And we are going to ask for a few blocks.
+
+85
+00:06:33,399 --> 00:06:38,520
+这里我们申请的块的形状是32乘32，对吧？
+Here we ask blocks of the shape of 32 by 32, right?
+
+86
+00:06:38,520 --> 00:06:41,819
+二维块，因为这个很简单，对吧？
+Two dimensional blocks because this one is trivial, okay?
+
+87
+00:06:41,819 --> 00:06:45,579
+并且因为我们要让每个线程计算一个元素，所以总共，
+And because we are going to let each thread to computer one element, so in total,
+
+88
+00:06:45,579 --> 00:06:49,279
+我们需要申请1024个线程。
+we need to ask for 1024 threads.
+
+89
+00:06:49,279 --> 00:06:52,480
+这就是为什么每个块的线程数也是这个形状。好的。
+That's why thread per block is also this shape. Okay.
+
+90
+00:06:52,480 --> 00:06:56,180
+这就是我们的核函数启动，对吧？
+And this is our kernel launch, right?
+
+91
+00:06:56,180 --> 00:06:59,499
+这是CPU代码。我们让CPU启动内核到GPU上。
+This is CPU code. We ask CPU to launch the kernel to GPS.
+
+92
+00:06:59,499 --> 00:07:05,459
+然后我们进入这个内核，嗯，我们要做的是使用block ID，
+And then we go into this kernel, um, and what do we do is we use the block ID,
+
+93
+00:07:05,459 --> 00:07:10,239
+block D和thread ID来为每个线程获取索引。
+block D and thread ID to get index for each thread.
+
+94
+00:07:10,239 --> 00:07:17,339
+在这里，我们让X负责A左矩阵的行，
+Here, we let the X to take care of the row from the A left matrix,
+
+95
+00:07:17,339 --> 00:07:20,600
+并且我们用Y来索引B的列，对吧？
+and we use Y to index the column of B, right?
+
+96
+00:07:20,600 --> 00:07:25,679
+然后我们要做的是为每个线程创建一个变量。
+And then what do we do is we create one variable per thread.
+
+97
+00:07:25,679 --> 00:07:29,629
+所以这个变量会使用线程本地内存，
+So this variable we'll use the the thread local memory,
+
+98
+00:07:29,629 --> 00:07:32,029
+对，因为我们没有使用共享前缀。
+right, because we don't use the shared prefix.
+
+99
+00:07:32,029 --> 00:07:37,289
+所以这个会分配在线程本地内存上，本质上就是寄存器，好吗？
+So this will be allocated on thread local memory, which is essentially registers, okay?
+
+100
+00:07:37,289 --> 00:07:43,210
+然后我们循环遍历这个维度，对吧？好的。
+And then we loop over, we board this dimension, right? Okay.
+
+101
+00:07:43,210 --> 00:07:48,450
+我们要做的是取一个元素，把它们相加，
+And what do we do is we will grab one element, it them together, and we
+
+102
+00:07:48,450 --> 00:07:52,150
+并把结果累加到这个结果里，对吧。
+will accumulate results into this result, right.
+
+103
+00:07:52,150 --> 00:07:56,289
+最后我们让这个线程把结果写回
+And eventually we this thread to write the result back into
+
+104
+00:07:56,289 --> 00:08:01,550
+我们的结果数组C。明白了吗？
+our result array C. Okay? Makes sense, right?
+
+105
+00:08:01,550 --> 00:08:06,669
+基本上，我们启动K个线程，每个线程负责一个元素。
+So basically, we launch one K threadach thread taking care of one element.
+
+106
+00:08:06,669 --> 00:08:16,940
+好的。那我们来分析一下内存，也就是IO，因为这是我们关心的。
+Okay. Okay. So let's try to analyze the memory, the IO, right, because we care about that.
+
+107
+00:08:16,940 --> 00:08:19,980
+每个线程的全局内存访问量是
+Okay. So the global memory rate per thread is
+
+108
+00:08:19,980 --> 00:08:24,040
+基本上每个线程需要读取一行和一列。
+basically each thread need to read one row and one colom.
+
+109
+00:08:24,040 --> 00:08:26,320
+所以基本上是2N，对吧？
+So it's basically two N, right?
+
+110
+00:08:26,320 --> 00:08:29,479
+那么有多少个线程呢，
+So so how many threads,
+
+111
+00:08:29,479 --> 00:08:32,339
+我已经说过是unsquare线程，对吧？
+I already said is unsquare threads, right?
+
+112
+00:08:32,339 --> 00:08:36,700
+因为那个线程应该对应于结果的形状，
+Because that thread should be corresponding to the shape of the result,
+
+113
+00:08:36,700 --> 00:08:39,240
+也就是数组中的元素数量，对吗？
+number of elements in the array, okay?
+
+114
+00:08:39,240 --> 00:08:44,639
+所以总的内存访问基本上是unsquare乘以二，对吧？
+So the total memory access is essentially unsquare times two, right?
+
+115
+00:08:44,639 --> 00:08:46,700
+是立方。
+Is cube.
+
+116
+00:08:46,700 --> 00:08:51,019
+好的，这意味着为了启动这个核函数，我们需要读取全局内存，
+Okay, that means in order to launch this kerdle, we need to read the global memory,
+
+117
+00:08:51,019 --> 00:08:56,420
+从HBM读取内容到寄存器这么多次，对吗？
+read the content from HBM to register this many times, okay?
+
+118
+00:08:56,500 --> 00:09:01,520
+那么有多少内存会使用线程本地内存？
+And how many memory will use thread local memory?
+
+119
+00:09:01,520 --> 00:09:05,799
+基本上，我们每个线程只用一个float，对吧。
+So basically, we only use one float per thread, right.
+
+120
+00:09:05,799 --> 00:09:09,060
+好的，这就是Mtmo核函数的基本版本。
+Okay. That is the basic version of Mtmo kernel.
+
+121
+00:09:09,060 --> 00:09:11,200
+我希望你能明白这个，很直接。
+I hope this makes sense to you, straightforward.
+
+122
+00:09:11,200 --> 00:09:13,299
+你知道我们接下来要做什么，对吧？
+And you know what we are going to do next, right?
+
+123
+00:09:13,299 --> 00:09:16,139
+我们要改进这个，因为这个做得不好。
+We are going to improve this because this one is not good.
+
+124
+00:09:16,139 --> 00:09:22,579
+根据我们上CPU MTM课时讲的内容，你知道，其实我们可以利用更多的内存，
+According to the class we did for CPU MTM, you know, we can actually use more memory from
+
+125
+00:09:22,579 --> 00:09:26,119
+比如线程本地内存或者共享内存。
+either thread local memory or from the shared memory.
+
+126
+00:09:26,119 --> 00:09:27,639
+我们还可以做分块，对吧？
+And we can do telling, right.
+
+127
+00:09:27,639 --> 00:09:31,540
+所以我们要把分块应用到这个CPU内核上，好吗？
+So we are going to apply telling to this CPU kernel, okay?
+
+128
+00:09:31,670 --> 00:09:35,229
+另一个直觉，我觉得我不用再重复了。
+Another intuition, I don't think I need to repeat.
+
+129
+00:09:35,229 --> 00:09:37,789
+就是，通过观察这个，
+That is, by looking at this,
+
+130
+00:09:37,789 --> 00:09:41,210
+P内存层次结构，我们知道还有一些额外的内存可以用。
+P memory hierarchy, we know we have some additional memory we can use.
+
+131
+00:09:41,210 --> 00:09:44,530
+一个是寄存器，也就是本地内存，另一个是共享内存。
+One is the register, that is local memory, the other is shared memory as well.
+
+132
+00:09:44,530 --> 00:09:47,070
+好的，那我们会尝试利用它们。
+Okay, so we'll try to utilize them.
+
+133
+00:09:47,310 --> 00:09:50,590
+好的。那么你是怎么利用它们的呢？
+Okay. So how do you utilize them.
+
+134
+00:09:50,590 --> 00:09:54,125
+所以与其让……好的，请说。
+So instead of letting, yeah, please.
+
+135
+00:09:54,125 --> 00:09:58,940
+寄存器的数量，和CPU的寄存器数量类似吗？
+Is the amount of registers, similar to how much registers
+
+136
+00:09:58,940 --> 00:10:01,439
+有点不一样。
+CPU? It's slightly different.
+
+137
+00:10:01,439 --> 00:10:07,580
+在GPU中，通常一个流式多处理器有固定数量的线程。
+So in GPU, usually one streaming multiprocessor have a fixed number of threads.
+
+138
+00:10:07,580 --> 00:10:14,380
+这些线程会共享该块中所有的寄存器。
+And those threads are shared by all those registers are shared among all the threads in that block.
+
+139
+00:10:14,380 --> 00:10:16,939
+嗯嗯，这样说有道理吗？好的。
+Yeah, yeah. Does that make sense? Okay.
+
+140
+00:10:16,939 --> 00:10:22,960
+这意味着如果你为每个线程分配更多的寄存器，你就能拥有更少的线程。
+Which means that if you allocate more register per thread, and you are going to have less threads.
+
+141
+00:10:22,960 --> 00:10:28,705
+如果是这样的话，那么你就需要在那个流多处理器中共享一些寄存器，对吧？
+If, so then you need to share some register built into that stream multiprocessor, okay?
+
+142
+00:10:28,705 --> 00:10:30,189
+哦。
+Oh.
+
+143
+00:10:36,950 --> 00:10:40,789
+不，寄存器绝对要快得多。
+No, register is definitely much faster.
+
+144
+00:10:40,789 --> 00:10:45,530
+是的。好的，明白了，酷。
+Yeah. Okay. Okay, cool.
+
+145
+00:10:45,530 --> 00:10:51,270
+所以我们改进的第一步是尝试更多地利用寄存器。
+So our first step to improve this we try to utilize a little bit more on the register.
+
+146
+00:10:51,270 --> 00:10:53,890
+在之前的程序中，我们每个线程只用了一个寄存器，
+So in the previous program, we only use one register per
+
+147
+00:10:53,890 --> 00:10:56,010
+现在我们准备多用一些。
+spread now we are going to use a little bit more.
+
+148
+00:10:56,010 --> 00:11:04,330
+如果你还记得CPU里的寄存器分配，我们做的是让你在循环里，
+And if you recall the telling register telling in CPU, what we do is we let u in a loop,
+
+149
+00:11:04,330 --> 00:11:05,909
+做一些内存重用，对吧。
+we do some memory reuse, right.
+
+150
+00:11:05,909 --> 00:11:11,710
+我们让每次循环读取的不止一个元素，这样可以做更多的内存操作。
+We let each, each loop we read a little bit more than one element, so we can do more memo.
+
+151
+00:11:11,710 --> 00:11:15,130
+所以这里，高层次的想法是，嗯，不是让
+So here, the high level idea is, um instead of let
+
+152
+00:11:15,130 --> 00:11:18,089
+每个线程只计算结果中的一个元素。
+each thread compute just one element in the result.
+
+153
+00:11:18,089 --> 00:11:23,070
+我们可以让每个线程计算一个 V 乘 V 的子矩阵。
+We can let E thread to compute a V by V sub matrix.
+
+154
+00:11:23,070 --> 00:11:26,729
+而这个 V 显然是我们的决定性因素。
+And this V is apparently our telling factor.
+
+155
+00:11:26,729 --> 00:11:29,269
+这和 CPU 的分块方式非常相似。
+It's very similar to the CPU telling.
+
+156
+00:11:29,269 --> 00:11:32,709
+这个图基本上给你一个高层次的概念。
+This figure basically give you a high level idea.
+
+157
+00:11:32,709 --> 00:11:37,849
+所以不是只计算那一个元素，我要把它扩展成 V 乘
+So instead of computing that one element, and I'm going to extend it a bit into V by
+
+158
+00:11:37,849 --> 00:11:43,209
+V。我会让每个线程从 A 中抓取几行，而不是一行，
+V. I'm going to let E thread to grab a few rows instead of one row from A
+
+159
+00:11:43,209 --> 00:11:45,589
+并且从 B 中抓取几列，而不是一列，
+and a few columns inside of one column from
+
+160
+00:11:45,589 --> 00:11:52,890
+我进行某种子矩阵的乘法，然后把结果写回去。
+B. I perform some sort of submetrix multiply and I write the result spec.
+
+161
+00:11:52,890 --> 00:11:56,690
+那么为什么这样可以减少内存呢？
+So why this can reduce memory?
+
+162
+00:11:57,970 --> 00:12:02,829
+因为如果你从B的角度来看，每次我读取B的时候，
+Because if you look at B, from the perspective of B, every time I read the B,
+
+163
+00:12:02,829 --> 00:12:05,929
+我可以复用之前从A的ad读取的数据，对吧？
+I can reuse the previous read from the ad of A, right?
+
+164
+00:12:05,929 --> 00:12:07,530
+所以这里有一些内存复用。
+So there are some memory reuse.
+
+165
+00:12:07,530 --> 00:12:10,610
+好的，我们来尝试实现这个核函数。
+Okay. Let's try to implement this kernel.
+
+166
+00:12:10,610 --> 00:12:15,330
+好的，请大家花30秒看一下这个核函数。
+Okay. Please take a look at this kernel for 30 seconds.
+
+167
+00:12:15,330 --> 00:12:16,569
+好的。
+Okay.
+
+168
+00:12:53,450 --> 00:12:56,289
+好的，是的，我们来运行这个程序。
+Okay. Yeah, let's pass this program.
+
+169
+00:12:56,289 --> 00:12:59,570
+好的，那么和之前的程序相比，
+Okay. So from the previous program,
+
+170
+00:12:59,570 --> 00:13:05,569
+我认为这里的主要区别是，在之前的程序中，我们是直接索引的，
+I think the main difference here, in the previous program, we directly index, the
+
+171
+00:13:05,569 --> 00:13:08,669
+线程索引A和B中的一个元素。
+thread index one element from A and B.
+
+172
+00:13:08,669 --> 00:13:12,209
+但这里我们尝试索引一个块，明白吗。
+But here we are trying to index a block, okay.
+
+173
+00:13:12,209 --> 00:13:18,169
+另一个区别是我们在寄存器中分配数组。
+Another difference is we are allocating array in the register.
+
+174
+00:13:18,169 --> 00:13:23,369
+这意味着我们使用了平方数量的寄存器，相比之前的方式。
+So which means that we are using we square registers, compared to the previous one.
+
+175
+00:13:23,369 --> 00:13:27,969
+我们还分配了一个随机数组，明白吗？
+And we are also allocating random array, okay?
+
+176
+00:13:27,969 --> 00:13:32,289
+我们要做的基本上是，每一次，
+And what do we do is basically, uh, every time,
+
+177
+00:13:32,289 --> 00:13:34,989
+我要读取这一行，再读取这一列，
+I'm going to read this row and read this column,
+
+178
+00:13:34,989 --> 00:13:38,610
+我要把它们相乘，然后把累加的结果写出来，
+I'm going to type them together and write the results accumulated results and
+
+179
+00:13:38,610 --> 00:13:40,290
+然后再写回到这里。
+then write it back to here.
+
+180
+00:13:40,290 --> 00:13:44,589
+明白吗？我还会多读一点，因为我要把这些都读到寄存器里。
+Okay? And I'm going to read a little bit more because I'm going to read all this into the register.
+
+181
+00:13:44,589 --> 00:13:49,709
+所以当我从这一列扫描到那一列时，
+So when I scan through this from this column to this column,
+
+182
+00:13:49,709 --> 00:13:53,890
+我可以复用我之前在这个区域读取的数据，对吧？
+I can reuse my previous read on this area, okay?
+
+183
+00:13:53,890 --> 00:13:58,399
+这样我们就得到了这个循环，就是，嗯，
+So that we ended up with this loop that is, um,
+
+184
+00:13:58,399 --> 00:14:02,269
+我会先为当前线程建立索引，
+I'm going to first index for this current thread,
+
+185
+00:14:02,269 --> 00:14:03,890
+我会先索引出是哪个块
+I'm going to first index which block
+
+186
+00:14:03,890 --> 00:14:05,330
+我要读取，对吧？
+I'm going to read, okay?
+
+187
+00:14:05,330 --> 00:14:06,930
+这基本上就是索引，
+And this is basically the index,
+
+188
+00:14:06,930 --> 00:14:09,349
+X 空间乘以 V 再加 X。好的。
+X space times V plus X. Okay.
+
+189
+00:14:09,349 --> 00:14:14,029
+我用我的线程索引来索引我需要从 A 读取的区域。
+I use my thread index to index the area I need to read from A.
+
+190
+00:14:14,029 --> 00:14:19,590
+然后我会对这里的这一列做类似的事情，好吗？
+And then I'm going to do the similar thing for this column here, okay?
+
+191
+00:14:19,590 --> 00:14:21,350
+一旦我到达了这一行和这一列，
+And once I get to this row and column,
+
+192
+00:14:21,350 --> 00:14:28,090
+我会在一个类似归约循环的内部，再进行一次操作，做点积运算，
+I'm going to perform another inside of, like, a reduction loop where I do a dot product
+
+193
+00:14:28,090 --> 00:14:32,289
+在这一行和这一列的元素之间做点积，并累加结果，对吧。
+between those elements of the row and columns and cumulal results, right.
+
+194
+00:14:32,289 --> 00:14:37,734
+最终，我会把结果写回到这个线程对应的特定块中。
+And eventually, I will write the results back into this particular block for this thread.
+
+195
+00:14:37,734 --> 00:14:41,180
+好的。那么这里和程序的前一个版本相比，
+Okay. So here, compared to the previous version of the program,
+
+196
+00:14:41,180 --> 00:14:43,279
+呃，这个程序做的工作稍微多了一些，对吧？
+uh, this program did a little bit more work, right?
+
+197
+00:14:43,279 --> 00:14:48,260
+所以它计算了整个BV的结果，而不仅仅是单个元素。
+So it computes the results of the entire BV instead of just a single element.
+
+198
+00:14:48,260 --> 00:14:54,619
+你也可以从高层次上理解，如果矩阵的形状不变，
+So you can also get a high level sense that is we are going to if the matrix shape is unchanged,
+
+199
+00:14:54,619 --> 00:14:58,139
+我们将需要更少的线程，因为和之前相比，
+we are going to need less threads because compared to the previous one,
+
+200
+00:14:58,139 --> 00:15:04,399
+之前我们需要平方数量的线程，而这里明显减少了，减少了一个平方因子的数量。
+we need squared threads, but here, definitely, by a factor of divided by a factor of square.
+
+201
+00:15:04,399 --> 00:15:10,519
+好吗？我们来尝试分析一下内存IO。
+Okay? Let's try to analyze the memory IO.
+
+202
+00:15:11,320 --> 00:15:15,240
+所以每个线程的全局内存速率。
+So global memory rate per thread.
+
+203
+00:15:18,090 --> 00:15:22,009
+那就是V加U的平方，对吧？
+So it's V plus U square, right?
+
+204
+00:15:22,009 --> 00:15:24,990
+那为什么是NV加U的平方呢？
+So why is NV plus U square?
+
+205
+00:15:24,990 --> 00:15:28,929
+因为我们基本上要读取这部分，对吧？
+Because we are going to basically read this part, right?
+
+206
+00:15:28,929 --> 00:15:30,769
+还有，我们也要读取这部分。
+And also, we are going to read this part.
+
+207
+00:15:30,769 --> 00:15:32,610
+这些就是我们所有的读取操作。
+That's all our read.
+
+208
+00:15:32,610 --> 00:15:35,729
+好吗？而且这部分只和外层循环有关，对吧？
+Okay? And this part is only tied to this outside loop, right?
+
+209
+00:15:35,729 --> 00:15:39,449
+但这部分和这两个循环都有关系，对吧？
+But this part is tied to these two loops, right?
+
+210
+00:15:39,449 --> 00:15:42,950
+而且每次我们都在读取一个元素。
+And every time we are reading an elements.
+
+211
+00:15:42,950 --> 00:15:47,509
+好吗？所以这就是为什么这个在这个V上是平方的，好吗？
+Okay? So that is why this is square on this V, okay?
+
+212
+00:15:47,509 --> 00:15:51,610
+明白。那么有多少个线程？
+Cool. And how many threads?
+
+213
+00:15:52,680 --> 00:15:58,160
+所以和之前的版本相比，我们现在是未分割乘以未分割乘以波线程，
+So compared to the previous version, we are doing undivided by times undivided by wave threads,
+
+214
+00:15:58,160 --> 00:16:01,960
+现在我们只需要unsquar除以w的平方个线程。
+now we only need unsquar divided by w squared threads.
+
+215
+00:16:01,960 --> 00:16:07,799
+好吗？所以总的全局内存访问基本上是我们把它们
+Okay? So the total global memory access is basically we market
+
+216
+00:16:07,799 --> 00:16:10,079
+合在一起，然后得到这个元素。
+them together and we get this element.
+
+217
+00:16:10,079 --> 00:16:14,579
+和之前的版本相比，我们做得稍微好一点。
+Compared to the previous version we did we have been doing a little bit better.
+
+218
+00:16:14,579 --> 00:16:18,559
+在之前的版本中，我们基本上是二的三次方。
+In the previous version, we basically have two cube.
+
+219
+00:16:18,559 --> 00:16:23,980
+这里我们是一的三次方，基本上是除以V这个因子，所以我们减少了一点。
+Here we have one cube, which is basically divided by the factor of V, so we reduce a little bit.
+
+220
+00:16:23,980 --> 00:16:29,050
+好的。那么对于内存，比如我们用了多少寄存器。
+Okay. And for memory, like how many register we use.
+
+221
+00:16:29,050 --> 00:16:30,829
+所以这是我们用的内存，对吗？
+So this is the memory we use, right?
+
+222
+00:16:30,829 --> 00:16:37,009
+我们基本上是每个线程用W平方加两个浮点数。
+We use basically Wquare plus two float per thread.
+
+223
+00:16:37,009 --> 00:16:41,949
+好的，这部分我们没问题吧？
+Okay. Are we good with this one?
+
+224
+00:16:41,949 --> 00:16:49,289
+很好。所以我觉得这个的核心思想其实就是
+Cool. So, I think the high level idea of this one is going to is basically we like
+
+225
+00:16:49,289 --> 00:16:52,590
+希望每个线程计算一个区域，而不是一个元素。
+each thread to compute a region instead of one element.
+
+226
+00:16:52,590 --> 00:16:58,929
+但从这个标题来看，你知道，这只是1.5，
+But from the title of this, you know, this is just 1.5,
+
+227
+00:16:58,929 --> 00:17:01,530
+我们其实可以在这个区域的基础上做得更好一点。
+and we can do a little bit better than this region.
+
+228
+00:17:01,530 --> 00:17:08,589
+所以我们还是遵循同样的思路，就是我们还是希望每个线程计算一个区域，
+So we all follow the same idea as, um, we still like each thread to compute one region,
+
+229
+00:17:08,589 --> 00:17:09,909
+在C中计算一个结果区域。
+one result region in C.
+
+230
+00:17:09,909 --> 00:17:14,509
+但我们还能不能再优化一下这个程序，这样我们就不用……
+But can we still, improve this program a little bit, so we don't have to,
+
+231
+00:17:14,509 --> 00:17:18,110
+比如说，把这段内容读很多遍。
+like, read this many times.
+
+232
+00:17:19,430 --> 00:17:22,509
+有人有什么想法吗？
+Anyone has an idea here?
+
+233
+00:17:27,830 --> 00:17:35,029
+所以你发现一种高效的方法是，当我做这种分块时，每次基本上都是读取
+So one efficient you find is when I do this kind of tiling, every time I basically read
+
+234
+00:17:35,029 --> 00:17:41,869
+A 的一行和 dira 的一列，然后基本上做一个点积。
+one row from A and one column from dira I basically do a dot product together.
+
+235
+00:17:41,869 --> 00:17:48,690
+而且对于这里每次读取一行，我们还是会多次读取 B，
+And for each read of the row here, we are going to read we are still going to read B multiple times,
+
+236
+00:17:48,690 --> 00:17:54,869
+这里我们读取 B 的元素方式还是立方级别的，对吧？
+here the way we read the elements from B is still cube, right?
+
+237
+00:17:54,869 --> 00:17:58,179
+那我们能不能做得更好？其实是可以的。
+So can we do better here? We can right.
+
+238
+00:17:58,179 --> 00:18:01,940
+有两种方式可以做矩阵乘法。
+So there are two ways of doing multiply multiplication.
+
+239
+00:18:01,940 --> 00:18:08,640
+你可以做行乘以列的点积，这样你可以直接得到一个元素的结果，
+You can do a row by column, um, uh, door product, and you directly get the results on one element,
+
+240
+00:18:08,640 --> 00:18:12,359
+但你也可以做列乘以行的乘积，对吧？
+but you can also do column by row product, right?
+
+241
+00:18:12,359 --> 00:18:17,600
+首先你需要在这里定位那个小区域。
+You pick you first locate that small region from here.
+
+242
+00:18:17,600 --> 00:18:20,459
+然后你在这里取一列，对吧？
+And you grab one column here, right?
+
+243
+00:18:20,459 --> 00:18:25,559
+你还要在这里取一行，把它们相乘。
+And you also grab one row here, add them you multip them together and you
+
+244
+00:18:25,559 --> 00:18:31,039
+你会得到一个结果矩阵，它的形状是V乘以V。
+get you get one result matrix, which is the shape of V by
+
+245
+00:18:31,039 --> 00:18:35,899
+但是这个V乘以V并不是我们最终需要的结果，对吧？
+V. But this V by V is not the eventual results we need, right?
+
+246
+00:18:35,899 --> 00:18:42,619
+所以为了得到最终结果，我们要从这里扫描，也要从这里扫描。
+So in order to get eventual results, what we do is we can scan from here and we scan from here
+
+247
+00:18:42,619 --> 00:18:48,139
+我们基本上读取这里的一小列，这里的一小行。
+and we basically read one small column here, one small row here.
+
+248
+00:18:48,139 --> 00:18:51,339
+这样我们就得到了一个区域的结果。
+We basically get one region of results.
+
+249
+00:18:51,339 --> 00:18:57,539
+然后我们再读取这里的一列和这里的一小行，就得到了另一个区域的结果。
+And then we read one column here and one small row here, and we get another region of them.
+
+250
+00:18:57,539 --> 00:19:00,600
+这就叫做部分和。
+And this is called partial sum.
+
+251
+00:19:00,600 --> 00:19:04,760
+所以每次我们得到一个部分和，基本上我们需要做的就是把所有的部分和相加
+So every time we get a partial sum, and what we need to do is basically we add all the partial sum
+
+252
+00:19:04,760 --> 00:19:08,199
+最终我们就能得到这个区域的最终结果，对吧？
+together and we get the eventual results of this region, right?
+
+253
+00:19:08,199 --> 00:19:15,559
+在这种模式下，你可以看到，对于A，对于每一行，我们仍然需要读取整个区域。
+And in this pattern, you can Oh, for A, for each route, we still read the entire region.
+
+254
+00:19:15,559 --> 00:19:21,880
+而对于B，我们做得更好，因为我们只需要扫描整个区域一次，而不是多次，
+And for B, we are doing better because we only need to scan the entire region once instead of times,
+
+255
+00:19:21,880 --> 00:19:24,259
+对吧？我们来看一下这个。
+right? Let's see this.
+
+256
+00:19:24,259 --> 00:19:29,739
+好的。这个背后的数学直觉其实是，
+Okay. Mathematical mathematical intuition behind this is basically,
+
+257
+00:19:29,739 --> 00:19:35,940
+为了得到这里的结果矩阵，有两种方法。
+in order to get that result matrix here, there are two ways.
+
+258
+00:19:35,940 --> 00:19:37,999
+一种是按行与列相乘。
+One is a row by column.
+
+259
+00:19:37,999 --> 00:19:39,840
+但我们可以用不同的方法来做。
+But we can do it differently.
+
+260
+00:19:39,840 --> 00:19:45,119
+那就是我们可以把这个区域分解成像这样的小子矩阵。
+That is we can basically break this region into sub matrix like this.
+
+261
+00:19:45,119 --> 00:19:47,519
+比如说，我们把这个X拆分成X一，
+For example, we break this X into X one,
+
+262
+00:19:47,519 --> 00:19:50,199
+X二，还有很多很多列。
+X two, many many columns.
+
+263
+00:19:50,199 --> 00:19:53,779
+然后我们把这个Y拆分成Y一，Y二。
+And we break this Y into Y one, Y two.
+
+264
+00:19:53,779 --> 00:19:58,039
+我们发现这个区域其实可以表示为X，
+And we find that this region can actually be expressed as X,
+
+265
+00:19:58,039 --> 00:20:01,009
+Y一加上x2y2。
+Y one plus x2y2.
+
+266
+00:20:01,009 --> 00:20:07,139
+对，如果我们把它拆成很多很多小区域，我们会发现，为了得到这一部分的结果，
+Right. And if we break into many many small regions, we find that in order to get this part results,
+
+267
+00:20:07,139 --> 00:20:10,540
+我们只需要读取这一次，然后再读取这一次。
+we only need to read this time once and read this once.
+
+268
+00:20:10,540 --> 00:20:16,139
+而在之前的版本里，我们需要读取这一次，然后再读取这个三次，对吧？
+And in the previous version, we need to read this once and read this cube times, right?
+
+269
+00:20:16,139 --> 00:20:17,760
+这就是直觉所在。
+So that is the intuition.
+
+270
+00:20:17,760 --> 00:20:23,959
+我们接下来就要按照这个直觉，尝试修改我们之前的程序，
+And we are going to follow in this intuition and we try to modify our previous program,
+
+271
+00:20:23,959 --> 00:20:27,479
+把内核进展到这个版本，可以吗？
+progress kernel into this version, okay?
+
+272
+00:20:27,479 --> 00:20:31,379
+请稍微看一下这个内核。
+Please take a look at this kernel little bit.
+
+273
+00:20:36,230 --> 00:20:38,269
+好的。
+Yeah.
+
+274
+00:20:45,310 --> 00:20:51,229
+所以你的意思是，我从哪里得到这个？
+So you mean, where I get this?
+
+275
+00:20:57,830 --> 00:21:02,949
+嗯哼，对，你是这样得到的，对吧？
+Uh huh. Yeah, you get the by, right?
+
+276
+00:21:02,949 --> 00:21:06,790
+然后你就从左到右，从上到下扫描我的 asthm 全部。
+And then you just scan from left, right from top bottom of my asthm altogether.
+
+277
+00:21:06,790 --> 00:21:24,589
+你得到的是 by V。这样你把两个 s 相乘就得到一个，对吧？在之前，我是这样读的，对吗？
+You get the by V. So that you multiply two s get one Yeah, in the previous, I read this, right?
+
+278
+00:21:24,589 --> 00:21:27,389
+我读的是这一整行。
+I read this, this entire row.
+
+279
+00:21:27,389 --> 00:21:30,489
+之前我读的是这一整行，对吧？
+In the previous I read this entire row, right?
+
+280
+00:21:30,489 --> 00:21:33,429
+然后我读了这一整列，就得到一个元素。
+And I read this entire column, I get one element out.
+
+281
+00:21:33,429 --> 00:21:35,570
+为了得到第二个元素，
+And in order to get this second element,
+
+282
+00:21:35,570 --> 00:21:39,249
+我需要读取这个，我读了这个，还需要再读这个，对吧？
+I need to read I read this and I need to read this one again, right?
+
+283
+00:21:39,249 --> 00:21:42,910
+对。所以基本上，每次读取这一行时，
+Yeah. So basically, for each read of this row,
+
+284
+00:21:42,910 --> 00:21:44,889
+我都需要读取这一整列。
+I need to read all this column one.
+
+285
+00:21:44,889 --> 00:21:47,129
+这就是为什么是平方的，对吧？
+That's why it is square, right?
+
+286
+00:21:47,129 --> 00:21:49,949
+但在这个里面，我只需要读这个和这个。
+But in this one, I just need to read this and this.
+
+287
+00:21:49,949 --> 00:21:51,690
+对，这样说有道理吗？
+Yeah. Does that make sense?
+
+288
+00:21:51,690 --> 00:21:55,589
+这基本上就能让你直观理解为什么这个内存总是更小。
+And that basically give you intuition why this memory are always smaller.
+
+289
+00:21:55,589 --> 00:22:01,969
+好的，嗯，我觉得这个程序，一旦你理解了这个，
+Okay. Yeah, uh, I think this program, once you understand this, uh,
+
+290
+00:22:01,969 --> 00:22:05,629
+分块、矩阵乘法和部分求和，你就能理解这个程序了。
+block wise, matrix multiplication and partial sum, you understand this program.
+
+291
+00:22:05,629 --> 00:22:10,010
+它的作用是仍然使用那个块索引和块
+So what it does is it still use that block index and block
+
+292
+00:22:10,010 --> 00:22:14,690
+D 还有线程索引来定位这个区域，明白吗？
+D and also thread index to locate this region, okay?
+
+293
+00:22:14,690 --> 00:22:20,669
+一旦定位到区域，它会创建完全相同数量的寄存器。
+And once it locates the region, it's going to create the exact same amount of registers.
+
+294
+00:22:20,669 --> 00:22:26,549
+好的。但不是像之前那样循环遍历A的行和B的列，
+Okay. But instead of like I loop I loop over the rows of A and the column of B,
+
+295
+00:22:26,549 --> 00:22:30,229
+我会遍历A的列和B的行。
+I'm going to loop over the columns of A and rows of B.
+
+296
+00:22:30,229 --> 00:22:32,649
+明白了吗？这就是为什么有外层循环K，对吧？
+Okay? That's why there's outer loop K, right?
+
+297
+00:22:32,649 --> 00:22:35,484
+这个K基本上就是沿着这个方向扫描。
+This K basically scan following this direction.
+
+298
+00:22:35,484 --> 00:22:46,060
+每次我都会抓取一个小区域，就是这里的这个区域和这个区域。
+And every time I'm going to grab a small area, right here, is this area and this area.
+
+299
+00:22:46,060 --> 00:22:49,599
+然后我做点积，明白吗？
+And I do dot product. Okay?
+
+300
+00:22:49,599 --> 00:22:52,759
+最后我把所有结果加到这个区域里。
+And then I add all the results together into this region.
+
+301
+00:22:52,759 --> 00:22:57,294
+然后我把所有的部分和加在一起，得到结果。
+And I add all the partial sum together and I get the by.
+
+302
+00:22:57,294 --> 00:23:02,410
+好的。我们来试着分析一下内存IO。
+Okay. And let's try to analyze the memory IO.
+
+303
+00:23:02,410 --> 00:23:07,489
+所以每个线程的全局内存速率是n的平方，对吧？
+So the global memory rate per thread is noise and squared, right?
+
+304
+00:23:07,489 --> 00:23:09,410
+所以这样要好得多，对吧？
+So it's much better, okay?
+
+305
+00:23:09,410 --> 00:23:13,369
+我们需要的线程数基本上也是一样的，对吧？
+And the number of threads we need is basically, uh, same, right?
+
+306
+00:23:13,369 --> 00:23:15,070
+除以w和nib。
+Divided by w and nib.
+
+307
+00:23:15,070 --> 00:23:17,810
+n的平方除以w的平方。
+And squared divided by way square.
+
+308
+00:23:17,810 --> 00:23:23,869
+总的内存访问量是，我们把这些相乘，然后我们发现对于
+The total memory access is, we multiply this together, and we find that for
+
+309
+00:23:23,869 --> 00:23:27,529
+两个三次项，我们可以把它们除以。
+both the cubic term, we can divide them by.
+
+310
+00:23:27,529 --> 00:23:35,869
+好的？我们需要的寄存器数量其实就是w的平方加二，基本上就是我们分配的这部分。
+Okay? And the number register we need is also we square plus two, essentially this part we allocate.
+
+311
+00:23:35,940 --> 00:23:39,659
+好的，酷。这个我们没问题吧？
+Okay. Cool. Are we good with this one?
+
+312
+00:23:39,659 --> 00:23:40,619
+没问题。
+Yeah.
+
+313
+00:23:40,619 --> 00:23:53,779
+所以你的意思是，可以交换它们。
+So you mean, yeah, you can swap them.
+
+314
+00:23:53,779 --> 00:23:55,740
+没关系，没关系，没关系。无所谓。
+It's fine. Yeah, yeah, yeah. Doesn't matter.
+
+315
+00:23:55,740 --> 00:23:58,659
+就像这样乱七八糟的。
+It's just like messes make like this.
+
+316
+00:23:58,659 --> 00:24:02,160
+好吧？好的，酷。
+Yeah. Okay? Okay, cool.
+
+317
+00:24:02,160 --> 00:24:04,819
+这已经是Mtmo的一个相当不错的版本了。
+This is already a pretty good version of Mtmo.
+
+318
+00:24:04,819 --> 00:24:09,659
+我觉得在很多现在的机器架构中，如果你只有
+I think in many today's machinery frameworks, if you only have
+
+319
+00:24:09,659 --> 00:24:12,019
+一层内存层级，最后就会变成这样。
+one layer of memory hierarchy, you end up with this one.
+
+320
+00:24:12,019 --> 00:24:16,509
+明白吗？但我们还没结束，对吧？
+Okay? But we are not ending here, right?
+
+321
+00:24:16,509 --> 00:24:20,409
+所以我们知道我们有另一层内存层次结构。
+So we know we have another layer of memory hierarchy.
+
+322
+00:24:20,409 --> 00:24:22,809
+也就是说我们想要使用共享内存。
+That is we want to use our shared memory.
+
+323
+00:24:22,809 --> 00:24:25,969
+好的，所以我们最初的内容就在这里，对吧？
+Okay. So our initial content was here, right?
+
+324
+00:24:25,969 --> 00:24:28,490
+我们必须通过这个内存层次结构来读取
+And we have to go through this memory iarchy we read
+
+325
+00:24:28,490 --> 00:24:31,369
+从这里到共享内存，然后到寄存器。
+it from here to shared memory then to registers.
+
+326
+00:24:31,369 --> 00:24:36,030
+明白了吗？现在，我们要让事情变得越来越复杂。
+Okay? Now, we are going to make things more and more complicated.
+
+327
+00:24:36,030 --> 00:24:39,830
+那么，基本上如何利用共享内存，并尝试
+So how to basically leverage shared memory and try
+
+328
+00:24:39,830 --> 00:24:44,409
+在GPU上实现这种两级分块或数学运算。
+to implement this two level telling or math on GPS.
+
+329
+00:24:44,409 --> 00:24:52,710
+所以这里的直觉其实还是很直接的，但编码会有点难度。
+So here, the intuition is still quite straightforward, but the coding is a little bit difficult.
+
+330
+00:24:52,710 --> 00:24:54,649
+好的，呃，在讲座中，
+Okay, uh, in the lecture,
+
+331
+00:24:54,649 --> 00:24:56,190
+我将重点讲解直觉理解。
+I'm going to focus on intuition.
+
+332
+00:24:56,190 --> 00:24:58,969
+我认为如果你是新手，这会非常难，
+I think it's very hard to if you are new to this,
+
+333
+00:24:58,969 --> 00:25:01,429
+很难向你解释得非常清楚。
+it's very hard to explain this very clearly to you.
+
+334
+00:25:01,429 --> 00:25:04,269
+所以请在课程中多花些时间学习这个内容。
+So please put time on this on the program.
+
+335
+00:25:04,269 --> 00:25:05,870
+但我会给你一些直观的理解。
+But I'm going to give you intuition.
+
+336
+00:25:05,870 --> 00:25:11,809
+在这里，如果你还记得CPU中的M，对吧，
+So here, if you still remember the uh, met M in CPU right,
+
+337
+00:25:11,809 --> 00:25:14,149
+还记得那个程序吗，我们做了两级划分。
+remember that program, we do two level telling.
+
+338
+00:25:14,149 --> 00:25:17,029
+其实我们就是不断地划分、划分、再划分，对吧。
+The thing is basically we keep telling and telling telling, right.
+
+339
+00:25:17,029 --> 00:25:18,349
+我们做的是递归划分。
+We do a recursive telling.
+
+340
+00:25:18,349 --> 00:25:22,069
+我们先在某个形状上划分，然后在那个小形状内部我们还会继续
+We first tell it at some shape and then inside of that small shape we're going to
+
+341
+00:25:22,069 --> 00:25:23,929
+告诉人类更小的船只矩阵。
+tell human smaller ship matrix.
+
+342
+00:25:23,929 --> 00:25:30,470
+所以在这里，我们要做的是让大家知道我们正在使用SM，也就是共享内存。
+So here, what we do is we try to let know we are using the SM, which is shared memory.
+
+343
+00:25:30,470 --> 00:25:32,450
+记住，共享内存在块级别上。
+Remember shared memory is at the block level.
+
+344
+00:25:32,450 --> 00:25:37,189
+所以同一个块中的所有线程都可以访问那块共享内存。
+So all the threads in one block is going to access to that shared memory.
+
+345
+00:25:37,189 --> 00:25:42,109
+我们要做的是让每个块去计算一个区域，对吧？
+So what we do is we let each block to compute a region, right?
+
+346
+00:25:42,109 --> 00:25:45,609
+这个区域在这里用L乘L来表示。
+And this region is denoted here as L by L.
+
+347
+00:25:45,609 --> 00:25:51,249
+然后我们知道，在块内部，所有线程都可以访问那块共享内存，
+And then we know that inside of the block, all the threads can access that shared memory
+
+348
+00:25:51,249 --> 00:25:55,129
+所以他们可以一起协作来计算by，对吧？
+so they can work together to calculate by, right?
+
+349
+00:25:55,129 --> 00:25:59,649
+然后对于每个线程，我们会让它们计算一个更小的子区域，
+And then for each thread, we are going to let them to compute a smaller sub region
+
+350
+00:25:59,649 --> 00:26:02,999
+这个子区域来自这个L乘L，本质上就是by。
+from this by L, which is essentially by.
+
+351
+00:26:02,999 --> 00:26:09,789
+好的。白板讲解有帮助，是因为我们用到了内存，对吧？所以请思考一下这一点。
+Okay. And white telling can help because of memory we use, right? So think about this.
+
+352
+00:26:09,789 --> 00:26:17,330
+当我们计算这个小的区域时，我们本质上需要这一行。
+So when we compute this small regime by, right, we essentially need this row.
+
+353
+00:26:17,530 --> 00:26:19,689
+我们需要读取这一行，对吗？
+We need to read this row, right?
+
+354
+00:26:19,689 --> 00:26:23,950
+而且这些有很多行，不只是单独一行，是这一块的多行，好吗？
+And these are many roles, not just a single, this block of rows, okay?
+
+355
+00:26:23,950 --> 00:26:27,509
+我们还需要读取这一部分的列，对吧？
+And we need to read this part of column, right?
+
+356
+00:26:27,509 --> 00:26:30,889
+但是当我们计算这个区域时，我们需要什么？
+But when we compute this regime, what do we need?
+
+357
+00:26:31,650 --> 00:26:37,089
+所以我们仍然需要很多行，对吧？但我们需要读取的是这个。
+So we still need the many rules, right? But we need to read this.
+
+358
+00:26:37,089 --> 00:26:42,969
+这就是提前读取的作用，如果我们提前把一部分数据读入，
+This is the hoteling works because if we basically perform some reading ahead of time,
+
+359
+00:26:42,969 --> 00:26:46,850
+也就是说，我们把这一部分读到共享内存里并保存在那里，好吗？
+that is we read this part into the shared memory and keep it there, okay?
+
+360
+00:26:46,850 --> 00:26:51,149
+然后在线程层面，我们会遍历很多很多列，所以我们
+And then at the thread level, we are going to iterate through the many many columns so we
+
+361
+00:26:51,149 --> 00:26:54,389
+这样我们在读取时基本上可以实现内存复用。
+can basically have some memory reuse for this reading.
+
+362
+00:26:54,389 --> 00:26:57,010
+因此，我们节省了一些内存，对吧？
+Therefore, we save some memory, okay?
+
+363
+00:26:57,010 --> 00:27:00,059
+同样的道理，对吧？你基本上也可以这样做。
+And same thing, right? And you can basically do this.
+
+364
+00:27:00,059 --> 00:27:06,179
+好吗？这就是 tally。接下来我会稍微演示一下这个程序，也许给你们30秒时间。
+Okay? This is tally. And I'm going to show this program a little bit, maybe give you 30 seconds.
+
+365
+00:27:06,179 --> 00:27:08,460
+我觉得这个有点难。
+And I think this one is hard.
+
+366
+00:27:08,460 --> 00:27:13,179
+是的。请大家课后花点时间理解一下这个内容。
+Yeah. Please spend some time later after the class to understand this one.
+
+367
+00:27:13,179 --> 00:27:14,339
+嗯。
+Yeah.
+
+368
+00:27:41,620 --> 00:27:45,359
+好的，我现在给大家讲一些总体思路。
+Okay, I'm going to give you some high level things.
+
+369
+00:27:45,359 --> 00:27:48,800
+好，你可以从不同角度去理解同步。
+Okay, so you can think about sync either way.
+
+370
+00:27:48,800 --> 00:27:54,660
+首先你注意到的区别就是这行代码，对吧？我开始用这个了。
+First the difference you noted is this line, right, where I started using
+
+371
+00:27:54,660 --> 00:27:58,100
+
+this prefix to allocate memory from SRM.
+
+372
+00:27:58,100 --> 00:28:03,500
+
+A? So I allocate two chunks of memory, one is SA, the other SB.
+
+373
+00:28:03,500 --> 00:28:08,299
+
+Here, I simplify a little bit because we should allocate one of the shape
+
+374
+00:28:08,299 --> 00:28:11,999
+
+of S by L and the other is the shape of L by S.
+
+375
+00:28:11,999 --> 00:28:15,940
+
+But I basically unify them a little bit, because you can think that I transpose
+
+376
+00:28:15,940 --> 00:28:17,620
+
+the matrix a little bit, okay?
+
+377
+00:28:17,620 --> 00:28:22,744
+
+So I'm going to allocate memory for this part and for this part in shared memory.
+
+378
+00:28:22,744 --> 00:28:25,810
+
+Okay. And what I'm going to do is I'm going to scan
+
+379
+00:28:25,810 --> 00:28:29,350
+
+from here to here and here to here at the block level.
+
+380
+00:28:29,350 --> 00:28:35,269
+
+Okay? And I like each block to basically scan from here to here, here to here and compute this part.
+
+381
+00:28:35,269 --> 00:28:36,769
+在这个代码块内部，
+And inside of this block, what
+
+382
+00:28:36,769 --> 00:28:41,009
+我要做的是让每个线程读取这部分和这部分的一小块区域。
+I'm going to do is I will like each thread to read a little region
+
+383
+00:28:41,009 --> 00:28:42,729
+对，每个线程会读取这块和那块的一小块区域。
+of this and a little region of this.
+
+384
+00:28:42,729 --> 00:28:48,829
+好的，我还有一个内部循环，让我把这里稍微整理一下。
+Right. I have another inner loop that basically let me clean this a little bit.
+
+385
+00:28:49,560 --> 00:28:56,139
+我有另一个内部循环，它其实就是读取这部分的小区域，然后我从这里扫描到这里。
+I have another inner loop which basically reads a small area of this and I scan from here to here.
+
+386
+00:28:56,139 --> 00:28:59,940
+抱歉，是从这里到这里，还有从这里到这里。
+Sorry, from here to here and here to here.
+
+387
+00:28:59,940 --> 00:29:05,800
+这是递归的，一个是在块级别上说明，另一个是在线程级别上说明。
+This is recursive, one is basically telling at the block level and the other is basically telling
+
+388
+00:29:05,800 --> 00:29:08,140
+好，我首先会用我的块索引来索引这个区域，对吧？
+at uh the thread level.
+
+389
+00:29:08,140 --> 00:29:15,359
+这就是我正在做的，我在索引这个区域。
+Okay. I'm going to first use my block index to index this region, right?
+
+390
+00:29:15,359 --> 00:29:18,780
+这就是我正在做的，我在索引这个区域。
+And this is what I'm doing. I'm indexing it regi.
+
+391
+00:29:18,780 --> 00:29:25,119
+我基本上是从HBM开始读取数据，因为A和B都分配在HBM上。
+I basically start reading things from HBM because it's A and B, allocated on HBM, I
+
+392
+00:29:25,119 --> 00:29:27,779
+我把数据从GBM读取到我的共享内存中。
+reading things from GBM to my shared memory.
+
+393
+00:29:27,779 --> 00:29:36,540
+明白吗？而且这行代码是有问题的，因为如果你还记得窗口求和的话，
+Okay? And the and this line of code is problematic because if you still remember the window sum,
+
+394
+00:29:36,540 --> 00:29:43,259
+在窗口求和的例子中，当我让所有线程从GPM读取数据到共享内存时，
+in the Window sum example, when I try to let all threads to read things from GPM to share memory,
+
+395
+00:29:43,259 --> 00:29:46,180
+我需要做的是对读取操作进行分区，
+what I do is I need to also partition read,
+
+396
+00:29:46,180 --> 00:29:48,999
+我只让每个线程读取其中的一部分。
+I only let each thread to read one part of it.
+
+397
+00:29:48,999 --> 00:29:50,959
+这被称为协作式获取。
+And this is called cooperative fetching.
+
+398
+00:29:50,959 --> 00:29:54,754
+我觉得我们之前稍微讲过一点。还记得吗？
+I think we covered a little bit. Still remember?
+
+399
+00:29:54,754 --> 00:29:59,129
+好的，这里我把代码稍微简化了一下，因为我们之后会
+Okay. And here I simplify this code a little bit because we are going to
+
+400
+00:29:59,129 --> 00:30:01,450
+讲解如何实现这个数据块。
+cover how we implement this chunk later.
+
+401
+00:30:01,450 --> 00:30:06,169
+但总体思路是你不能让所有线程都去读取所有区域到共享内存中。
+But the high level idea is you cannot just let all threads to read all the regions
+
+402
+00:30:06,169 --> 00:30:09,509
+因为这个共享内存将会被块中的所有线程访问。
+into shared memory because this shared memory is going to be
+
+403
+00:30:09,509 --> 00:30:11,190
+所以每个线程只负责读取自己那一部分。
+accessed by all the threads in the block.
+
+404
+00:30:11,190 --> 00:30:15,809
+是的，我希望在我读了一点之后能写一些代码部分。
+So each thread only is responsible for reading its own part.
+
+405
+00:30:15,809 --> 00:30:19,009
+好的。如果你还记得那两个同步线程，为什么我们这里需要同步线程？
+Yeah, I hope to write some code part in I read a little bit.
+
+406
+00:30:19,009 --> 00:30:26,189
+是的，这是共享内存。
+Okay. And if you still remember the two sync threads, why we need a syn thread here?
+
+407
+00:30:26,620 --> 00:30:28,660
+我需要等这个任务完成后，才能开始访问那部分内存，对吧？
+Yeah, it's shared memory.
+
+408
+00:30:28,660 --> 00:30:32,519
+否则就会出现不确定的区域和不确定的行为。
+I need to wait for this to finish the job, and then I can start access that part of memory, right?
+
+409
+00:30:32,519 --> 00:30:37,079
+为什么我需要这个同步操作？
+Otherwise, there will be undetermined area, undetermined behavior.
+
+410
+00:30:37,079 --> 00:30:39,819
+为什么我需要这个同步线程？
+Why I need this single stress?
+
+411
+00:30:46,110 --> 00:30:52,409
+因为我想避免某个线程在这里正确完成计算后
+Because I want to avoid that one thread properly finish the computation here and
+
+412
+00:30:52,409 --> 00:30:54,190
+回到那个循环的下一次迭代，
+come back to the next iteration of that loop,
+
+413
+00:30:54,190 --> 00:30:57,129
+我想避免那个线程开始读取数据。
+I want to avoid that thread to start reading.
+
+414
+00:30:57,129 --> 00:31:02,349
+我想确保所有线程都完成计算并且基本上已经累加了结果，
+I want to make sure all threads finish the computation and basically accumulated results,
+
+415
+00:31:02,349 --> 00:31:05,869
+然后我加一个屏障，再开始读取新的内容。
+and then I add a barrier and I start reading new contents.
+
+416
+00:31:05,869 --> 00:31:10,524
+这就是这里的下一列。
+That is the next columns here.
+
+417
+00:31:10,524 --> 00:31:13,800
+所以这就是为什么我需要在这里再加一个屏障，好吗？
+So that's why I need to add another barrier here, okay?
+
+418
+00:31:13,800 --> 00:31:18,359
+所以有了这个屏障，你可以理解这个循环基本上是在读取
+So with this barrier, you understand that this loop is doing is basically reading
+
+419
+00:31:18,359 --> 00:31:20,080
+这个区域，读取这个区域。
+this area, reading this area.
+
+420
+00:31:20,080 --> 00:31:24,239
+好吗？然后我们要做的基本上就是这个。
+Okay? And then what we do is basically this is something that
+
+421
+00:31:24,239 --> 00:31:26,459
+这就是我们在上一页幻灯片中讨论的内容，对吧。
+we have been talking about in the last slide, right.
+
+422
+00:31:26,459 --> 00:31:32,299
+我们基本上是用ress级别的分配来处理这个乘法。
+We basically use ress level telling to handle the multiplication of this.
+
+423
+00:31:32,299 --> 00:31:38,060
+好吗？我们让每个线程从中取一个更小的区域，然后我们还有另外三层循环，
+Okay? We each thread to take a smaller region from that and we have another three layer loop,
+
+424
+00:31:38,060 --> 00:31:43,739
+你可以看到，这就像我们在不断累加结果，
+and you can see, this is like we are accumulating results from all the way
+
+425
+00:31:43,739 --> 00:31:45,659
+从这里到这里，以及这个内部。
+from here to here and inside of this.
+
+426
+00:31:45,659 --> 00:31:49,259
+所以我们把所有的结果都加到最终的结果条目里，好吗？
+So we are adding all the results together into the result entry, okay?
+
+427
+00:31:49,259 --> 00:32:05,879
+是的。关于这个程序里的控制和这里的情况，
+Yeah. Like to report about the control and the here in this program,
+
+428
+00:32:05,879 --> 00:32:08,179
+我觉得这里没有控制流，对吧？
+I don't think there's a control flow, right?
+
+429
+00:32:12,660 --> 00:32:19,699
+这种情况非常少见。非常少见，但以防万一，因为有时候可能某个核心
+It's very unlikely. It's very unlikely, but just in case, because sometimes maybe one core get
+
+430
+00:32:19,699 --> 00:32:22,479
+比其他核心的功率稍微高一点。
+a little bit higher power than the other.
+
+431
+00:32:22,479 --> 00:32:25,059
+是的，因为物理原因。
+Yeah, because of physics.
+
+432
+00:32:27,540 --> 00:32:30,019
+是的，确实如此。
+Yeah, it really is.
+
+433
+00:32:30,019 --> 00:32:32,940
+但我这样做是为了代码的安全。
+But I spell this is for the safety of the code.
+
+434
+00:32:32,940 --> 00:32:37,080
+因为你不知道这种情况会不会发生，这很难争论。是的。
+Because you don't know if this happens, it's very hard to debate. Yeah.
+
+435
+00:32:37,080 --> 00:32:41,219
+好的，好的，花点时间吧。
+Okay. Okay, spend some time.
+
+436
+00:32:41,219 --> 00:32:46,440
+基本上，我们和之前的版本相比，在这个区域做了什么？
+Basically, what do we do compared to the previous versions, basically at this area?
+
+437
+00:32:46,440 --> 00:32:50,780
+是的，这个区域的代码基本上是在块级别上说明的。
+Yeah, this regional code that basically telling at the block level.
+
+438
+00:32:51,420 --> 00:33:00,259
+同样地，我们可以对内存IO进行计算，我会把结果展示给你。
+Similarly, we do we can do calculation on memory IO, and I'm going to present results to you.
+
+439
+00:33:00,259 --> 00:33:02,079
+这个我就留给你自己处理了。
+I'm going to leave this to yourself.
+
+440
+00:33:02,079 --> 00:33:05,699
+但我觉得这部分比理解代码要简单，因为你要做的是，
+But I think this part is easier than understanding the code because what you do is,
+
+441
+00:33:05,699 --> 00:33:11,899
+呃，你基本上就是读循环，然后统计分配了多少寄存器和共享内存，
+uh, you basically read the loop, and you count how many registers and shared memory allocated and
+
+442
+00:33:11,899 --> 00:33:15,099
+还有在内存层级之间发生了多少IO操作。
+how many IO is happening between memory hierarchies.
+
+443
+00:33:15,920 --> 00:33:21,099
+好的，看这部分，对吧？
+Okay. Looking at this part, right?
+
+444
+00:33:21,099 --> 00:33:27,600
+我说这段代码有问题，因为如果我这样读我的代码，
+I said this part of code is problematic because if I read my code in this way,
+
+445
+00:33:27,600 --> 00:33:29,720
+那就意味着我所有的线程都会去读取
+that means that all my thress is going to read
+
+446
+00:33:29,720 --> 00:33:32,260
+整个区域到共享内存里，这样是不对的。
+the entire region into the shared memory, which is wrong.
+
+447
+00:33:32,260 --> 00:33:36,249
+首先，这样很慢。我也不知道该怎么做，对吧？
+First, it is it is slow. I don't how to do that, right?
+
+448
+00:33:36,249 --> 00:33:40,289
+其次，会有一些冲突，比如说，
+Second, um, there will be some conflicts, for example,
+
+449
+00:33:40,289 --> 00:33:44,630
+有些线程把数据读到那个寄存器，哦不，是那个共享内存条目里，
+some threads reading things into that register, sorry, that shared memory entry,
+
+450
+00:33:44,630 --> 00:33:47,809
+另一个线程也在做同样的事情，他们就会发生冲突。
+another thread is doing the same thing and they are going to have some conflict.
+
+451
+00:33:47,809 --> 00:33:53,429
+所以我们需要做的是更改这个协议，这其实是一种非常非常常见的方法
+So what do we do is we need to change this protocol, and this is a very very common approach
+
+452
+00:33:53,429 --> 00:33:55,509
+在GPU中被称为协作抓取。
+in GPU called cooperative fetching.
+
+453
+00:33:55,509 --> 00:34:02,230
+也就是所有线程从一个源区域抓取内存，比如说从GPM到目标区域。
+That is all fetching memory from one source area, for example, GPM into a destination area.
+
+454
+00:34:02,230 --> 00:34:07,070
+而这种协作抓取也需要以SMD的方式来实现。
+And this cooperative fetching also need to be implemented in a way that is SMD.
+
+455
+00:34:07,070 --> 00:34:11,969
+所以我们需要，开发者有责任去思考哪个区域，
+So we need to it's the developer's responsibility to think about which region,
+
+456
+00:34:11,969 --> 00:34:15,770
+哪个分区应该负责，并尝试计算
+which is separating that should be responsible for and try to calculate
+
+457
+00:34:15,770 --> 00:34:20,329
+一点点偏移量，让我们能写入新内容并把数据写入SM，
+the offset a little bit and let us write to fresh things and write things into SM,
+
+458
+00:34:20,329 --> 00:34:23,729
+就是写入，写入，呃，共享内存。
+into into into the uh, shared memory.
+
+459
+00:34:23,729 --> 00:34:28,749
+所以这行代码的真正实现应该是这样的。
+And so the true implementation of this line should be looking like this.
+
+460
+00:34:28,749 --> 00:34:34,410
+我会让你们看这段代码15秒，因为我觉得这个很简单，好吗？
+And I will let you guys look at this for 15 seconds because I think this one is easy, okay?
+
+461
+00:34:48,260 --> 00:34:49,579
+好的。
+Okay.
+
+462
+00:34:49,579 --> 00:34:54,000
+嗯，如果你熟悉C++编程和索引的话，
+Um, so if you are familiar with C plus pass programming and indexing,
+
+463
+00:34:54,000 --> 00:34:55,239
+你应该知道你在做什么，对吧？
+you know what you've been doing, right?
+
+464
+00:34:55,239 --> 00:34:57,960
+基本上，对于这一组线程，
+So basically, for this block of threads,
+
+465
+00:34:57,960 --> 00:35:02,320
+我会获取一个线程ID，然后用线程ID来计算
+I'm going to get a thread ID, and then I use thread ID to calculate
+
+466
+00:35:02,320 --> 00:35:05,920
+当前线程负责哪个条目。
+which entry are responsible for this current thread.
+
+467
+00:35:05,920 --> 00:35:08,059
+对于当前这个线程，
+And for this current thread,
+
+468
+00:35:08,059 --> 00:35:12,639
+我只会索引我负责读取的那个元素，
+I'm going to only I'm going to index that element I'm responsible for reading and
+
+469
+00:35:12,639 --> 00:35:14,879
+并把它读到共享内存里，对吧？
+read it into shared memory, right?
+
+470
+00:35:14,879 --> 00:35:22,439
+是的，非常标准的偏移索引代码，用C++写的，挺酷的。
+Yeah, very standardized offsetting indexing code, in CPlusPas Okay, cool.
+
+471
+00:35:22,439 --> 00:35:28,239
+基本上，在我看来，这是本课程中第二难的代码。
+That basically is, in my opinion, the second most difficult code in this class.
+
+472
+00:35:28,239 --> 00:35:31,159
+好的。我们稍后会和Flash教学联系一下，
+Okay. And we are going to touch base with flash teaching later,
+
+473
+00:35:31,159 --> 00:35:33,059
+那个会比这个更复杂。
+and that one will be more complicated than this one.
+
+474
+00:35:33,059 --> 00:35:34,660
+但这是第二难的。
+But this is the second difficult.
+
+475
+00:35:34,660 --> 00:35:38,259
+所以只要你能很好地理解这段代码，
+So as long as you get a good understanding of this code,
+
+476
+00:35:38,259 --> 00:35:41,479
+我认为你已经完成了Flash教学的一半。明白了吗？
+I think you already finished half of flashing teaching. Okay?
+
+477
+00:35:41,479 --> 00:35:49,639
+明白了吗？很好。那我们把这一部分收尾吧，因为我们最近两节课
+A good? Cool. Okay, let's wrap up this part, okay, because we have been doing a lot of
+
+478
+00:35:49,639 --> 00:35:51,940
+都在做很多GPU编程。
+GPU programming in the recent two lectures.
+
+479
+00:35:51,940 --> 00:35:56,259
+嗯，其实还有很多GPU架构我没有讲到，
+Um, so there are many more GP organization I didn't cover,
+
+480
+00:35:56,259 --> 00:35:59,159
+但我这周给你们布置了一些阅读材料，对吧？
+but I give you some readings, in this week, right?
+
+481
+00:35:59,159 --> 00:36:02,900
+有一些关于如何理解GPU性能的资料。
+There are some readings on how to understand the GPU performance.
+
+482
+00:36:02,900 --> 00:36:07,300
+我认为在我们的文档中，媒体部分提供了很多相关的资料，
+And I think in our documentation, media provides a lot of readings,
+
+483
+00:36:07,300 --> 00:36:10,899
+有一天如果你需要用到这些，你就知道去哪里找相关的指引了，好吗？
+and someday if you need to use that, you know where to find pointers, okay?
+
+484
+00:36:10,899 --> 00:36:17,089
+但总体来说，还有其他几个重要的方面可以让TPO内核运行得更快。
+But in general, um, there are a few other important aspects to make TPO kernel fast.
+
+485
+00:36:17,089 --> 00:36:19,909
+第一个就是全局内存的连续读取。
+The first one is global memory continuous read.
+
+486
+00:36:19,909 --> 00:36:21,709
+也就是说，当我需要读取时，
+That is when I myths write to read
+
+487
+00:36:21,709 --> 00:36:23,850
+AHGPM我需要确保它们是连续读取的。
+AHGPM I need to make sure that they read continuously.
+
+488
+00:36:23,850 --> 00:36:30,129
+我不能只读取一个元素，然后加一个偏移再去读取另一个元素，因为我们知道
+I cannot read one element and apply offset and it's going to read another element because we know
+
+489
+00:36:30,129 --> 00:36:36,510
+即使是在CP内存中，这样做也是很慢的，因为我们要避免带偏移的读取。
+that even in CP memory, this is slow because we want to avoid reading with offsets.
+
+490
+00:36:36,510 --> 00:36:38,809
+我们总是要进行连续读取。
+We want to always do continuous read.
+
+491
+00:36:38,809 --> 00:36:42,160
+好的，嗯，共享内存银行冲突。
+Okay uh, shared memory bank conflict.
+
+492
+00:36:42,160 --> 00:36:46,100
+我觉得这里我只是给你一个更高级的名字，好吗？
+I think here I'm just giving you a fancier name, okay?
+
+493
+00:36:46,100 --> 00:36:47,759
+但是这些事情
+But the things that
+
+494
+00:36:47,759 --> 00:36:51,980
+我觉得这个术语你已经理解了，记得在这个协作式抓取中，
+I think this term you already understands, remember in this cooperative fetching,
+
+495
+00:36:51,980 --> 00:36:53,999
+如果我让所有线程去读取
+if I let all threats to read
+
+496
+00:36:53,999 --> 00:36:59,040
+GBM而不计算这个偏移量，就会有一些冲突，我们称之为银行冲突。
+GBM without calculating this offset, there will be some conflict, and we call this bank conflict.
+
+497
+00:36:59,040 --> 00:37:05,244
+好的。有时候我们需要避免这种共享内存银行冲突，对吧？
+Okay. And sometimes we need to avoid this kind of shared memory bank conflict, okay?
+
+498
+00:37:05,244 --> 00:37:09,609
+还有流水线规划，这个很容易理解，对吧？
+Also pipe planning, and this one is very easy to understand, right?
+
+499
+00:37:09,609 --> 00:37:15,010
+因为我们有内存层级结构，有不同的线程在做IO和计算。
+So because we have memory hierarchies, we have different stress doing IO and doing competition.
+
+500
+00:37:15,010 --> 00:37:18,469
+所以为了节省时间，我们可以让一些线程去做读取和
+So in order to even save time, we can add some stress to doing reading and
+
+501
+00:37:18,469 --> 00:37:20,950
+另一组线程正在进行竞争。
+another group of thread doing competition.
+
+502
+00:37:20,950 --> 00:37:24,789
+然后我们可以重叠内存IO和计算时间。
+And then we can overlap the memory IO and computing time.
+
+503
+00:37:24,789 --> 00:37:28,849
+我们不知道如何按顺序完成这件事。
+We don't know how to do it in sequential order.
+
+504
+00:37:28,849 --> 00:37:31,669
+还有另外两件事，一个是张量核心，
+Another two things, one is tensor core,
+
+505
+00:37:31,669 --> 00:37:35,750
+我希望你们已经读过我给你们的阅读材料，我认为你们已经理解了
+I hope you guys already read the readings I give to you, and I think you understand
+
+506
+00:37:35,750 --> 00:37:37,029
+张量核心的作用，对吧？
+what is tensor core doing, right?
+
+507
+00:37:37,029 --> 00:37:39,530
+它是一个为MTM更专业化的核心，好吗？
+It's a more specialized core for MTM, okay?
+
+508
+00:37:39,530 --> 00:37:41,509
+所以它在MTM中会更快。
+So it will be faster in MT
+
+509
+00:37:41,509 --> 00:37:45,824
+最后一个是低精度，我们下周会讲这个内容。
+M. And the last one is lower precision, which we'll cover next week.
+
+510
+00:37:45,824 --> 00:37:53,720
+好的，酷。这基本上涵盖了GPU讲座的所有内容。
+Okay. Cool. That basically covers all the lecture contents for GPUs.
+
+511
+00:37:53,720 --> 00:37:59,509
+有什么问题吗？好的。
+Any question? Okay.
+
+512
+00:37:59,509 --> 00:38:05,929
+那我们继续。如果我们回头再看这个程序，我们会发现，是的，
+Then let's move forward. So if we come back to revisit this program, we find that, yeah,
+
+513
+00:38:05,929 --> 00:38:14,910
+我们有一个大致的思路，知道如何实现这个内核，如何利用这些内存层次结构。
+we have a high level idea how to do this uh kernel how to basically utilize those memory hierarchy.
+
+514
+00:38:14,910 --> 00:38:19,409
+但如果我让你来做，你还是会遇到很多问题。
+But if I ask you to do this, you are still going to face a lot of problem.
+
+515
+00:38:19,409 --> 00:38:23,750
+因为请记住，在CPU调优中，有几个关键的调优因素。
+Because remember in CPU tolling, there are a few tolling factors that are critical.
+
+516
+00:38:23,750 --> 00:38:28,029
+比如说，你使用共享内存的方式不能超过
+For example, the way you use shared memory cannot exceed the limit the
+
+517
+00:38:28,029 --> 00:38:29,889
+设备所提供的共享内存的限制。
+shared memory provided by the device.
+
+518
+00:38:29,889 --> 00:38:34,219
+这里也是一样，你应该申请多少个线程？
+Same thing here, how many threads should you ask for?
+
+519
+00:38:34,219 --> 00:38:38,389
+好的。你到底应该使用多少寄存器？
+Okay. How many regiers you should exactly use?
+
+520
+00:38:38,389 --> 00:38:43,450
+显然，这不能超过该流处理器中的寄存器数量，对吧？
+Apparently, it cannot exceed the number of regiers in that streaming microprocessor, okay?
+
+521
+00:38:43,450 --> 00:38:48,110
+那我应该为我的程序申请多少SRAM呢？
+And how many amount of SRAM should I ask for for my program?
+
+522
+00:38:48,110 --> 00:38:52,829
+因为不同的设备有不同数量的SRAM，对吧？
+Because different devices have different number SRAM, okay?
+
+523
+00:38:52,829 --> 00:38:56,689
+这基本上就是你实现这个内核时需要考虑的实际问题。
+And this is basically the practical concerns when you implement this kernel.
+
+524
+00:38:56,689 --> 00:39:02,630
+即使你能写出整个程序的代码，也不能保证这个程序
+And even if you can write the entire code of this program, it's not guaranteed that this program
+
+525
+00:39:02,630 --> 00:39:07,730
+是高效的，因为你还需要为这个内核调整超参数配置。
+is efficient because you still need to tune the hyperparameters configurations for this kernel.
+
+526
+00:39:07,730 --> 00:39:12,430
+在机器学习中，我们称之为内核调优，而且有很多框架
+And imagine learning, we call this kernel tuning, and there are a lot of frameworks
+
+527
+00:39:12,430 --> 00:39:14,249
+比如petard和tender flow。
+like petard and tender flow.
+
+528
+00:39:14,249 --> 00:39:18,009
+当你把它们部署到你的模型上时，你会花很长时间
+When you just set it up on your model, you are with a pretty long time for
+
+529
+00:39:18,009 --> 00:39:20,630
+来分析程序并尝试调整这些参数。
+it to profile program and try to tune those parameters.
+
+530
+00:39:20,630 --> 00:39:22,189
+这基本上就是内核调优。
+That's basically kernel tuning.
+
+531
+00:39:22,189 --> 00:39:27,910
+而Kert调优是一个非常困难的问题，因为我们有太多模型了，
+And Kert tuning is a very difficult problem because, uh we have so many models,
+
+532
+00:39:27,910 --> 00:39:31,610
+transformer、STRs Net，它们有不同的算子。
+transformers, STRs Net, they have different operators.
+
+533
+00:39:31,610 --> 00:39:33,709
+每个算子本身都有不同的形状。
+Each operator ready have different shape.
+
+534
+00:39:33,709 --> 00:39:39,269
+比如说，metam的1k×1k和4k的配置肯定和我在这里用的配置不一样，
+For example, metam of one kb one k and fourk definitely different than the configurations
+
+535
+00:39:39,269 --> 00:39:44,529
+因为它们需要不同的处理能力，
+that I applied on this telling because they require different amount of processing power
+
+536
+00:39:44,529 --> 00:39:47,910
+还有内存层级的容量也不同。
+and also the memory hierarchy capacity.
+
+537
+00:39:47,910 --> 00:39:51,489
+当然，还有不同的框架，这个我们已经讲过了。
+There are different frameworks, of course, we already covered that.
+
+538
+00:39:51,489 --> 00:39:58,350
+我认为让事情变得最复杂的，是有很多不同的设备，不同的GPU。
+I think the thing that makes since most complex is there are many different devices, different GPUs.
+
+539
+00:39:58,350 --> 00:40:03,089
+比如说，media本身就有很多代不同配置的GPU，对吧？
+For example, media itself has so many generations of GPUs with different configurations, right?
+
+540
+00:40:03,089 --> 00:40:05,090
+还有CPU。
+And there are also CPUs.
+
+541
+00:40:05,090 --> 00:40:11,910
+有CDN，还有像TPU这样的加速器，我们也想在iPhone和MacBook上部署我们的内核。
+There are CDN, uh, there are like TPU bacons, we also want to deploy our kernels
+
+542
+00:40:11,910 --> 00:40:14,269
+对吧？
+on iPhone MacBook, right?
+
+543
+00:40:14,269 --> 00:40:16,370
+所以这让事情变得复杂了。
+So which makes this things complicated.
+
+544
+00:40:16,370 --> 00:40:21,489
+如果你让开发者来做这件事，比如说，即使只是针对一个Mdm，你也得，
+Uh, so if you ask developers to do this, for example, even for a single Mdm, you have to, like,
+
+545
+00:40:21,489 --> 00:40:23,610
+至少每家公司，比如苹果，
+at least every company, Apple,
+
+546
+00:40:23,610 --> 00:40:26,789
+英特尔，他们都需要雇一堆工程师来调优内核，对吧。
+Vd Intel, they need to hire a bunch of engineers to tune the kernels, right.
+
+547
+00:40:26,789 --> 00:40:29,249
+他们基本上是在处理同样的原始代码，
+They are basically working on the same original code,
+
+548
+00:40:29,249 --> 00:40:31,790
+但他们只需要调整不同的内核参数。
+but they just need to tune different kernel parameters.
+
+549
+00:40:31,790 --> 00:40:36,399
+好吧，实际上有两种解决方案。
+Okay? There are essentially two solution to this.
+
+550
+00:40:36,399 --> 00:40:42,920
+一种就是你雇更多的人，就像我刚才提到的，你让专家来定制。
+One is you just hire more people, and like I already mentioned, you ask the experts to craft
+
+551
+00:40:42,920 --> 00:40:46,820
+你每天都在优化这些内核的性能，并且给他们发工资。
+those kernels and tune their performance day by day and you give them salary.
+
+552
+00:40:46,820 --> 00:40:53,400
+你列举出所有这些冲突，并确保在分析后，一切都没问题。
+You enumerate all these conflicts and make sure, yeah, it is good after profile.
+
+553
+00:40:53,400 --> 00:40:57,199
+第二种解决方案基本上是一个更有野心的方案，
+The second solution is basically a more ambitious solution that is
+
+554
+00:40:57,199 --> 00:40:59,579
+这基本上就是机器工程编译器人员正在做的事情。
+basically what machinering compiler people are doing.
+
+555
+00:40:59,579 --> 00:41:03,800
+他们的想法是，我给你一个系统，也就是一个编译器，
+They are saying, like, how about I give you a system, which is a compiler,
+
+556
+00:41:03,800 --> 00:41:08,640
+你把你的算子给我，同时也把你的设备给我，
+and you give me your operator, and you also give me your devices,
+
+557
+00:41:08,640 --> 00:41:11,399
+然后你把它们都交给那个编译器，那个编译器会
+and you through them to that compiler, and that compiler will
+
+558
+00:41:11,399 --> 00:41:13,519
+自动为你搞定一切。
+automatically figure out everything for you.
+
+559
+00:41:13,519 --> 00:41:17,879
+好的，这基本上就把我们带到了第二部分，
+Okay. That basically brings us into the second part of,
+
+560
+00:41:17,879 --> 00:41:21,760
+还有一个非常重要的话题——应急系统。
+uh, and also a very important topic emergency system.
+
+561
+00:41:21,760 --> 00:41:29,620
+我认为，在2018年到2020年之间，整个社区，
+I think, between the year 2018 and 2020, uh, the entire community,
+
+562
+00:41:29,620 --> 00:41:34,600
+他们都在做编译器，因为他们真的很喜欢这个愿景
+they are doing compilers because they are really like this vision
+
+563
+00:41:34,600 --> 00:41:36,619
+因为这样可以减少人力，对吧？
+because they can reduce labors, right?
+
+564
+00:41:36,619 --> 00:41:38,560
+他们可以给工程师发工资。
+They can pay salary to engineers.
+
+565
+00:41:38,560 --> 00:41:39,919
+他们尝试实现一些自动化。
+They try to automate something.
+
+566
+00:41:39,919 --> 00:41:44,040
+好的，这里是机器编译。
+Okay. So here is machining compilation.
+
+567
+00:41:44,040 --> 00:41:47,059
+显然，机器编译的主要目标是
+Obviously the primary goal of machining compilation is
+
+568
+00:41:47,059 --> 00:41:50,759
+我尝试在内核代码上自动生成最优配置，
+I try to automatically generate optimal configurations on the kernel code,
+
+569
+00:41:50,759 --> 00:41:55,480
+给用户提供高级代码，比如用ten flow Petro甚至Python编写的代码，
+giving users high level code, for example, written in ten flow Petro or even Python,
+
+570
+00:41:55,480 --> 00:41:59,959
+以及目标硬件，如果我能建立这一层，
+and target hardware, if I can build this layer,
+
+571
+00:41:59,959 --> 00:42:03,999
+那么这将会成为超级力量，因为它能够
+then this is going to be superpower because it's going to
+
+572
+00:42:03,999 --> 00:42:08,844
+把任何代码转换成高效版本，基本上消除人工劳动，对吧？
+compare any code into a highly efficient version and basically eliminate human labor, okay?
+
+573
+00:42:08,844 --> 00:42:14,190
+那我们来看看机器编译器和传统编译器有何不同。
+So let's look at how machining compiler is different from traditional compiler.
+
+574
+00:42:14,190 --> 00:42:20,589
+好吗？我希望你们都至少知道什么是传统编译器，对吧？
+Okay? So I hope you guys all took at least, know what is traditional compiler, right?
+
+575
+00:42:20,589 --> 00:42:24,269
+基本上，比如说你写一些代码，
+It's basically, for example, when you write some code,
+
+576
+00:42:24,269 --> 00:42:26,029
+C++，你可以用任何方式来写。
+C plus plus, you can write in whatever way.
+
+577
+00:42:26,029 --> 00:42:30,689
+但是编译器会保证解析你的代码并让它变得非常高效，对吧。
+But compiler will guarantee that they pass your code and make it very efficient, right.
+
+578
+00:42:30,689 --> 00:42:33,729
+它还会把你的代码转化为一些机器指令，
+It also lower your code into some machine instructions
+
+579
+00:42:33,729 --> 00:42:38,309
+这样处理器才能理解，对吧？
+and so the instruct the processors can understand, right?
+
+580
+00:42:38,309 --> 00:42:40,490
+这就是传统编译器。
+So this is a traditional compiler.
+
+581
+00:42:40,490 --> 00:42:44,069
+人类基本上会写一些代码，比如说C++或者其他语言。
+Human basically write some code, for example, CPP or whatever.
+
+582
+00:42:44,069 --> 00:42:46,129
+然后编译器会接收你的代码。
+And the compiler will take your code.
+
+583
+00:42:46,129 --> 00:42:50,489
+它会去除所有那些低效的代码、重复的代码、不必要的代码。
+It will eliminate all those efficient code or repeated code, unnecessary code.
+
+584
+00:42:50,489 --> 00:42:54,469
+接着它会尝试把代码转换成另一种格式，
+And then it will try to lower it into another format that is probably not
+
+585
+00:42:54,469 --> 00:42:56,430
+这种格式可能人类看不懂，但计算机可以识别。
+human readable, but the process readable.
+
+586
+00:42:56,430 --> 00:43:02,309
+指令。好的，我需要把指令给到，呃，基本上是给到
+Instructions. Okay. I need to give the instruction to, uh, uh, basically to
+
+587
+00:43:02,309 --> 00:43:05,354
+目标硬件，然后硬件会根据你的代码来运行。
+the target hardware and hardware will ask you your code.
+
+588
+00:43:05,354 --> 00:43:09,300
+想象一下学习，这其实很相似。
+E. Imagine learning, this is very similar.
+
+589
+00:43:09,300 --> 00:43:11,819
+这里我基本上画了一个堆栈结构。
+And here I basically draw the stack here.
+
+590
+00:43:11,819 --> 00:43:15,499
+记住，沉浸式学习就像我们写代码一样。
+Remember immerse learning how we write code.
+
+591
+00:43:15,499 --> 00:43:21,260
+我们基本上是在组合数据流图，我们使用Tinder flow和Patrig API，
+We basically compose dataflow graphs, we use Tinder flow and Patrig API,
+
+592
+00:43:21,260 --> 00:43:23,659
+并且我们试图处理这一层。
+and we try to take care of this layer.
+
+593
+00:43:23,659 --> 00:43:28,979
+我们把关于模型的想法转化为数据流图，对吧？
+We convert our idea about our model into dataflow graph, okay?
+
+594
+00:43:28,979 --> 00:43:32,479
+编译器的承诺基本上就是，从这里开始，
+And the promise of compiler is basically, starting from there,
+
+595
+00:43:32,479 --> 00:43:37,239
+你不需要去优化比如图变换，也不需要去优化你的内核代码，
+you don't have to optimize say graph transformation, you don't have to optimize your kernel code
+
+596
+00:43:37,239 --> 00:43:39,240
+或者其他的，像是随机调度之类的。
+or whatever, random scheduling.
+
+597
+00:43:39,240 --> 00:43:41,899
+我会为你提供一个全栈解决方案。
+And I'm going to take a full stack solution for you.
+
+598
+00:43:41,899 --> 00:43:44,639
+我会接管。我会接管你的代码。
+I'm going to take over. I will take your code.
+
+599
+00:43:44,639 --> 00:43:47,800
+我会自动把它转化为数据流图。
+I will automatically transform it into Dataflograph.
+
+600
+00:43:47,800 --> 00:43:51,360
+然后我有一些代码会自动进行转换。
+And then I have some code that will automatically translate
+
+601
+00:43:51,360 --> 00:43:53,819
+将你的数据流图转化为高效的版本。
+your data flow graph into efficient version.
+
+602
+00:43:53,819 --> 00:44:00,099
+一旦我得到了最终版本的数据流图，我基本上会这样做：我会问你
+And then once I have the eventual version of data flograph what I do is basically I ask you
+
+603
+00:44:00,099 --> 00:44:03,540
+按照算子定义，从前向和后向进行推导。
+from forward and backward following the operator definition.
+
+604
+00:44:03,540 --> 00:44:06,659
+我还会帮助你为
+So I will also help you to generate efficient kernel code for
+
+605
+00:44:06,659 --> 00:44:09,020
+你在数据流图中使用的每个算子生成高效的内核代码。
+each operator you use in your data flograph.
+
+606
+00:44:09,020 --> 00:44:13,400
+好的，这就是机器编译器试图实现的目标。
+Okay. And this is what machining compiler tries to permiss.
+
+607
+00:44:13,400 --> 00:44:15,759
+一旦你加上这一层，
+And once you add this layer,
+
+608
+00:44:15,759 --> 00:44:19,099
+我觉得我们就可以了，因为只要我们有了高效的内核代码，
+I think we are good because once we have that efficient kernel code,
+
+609
+00:44:19,099 --> 00:44:22,280
+正如我们在前几节课中学习的那样，我们可以直接把代码交给Quota
+we studied in the previous several lectures, we can just give the code to Quota
+
+610
+00:44:22,280 --> 00:44:23,780
+编译器或者其他任何编译器。
+compiler or whatever compiler.
+
+611
+00:44:23,780 --> 00:44:30,559
+
+And they will basically they will basically take over and transform it into machine code.
+
+612
+00:44:30,559 --> 00:44:35,300
+
+You can see machining compiler is slightly higher level than traditional compiler.
+
+613
+00:44:35,300 --> 00:44:39,859
+
+It will take your data flow graph and compile it all the way down into kernel code and
+
+614
+00:44:39,859 --> 00:44:43,039
+
+then traditional compiler will take over.
+
+615
+00:44:43,039 --> 00:44:46,019
+
+Okay. Any problem here?
+
+616
+00:44:46,050 --> 00:44:51,290
+
+Okay, this is a pretty big scope because if you have a compiler, that means most of the marchey
+
+617
+00:44:51,290 --> 00:44:52,709
+
+system problem will be solved.
+
+618
+00:44:52,709 --> 00:44:55,529
+
+Okay. So so what kind of problem we face here?
+
+619
+00:44:55,529 --> 00:44:58,740
+
+So uh, apparently, there are three layers.
+
+620
+00:44:58,740 --> 00:45:04,399
+
+At the first layer, programming level, we face very difficult program
+
+621
+00:45:04,399 --> 00:45:10,400
+这会自动将开发者编写的任意且通常是命令式的代码，
+that is automatically transform arbitrary and usually imperative code by developers,
+
+622
+00:45:10,400 --> 00:45:12,079
+转换为兼容的代码。
+into a compatible code.
+
+623
+00:45:12,079 --> 00:45:14,660
+我记得我们在第二节课上讨论过这个问题。
+And I think we talked about this in the second lecture.
+
+624
+00:45:14,660 --> 00:45:19,700
+这已经相当困难了，因为就像我说的，数据流图是非常静态的，
+This is already pretty hard because like I said, dataflow graph is so static,
+
+625
+00:45:19,700 --> 00:45:22,020
+但用户代码却非常动态。
+but user code are so dynamic.
+
+626
+00:45:22,020 --> 00:45:24,099
+这里存在一个差距，我们要怎么做。
+And there's a gap, how we do that.
+
+627
+00:45:24,099 --> 00:45:26,880
+我们之前有提到过这个问题，希望你们还记得。
+We touch based on that. I hope you still remember.
+
+628
+00:45:26,880 --> 00:45:29,879
+你可以看到，这个研究领域基本上是由
+And you can see this area of research is basically being
+
+629
+00:45:29,879 --> 00:45:33,559
+大多数编程语言领域的人在进行的。
+conducted by most of programming language people.
+
+630
+00:45:33,559 --> 00:45:39,839
+编程语言领域的人非常喜欢做这件事，他们都关注这个领域，也就是把
+Programming language people really like doing this and they all look at this area that is taking
+
+631
+00:45:39,839 --> 00:45:44,119
+你的机器学习代码，尝试把你的动态代码转换成静态代码。
+your machine learning code and try to convert your dynamic code into study code.
+
+632
+00:45:44,119 --> 00:45:48,009
+好吗？这和编程语言有关系，对吧？
+Okay? And this touch base with programming language, okay?
+
+633
+00:45:48,009 --> 00:45:52,020
+在图的层面上，编译器的基本工作是，
+In a graph level, what the compiler does is basically,
+
+634
+00:45:52,020 --> 00:45:55,120
+我们尝试执行一些自动的图变换。
+we try to perform some automatic graph transformation.
+
+635
+00:45:55,120 --> 00:45:58,080
+我们在之前的课程中也稍微谈到过这个。
+We also talked about this a little bit, in our early lectures.
+
+636
+00:45:58,080 --> 00:46:03,539
+也就是说，我们有一个静态网络，可以在多次运行中进行优化，最终得到一个
+That is, we have a stNt we can optimize it in many runs and then eventually get a graph
+
+637
+00:46:03,539 --> 00:46:06,219
+比如快30倍的图之类的。
+that is 30 times faster or something.
+
+638
+00:46:06,219 --> 00:46:10,139
+这基本上是由一些图论领域的人来做的。
+And this is basically being touchb by some graph theory people.
+
+639
+00:46:10,139 --> 00:46:15,620
+他们喜欢在图中做分析，所以他们拿到图后会尝试找到等价的图。
+Okay, they like to analyze in graphs, so they take graphs and try to find the equivalent graphs.
+
+640
+00:46:15,620 --> 00:46:22,179
+好的。那么在最后一层，我们主要做的就是这个，对吧？
+Okay. And at the last layer, what do we do is helping heavily doing this, right?
+
+641
+00:46:22,179 --> 00:46:24,919
+那么，如何让算子变得更快呢？
+So how to make operator fast.
+
+642
+00:46:24,919 --> 00:46:30,060
+基本上，他们会采用你算子的高级定义，比如说metamor。
+So basically, they will take a high level definition of your operator, for example, metamor.
+
+643
+00:46:30,060 --> 00:46:34,239
+当你在Python里写Metamo时，实际上你做的是一个层循环。
+When you write Metamo in Python, what you do is basically you do a layer loop.
+
+644
+00:46:34,239 --> 00:46:38,019
+但他们会把这个循环拿去，尝试生成非常高效的内核代码。
+But they will take that loop and they try to generate a very efficient kernel code
+
+645
+00:46:38,019 --> 00:46:40,880
+这正是我们在本讲第一部分做的事情。
+that we did in the first part of this tecture.
+
+646
+00:46:40,880 --> 00:46:42,419
+也就是自动生成那种代码。
+Which is auto those kind of code.
+
+647
+00:46:42,419 --> 00:46:48,259
+好的，比如在GPU上的coda，这会自动化整个过程。
+Okay, coda, on GPS and which was automate the entire process. Okay.
+
+648
+00:46:48,259 --> 00:46:56,019
+嗯，这是一个相当大的领域，但在本讲中，因为你还记得整体框架，
+Um, uh, this is a pretty big area, but in this lecture because you still remember the big picture,
+
+649
+00:46:56,019 --> 00:46:58,299
+我们正在尝试优化算子代码。
+we are trying to optimize operator code.
+
+650
+00:46:58,299 --> 00:47:02,600
+所以我会简单介绍一下如何用编译器来做这件事。
+So I'm going to touch base a little bit on how to do this using compilers.
+
+651
+00:47:02,600 --> 00:47:07,569
+好的。在接下来的课程中，我们会涉及到其他层级，对吧？
+Okay. And in later lectures, we are going to touch base other layers, okay?
+
+652
+00:47:07,569 --> 00:47:12,059
+所以在那之前，我想给大家一个关于编译器领域整体情况的高层次介绍。
+So before that, I want to give you a high level picture what is going on in the compiler domain.
+
+653
+00:47:12,059 --> 00:47:17,960
+我会列举几个著名的编译器，并向大家介绍它们的主要内容。
+So I'm going to lame a few famous compilers and give you an introduction of what they are cooking.
+
+654
+00:47:17,960 --> 00:47:21,399
+以及这些编译器背后的人物，对吧？
+And what are the people behind them, okay?
+
+655
+00:47:21,399 --> 00:47:28,600
+第一个当然是来自谷歌的，叫做XLA，
+So the first one, of course, from Google, right, uh, it's called XLA,
+
+656
+00:47:28,600 --> 00:47:31,299
+如果你看XLA的Logo，
+XLA, if you look at Logo.
+
+657
+00:47:31,299 --> 00:47:33,979
+它和TensorFlow的标志非常相似，对吧？
+It's very similar to tens TF. Okay?
+
+658
+00:47:33,979 --> 00:47:39,299
+所以这个XLA实际上，我认为它是第一个面向机器学习的编译器。
+So this SLE was actually uh I would say it's the first compiler for machine learning.
+
+659
+00:47:39,299 --> 00:47:43,999
+它是在2016年和TensorFlow一起发布的。
+It was released together with, um, with Tenerflow in 2016.
+
+660
+00:47:43,999 --> 00:47:47,319
+你可以看到谷歌在这方面有多有前瞻性。
+And you can see how Google is, uh, visionary on this.
+
+661
+00:47:47,319 --> 00:47:50,940
+所以基本上，当他们构建Tener flow的第一个区域时，你就已经在考虑编译器了。
+So basically, when they build the first region of tener flow, you already think about the compiler.
+
+662
+00:47:50,940 --> 00:47:55,839
+是的，因为我认为当他们构建Tener flow时，他们意识到必须让
+Yeah, because I think when they build Tener flow, they realize that they have to ask
+
+663
+00:47:55,839 --> 00:48:01,420
+他们的Google开发者在至少三种硬件上开发超过200个算子，
+their Google developers to develop more than 200 operators on at least three kinds of hardware,
+
+664
+00:48:01,420 --> 00:48:02,860
+包括CPU、GPU和TPU。
+CPU GPU and TPU.
+
+665
+00:48:02,860 --> 00:48:05,679
+这已经有60种组合了，对吧？
+And that is already 60 combinations, right?
+
+666
+00:48:05,679 --> 00:48:07,439
+这会花费大量的时间。
+And that takes a lot of time.
+
+667
+00:48:07,439 --> 00:48:13,939
+所以他们开始思考如何构建一个编译器，这个编译器叫做SOE，如果你看看，
+So they start thinking about how to build a compiler, this compiler is called SOE and if you look,
+
+668
+00:48:13,939 --> 00:48:17,879
+如果你回头看，你会发现，呃，这个编译器非常好，以至于现在，
+if you look back, you can see, uh, this is so good that today,
+
+669
+00:48:17,879 --> 00:48:21,739
+大多数tenser flow的后端都是基于这个的。
+most of tenser flows back is based on this one.
+
+670
+00:48:21,739 --> 00:48:27,580
+所以我的意思是，他们基本上把自己开发者写的所有算子都抛弃了。
+So basically what I mean is the throw away all the operators written by their own developers
+
+671
+00:48:27,580 --> 00:48:30,659
+并且使用SLA来生成代码，可以吗？
+and use SLA to generate code. Okay?
+
+672
+00:48:30,659 --> 00:48:37,189
+SLA也在扩展其范围，以支持petarg和其他任何框架，可以吗？
+And SLAs also extending its scope to support petarg and any other frameworks, okay?
+
+673
+00:48:37,189 --> 00:48:40,519
+第二个编译器是TBM，对吧，Tensor虚拟机。
+Second compiler TBM, right, Tensor virtual machine.
+
+674
+00:48:40,519 --> 00:48:42,760
+这是一个非常非常著名的学术项目。
+This is a very, very famous project from academia.
+
+675
+00:48:42,760 --> 00:48:46,700
+两周后，这个项目的负责人，
+And after two weeks, the leader of this project,
+
+676
+00:48:46,700 --> 00:48:50,600
+TQ Chen，他是CMU的教授。
+TQ Chen, was he's a professor at CMU.
+
+677
+00:48:50,600 --> 00:48:52,359
+他将会为我们做一次嘉宾演讲。
+He's going to give us guest talk.
+
+678
+00:48:52,359 --> 00:48:58,639
+好吗？而且这是学术界最成功的编译器之一，好吗？
+Okay? And this one is one of the most successful compiler in academia, okay?
+
+679
+00:48:58,639 --> 00:49:03,299
+它主要关注的也是开源的，并且主要关注于，
+And it mostly focus on it's also open source, and it mostly focus on,
+
+680
+00:49:03,340 --> 00:49:06,920
+比如说，为推理编译代码，而不是用于训练。
+like, compiling code for inference, not for training.
+
+681
+00:49:06,920 --> 00:49:12,539
+好的。那就意味着TVM生成的代码没有反向传播，对吗？
+Okay. That means there's no backward pass for the code generated by TVM, okay?
+
+682
+00:49:12,539 --> 00:49:20,540
+我认为开发TM的研究人员和学生，他们后来出来创业了，
+And I think the researchers and students who develop TM, they went out and do a startup,
+
+683
+00:49:20,540 --> 00:49:24,479
+创办了一家公司叫octo，融资了不少钱。
+which is octo, they raise quite a lot.
+
+684
+00:49:24,479 --> 00:49:28,319
+我记得大概有两亿美元左右。
+I think there is almost 200 M. Okay.
+
+685
+00:49:28,319 --> 00:49:31,459
+但这家公司经营得不是很好，后来被
+But the company was not doing pretty well and it was acquired by
+
+686
+00:49:31,459 --> 00:49:35,239
+去年以差不多的价格被Amedia收购了。
+Amedia last year at a similar price to what the risk.
+
+687
+00:49:35,239 --> 00:49:36,919
+是的，这是一个令人唏嘘的故事。
+Yeah, that is a set story.
+
+688
+00:49:36,919 --> 00:49:43,059
+好的，明白。第三个你可能知道，这个
+Okay. Yeah. Okay. The third one, you probably know, and this is the one
+
+689
+00:49:43,059 --> 00:49:45,679
+吸引了最多用户，对吧？
+that attracts the most user, right?
+
+690
+00:49:45,679 --> 00:49:51,220
+2.0，呃，本质上就是torch.compile。
+2.0, uh, which is essentially torch dot compile.
+
+691
+00:49:51,220 --> 00:49:55,219
+就像我说的，torch真的很擅长在很晚的时候做某些事情，
+And like I said, torch is really good at doing something really late,
+
+692
+00:49:55,219 --> 00:49:58,200
+但仍然能赢过之前的那些玩家。
+but still win over the previous, players.
+
+693
+00:49:58,200 --> 00:50:03,849
+是的。所以我认为它能赢的原因是，就像我说的，torch一开始是从命令式编程起步的，
+Yeah. So I think the reason it wins is because like I said, tort starts from imperative
+
+694
+00:50:03,849 --> 00:50:05,789
+而且没有编译过程，对吧？
+programming without compilation, right?
+
+695
+00:50:05,789 --> 00:50:09,890
+但他们逐渐过渡到了一个对编译器友好的框架。
+But they gradually migrate into a compiler friendly framework.
+
+696
+00:50:09,890 --> 00:50:14,109
+一旦你拥有了大量已经习惯你编程模型的用户，
+Uh once you have a deep user base that is get addicted to your programming model,
+
+697
+00:50:14,109 --> 00:50:17,329
+他们就不会再切换了，你想加什么功能都可以，他们都会用。
+they are not going to switch, and you can add whatever feature you want, and they will use that.
+
+698
+00:50:17,329 --> 00:50:19,269
+好的，实际上，
+Okay. Uh in fact,
+
+699
+00:50:19,269 --> 00:50:21,770
+Excel比Toti Compil要好得多。
+Excel is much better than Toti Compil.
+
+700
+00:50:21,770 --> 00:50:23,689
+但我觉得人们并不喜欢那样。
+But I don't think people like that because
+
+701
+00:50:23,689 --> 00:50:26,610
+Tn flow 本身太难编程了，好吗？
+Tn flow itself is too hard to program, okay?
+
+702
+00:50:26,610 --> 00:50:33,630
+然后，在某种程度上，他们所做的就是添加一些和编译器相关的接口，
+And, and in to two point, all what they do is they add, uh, a few like compiler related,
+
+703
+00:50:33,630 --> 00:50:38,269
+他们试图倡导大家使用 T D comple。对吧。
+interfaces and they are trying to advocate to use T D comple. Yeah.
+
+704
+00:50:41,200 --> 00:50:45,040
+不，今天 SLE 也可以用于 Torch。
+No. Today, SLE also works for Torch.
+
+705
+00:50:45,040 --> 00:50:47,800
+是的，所以我觉得 Meta 和 Google 他们在合作。
+Yeah. So I think Meta and Google they are collaborating.
+
+706
+00:50:47,800 --> 00:50:54,600
+是的，Torch 想要支持 XOI 的原因是 XLA 是在 TPU 上运行的最佳后端。
+Yeah. The reason Torch wants to support XOI is because XLA is the best backend for running on TPUs.
+
+707
+00:50:54,600 --> 00:50:58,620
+而且像用户或者 petri 这样的人也想把他们的任务部署到 TPU 上，
+And people like users or petri they also want to deploy their job on TPUs,
+
+708
+00:50:58,620 --> 00:51:01,945
+所以他们必须集成，对吧？
+so they have to integrate, okay?
+
+709
+00:51:01,945 --> 00:51:05,769
+这些编译器都是专用的吗？
+Each of these compilers are specific?
+
+710
+00:51:08,490 --> 00:51:11,370
+它们不是特定的框架。
+They are not specific frameworks.
+
+711
+00:51:11,370 --> 00:51:16,250
+我认为现在来看，如果你关注机制，框架的概念其实是很契合的。
+I think today, if you look at mechanism, the frameworks concept is kind of fitted.
+
+712
+00:51:16,250 --> 00:51:20,809
+它更像是一种前端编程语言，一个Bon引擎。
+It's more like a front end programming language, a Bon engine.
+
+713
+00:51:20,809 --> 00:51:25,629
+我基本上可以把我最喜欢的命令式编程语言或者
+I can essentially combine my Petros favorite imperative programming language or
+
+714
+00:51:25,629 --> 00:51:28,569
+编程接口结合到一个基于XOI的bacon中。
+programming interfaces to a bacon that is XOI based.
+
+715
+00:51:28,569 --> 00:51:32,069
+这样也没问题。是的。当然，
+That's also fine. Yeah. But of course,
+
+716
+00:51:32,069 --> 00:51:38,529
+我觉得如果你想要最好的用户体验，你应该用那个框架。嗯，好的。
+I think if you want the best user experience, you should use that framework. Yeah. Okay.
+
+717
+00:51:38,880 --> 00:51:40,979
+关于这个呢，呃，
+And for this one, uh,
+
+718
+00:51:40,979 --> 00:51:43,159
+我觉得你们用得很多。
+I think you guys use a lot.
+
+719
+00:51:43,159 --> 00:51:44,859
+最后一个是modular，好吗？
+And the last one is modular, okay?
+
+720
+00:51:44,859 --> 00:51:48,279
+这个modular是一家公司，今天几乎融资了三亿。
+This modular is a company which raised almost 300 today.
+
+721
+00:51:48,279 --> 00:51:51,259
+好吗？它是由一个叫克里斯·劳特纳的人建造的。
+Okay? It was built by a guy called Chris Lautner.
+
+722
+00:51:51,259 --> 00:51:54,019
+如果你们是编译器方面的人，可能会知道他的名字。
+And if you guys are compiler people, you probably know his name.
+
+723
+00:51:54,019 --> 00:51:57,189
+他是LLVM的发明者之一。
+He was an inventor of LLVM.
+
+724
+00:51:57,189 --> 00:52:03,789
+现在，LLVM是将许多C++代码编译到不同平台的默认编译器。
+Okay, LLVM is a default compiler today for compiling many C plus pass code into diverse platforms.
+
+725
+00:52:03,789 --> 00:52:06,789
+他是最成功的编译器开发者之一。
+Okay. He's one of the most successful compiler.
+
+726
+00:52:06,789 --> 00:52:10,049
+而且这个人显然也想做机器学习相关的事情，
+And this guy, apparently, he wants to do machinery as well,
+
+727
+00:52:10,049 --> 00:52:15,509
+他尝试在一家初创公司里打造世界上最强大的编译器。
+and he tried to build under startup that tried to build the world's greatest compilers.
+
+728
+00:52:15,509 --> 00:52:19,669
+这个人，克里斯·劳特纳，如果你在谷歌上搜索，会找到他。
+And this guy, Chris Lateran, if you search Google, you'll find him.
+
+729
+00:52:19,669 --> 00:52:21,589
+他是非常有名的人，所以他曾经在
+He's a very famous people. So he worked for
+
+730
+00:52:21,589 --> 00:52:24,189
+谷歌工作了几年。
+Google for a few years.
+
+731
+00:52:24,189 --> 00:52:30,209
+嗯，不过，谷歌给了他一个很高的职位，至少是总监级别，
+Uh, but, and Google gives him a pretty high title, at least director level,
+
+732
+00:52:30,209 --> 00:52:32,469
+当然，还有很丰厚的薪资待遇。
+and, of course, big package.
+
+733
+00:52:32,469 --> 00:52:37,049
+但他只在那里工作了一年，而且没能和谷歌的人合作好，
+But he only worked there for one year, and he was not able to work with Google people
+
+734
+00:52:37,049 --> 00:52:41,789
+因为他想推广自己关于编译器的想法，但谷歌并不接受这个。
+because he wants to push his own idea on compiler, but Google is not going to accept that.
+
+735
+00:52:41,789 --> 00:52:43,409
+谷歌想要推动XOI。
+Google wants to push XOI.
+
+736
+00:52:43,409 --> 00:52:49,489
+所以，他基本上就离开了谷歌，加入了苹果公司，好吗？
+So, then he basically left Google and joined Apple, okay?
+
+737
+00:52:49,489 --> 00:52:52,435
+在苹果，他想推广一种叫做Swift的语言。
+And in Apple, he wants to push a language called Swift.
+
+738
+00:52:52,435 --> 00:52:57,679
+所以你们知道，很多很多苹果的应用其实都是用Swift编写的，而不是Python。
+So you guys know many many Apple apps are basically program using Swift, not Python.
+
+739
+00:52:57,679 --> 00:53:01,899
+你可以把Swift理解为一种非常神奇的语言，
+And you can understand Swift as a very magical language that
+
+740
+00:53:01,899 --> 00:53:05,419
+它可以在Python和C++之间进行解释。
+can interpret between Python and C plus plus.
+
+741
+00:53:05,419 --> 00:53:09,280
+所以你可以编写代码，就像今天的机器框架一样。
+So you can write, it's like today's machinery framework.
+
+742
+00:53:09,280 --> 00:53:12,579
+你可以用非常类似于Python的方式来编写，
+You can write in a way that is very similar to Python,
+
+743
+00:53:12,579 --> 00:53:14,739
+非常容易理解，但你可以直接把
+very easy to understand, but you can directly convert
+
+744
+00:53:14,739 --> 00:53:17,219
+那段代码转换成可以编译的符号版本。
+that code into a symbolic version that can compile.
+
+745
+00:53:17,219 --> 00:53:22,399
+所以他真的很喜欢这个，他在谷歌和苹果都大力推动了Swift。
+So he really likes that, and he pushed pretty hard on Swift on both Google and Apple.
+
+746
+00:53:22,399 --> 00:53:26,954
+我觉得他在苹果很成功，很多很多苹果的代码都是用Swift写的。
+I think he was successful on Apple and many, many Apples code was written in Swift.
+
+747
+00:53:26,954 --> 00:53:28,549
+然后在某个时候，他离开了
+And then at some point, he left
+
+748
+00:53:28,549 --> 00:53:30,350
+苹果，开始做这个Modular。
+Apple and started doing this modular.
+
+749
+00:53:30,350 --> 00:53:37,229
+我记得大概一两年前，他创办了这家公司，还发了个帖子说，
+And I think while or two years ago, he start this company, posted something like,
+
+750
+00:53:37,229 --> 00:53:40,760
+他们比之前快了20倍，对吧？
+um they are 20 times faster than priority, okay?
+
+751
+00:53:40,760 --> 00:53:46,399
+那篇帖子实际上对优先级人员造成了困扰，呃，因为你知道，
+And that post actually messed up with priority people, uh, because, you know,
+
+752
+00:53:46,399 --> 00:53:49,339
+在这个世界上，很难做到比另一个基线快20倍，
+in the world, it's very hard to be 20 times another baseline,
+
+753
+00:53:49,339 --> 00:53:53,080
+一定有某些地方没有被正确评估。
+There must be something that is not correctly evaluated.
+
+754
+00:53:53,080 --> 00:53:58,400
+关于modular是否真的比priority快20倍，曾经有过激烈的争论，
+And there was a strong debate on if modular is indeed 20 times faster than priority,
+
+755
+00:53:58,400 --> 00:54:01,859
+如果你在Google上搜索一下，你会发现答案。明白吗？
+and if you do some search on Google, you will find it out. Okay?
+
+756
+00:54:01,859 --> 00:54:04,359
+这两个是主要的编译器，好吗？
+These are two main compilers, okay?
+
+757
+00:54:04,359 --> 00:54:08,199
+呃，我记得四年前，编译器比这还多，但它们都
+Uh I think four years ago, there are more compiler than this, but they all
+
+758
+00:54:08,199 --> 00:54:10,499
+死掉了。只有这四个幸存下来。
+died. Only this four survive.
+
+759
+00:54:10,499 --> 00:54:15,919
+这意味着现在做这个方向的研究并不是个好选择。
+Okay? That means it's not a good research to do today.
+
+760
+00:54:15,919 --> 00:54:18,260
+好的。是的，我不会做编译器方向。
+Okay. Yeah, I wouldn't do compiler.
+
+761
+00:54:18,260 --> 00:54:26,139
+好的。那么，让我们专注于编译器的底层机制，好吗？
+Okay. So what is, let's focus on the underlying uh, um, mechanisms for compiler, okay?
+
+762
+00:54:26,139 --> 00:54:28,840
+今天我们主要会关注算子组合。
+So today we are going to focus mostly on operator combination.
+
+763
+00:54:28,840 --> 00:54:32,279
+这是一个低风险的层次。Uder会在高层次上给你一个算子代码
+That is a low risk layer. That is Uder give you a operator code at a high level
+
+764
+00:54:32,279 --> 00:54:38,639
+通过高层次的定义，我们如何把这段代码编译成低层次的程序，
+with a high level definition, how we can compile this code into low level programs,
+
+765
+00:54:38,639 --> 00:54:43,679
+比如说，Coda内核或者分块矩阵乘法这类代码。
+for example, Coda kernels or tiled matm this kind of code.
+
+766
+00:54:43,679 --> 00:54:46,939
+好吗？我觉得这基本上让你有了一个整体的概念，对吧？
+Okay? I think this basically give you a higher idea, right?
+
+767
+00:54:46,939 --> 00:54:53,004
+所以der会写这种代码，主要只是做声明，并不是为了效率，好吗？
+So der write this kind of code, which is mostly just declaration, not for efficiency, okay?
+
+768
+00:54:53,004 --> 00:54:55,749
+编译器的任务基本上就是，
+And the mission of the compiler is basically,
+
+769
+00:54:55,749 --> 00:54:57,689
+我要处理这段代码。
+I'm going to take this piece of code.
+
+770
+00:54:57,689 --> 00:55:01,889
+我要为你的代码和你的硬件找到最合适的循环结构。
+I'm going to find a loop that works best for your code on your hardware.
+
+771
+00:55:01,889 --> 00:55:05,550
+因为根据循环因子，有很多种循环方式。
+Because there are so many ways to loop, depending on the looping factor.
+
+772
+00:55:05,550 --> 00:55:09,929
+好的。所以最终要归结为为你的硬件找到最合适的循环方式。
+Okay. So eventually it boils down into finding the perfect loop for your hardware for
+
+773
+00:55:09,929 --> 00:55:12,790
+针对这个形状，为操作符做备忘录。
+that shape that memo for the operator.
+
+774
+00:55:12,790 --> 00:55:15,049
+明白了吗？为了做到这一点，
+Okay? In order to do this,
+
+775
+00:55:15,049 --> 00:55:17,309
+我会给你一个工作流程，好吗？
+I will give you a workflow, okay?
+
+776
+00:55:17,309 --> 00:55:23,809
+这里用户写了一个非常简单的代码，就是，这里是A加B等于
+So here the user writes a very simple code that is, um this is ready at A plus B equal to
+
+777
+00:55:23,809 --> 00:55:29,729
+C。但根据ABC的形状以及目标硬件，
+C. But depending on the shape of ABC and also the target hardware,
+
+778
+00:55:29,729 --> 00:55:33,669
+比如说寄存器数量、共享内存数量，
+for example, the lumber registers, the lumber shared memory,
+
+779
+00:55:33,669 --> 00:55:36,689
+你可以生成许多不同版本的这段代码。
+you can generate many different versions of this code.
+
+780
+00:55:36,689 --> 00:55:39,569
+你基本上可以用这种方式进行循环。
+You can basically loop in this way.
+
+781
+00:55:39,569 --> 00:55:41,809
+你也可以用这种方式进行循环。
+You can also loop in this way.
+
+782
+00:55:41,809 --> 00:55:45,609
+我们大概知道它们的区别，因为我无法区分这个层和那个层。
+We probably know the difference because I can't tell this layer tell this layer
+
+783
+00:55:45,609 --> 00:55:46,989
+在不同的存储层级上。
+at a different memory hierarchy.
+
+784
+00:55:46,989 --> 00:55:49,349
+我也可以切换访问方式。
+And also, I can switch the access.
+
+785
+00:55:49,349 --> 00:55:53,010
+我把这个设置为32左右，可能会得到不同的性能表现。
+I make this for about this 32 and I will get probably a different performance
+
+786
+00:55:53,010 --> 00:55:55,769
+这取决于内存层级的容量。
+depending on the memory hierarchy capacity.
+
+787
+00:55:56,090 --> 00:55:59,849
+最终，编译器希望找到最优的循环方式。
+And eventually the compiler wants to find the perfect loop
+
+788
+00:55:59,849 --> 00:56:03,009
+然后基本上会把这种循环进行降级处理。
+and then basically lower this kind of loop.
+
+789
+00:56:03,009 --> 00:56:04,269
+这个循环是在Picon代码里的，
+This loop is in Picon code,
+
+790
+00:56:04,269 --> 00:56:06,549
+我想把这个循环降级成某种内核代码。
+I want to lower this loop into some kernel code.
+
+791
+00:56:06,549 --> 00:56:09,089
+而且所有这些都是自动完成的。
+And all this is being done automatically.
+
+792
+00:56:09,089 --> 00:56:14,010
+好吗？这就是算子编译器的高级概念。
+Okay? That is the high level idea of operator compiler.
+
+793
+00:56:14,429 --> 00:56:20,909
+所以现在你了解了问题，让我们更深入地探讨我们要解决的具体问题。
+So now you understand the problem and let's dive deeper on the exact problem we're trying to solve.
+
+794
+00:56:20,909 --> 00:56:24,030
+如果你想构建这种编译器，我们会遇到很多问题。
+So we are ficing a lot of problem if you want to build this kind of compiler.
+
+795
+00:56:24,030 --> 00:56:29,049
+其中之一是我们需要枚举所有的可能性。
+One is and we need to enumerate all the possibilities.
+
+796
+00:56:29,049 --> 00:56:32,969
+然后问题就是我如何表示所有的可能性。
+Then the problem is how I can represent all the possibilities.
+
+797
+00:56:32,969 --> 00:56:38,599
+或者更具体地说，我如何表示循环，对吧。
+Or more concretely how I represent the loops. Right.
+
+798
+00:56:38,599 --> 00:56:41,719
+我需要表示循环。好的，我需要找到一种表示方法，这样我
+I need to represent loops. Okay, I need to find the repreenton so I
+
+799
+00:56:41,719 --> 00:56:45,339
+就可以基本上在所有的表示空间中进行搜索。
+can basically search over all the repenting space.
+
+800
+00:56:45,339 --> 00:56:52,219
+第二点是，一旦我有了这个循环的表示空间，如何找到接近最优的值。
+Second is once I have that repenting space of loops, how to find the close to optimal value.
+
+801
+00:56:52,219 --> 00:56:56,979
+那我应该遍历四的第一维还是三十二的第二维，还是有别的方法？
+Like should I loop over the first dimension of four second dimensthirty two or another way?
+
+802
+00:56:56,979 --> 00:57:00,179
+我需要，这是一个优化问题。
+I need to This is optimiing problem.
+
+803
+00:57:00,179 --> 00:57:02,059
+对，我有一个空间。
+Right I have a space.
+
+804
+00:57:02,059 --> 00:57:04,254
+我想优化这个空间，可以吗？
+I want to optimize that space, okay?
+
+805
+00:57:04,254 --> 00:57:09,889
+最后，我基本上想加速这个过程，因为我不能
+And finally, I want to basically accelerate this process because I cannot
+
+806
+00:57:09,889 --> 00:57:15,829
+把这个当成一个无解的问题，让我的程序用一辈子去搜索。
+put this as unsolvable problem that I have a program that I search over for my entire life.
+
+807
+00:57:15,829 --> 00:57:19,109
+我想减少搜索空间，并且我想泛化
+I want to reduce the search space, and I want to generalize
+
+808
+00:57:19,109 --> 00:57:21,529
+这种东西从一个设备到另一个设备。
+this kind of thing from one device to the other.
+
+809
+00:57:21,529 --> 00:57:25,329
+比如说，我为GPU甚至H100搜索一个循环。
+For example, I search one loop for GPU even hundred.
+
+810
+00:57:25,329 --> 00:57:29,549
+我还希望这个循环在H100上也能表现得相当好，大概就是这样。
+I also want this loop to work reasonably well on H 100, something like that.
+
+811
+00:57:29,549 --> 00:57:34,369
+好吗？所以有很多种方法可以构建这种编译器，
+Okay? So there are many ways to build this kind of compiler,
+
+812
+00:57:34,369 --> 00:57:40,109
+我将大致介绍一种在当今编译器TVM中采用的方法。
+and I'm going to introduce roughly one way that adopted in today's compiler, TVM.
+
+813
+00:57:40,109 --> 00:57:44,249
+在TVM中，为了解决这个问题，他们的做法是，
+Okay? So in TVM, in order to solve this problem, what they do is, uh,
+
+814
+00:57:44,249 --> 00:57:46,969
+他们首先会定义一个搜索空间。
+they will first define the three space.
+
+815
+00:57:46,969 --> 00:57:52,069
+然后，他们有一些算法，基本上就是在这个空间中导航。
+And then, they have some algorithm, which basically what navigated this space.
+
+816
+00:57:52,069 --> 00:57:58,659
+为什么要枚举所有可能性？因为要根据你的用户代码和目标硬件来决定。
+Okay? And why enumerate all the possibility given your user code and, uh, your target hardware.
+
+817
+00:57:58,659 --> 00:58:02,909
+他们还有一些代码生成器，一旦你确定了一种可能性，比如说，
+And they also have some code generator that once you lock down one possibility, for example,
+
+818
+00:58:02,909 --> 00:58:05,929
+你有一个高层次的循环结构，然后你找到了，
+you have a high level repeton with that loop and you figure out,
+
+819
+00:58:05,929 --> 00:58:10,689
+你要选择的寄存器和循环因子。
+the register and the looping factors you try to choose.
+
+820
+00:58:10,689 --> 00:58:14,929
+另一层会接管这个循环，把那段代码转换成内核代码。
+Another layer, we'll take that loop and convert that code into kernel code.
+
+821
+00:58:14,929 --> 00:58:17,289
+这是编译器中的一个典型问题。
+This is a typical problem in compiler.
+
+822
+00:58:17,289 --> 00:58:18,810
+它被称为代码生成。
+It's called code generation.
+
+823
+00:58:18,810 --> 00:58:24,349
+现在，这可以通过ARM来完成，顺便说一句，但当时是通过，
+And today, this can be done by ARMs, by the way, but this was done by,
+
+824
+00:58:24,349 --> 00:58:27,214
+呃，像手工编码完成的，好吗？
+uh, like handcraft coding, okay?
+
+825
+00:58:27,214 --> 00:58:36,659
+最终你会得到很多数据，这些数据是一个循环和一个编译后的内核，
+And eventually you will get a lot of data, which is a loop and a compiled kernel,
+
+826
+00:58:36,659 --> 00:58:40,659
+你将把这个内核直接应用到你的目标设备上。
+you're going to apply this kernel directly into your target device.
+
+827
+00:58:40,659 --> 00:58:43,219
+这样你就能获得性能提升。
+So you'll get a performance.
+
+828
+00:58:43,219 --> 00:58:49,019
+例如，这个内核将在这个特定芯片上运行100毫秒。
+For example, this kernel will run in 100 milliseconds, uh, on this given chip.
+
+829
+00:58:49,019 --> 00:58:53,020
+所以你会得到所有这些数据对。
+So you're going to get all these kind of data pairs.
+
+830
+00:58:53,020 --> 00:58:54,599
+你可以选择在这里停止。
+So you can either stop here.
+
+831
+00:58:54,599 --> 00:58:59,639
+也就是说，你只需选择表现最好的一个，然后把代码返回给用户，就可以了。
+That is, you just pick the best performing one and you return the code to the user, you are good.
+
+832
+00:58:59,639 --> 00:59:04,709
+或者如果你想生成更多一些，你可以把这个当作机器和训练数据。
+Or if you want to generatee a little bit, you can take this as a machine and training data.
+
+833
+00:59:04,709 --> 00:59:08,339
+好的。X 基本上就是循环。
+Okay. The X is basically the loop.
+
+834
+00:59:08,339 --> 00:59:12,460
+Y 基本上是该循环在目标硬件上的性能。
+The Y is basically the performance of that loop on the target hardware.
+
+835
+00:59:12,460 --> 00:59:16,179
+然后你用这些 XY 对训练神经网络，
+And you train these XY pairs into a neural network,
+
+836
+00:59:16,179 --> 00:59:21,039
+让这个新网络在未来预测，如果你想切换循环的话，
+and you let this new network to predict in the future, if you want to switch the loop,
+
+837
+00:59:21,039 --> 00:59:22,879
+我能获得多少性能提升。
+how much performance I would get.
+
+838
+00:59:22,879 --> 00:59:27,619
+这样一来，一旦我有了这个性能模型，嗯，我基本上可以，
+And in this way, once I have this performance model, um, I can basically,
+
+839
+00:59:27,619 --> 00:59:29,559
+呃，你知道，可以做一些泛化。
+uh, you know, generalize a little bit.
+
+840
+00:59:29,559 --> 00:59:32,400
+比如说当我有不同的形状或者不同的硬件时，
+Like s I have a different shape when I have a different hardware,
+
+841
+00:59:32,400 --> 00:59:36,039
+我可以立即进行推理，并尝试为自己找到完美的循环。
+I can immediately do inference and try to get the perfect loop for me.
+
+842
+00:59:36,039 --> 00:59:38,824
+好吗？这样说有道理吗？
+Okay? Does it make sense?
+
+843
+00:59:38,824 --> 00:59:47,549
+很好。这个叫做Auto TM，呃，它是TM编译器里非常有名的一层。
+Cool. And this one is called Auto TM and, uh, it's a very famous layer, uh, in TM compiler, y.
+
+844
+00:59:47,549 --> 00:59:53,349
+但是在这里，你大致可以了解这个工作流程，但其实还有很多很多问题。
+But here, uh, you roughly get the idea of this workflow, but there are still many many problems.
+
+845
+00:59:53,349 --> 00:59:55,929
+为什么要表示循环呢？
+Why is actually represent loops.
+
+846
+00:59:55,929 --> 00:59:58,629
+好吗？表示循环的一种方式其实是，
+Okay? One way to represent the loop is basically,
+
+847
+00:59:58,629 --> 01:00:03,219
+呃，我们仍然需要专家来写很多模板。
+uh, we still need experts to write a lot of templates.
+
+848
+01:00:03,219 --> 01:00:06,919
+好吗？所以我们只需要请一些专家来写这个模板。
+Okay? So we just ask some expert to write this template.
+
+849
+01:00:06,919 --> 01:00:11,139
+比如说，这是我们为com 2D做的一个循环，我们
+For example, this is a loop we did for com two D and we are going
+
+850
+01:00:11,139 --> 01:00:14,499
+要请这些专家生成很多很多这种版本的循环。
+to ask this experts to generate many, many of these versions loops.
+
+851
+01:00:14,499 --> 01:00:21,799
+但是我们把这个循环因子作为一个占位符，然后让我们的编译器自动找出
+But we leave this looping factor as a placeholder, and we let our compiler to automatically find out
+
+852
+01:00:21,799 --> 01:00:25,239
+用于填充这个循环因子的具体数值。
+the values to fill this value into looping factor.
+
+853
+01:00:25,239 --> 01:00:28,139
+然后我就可以回到这个工作流程，对吧？
+And then I can go back to this workflow, right?
+
+854
+01:00:28,219 --> 01:00:35,849
+另一个问题是，一旦我有了这种循环模板，我该如何操作
+Um the other problem is once I have this kind of looping templates, how do I basically navigate
+
+855
+01:00:35,849 --> 01:00:40,569
+这个空间，并尝试以最快的方式搜索最优解，对吧？
+the space and try to search for the optimal answer, right, in the fast possible way.
+
+856
+01:00:40,569 --> 01:00:45,029
+有几种方法。一种是，这其实是一个典型的搜索问题，对吧？
+There are a few ways. One is, this is a typical search problem, right?
+
+857
+01:00:45,029 --> 01:00:49,829
+比如说，我有一个循环模板，我想尝试一下。
+So say, I have one looping template, which I want to try.
+
+858
+01:00:49,829 --> 01:00:54,709
+我的做法是，每次把一些建议的数值填入这个循环中，
+What I do is basically every time I fill some proposed values into this loop,
+
+859
+01:00:54,709 --> 01:01:00,870
+然后我可以直接评估这个部分循环，尝试获得一些性能指标。
+and I can go directly evaluate this partial loop and try to get some performance indicator.
+
+860
+01:01:00,870 --> 01:01:03,149
+如果这个性能已经很差，
+And if this performance is already pretty bad,
+
+861
+01:01:03,149 --> 01:01:08,469
+基本上，我可以根据这个循环来修剪下一个可能的构建方式。
+I can basically prune the next possibilities build based on top of this looping.
+
+862
+01:01:08,469 --> 01:01:14,859
+我会做一些回溯，或者进行一些其他的搜索实现，最终我可以，嗯，
+I do some backtracking or do some whatever search opplementation, and eventually I can, um,
+
+863
+01:01:14,859 --> 01:01:18,909
+得到一个相当不错的循环用于内核实现。
+get a reasonably good loop for the kernel implementation.
+
+864
+01:01:18,909 --> 01:01:22,689
+好的。同样地，正如我之前解释的那样，
+Okay. And similarly, as I already explained,
+
+865
+01:01:22,689 --> 01:01:27,209
+我也可以用我的历史数据构建一些成本模型，
+I can also build some cost model using my historical data,
+
+866
+01:01:27,209 --> 01:01:34,149
+但我无法预测这个循环在目标硬件或形状上表现会好还是坏。
+and I can't predict if this loop is going to do well or bad on this target hardware or shape.
+
+867
+01:01:34,149 --> 01:01:39,529
+是的。所以我们基本上有两种方式来构建这些竞争者。
+Yeah. So it's two ways that we can basically build these kind of competors.
+
+868
+01:01:39,690 --> 01:01:42,329
+好的，有什么问题吗？
+Okay, any question?
+
+869
+01:01:42,989 --> 01:01:45,229
+有。
+Yeah.
+
+870
+01:01:50,430 --> 01:01:57,169
+基本上，我认为没有现成的求解器可以解决这个问题。
+It's basically, I don't think there's track solver to solve this.
+
+871
+01:01:57,169 --> 01:02:00,549
+这基本上是指数级的复杂，好吗？
+This is basically exponentially, uh, complex, okay?
+
+872
+01:02:00,549 --> 01:02:04,269
+所以在编译器领域的人们，他们会尝试构建各种
+And so people in Compiler computer, they just try to build all kinds of
+
+873
+01:02:04,269 --> 01:02:11,110
+搜索算法来剪枝可能性，并尽快找到解决方案。
+searching algorithms to prune the possibilities and try to locate the solution as fast as possible.
+
+874
+01:02:11,110 --> 01:02:17,179
+但我想指出的一点是，一旦你找到了这个解决方案，你就没问题了，对吧？
+But one thing I want to note is once you locate the solution, uh, then you are good, right?
+
+875
+01:02:17,179 --> 01:02:20,720
+因为对于那个特定的算子和硬件，
+Because for that particular operator and hardware,
+
+876
+01:02:20,720 --> 01:02:23,500
+你已经找到了一个非常不错的实现方式，
+you already find a pretty good decent implementation,
+
+877
+01:02:23,500 --> 01:02:26,479
+并且你可以在以后的运行中一直保留这段代码。
+and you can keep that code forever in the future runs.
+
+878
+01:02:26,479 --> 01:02:33,740
+其次，在大多数情况下，这比让专家手动工程实现要好。
+Second is, in most cases, this is better than letting experts doing the engineering.
+
+879
+01:02:33,740 --> 01:02:39,599
+因为对于这种搜索，你要做的就是开发一个搜索算法，然后让它
+Because for this kind of search, what you do is you develop a search algorithm and you just pull
+
+880
+01:02:39,599 --> 01:02:44,319
+跑一个月或者一周，最终它会给你返回一个结果。
+it run for one month or one week and eventually it will return something for you.
+
+881
+01:02:44,319 --> 01:02:48,199
+但是如果让人类来开发这个，会花更长时间，对吧？是的。
+But if you the human to develop that, that will take even longer, right? Yeah.
+
+882
+01:02:48,199 --> 01:02:50,334
+一个是人为错误，另一个是机器工时。
+One is human error, the other is machine hour.
+
+883
+01:02:50,334 --> 01:02:59,370
+嗯，好的。这基本上就是我们进行编译操作的一个高层次思路。
+Yeah. Okay. Yeah, that is basically a high level idea of how we do operate compilation.
+
+884
+01:02:59,370 --> 01:03:08,149
+简单总结一下，我们需要找到一种方式，用可能性来表示循环空间。
+To summarize a little bit, we need to find a way to represent the loop space by possibilities.
+
+885
+01:03:08,149 --> 01:03:12,790
+我们还需要确保搜索空间能很好地覆盖
+And we need to basically, make sure the search space have a good coverage
+
+886
+01:03:12,790 --> 01:03:16,329
+常见的优化方式，比如分块，等等。
+of common ogmentations, like tailing, whatever.
+
+887
+01:03:16,329 --> 01:03:20,429
+我们还需要构建一个高效的搜索算法，来遍历整个空间。
+And we need to build a efficient search algorithm to navigate all the entire space.
+
+888
+01:03:20,429 --> 01:03:25,279
+我们还需要有一个评估指标，来判断这个循环好不好。
+And we also need to have a evaluation metric that tell if this loop is good or not.
+
+889
+01:03:25,279 --> 01:03:28,809
+好的，好的。
+Okay. Okay.
+
+890
+01:03:28,809 --> 01:03:33,149
+那回到这个问题，我要给你一个问题，让你思考一下。
+Then coming back to this, I'm going to give you a question so you can think about that.
+
+891
+01:03:33,149 --> 01:03:42,490
+好的，就像我刚才说的，机加工编译的前提基本上是
+Okay. So like I said, yeah, like I said, so the premise of machining compilation is basically
+
+892
+01:03:42,490 --> 01:03:45,309
+我们尝试自动生成代码的最优配置
+we try to automatically generate optimal configurations that code
+
+893
+01:03:45,309 --> 01:03:48,190
+给用户提供机加工代码和目标软件。
+giving users machining code and targetware.
+
+894
+01:03:48,190 --> 01:03:53,829
+我的疑问是，你认为机加工编译器实现了这个目标吗？
+And my question is, do you think, machining compiler is achieving this goal?
+
+895
+01:03:54,820 --> 01:03:59,759
+我来发表一下我的看法，我认为没有。
+I will offer opinion, I don't think so.
+
+896
+01:03:59,759 --> 01:04:01,580
+我会给你有力的证据。
+I will give you strong evidence.
+
+897
+01:04:01,580 --> 01:04:08,900
+为什么？我们知道现在大多数语言模型都是通过Flash Attention训练的。
+Why? We know that most of today's language model are trained by flash attention.
+
+898
+01:04:09,140 --> 01:04:12,239
+编译器是由Flash Attention发明的吗，对吧？
+Compiler was invented by flash attention, right?
+
+899
+01:04:12,239 --> 01:04:17,539
+就像我说的，人们在2018到2021年间做编译器研究。
+Like I said, people doing compiler research during 2018 and 2021.
+
+900
+01:04:17,539 --> 01:04:19,919
+Flash Attention是在2022年发布的。
+Flash attention was released in 2022.
+
+901
+01:04:19,919 --> 01:04:22,199
+
+And it was handcrafted by a guy called
+
+902
+01:04:22,199 --> 01:04:25,519
+
+Trida who is a principal Princeton professor today.
+
+903
+01:04:25,519 --> 01:04:28,539
+
+Then I ask the question, I will leave this to you.
+
+904
+01:04:28,539 --> 01:04:32,530
+
+Why compiler didn't discover the flash attention?
+
+905
+01:04:32,530 --> 01:04:38,700
+
+Right? Because theoretically, if your compiler is smart enough and your compiler
+
+906
+01:04:38,700 --> 01:04:43,260
+
+can search the entire space, it should be able to search for flight engine.
+
+907
+01:04:43,260 --> 01:04:47,759
+
+But eventually, we ended up with someone actually implementing flight engine using
+
+908
+01:04:47,759 --> 01:04:50,500
+
+their own manual engineering.
+
+909
+01:04:50,500 --> 01:04:52,819
+
+I will leave this question to you.
+
+910
+01:04:52,819 --> 01:04:55,679
+
+But I'm not saying that compiler has no contribution because I
+
+911
+01:04:55,679 --> 01:05:01,860
+我认为确实有很多今天更简单的操作，比如说，元M卷积，
+think indeed many many today's other simpler operations, for example, met M convolution,
+
+912
+01:05:01,860 --> 01:05:06,379
+编译器领域的人们确实构建了一些非常优秀的，
+compiler people indeed, build some really good, uh,
+
+913
+01:05:06,379 --> 01:05:14,279
+内核，这些内核人类可能无法理解，但却能在GPU上高效运行。
+kernels that human probably is not able to understand, but rather performing on GPUs. Okay.
+
+914
+01:05:14,400 --> 01:05:19,700
+好的，这就是一个非常快速的操作符编译器介绍。
+Okay, that is a pretty fast, introduction operator compiler.
+
+915
+01:05:19,700 --> 01:05:24,020
+我想下周我们会再回到这个话题，我们将讨论图编译器。
+I think next week we are coming back to this again, and we are going to talk about graph compiler.
+
+916
+01:05:24,020 --> 01:05:26,679
+也就是如何自动转换图结构。
+That is how to transform graphs automatically.
+
+917
+01:05:26,679 --> 01:05:30,600
+好吗？那我们现在进入本次讲座的第三部分。
+Okay? So let's move to the third part of this lecture.
+
+918
+01:05:30,600 --> 01:05:35,680
+在第三部分，我想介绍一种稍微不同的方法，
+And in the third part, I want to introduce a little bit on a different approach,
+
+919
+01:05:35,680 --> 01:05:37,940
+好的，这种方法基本上是对待……
+okay, which is basically treating.
+
+920
+01:05:37,940 --> 01:05:40,860
+非常有名的方法，对吧？那么是哪种方法呢？
+Very famous one, right? So which treating?
+
+921
+01:05:40,860 --> 01:05:43,259
+所以我们有很多种treating。为什么是这个treating，对吧？
+So we have many treatings. Why is this treating, right?
+
+922
+01:05:43,259 --> 01:05:45,809
+我们现在说的不是这个treating。好吧，这是我们自己。
+We are not talking this treating. Okay, this is us.
+
+923
+01:05:45,809 --> 01:05:49,440
+还有另一个非常让人困惑的lamin treating。
+And there's another very confusing lamin treating.
+
+924
+01:05:49,440 --> 01:05:51,819
+它叫做NVIDIA Treating推理服务器。
+It's called NVIDIA Treating inference server.
+
+925
+01:05:51,819 --> 01:05:56,120
+如果你在WDA网站上搜索这个，会发现它是一个开源项目。
+And if you search this on WDA website, it's there's open source project.
+
+926
+01:05:56,120 --> 01:05:58,019
+我们现在也不是在说这个。
+We are also not talking about this one.
+
+927
+01:05:58,019 --> 01:06:02,439
+这个是用来服务transformers的，我们稍后会讲到它，
+This one is for serving transformers and we are going to talk about this little bit later,
+
+928
+01:06:02,439 --> 01:06:04,239
+但这不是我们现在要讲的treating。
+but this is not the treatment we'll talk about.
+
+929
+01:06:04,239 --> 01:06:06,020
+我们基本上是在说这个treating。
+We are basically talking about this treating.
+
+930
+01:06:06,020 --> 01:06:12,100
+这是open treating，好吗？那什么是treating？
+This is open treating, okay? So what is treating?
+
+931
+01:06:12,100 --> 01:06:18,420
+我们介绍了Koda，也介绍了自动编译器。
+Um, we introduced Koda we introduced the automatic compiler.
+
+932
+01:06:18,420 --> 01:06:19,939
+我想你应该能明白这个意思。
+I think you'll get the idea.
+
+933
+01:06:19,939 --> 01:06:24,919
+所以我们基本上可以把它们分为两个极端，Koda在左边。
+So we can basically put them into two extremes, Koda on the left.
+
+934
+01:06:24,919 --> 01:06:31,660
+Koda被定义为一种特定设备的DSL，领域专用语言。
+And Koda is defined as a device specific DSL, domain specific language.
+
+935
+01:06:31,660 --> 01:06:36,480
+好吗？这基本上是媒体为你提供的编程设备的方法。
+Okay? It's basically the way that media provides for you to program the devices.
+
+936
+01:06:36,480 --> 01:06:39,180
+编译器则是另一个极端。
+Compiler is other extreme.
+
+937
+01:06:39,180 --> 01:06:42,540
+那么Koda的优缺点是什么？
+So what is pros and cons of Koda?
+
+938
+01:06:42,540 --> 01:06:47,259
+Koda的优点基本上是开发者可以随心所欲地做任何事情，对吧？
+The pros of Koda is basically developers can do whatever the heck they want, right?
+
+939
+01:06:47,259 --> 01:06:50,659
+他们可以把性能发挥到极致，只要你
+Uh, they can squeeze the last bit of performce as long as you are
+
+940
+01:06:50,659 --> 01:06:52,559
+是一个强大的Koda程序员，你就可以做到。
+a powerful Koda programmer, you can do that.
+
+941
+01:06:52,559 --> 01:06:56,099
+它给你带来了各种可能性，对吧？
+It gives you all the sort of possibilities, right?
+
+942
+01:06:56,099 --> 01:07:00,599
+你可以用任何你想用的数据结构，而不是Koda内核。
+You can use whatever data structure you want instead of Koda kernel.
+
+943
+01:07:00,599 --> 01:07:03,720
+但是Koda的缺点是什么？
+But what is the cons of Koda?
+
+944
+01:07:03,720 --> 01:07:05,719
+缺点是一样的。
+The const is the same.
+
+945
+01:07:05,719 --> 01:07:08,179
+开发者可以随心所欲地做任何事情。
+Developer can do whatever heck they want.
+
+946
+01:07:08,179 --> 01:07:15,670
+这也意味着如果我不是Koda程序员，那就需要很深的专业知识，
+Which also means that if I'm not a Koda programmer, then it requires deep expertise,
+
+947
+01:07:15,670 --> 01:07:18,889
+而且性能优化非常耗时，正如你所看到的。
+and the performance optim is very time consuming, as you can see.
+
+948
+01:07:18,889 --> 01:07:20,549
+当我给你一段quota代码时，
+When I give you a piece of quota code,
+
+949
+01:07:20,549 --> 01:07:21,949
+我需要解释很多内容。
+I have to explain a lot.
+
+950
+01:07:21,949 --> 01:07:26,529
+你必须把你的思维方式转变成SIMD，并且你在这方面要非常擅长。
+You have to convert your brain to SIMD, and you have to be very good at that in
+
+951
+01:07:26,529 --> 01:07:28,909
+为了交付一份好的代码。
+order to deliver a piece of good code.
+
+952
+01:07:28,909 --> 01:07:34,829
+明白了吗？你可以想象代码库
+Okay? And you can imagine the code base with
+
+953
+01:07:34,829 --> 01:07:41,809
+Koda 非常混乱，因为你要把很多东西加到 CP 代码里，
+Koda is very messy because you are going to add a lot of this into into CP code and
+
+954
+01:07:41,809 --> 01:07:46,909
+你的 Quota 代码在另一个文件里，然后那个 CP 代码会启动那个内核。
+you Quota code in another file and that CP code will launch that kernel.
+
+955
+01:07:46,909 --> 01:07:48,470
+你需要两个不同的编译器。
+You need two different compilers.
+
+956
+01:07:48,470 --> 01:07:51,630
+一个是 CPP 编译器，另一个是 Koda 编译器。
+One is the CPP compiler and the other is Koda compiler.
+
+957
+01:07:51,630 --> 01:07:53,609
+顺便说一句，Koda 编译器其实很慢。
+Koda compiler is pretty slow by the way.
+
+958
+01:07:53,609 --> 01:07:58,840
+好的。那么我们回到这个自动编译器上来。
+Yeah. Okay. Then let's go back to this automatic compiler.
+
+959
+01:07:58,840 --> 01:08:02,000
+那么自动编译器的优缺点是什么？
+So what is the pros and cons of automatic compiler?
+
+960
+01:08:02,080 --> 01:08:07,799
+对开发者来说迭代非常快，因为你只需要用 Python 写高级代码，然后
+Very fast iteration for developers, because you just write your high level code in Python and
+
+961
+01:08:07,799 --> 01:08:11,359
+你装饰了Toch Compel，一切看起来都很好，对吧？
+you decorate Toch Compel and things are good, right?
+
+962
+01:08:11,359 --> 01:08:15,360
+你可以很快地提出想法，并交给编译器处理。
+You can pull up ideas quickly and give it to compiler.
+
+963
+01:08:16,000 --> 01:08:20,699
+但问题是，它无法表达某些类型的想法。
+But the problem, it cannot represent certain types of ideas.
+
+964
+01:08:20,699 --> 01:08:22,499
+我已经举过一个例子了。
+And I already give an example.
+
+965
+01:08:22,499 --> 01:08:26,999
+编译器没有发现Flash attention，因为在搜索空间中，
+Flash attention was not discovered by compilers because in a search space,
+
+966
+01:08:26,999 --> 01:08:29,879
+对于Flash attention来说，并没有这样的重复性。
+there is no such repetition for flash attention.
+
+967
+01:08:29,879 --> 01:08:35,479
+明白了吗？而且你也不能使用Cosmo数据结构。
+Okay? And also, you cannot use Cosmo data structures.
+
+968
+01:08:36,280 --> 01:08:41,059
+在编译器中，最终还是会归结为你想要生成代码的问题，
+And in compiler will indeed boil down to be a problem that you want to generate code,
+
+969
+01:08:41,059 --> 01:08:44,959
+而代码生成是传统编译器中的一个老问题，
+and code generation is old problem in the old compiler traditional compiler,
+
+970
+01:08:44,959 --> 01:08:46,579
+这是一个非常困难的问题。
+which is a very difficult problem.
+
+971
+01:08:46,579 --> 01:08:48,579
+我认为编程语言和编译器领域的人们，他们
+I think programming language and compiler people they are
+
+972
+01:08:48,579 --> 01:08:51,634
+已经做了很多很多年了，好吗。
+doing this a lot of many, many years, okay.
+
+973
+01:08:51,634 --> 01:08:57,149
+好的，这基本上可以帮助你理解什么是treating。
+Okay, that basically help you understand where treating is.
+
+974
+01:08:57,149 --> 01:09:02,569
+好的，所以treating大致处于中间位置，对吧？
+Okay. So treating is roughly in the middle, okay?
+
+975
+01:09:02,569 --> 01:09:07,609
+它是一种领域特定语言，但它是基于Python的。
+It is a domain spec language, but it is Python based.
+
+976
+01:09:07,609 --> 01:09:13,009
+另一方面，它不是自动的，但它也可以手动，在bacon中，
+On the other hand, it's not automatic, but it also well, manually, in the bacon,
+
+977
+01:09:13,009 --> 01:09:14,849
+treating会帮助你优化一些东西。
+treating will help you optimize some things.
+
+978
+01:09:14,849 --> 01:09:16,749
+比如说，自动帮你做tiling。
+For example, telling it do telling for you.
+
+979
+01:09:16,749 --> 01:09:18,369
+你不需要自己写tiling代码。
+You don't have to write your own telling.
+
+980
+01:09:18,369 --> 01:09:23,969
+好的？所以基本上它试图在纯领域特定语言之间找到一个平衡点，
+Okay? So basically it trying to strike a balance between pure domain speak language,
+
+981
+01:09:23,969 --> 01:09:26,869
+纯自动编译器就在中间。
+and the pure automatic compaer it's in the middle.
+
+982
+01:09:26,869 --> 01:09:31,849
+好的，这里我基本上放了四个标志，你可以看到，
+Okay. And here I basically put four logos and you can see,
+
+983
+01:09:31,849 --> 01:09:33,929
+我觉得这四个标志太像了。
+I feel these four logos are so similar.
+
+984
+01:09:33,929 --> 01:09:36,899
+一定是同一个设计师做的。对吧，好吧。
+It must come from the same designer. Yeah. Okay.
+
+985
+01:09:36,899 --> 01:09:44,299
+好的。那么说到产品定位，基本上，我们做的事情比Koda简单，
+Yeah. Okay. So treating speech is basically, how about we do something that is simpler than Koda,
+
+986
+01:09:44,299 --> 01:09:48,619
+但比自动编译器更贵。
+but more expensive than automatic compilers.
+
+987
+01:09:48,619 --> 01:09:54,219
+但和Koda比，我们更便宜，但比图形编译器更复杂。
+But compared to Coda, we are less expensive, but we are more complicated than graph compilers.
+
+988
+01:09:54,219 --> 01:09:56,699
+这基本上就是我们的市场定位。
+And this is basically treating market piece.
+
+989
+01:09:56,699 --> 01:10:03,279
+好吗？我觉得这个说法太抽象了，因为对于一个
+Okay? I think this is way too abstract because it's very hard for a person or
+
+990
+01:10:03,279 --> 01:10:05,839
+没有相关经验的人或者工程师来说，很难理解这个定位。
+engineer with no experience on this, understand this pitch.
+
+991
+01:10:05,839 --> 01:10:08,179
+但事实证明这个方法非常成功。
+But it turns out this is super successful.
+
+992
+01:10:08,179 --> 01:10:13,519
+如果时间允许的话，我们会讲两个程序，
+And we are going to go through if time permits, we are going to go through two programs,
+
+993
+01:10:13,519 --> 01:10:16,999
+但我觉得时间不够，所以我们只讲一个程序。好的。
+but I don't think we have time, so we are going to go through one program. Okay.
+
+994
+01:10:16,999 --> 01:10:23,299
+在处理用户自定义的张量时，
+So, in treating, uh, the user defined tensors in RAM.
+
+995
+01:10:23,299 --> 01:10:30,159
+Treaton 给你提供了一个基本上是原生 Python 的语言。
+Okay? So treaton gives you a language that is basically Python native.
+
+996
+01:10:30,159 --> 01:10:33,399
+它在 PySon 中实现了自己的程序接口。
+It embody its own like a program interface in PySon.
+
+997
+01:10:33,399 --> 01:10:37,134
+所以写 Treaton 基本上就等同于写 Python。
+So writing treating is basically equivalent to writing Python.
+
+998
+01:10:37,134 --> 01:10:42,209
+而且 Treaton 还给你提供了很多来自 torch 的原语。
+Okay. And also treatments give you so many primitives that is basically from torch.
+
+999
+01:10:42,209 --> 01:10:46,409
+比如说，如果你想写点什么，你可以用 torch 的索引操作，
+For example, if you want to write something, you can use torch indexing operations,
+
+1000
+01:10:46,409 --> 01:10:50,729
+你可以用 torch 提供给你的任何东西，非常直观，对吧？
+you can use whatever torch offers to you, which is super intuitive, okay?
+
+1001
+01:10:50,729 --> 01:10:52,789
+但是这种处理方式也会带来一些限制。
+But the treatment also give you a few limitations.
+
+1002
+01:10:52,789 --> 01:10:56,369
+比如说，当你分配数组时，数组的形状必须是2的幂。
+For example, when you allocate arrays, it has to be a shape of power too.
+
+1003
+01:10:56,369 --> 01:10:59,289
+这是因为在后端，处理会进行一些调整，
+That is because in the back end, the treating will do some telling,
+
+1004
+01:10:59,289 --> 01:11:02,010
+自动为你做一些组织。
+do some organization for you automatically.
+
+1005
+01:11:02,010 --> 01:11:04,109
+所以必须以这种方式进行限制。
+So it has to restrict in this way.
+
+1006
+01:11:04,109 --> 01:11:11,089
+明白了吗？那我们来看一个处理的例子。
+Okay? So here, let's go say one example treating
+
+1007
+01:11:11,089 --> 01:11:12,869
+在这个例子中，我们正在处理数组 eight。
+Here in this one, we are doing array eight.
+
+1008
+01:11:12,869 --> 01:11:15,049
+它等于 X 加 Y。
+They equal to X plus Y.
+
+1009
+01:11:15,900 --> 01:11:20,659
+好，现在我让你们看这段代码30秒。
+Okay, I'm going to let you look at this for 30 seconds.
+
+1010
+01:11:34,990 --> 01:11:37,969
+好，我们来试着解析这段代码。
+Okay, let's try to parse this code.
+
+1011
+01:11:37,969 --> 01:11:41,109
+嗯，这样看这段代码会好很多，对吧？
+Um, it's much better to look at this code, right?
+
+1012
+01:11:41,109 --> 01:11:43,729
+这看起来很熟悉，对吧？就像perch一样。
+This is so familiar, right? Like perch.
+
+1013
+01:11:43,729 --> 01:11:47,489
+我觉得你第一印象就是觉得这是Python。
+I think the first impression you had is it is Python.
+
+1014
+01:11:47,489 --> 01:11:49,369
+是啊，写起来简单多了。
+Yeah, so much easier to write.
+
+1015
+01:11:49,369 --> 01:11:52,369
+好吧？你注意到的第二点是我有这个。
+Okay? The second thing you noticed is I have this one.
+
+1016
+01:11:52,369 --> 01:11:56,109
+Treating do JT和torch非常相似，
+Treating do JT is very similar to torch,
+
+1017
+01:11:56,109 --> 01:11:59,069
+和compel或者其他Jet的竞品都差不多。
+Do compel or any other Jet competitor.
+
+1018
+01:11:59,069 --> 01:12:02,209
+所以treating确实是Jet的一个竞品，好吗？
+So treating is indeed a Jet competitor, okay?
+
+1019
+01:12:02,209 --> 01:12:06,049
+而且我基本上用的是PySon的语法。
+And I basically use the grammar of PySon.
+
+1020
+01:12:06,049 --> 01:12:07,969
+我定义了一个函数。
+I define a function.
+
+1021
+01:12:07,969 --> 01:12:13,469
+嗯，我给它一些，比如说数组。
+Uh, I give it a few, um, like arrays.
+
+1022
+01:12:13,469 --> 01:12:17,449
+但在triton中，所有的数组都是指向张量的指针。
+But in triton, all the arrays are pointers to a tensor.
+
+1023
+01:12:17,449 --> 01:12:21,969
+明白吗？这和Python有点不同，因为在Python里你得到的是对象，对吧？
+Okay? This is slightly different from Python because in pyson you get object, right?
+
+1024
+01:12:21,969 --> 01:12:24,309
+但在triton里是指向数组的指针。
+But in triton is a pointer to array.
+
+1025
+01:12:24,309 --> 01:12:27,189
+这意味着它是一个内存地址，明白吗？
+Which means it's a memory address, okay?
+
+1026
+01:12:27,189 --> 01:12:31,454
+而且triton的内核基本上会被映射到单个块上。
+And the treating kernels will basically be mapped to a single block.
+
+1027
+01:12:31,454 --> 01:12:34,859
+这也是为什么Triton可以稍微简化UDA的原因。
+And this is also why Triton can simplify UDA a little bit.
+
+1028
+01:12:34,859 --> 01:12:38,839
+因为在CUDA中，你必须定义你的块形状，对吧。
+Because in CUDA, you have to define your block shape, right.
+
+1029
+01:12:38,839 --> 01:12:42,499
+你还要定义你的网格形状，也就是你想用多少个块。
+You also you define your grid shape that is how many blocks you want to use.
+
+1030
+01:12:42,499 --> 01:12:46,199
+然后你定义你的线程块形状，也就是你想用多少个线程。
+And then you define your thread block shape, that is how many threads you want to use.
+
+1031
+01:12:46,199 --> 01:12:49,799
+所以你需要以类似两级层次结构的方式来思考这个问题。
+So you have to think in this kind of like a two level hierarchy.
+
+1032
+01:12:49,799 --> 01:12:52,119
+但在Triton中，这个过程被稍微简化了一些。
+But in Triton, it was simplified a little bit.
+
+1033
+01:12:52,119 --> 01:12:56,019
+也就是说，你只需要考虑一件事，就是你要思考如何
+That is you only think about one thing that is you think about how to
+
+1034
+01:12:56,019 --> 01:12:58,664
+编写一个会被映射到一个块上的程序。
+write a program that will be mapped to one block.
+
+1035
+01:12:58,664 --> 01:13:01,209
+也就是说，很多很多线程会读取一个块。
+That is many many reads a block.
+
+1036
+01:13:01,209 --> 01:13:06,549
+而在这个内核之外，你要做的是定义一个由不同块组成的网格，
+And outside of this kernel, what do you do you define a grade with different blocks
+
+1037
+01:13:06,549 --> 01:13:10,949
+Triton会自动将其映射到块和线程上。
+and treating will automatically map this into blocks and threads.
+
+1038
+01:13:10,949 --> 01:13:15,989
+明白了吗？这已经在一定程度上简化了我们的思考方式，因为就像我说的，
+Okay? This already simplified the way we think a little bit because like I said,
+
+1039
+01:13:15,989 --> 01:13:20,929
+当你编写这段代码时，你只需要考虑如何让它在
+when you write this piece of code, you only think about how to make it run
+
+1040
+01:13:20,929 --> 01:13:22,899
+很多很多线程上运行，而不是在块上运行。
+on many many threads, not blocks.
+
+1041
+01:13:22,899 --> 01:13:28,269
+好的。这里我们通过这个，然后就结束今天的讲座，好吗？
+Okay. And here, let's pass this and we'll finish lecture, okay?
+
+1042
+01:13:28,269 --> 01:13:34,869
+这里我调用了一个叫做treating EPA的接口，也就是range，这个API和tort里的非常相似。
+So here, I call a treating EPA which is range, and this is a very similar API
+
+1043
+01:13:34,869 --> 01:13:41,829
+也就是说我要创建一个从0到123的数组，对吧？
+from tort that is I'm going to create rate 0-123, right?
+
+1044
+01:13:42,110 --> 01:13:46,129
+你会注意到，每当你在treating里创建某些东西时，
+One thing you'll notice that whenever you create something in treating,
+
+1045
+01:13:46,129 --> 01:13:51,344
+如果你用的是这个包里的东西，它会被创建在SRAM上。
+using something start from this package, it was created on SRAM.
+
+1046
+01:13:51,344 --> 01:13:56,879
+好的，那是所有流处理器线程共享的内存。
+Okay. That is a shared memory of all the threads in the streaming i processor.
+
+1047
+01:13:56,879 --> 01:14:00,559
+你要记住这段代码只会被单个block启动一次。
+You'll remember this code is going to be launched just one single block.
+
+1048
+01:14:00,559 --> 01:14:06,479
+所以你创建了这个数组，在SRAM上，这是一个偏移数组。
+So you create this array, um SRM This is offset array.
+
+1049
+01:14:06,479 --> 01:14:13,119
+然后你要做的，就是用Python的API来操作指针语义。
+And then what you do is, uh, you try to manipulate the pointer semantics using Python API.
+
+1050
+01:14:13,119 --> 01:14:16,804
+所以这里我有了我的XYZ的起始地址，对吧？
+So here I have the starting address of my XYZ, right?
+
+1051
+01:14:16,804 --> 01:14:19,349
+当我尝试编写这个程序时，
+And when I try to write this program,
+
+1052
+01:14:19,349 --> 01:14:24,549
+我需要考虑如何确保每个线程都处理一部分X加Y等于零的情况。
+I need to think about how I make sure each thread is skewed a part of X plus Y equal to zero.
+
+1053
+01:14:24,549 --> 01:14:31,429
+所以这里我把它分配到26或24个线程中。
+So here I launch it into 26 or 24 threads.
+
+1054
+01:14:31,429 --> 01:14:35,449
+基本上，这个块里的每个线程，我们都需要让它处理一个元素a，对吧？
+So basically, each thread in that block, we need to take one element a, right?
+
+1055
+01:14:35,449 --> 01:14:37,889
+所以我的想法是，
+So what I do is my hello idea is,
+
+1056
+01:14:37,889 --> 01:14:40,959
+我要确保每个线程读取一个元素。
+I'm trying to make sure each thread read one element.
+
+1057
+01:14:40,959 --> 01:14:43,789
+从HPM到SRM。
+From HPM to SRM.
+
+1058
+01:14:43,789 --> 01:14:46,749
+这就是协作式获取，对吧？
+That is cooperative fetching, right?
+
+1059
+01:14:46,749 --> 01:14:50,949
+然后我会让每一行来进行计算。
+And then I'm going to let each road to take the competition.
+
+1060
+01:14:50,949 --> 01:14:58,289
+也就是说，我让每一行读取两个元素A和B，然后把它们加在一起，合并起来。
+That is I read achrod read two elements A and B, and then add them together and get together
+
+1061
+01:14:58,289 --> 01:15:02,089
+然后把结果写回到C中，明白了吗？
+results and then write the results back into C. Okay?
+
+1062
+01:15:02,089 --> 01:15:05,029
+这是一段纯SMD代码。
+And this this is a pure SMD code.
+
+1063
+01:15:05,029 --> 01:15:06,829
+好的，我基本上要做的是
+Okay. So what I do is basically
+
+1064
+01:15:06,829 --> 01:15:12,129
+我首先在我的SRAM上创建这个语义点的偏移量，
+I first create this point of semantics that is offset on my SRAM and
+
+1065
+01:15:12,129 --> 01:15:18,409
+还有你会注意到，在Cuda中你需要进行一些协作式的数据获取。
+um and one thing you'll notice that in Cuda, you have to do some cooperative fetching.
+
+1066
+01:15:18,409 --> 01:15:24,929
+但在这里，你只需要调用Christ API，它会自动映射到1024个线程。
+But here, you just go Christ API and this will be automatically mapped to 1024 threads.
+
+1067
+01:15:24,929 --> 01:15:29,569
+这意味着这一行代码会以SMD方式在这么多线程中执行。
+Which means this line is going to be executed SMD in that many threads.
+
+1068
+01:15:29,569 --> 01:15:33,689
+然后我会把这个偏移量加到每个指针上。
+Then I'm going to add this offset to each pointer.
+
+1069
+01:15:33,689 --> 01:15:36,489
+这就是加法操作。
+This is the add operation.
+
+1070
+01:15:36,489 --> 01:15:39,529
+而在treating中，treating基本上会处理这些行并使
+And in treating, treating will basically take care of the lines and make
+
+1071
+01:15:39,529 --> 01:15:44,529
+确保每个线程块都会对偏移量执行一次加法操作。
+sure each threading that block will perform one add on the offset.
+
+1072
+01:15:44,529 --> 01:15:46,949
+一旦我有了这个偏移量，我就知道了，
+And once I have this offset, I know,
+
+1073
+01:15:46,949 --> 01:15:53,309
+我需要把元素从HPM加载到我的SRM，处理基本上会给你
+I need to load the element from HPM to my SRM, treating will basically give you
+
+1074
+01:15:53,309 --> 01:15:55,929
+另一个叫做TL load的EPL。
+another EPL called TL load.
+
+1075
+01:15:55,929 --> 01:16:00,929
+这个加载操作也是，嗯，主动预取的，对吧？
+And this load is also, um, coptive fetching, right?
+
+1076
+01:16:00,929 --> 01:16:06,019
+因为处理会自动把这个节点映射到不同的读取操作中。
+Because the treatment will automatically map this node into different reads.
+
+1077
+01:16:06,019 --> 01:16:09,709
+但我们如何让每个写操作加载到准确的元素呢？
+But how we tell each right to load the exact element.
+
+1078
+01:16:09,709 --> 01:16:14,929
+我们告诉它们的方法其实就是给它们X PTRs，记得吗
+The way we tell that is basically we give them the X PTRs Remember
+
+1079
+01:16:14,929 --> 01:16:18,409
+这个X PR是以这样一种方式生成的，对于每个元素，
+this X PR was generated in a way where for each element,
+
+1080
+01:16:18,409 --> 01:16:20,309
+我都会应用一个不同的偏移量。
+I apply a different offset.
+
+1081
+01:16:20,309 --> 01:16:24,489
+所以每次读取基本上对应一个元素，并尝试读取它。
+So each read will basically corresponds to one element and try to read it
+
+1082
+01:16:24,489 --> 01:16:27,269
+一个对应的元素来自XN Y。
+a corresponding element from XN Y.
+
+1083
+01:16:27,269 --> 01:16:33,749
+这个X和Y，基本上就是分配的RM。
+And this X and Y, basically, the uh, RM allocated.
+
+1084
+01:16:33,749 --> 01:16:36,470
+最终，我会进行一次竞争。
+And eventually, I'm going to do a competition.
+
+1085
+01:16:36,470 --> 01:16:39,309
+这段代码依然是向量化的，但处理会自动
+And this is still vectorize the code, but the treatment will automatically
+
+1086
+01:16:39,309 --> 01:16:40,929
+把它映射到很多很多线程中。
+map this into many many threads.
+
+1087
+01:16:40,929 --> 01:16:44,134
+所以每个读取只计算它自己对应的元素。
+So each read only compute its own corresponding element.
+
+1088
+01:16:44,134 --> 01:16:47,999
+这个结果就在那个线程的寄存器里，对吧。
+And this result was in the register of that thread, right.
+
+1089
+01:16:47,999 --> 01:16:52,099
+最终，我会把这个结果存回Z指针里。
+And eventually, I'm going to store this result back into the Z pointer.
+
+1090
+01:16:52,099 --> 01:16:57,379
+那我怎么知道每个线程该把结果写到哪个位置呢？
+And I know why each thread knows which position to write the results?
+
+1091
+01:16:57,379 --> 01:17:04,224
+因为PTR实际上就是PTR加上偏移量，而且我已经为每个线程应用了偏移量。
+Because the PTRs are basically PTR plus offset and I already apply the offset for each thread.
+
+1092
+01:17:04,224 --> 01:17:08,229
+好的。是的，这基本上是我们处理代码的第一步。
+Okay. Yeah, that's basically our first piece of treating code.
+
+1093
+01:17:08,229 --> 01:17:13,389
+你可以看到，用户只需要负责映射。
+And you can see, user will only be responsible for mapping.
+
+1094
+01:17:13,389 --> 01:17:17,009
+在这个内核之外，用户负责创建
+At outside of this kernel, user is responsible for creating
+
+1095
+01:17:17,009 --> 01:17:19,929
+不同的块并传递到内核中。
+different blocks and passes into the kernel.
+
+1096
+01:17:19,929 --> 01:17:25,749
+但在这个内核内部，用户的像salt这样的处理过程已经被简化了。
+But inside of this kernel, the users like salt process are already being simplified.
+
+1097
+01:17:25,749 --> 01:17:31,089
+我只需要考虑会被映射到所有线程的高层代码，而不再需要考虑块了。
+I only need to think about high rat code that will be mapped to all threats but not blocks anymore.
+
+1098
+01:17:31,089 --> 01:17:32,509
+并且所有的代码，
+And all the code,
+
+1099
+01:17:32,509 --> 01:17:38,789
+API基本上都是基于Python的，你可以从torch中调用许多类似的API。
+APS are basically Python based, and you can co many many similar APS from torch.
+
+1100
+01:17:38,789 --> 01:17:42,229
+好吗？今天我大致就讲这些。
+Okay? Yeah, that's pretty much all I have today.
+
+1101
+01:17:42,229 --> 01:17:47,869
+在下一节课中，我们会继续在Triden上完善这个程序。
+And in the next lecture, we are going to continue grand this program on triden a little bit. Yeah.

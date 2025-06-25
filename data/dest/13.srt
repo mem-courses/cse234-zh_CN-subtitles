@@ -1,0 +1,5269 @@
+1
+00:00:41,850 --> 00:00:44,710
+好的，谢谢大家的到来。
+Okay. Thanks for coming.
+
+2
+00:00:44,710 --> 00:00:48,570
+好，我们继续。后勤更新。
+Yeah, let's resume. Logistic update.
+
+3
+00:00:48,570 --> 00:00:51,710
+下节课在周四，我们会有一位嘉宾讲者，
+Next lecture, Thursday, we'll have our guest speaker,
+
+4
+00:00:51,710 --> 00:00:58,889
+你们不必到现场，只需要在Zoom上参加，我们的嘉宾在我看来，
+you don't have to be here, just go attend on Zoom, our speaker was, in my opinion,
+
+5
+00:00:58,889 --> 00:01:03,810
+是唯一真正做开源语言模型的人。
+the only guy that is truly doing open language models.
+
+6
+00:01:03,810 --> 00:01:08,269
+因为你们知道，在语言模型社区有很激烈的争论。
+Because you know, there's a strong debate in the language model community.
+
+7
+00:01:08,269 --> 00:01:10,570
+你怎么定义“开源”？
+What do you define by open?
+
+8
+00:01:10,570 --> 00:01:17,549
+你说的开源是什么意思？比如你发布了语言模型的权重，你可以称之为open Ws，
+What do you mean by open? Like if you release language model weights, you can call it open Ws,
+
+9
+00:01:17,549 --> 00:01:18,989
+但你不能称之为开源。为什么？
+but you cannot call it open source. Why?
+
+10
+00:01:18,989 --> 00:01:22,995
+因为别人无法用算力复现。
+Because people cannot reproduce with with compute.
+
+11
+00:01:22,995 --> 00:01:28,480
+你要如何发布你的数据、你的基础设施、你的训练方法，
+You how to release your data, your infrastructure, uh, your training recipe, and
+
+12
+00:01:28,480 --> 00:01:32,199
+还有你的权重，这样别人才能复现你的成果。
+your weights so people can reproduce.
+
+13
+00:01:32,199 --> 00:01:37,799
+所以在周四，我们的演讲嘉宾就是一个基本上什么都公开的人，好吗？
+So on Thursday, our speaker is a guy who basically release everything, okay?
+
+14
+00:01:37,799 --> 00:01:45,459
+权重、数据、基础设施、代码检查点，每一个检查点都公开了。
+Weights, data, um, infrastructure, code checkpoints, every checkpoint.
+
+15
+00:01:45,459 --> 00:01:50,620
+这就是为什么这个项目叫做RM 360，因为他们发布了60个检查点，
+That's why the project is called RM 360, because they release 60 checkpoints
+
+16
+00:01:50,620 --> 00:01:52,539
+方便你去复现，好吗？
+for you to reproduce, okay?
+
+17
+00:01:52,539 --> 00:01:59,060
+听完他的演讲后，你们可以思考一下，这到底意味着什么，
+And you guys after listening to his talk, you can think about what is so what
+
+18
+00:01:59,060 --> 00:02:03,479
+其实RM的事情就是在做开源。
+is basically RM thing is going in open source.
+
+19
+00:02:03,479 --> 00:02:10,040
+那我们应该像OpenAI那样拥抱闭源模型，还是应该支持开源模型？
+So should we embrace close models like open eyes or should we embrace open model?
+
+20
+00:02:10,040 --> 00:02:15,589
+好好想想这个问题。嗯，我们回来继续。
+Yeah, think about that. Okay. Um, let's come back.
+
+21
+00:02:15,589 --> 00:02:21,049
+我记得上周四我们讨论了连接通信，对吧？
+I think, last Thursday, we talked about connective communication, right?
+
+22
+00:02:21,049 --> 00:02:24,969
+我觉得我们不知不觉就讲到这里了，对吧？
+And I think we somehow arrive here, right?
+
+23
+00:02:24,969 --> 00:02:29,910
+所以我们把连接通信和机器学习中的并行方式联系在一起了，
+So we connect connective communication with our machine learning parallelisms,
+
+24
+00:02:29,910 --> 00:02:31,789
+对吧，特别是内部并行。
+right, especially intra parism.
+
+25
+00:02:31,789 --> 00:02:37,969
+我们发现，在机器学习的并行中，我们必须做这种重新分布的操作，
+And we find that in machine learning parallelism, we have to do this kind of recharting
+
+26
+00:02:37,969 --> 00:02:41,370
+而重新分布的代价本质上就是连接通信。
+and the cost of recharging is essentially connective.
+
+27
+00:02:41,370 --> 00:02:47,469
+并且根据你如何进行重新分布，比如你从行分布切换到列分布，或者你切换
+And depending on how you do recharting you switch from role pating common parting or you switch
+
+28
+00:02:47,469 --> 00:02:53,389
+从复制到行分布，你会遇到不同类型的连接通信，对吧？
+from replicated to row patting, you are going to have different sorts of connective, right?
+
+29
+00:02:53,389 --> 00:02:58,430
+所以在这里，如果你切换……不好意思。
+So here, if you switch from sorry.
+
+30
+00:02:59,240 --> 00:03:05,360
+如果你从分片切换到复制，你就必须在两个设备之间做全量收集。
+If you switch from parts to replicate it, you have to do or gather right across two devices.
+
+31
+00:03:05,360 --> 00:03:06,799
+这是一个部分和。
+And this is a partial sum.
+
+32
+00:03:06,799 --> 00:03:11,019
+我想上周我错过了这一部分，但我在这里加上了。
+I think in last week, I missed this part, but I added here.
+
+33
+00:03:11,019 --> 00:03:16,159
+所以如果你想把它从部分和切换到复制模式，你就必须做归约，对吧？
+So if you want to switch it from partial sum to replicated, you have to do or reduce, right?
+
+34
+00:03:16,159 --> 00:03:21,379
+好的。所以基本上，我们把通信连接和机制划分联系起来。
+Okay. So basically, we connect connective communication with machinery partisms.
+
+35
+00:03:21,379 --> 00:03:27,939
+好的。接下来，我们要讨论各种划分方式，并且我们
+Okay. Next, I'm going to so we are going to talk about all sorts of pisms and we
+
+36
+00:03:27,939 --> 00:03:34,279
+要把这些付诸实践，因为我觉得我已经花了足够的时间让你们
+are going to put this in practice because I think I have spent enough time to give you to give you
+
+37
+00:03:34,279 --> 00:03:39,700
+理解划分的抽象概念，现在我要把它应用到实际中。
+an understanding of pism at a very abstract level, and now I'm going to put it into practice.
+
+38
+00:03:39,700 --> 00:03:43,479
+好吗？我会用各种论文来说明，比如
+Okay? I'm going to ground this with all different papers like people
+
+39
+00:03:43,479 --> 00:03:45,540
+别人发表的、用树模型的论文。
+publish and people use tree models.
+
+40
+00:03:45,540 --> 00:03:47,860
+好的，我们将从数据划分开始。
+Okay, we are going to start with data parism.
+
+41
+00:03:47,860 --> 00:03:51,899
+
+Why? You're probably wondering why because, like I said, data partism is
+
+42
+00:03:51,899 --> 00:03:54,579
+
+just a special case of intra partism, right?
+
+43
+00:03:54,579 --> 00:03:58,289
+
+But I still want to spend some dedicate time on data pism because,
+
+44
+00:03:58,289 --> 00:04:01,119
+
+first, it is one of the most adopted one, right?
+
+45
+00:04:01,119 --> 00:04:06,280
+
+Because no matter what kind of pism you are going to use, you always have data parism.
+
+46
+00:04:06,280 --> 00:04:10,539
+
+Second, as you know, big model is just a recent thing.
+
+47
+00:04:10,539 --> 00:04:17,239
+
+Before 2020, I don't think the models are that big, the motivation for motoparism
+
+48
+00:04:17,239 --> 00:04:18,679
+
+is because we want to train big models.
+
+49
+00:04:18,679 --> 00:04:20,740
+
+Our memory is insufficient.
+
+50
+00:04:20,740 --> 00:04:26,580
+
+But you need to remember in many cases, we have a small enough model that we can fit into one TPU.
+
+51
+00:04:26,580 --> 00:04:31,019
+那样的话，我们可能就不会采用任何形式的模型并行，因为那太复杂了。
+In that case, we probably don't pursue any sort of motparism because it's too complicated.
+
+52
+00:04:31,019 --> 00:04:36,140
+我们想要的是尽可能简单的，数据并行就非常简单，而且能保证
+We want something as simple, datapoism is really simple, it can guarantee to give you
+
+53
+00:04:36,140 --> 00:04:38,990
+在扩展时有相当不错的性能表现。
+pretty good performance on scaling up.
+
+54
+00:04:38,990 --> 00:04:42,459
+好的，我们来简单回顾一下历史。
+Okay, to review a little bit on history.
+
+55
+00:04:42,459 --> 00:04:48,940
+基本上2012到2016年，是深度神经网络变得非常流行的时期，对吧？
+So basically 2012-2016, that's when Diplnary networks become very, um, popular, right?
+
+56
+00:04:48,940 --> 00:04:55,119
+实际上，在这篇论文中，这是由谷歌的Jeff Dean发表的。
+And we actually, in this paper, which is published by Jeff Dino, from Google.
+
+57
+00:04:55,119 --> 00:05:00,779
+他们基本上构建了这个叫做Disbelief的框架。
+And they basically build this, um, um, framework called disbelief.
+
+58
+00:05:00,779 --> 00:05:07,419
+这是第一个用于训练神经网络的分布式系统，好吗？
+That is the first kind of, um, distributed system for training neural networks, okay?
+
+59
+00:05:07,419 --> 00:05:12,379
+这个系统采用的主要并行方式
+And the palism that is adopted the primary palism that is adopted in
+
+60
+00:05:12,379 --> 00:05:14,580
+基本上就是数据并行，好吗？
+the system is basically data pism, okay?
+
+61
+00:05:14,580 --> 00:05:17,755
+这是很早以前的事情，大概十五年以上了。
+It's very early, like more than 15 years.
+
+62
+00:05:17,755 --> 00:05:22,550
+好的。从那篇论文之后，
+Okay. And since that paper,
+
+63
+00:05:22,550 --> 00:05:25,069
+我认为在边缘计算社区的很多人，
+I think a lot of people basically in the margining community,
+
+64
+00:05:25,069 --> 00:05:28,190
+机器学习加上Pism社区，他们基本上都在
+Machine learning plus Pism community, they are basically just
+
+65
+00:05:28,190 --> 00:05:32,310
+研究数据并行，因为就像我说的，那时候多重并行还不是必须的，对吧？
+studying datapoism because like I said, the multipoism is not necessary at that moment, okay?
+
+66
+00:05:32,310 --> 00:05:35,790
+所以人们发明了很多技术来让数据并行变得更好，对吧？
+So people have invented a lot of techniques to make data parison better, okay?
+
+67
+00:05:35,790 --> 00:05:37,910
+我们接下来会讨论这些内容。
+And we are going to talk about that.
+
+68
+00:05:38,630 --> 00:05:42,750
+然后你可能知道2016年Petrog发布了，对吧？
+And then you probably know in 2016, Petrog was out, right?
+
+69
+00:05:42,750 --> 00:05:46,430
+而加入Petrot的第一个并行方式也是数据并行，
+And the first partism that is added into Petrot is also data partism
+
+70
+00:05:46,430 --> 00:05:48,350
+因为它的用户最多，对吧？
+because that has the most user, okay?
+
+71
+00:05:48,350 --> 00:05:52,489
+如果你看这段代码，嗯，你可能会注意到
+And if you look at this piece of code, um, you'll probably notice
+
+72
+00:05:52,489 --> 00:05:54,449
+这个非常熟悉的接口，
+this interface which is super familiar,
+
+73
+00:05:54,449 --> 00:06:01,009
+DDP分布式数据并行，它基本上就是数据并行的实现，呃，在Petrich中。
+DDP distributed data parlo It is basically data per data pismimplementation in, uh, in Petrich.
+
+74
+00:06:01,009 --> 00:06:05,770
+而且，我在上一节课已经告诉过你，这个DDP在幕后基本上就是这样用的。
+And, I already told you in my previous lecture, this DDP behind the scene is basically or use.
+
+75
+00:06:05,770 --> 00:06:08,590
+它就是这样用的，好吗？
+I performs on use, okay?
+
+76
+00:06:10,820 --> 00:06:14,120
+是的，这个接口确实很不错，对吧。
+Yeah, this interface is pretty good right.
+
+77
+00:06:14,120 --> 00:06:17,160
+我觉得这是Piper团队做得很好的地方。
+That is, I think what Piper team did pretty well.
+
+78
+00:06:17,160 --> 00:06:20,319
+所以你需要做的其实就是用GDP把你的模型包裹起来
+So what you need to do is essentially you just wrap your model with GDP
+
+79
+00:06:20,319 --> 00:06:24,700
+它就会自动变成数据并行，好吗？
+and it automatically becomes data Parod, okay?
+
+80
+00:06:25,570 --> 00:06:32,450
+而且在某个时候，我觉得，我们也有很多开源框架在尝试
+And at some point, I think, we also have a lot of open source frameworks that is trying to
+
+81
+00:06:32,450 --> 00:06:39,530
+优化通信和数据并行，本质上就是优化，让所有的分布式操作都变快。
+optimize the communication and in data partism essentially optimizing, um, uh, D make allds fast.
+
+82
+00:06:39,530 --> 00:06:41,690
+我觉得这部分是你的作业，好吗？
+I think that's part of your homework, okay?
+
+83
+00:06:41,690 --> 00:06:45,070
+你可能已经知道这些了，对吧。
+And you've probably already known this right.
+
+84
+00:06:45,070 --> 00:06:48,770
+这是数据并行的早期解释，我们有四个节点，
+This is early interpretation of data partism where we have four ranks and
+
+85
+00:06:48,770 --> 00:06:51,889
+我们基本上是把它们的结果、梯度进行合并。
+we basically reduce their results, reduce their gradients, okay?
+
+86
+00:06:51,889 --> 00:06:55,989
+现在，如果你看这个，其实很简单，因为我会给你一个更深入的解释，
+Now, if you look at this, it's pretty simple because I'll give you a deeper interpretation of
+
+87
+00:06:55,989 --> 00:06:57,809
+并行其实分为内部并行和外部并行。
+partism which is intra and inter.
+
+88
+00:06:57,809 --> 00:07:01,729
+好的，把这个放在一个具体的场景下来说，
+Okay. Um to put this into context, okay?
+
+89
+00:07:01,729 --> 00:07:03,195
+那什么是数据并行呢？
+So what is data partism?
+
+90
+00:07:03,195 --> 00:07:08,259
+就像我说的，数据并行其实是优化并行的一种特殊情况，我们来用这个来说明。
+Like I said, data partism is essentially a special case of opt partism let's use
+
+91
+00:07:08,259 --> 00:07:11,180
+我们的解释是对数据分区进行解释。
+our interpretation to interpret data partism.
+
+92
+00:07:11,180 --> 00:07:12,640
+所以这就是数据分区。
+So this is data partism.
+
+93
+00:07:12,640 --> 00:07:18,259
+我让你看这个大概二十秒，好吗？
+I will let you look at this for maybe 20 seconds, okay?
+
+94
+00:07:34,020 --> 00:07:39,120
+好的。是的。我觉得如果你只看这部分，其实很简单，对吧？
+Okay. Yeah. I think if you just look at this part, it's very easy, right?
+
+95
+00:07:39,120 --> 00:07:42,540
+而且我们已经多次讲解过这个了。
+And we have been going through this many, many times.
+
+96
+00:07:42,540 --> 00:07:45,919
+这是这个图的前向部分，单层MLP。
+So this is the forward part of this graph, single layer MLP.
+
+97
+00:07:45,919 --> 00:07:47,359
+抱歉，是两层MLP。
+Sorry, two layers MLP.
+
+98
+00:07:47,359 --> 00:07:51,760
+好的，这部分就是我们多次解释过的数据部分。
+Okay. And this part is this data part, how we explain many times.
+
+99
+00:07:51,760 --> 00:07:53,919
+我们做的基本上就是对数据进行分区。
+What do we do is basically we do parti in the data.
+
+100
+00:07:53,919 --> 00:07:56,380
+对，我们在批处理中进行分区。
+Right. We parting the batch di machine.
+
+101
+00:07:56,380 --> 00:08:00,659
+我们将其复制为可训练的宽度，然后直接前向传播
+We replicate it to with trainable width, and then we just forward
+
+102
+00:08:00,659 --> 00:08:02,099
+一直到新的网络中。
+all the way through the new network.
+
+103
+00:08:02,099 --> 00:08:04,900
+所以在这些箭头中没有任何通信。
+So there's no communication in any of this arrow.
+
+104
+00:08:04,900 --> 00:08:07,120
+为什么？因为没有重新共享，对吧？
+Why? Because there's no resharing, right?
+
+105
+00:08:07,120 --> 00:08:10,839
+每次我们计算共享机制时都会达成一致，
+Every time when we compute the sharing mechanism agree,
+
+106
+00:08:10,839 --> 00:08:13,559
+好的，在两个设备之间，或者两个算子之间。
+okay, between two devices, between two operators.
+
+107
+00:08:13,559 --> 00:08:16,699
+嗯，但我又增加了一点复杂性。
+Um, but I add a little bit more complexity.
+
+108
+00:08:16,699 --> 00:08:19,120
+那就是，我还画出了Bro图，好吗？
+That is, I also draw the Bro graph, okay?
+
+109
+00:08:19,120 --> 00:08:20,899
+问题出现在反向图上。
+The problem happens at the back graph.
+
+110
+00:08:20,899 --> 00:08:24,440
+所以如果我们开始开发Bro图，这部分还是没问题的，对吧？
+So if we start developing the Bro graph, this part is still good, right?
+
+111
+00:08:24,440 --> 00:08:25,819
+我们仍然进行分区。
+We still do partition.
+
+112
+00:08:25,819 --> 00:08:30,959
+一旦我们得到了损失，我们就通过神经网络传递这个损失。
+That is once we have the loss, wegate the loss through the neural network.
+
+113
+00:08:30,959 --> 00:08:36,300
+所以我们仍然只在指定的批处理设备上进行计算，对吧？
+So we still like compute only on that designated batch device, okay?
+
+114
+00:08:36,300 --> 00:08:39,560
+但问题是当我们开始聚合梯度时，
+But the problem is when we start aggregating the gradients,
+
+115
+00:08:39,560 --> 00:08:45,369
+我们发现这里有一个问题，就是这一部分，对吧，还有这一部分。
+we find that there is a problem that is this part, right, and this part.
+
+116
+00:08:45,369 --> 00:08:49,480
+好的。所以当我们开始聚合梯度时，我们发现每个设备
+Okay. So when we start aggregating gradits we find that E device
+
+117
+00:08:49,480 --> 00:08:51,839
+只有部分梯度，对吧？
+only have a partial gradient, right?
+
+118
+00:08:51,880 --> 00:08:58,219
+但我们需要的是每个设备都拥有一份完整的梯度副本，这样我们
+But what we need is we need each device to have a replica gradient so we
+
+119
+00:08:58,219 --> 00:09:00,659
+才能将梯度应用到参数上。
+can apply the gradients to the parameters.
+
+120
+00:09:00,659 --> 00:09:03,699
+所以你已经知道这里会发生什么了，对吧？
+So you already know what happens here, right?
+
+121
+00:09:03,699 --> 00:09:05,859
+或者减少，可以吗？
+Or reduce Okay?
+
+122
+00:09:05,859 --> 00:09:09,180
+可以。我希望这种解释能让大家非常容易理解。
+Yeah. I hope this interpretation makes this super easy to understand.
+
+123
+00:09:09,180 --> 00:09:14,720
+好的。在你应用分级之后，你基本上就有了一份新的权重副本，
+Okay. And after you apply the gradings, you basically have a new copy of weights,
+
+124
+00:09:14,720 --> 00:09:17,680
+这些权重会在两个设备之间复制，然后你基本上在这里替换，
+which are replicated across two devices, and you basically substite here,
+
+125
+00:09:17,680 --> 00:09:19,399
+你把它分配到这里，然后就完成了。
+you assign to here, and you are good.
+
+126
+00:09:19,399 --> 00:09:21,180
+然后你开始下一代。
+You start next generation.
+
+127
+00:09:21,180 --> 00:09:24,140
+好的，这个图有问题吗？
+Okay. Any questions about this graph?
+
+128
+00:09:24,140 --> 00:09:29,019
+很好，非常好。我们在接下来的多并行部分会经常这样做。
+Cool, very good. And we're going to do this a lot in following Multi pari section.
+
+129
+00:09:29,019 --> 00:09:37,100
+好的？那么你其实可以发现这里的关键变化，相比没有并行的时候，
+Okay? So then you can actually spot that the key change here, compared to without pitism,
+
+130
+00:09:37,100 --> 00:09:41,780
+数据并行的关键变化其实就是我们如何实现这个先验，如何实现这个骰子。
+the key change of data parism basically how we implement this prior, how we implement this dice,
+
+131
+00:09:41,780 --> 00:09:44,119
+我们如何实现一种非常高效的方法。
+how we implement a very efficient way.
+
+132
+00:09:44,119 --> 00:09:49,179
+因为否则，剩下的基本上就是数据流图的执行，其他都不会变，对吧？
+Because otherwise, all the rest is basically data flow graph execution, nothing changes, right?
+
+133
+00:09:49,179 --> 00:09:51,709
+好的。那么我们该如何实现这个呢？
+Okay. So how do we implement this?
+
+134
+00:09:51,709 --> 00:09:56,460
+就像我说的，都是归约操作，但d有很多方法可以让它变快。
+Like I said, it's all reduced, but d has um many ways to make it fast.
+
+135
+00:09:56,460 --> 00:10:00,359
+好吗？在历史上，有两种实现方式。
+Okay? So in history, there are two ways to implement this.
+
+136
+00:10:00,359 --> 00:10:02,260
+第一种是非常著名的一篇论文。
+The first is a very famous paper.
+
+137
+00:10:02,260 --> 00:10:06,640
+我认为第一种，比如说一篇著名的机器论文，叫做主服务器。
+I would say the first, like a famous machine paper is called primary server.
+
+138
+00:10:06,640 --> 00:10:09,219
+好吗？第二种方式本质上都是归约。
+Okay? The second way essentially all reduced.
+
+139
+00:10:09,219 --> 00:10:13,219
+好的，我们先来谈谈主服务器。
+Okay? Let's talk about primary server first. Okay?
+
+140
+00:10:13,219 --> 00:10:17,160
+那么在主服务器中，嗯，不过对于这两种实现方式，
+So in primary server, um, but for both implementation,
+
+141
+00:10:17,160 --> 00:10:21,279
+我认为他们懂得如何尊重，嗯，数据并行的关键假设。
+I think they how to respect um the key assumption of
+
+142
+00:10:21,279 --> 00:10:27,329
+也就是说模型参数无法放入EDS，你可以用副本的方式处理。
+data parism that is the model parameters can't fit into EDS, you can do that replica.
+
+143
+00:10:27,329 --> 00:10:32,439
+好的，对于主服务器来说，实际上主服务器出现得比
+Okay, so for primary server, um, actually, the primary server comes much earlier
+
+144
+00:10:32,439 --> 00:10:35,260
+任何并行方式都要早得多。
+than like any parallelism.
+
+145
+00:10:35,260 --> 00:10:39,179
+为什么？因为它甚至比神经网络还要早出现。
+Why? Because it comes even earlier than neur networks.
+
+146
+00:10:39,179 --> 00:10:44,000
+为什么？因为主服务器是为分布式梯度下降而发明的。
+Why? Because primary server was invented for doing distributed grading descent.
+
+147
+00:10:44,000 --> 00:10:48,039
+好的，但是你知道，在神经网络出现之前，我们已经有梯度下降了。
+Okay. But, you know, before neural network, we already have grading descent.
+
+148
+00:10:48,039 --> 00:10:51,519
+我们可以用梯度下降来优化许多其他类型的模型，对吧？
+We can use grading descent to optimize many other kinds of models, right?
+
+149
+00:10:51,519 --> 00:10:54,900
+所以我基本上想让你稍微改变一下思维方式。
+So I want to basically um change your mindset a little bit.
+
+150
+00:10:54,900 --> 00:10:57,099
+现在，让我们把注意力放在梯度下降上，而不是神经网络。
+Now, let's look at grading descent instead neuralnetwork.
+
+151
+00:10:57,099 --> 00:10:59,500
+好的。现在，这个模型可以是任何东西。
+Okay. Now, this model can be anything.
+
+152
+00:10:59,500 --> 00:11:03,360
+如果你看梯度下降的话，对吧，这就是方程。
+And if you look at grading descent, right, this is the equation.
+
+153
+00:11:03,360 --> 00:11:04,740
+我说这是主方程。
+I said it's master equation.
+
+154
+00:11:04,740 --> 00:11:08,299
+在这里，相比之前的主方程，
+And here, compared to the previous master equation,
+
+155
+00:11:08,299 --> 00:11:11,884
+我做的就是基本上加上了这个求和，对吧。
+what I did is I basically add add this sum, right.
+
+156
+00:11:11,884 --> 00:11:13,870
+好的。那么有什么不同呢？
+Okay. So what's the difference?
+
+157
+00:11:13,870 --> 00:11:15,189
+在我之前的写法中，
+So in my previous writing,
+
+158
+00:11:15,189 --> 00:11:17,270
+我没有这个求和，所以我只有一个工作者。
+I don't have the sum, so I only have one worker.
+
+159
+00:11:17,270 --> 00:11:19,510
+这里的P是工作者的索引。
+So here P is a worker index.
+
+160
+00:11:19,510 --> 00:11:22,010
+好的，我有大写P个工作者。
+Okay, I have capital P workers.
+
+161
+00:11:22,010 --> 00:11:24,990
+所以在我之前所谓的批量方程中，
+So in my previous so called mass equation,
+
+162
+00:11:24,990 --> 00:11:29,230
+我只有一个工作节点来处理那批数据并计算梯度。
+I just have one worker to work on that batch data and derived gradients.
+
+163
+00:11:29,230 --> 00:11:31,209
+但现在我要做的是加一个求和。
+But now what I do is I add a sum.
+
+164
+00:11:31,209 --> 00:11:34,529
+也就是说，我有多个工作节点分别处理不同的批量数据，
+That is, I have multiple workers to work on different batiel data to
+
+165
+00:11:34,529 --> 00:11:36,470
+并且并行地计算各自的梯度。
+perform other gradients in parallel.
+
+166
+00:11:36,470 --> 00:11:37,690
+然后在某个时刻，
+And at some point,
+
+167
+00:11:37,690 --> 00:11:41,069
+我会聚合它们的梯度，然后应用更新。
+I'm going to aggregate their gradients, and then I apply the update.
+
+168
+00:11:41,069 --> 00:11:43,149
+明白了吗？这是主服务器。
+Okay? This is the primary server.
+
+169
+00:11:43,149 --> 00:11:45,809
+呃，之所以叫主服务器，是因为你可以看到，
+Uh, the reason is called primary server because you can see,
+
+170
+00:11:45,809 --> 00:11:48,150
+这是参数，这是梯度。
+this is a parameter, and this is a gradients.
+
+171
+00:11:48,150 --> 00:11:53,090
+所以你基本上可以设计一个分布式系统，把参数放在某个服务器上。
+So you can basically invent a distributed system where you put the parameters at some server.
+
+172
+00:11:53,090 --> 00:11:56,230
+你有很多工作节点来执行这个更新。
+You have a lot of workers to perform this update.
+
+173
+00:11:56,230 --> 00:12:01,029
+一旦他们得到了梯度，这些工作节点就会把梯度发送到服务器。
+And once they have the gradients, those worker is going to send the gradients to the server.
+
+174
+00:12:01,029 --> 00:12:04,990
+然后服务器会聚合梯度并应用更新，
+And the server will aggregate gradients and then apply updates,
+
+175
+00:12:04,990 --> 00:12:07,109
+得到一个新的参数版本并发回去。
+get a new version of parameter and send it back.
+
+176
+00:12:07,109 --> 00:12:10,810
+这就像是在做一个传统的分布式系统，
+It's like doing a traditional distribute system,
+
+177
+00:12:10,810 --> 00:12:13,430
+对吧，就是一种服务器-工作节点的架构，叫做服务器架构。
+right, a server work archicture call server archiecture.
+
+178
+00:12:13,430 --> 00:12:17,230
+好的，这其实很自然，对吧，因为如果你看这个公式，
+Okay. Itis is pretty natural, right, because if you look at this equation,
+
+179
+00:12:17,230 --> 00:12:18,849
+你只是想要构建这样的系统。
+you just want to build that system.
+
+180
+00:12:18,849 --> 00:12:21,365
+你觉得这个系统挺不错的，对吧？
+You think that system is pretty good, okay?
+
+181
+00:12:21,365 --> 00:12:26,800
+嗯，这里有两个关于主服务器的关键假设。
+Um, and there are two key, um, assumptions about primary server.
+
+182
+00:12:26,800 --> 00:12:29,419
+也就是说，它假设通信非常频繁。
+That is, it assumes that the communication is very
+
+183
+00:12:29,419 --> 00:12:33,239
+计算与通信的比率是1210。
+heavy and the compute to communication ratio is 1210.
+
+184
+00:12:33,239 --> 00:12:34,579
+我稍后会解释这一点。
+So I will explain this later.
+
+185
+00:12:34,579 --> 00:12:41,570
+好的，但请记住这一点。为了说明这一点，基本上，这就是主服务器。
+Okay but remember this. And to put this illustration, so basically, this is the primary server.
+
+186
+00:12:41,570 --> 00:12:44,630
+好吗？你可以看到有一个PS，也就是参数服务器，
+Okay? You can see there's a PS which is the parameter server,
+
+187
+00:12:44,630 --> 00:12:47,410
+这是一个中心化的服务器，你可以在这里管理所有的工作节点。
+centralized server, where you home manual workers.
+
+188
+00:12:47,410 --> 00:12:51,810
+每个工作节点基本上会取一批数据并计算梯度。
+And each worker basically take a batch of data and compute the gradient.
+
+189
+00:12:51,810 --> 00:12:54,669
+一旦这里的梯度计算完成，
+And then once the gradient is ready here, right,
+
+190
+00:12:54,669 --> 00:12:58,049
+每个工作节点都会把梯度发送到服务器。
+each worker is going to send the gradient to server.
+
+191
+00:12:58,049 --> 00:13:01,650
+好的，服务器聚合更新后的参数，然后发送这个新参数
+Okay, server aggregate updated parameter and then send this new parameter
+
+192
+00:13:01,650 --> 00:13:03,570
+回去，然后开始下一次迭代。
+back and then start next iteration.
+
+193
+00:13:03,570 --> 00:13:06,170
+明白了吗？这很简单。
+Okay? This is pretty easy.
+
+194
+00:13:06,170 --> 00:13:09,090
+那么这种架构有什么问题呢？
+So what's the problem with this architecture?
+
+195
+00:13:14,450 --> 00:13:20,630
+有人想回答吗？好的。
+Anyone want to answer? Yeah.
+
+196
+00:13:20,630 --> 00:13:23,970
+我猜有一个问题。对，没错。
+I guess there's one. Yeah, exactly.
+
+197
+00:13:23,970 --> 00:13:29,710
+所以你可以看到主服务器变成了一个中心化的服务器，它需要
+So you can see the primary server becomes a centralized server where it needs
+
+198
+00:13:29,710 --> 00:13:34,109
+接收所有类型的参数，这意味着你必须有
+to receive all the kind of parameters, which means that you have to have
+
+199
+00:13:34,109 --> 00:13:36,810
+一个非常强大的服务器来接收来自许多工作节点的数据。
+a very strong server to receive for many workers.
+
+200
+00:13:36,810 --> 00:13:41,050
+在这个图中，与其他工作节点的通信是四次。
+Is communication is four times with other workers, in this figure four times.
+
+201
+00:13:41,050 --> 00:13:43,529
+但你可以想象，有很多很多的工作节点。
+But you can imagine, there are many many workers.
+
+202
+00:13:43,529 --> 00:13:49,530
+然后，这个主服务器就会成为瓶颈。它会变得非常慢。
+Then, this primary server becomes, bottleneck. It will be very slow.
+
+203
+00:13:49,530 --> 00:13:53,269
+第二，这个主服务器可能会成为单点故障。
+Second, this primary server can be a single point failure.
+
+204
+00:13:53,269 --> 00:13:57,669
+比如如果这个主服务器故障了，我们就会丢失参数，
+Like if this primary server failed, then we lose our parameters,
+
+205
+00:13:57,669 --> 00:14:00,129
+丢失梯度，我们需要重新开始。明白吗。
+lose our gradients, we need to restart. Okay.
+
+206
+00:14:00,129 --> 00:14:01,790
+这显然不是可扩展的。
+This is apparently not syllable.
+
+207
+00:14:01,790 --> 00:14:05,689
+但在我向你介绍更好的主服务器架构之前，
+But before I present to you, better architectural primary serve,
+
+208
+00:14:05,689 --> 00:14:08,310
+呃，我想把这个和连接性联系起来。
+uh, I want to basically connect this with connective.
+
+209
+00:14:08,310 --> 00:14:11,550
+所以如果你看这个，你只需要考虑通信。
+So if you look at this one, uh, you just think about communication.
+
+210
+00:14:11,550 --> 00:14:15,029
+那么通信是什么？就像我说的，本质上他们是在做归约，对吧？
+So what is the communication? Like I said, essentially they are doing or reduce, right?
+
+211
+00:14:15,029 --> 00:14:21,289
+但是这种架构是如何简化或者分解成不同的连接方式的呢？
+But how this archiecture reduce or reduce into different connectives.
+
+212
+00:14:27,530 --> 00:14:32,609
+基本上在这个问题中，我们实际上是分解或者简化成两部分。
+So basically in question, we basically decompose or reduce into two.
+
+213
+00:14:32,609 --> 00:14:34,669
+一部分被简化成一个。
+One is reduced to one.
+
+214
+00:14:34,669 --> 00:14:39,230
+也就是说，我们从工作节点简化到服务器，然后再进行广播。
+That is, we reduce from workers to server, and then we broadcast.
+
+215
+00:14:39,230 --> 00:14:44,670
+就像我在Max的讲座中说的，all reduce等于reduce加上broadcast。
+So like I said, in Max lecture, all reduce equals to reduce plus broadcast.
+
+216
+00:14:44,670 --> 00:14:46,629
+好的，对吧？
+Okay. Good, right?
+
+217
+00:14:46,629 --> 00:14:50,229
+所以，这就是这个思路。
+So yeah, and this is the idea.
+
+218
+00:14:50,229 --> 00:14:53,110
+好的，我试着用连接方式来联系主服务器。
+Okay. I try to connect primary server with connectives.
+
+219
+00:14:53,110 --> 00:14:56,509
+但就像我说的，主服务器S有几个原因导致它无法扩展。
+But like I said, primary S is not scalable for a few reasons.
+
+220
+00:14:56,509 --> 00:14:59,289
+其中一个原因是主服务器是单点故障。
+One is the primary server is a single point failure.
+
+221
+00:14:59,289 --> 00:15:02,190
+其次，主服务器S将会成为通信瓶颈。
+Secondly, the primary S is going to become communication bottleneck.
+
+222
+00:15:02,190 --> 00:15:04,890
+那我们怎么能做得更好呢？
+So how we can do better?
+
+223
+00:15:07,730 --> 00:15:12,150
+基本上，我们不一定非要有一个中心化的服务器。
+So basically, we don't have to have a centralized server.
+
+224
+00:15:12,150 --> 00:15:13,710
+我们可以做一个分布式服务器。
+We can do a distributed server.
+
+225
+00:15:13,710 --> 00:15:18,990
+但我们还可以进一步把主服务器切分成不同的工作节点，每个工作节点都变成一个服务器，
+But we can further sharp the primary server into different workers and each worker become a server,
+
+226
+00:15:18,990 --> 00:15:20,430
+但只是服务器的一部分。
+but a share of the server.
+
+227
+00:15:20,430 --> 00:15:26,070
+明白了吗？所以实际上，我们做的就是这种主服务器。
+Okay? So basically in reality, what do we do is we do this kind of primary server.
+
+228
+00:15:26,070 --> 00:15:31,390
+我们有很多很多节点，有些节点只是服务器，有些节点是工作节点。
+Many we have many many nodes, and some nodes are just servers and some nodes are workers.
+
+229
+00:15:31,390 --> 00:15:35,550
+在越来越多被采用的实际案例中，我们基本上做的是
+And in a more and more adopted case, more real case, what do we do is basically we
+
+230
+00:15:35,550 --> 00:15:39,290
+让每个节点既是服务器又是工作节点。这样说有道理吗？
+let each node to be a server and a worker. Does that make sense?
+
+231
+00:15:39,290 --> 00:15:42,850
+好的。每个节点既是服务器也是工作者本身。
+Okay. That each node is a server and the worker itself.
+
+232
+00:15:42,850 --> 00:15:47,310
+它基本上会计算自己的那一份数据，同时还会存储
+It will basically compute its own copy of ingredients, but it will also store
+
+233
+00:15:47,310 --> 00:15:51,099
+部分参数的中心化分片。
+the centralized shard of part of the parameter.
+
+234
+00:15:51,099 --> 00:15:57,489
+好的，这样我们基本上就解决了中心化故障的问题，对吧？
+Okay. In that way, we basically address that centralized failure problem, right?
+
+235
+00:15:57,489 --> 00:16:02,550
+因为现在每个节点、每个工作者、每个GPO都拥有一部分参数，
+Because now each node, each worker, each GPO has a share of parameters,
+
+236
+00:16:02,550 --> 00:16:05,869
+他们基本上都要扮演服务器的角色。
+and they need to basically play a role as a server.
+
+237
+00:16:05,869 --> 00:16:10,510
+他们需要连接，需要归约梯度，然后再广播梯度。
+They need to connect they need to reduce gradients and and then broadcast gradients.
+
+238
+00:16:10,510 --> 00:16:14,489
+所有的边界、所有的GPO和设备都会被利用，对吧？
+So all the bondaries all GPOs and devices will be utilized, right?
+
+239
+00:16:14,489 --> 00:16:18,710
+所以基本上，我们就把服务器的工作分散到了
+So basically, we kind of, like, distribute the server's job into
+
+240
+00:16:18,710 --> 00:16:24,189
+很多很多不同的设备，比如互联网络。
+many many different devices like interconnect networks.
+
+241
+00:16:24,189 --> 00:16:31,469
+好的。如果我这样做，极端情况下想一想，如果基本上红色节点和
+Okay. And if I do this, think about in extreme case, if basically the red nodes and
+
+242
+00:16:31,469 --> 00:16:37,830
+粉蓝色节点、蓝色设备和粉色设备其实是同样的设备。
+the pink blue nodes and blue devices and the pink devices are basically the same devices.
+
+243
+00:16:37,830 --> 00:16:44,549
+所以每个设备本身其实就是一个服务器工作，那你能把这个和连接性联系起来吗？
+So each device is basically a server work itself, then could you connect this to the connective?
+
+244
+00:16:44,549 --> 00:16:48,189
+我们还是在做同样的事情，但现在我们稍微改变了一下，对吧？
+So we are still doing, but now we change a little bit, right?
+
+245
+00:16:48,189 --> 00:16:51,990
+基本上，现在我们首先在所有节点之间执行一次reduce scatter操作。
+So basically, it becomes we first perform a reduced scatter across all nodes.
+
+246
+00:16:51,990 --> 00:16:55,960
+因为现在每个节点会持有参数的一份份额。
+Because now each node will hold one share of the parameters.
+
+247
+00:16:55,960 --> 00:17:01,309
+所以每个工作节点会持有自己梯度的完整副本，这意味着我们必须让
+So each worker will hold a whole copy of its own gradient, which means that we have to let
+
+248
+00:17:01,309 --> 00:17:07,210
+每个工作节点把那一份梯度分片发送到持有该分片的服务器。
+each worker to send that shard of um, gradients to server which holds that shard.
+
+249
+00:17:07,210 --> 00:17:09,609
+这就是reduce scatter操作。
+This is a reduced scatter.
+
+250
+00:17:09,609 --> 00:17:13,310
+然后在reduce scatter之后，我们还需要获得新参数的新副本，
+And then after reduced scatter, we have to get a new copy of the new parameter,
+
+251
+00:17:13,310 --> 00:17:15,269
+这又是一个聚集操作。
+which is another gather.
+
+252
+00:17:15,269 --> 00:17:22,329
+明白了吗？所以这个解释基本上是从之前的操作分解或简化而来的，
+Okay? So this interpretation basically decompose or reduce from the previous one that
+
+253
+00:17:22,329 --> 00:17:25,929
+就是把简化的广播变成了简化的散播和聚集。
+is reduced broadcast into reduced scatter and orgater.
+
+254
+00:17:25,929 --> 00:17:31,090
+你可以看到这种方式更好，因为它缓解了服务器的瓶颈问题。
+And you can see this one is much better because it elevates the server bottleneck.
+
+255
+00:17:31,090 --> 00:17:34,189
+好，对这个有问题吗？
+Okay. Any question about this one?
+
+256
+00:17:34,300 --> 00:17:39,679
+每个工作节点都是服务器，这不还是意味着只要有一个节点失败就会出问题吗？
+Each worker is a server, doesn't that still mean that one worker fails?
+
+257
+00:17:39,679 --> 00:17:41,359
+就像合作关系，对吧？
+Like partnership, right?
+
+258
+00:17:41,359 --> 00:17:42,779
+是的，非常好的问题。
+Yeah. Very good question.
+
+259
+00:17:42,779 --> 00:17:46,859
+是的，所以每个工作节点仍然是服务器，如果那个节点失败了，
+Yeah. So each worker is still a server, and if that worker failed,
+
+260
+00:17:46,859 --> 00:17:49,639
+那么共享的参数就会丢失，对吧？
+then that shared parameter is going to be lost, right?
+
+261
+00:17:49,639 --> 00:17:55,160
+所以我们做的是让每个工作节点持有两个分片，一个作为备份。实际上，就是这样。
+So what do we do is we a each worker to hold two shards, a backup. In reality, yeah.
+
+262
+00:17:55,160 --> 00:18:01,959
+这样你就可以降低某个分片完全丢失的概率，对吧？是的。
+So you can reduce the probity that like a shard basically completely get lost, right? Yeah.
+
+263
+00:18:01,959 --> 00:18:04,360
+好的，这样说有道理吗？
+Okay. Does that make sense?
+
+264
+00:18:04,360 --> 00:18:07,720
+很好，嗯，好的。
+Cool. Um, okay.
+
+265
+00:18:07,720 --> 00:18:11,119
+然后我要告诉你一些更深入的内容。
+And then I'm going to tell you something that is even deeper.
+
+266
+00:18:11,119 --> 00:18:18,839
+好的，如果你看这个，对吧，从这个讲解你可以看到，不，我们有几个工作节点，
+Okay. So if you look at this one, right, from this speaker you can see, no, we have a few workers,
+
+267
+00:18:18,839 --> 00:18:20,400
+并且我们有一个主服务器。
+and we have a primary server.
+
+268
+00:18:20,400 --> 00:18:24,639
+我们要做的是需要进行一次同步操作。
+And what do we do is we need to do a synchronization operation.
+
+269
+00:18:24,639 --> 00:18:30,899
+就是每次每个工作节点完成梯度计算后，它必须把梯度发送给
+That is every time we each worker finish the gradient calculation, it has to send the gradient to
+
+270
+00:18:30,899 --> 00:18:33,839
+服务器，服务器把它们聚合后再发回来。
+the server server aggregate that and send it back.
+
+271
+00:18:33,839 --> 00:18:39,719
+但实际上，情况并不总是这样，因为你可能有不同的工作节点
+But in reality, this is not always the case because you can have different workers that probably
+
+272
+00:18:39,719 --> 00:18:41,680
+有些工作节点可能会比其他工作节点慢。
+some worker will be slower than other workers.
+
+273
+00:18:41,680 --> 00:18:44,199
+实际上你会遇到拖后腿的节点，对吧？
+You have stragglers in reality, right?
+
+274
+00:18:44,199 --> 00:18:49,159
+可能是因为电源问题，也可能是因为你有不同类型的GPU，或者
+It could be due to power issue could be due to, you have different kinds of GPUs or
+
+275
+00:18:49,159 --> 00:18:52,999
+只是某个程序比另一个程序运行得慢，对吧？
+just that program runs slower than another program, right?
+
+276
+00:18:52,999 --> 00:18:57,579
+所以在这种情况下，你可以看到这个分布式系统会变得非常慢，对吧，
+So in this case, you can see this distribute system will become extremely slow, right,
+
+277
+00:18:57,579 --> 00:19:03,219
+因为你必须从所有工作节点同步梯度，迭代的速度
+because you have to synchronize the gradients from all workers, and the speed of iteration is
+
+278
+00:19:03,219 --> 00:19:06,325
+基本上是由这个组里最慢的工作节点决定的。
+basically determined by the slowest worker in this group.
+
+279
+00:19:06,325 --> 00:19:09,130
+好的，这是个大问题。
+Okay. That's a big problem.
+
+280
+00:19:09,130 --> 00:19:12,050
+这会引出我们下一个话题，
+This will bring us into another,
+
+281
+00:19:12,050 --> 00:19:15,229
+我会说，这是一个非常非常活跃的研究领域。
+I would say, very very active area of research.
+
+282
+00:19:15,229 --> 00:19:21,109
+也有人研究主服务器的一致性模型。
+That is people also study consistency model for um primary servers.
+
+283
+00:19:21,109 --> 00:19:25,789
+有多少人了解分布式系统中的一致性模型？
+How many of you know consistency model dist systems?
+
+284
+00:19:25,950 --> 00:19:30,610
+不，这其实就是一致性模型，基本上用来描述你应该在什么时候
+No. Basically, that is a consist model, basic characterize when you should
+
+285
+00:19:30,610 --> 00:19:33,330
+在机器学习中同步你的梯度副本。
+synchronize your copy gradients in machinearn.
+
+286
+00:19:33,330 --> 00:19:35,569
+这个图给你举了一个例子。
+This figure give you an example.
+
+287
+00:19:35,569 --> 00:19:39,469
+你可以看到，我有三个设备，设备A、B和C，
+You can see, I have three devices device A, B, and C,
+
+288
+00:19:39,469 --> 00:19:43,910
+每个设备都是一个工作节点，在某些时候它们需要通信，
+EC device is a worker, at some point, they need to communicate,
+
+289
+00:19:43,910 --> 00:19:45,830
+就像我说的，在计算结束时。
+like I said, at the end of competition.
+
+290
+00:19:45,830 --> 00:19:52,230
+所以这里我做了一个简化的假设，就是每个工作节点基本上都不会发生故障。
+So here, I make a simplified assumption that is every worker will basically never have a fault.
+
+291
+00:19:52,230 --> 00:19:53,790
+他们永远不会犯任何错误。
+They will never make any error.
+
+292
+00:19:53,790 --> 00:19:57,850
+程序会在每个工作节点上完美运行，而且每个人的进度都一致。
+The program will run perfect on every worker and everyone will run in the same pace.
+
+293
+00:19:57,850 --> 00:20:02,409
+明白了吗？所以基本上按照上面的公式，我们每次做的事情是
+Okay? So basically following above equation, what do we do is every time
+
+294
+00:20:02,409 --> 00:20:04,809
+每个工作节点都会计算梯度的副本，对吧？
+each worker will calculate the copy of gradients, right?
+
+295
+00:20:04,809 --> 00:20:09,069
+然后他们会把梯度发送到主服务器，并且会等待，对吧？
+And then they will send the gradits to the primary server, and they will wait, right?
+
+296
+00:20:09,069 --> 00:20:13,769
+他们会等待，因为他们必须等下一版参数被发送回来，
+They will wait because they have to wait for the next version of parameter to be sent back to be
+
+297
+00:20:13,769 --> 00:20:16,110
+从服务器广播回来。所以他们会等待。
+broadcast back from that server. So they will wait.
+
+298
+00:20:16,110 --> 00:20:19,630
+这个黑色的条基本上就是在等待。
+And this black bars basically wait.
+
+299
+00:20:19,630 --> 00:20:21,609
+这叫做全局屏障。
+It's called a global barrier.
+
+300
+00:20:21,609 --> 00:20:28,089
+好的。当所有工作节点都完成并收到新的参数副本后，
+Okay. And once all the workers finish, receive the new copy of parameter,
+
+301
+00:20:28,089 --> 00:20:33,530
+他们基本上会开始下一轮计算，然后重复，他们会等待。
+they will basically commence the next iteration of computer and they repeat, they will wait.
+
+302
+00:20:33,530 --> 00:20:39,009
+明白了吗？如果你的班级很完美，这个时间线看起来很酷。
+Okay? And this timeline looks pretty cool, assuming that your class is perfect.
+
+303
+00:20:39,009 --> 00:20:43,559
+但实际上并不是这样，因为你会看到这个情况。
+But in reality, that's not the case because in you will see this.
+
+304
+00:20:43,559 --> 00:20:47,649
+对吧？所以设备A就是比DSB慢。
+Right? So device A is just slower than DSB.
+
+305
+00:20:47,649 --> 00:20:50,789
+USB是最快的，但DVI A稍微快一点。
+USB is the fastest, but DVI A is a little bit faster.
+
+306
+00:20:50,789 --> 00:20:56,509
+如果你做这种类似全局屏障的操作，嗯，设备B，
+And what you do is if you do this kind of like a global barrier, um, Device B,
+
+307
+00:20:56,509 --> 00:20:59,709
+基本上只用了一半的时间就完成了，对吧？
+finish basically using half of the time, right?
+
+308
+00:20:59,709 --> 00:21:02,809
+但正如我说的，设备A非常慢。
+But device A, like I said, is super slow.
+
+309
+00:21:02,809 --> 00:21:05,669
+所以基本上，B和C都得等A，对吧？
+So basically, B and C how to wait for A, right?
+
+310
+00:21:05,669 --> 00:21:11,869
+因为他们必须等服务器聚合梯度并把新参数发回来。
+Because they have to wait for the server to aggregate gradients and send the new parameter back.
+
+311
+00:21:11,869 --> 00:21:16,449
+好的，你可以看到这个被称为气泡。
+Okay, you can see this is called it's called bubbles.
+
+312
+00:21:16,449 --> 00:21:17,729
+就像我说的，这是气泡。
+Like I said, it's bubbles.
+
+313
+00:21:17,729 --> 00:21:19,569
+这是贡献信息系统中的气泡。
+It's bubbles in the tribute system.
+
+314
+00:21:19,569 --> 00:21:24,289
+所以基本上，USB和其他设备在这个时候是在浪费钱。
+And, so basically USB and are wasting money, at this time.
+
+315
+00:21:24,289 --> 00:21:29,610
+明白吗？而且其实在神经网络出现之前，这种情况很常见，
+Okay? And people have this actually was pretty common before Neural Networks,
+
+316
+00:21:29,610 --> 00:21:30,809
+因为在神经网络出现之前，
+because before New Networks,
+
+317
+00:21:30,809 --> 00:21:35,589
+我觉得很多模型有非常多的参数，但它们之间的通信带宽却很有限，
+I think a lot of models they have so many parameters, but they don't have a lot of communication
+
+318
+00:21:35,589 --> 00:21:42,569
+你知道，在Spark和Maple那个时代，
+bandwidth you know, back then in the area of Spark Maple produce,
+
+319
+00:21:42,569 --> 00:21:46,230
+人们会用很多异构节点来搭建集群。
+people build clusters with a lot of heterogeneous nodes.
+
+320
+00:21:46,230 --> 00:21:50,169
+所谓异构，就是每个节点有不同类型的CPU和GPU，对吧？
+But heterogeneous, I mean, each node has different kinds of CPU and GPU, right?
+
+321
+00:21:50,169 --> 00:21:54,989
+基本上是连接或者非常多样化的硬件配置
+It's basically connection or very diverse hardware setups
+
+322
+00:21:54,989 --> 00:21:58,969
+而且每个设备实际上可以以不同的速度工作。
+and each device can actually work with a different pace.
+
+323
+00:21:58,969 --> 00:22:04,209
+但今天不同了，因为现在人们正在建立一种超级计算中心，
+But today is different because today now people are building kind of supercomputing center where you
+
+324
+00:22:04,209 --> 00:22:08,670
+基本上大家都用相同类型的GPU，这个问题就被提升了。
+basically have the same type of GPU, this problem is kind of elevated.
+
+325
+00:22:08,670 --> 00:22:11,765
+但在那时候，这确实是事实，对吧？
+But back then, this is true, okay?
+
+326
+00:22:11,765 --> 00:22:16,500
+所以那些人在思考的是，如何基本上减少这些“气泡”，对吗？
+So what those people are thinking about is how to basically reduce these kind of bubbles, okay?
+
+327
+00:22:16,500 --> 00:22:19,959
+如何减少这些气泡。所以你可以看到，这就是一致性，对吧？
+How to reduce the bubbles. So basically, you can see, this is the consistency, right?
+
+328
+00:22:19,959 --> 00:22:24,920
+这被称为强一致性，比如BSP。
+This is called a strong consistency, like, BSP.
+
+329
+00:22:24,920 --> 00:22:30,139
+好的？我记得这叫做箱式同步一致性，
+Okay? I think it's called a box synchronous consistency,
+
+330
+00:22:30,139 --> 00:22:35,020
+意思是所有的工作节点都必须等待，并且要以相同的速度同步。
+Which means that all workers have to wait and how to be synchronized with the same pace.
+
+331
+00:22:35,020 --> 00:22:37,419
+但我们可以找到更好的方法，对吧。
+But we can find something that's better, right.
+
+332
+00:22:37,419 --> 00:22:39,759
+我们可以稍微放宽一下这种一致性。
+Red we can relax this consistency a little bit.
+
+333
+00:22:39,759 --> 00:22:43,470
+那么要怎么放宽呢？嗯，为什么我们不能放宽？
+So how to relax. Um, so why we can't relax?
+
+334
+00:22:43,470 --> 00:22:46,250
+因为想想我们现在在做什么。
+Because think about what we are doing here.
+
+335
+00:22:46,250 --> 00:22:51,469
+基本上，每个工作节点都在计算梯度副本，然后服务器试图聚合这些梯度。
+So basically, every worker is computed copy gradients and the serve is trying to grade the gradients
+
+336
+00:22:51,469 --> 00:22:52,949
+然后执行梯度下降。
+and then perform a grading descent.
+
+337
+00:22:52,949 --> 00:22:57,310
+我们可能都知道，分布式程序有一个很好的特点。
+And we probably know that marcheering programs they have a very nice characteristic.
+
+338
+00:22:57,310 --> 00:22:59,349
+那就是它对错误有很强的容忍性。
+That is it is very error tolerant.
+
+339
+00:22:59,349 --> 00:23:01,289
+那么什么叫做对错误有容忍性呢？
+So what do I mean by error tolerant?
+
+340
+00:23:01,289 --> 00:23:05,129
+我觉得你们已经体验过错误容忍性的一个方面，就是在量化中。
+So I think you already experienced one part of error tolerance is in quantition.
+
+341
+00:23:05,129 --> 00:23:08,849
+你引入了一些错误，但模型还是可以工作的，对吧？
+You introduced some errors, but the model can still work, right?
+
+342
+00:23:08,849 --> 00:23:11,749
+嗯，只要你不要偏离太远，
+Uh, so as long as you don't deviate too far,
+
+343
+00:23:11,749 --> 00:23:14,350
+我觉得模型还是会以某种方式收敛的。好的，这就是大致的想法。
+I think the model will converge in some way. Okay, that's the idea.
+
+344
+00:23:14,350 --> 00:23:16,030
+所以在评分设计中，也是同样的情况。
+So in grading design, that's the same case.
+
+345
+00:23:16,030 --> 00:23:17,669
+基本上，你可以这样来思考评分设计。
+So basically, you can think about grading design.
+
+346
+00:23:17,669 --> 00:23:21,150
+这里，我在做绿色强调，好吗？你正在爬一座山。
+Here, I'm doing green accent, okay? You are climbing a hill.
+
+347
+00:23:21,150 --> 00:23:21,689
+对吧？
+Right?
+
+348
+00:23:21,689 --> 00:23:23,969
+你可以用不同的路径爬这座山，对吧。
+You can collab this hill using different paths, right.
+
+349
+00:23:23,969 --> 00:23:27,889
+假设你有一个完美的评分，那么你基本上就是一路
+So assuming like you have a perfect grading, then you basically collab all the
+
+350
+00:23:27,889 --> 00:23:29,689
+爬到顶端，就像这样。
+way up, right, like this.
+
+351
+00:23:29,689 --> 00:23:33,729
+好吗？你们都用最少的时间到达了顶峰，对吧？
+Okay? And you all take the least time to reach reach the top, right?
+
+352
+00:23:33,729 --> 00:23:39,409
+但就像我说的，机器学习程序对错误有很强的容错性，梯度下降也是如此。
+But like I said, machine learning program is pretty error tolerant green isn't is the same.
+
+353
+00:23:39,409 --> 00:23:42,089
+所以你可以像这样用不同的路径协作，对吧？
+So you can collab with different paths like this, right?
+
+354
+00:23:42,089 --> 00:23:44,190
+你可以像这样稍微偏离一下，好吗？
+You can deviate a little bit like this, okay?
+
+355
+00:23:44,190 --> 00:23:47,589
+就像这样，这样，这样，这样。
+Like this, like this, like this, like this.
+
+356
+00:23:47,589 --> 00:23:52,050
+好的，你们可能多走了一些步，但最终因为梯度下降的特性，
+Okay, you all take a little bit more steps, but eventually because of the nature of green isn't,
+
+357
+00:23:52,050 --> 00:23:54,444
+你们还是会到达山顶。
+you are going to reach the top of the hill.
+
+358
+00:23:54,444 --> 00:23:59,340
+这意味着你不需要完全精确地使用
+Okay. Which means that you don't how to exactly use the precise version
+
+359
+00:23:59,340 --> 00:24:01,040
+当前状态下计算出来的梯度。
+of the gradient derived at the current state.
+
+360
+00:24:01,040 --> 00:24:03,639
+你可以用一个可能稍微有点错误的版本。
+You can use probably slightly wrong version of it.
+
+361
+00:24:03,639 --> 00:24:07,299
+但只要你遵循一些条件，你仍然可以达到目标。
+But as long as you follow some conditions, you can still get there.
+
+362
+00:24:07,299 --> 00:24:11,039
+好的。在这种情况下，人们基本上会这样做，
+Okay. And with this situation, what people does is basically,
+
+363
+00:24:11,039 --> 00:24:13,359
+呃，我觉得这基本上解释了我刚才说的，对吧？
+uh, I think this basically explain what I said, right?
+
+364
+00:24:13,359 --> 00:24:15,640
+所以你不知道如何遵循梯度线。
+So you don't how to follow the grading line.
+
+365
+00:24:15,640 --> 00:24:18,360
+你可以稍微偏离一下，仍然能到达顶点。
+And you can slightly debate, you still get the top.
+
+366
+00:24:18,360 --> 00:24:24,920
+在这种情况下，人们基本上想要放宽一致性模型的要求。
+And with this one, people want to basically relax the um consistency model.
+
+367
+00:24:24,920 --> 00:24:28,330
+放宽一致性的一种方式就是我不要求一致性。
+One way to relax the consistency is I don't how a consistency.
+
+368
+00:24:28,330 --> 00:24:31,300
+所以每个工作节点基本上都以自己的节奏计算。
+So every worker will basically compute at their own pace.
+
+369
+00:24:31,300 --> 00:24:34,499
+我不会去关心其他参数或者梯度。
+I don't bother to know other parameters or gradients.
+
+370
+00:24:34,499 --> 00:24:36,879
+我只是按照自己的节奏计算，不会进行更新。
+I just compute at their own pace. I don't update.
+
+371
+00:24:36,879 --> 00:24:38,239
+
+I only update at, say,
+
+372
+00:24:38,239 --> 00:24:41,140
+
+100 ingredients or 200 ingredients.
+
+373
+00:24:41,140 --> 00:24:45,899
+
+In that way, you are doing much better because you don't how to compute,
+
+374
+00:24:45,899 --> 00:24:48,930
+
+you don't have to synchronize at every iteration gradients.
+
+375
+00:24:48,930 --> 00:24:53,059
+
+Okay. But the problem is then every worker will basically take
+
+376
+00:24:53,059 --> 00:24:54,759
+
+their own pass to update the parameters.
+
+377
+00:24:54,759 --> 00:25:01,439
+
+At some point, you just average the parameters, and it's likely that all workers are divided, okay?
+
+378
+00:25:01,439 --> 00:25:06,719
+
+So this is basically, uh, the case I explained.
+
+379
+00:25:06,719 --> 00:25:08,660
+
+So here, device one is the slowest.
+
+380
+00:25:08,660 --> 00:25:12,880
+
+So in this window time, device one only perform one iteration.
+
+381
+00:25:12,880 --> 00:25:17,219
+但在这个时间窗口内，设备二、三、四基本上执行了很多很多操作，
+But in this window time, Device two and three, four, they basically perform many many interes,
+
+382
+00:25:17,219 --> 00:25:18,719
+并且它们之间没有任何屏障。
+and there's no barrier between them.
+
+383
+00:25:18,719 --> 00:25:20,445
+好的，你只需要做你自己的工作。
+Okay, you just do your own job.
+
+384
+00:25:20,445 --> 00:25:24,329
+显然这样做是行不通的，因为它违背了数据并行的初衷。
+And this apparently doesn't work because it defeat the purpose of data parism.
+
+385
+00:25:24,329 --> 00:25:26,669
+你根本没有进行任何聚合操作。
+You are not aggregate ingredits at all.
+
+386
+00:25:26,669 --> 00:25:31,230
+明白了吗？所以我们最终找到了一种折中的方法，
+Okay? So what we ended up with is we find the middle ground between
+
+387
+00:25:31,230 --> 00:25:33,780
+介于强一致性和无一致性之间。
+strong consistency and no consistency.
+
+388
+00:25:33,780 --> 00:25:35,829
+好的，这被称为SSP。
+Okay. And this is called SSP.
+
+389
+00:25:35,829 --> 00:25:37,509
+它叫做钢性一致性。
+It's called steel consistency.
+
+390
+00:25:37,509 --> 00:25:39,110
+什么是钢性一致性呢？
+What do I mean by steel consistency?
+
+391
+00:25:39,110 --> 00:25:43,070
+在这里，我引入了一个额外的变量，就是静止性。
+That is here, I introduce additional variable, which is stillness.
+
+392
+00:25:43,070 --> 00:25:49,049
+这个静止性具体描述了被拷贝的梯度或者参数有多“静止”。
+And this stillness specifically characterize how steel the copied gradients is or the parameters.
+
+393
+00:25:49,049 --> 00:25:50,769
+我来给你举个例子。
+So I'm going to give you an example.
+
+394
+00:25:50,769 --> 00:25:56,990
+这里，设备A和B都以相同的速度进行，并且会完成一次交互。
+So here, device A and B, they all proceed with the same pace, and we'll finish intercon.
+
+395
+00:25:56,990 --> 00:26:02,035
+然后因为设备B稍微快一点，它会多进行几次交互，好吗？
+And then because device B a bit faster, it goes interon more, okay?
+
+396
+00:26:02,035 --> 00:26:04,500
+还有另一个更快的设备。
+And do another fast device.
+
+397
+00:26:04,500 --> 00:26:07,519
+我得到了更多的设备B，它甚至更快，对吧？
+I got more and B, even faster, right?
+
+398
+00:26:07,519 --> 00:26:10,080
+你可以看到，在这个过程中，我没有进行同步。
+And you can see during this process, I don't synchronize.
+
+399
+00:26:10,080 --> 00:26:14,720
+我只是让A、B、C按照各自的速度推进，进行各自的计算。
+I just like the US ABC to proceed the pace, procedure competition.
+
+400
+00:26:14,720 --> 00:26:18,320
+但在某个时刻，设备B太快了。
+But at some point, device B is too fast.
+
+401
+00:26:18,320 --> 00:26:23,779
+我发现最慢的工人是USA，最快的是USB，
+I find that the slowest worker, which is USA and the fastest work which is USB,
+
+402
+00:26:23,779 --> 00:26:26,699
+他们之间已经有三步的差距了。
+they already have three steps apart.
+
+403
+00:26:26,699 --> 00:26:32,480
+当这三步的差距超过了我的静止阈值时，
+And when the three steps apart is basically exceeding my stills threshold,
+
+404
+00:26:32,480 --> 00:26:36,569
+我会告诉他们，你们应该停一下，稍微同步一下。
+I'm going to tell them, you should stop and you guys should synchronize little.
+
+405
+00:26:36,569 --> 00:26:43,579
+明白了吗？很好。只要我们保持这个松弛窗口，
+Okay. Does that make sense? Cool. As long as we maintain this relaxation window,
+
+406
+00:26:43,579 --> 00:26:46,959
+我们基本上可以大大减少阻塞，
+uh, we can basically, greatly reduce the lumber,
+
+407
+00:26:46,959 --> 00:26:49,580
+就像整个教室的全局同步一样。
+like global synchronization across the entire classroom.
+
+408
+00:26:49,580 --> 00:26:54,119
+所以我们就让他们继续做下去，你知道的，这就是所谓的网络阻塞，对吧？
+So we just let them go and go, you know, uh this web block, right?
+
+409
+00:26:54,119 --> 00:26:55,479
+然后我们就让它继续下去。
+And we just let it go.
+
+410
+00:26:55,479 --> 00:27:00,220
+我们就可以有效地减少，嗯，阻塞通信。
+And we can effectively reduce the, um, lumber communication.
+
+411
+00:27:00,220 --> 00:27:06,339
+因此，呃，但我们仍然保留了一些类似地狱俱乐部的绿色口音。
+Therefore, uh, but we still preserve some sort of like club in the hell right, green accent.
+
+412
+00:27:06,339 --> 00:27:08,020
+好的，确实如此。
+Okay. And indeed,
+
+413
+00:27:08,020 --> 00:27:11,180
+我认为在神经网络出现之前，人们经常这样做，
+I think back then before neuro networks, uh, people do this a lot,
+
+414
+00:27:11,180 --> 00:27:16,129
+这样可以加速分布式训练，而且可以证明，
+okay to accelerate the distribute training and, um, and it can prove that basically,
+
+415
+00:27:16,129 --> 00:27:20,030
+如果你的模型收敛，实际上取决于静止度的数值。
+if your model converges, it really depends on the value of stillness.
+
+416
+00:27:20,030 --> 00:27:24,349
+所以基本上，当静止度等于零时，你是在做强一致性，对吧。
+So basically, when steels is equal to the zero you are doing strong consistency, right.
+
+417
+00:27:24,349 --> 00:27:27,850
+当静止度为无穷大时，你就没有一致性了。
+When stillness is infinity, you have no consistency.
+
+418
+00:27:27,850 --> 00:27:30,369
+所以它其实是一个连续的谱。
+So it's actually a continuous spectrum.
+
+419
+00:27:30,369 --> 00:27:34,129
+所以人们通过在不同的静止度和不同的模型上做了很多这种实验，
+So people do a lot of this kind of experience by experimenting in
+
+420
+00:27:34,129 --> 00:27:41,130
+他们发现基本上这个静止度的区域是可以的。
+different stis against different models, and they find that basically this region of Stines is okay.
+
+421
+00:27:41,130 --> 00:27:46,269
+但如果你超出了这个范围，你知道，你的模型就会崩溃。明白吗？
+But if you go beyond this, you know, your model is going to break. Okay.
+
+422
+00:27:46,269 --> 00:27:49,889
+而且尽管有很多开放的人，人们还是证明了很多东西，
+And people also prove a lot of despite the open by people,
+
+423
+00:27:49,889 --> 00:27:52,709
+他们对这个变得非常着迷，因为这是，
+they become very fascinated about this because this is,
+
+424
+00:27:52,709 --> 00:27:54,809
+这里面有很多美丽的理论。
+there are a lot of beautiful theory behind all that.
+
+425
+00:27:54,809 --> 00:27:57,109
+他们想要证明这些，并且想要发表。
+Okay, they want to prove and they want to publish.
+
+426
+00:27:57,109 --> 00:27:59,750
+这是我引用的一个方程，好吗？
+And this is one equation I quoted, okay?
+
+427
+00:27:59,750 --> 00:28:02,770
+我认为解释这个方程的方法其实很简单。
+And I think the way to interpret this equation is pretty simple.
+
+428
+00:28:02,770 --> 00:28:03,909
+你可以忽略所有的符号。
+You can ignore all the symbols.
+
+429
+00:28:03,909 --> 00:28:05,450
+好的，我来告诉你它的意思。
+Okay, I'm going to tell you what it means.
+
+430
+00:28:05,450 --> 00:28:10,329
+它的意思是静态估计之间的差异和
+It means that the difference between a stillist estimate and
+
+431
+00:28:10,329 --> 00:28:13,509
+真实的估计值可以被一个项所界定。
+the true estimate can be bounded by a term.
+
+432
+00:28:13,509 --> 00:28:16,775
+而这个项基本上是静止性的一个函数。
+And this term is basically a function of the stillness.
+
+433
+00:28:16,775 --> 00:28:22,260
+好的。这意味着只要你的静止性不是太大，
+Okay. That means that as long as your stillness is not too large,
+
+434
+00:28:22,260 --> 00:28:25,659
+我认为你就能达到最优。
+I think you are going to achieve the optimal.
+
+435
+00:28:25,659 --> 00:28:29,979
+是的。就像我说的，这还是一个非常活跃的研究领域，
+Yeah. Okay. Like I said, this is a very active area of research and
+
+436
+00:28:29,979 --> 00:28:32,420
+现在还有很多人在做这方面的研究。
+people are still doing this today.
+
+437
+00:28:32,420 --> 00:28:36,899
+如果你查阅一些分布式计算的理论性工作，人们也在做这些事情。
+Okay. If you check slightly more theoretical work in distribute machining, people are doing this.
+
+438
+00:28:36,899 --> 00:28:42,209
+但问题是，这在你的网络中效果并不好。
+But the problem is, this does not work well in your networks.
+
+439
+00:28:42,209 --> 00:28:46,729
+嗯，因为就像我说的，如果你看这个方程，为了得到这个结果，你必须做出
+Uh, because like I said, if you look at this equation, in order to get here, you have to make
+
+440
+00:28:46,729 --> 00:28:48,910
+很多关于你的目标的假设。
+a lot of assumptions about your objective.
+
+441
+00:28:48,910 --> 00:28:56,389
+比如说，必须确定目标函数有一些凸性特征，
+For example, it has to be certain, there are some convex characteristics about the objective,
+
+442
+00:28:56,389 --> 00:28:59,190
+并且你必须始终按照给定的学习率进行梯度更新。
+and you have to perform grade always given learning rate.
+
+443
+00:28:59,190 --> 00:29:03,009
+但你可能知道，在深层网络中，很多事情是无法被证明的，对吧？
+But you probably know that in deepen network, a lot of things cannot be proved, right?
+
+444
+00:29:03,009 --> 00:29:07,129
+而且，人们在这方面也无法取得任何理论上的进展。
+And, um, people are not able to make any theoretical progress on this.
+
+445
+00:29:07,129 --> 00:29:10,390
+从经验上看，当你把这些单元应用到
+And empirical, when you apply this units into,
+
+446
+00:29:10,390 --> 00:29:13,609
+内部网络时，我觉得效果并不是很好。
+uh internar networks, I don't think it works pretty well.
+
+447
+00:29:13,609 --> 00:29:18,269
+好的。关于这部分有问题吗？
+Yeah. Okay? Any question about this part?
+
+448
+00:29:19,500 --> 00:29:23,520
+很好。这基本上就是主服务器的内容。
+Cool. That is basically primary server.
+
+449
+00:29:23,520 --> 00:29:26,300
+我认为关于主服务器还有很多其他问题，就像你们已经提到的那样，
+I think there are a lot of other issues about prime server like you already mentioned,
+
+450
+00:29:26,300 --> 00:29:32,500
+有一些问题，但我给你们布置了阅读材料，你们可以查阅那篇论文。
+there are some for issues but I think I give you a reading, and you can check on that paper.
+
+451
+00:29:32,500 --> 00:29:38,199
+另一种实现数据并行的方法，基本上就是这样，或者说是归约，对吧？
+So another way of implementing, um, data parism is basically like this or reduced, right?
+
+452
+00:29:38,199 --> 00:29:40,899
+你基本上是在所有工作节点之间执行一个环形归约操作。
+You basically perform a ring or reduce across all workers.
+
+453
+00:29:40,899 --> 00:29:44,180
+这实际上就是我们现在所采用的方法。
+And this due is basically what we have today.
+
+454
+00:29:44,180 --> 00:29:49,319
+这是目前最常用的归约方案。
+This is the most commonly used, um, scheme for performing or reduce.
+
+455
+00:29:49,319 --> 00:29:52,339
+好，前提是系统要支持。
+Okay, providing the system support.
+
+456
+00:29:53,890 --> 00:29:59,110
+就像我说的，这是最流行的归约接口之一。
+Like I said, this is one of the most popular reduce interface.
+
+457
+00:29:59,110 --> 00:30:04,629
+你要做的就是导入torch.distributed，导入DDP。
+And what you do is basically you import this torch the disc, you import DDP.
+
+458
+00:30:04,629 --> 00:30:07,630
+然后你初始化一个进程组。
+And then you initiate a process group.
+
+459
+00:30:07,630 --> 00:30:10,649
+你们的作业里会有这个，你们要去做这个。
+You have this in your homework, you're going to do this.
+
+460
+00:30:10,649 --> 00:30:15,210
+你基本上就是在所有进程、所有线程之间声明rank。
+You basically declare the ranks between all the processes all threats.
+
+461
+00:30:15,210 --> 00:30:20,949
+然后对于每个rank，你都要声明一个模型，对吧，因为你要为每个rank、每个线程复制模型。
+And then for each rank, you are going to declare a model, right, because you are going to replicate
+
+462
+00:30:20,949 --> 00:30:22,729
+你会为每个rank、每个线程复制模型。
+the model for each rank for each thread.
+
+463
+00:30:22,729 --> 00:30:25,390
+基本上你要做的就是进行训练。
+And what you do is basically you perform the training,
+
+464
+00:30:25,390 --> 00:30:32,729
+我觉得在训练这一步的背后，基本上他们会帮你做reduce操作。
+and I think behind the strain step is going to basically, they will perform reds for you.
+
+465
+00:30:37,330 --> 00:30:40,169
+关于reduce再多说一点历史吗？
+A little bit more history about reduce?
+
+466
+00:30:40,169 --> 00:30:45,175
+它最初是在一个叫Harwood的框架中实现的，这个框架是Uber开发的。
+It was initially implemented in a framework called Harwood, and this one is by Uber.
+
+467
+00:30:45,175 --> 00:30:49,859
+好的。Uber在某些分布式系统方面曾经做得非常好。
+Okay. Uber was pretty good at sometime imagyemergen systems.
+
+468
+00:30:49,859 --> 00:30:52,599
+大概是在2015年左右。
+And roughly in 2015.
+
+469
+00:30:52,599 --> 00:30:58,200
+现在如果你去查，这个Hord在Github上还有一万多个star。
+Okay. And this Hord, if you still check, it has more than ten k starts on Github today,
+
+470
+00:30:58,200 --> 00:31:04,660
+后来，我记得在HR Word那个时代，还没有像Nick和CCO这样的库。
+later, I think, at the time of HR Word, you don't have abraries like Nick and CCO.
+
+471
+00:31:04,660 --> 00:31:06,259
+你只有像MPI这样的库。
+You only have library like MPI.
+
+472
+00:31:06,259 --> 00:31:07,779
+这就是你在作业中使用它的原因。
+That's why you use in your homework.
+
+473
+00:31:07,779 --> 00:31:09,639
+好的。但就像我说的，MPI是用于
+Okay. But like I said, MPI is for
+
+474
+00:31:09,639 --> 00:31:12,539
+CPU，而Niko是用于DPU的，明白吗？
+CPU and Niko is for DPU. Okay?
+
+475
+00:31:12,539 --> 00:31:16,679
+后来，我认为媒体开始意识到这种连接将会流行起来，
+And later, I think media start realizing that this connect is going to take off,
+
+476
+00:31:16,679 --> 00:31:22,469
+他们基本上有一支非常强大的Koda工程师团队来实现NCL。
+and uh, uh, they basically have a very strong team of Koda engineers implement NCL.
+
+477
+00:31:22,469 --> 00:31:29,150
+我认为这个NCL现在基本上已经成为
+Uh, I think this NCL no essentially become the default back for performing any type
+
+478
+00:31:29,150 --> 00:31:31,710
+在GPU之间进行任何类型连接通信的默认后端。
+of connective communication between GPUs.
+
+479
+00:31:31,710 --> 00:31:34,330
+明白吗？它被ODM高度优化了。
+Okay? It's highly optimized by ODM.
+
+480
+00:31:34,330 --> 00:31:36,470
+这是ODS模式之一。
+And this is one of the ODS modes.
+
+481
+00:31:36,470 --> 00:31:39,189
+顺便说一下，这也证明了ODS库存的合理性。
+This justifies the ODS stock, by the way.
+
+482
+00:31:39,189 --> 00:31:42,229
+后来当Niko离开时，
+And later when Niko takes off,
+
+483
+00:31:42,229 --> 00:31:48,029
+我认为Petrog开始采用这个Nichols，并且他们建立了这个GDP。
+I think Petrog start to adopt this Nichols and they build this GDP.
+
+484
+00:31:48,029 --> 00:31:50,629
+由于Petrog的流行，
+Due to the popularity of petrog
+
+485
+00:31:50,629 --> 00:31:55,369
+我觉得大家基本上都从Word转向使用Petros原生的DDP接口了。
+I think people basically move away from Word to use Petros native DDP interface.
+
+486
+00:31:55,369 --> 00:31:58,739
+好吗？还有一件事，
+Okay? And one more thing
+
+487
+00:31:58,739 --> 00:32:04,019
+我想提到datapoism，因为现在所有的数据部分都是用
+I want to mention about datapoism is because now all the data parts are implemented using
+
+488
+00:32:04,019 --> 00:32:08,959
+ORD AD有一个很糟糕的问题，就是它不具备容错性，对吧？
+ORD AD has a very bad thing that's not fault tolerant, right?
+
+489
+00:32:08,959 --> 00:32:11,919
+因为当你执行ORD时，你必须调动所有的工作节点来
+Because when you perform ORD, you have to mobilize all the workers to
+
+490
+00:32:11,919 --> 00:32:13,860
+执行那个环形通信。
+perform that ring in communication.
+
+491
+00:32:13,860 --> 00:32:17,620
+如果有一个工人失败了，那么这个De也会失败。
+And if one worker failed, then this De will fail.
+
+492
+00:32:17,620 --> 00:32:19,899
+这意味着due不是容错的。
+Which means that due is not a fault tolerant.
+
+493
+00:32:19,899 --> 00:32:22,779
+如果你把Ds和primary sur进行比较，你会发现primary
+And if you compare Ds to primary sur you'll find that primary
+
+494
+00:32:22,779 --> 00:32:24,199
+SR更具容错性，对吧？
+SR is more fault tolerant, right?
+
+495
+00:32:24,199 --> 00:32:27,679
+因为你可以有不同的份额，有不同的工人。
+Because you can have different shares, you have different workers.
+
+496
+00:32:27,679 --> 00:32:32,999
+所以如果有一个工人失败了，你依然没问题，你可能还有补救的方法，但在dus里就没有。
+So I one worker field, you're still good, you probably have some way to remedy, but in dus, no.
+
+497
+00:32:32,999 --> 00:32:38,929
+好吗？但看起来在图像学习系统中，人们并不关心容错。好吧。
+Okay? But it seems that image learning system, people don't care about fault tolerance. Okay. Yeah.
+
+498
+00:32:38,929 --> 00:32:42,690
+至少在我过去五年的经验中是这样的，没错。
+That's what I at least in my past five years of experience, yes.
+
+499
+00:32:42,690 --> 00:32:47,170
+是的。但如果你谈论大数据处理，谈论数据库，
+Yeah. But if you talk about big data processing you talk about database,
+
+500
+00:32:47,170 --> 00:32:48,849
+我认为容错是一个相当大的问题。
+I think for tolerance is a pretty big issue.
+
+501
+00:32:48,849 --> 00:32:50,089
+是啊，大家都在谈论这个。
+Yeah, everybody talks about that.
+
+502
+00:32:50,089 --> 00:32:58,129
+是的。好吧，好吧，有一个讨论点，如你所见，呃，我想指出的一件事其实是，
+Yeah. Okay. Okay, one discussion is, as you can see, uh, one thing I want to point out is actually,
+
+503
+00:32:58,129 --> 00:33:03,969
+2010到2020年，我认为正如我说的，人们也发表了超过一千篇论文，
+2010-2020, I think people publish, like I said, people also published more than 1,000 papers on
+
+504
+00:33:03,969 --> 00:33:07,829
+主要是在分布式梯度下降的主服务器上，就是那个研究方向。
+primary server on distributed green descent, right on that studs thing.
+
+505
+00:33:07,829 --> 00:33:11,349
+但在某个时刻，Ad就接管了。
+But at some point, Ad just takeover.
+
+506
+00:33:11,349 --> 00:33:15,729
+或者做非常简单的事情，没有容错，没有一致性。
+Or du very simple thing, no fault tolerance, no consistency.
+
+507
+00:33:15,729 --> 00:33:20,350
+所以基本上，就是在实现、在编写强内核的代码，对吧？
+So basically, just implementing just coding, strong kernels, okay?
+
+508
+00:33:20,350 --> 00:33:22,050
+所以我想问你为什么。
+So I want to ask you why.
+
+509
+00:33:22,050 --> 00:33:24,490
+想一想，为什么？为什么会这样？
+Think about this, why? Like why?
+
+510
+00:33:24,490 --> 00:33:31,189
+就像学术界总是这样，他们把某件事做得很复杂，结果更简单的东西反而占了上风，对吧？
+Like Academia always do this, they grand something so hard and something simpler takeover, right?
+
+511
+00:33:31,189 --> 00:33:35,150
+我觉得一个原因就像我说的，或者说du很简单。
+I think one reason is like I said, or du is simple.
+
+512
+00:33:35,150 --> 00:33:37,230
+我觉得业界真的喜欢简单的东西。
+I think industry really like simple things.
+
+513
+00:33:37,230 --> 00:33:41,509
+好的。第二个原因，其实是因为硬件。
+Okay. Second, it's really because of hardware.
+
+514
+00:33:41,509 --> 00:33:46,649
+就像我刚才说的，一开始，人们引入这种一致性
+So like I said, at the beginning, uh, the reason people introduce this consistency on
+
+515
+00:33:46,649 --> 00:33:50,869
+这种主服务器-客户端架构，是因为他们假设通信会
+this primary server client architecture is because they assume the communication is going to
+
+516
+00:33:50,869 --> 00:33:52,849
+成为瓶颈，对吧？
+be a bottleneck, right?
+
+517
+00:33:52,849 --> 00:33:58,049
+他们引入一致性，是因为他们想减少大量同步，而减少
+And, they introduce consistency because they want to reduce lumber synchronization and reducing
+
+518
+00:33:58,049 --> 00:34:00,569
+大量同步就等于减少通信。
+lumber synchronizing equals to reducing communication.
+
+519
+00:34:00,569 --> 00:34:06,329
+但在某个时刻，AD刚刚推出了一项新硬件技术，叫做unveilink。
+But at some point, AD just shape a new hardware technology called unveilink.
+
+520
+00:34:06,329 --> 00:34:11,749
+unveilink基本上就是，只要你在一个带有GPS的盒子里训练模型
+Unwilink is basically as long as you train a model inside of one box with GPS you
+
+521
+00:34:11,749 --> 00:34:14,130
+基本上拥有几乎无限的带宽。
+basically have almost infinent bandwidths.
+
+522
+00:34:14,130 --> 00:34:18,509
+一旦这成为现实，那么主错误的价值基本上就会消失。
+And once this becomes a fact, then the value of prime error basically get
+
+523
+00:34:18,509 --> 00:34:21,589
+因为通信并不是关于瓶颈的问题。
+lost because communication is not about neck.
+
+524
+00:34:21,589 --> 00:34:25,389
+Wing 基本上解决了通信中的通信问题。
+Wing basically save the communication address the communicing problem.
+
+525
+00:34:25,389 --> 00:34:29,489
+你可以只用最简单的方式来完成通信，无论是什么方法。
+And you can just basically use fact whatever is the
+
+526
+00:34:29,489 --> 00:34:32,989
+最简单的方式其实就是 orgs。
+simplest to perform that communication, which is orgs.
+
+527
+00:34:32,989 --> 00:34:35,349
+但就像我说的，当我们进入多并行的时候，
+But like I said, when we move on to
+
+528
+00:34:35,349 --> 00:34:37,809
+通信又会变成另一个问题，为什么呢？
+Multipoism then communication will become another problem, why?
+
+529
+00:34:37,809 --> 00:34:43,820
+因为以前我们做数据并行时，只是在一个盒子里扩展到多个 GPU，有 wink。
+Because previously when we do data parism we just scaled to GPS inside one box where we have wink.
+
+530
+00:34:43,820 --> 00:34:46,479
+但现在模型的规模又爆炸式增长了，
+But now model size explode again,
+
+531
+00:34:46,479 --> 00:34:49,499
+模型规模变成了1750亿。
+Model size becomes like 175 billion.
+
+532
+00:34:49,499 --> 00:34:52,439
+那你就必须要扩展到不止一个节点，对吧？
+Then you have to scale beyond one node, right?
+
+533
+00:34:52,439 --> 00:34:55,999
+在两个不同节点之间，你就没有主节点了。
+Beyond between two different nodes, you don't have a meink anymore.
+
+534
+00:34:55,999 --> 00:34:58,459
+那么通信就成了另一个问题。
+Then communication becomes another problem.
+
+535
+00:34:58,459 --> 00:35:02,159
+这基本上引出了下一个话题，Mdpism。
+That basically brings us to the next topic, Mdpism.
+
+536
+00:35:02,159 --> 00:35:04,859
+我得换一下幻灯片，给我一分钟。
+I have to switch slide. Give me 1 minute.
+
+537
+00:35:22,880 --> 00:35:28,000
+好的，嗯，是的，我们已经讲完了数据并行。
+Okay. Um, yeah, we finish data partism.
+
+538
+00:35:28,360 --> 00:35:31,799
+但数据并行仍然是非常常用的方法。
+But still, data paris is a very commonly adopted thing.
+
+539
+00:35:31,799 --> 00:35:33,380
+我不是说它被重复了。
+I'm not saying it's being duplicated.
+
+540
+00:35:33,380 --> 00:35:35,320
+我只是说主副本被重复了。
+I'm just saying primary sur is being duplicated.
+
+541
+00:35:35,320 --> 00:35:40,059
+但实际上，你需要将数据并行与其他类型的多重并行结合起来。
+But in reality, you have to combine data pism with other sort of multiparism.
+
+542
+00:35:40,059 --> 00:35:41,899
+现在我们来谈谈多重并行。
+And now let's talk about Multipism.
+
+543
+00:35:41,899 --> 00:35:49,179
+好吗？我们讨论多重并行的方式，基本上是从互操作并行开始的，然后我们尝试
+Okay? And the way we talk about Muliparism basically we start with interop partism and we try to
+
+544
+00:35:49,179 --> 00:35:53,300
+推导出一些关于如何优化互操作并行的数学理解。
+derive some mathematical understanding of how to optimize inter partism.
+
+545
+00:35:53,300 --> 00:35:56,479
+然后我们尝试把这些理解映射到各种
+And then we try to map this understanding with all sorts of,
+
+546
+00:35:56,479 --> 00:35:59,119
+呃，人们为此构建的系统实现上。
+uh, system artifacts people build for this.
+
+547
+00:35:59,119 --> 00:36:02,539
+希望我们下周能完成互操作并行，然后我们会讲内部并行。
+Hopefully, we finish Intern next week we'll do intra.
+
+548
+00:36:02,539 --> 00:36:12,100
+好的。所以我希望大家还记得互操作并行的目标或定义。
+Okay. So I hope everyone still remember the goal or the definition of intero partism.
+
+549
+00:36:12,100 --> 00:36:17,800
+比如我给你一个神经网络，就像幻灯片上的这个计算图，还有一组设备，
+So if I give you a neural network as this computer graph on this slide and also a set of devices,
+
+550
+00:36:17,800 --> 00:36:24,159
+设备一、二、三、四，比如说GPU，然后我让你来划分，呃，
+device one, two, three, four, uh, for example, GPUs, and I ask you to partition, uh,
+
+551
+00:36:24,159 --> 00:36:29,879
+把这个计算图分配到这些设备上，然后最直接的方法是什么？
+this computing graph onto these devices and then what's the most straightforward way?
+
+552
+00:36:30,070 --> 00:36:33,949
+是的，我可以像这样直接划分，对吧？可以吗？
+Yeah, I can just partition, right, like this. Okay?
+
+553
+00:36:33,949 --> 00:36:36,609
+我就是划分，对，我只需要数节点的数量。
+I just partition. Yeah, I just count number nose.
+
+554
+00:36:36,609 --> 00:36:40,489
+我尽量确保每个设备上的节点数量差不多，对吧？
+I try to make sure each note each device has almost equal number of node, right?
+
+555
+00:36:40,489 --> 00:36:46,690
+这是一种划分方式，嗯，嗯，嗯，在这里我要介绍
+And this is one way of partition, um, um, um, and here, I'm going to introduce
+
+556
+00:36:46,690 --> 00:36:50,309
+一个新的概念，在划分中？它叫做阶段（stage）。
+one new concept in inter partismo? It's called stage.
+
+557
+00:36:50,309 --> 00:36:54,709
+基本上，我把这个原始的计算图划分成四个阶段，然后我希望
+So basically here, I partition this original como graph into four stages and I like
+
+558
+00:36:54,709 --> 00:36:56,749
+每个设备负责一个阶段。
+each device to hold one stage.
+
+559
+00:36:56,749 --> 00:37:02,029
+一个阶段基本上就是原始图的一个子图的一部分，明白吗？
+And one stage is basically a part of a subgraph of the original graph, okay?
+
+560
+00:37:02,029 --> 00:37:09,239
+这就是一个阶段。好的，一旦我完成了这个划分，我就可以开始问你了，对吧？
+It's a stage. Okay. Once I finish this partition, I can start asking you, right?
+
+561
+00:37:09,239 --> 00:37:12,880
+那我要怎么问你呢？我可以这样问你，对吗？
+So how to ask you. So I can ask you in this way, okay?
+
+562
+00:37:12,880 --> 00:37:17,999
+那么实际上要问你这个pion近网络，我们该怎么做，因为我们
+So to actually basically ask you this pion near network, what do we do, Because we
+
+563
+00:37:17,999 --> 00:37:20,199
+把第一阶段放在了设备一上，对吧？
+put the first stage on Device one, right?
+
+564
+00:37:20,199 --> 00:37:26,099
+所以我们也把输入给了设备一，我们从设备一开始。
+So we also give the input to the device one. We start from device one.
+
+565
+00:37:26,099 --> 00:37:31,759
+好吗？我们让你设备一，得到第一阶段的输出，对吗？
+Okay? We ask you device one, to get the output of stage one, right?
+
+566
+00:37:31,759 --> 00:37:37,059
+然后我们让设备一把这个输出一转发给设备二，对吧？
+And then we forward device one to forward this output one to Device two, right?
+
+567
+00:37:37,059 --> 00:37:42,620
+在这里，如果你还记得，我们必须做一次同步，我们需要通信，
+And here, if you still remember, we have to do a sens we have to communicate,
+
+568
+00:37:42,620 --> 00:37:47,119
+但这是点对点通信。好的。
+but it's B to B communication. Okay.
+
+569
+00:37:48,100 --> 00:37:53,219
+就像我说的，第一阶段的输出张量会被传输到设备二，
+Uh, like I said, the output tensor of stage one will be transferred to device two as
+
+570
+00:37:53,219 --> 00:37:58,560
+因为第二阶段的输入需要第一阶段的输出。
+the input of stage two requires the output.
+
+571
+00:37:58,560 --> 00:38:04,480
+现在，数据传输所花费的时间通常很少，因为我们只在两个阶段的阶段边界处传递阶段输出。
+Now that the time spent on the data transfer is typically small because we only communicate
+
+572
+00:38:04,480 --> 00:38:08,120
+然后我们要做的，基本上就是继续这个过程。
+stage outputs at the stage boundaries between two stages.
+
+573
+00:38:08,120 --> 00:38:10,839
+我们让第二阶段执行并获得输出，然后继续向前传递。
+And then what we do is basically we continue this.
+
+574
+00:38:10,839 --> 00:38:16,619
+好吗？这很清楚，也很简单。
+We let Stage two to execute and get the output and we forward forward.
+
+575
+00:38:16,619 --> 00:38:20,740
+最后，我们在设备四上运行第四阶段，并获得损失的输出，
+Okay? This is pretty clear, simple.
+
+576
+00:38:20,740 --> 00:38:26,899
+比如说，整个新网络的输出。
+And finally, we run Stage four on device four and we get the output of the loss,
+
+577
+00:38:26,899 --> 00:38:29,700
+好的。那么在关于流水线并行的文献中，我们刚才描述的执行过程
+for example, the whole new network.
+
+578
+00:38:30,550 --> 00:38:38,189
+通常会被可视化成这样一个时间线。
+Okay. So in the literature about intero partism the execution, we described just now is
+
+579
+00:38:38,189 --> 00:38:40,689
+这里，这个Y轴基本上代表的是设备。
+basically often visualized as this timeline. Okay?
+
+580
+00:38:40,689 --> 00:38:44,050
+这里，这个Y轴基本上代表的是设备。
+So here, uh, this Y access is basically the devices.
+
+581
+00:38:44,050 --> 00:38:46,529
+好吗？这个访问是有时间的。
+Okay? This access is time.
+
+582
+00:38:46,529 --> 00:38:48,730
+好吗？这样我们就可以可视化执行过程。
+Okay? So we can visualize the execution.
+
+583
+00:38:48,730 --> 00:38:51,890
+我刚才在这个图上描述的就是这个调度。
+The schedule I just described on this figure.
+
+584
+00:38:51,890 --> 00:38:56,149
+好吗？所以，呃，前一页幻灯片上的执行看起来就是这样的，对吧？
+Okay? So, uh the execution on the previous slide is looking like this, right?
+
+585
+00:38:56,149 --> 00:39:01,429
+所以设备一请求设备、设备、设备四。那么问题是什么？
+So device one ask device device device four. So what's the problem?
+
+586
+00:39:01,900 --> 00:39:05,519
+你看，又有一个气泡，对吧？
+You see, there's a bubble bubble again, right?
+
+587
+00:39:05,519 --> 00:39:06,939
+基本上，想一想。
+Basically, think about it.
+
+588
+00:39:06,939 --> 00:39:08,700
+我们总是在和气泡作斗争。
+I paran, we are always fighting bubble.
+
+589
+00:39:08,700 --> 00:39:14,800
+好吗？所以剩下的灰色区域表示设备处于空闲状态，我们通常称之为气泡。
+Okay? So the remaining gray area indicates the device being idle and we typically call them bubbles.
+
+590
+00:39:14,800 --> 00:39:18,900
+好的。这个气泡的存在是因为数据依赖关系。
+Okay. This bubble exists because of the data dependency between
+
+591
+00:39:18,900 --> 00:39:20,720
+不同设备上有不同的阶段。
+different stages on different devices.
+
+592
+00:39:20,720 --> 00:39:25,939
+比如说，设备二需要输入设备一的输出，依此类推，你懂的，
+Like device two requires the input of, uh, the output of device one and et cetera, you know,
+
+593
+00:39:25,939 --> 00:39:31,659
+正如我们所看到的，在任何时刻，在这个例子中，在任何时刻，
+and as we can see, at any given moment, in this case, at any given moment,
+
+594
+00:39:31,659 --> 00:39:34,639
+只有一个设备在运行，对吧？
+there's only one device running, right?
+
+595
+00:39:34,639 --> 00:39:39,119
+这意味着设备的利用率非常低，非常低。
+And this means that the device utilization is super low, super low.
+
+596
+00:39:39,119 --> 00:39:44,819
+呃，为了量化这个设备利用率，呃，我们测量灰色区域的多少。
+Uh, to quantify this device utilization, uh, we measure how much gray area.
+
+597
+00:39:44,819 --> 00:39:50,000
+嗯，我们测量流水线空泡在整个时间线上占据了多少。
+Um we measure how much or the pipeline bubble will take on the uh whole timeline.
+
+598
+00:39:50,000 --> 00:39:53,339
+比如说，用这个acuton调度，
+And for example, uh with this acuton schedule here,
+
+599
+00:39:53,339 --> 00:39:56,705
+流水线空泡的百分比就是这个数字。
+the pipeline bubble percentage will be this number.
+
+600
+00:39:56,705 --> 00:39:59,349
+好吗？这个很容易理解，对吧？
+Okay? This is pretty easy to understand, right?
+
+601
+00:39:59,349 --> 00:40:03,889
+所以基本上，你只需要看这一列，只有一个设备在运行。
+So basically, you just look at this column and there's only one device running.
+
+602
+00:40:03,889 --> 00:40:07,989
+所以基本上，这个气泡就是D减去一个设备再除以D，非常糟糕。
+So basically the bubble is D minus one device by D. Very bad.
+
+603
+00:40:07,989 --> 00:40:10,849
+好吧，你的MF会非常差，明白吗？
+All right. Your MF is going to be terrible. Okay?
+
+604
+00:40:10,849 --> 00:40:15,050
+如果你这么做，非常危险。
+If you do this, you know, very dangerous.
+
+605
+00:40:15,050 --> 00:40:18,954
+好的，明白。我想你明白我的意思了。
+Okay. Cool. I think you got my point.
+
+606
+00:40:18,954 --> 00:40:22,339
+那么主要的提升方式——我们想要提升这个，对吧？
+So the main way to improve so we want to improve this, right?
+
+607
+00:40:22,339 --> 00:40:26,140
+所以提升跨分区效率的主要方法
+So the main way to improve the ascen efficiency for inter partism
+
+608
+00:40:26,140 --> 00:40:30,020
+基本上就是通过流水线处理不同的输入。
+is basically through pipeline ASQonu different inputs.
+
+609
+00:40:30,020 --> 00:40:36,419
+那我们现在来看，输入A基本上就是在第一阶段进行流水线处理，对吧？
+So let's see right now, the input, A is basically asq on stage one, right?
+
+610
+00:40:36,419 --> 00:40:38,300
+所以输入A完成之后
+So after input A finishes
+
+611
+00:40:38,300 --> 00:40:42,249
+在第一阶段提问，在第二阶段开始处理。
+Asking on stage one and start Sceving on stage two.
+
+612
+00:40:42,249 --> 00:40:48,400
+我们要做的是，同时因为第一阶段是空闲的，所以我们基本上可以
+What do we do is, at the same time because stage one, uh, is idle, we can basically
+
+613
+00:40:48,400 --> 00:40:51,319
+像这样再加入另一个输入B，对吧？
+fit another input B like this, right?
+
+614
+00:40:51,319 --> 00:40:57,139
+所以在这里，第二阶段处理输入A，而第一阶段可以接收另一个输入并开始处理。
+So here, stage two, askeed input A and stage one can take another input and askew on it.
+
+615
+00:40:57,139 --> 00:41:01,419
+好的？我们可以把另一个输入B放到第一阶段，并且在处理A的同时处理B。
+Okay? And we can fit another input B into stage one and as skewed at the same time
+
+616
+00:41:01,419 --> 00:41:03,459
+同时，输入A在第二阶段处理时，B也在第一阶段处理。
+as input A skewed on stage two.
+
+617
+00:41:03,459 --> 00:41:09,559
+然后，下次，当输入进入第三阶段时，我们就可以把B交给第二阶段，
+And again, next time, okay, input equals to stage three, then we can give B for B to stage two,
+
+618
+00:41:09,559 --> 00:41:12,339
+而第一阶段又可以接收一个新的输入C。
+and we can at stage one to take another new input input
+
+619
+00:41:12,339 --> 00:41:15,589
+这就叫做流水线计划。
+C. This is called pipe planning. Okay?
+
+620
+00:41:15,589 --> 00:41:21,739
+嗯，是的，我们只需要不断重复这个过程，就可以基本形成……
+Um, yeah, we just repeat doing this and we basically form
+
+621
+00:41:21,739 --> 00:41:24,379
+一个流水线，这个流水线会问你，接下来会发生什么，对吧？
+a pipeline and this pipeline ask you what goes on, right?
+
+622
+00:41:24,379 --> 00:41:30,339
+我们继续说下去。当流水线有多个输入时，流水线会产生气泡。
+We'll go on. With pipeline in multiple inputs, then the pipeline bubble it
+
+623
+00:41:30,339 --> 00:41:32,900
+这可以简化为基本上那样的图形。
+can be reduced to basically that figure.
+
+624
+00:41:32,900 --> 00:41:35,199
+只有在第一步时，我们只有一个设备。
+Only the first step we only have one device.
+
+625
+00:41:35,199 --> 00:41:42,999
+但一旦流水线启动并开始运转，你会发现利用率会增加。
+But once the pipeline starts and start rolling out, you can see the utility is going to grow.
+
+626
+00:41:43,120 --> 00:41:47,399
+有人能告诉我这里的利用率是什么吗？
+Can anyone tell me what's the utility here?
+
+627
+00:41:48,440 --> 00:41:54,119
+方程。我来告诉你答案。
+Equation. I'm going to give you the answer.
+
+628
+00:41:54,119 --> 00:41:59,320
+想一想，本质上就是这样，你不断地让流水线运转。
+Think about that. Essentially, like this, you keep rolling the pipeline.
+
+629
+00:41:59,320 --> 00:42:07,200
+百分比气泡基本上是D减一除以D减一加N，这里的N是输入数。
+The percentage bubble is basically D minus one divided by D, minus one plus N where N is the input.
+
+630
+00:42:07,200 --> 00:42:12,339
+好了，这样说有道理吗？
+Okay. Does that make sense?
+
+631
+00:42:12,820 --> 00:42:16,499
+很好。我们聊完之后可以想一想这个问题。
+Cool. Think about that, after we talk.
+
+632
+00:42:16,499 --> 00:42:21,959
+那么在这里，如果你看这个方程，你会发现一个非常有趣的现象，那就是
+So here, if you look at this equation, you will find a very interesting phloma that is
+
+633
+00:42:21,959 --> 00:42:26,340
+N 是你要传送的木材批次数量。
+N is lumber batches, you're going to pipeline.
+
+634
+00:42:26,340 --> 00:42:29,640
+从情感上讲，我们有无限的批次。
+Emotionally we have infinite batches.
+
+635
+00:42:29,640 --> 00:42:34,380
+你可以假设我们有无限的批次，这意味着当 N 趋近于无穷大时，
+You can assume we have inflint batches, which means that when N goes to infinity,
+
+636
+00:42:34,380 --> 00:42:37,979
+这个泡沫会逐渐消失，我们又会变得没问题，对吧？
+this bubble is going to diminish and we are good again, right?
+
+637
+00:42:39,060 --> 00:42:43,020
+同意吗？有人不同意吗？
+Agree? Anyone disagree.
+
+638
+00:42:43,820 --> 00:42:47,759
+我不同意。好吧，我们不会再变得没问题了，好吗？
+I disagree. Okay, we are not going to be good again, okay?
+
+639
+00:42:47,759 --> 00:42:52,499
+我向你保证，好吗？所以看起来如果你有无限批次，嗯，我们又没问题了。
+I assure you, okay? So it seems that if you have infinite batches, um, we are good again.
+
+640
+00:42:52,499 --> 00:42:55,439
+但这只是针对推理阶段，对吧？
+But this is only for inference, right?
+
+641
+00:42:55,439 --> 00:42:59,239
+因为在推理时，假设你有无限批次，你基本上只做前向传播，对吧？
+Because in inference of assuming you have infinite batches, you basically perform forward, right?
+
+642
+00:42:59,239 --> 00:43:01,019
+然后你又没问题了，是的。
+And you are good again, yes.
+
+643
+00:43:01,019 --> 00:43:04,380
+这就是为什么PublmPis在推理时表现不错的原因。
+That's why PublmPis pretty good for inference.
+
+644
+00:43:04,380 --> 00:43:06,899
+如果你做推理，你可以用这个publiparis，完全没问题。
+If you do inference, you can do this publi paris, there's no issue.
+
+645
+00:43:06,899 --> 00:43:11,260
+你只会有一点点延迟，但这个延迟基本上会被消除。
+You only suffer a little bit bubble, but that bubble is basically what diminished.
+
+646
+00:43:11,260 --> 00:43:16,440
+但就像我说的，根本问题是我们需要做训练，对吧？
+But like I said, the fundamental problem is we need to do training, okay?
+
+647
+00:43:16,440 --> 00:43:18,959
+那这里发生了什么呢？
+And so what happened here?
+
+648
+00:43:18,959 --> 00:43:28,180
+所以，嗯，流水线处理不同输入批次在训练时并不简单适用。
+So Okay, um, Pipeline different input batches doesn't simply work for training.
+
+649
+00:43:28,180 --> 00:43:35,039
+原因是对于神经网络训练，在前向传播之后，嗯，然后，嗯，
+The reason is that for new network training after the forward pass, um and then um,
+
+650
+00:43:35,039 --> 00:43:39,060
+基本上在我们获得特定输入的损失之后，
+and basically after we getting the loss on the specific input,
+
+651
+00:43:39,060 --> 00:43:41,199
+我们需要执行反向传播，对吧？
+we need to perform a backward pass, right?
+
+652
+00:43:41,199 --> 00:43:46,380
+所以我们要做的是，嗯，我们需要执行反向传播来计算梯度
+And so what do we do is, um, we need to perform the backward pass to calculate the gradient
+
+653
+00:43:46,380 --> 00:43:48,940
+并且在反向传播中，数据依赖关系是反过来的。
+and the data dependency in the backward pass is reversed.
+
+654
+00:43:48,940 --> 00:43:54,140
+明白了吗？比如说，对于第二阶段，它需要第一阶段的输出
+Okay? So for example, for stage two, it requires stage one's um output
+
+655
+00:43:54,140 --> 00:43:55,679
+来运行前向传播，对吧？
+to run the forward pass, right?
+
+656
+00:43:55,679 --> 00:44:00,500
+但在反向传播中，第一阶段需要第二阶段的梯度信息来计算
+But in the backward pass, stage one requires Stage two uh, grading information to calculate
+
+657
+00:44:00,500 --> 00:44:02,819
+当前阶段自己的梯度。
+its own gradient on the current stage.
+
+658
+00:44:02,819 --> 00:44:07,459
+此外，在我们计算出梯度后，还需要用
+And in addition, after we calculate the gradient, we need to update the neural network with
+
+659
+00:44:07,459 --> 00:44:12,679
+梯度来更新神经网络，然后开始下一个输入的前向和反向传播。明白了吗？
+the gradient and then start the forward and backward pass of the next input. Okay.
+
+660
+00:44:12,679 --> 00:44:17,439
+所以在这种情况下，我们都会得到这个时间线，对吧？
+So in that case, we all get this timeline, right?
+
+661
+00:44:17,439 --> 00:44:18,679
+这是一次反向传播。
+This is a backward pass.
+
+662
+00:44:18,679 --> 00:44:20,359
+这里，我只有一个批次，明白吗？
+Here, I only have one batch, okay?
+
+663
+00:44:20,359 --> 00:44:21,940
+这其实很容易理解。
+And this is pretty easy to understand.
+
+664
+00:44:21,940 --> 00:44:24,219
+我只需要做和之前完全一样的事情。
+I just do this exact the exact.
+
+665
+00:44:24,219 --> 00:44:29,139
+你可以看到有一个中间点，我需要进行一次参数更新。
+And you can see there's a middle point where I have to update perform an oppment update.
+
+666
+00:44:29,139 --> 00:44:30,880
+这就是为什么我要进行更新。
+That is why I have update.
+
+667
+00:44:30,880 --> 00:44:33,749
+好的，这部分我们没问题吧？
+Okay, we are good with this one, right?
+
+668
+00:44:33,749 --> 00:44:37,779
+嗯，所以在这种情况下，时间线的安排会像图中那样，
+Um, so in this case, screening timeline will be like in
+
+669
+00:44:37,779 --> 00:44:41,979
+因为前向和反向的依赖关系，执行顺序会从设备一到设备四，
+figure because of the forward and backward dependency, the execution will be from device one to
+
+670
+00:44:41,979 --> 00:44:46,619
+然后再从设备四回到设备一，然后我们再进行操作。
+device four and then from four to device one, um, you know, and then we perform
+
+671
+00:44:46,619 --> 00:44:49,240
+绿色更新，并在下一个输入中继续。
+a green update and continue on the next input.
+
+672
+00:44:49,240 --> 00:44:51,839
+如你所见，这里的流水线效率仍然非常低。
+As you can see, the pipeline efficiency here is still very
+
+673
+00:44:51,839 --> 00:44:54,859
+设备大部分时间都处于空闲状态。
+low and device are being idle, most of the time.
+
+674
+00:44:54,859 --> 00:44:57,329
+好的。
+And, Okay.
+
+675
+00:44:57,329 --> 00:44:59,649
+我们会为此提出一个解决方案。
+And we are going to have a solution for this.
+
+676
+00:44:59,649 --> 00:45:04,829
+但在那之前，我想，这部分是理论内容，关于流水线空闲的问题。
+But before that, I want to probably, this is a theory part, okay, for papel empaism.
+
+677
+00:45:04,829 --> 00:45:09,570
+但我想结合一些实际案例，看看人们在训练模型时是怎么做的。
+But I want to ground this on some real works that people doing in training their models.
+
+678
+00:45:09,570 --> 00:45:14,290
+好的，我们会逐步揭示更多填补这些空闲的方法。
+Okay. And we gradually, like reveal more and more solutions to how to fill those bubbles.
+
+679
+00:45:14,290 --> 00:45:15,389
+好的。
+Okay.
+
+680
+00:45:15,700 --> 00:45:20,880
+之前有不少工作都专注于减少流水线中的空闲气泡。
+So there's quite a few previous works focus on reducing the pipeline bubbles,
+
+681
+00:45:20,880 --> 00:45:25,279
+因此，通过减少气泡，他们可以增加设备的添加，对吧。
+and, uh, therefore, by reducing bubble, they can increase the device addition, right.
+
+682
+00:45:25,279 --> 00:45:31,320
+我们通常把之前的工作分为三类。
+And we generally categorize the previous work into three categories.
+
+683
+00:45:31,320 --> 00:45:33,580
+第一类叫做设备布局。
+The first one is called device placement.
+
+684
+00:45:33,580 --> 00:45:35,479
+好吗？你可能读过这篇论文。
+Okay? You probably read this paper.
+
+685
+00:45:35,479 --> 00:45:40,820
+这是一篇非常著名的论文，来自机器学习委员会，同样由JFD发表，是谷歌的论文。
+It's a very famous paper from machining commitee, again, published by JFD, okay, from Google.
+
+686
+00:45:40,820 --> 00:45:46,320
+然后，嗯，第二类叫做同步流水线算法。
+And, um Uh, and the second category is called synchronous, the pipeline algorithm.
+
+687
+00:45:46,320 --> 00:45:49,000
+第三类是异步的。
+And the third category is a synchronous.
+
+688
+00:45:49,000 --> 00:45:50,540
+在这里，同步或异步，
+And here synchronous or synchronous,
+
+689
+00:45:50,540 --> 00:45:54,759
+我觉得你已经理解了，因为我在数据并行时讲过，对吧？
+I think you already get an understanding because I talk about that in data parism right?
+
+690
+00:45:54,759 --> 00:45:57,519
+所以同步意味着你有很强的一致性。
+So synchronous means you have a strong consistency.
+
+691
+00:45:57,519 --> 00:46:01,579
+异步的意思是你尝试稍微放宽我的一致性要求，好吗？
+And asynchronous means that you try to relax my consistency a little bit, okay?
+
+692
+00:46:01,579 --> 00:46:05,159
+然后我们都展示出来。好的。
+And we all reveal. Okay.
+
+693
+00:46:05,159 --> 00:46:08,620
+首先，让我们来看一下这个设备的分配。
+First, let's take a look at this device placement.
+
+694
+00:46:08,620 --> 00:46:14,160
+这里的目标基本上是把神经网络的分支切分成多个阶段，
+The goal here is basically slice the branches of neural network into multiple stages
+
+695
+00:46:14,160 --> 00:46:16,739
+这样它们就可以同时计算了。
+so they can be calculated concurrently.
+
+696
+00:46:16,739 --> 00:46:23,479
+比如说，如果这个神经网络可以被分解成这四个阶段，对吧？
+So for example, if the new network can be decomposed into these four stages, right?
+
+697
+00:46:23,479 --> 00:46:25,839
+如果有一个新的看法在这里，好吗？
+If there's a new looking on this, okay?
+
+698
+00:46:25,839 --> 00:46:30,879
+这里的Sg二和Std三是两个互不依赖的分支。
+Here Sg two and Std three are two branches that do not depend on each other.
+
+699
+00:46:30,879 --> 00:46:34,459
+它们是并行分支。好的。我们基本上可以让你同时处理Std二
+They are parallel branches. Okay. And we can basically ask you to Std two
+
+700
+00:46:34,459 --> 00:46:35,919
+和三，对吧？
+and three in parallel, right?
+
+701
+00:46:35,919 --> 00:46:42,679
+如果我们希望了解这些方法的时间线，基本上就是这样的，对吧。
+And if we wish you a the timeline of these approaches, um, we basically get this one, right.
+
+702
+00:46:43,140 --> 00:46:47,839
+所以基本上，你可以说在这个时间点，
+So basically, um, you can say at this time points, uh,
+
+703
+00:46:47,839 --> 00:46:52,720
+设备二和设备三是并行执行的，因此我们有效地减少了空闲周期。
+device two and three are executed concurrently, so we effectively reduce bubbles.
+
+704
+00:46:52,720 --> 00:46:56,819
+这样说有道理吗？很好。
+Does it make sense? Cool.
+
+705
+00:46:58,580 --> 00:47:04,940
+这种设备分配的最大限制是它只适用于特定的新型网络。
+The biggest limitation of this device placement is that it only works for specific new networks.
+
+706
+00:47:04,940 --> 00:47:09,460
+就像我说的，你必须有这种分支的数据结构。
+Like I said, you have to have this kind of branching out data photograph.
+
+707
+00:47:09,460 --> 00:47:14,919
+比如说，它可以用于这个Inception模型，其中包含了
+For example, it can work for this inception model, which includes branches of
+
+708
+00:47:14,919 --> 00:47:16,480
+不同尺寸的卷积分支。
+different sizes of convolution.
+
+709
+00:47:16,480 --> 00:47:20,854
+这个Inception Wiser是在谷歌发明的一个非常著名的新型网络，好吗？
+This inception wiser is a very famous new network invented at Google, okay?
+
+710
+00:47:20,854 --> 00:47:26,549
+它也可以用于对比模型，基本上，呃，
+Um, and it can also work with contrastive models, which basically, uh,
+
+711
+00:47:26,549 --> 00:47:28,370
+
+includes two branches for two inputs.
+
+712
+00:47:28,370 --> 00:47:31,889
+
+And this contrastive model at some point is very popular in coervon.
+
+713
+00:47:31,889 --> 00:47:38,369
+
+Okay. However, it cannot be used to accelerate model like other sort
+
+714
+00:47:38,369 --> 00:47:40,350
+
+of conal works and also transformers.
+
+715
+00:47:40,350 --> 00:47:43,179
+
+This is bird. Okay, no such case.
+
+716
+00:47:43,179 --> 00:47:49,529
+
+And in addition, uh, as you can see, you and I do this, the device utilon is still quite low, right?
+
+717
+00:47:49,529 --> 00:47:53,489
+
+For example, when the first and the last device is running,
+
+718
+00:47:53,489 --> 00:47:56,549
+
+all other devices become, um, basically idle.
+
+719
+00:47:56,549 --> 00:48:02,390
+
+Okay? So device placement basically need to be combined with, um, um, other pipeline schedules,
+
+720
+00:48:02,390 --> 00:48:04,669
+
+which we'll discuss next.
+
+721
+00:48:07,140 --> 00:48:14,560
+好的，另一种提高效率的方法叫做同步流水线并行。
+Okay, another type of methods to improve efficiency is what we call synchronous pipeline parallel.
+
+722
+00:48:14,560 --> 00:48:20,720
+这里的基本思路是，我们修改流水线调度来提升效率，
+Okay? The idea here is basically, we modify the pipeline schedule to improve efficiency,
+
+723
+00:48:20,720 --> 00:48:27,339
+但保持计算和收敛的语义完全一致，就像你
+but keep the computation on the convergence semantically the same, exactly the same as if you
+
+724
+00:48:27,339 --> 00:48:28,859
+在单个设备上训练一样。
+are training on a single device.
+
+725
+00:48:28,859 --> 00:48:35,739
+所以最早的相关工作，也是我给你们推荐阅读的非常著名的工作，就是GPipe。
+So the very first work, okay, the very famous work which I gave you at reading is basically GPipe.
+
+726
+00:48:35,739 --> 00:48:39,420
+这里的G代表Google，没错，是Google发明的。
+Okay? G stands for Google, again, invented by Google.
+
+727
+00:48:39,420 --> 00:48:42,680
+所以第一个流水线并行的工作就是GPipe。
+Okay? So the first work was pipeline parison is GPipe.
+
+728
+00:48:42,680 --> 00:48:45,839
+主要思想是将输入批次进行切分。
+The main idea here is to split the input batch.
+
+729
+00:48:45,839 --> 00:48:49,079
+这里我会用我刚才介绍的方法。
+Here I'm going to use the one I introduced, okay?
+
+730
+00:48:49,079 --> 00:48:52,300
+我会把输入批次切分成微批次。
+I'm going to split the input batch into micro baatches.
+
+731
+00:48:52,300 --> 00:48:55,079
+这里我用的是我自己的microbatch定义。
+Here I use my definition microbtch.
+
+732
+00:48:55,079 --> 00:48:56,800
+希望你们不要感到困惑。
+I hope you don't get confused.
+
+733
+00:48:56,800 --> 00:49:01,420
+我会把我的输入批次拆分成很多个microbatch，然后我们对这些microbatch进行流水线处理。
+I'm going to split my input batch into many micro baatches then we perform
+
+734
+00:49:01,420 --> 00:49:04,140
+这就像是给这些microbatch上的流水线教学。
+the pipeline as tuition for these micro baatches.
+
+735
+00:49:04,140 --> 00:49:06,499
+这和梯度累积非常相似。
+It's very similar to the green accumulation.
+
+736
+00:49:06,499 --> 00:49:08,439
+但它是分布式的调度方式。
+But it's a distributed orchestration.
+
+737
+00:49:08,439 --> 00:49:15,679
+我来给你们演示一下。基本上，因为整个输入批次的梯度可以
+Let me show you. Basically, since the gradient of the whole input batch can be
+
+738
+00:49:15,679 --> 00:49:19,039
+分解为各个microbatch梯度的平均值，
+decomposed into the main of the gradients of microbatches,
+
+739
+00:49:19,039 --> 00:49:22,440
+在梯度累积时，我们基本上可以把不同microbatch的梯度累积起来，
+I gradient accumulation, and we can basically accumulate gradients
+
+740
+00:49:22,440 --> 00:49:27,660
+等所有microbatch都处理完后再一起更新。
+into different microbatches and updated with altogether later once we finish a micro batches.
+
+741
+00:49:27,660 --> 00:49:33,699
+那我们这样说吧。比如说，我们把输入分成六个微批次，
+So let's say this. So for example, let's say we split our input into six microbatches,
+
+742
+00:49:33,699 --> 00:49:38,119
+然后我们基本上可以这样运行前向传播。
+then we can basically run the forward pass like this.
+
+743
+00:49:38,119 --> 00:49:43,740
+关于44个设备和六个微批次没有问题。
+No problem about 44 devices, six micro baatches.
+
+744
+00:49:46,180 --> 00:49:51,659
+这里的问题是，当我们以流水线方式运行前向传播时，对于所有输入，
+The problem here is when we run the four pass in pipeline fashion, for all inputs, we have to
+
+745
+00:49:51,659 --> 00:49:53,539
+我们必须保留所有中间激活值。
+keep all the intermediate activations.
+
+746
+00:49:53,539 --> 00:49:58,599
+我们不能把它们丢弃，对吧？为什么？因为我们还需要进行反向传播，对吧？
+We cannot through them right. Why? Because we need to perform backward, right?
+
+747
+00:49:58,599 --> 00:50:00,659
+我们必须保留它们。
+We have to preserve them.
+
+748
+00:50:00,659 --> 00:50:06,739
+明白了吗？然后我们对所有微批次进行反向传播，就像这样，对吧？
+Okay? And then we perform a backward pass for all micro baatches like this, right?
+
+749
+00:50:06,739 --> 00:50:10,019
+所以这里我已经准备好了微批次五，对吧？
+So here I hold the microbtg five ready, right?
+
+750
+00:50:10,019 --> 00:50:11,380
+激活值已经计算出来了。
+A activation computed.
+
+751
+00:50:11,380 --> 00:50:16,819
+然后我会在设备四上安排反向或微型批次五。
+And then I schedule the backward or micro baat five on the device four.
+
+752
+00:50:16,819 --> 00:50:19,720
+接着我基本上开始对反向过程进行流水线处理。
+And then I basically start pipelining the backward.
+
+753
+00:50:19,720 --> 00:50:22,740
+这有点像反向操作。
+It's a kind of reverse figure.
+
+754
+00:50:22,740 --> 00:50:27,340
+最后，我们用累积的梯度来更新模型，
+And finally, we update the model with the accumulated reading,
+
+755
+00:50:27,340 --> 00:50:32,419
+然后我们得到新版本的模型，并继续处理下一个批次。
+and we get the new version model with, and we continue with the next batch.
+
+756
+00:50:32,419 --> 00:50:34,100
+显然，这个模式会重复进行。
+Obviously repeat this pattern.
+
+757
+00:50:34,100 --> 00:50:37,359
+好的，有什么问题吗？
+Okay. Any problem?
+
+758
+00:50:37,359 --> 00:50:39,499
+有。
+Yeah.
+
+759
+00:50:44,020 --> 00:50:47,420
+你说的开销是什么意思？
+What do you mean by overhead?
+
+760
+00:50:56,180 --> 00:50:59,559
+是的，那可以在我启动任务之前完成。
+Yeah, that can be done before I launch a job.
+
+761
+00:50:59,559 --> 00:51:01,805
+是的。这是在运行时之前的事情。
+Yeah. It's something before runtime.
+
+762
+00:51:01,805 --> 00:51:03,229
+是的。
+Yeah.
+
+763
+00:51:03,910 --> 00:51:07,509
+这样说有道理吗？可以。我可以准备那个。
+Does that make sense? Yeah. I can prepare that.
+
+764
+00:51:07,509 --> 00:51:13,169
+我可以做预计算的预处理，可以吗？可以。
+I can do pre compute pre processing, Okay? Okay.
+
+765
+00:51:13,169 --> 00:51:16,010
+这里我要问另一个问题，非常重要。
+Here I'm going to ask another question and very important.
+
+766
+00:51:16,010 --> 00:51:20,549
+那么在这种情况下，流水线气泡的百分比用数学形式怎么表示？
+So in this case, what's the pipeline bubble percentage in mathematical form?
+
+767
+00:51:21,230 --> 00:51:23,630
+好的，我来给你一个公式。
+Okay, I'm going to give you equation.
+
+768
+00:51:23,630 --> 00:51:26,450
+你应该先自己消化一下，让我说完。
+You should internalize a little bit. Let me finish.
+
+769
+00:51:26,450 --> 00:51:28,629
+好的。这是同样的事情，对吧？
+Okay. So this is the same thing, right?
+
+770
+00:51:28,629 --> 00:51:31,869
+前向和后向是反过来的，气泡完全一样。
+Forward backward is reverse, bubble is exactly the same.
+
+771
+00:51:31,869 --> 00:51:35,049
+请用Dmus one plus合并一个Dmus one设备。
+Dmus one device by Dmus one plus, please.
+
+772
+00:51:35,049 --> 00:51:41,469
+对你来说，就是把所有东西合并成一个。
+For you combine everything into one thing
+
+773
+00:51:41,690 --> 00:51:43,950
+你的内存不够。
+You don't have enough memory.
+
+774
+00:51:43,950 --> 00:51:45,910
+是的，你的内存不够。
+Yeah. You don't have enough memory.
+
+775
+00:51:45,910 --> 00:51:52,529
+即使你有足够的内存，如果你看这个等式，假设你可以做到。
+Even if you have enough memory, you are going to if you look at this equation, assume you can.
+
+776
+00:51:52,529 --> 00:51:54,609
+假设你可以做到。那问题是什么？
+Assume you can. What's the problem.
+
+777
+00:51:54,609 --> 00:52:00,190
+问题是你真的想减少你的泡泡数量。
+The problem is you really want to reduce your bubbles.
+
+778
+00:52:00,190 --> 00:52:07,330
+如果你把你的微批次合并成一个更大的批次，问题是泡泡数量会减少。
+And if you combine your microbatches into a bigger battery, the problem is is going to decrease.
+
+779
+00:52:07,330 --> 00:52:10,349
+之前，微批次的数量等于六。
+Previously, have a lumber microbaty equal to six.
+
+780
+00:52:10,349 --> 00:52:14,789
+所以如果你把微批次合并成一个，你就把它减少到三。
+So if you consolidate the microbatch into one, you reduce it to three.
+
+781
+00:52:14,789 --> 00:52:18,169
+一旦你把它减少到三个，会有什么问题？
+And once you reduce it to three what's the problem.
+
+782
+00:52:18,219 --> 00:52:22,200
+你的气泡会增加，对吧，因为这个数字减少了。
+Your bubble is going to increase, right, because this number is decreased.
+
+783
+00:52:22,200 --> 00:52:23,599
+所以气泡会增加。
+So the bubble is going to increase.
+
+784
+00:52:23,599 --> 00:52:25,579
+你的设备将有更多空闲时间。
+Your device will have more atle time.
+
+785
+00:52:25,579 --> 00:52:34,379
+当然。那么你说的更快更新是什么意思？
+Sure. So the sooner What do you mean by update sooner?
+
+786
+00:52:35,100 --> 00:52:38,119
+是的，你会更快地进行更新。
+Yeah, you are going to update sooner.
+
+787
+00:52:38,119 --> 00:52:44,560
+是的，周期会变短，这些气泡的百分比会增加。
+Yeah, the cycle is going to be shorter, the percentage of these bubbles is going to increase.
+
+788
+00:52:44,560 --> 00:52:48,859
+是的。还有其他问题吗？
+Yeah. Any other question?
+
+789
+00:52:48,859 --> 00:52:50,059
+有。
+Yeah.
+
+790
+00:52:53,420 --> 00:52:59,339
+是的，是的，非常好的问题。
+Yeah. Yeah. Very good question.
+
+791
+00:52:59,339 --> 00:53:01,099
+我可以告诉你，这是有上限的。
+I can tell you there's a limit.
+
+792
+00:53:01,099 --> 00:53:06,440
+好的。实际上，我在讲内存那一部分的时候提到过这个问题。
+Okay. And actually, I talked about this somewhere during the memory section.
+
+793
+00:53:06,440 --> 00:53:07,879
+所以请你想一想，好吗？
+So think about this, okay?
+
+794
+00:53:07,879 --> 00:53:12,779
+你被要求用批量大小为一千来训练模型，好吗？
+You are locked to train a model with a badge size equal to one K. Okay.
+
+795
+00:53:12,779 --> 00:53:16,279
+基本上，这是超参数调优的结果。
+So basically, that's a result from hyperprimy tuning.
+
+796
+00:53:16,279 --> 00:53:20,040
+也就是说，用批量大小为一千训练会带来最好的收敛效果。
+That is training with the basis equal to one K will give you the best convergence.
+
+797
+00:53:20,040 --> 00:53:22,620
+假设这个条件无法满足。
+Assuming that that's not available.
+
+798
+00:53:22,620 --> 00:53:24,179
+这是一个常量，你必须这么做。
+That's a constant, you have to do that.
+
+799
+00:53:24,179 --> 00:53:28,659
+如果你用流水线并行，最好的结果就是
+And then if you do Pip parism the best you can do is basically you
+
+800
+00:53:28,659 --> 00:53:30,919
+你用一千个微批次来训练，对吧？
+train with 1,000 microbatches, right?
+
+801
+00:53:30,919 --> 00:53:35,300
+你用基数为一来用1000个小批量进行训练，这个泡泡
+You use the basis equal to one to train with 1,000 microbates and this bubble
+
+802
+00:53:35,300 --> 00:53:36,759
+会被最小化，对吧？
+is going to be minimized, right?
+
+803
+00:53:36,759 --> 00:53:38,199
+因为这个就在这里。
+Because this one is here.
+
+804
+00:53:38,199 --> 00:53:41,039
+但问题是什么？有人能说说吗？
+But what's the problem? Can anyone tell?
+
+805
+00:53:43,760 --> 00:53:45,079
+是的。
+Yeah.
+
+806
+00:53:45,079 --> 00:53:49,679
+没错。
+Exactly.
+
+807
+00:53:49,679 --> 00:53:54,399
+因为每次你增加小批量时，你都会减少有效批量大小。
+Because every time you increase microbaties, you are going to decrease the effective body size.
+
+808
+00:53:54,399 --> 00:53:57,119
+那么减少有效批量大小有什么影响？
+So what's the effect of decreasing effective body size?
+
+809
+00:53:57,119 --> 00:53:59,919
+你会减少你的元批量大小，对吧？
+You are going to reduce your matamo size, right?
+
+810
+00:53:59,919 --> 00:54:05,280
+一旦你减少了元批量大小，你的GPO的原始强度也会降低。
+Once you reduce the mamosize, your GPO is going to be the original intensity is going to decrease.
+
+811
+00:54:05,280 --> 00:54:09,819
+所以你减少了较弱的泡沫，但你也降低了AI的表现。
+So you decrease lamer bubbles, but you also decrease the AI.
+
+812
+00:54:09,819 --> 00:54:14,759
+最终，当你在像Open这样的公司训练大型模型时，这其实是一个非常艰难的决定，
+Eventually, when you train arg models in company like Open At this is a pretty hard decision that
+
+813
+00:54:14,759 --> 00:54:20,299
+他们必须确定微批次的大小和有效批次大小。
+they have to figure out the microbdy sizes and effective body size.
+
+814
+00:54:20,299 --> 00:54:23,399
+微批次数量。他们必须在
+Number microbachies. They have to strike a balance between
+
+815
+00:54:23,399 --> 00:54:27,259
+AI和设备利用率之间找到平衡。这样说有道理吗？
+AI and deviszon. Okay, does that make sense.
+
+816
+00:54:27,259 --> 00:54:30,219
+我很高兴你问这个问题，因为我本来就打算讲这个。
+I'm glad you ask because I'm going to cover that anyway.
+
+817
+00:54:30,219 --> 00:54:33,700
+好的，明白了吗？很酷。这条公式非常重要。
+Yeah. Okay? Cool. This equation is pretty important.
+
+818
+00:54:33,700 --> 00:54:37,319
+你需要记住，如果你做流水线并行，你的设备利用率
+You need to remember, if you do pipeline partism, your device utilization is
+
+819
+00:54:37,319 --> 00:54:38,879
+是微批次数量的函数。
+a function of lumber microbches.
+
+820
+00:54:38,879 --> 00:54:42,639
+你想提高这个数值，但不能提高得太多。
+Okay? You want to increase that, but you cannot increase too much.
+
+821
+00:54:42,639 --> 00:54:49,280
+好的。那么在这种情况下，pop bubble 百分比就是这个公式。
+Okay. Okay, so in this case, the pop bubble percentage is this equation.
+
+822
+00:54:49,400 --> 00:54:53,679
+根据原始 Pip 论文的实验结果，
+And from the experiment results of the original Pip paper,
+
+823
+00:54:53,679 --> 00:55:00,139
+我们可以看到，仅仅使用这个 depip 调度，实际上的并行效率已经相当不错了。
+we can see that with only this depip schedule, uh, the parallel efficiency is actually pretty good.
+
+824
+00:55:00,139 --> 00:55:04,779
+好吗？而且当 lumber microbt 很大的时候，我们几乎可以实现线性加速，
+Okay? And we can achieve almost linear speed up when the lumber microbt is uh large,
+
+825
+00:55:04,779 --> 00:55:09,799
+就像我说的，因为当 lumber microbt 很大时，你的 ti 也很高。
+like I said, because when lumber microbt is large, your ti is high.
+
+826
+00:55:09,799 --> 00:55:11,479
+明白了吗？
+Okay?
+
+827
+00:55:11,479 --> 00:55:16,080
+现在，我要告诉你关于 Poplin 囚徒问题更复杂的一些内容。
+Now, I'm going to tell you even more complicated problem about Poplin prison.
+
+828
+00:55:16,080 --> 00:55:21,919
+好吗？但是 GPipe 内存使用的一个重要问题。
+Okay? So but one important issue of GPipes memory usage.
+
+829
+00:55:21,919 --> 00:55:26,499
+记住，每次你进行计算时，最好是在前向传播阶段。
+Remember, every time when you perform the commutation, it's better on the forward pass.
+
+830
+00:55:26,499 --> 00:55:29,379
+对于一个 microba，你必须保留它的激活值。
+For a microba you have to preserve its activations.
+
+831
+00:55:29,379 --> 00:55:35,440
+好吗？所以每个设备的GPip调度可以在这个图中可视化。
+Okay? So the per device of the GPip schedule can be visualized in this plot.
+
+832
+00:55:35,440 --> 00:55:42,699
+好吗？而这部分其实就是一个内存，这部分其实就是一个内存，
+Okay? And this part is a memory that is basically this part is a memory that
+
+833
+00:55:42,699 --> 00:55:45,300
+主要用来存储电机参数。它是一个常量。
+is basically used to store the motor parameters. It's a constant.
+
+834
+00:55:45,300 --> 00:55:50,179
+就像我说的，基本上它在整个前向和反向传播过程中都是激活的，对吧？
+Like I said, basically it's active during the entire forward backward pass, right?
+
+835
+00:55:50,179 --> 00:55:52,279
+并且这是一个固定的。
+And there's a fixed.
+
+836
+00:55:52,279 --> 00:55:54,599
+这是一个固定的开销，我们对此无能为力。
+This is a fixed cost, and we cannot do much about it.
+
+837
+00:55:54,599 --> 00:56:02,959
+好吗？然而，这部分，这部分基本上是被中间激活所占用的，对吧？
+Okay? However, this part, this part is basically occupied by the intermediate activations, right?
+
+838
+00:56:02,959 --> 00:56:08,379
+因为每当你引入更多的微批次时，你就会为那个微批次保存一份
+Because whenever you introduce more microbatch, you are going to save one copy of
+
+839
+00:56:08,379 --> 00:56:10,899
+激活值的副本。
+the activations for that microbatch.
+
+840
+00:56:10,899 --> 00:56:15,680
+所以在某个时刻，尤其是在最后一个微批次前向时。
+So at some point, at some point, especially at the last microbat forward.
+
+841
+00:56:15,680 --> 00:56:17,999
+这个，基本上就是达到峰值，对吧？
+This one, basically achieve peak, right?
+
+842
+00:56:17,999 --> 00:56:22,419
+然后你开始在这个microbatch文件上做反向传播。
+And then you start doing backward on this microbatg file.
+
+843
+00:56:22,419 --> 00:56:26,900
+因为你做了反向传播，你得到了梯度，所以你可以释放激活所占的内存。
+And because you do backward, you get the gradits so you can release the memory for the activations.
+
+844
+00:56:26,900 --> 00:56:28,720
+所以在某个时刻，你的内存占用会减少。
+So at some point, you're going to decrease.
+
+845
+00:56:28,720 --> 00:56:31,820
+这就是为什么会是这样的，好吗？
+That's why it is like this, okay?
+
+846
+00:56:33,300 --> 00:56:39,060
+有没有人发现这个根本性的矛盾？
+Does anyone basically spot this fundamental conflict?
+
+847
+00:56:40,380 --> 00:56:42,640
+我说过，在那个公式里，
+I said, in that equation,
+
+848
+00:56:42,640 --> 00:56:46,079
+我在前一页幻灯片展示过，你希望lumbomcrobtches尽可能大，
+I showed in my previous slide, you want the lumbomcrobtches to be as large as
+
+849
+00:56:46,079 --> 00:56:49,079
+这样可以最小化设备的Id。
+possible to minimize the device Id.
+
+850
+00:56:49,079 --> 00:56:56,099
+但从这个图你可以看到，如果我增加lambermcrobatches，情况就会变成这样。
+But from this figure you can see, if I increase lambermcrobatches, this is like this.
+
+851
+00:56:56,099 --> 00:57:01,300
+它总会增长到某个点，让我的GPU内存爆炸。
+It's going to always grow to some point where my GPU memory is going to explode.
+
+852
+00:57:01,300 --> 00:57:03,599
+这意味着这个调度方案是行不通的。
+Which means that this schedule doesn't work.
+
+853
+00:57:03,599 --> 00:57:06,479
+虽然看起来很美观，但实际上完全不起作用。
+It looks pretty beautiful but it doesn't work at all.
+
+854
+00:57:06,479 --> 00:57:09,719
+基本上，在峰值时，我们必须同时存储参数和
+Basically, at the peak, we have to store the parameter as well as
+
+855
+00:57:09,719 --> 00:57:13,499
+所有输入微批次的中间激活值。
+the intermediate activities for all input microbatches.
+
+856
+00:57:14,180 --> 00:57:15,539
+明白了。
+Okay.
+
+857
+00:57:15,539 --> 00:57:19,779
+所以内存等于参数加上激活值乘以微批次数量。
+So memory equals to perimeter plus activation times number of microbages.
+
+858
+00:57:19,779 --> 00:57:22,920
+我希望这个值大一些，以最小化空闲时间。
+I want this to be large to minimize bubble.
+
+859
+00:57:22,920 --> 00:57:27,519
+但我也希望这个值小一些，以最小化峰值内存。
+But I also want this to be small to minimize the peak memory.
+
+860
+00:57:27,519 --> 00:57:29,739
+这基本上是根本性的矛盾。
+Basically fundamentally contradictory.
+
+861
+00:57:29,739 --> 00:57:34,060
+好的。酷，那解决方案是什么？
+Okay. Cool, what's the solution?
+
+862
+00:57:34,980 --> 00:57:37,420
+确实是有一个解决方案的。
+The indeed is a solution.
+
+863
+00:57:37,420 --> 00:57:40,800
+这就是为什么我们还要讨论这个问题。如果没有解决方案，
+That's why we still cover problem meorith If there's no solution,
+
+864
+00:57:40,800 --> 00:57:43,580
+这就不会在课程中讲解了。
+this is not going to be covered in course.
+
+865
+00:57:43,580 --> 00:57:49,379
+GPipe调度的一种优化叫做1f1b调度，即一次前向，
+One optimization of GPipe schedule is a so called 1f1b schedule, one forward,
+
+866
+00:57:49,379 --> 00:57:55,400
+一次反向调度，它是对原始GPipe调度的一种重新排序。
+one backward schedule, and it is a re order of the original GPipe schedule.
+
+867
+00:57:55,400 --> 00:58:02,289
+正如这个图所示，你可以看到，呃，如果你愿意，我强烈建议你回去，
+And as shown in this figure, you can see, uh, if you go okay, I highly recommend you go back,
+
+868
+00:58:02,289 --> 00:58:05,849
+看看这个，然后你尝试自己玩一下这个游戏。
+look at this, and you try to basically play this game by yourself.
+
+869
+00:58:05,849 --> 00:58:11,489
+你可以试着把每个气泡放到时间线上每个区块，自己动手试试。
+You try to play how to place a bubble each block on this timeline, play by yourself.
+
+870
+00:58:11,489 --> 00:58:15,149
+并且，只要你假设前向和反向的时间完全相同，
+And, as long as you assume the forward and bawd is exactly the same time,
+
+871
+00:58:15,149 --> 00:58:19,050
+你想要在GPP计划下搞清楚这个11b的情况，
+you want to figure out this 11b under the GPP schedule,
+
+872
+00:58:19,050 --> 00:58:21,755
+它们在交互时的延迟完全一样。
+they have exactly the same latency for interact.
+
+873
+00:58:21,755 --> 00:58:24,679
+唯一的区别是我基本上在玩这个游戏。
+The only difference is I basically play this game.
+
+874
+00:58:24,679 --> 00:58:28,239
+我试着重新排序这一个、两个、三个、四个，不同颜色的1234。
+I try to reorder this one, two, three, four, different colors 1234.
+
+875
+00:58:28,239 --> 00:58:33,300
+所以，你知道，上面和下面是不一样的。
+So, you know, uh, the above and the bottom are different.
+
+876
+00:58:33,300 --> 00:58:36,180
+但这会造成巨大的差异。差别是什么？
+But this creates a huge difference. What's the difference?
+
+877
+00:58:36,180 --> 00:58:41,299
+11b和G pipe之间的主要区别是，11b会
+So main difference between 11b and G pipe is that 11b will
+
+878
+00:58:41,299 --> 00:58:44,699
+优先执行反向过程。
+prioritize the execution of the backwards.
+
+879
+00:58:44,699 --> 00:58:51,540
+好的，记住，在我之前的，如果你看这个计划，我将安排
+Okay. Remember, in my previous, um, if you look at this schedule, I'm going to schedule
+
+880
+00:58:51,540 --> 00:58:54,439
+这个流水线的执行一直到前向过程结束。
+this pipeline execution all the way to finish of forward.
+
+881
+00:58:54,439 --> 00:58:57,200
+然后我开始反向传播。
+And then I start backward.
+
+882
+00:58:57,200 --> 00:59:00,499
+但就像我说的，你必须承受那个内存峰值。
+But like I said, you have to suffer that memory peak.
+
+883
+00:59:00,499 --> 00:59:05,640
+但在这里，只要我有一个准备好进行反向传播的小批次，
+But here, as long as I have batch one microbtch that is ready to perform backward,
+
+884
+00:59:05,640 --> 00:59:07,980
+我就会调度反向传播。
+I'm going to schedule the backward.
+
+885
+00:59:07,980 --> 00:59:13,800
+我会在某种程度上交错前向和反向传播，这样反向传播可以被优先处理。
+I'm going to interwind forward and backward in some ways, so this backward can be prioritized.
+
+886
+00:59:13,800 --> 00:59:16,879
+那么为什么优先处理反向传播会更好呢？
+So why prioritizing backward could be better?
+
+887
+00:59:17,550 --> 00:59:21,949
+因为如果你看这个，如果你只跟踪这个microbt zero，
+Because if you look at this if you just track this microbt zero,
+
+888
+00:59:21,949 --> 00:59:25,330
+对，在这个时刻，内存就可以被释放了。
+right, at this point, the memory can be released.
+
+889
+00:59:25,330 --> 00:59:27,249
+很不错，对吧？
+Okay. Pretty nice, right?
+
+890
+00:59:27,249 --> 00:59:33,009
+是的，如果你看microbay one，在PIP调度中，最后一个microbg会……
+Yeah. And if you look at microbay one, in the PIP schedule, the one, the last microbg will
+
+891
+00:59:33,009 --> 00:59:34,589
+这里会被问到，对吧？
+be the one will be asked here, right?
+
+892
+00:59:34,589 --> 00:59:36,949
+但我重新排序了。我会在这里问你。
+But I reorder it. I'm going to ask you here.
+
+893
+00:59:36,949 --> 00:59:40,889
+但是如果你检查这个，在这一点上，microbg one 的内存将会被释放。
+But if you check this one, at this point, the memory for microbg one is going to
+
+894
+00:59:40,889 --> 00:59:42,749
+明白了吗？还不错吧？
+be released. Okay? Pretty nice, right?
+
+895
+00:59:42,749 --> 00:59:44,430
+好的，你会破坏这种差异。
+Okay, you'll spoil the difference.
+
+896
+00:59:44,430 --> 00:59:48,709
+所以，呃，基本上，我不知道怎么重复，对吧？
+So, uh so basically, um I don't know how to repeat, right?
+
+897
+00:59:48,709 --> 00:59:52,310
+所以我们只需要尽早执行反向传播。
+So we just need to perform backward as early as possible.
+
+898
+00:59:54,270 --> 01:00:00,309
+但是只要重新做一次，我们的迭代延迟是一样的，但内存表现好多了，
+But just redo this, we have the same iterating latency, but our memory is much better,
+
+899
+01:00:00,309 --> 01:00:06,749
+如果我们用这个 one B 调度方式来可视化内存，内存就不会再增长了，
+if we visualize the memory specifically with this one B schedule, the memory will no longer
+
+900
+01:00:06,749 --> 01:00:09,970
+一旦我们开始执行反向传播。
+grow once we start performing backward.
+
+901
+01:00:09,970 --> 01:00:15,449
+每当我们进行一次前向传播时，我们会立即跟着进行一次反向传播，
+Whenever we perform a forward pass, we will immediately follow with a backward pass that
+
+902
+01:00:15,449 --> 01:00:19,630
+这样可以释放前向传播中间激活所占用的内存。
+can free the amount of memory occupied by the forward intermediate activions.
+
+903
+01:00:19,630 --> 01:00:25,349
+因此，内存使用量会在中间某处达到平台期，就像这样。
+Therefore, the memory usage will plate somehow in the middle, like this.
+
+904
+01:00:25,349 --> 01:00:29,145
+它会在这里增长，然后趋于平稳，最后减少。
+It will just grow here and then plateau and then decrease.
+
+905
+01:00:29,145 --> 01:00:37,879
+使用这种f1b调度，我们只需要在设备之间分配激活的份额，
+And with this f1b schedule, we will only need to straw amber devices shares of activations,
+
+906
+01:00:37,879 --> 01:00:40,400
+而不是在微批次之间复制激活。
+instead of amber microbatches, copies.
+
+907
+01:00:40,400 --> 01:00:44,120
+基本上就是把这个因子从微批次数量减少到设备数量。
+So basically reduce this factor from amber microbatches to lumber devices.
+
+908
+01:00:44,120 --> 01:00:45,779
+你自己思考一下这个问题，好吗？
+Think about this by yourself, okay.
+
+909
+01:00:45,779 --> 01:00:49,579
+你应该能够推导出这个公式，因为我会在考试中问到你。
+You should be able to dive this equation because I'm going to ask you exam about this.
+
+910
+01:00:49,579 --> 01:00:52,180
+好吗？拜托了。
+Okay. Please.
+
+911
+01:00:58,590 --> 01:01:05,689
+嗯哼。在大多数情况下，是的。
+Uh huh. In most cases, yes.
+
+912
+01:01:05,689 --> 01:01:09,950
+是的，好的。尤其是当你想要最小化你的空闲时间时。
+Yeah. Okay. Especially when you want to minimize your bubble.
+
+913
+01:01:09,950 --> 01:01:13,529
+是的，你必须使用相当大的微批量，批量微批量。是的。
+Yeah, you have to use a pretty large micro badges, lumber microbges. Yeah.
+
+914
+01:01:13,529 --> 01:01:14,889
+好的。
+Okay.
+
+915
+01:01:14,889 --> 01:01:19,330
+就像我说的，如果B，WiFi调度允许我们执行
+So like I said, If B, the WiFi schedule allows us to perform
+
+916
+01:01:19,330 --> 01:01:22,009
+现在可以用无限数量的微批量进行流水线并行。
+pipeline parison with infinite number of microbtes now.
+
+917
+01:01:22,009 --> 01:01:23,889
+好吗？现在，基本上就像你说的，
+Okay? Now, I can basically, like you said,
+
+918
+01:01:23,889 --> 01:01:28,590
+我只需使用超大的微批量来减少设备空闲时间，
+I use just super large microbates to diminish the device bubble,
+
+919
+01:01:28,590 --> 01:01:32,329
+但我不会因此而遭受超高的峰值内存。
+but I won't suffer from a super high peak memory.
+
+920
+01:01:32,329 --> 01:01:33,389
+好吗？
+Okay?
+
+921
+01:01:33,389 --> 01:01:36,289
+我认为这基本上是本次讲座中最重要的部分。
+I think this is basically the most important part of this lecture.
+
+922
+01:01:36,289 --> 01:01:41,610
+就像我说的，这和B是目前用于双GBT的方法。
+And like I said, this and B is the one adopted today for twin GBT.
+
+923
+01:01:41,610 --> 01:01:46,709
+好的。我觉得对于tA语言模型也是这样。
+Okay. Uh, I think also for t A language model.
+
+924
+01:01:47,580 --> 01:01:49,299
+好的。
+Okay.
+
+925
+01:01:49,299 --> 01:01:51,879
+实际上，我们还可以再深入一点。
+Actually, we can still grand it a little bit more.
+
+926
+01:01:51,879 --> 01:01:53,940
+这会变得稍微复杂一些。
+This is going to be a little bit more complicated.
+
+927
+01:01:53,940 --> 01:01:57,579
+我不会深入讲解，但如果你感兴趣，你可以自己深入研究，
+I'm not going to dive deeper, but if you are interested, you can dive deeper on this, but
+
+928
+01:01:57,579 --> 01:01:59,220
+我会给你一些指引。
+I'm going to give you pointers.
+
+929
+01:01:59,220 --> 01:02:04,580
+对f1b调度的进一步优化，基本上就是将
+A further optimentation, of the f1b schedule is basically to slice
+
+930
+01:02:04,580 --> 01:02:10,340
+神经网络切分为更细粒度的流水线阶段，以减少流水线气泡。
+the neural network into more fine grained pipeline stages to reduce pipeline bubble.
+
+931
+01:02:10,340 --> 01:02:14,920
+假设我们正在用四台设备训练一个有八层的新网络。
+Let's say we are training a new network with eight layers on four devices.
+
+932
+01:02:14,920 --> 01:02:21,700
+之前，我们会把连续的层聚合成四个阶段，
+Previously, we cluster contiguous layers to form four stages,
+
+933
+01:02:21,700 --> 01:02:25,534
+每台设备基本上负责一个阶段。
+and each device will basically responsible for one stage.
+
+934
+01:02:25,534 --> 01:02:29,189
+所以我们有了一种新的调度方式，叫做interwine 11b。
+So we have a new schedule called interwine 11b.
+
+935
+01:02:29,189 --> 01:02:34,849
+在interwine 11b调度中，我们会把多个阶段放在同一个设备上。
+And in the interwineO B schedule, we put more than one stage onto a single device.
+
+936
+01:02:34,849 --> 01:02:41,249
+具体来说，我们可以让每一层成为一个阶段，然后把第一阶段和第五阶段放在设备一上，
+Specifically, we can let each layer be a stage and then put stage one and stage five on device one,
+
+937
+01:02:41,249 --> 01:02:48,410
+第二阶段和第六阶段放在设备二上，依此类推。就像这个图所示。
+and stage two, and stage six on device two, and so on. Like this figure shoot.
+
+938
+01:02:48,410 --> 01:02:54,930
+这种方法的主要好处是，单个阶段的延迟，
+The main benefit of this method is that the latency, a single stage, the latency
+
+939
+01:02:54,930 --> 01:02:56,530
+单个阶段的延迟变得更短。
+of a single stage becomes shorter.
+
+940
+01:02:56,530 --> 01:03:01,290
+因此，例如，设备二只需要等待一半的时间就可以开始执行。
+Therefore, for example, device two only need to wait half of the time to start excusing
+
+941
+01:03:01,290 --> 01:03:04,449
+而不是等待整个两层完成。
+instead of waiting for the entire two layers.
+
+942
+01:03:04,540 --> 01:03:06,459
+好的。
+Okay.
+
+943
+01:03:06,459 --> 01:03:13,100
+如果我们进一步在时间线上可视化执行过程，可以看到新的调度方式
+If we further visualize the execution, in a timeline, we can see that the new schedule
+
+944
+01:03:13,100 --> 01:03:14,840
+进一步减少了流水线的空闲期。
+further reduce the pipeline bubble.
+
+945
+01:03:14,840 --> 01:03:16,439
+你只需要对比一下这个。
+You just need to compare this.
+
+946
+01:03:16,439 --> 01:03:18,759
+好的。就像我说的，
+Okay. And this one, like I said,
+
+947
+01:03:18,759 --> 01:03:25,100
+GPip 有延迟，而 WiFi B 和 GPip 有相同的内部延迟。
+GPip has latency, and WiFi B has the same inter latency with GPip.
+
+948
+01:03:25,100 --> 01:03:31,920
+但如果你把 WIF 和 B 交错执行，就能减少这种延迟，速度会更快。
+But if you do this interleave WIF and B, you are going to reduce this latency. You become faster.
+
+949
+01:03:31,920 --> 01:03:32,899
+好的。
+Okay.
+
+950
+01:03:32,899 --> 01:03:39,079
+这种方法的缺点是，因为我们有更多的阶段，对吧，
+And, and the downside of this method is, since we have more stages, right,
+
+951
+01:03:39,079 --> 01:03:42,540
+所以我们需要设备之间更频繁地通信。
+so we need to communicate more often between devices.
+
+952
+01:03:42,540 --> 01:03:45,139
+好的，所以基本上你要付出通信的代价。
+Okay. So basically, you pay a communicating cost.
+
+953
+01:03:45,139 --> 01:03:50,279
+而且由于通信代价对于互操作并行来说通常很小，我们可以
+And since the communicating cost is typically small for interoperor partism and we can
+
+954
+01:03:50,279 --> 01:03:52,659
+基本上获得加速，是的，这没问题。
+basically get speed up, yeah, it's fine.
+
+955
+01:03:52,659 --> 01:03:56,179
+好的，如果你想的话也可以，但这不是必须的，好吗？
+Okay. And if you want to it's not required, okay?
+
+956
+01:03:56,179 --> 01:03:59,959
+我不会在考试中做这个，但如果你想证明这一点，你可以试试看。
+I'm not going to do this in exam, but if you want to grant this, you can try to pass that.
+
+957
+01:03:59,959 --> 01:04:01,360
+是的，这非常复杂。
+Yeah, it's very complicated.
+
+958
+01:04:01,360 --> 01:04:08,480
+嗯，是的，我没提到的另一个复杂性是，这非常难以实现。
+Um, yeah, another complexity I didn't mention is this is very difficult to implement.
+
+959
+01:04:08,480 --> 01:04:14,239
+这种问题并行的一个关键难点是很难实现非常高效的实现。
+One key this ti problem parism is very hard to provide a very efficient implementation.
+
+960
+01:04:14,239 --> 01:04:19,080
+调试也很难，尤其是当你在很多设备上运行这种问题并行的时候。
+It's very hard to debug. Especially when you launch this kind of problem parism across many devices.
+
+961
+01:04:19,080 --> 01:04:21,520
+如果出现错误，你并不知道是在哪里发生的。
+And if there's an error, you don't know where it happens.
+
+962
+01:04:21,520 --> 01:04:25,839
+好的。好的。有什么问题吗？
+Okay. Okay. Any question?
+
+963
+01:04:26,160 --> 01:04:28,599
+如果你基本上试图去处理这个，
+If you basically try to grind this,
+
+964
+01:04:28,599 --> 01:04:33,149
+我可以告诉你，这个泡沫基本上就是这块木材，你可以看到，系数在哪里结束。
+I can tell you the bubble is basically this lumber and you can see, where are the factor end.
+
+965
+01:04:33,149 --> 01:04:36,939
+好的。还有更多内容。
+Okay. And there are more.
+
+966
+01:04:36,939 --> 01:04:40,939
+我不会全部讲完。我觉得大家已经在很认真地评分了。
+I'm not going to cover. I think people are grading this pretty hard.
+
+967
+01:04:41,140 --> 01:04:42,599
+好的。
+Okay.
+
+968
+01:04:42,599 --> 01:04:44,459
+那我们继续下一个词。
+Then let's move on to next word.
+
+969
+01:04:44,459 --> 01:04:46,219
+下一个词是 TerraPp。
+So next word, TerraPp.
+
+970
+01:04:46,219 --> 01:04:52,579
+Tara pup 基本上是一种用于激进模型的流水线部件，比如 TPT 语言模型。
+Tara pup is basically a pipeline parts work to aggressive models, for example, TPT language models.
+
+971
+01:04:52,579 --> 01:04:59,460
+就像我说的，大多数稳定的艺术语言模型基本上都是变换器架构。
+And, like I said, most stable art language models are basically, uh, transformer architecture.
+
+972
+01:04:59,460 --> 01:05:02,999
+如果我们用变换器来评估像这样的联合概率，
+And if we use the transformer to evaluate probative of syndem like this,
+
+973
+01:05:02,999 --> 01:05:08,770
+基本上猫是最好的，我们首先会建模猫的概率，
+um, basically cats are the best, and we will first mod probability of cats
+
+974
+01:05:08,770 --> 01:05:14,389
+条件是一个特殊的标记，也就是序列的起始，这样可以吗？
+conditional on a special token, start off sequence, which is this okay
+
+975
+01:05:14,389 --> 01:05:20,849
+然后建模猫的概率，再是R，然后是最好的，最后我们以US结束。
+then mod probability of cat and then R and then the best, and then we stop with the US.
+
+976
+01:05:20,849 --> 01:05:23,929
+这就是自回归模型。
+This is autoregressive model.
+
+977
+01:05:24,120 --> 01:05:30,259
+在这里，我们有一个关键的观察点，就是一个输入标记的计算，
+Um, so here, one key observation we have is, uh, the computation of one input token,
+
+978
+01:05:30,259 --> 01:05:33,540
+只依赖于前面的标记，而不依赖于后面的标记。
+only depends on the previous token, but not the future tokens.
+
+979
+01:05:33,540 --> 01:05:36,040
+这就是我们所说的自回归。
+This is what we mean by auto regressive.
+
+980
+01:05:36,040 --> 01:05:40,959
+比如说，当我们计算单词“there”的概率时，呃，
+Okay? For example, when we calculate the probability of the word there, uh,
+
+981
+01:05:40,959 --> 01:05:44,859
+模型只关注“cats R”这两个词，但它并不依赖于
+the model only looks at cats R, these two words, but there's no dependency on
+
+982
+01:05:44,859 --> 01:05:46,739
+最佳的、后续的词语。
+the best, the following words.
+
+983
+01:05:46,739 --> 01:05:49,280
+那么为什么这很重要呢？
+So why is it important?
+
+984
+01:05:49,280 --> 01:05:55,719
+基本上，在这个流水线并行中，我们的做法是
+So basically in this trap pilin parison, the way we do is we use
+
+985
+01:05:55,719 --> 01:05:59,560
+利用这个特性在序列中执行流水线操作。
+this property to perform pipe laning within a sequence.
+
+986
+01:05:59,560 --> 01:06:04,579
+那我们具体怎么做呢？比如在这里，我们可以让第一个 token 在设备一上运行。
+So what do we do is for example here, we can not the first token run on device one.
+
+987
+01:06:04,579 --> 01:06:11,239
+好的，先运行它，然后把结果发送到设备二。
+Okay. Run it first, and then we send the results to device two.
+
+988
+01:06:11,239 --> 01:06:15,139
+与此同时，让第一层去运行第二个 token。
+Meanwhile, well the first layer to run a second token.
+
+989
+01:06:15,139 --> 01:06:17,340
+记住，看看这个区别。
+Remember, look at this difference.
+
+990
+01:06:17,340 --> 01:06:23,319
+这里我让这个层级阶段处理一个 token，一旦完成，我就会
+Here I this layer stage to take one token, once I finish it, I'm going to
+
+991
+01:06:23,319 --> 01:06:25,019
+把这个活动转发到这一层。
+forward this activity to this layer.
+
+992
+01:06:25,019 --> 01:06:28,819
+同时，我要去这个变换层再取一个标记。
+Meanwhile, I'm going to this transform layer to take another token.
+
+993
+01:06:28,819 --> 01:06:31,799
+我们不能这么做的原因是因为现在我们在做语言模型。
+The reason we can't do this is because now we are doing language models.
+
+994
+01:06:31,799 --> 01:06:34,719
+我们有一个序列输入。像这样。
+We have a sequence input. Like this.
+
+995
+01:06:34,719 --> 01:06:37,599
+一旦你看到它两步，你知道我接下来要做什么吗？
+Once you see it two steps, you know what I'm going to do next?
+
+996
+01:06:37,599 --> 01:06:39,259
+我要继续这样做。
+I'm going to continue to do this.
+
+997
+01:06:39,259 --> 01:06:47,189
+像这样分成部分。好的。
+Wall form partsme this, like this. Okay.
+
+998
+01:06:47,189 --> 01:06:49,690
+这基本上就是Trapap的思想。
+This is basically the idea of Trapap.
+
+999
+01:06:49,690 --> 01:06:56,910
+我们可以做这种分部分的操作，但这只适用于语言模型。
+We can do this kind of parts but this is only special to language models.
+
+1000
+01:06:56,910 --> 01:06:57,449
+嗯。
+Yeah.
+
+1001
+01:06:57,449 --> 01:07:01,949
+这个工作的另一个关键优势是你只能将bicycle设置为1，
+Another key this advantage of this work is you can only do bicycle equal to one,
+
+1002
+01:07:01,949 --> 01:07:05,770
+这对于小模型来说并不是特别好。
+which is not super good for small models.
+
+1003
+01:07:07,450 --> 01:07:08,989
+好的。
+Okay.
+
+1004
+01:07:08,989 --> 01:07:11,449
+那我接下来要讲另一个工作。
+Then I'm going to tell you another work.
+
+1005
+01:07:11,449 --> 01:07:13,490
+好的。它叫做Chimera。
+Okay. It's called Chimera.
+
+1006
+01:07:13,490 --> 01:07:17,410
+好的。在我之前的课程讲座中，
+Okay. And in my previous offering with lecture,
+
+1007
+01:07:17,410 --> 01:07:19,530
+我没有讲这个工作，因为它非常复杂。
+I don't cover this work because this is very complicated.
+
+1008
+01:07:19,530 --> 01:07:21,949
+但今天，我必须讲一下。
+But today, I have to cover it.
+
+1009
+01:07:21,949 --> 01:07:25,390
+你知道为什么吗？因为TipsIk用的就是这个。
+You know why? This is the one that is used in TipsIk.
+
+1010
+01:07:25,390 --> 01:07:28,930
+好的。Deep six基本上使用了PipelHizon。
+Okay. Deep six basically uses PipelHizon.
+
+1011
+01:07:28,930 --> 01:07:31,869
+好吗？所以请花些时间来给这个打分，
+Okay? So do spend some time grading this because
+
+1012
+01:07:31,869 --> 01:07:35,249
+因为我之后在讲语言模型的时候会再回到这个内容。
+I'm I'm going to come back to this when we start talking about language models.
+
+1013
+01:07:35,249 --> 01:07:35,749
+明白了吗？
+Okay?
+
+1014
+01:07:35,749 --> 01:07:43,010
+Chimera 是另一项工作，试图进一步优化 1B 调度方式，
+So Chimera is another work that try to further optimize the one B schedule,
+
+1015
+01:07:43,010 --> 01:07:49,229
+假设我们有四条稳定的流水线和两个输入的微批次，如果我们用 11b 来调度它们，
+let's say we have four steady pipeline and two input micro baatches if we ask them with 11b,
+
+1016
+01:07:49,229 --> 01:07:51,569
+基本上我们会得到这个 11b 的调度方式。
+we basically get this schedule, 11b.
+
+1017
+01:07:51,569 --> 01:07:55,369
+好的，我们可以在这里看出来。
+Okay. And we can find it out here.
+
+1018
+01:07:55,440 --> 01:07:57,979
+如果你只看这个图，好吗？
+If you just look at this figure, okay?
+
+1019
+01:07:57,979 --> 01:08:01,620
+这个图没有很多微批次，但我们可以用它作为例子。
+This figure does not have many microbges, but let's use as an example.
+
+1020
+01:08:01,620 --> 01:08:04,219
+如果你看这个图，你可以看到，有一些空隙，对吧？
+If you look at this figure, you can see, there are some bubbles, right?
+
+1021
+01:08:04,219 --> 01:08:08,139
+这里，这里，这里，这里，这里。好的。
+Here, here, here, here, here. Okay.
+
+1022
+01:08:08,139 --> 01:08:11,940
+这些气泡看起来我们可以插入另一条流水线。
+And these bubbles looks like we can insert another pipeline.
+
+1023
+01:08:11,940 --> 01:08:17,299
+对吧？我们只需要做一条反向流水线，然后把asc插入这些气泡里。
+Right? We just do a reverse pipeline, and we insert asc into these bubbles.
+
+1024
+01:08:17,299 --> 01:08:22,459
+好吗？所以看看这个火焰图，我们可以看到我们发现可以进入
+Okay? So so look at this fire, we can see that we find out we can enter
+
+1025
+01:08:22,459 --> 01:08:25,280
+另一条11b流水线或者反向11b。
+another 11b pipeline or reverse 11b.
+
+1026
+01:08:25,280 --> 01:08:30,079
+更具体地说，嗯，如果我们也维护一条反向流水线，
+So more specifically, um, if we also maintain a reverse pipeline,
+
+1027
+01:08:30,079 --> 01:08:31,699
+换句话说，我们在
+in other words, we start the pipeline on
+
+1028
+01:08:31,699 --> 01:08:33,699
+设备四上启动流水线，然后在设备一上结束。
+Device four and then finish it on device one.
+
+1029
+01:08:33,699 --> 01:08:36,679
+基本上，我们放了两份模型参数，对吧？
+Basically, we put two copies of the model parameters, right?
+
+1030
+01:08:36,679 --> 01:08:38,459
+一份是从设备一到设备四。
+One is from device one all the way to four.
+
+1031
+01:08:38,459 --> 01:08:40,679
+另一个是设备四合一，明白吗？
+The other is Device four all to one, okay?
+
+1032
+01:08:40,679 --> 01:08:43,079
+我们基本上可以得到另一条流水线，
+And we can basically get another pipeline with
+
+1033
+01:08:43,079 --> 01:08:45,879
+有两个微批次，一个来自这里，另一个来自那里。
+two micro baatches one from here, the other from here.
+
+1034
+01:08:45,879 --> 01:08:51,934
+明白吗？如果我们合并这条流水线，基本上就能得到这种调度方式，就像这张幻灯片上展示的那样。
+Okay? And if we merge this pipeline, basically get this kind of schedule, okay on this slide.
+
+1035
+01:08:51,934 --> 01:08:53,729
+哦，抱歉，这是第二个气泡。
+Oh, sorry, this is the second bubble.
+
+1036
+01:08:53,729 --> 01:08:55,309
+如果我们把它们合并在一起，就会得到这个结果。
+If we merge them together, we get this one.
+
+1037
+01:08:55,309 --> 01:08:57,209
+你可以看到，这其实很聪明，对吧？
+Okay, you can see this is pretty smart, right?
+
+1038
+01:08:57,209 --> 01:09:01,369
+我们基本上做了前向和反向传播，但用奖励机制贯穿
+We basically do a forward and backward, but using a rewards all over
+
+1039
+01:09:01,369 --> 01:09:05,049
+所有设备，并且我们把所有内容都整合在一起，你可以看到气泡效应减弱了。
+the devices and we put allom together, you can see atom bubble diminish.
+
+1040
+01:09:05,049 --> 01:09:07,309
+我们可以最大化我们的利用率。
+We can maximize our utilization.
+
+1041
+01:09:07,309 --> 01:09:09,949
+好吗？有什么问题吗？
+Okay? What's the problem?
+
+1042
+01:09:11,120 --> 01:09:15,139
+你已经有了两份参数的副本，不是激活值。
+You have two copies already parameters, not activations.
+
+1043
+01:09:15,139 --> 01:09:20,119
+基本上，这意味着你必须浪费一些内存来存储两份参数副本。
+Basically, which means that you have to waste some memory to store two copies of parameters.
+
+1044
+01:09:20,119 --> 01:09:23,759
+嗯，在Deep sick之前，在大模型出现之前，
+Um, before Deep sick, before the big models,
+
+1045
+01:09:23,759 --> 01:09:26,019
+我认为这是一个大家无法接受的问题。
+I think this is a problem that people do not accept.
+
+1046
+01:09:26,019 --> 01:09:31,440
+但在某个阶段，人们不断扩展规模，不断扩展训练，直到像两个KTP那样。
+But at some point, people continue to skill and skill to skill and skill training to like two KTPs.
+
+1047
+01:09:31,440 --> 01:09:34,099
+那时候你会发现你有非常多的内存。
+At that point, you find that you have many many memory.
+
+1048
+01:09:34,099 --> 01:09:39,794
+你的内存多到可以负担两份参数副本。
+You have so many memory that you are able to afford two copy of parameters.
+
+1049
+01:09:39,794 --> 01:09:42,229
+这就是为什么Tip stake是一个胜利，对吧？
+That's why Tip stake is a win, right?
+
+1050
+01:09:42,229 --> 01:09:44,889
+Deep用一种方式来最小化dias bubble。
+Deep uses one to minimize the dias bubble.
+
+1051
+01:09:44,889 --> 01:09:47,069
+好的，今天我们就到这里。
+Okay. Today, I'm going to stop here.
+
+1052
+01:09:47,069 --> 01:09:49,709
+我觉得有很多内容需要你们慢慢消化一下，
+I think there are so many contents that you have to digest a little bit,
+
+1053
+01:09:49,709 --> 01:09:52,269
+下周我们会深入探讨更多内容。
+and we are going to deeper and deeper next week.
+
+1054
+01:09:52,269 --> 01:09:55,029
+好的，很棒，谢谢大家。
+Okay. Cool. Thank you.

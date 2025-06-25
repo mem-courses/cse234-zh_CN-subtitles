@@ -1,0 +1,6059 @@
+1
+00:00:14,360 --> 00:00:20,120
+好的，嗯，是的，谢谢大家的到来。我们开始吧。
+Okay, uh, yeah, thanks for coming. Let's get started.
+
+2
+00:00:24,870 --> 00:00:29,229
+好的，希望你们喜欢PA一。
+Okay, so hope you enjoyed PA one.
+
+3
+00:00:29,710 --> 00:00:34,590
+是的，PA二会在今晚午夜前发布。
+Yeah. So pA two will be released by midnight tonight.
+
+4
+00:00:34,590 --> 00:00:37,109
+我们已经听取了你们的反馈。
+And we heard your feedback.
+
+5
+00:00:37,109 --> 00:00:40,710
+所以我们会减少PA二的工作量，但内容会更深入。
+So we are going to reduce workload in p two, but it's going to be deeper.
+
+6
+00:00:40,710 --> 00:00:46,529
+这意味着如果你真的想做得很好，你可以在PA二上花更多时间。
+Which means that if you want to really do pretty well, you can spend more time on pA two.
+
+7
+00:00:46,529 --> 00:00:52,889
+是的。但你也可以选择不这么做，因为我们所有的问题设计都是为了让你能够
+Yeah. But you can also choose not to because we all design question in a way where you are able to
+
+8
+00:00:52,889 --> 00:00:55,850
+优化你的算法并获得更多分数。
+optimize your algorithm and get more grades.
+
+9
+00:00:55,850 --> 00:01:02,489
+好吗？因为内容会更深入，所以我们会允许你们合作。
+Okay? Because it's going to be deeper, so we will allow you to collaborate.
+
+10
+00:01:02,489 --> 00:01:08,590
+你们可以尝试组建最多三人的小组，一起讨论如何完成。
+You can try to form a team with up to three members, and you guys can discuss how
+
+11
+00:01:08,590 --> 00:01:12,649
+为了写出更好的代码，你们将能够进行合作。
+to write a better version of the code, you'll be able to collaborate.
+
+12
+00:01:12,649 --> 00:01:17,810
+当你们提交PA二时，所有人都需要标明自己的合作者是谁。
+And when you submit PA two, you all need to mark who are your collaborators,
+
+13
+00:01:19,850 --> 00:01:27,030
+IP三我们会让它非常轻量化，和PA一、PA二相比，几乎没有什么代码量。
+IP three, we are going to make it pretty lightweight, very few coding compared to PA one and PA two.
+
+14
+00:01:27,030 --> 00:01:30,190
+我们会在PS三中给你们一些非常有趣的问题。
+And we are going to give you some very fun question in ps three,
+
+15
+00:01:30,190 --> 00:01:34,570
+你们将能够理解sync value中发生了什么。
+you'll be able to understand what is going on in sync value.
+
+16
+00:01:34,570 --> 00:01:37,984
+这是我在这门课程中一直强调的一个重要主题。
+That's one major topic I have been always talking about in this course.
+
+17
+00:01:37,984 --> 00:01:45,260
+好的，今天我想完成凝聚部分的内容。
+Yeah. Cool. Okay. Today, I want to finish the condensation part
+
+18
+00:01:45,260 --> 00:01:50,100
+因为我觉得在上一次讲座中，我们讲了线性凝聚。
+because I think in my previous lecture, we talk about linear condadonTday,
+
+19
+00:01:50,100 --> 00:01:51,340
+今天我想把那部分讲完。
+I want to finish that part.
+
+20
+00:01:51,340 --> 00:01:57,520
+然后我需要介绍一个非常重要的内容，就像我说的，可能你们需要记住它。
+Then I need to introduce a very important thing that like I said, probably you need to memorize
+
+21
+00:01:57,520 --> 00:02:00,700
+那部分是混合精度，因为混合精度是最适应的技术之一。
+that part that is mixed precision, because mixed precision is one of
+
+22
+00:02:00,700 --> 00:02:05,279
+混合精度是目前最具适应性的技术之一，对吧？
+the most adaptive techniques from contaation, okay?
+
+23
+00:02:05,279 --> 00:02:09,099
+然后我们将开始下一个重要章节，就是并行化。
+And then we will start our next big chapter, which is paralyzation.
+
+24
+00:02:09,099 --> 00:02:12,019
+好的。好的。我们来回顾一下，对吧？
+Okay. Okay. Just to recap, right?
+
+25
+00:02:12,019 --> 00:02:18,179
+上一节课，我们从浮点数的表示和浮点运算讲起。
+Last lecture, we starting from the floating point orientation and the floating point arithmetics.
+
+26
+00:02:18,179 --> 00:02:21,959
+然后我们开始讨论如何对浮点数进行量化。
+And we start talking about how to quantize floating points into.
+
+27
+00:02:21,959 --> 00:02:27,160
+第一个方法是基于K均值的压缩，这样我们可以减少存储空间，
+The first one is key means based condensation, where we are able to reduce storage,
+
+28
+00:02:27,160 --> 00:02:29,099
+但我们无法节省计算量，对吧。
+but we are not able to save compute, right.
+
+29
+00:02:29,099 --> 00:02:32,840
+我们还介绍了一种更常见、更通用的编码方法，
+And we also introduce a more common more general codoon method,
+
+30
+00:02:32,840 --> 00:02:38,880
+线性压缩，可以将精度从浮点数降低到整数。
+linear condensation, where we'll be able to reduce the precision from floating point to integer.
+
+31
+00:02:38,880 --> 00:02:45,219
+我们其实也可以把计算从浮点运算迁移到
+And we can also basically migrate the computation from floating point arithmetic into
+
+32
+00:02:45,219 --> 00:02:51,655
+比如整数或者目标精度的运算，这样也能节省计算资源，对吧？
+say integer or target precision arithmetic, which we also save to compute, okay?
+
+33
+00:02:51,655 --> 00:02:55,509
+我觉得当我们谈论这种压缩，尤其是在接近的情况下，
+I think when we talk about this condensation, especially in the near condition,
+
+34
+00:02:55,509 --> 00:02:58,049
+我们总是假设第一种方式，对吧？
+we always assume the first one, right?
+
+35
+00:02:58,049 --> 00:03:01,269
+这里我给出一个例子，就是每个张量的压缩。
+Here I give the lime, that is per tensor condensation.
+
+36
+00:03:01,269 --> 00:03:03,170
+也就是说，给我一个张量。
+That is give me a tensor.
+
+37
+00:03:03,170 --> 00:03:08,530
+我会对张量里的所有元素、所有条目应用同样的压缩方式，对吧？
+I'm going to apply the same condensation, right, for all the elements, all the entries in a tensor.
+
+38
+00:03:08,530 --> 00:03:11,690
+但实际上，这种方式并不总是效果很好，对吧？
+But in practice, this does not always work well, okay?
+
+39
+00:03:11,690 --> 00:03:19,549
+所以有时候我们可能需要更细粒度的压缩方式，这会带来
+So sometimes we probably need more fun green condensation granularity, and this will bring us
+
+40
+00:03:19,549 --> 00:03:24,610
+更常用的分块技术，或者说量化方案。
+to more common use cotton technique, or I would say quantitation scheme,
+
+41
+00:03:24,610 --> 00:03:28,099
+也就是每通道量化和分组量化。
+which is per channel condensation and group condensation.
+
+42
+00:03:28,099 --> 00:03:30,509
+好的。我今天的RM有很多内容，
+Okay. I many today's RM,
+
+43
+00:03:30,509 --> 00:03:34,430
+我认为大家基本上都会做，比如分组量化或者潜在量化。
+I think people basically do, for example, group condition or poteno coddation.
+
+44
+00:03:34,430 --> 00:03:36,390
+我接下来会介绍它们是什么。
+I'm going to introduce what they.
+
+45
+00:03:36,390 --> 00:03:40,369
+在那之前，我们先回顾一下潜在量化。
+Before that, let's revisit potential condition.
+
+46
+00:03:40,369 --> 00:03:45,490
+如果你还记得这个线性量化，我们需要确定，这里是一个实数，
+If you remember this linear condition, we need to determine so here is the real number,
+
+47
+00:03:45,490 --> 00:03:49,190
+比如说浮点数，而Q是量化后的数值。
+for example, flowing point number and the Q is quantized number.
+
+48
+00:03:49,190 --> 00:03:53,929
+如果我们想要应用线性量化，我们需要确定两个关键参数，
+And if we want to apply linear codiation, we need to figure out two key parameters,
+
+49
+00:03:53,929 --> 00:03:56,849
+就是缩放因子S和零点Z。
+which is the scale S, and the Z zero point.
+
+50
+00:03:56,849 --> 00:03:59,029
+通常情况下，我们会先确定Z，也就是零点，对吧？
+Normally, we decide the Z are zero, right?
+
+51
+00:03:59,029 --> 00:04:03,375
+所以基本上我们有一个参数叫做皮肤因子，对吧？
+So basically we have one parameter that is skinning factor, okay?
+
+52
+00:04:03,375 --> 00:04:06,399
+给定这个张量，我们要做的基本上是找出
+And given this tensor, what we do is basically we figure
+
+53
+00:04:06,399 --> 00:04:13,200
+在原始域的浮点数中，呃，QMAX 和 Q 分别是多少？
+out in the floating point in the original domain, uh, so what is QMAX and Q?
+
+54
+00:04:13,200 --> 00:04:15,199
+RMAX 是多少？Rmin 又是多少，对吧？
+What is the RMAX? What is the Rmin, right?
+
+55
+00:04:15,199 --> 00:04:19,760
+然后我们像这样计算皮肤因子。对，没错。
+And then we calculate the skin factor like this. Right. Okay.
+
+56
+00:04:19,760 --> 00:04:24,980
+很简单，对吧？但实际上，这并不总是有效，就像我说的那样。
+Pretty simple. Okay. But in reality, this does not always work, like I said.
+
+57
+00:04:24,980 --> 00:04:30,280
+这是一个真实的例子，我要做矩阵乘法。
+So this is the real example where I'm going to do uh matrix multiplication.
+
+58
+00:04:30,280 --> 00:04:38,260
+嗯，我有一个权重矩阵，记作 W，W 有不同的通道，是多维的，对吧？
+Um, so I have the weight matrix which is W and W has different channels it's multi dimensional, ok?
+
+59
+00:04:38,260 --> 00:04:45,339
+如果你画出每个通道的值，并试图把它们投影到这个图上，
+And if you draw the uh values of, uh, each channel and try to project it into this graph,
+
+60
+00:04:45,339 --> 00:04:50,120
+你会发现有几个通道的动态范围非常大，对吧？
+you see, there are a few channels that have a very large dynamic range, right?
+
+61
+00:04:50,120 --> 00:04:55,060
+但大多数通道基本上都保持在零附近的一个小范围内。
+But most of the channels they just basically stay within a small range around zero.
+
+62
+00:04:55,060 --> 00:05:00,120
+但你可以看到，有一些通道会上下波动，对吧，非常剧烈。
+But you can see, there are a few channels that goes up and down, right, very drastically.
+
+63
+00:05:00,120 --> 00:05:07,059
+如果我们用单一的缩放因子a来做量化，会有什么问题？
+And uh and if we use single scale a to do quantdation, what's the problem?
+
+64
+00:05:07,059 --> 00:05:11,680
+基本上，当我们计算那个S时，问题在于S会
+So basically, when we calculate that S, the problem is the S will
+
+65
+00:05:11,680 --> 00:05:14,020
+适应那些具有大动态范围的数字，对吧？
+adapt to those large dynamic range numbers, right?
+
+66
+00:05:14,020 --> 00:05:16,920
+然后我们就会丢失那些小数字的精度，对吧？
+And we all lose precision for those small numbers, right?
+
+67
+00:05:16,920 --> 00:05:21,380
+所以常见的情况是，当我们用单一的S时，
+So a common there is that when we use single S,
+
+68
+00:05:21,380 --> 00:05:24,940
+会被那些异常值权重强烈影响。
+we'll be strongly influenced by those outlier weights.
+
+69
+00:05:24,940 --> 00:05:29,560
+比如，在这个图中，你可以看到有不少层的权重非常大或者很大，
+For example, in this figure, you see quite a few layer weights, very large or large,
+
+70
+00:05:29,560 --> 00:05:31,439
+是正的或者是负的。
+positive or are negative.
+
+71
+00:05:31,439 --> 00:05:35,479
+好吗？解决方案其实很直接。
+Okay? And the solution is basically we try to it's very straightforward.
+
+72
+00:05:35,479 --> 00:05:39,640
+当你看到这个问题时，我们想出的方案就是对每个通道都做antradt，
+When you see this, you come up with a solution that we basically do antradt for
+
+73
+00:05:39,640 --> 00:05:43,740
+这样就能解决我们的问题，对吧？那我们该怎么做呢？
+each channel that will solve our problem, okay? So how do we do that?
+
+74
+00:05:43,740 --> 00:05:48,319
+这里我要比较一下pertensor conuation和perteno conation。
+So here I'm going to compare pertensor conuation and perteno conation.
+
+75
+00:05:48,319 --> 00:05:50,319
+给定这个矩阵，好吗？
+So given that matrix, okay.
+
+76
+00:05:50,319 --> 00:05:53,940
+假设我们基本上做同样的事情，至少是两位的condensation。
+Let's assume we basically do the same thing, at least two bit condensation.
+
+77
+00:05:53,940 --> 00:05:58,100
+如果我们做pretensor connation，我们基本上需要计算RMX，这里我
+So if we do pretensor connation, we basically need to figure out the RMX Here I
+
+78
+00:05:58,100 --> 00:06:03,159
+稍微简化了一下，假设零点对齐，也就是说这个值等于零。
+simply about a little bit by assuming zero point is aligned, which means this is equal to zero.
+
+79
+00:06:03,159 --> 00:06:06,859
+然后我们算出RMX是2.12。
+And then we figure out RMX is 2.12.
+
+80
+00:06:06,859 --> 00:06:11,344
+然后我们用这个公式，得到skin向量。
+And we basically do this equation, right, and we get the skin vector.
+
+81
+00:06:11,344 --> 00:06:15,590
+然后我们用线性条件方程应用这个蒙皮因子，
+And we apply this skinning factor using our linear conduon equation,
+
+82
+00:06:15,590 --> 00:06:17,869
+我们基本上得到了接触权重，对吧？
+we basically get the contact weight, okay?
+
+83
+00:06:17,869 --> 00:06:22,669
+我们可以用量化权重来重建原始权重，然后我们会得到矩阵。
+And we can use quantat weight to reconstruct the original weight, and we'll get the matrix.
+
+84
+00:06:22,669 --> 00:06:25,509
+好吧？这其实很简单。
+Okay? This is pretty easy.
+
+85
+00:06:25,509 --> 00:06:27,809
+那如果我们对每个通道做连接呢？
+So what if we do per channel connation?
+
+86
+00:06:27,809 --> 00:06:32,750
+如果我们对每个通道做编码，那我们就有更多的灵活性，对吧？
+So if we do per channel codation then we have more flexibility. Okay?
+
+87
+00:06:32,750 --> 00:06:38,110
+所以对于每个通道，我们会观察那里的矩阵，并尝试找出
+So for each channel, we are going to observe the matrix there and we try to figure out a
+
+88
+00:06:38,110 --> 00:06:40,690
+一个特定的蒙皮因子。
+specific skinning factor for it.
+
+89
+00:06:40,690 --> 00:06:42,750
+好的，这里每一行都是一个通道。
+Okay? So here, each row is a channel.
+
+90
+00:06:42,750 --> 00:06:47,160
+所以我们要做的基本上是，嗯，对于第一行，第一个通道，
+So what we do is basically Um, for the first row, first channel,
+
+91
+00:06:47,160 --> 00:06:53,180
+我们算出最大值等于2.09，然后我们可以计算第一行的蒙皮权重，
+we figure out the MAX equal to 2.09, and we can calculate the first row skinning actor,
+
+92
+00:06:53,180 --> 00:06:56,460
+也就是木材，然后我们继续这样做，对吧？
+which is the lumber, and we continue doing so, right?
+
+93
+00:06:56,460 --> 00:06:58,620
+所以我们现在需要维护四个蒙皮向量。
+So we need to maintain four skinning vectors now.
+
+94
+00:06:58,620 --> 00:07:00,940
+好吗？记住，屏幕因子是浮点型的木材。
+Okay? Remember, screen factor is floating point lumber.
+
+95
+00:07:00,940 --> 00:07:07,319
+好的，这意味着我们实际上需要多花一点存储空间来存储更多的蒙皮权重，好吗？
+Okay. That means we actually spend a little bit more storage to store more skinning actors, okay?
+
+96
+00:07:07,319 --> 00:07:12,320
+但好消息是，如果我们这样做，我们可以对每个通道应用这个蒙皮向量，
+But the good news is, if we do this, we can apply this skinning vector per channel,
+
+97
+00:07:12,320 --> 00:07:18,654
+然后我们会得到一个新的权重范围，并且我们可以重建它，好吗？
+and we'll get a new contest width, and we can reconstruct it, okay?
+
+98
+00:07:18,654 --> 00:07:24,910
+在这里我们基本上可以比较，呃，基本上是重建后的权重，呃，
+And here we can basically compare the um, basically the reconstructed weight, uh,
+
+99
+00:07:24,910 --> 00:07:30,989
+和原始权重进行比较，我们可以尝试量化，尝试衡量重建误差。
+versus the original weight we can try to quantize the try to measure the reconstruction arrow.
+
+100
+00:07:30,989 --> 00:07:36,174
+所以在左边部分，我们基本上得到了量化误差，大约是2点，呃，28。
+So in the left part, we basically get the quantity arrow which is two point uh 28.
+
+101
+00:07:36,174 --> 00:07:38,840
+在这一部分，我们可以做得更好一点。
+And in the part, we can do a little bit better.
+
+102
+00:07:38,840 --> 00:07:41,099
+好吗？这基本上就是给大家一个直观的理解。
+Okay? That basically give intuition.
+
+103
+00:07:41,099 --> 00:07:46,860
+如果我们做更多有趣的高级量化，我们会减少量化误差。
+If we do more fun grand uh conduation we are going to reduce coening error.
+
+104
+00:07:46,860 --> 00:07:49,720
+这意味着这会反映在模型的准确率上，对吧，
+Which means that this will be reflected in the model accuracy, right,
+
+105
+00:07:49,720 --> 00:07:53,600
+因为你们都会有更高一点的精度或者动态范围。
+because you all have a little bit more precision or dynamic range.
+
+106
+00:07:53,600 --> 00:07:58,699
+所以你的模型表现会比，比如说只做普通量化，要好一点。
+So your model will perform a little bit better than, for example, doing potential condation.
+
+107
+00:07:58,699 --> 00:08:02,780
+好吗？但代价是你要保存更多的S，对吧？
+Okay? But at the cost of saving more S, right?
+
+108
+00:08:02,780 --> 00:08:08,339
+因为每个S都是浮点数，S其实比两位整数要重得多。
+So S is actually pretty heavy compared to two bit integer because each S is a floating point.
+
+109
+00:08:08,339 --> 00:08:10,079
+而且为了表示一个浮点数，
+And in order to represent a floating point,
+
+110
+00:08:10,079 --> 00:08:13,969
+我觉得你至少需要用LP8或者LP16，好吗？
+I think you at least need LP eight or LP 16, okay?
+
+111
+00:08:13,969 --> 00:08:19,680
+很好，这个想法非常直接，我认为人们在今天的机器学习模型中经常应用它。
+Cool. So this is very straightforward idea, and, um, I think people apply this
+
+112
+00:08:19,680 --> 00:08:21,959
+这种方法在当今的机器模型中被广泛应用。
+a lot in today's machinery models.
+
+113
+00:08:21,959 --> 00:08:29,060
+很明显，如果我们想做得更好，那基本上就是分组凝聚，对吧？
+And apparently, uh, if we want to do even better that is basically group connation, right?
+
+114
+00:08:29,060 --> 00:08:36,640
+我可以做越来越细致的凝聚，这样基本上就得到了分组凝聚。
+I can do more and more finer green, um, condensation, and I will o basically get group condensation.
+
+115
+00:08:36,640 --> 00:08:41,999
+比如说，我可以尝试检查这个矩阵中的数值，
+For example, I can basically try to inspect the values in this matrix and
+
+116
+00:08:41,999 --> 00:08:44,200
+我试图找出那些数值接近的元素。
+I try to figure out those values that are close.
+
+117
+00:08:44,200 --> 00:08:49,400
+然后我为那些数值范围接近的一组元素应用一个缩放向量。
+And I basically apply a skin vector for that group of values which are close in range.
+
+118
+00:08:49,400 --> 00:08:53,379
+接着我再找出另一组元素，然后计算另一个缩放因子，对吧？
+And then I figure out another group and I calculate another scale, right?
+
+119
+00:08:53,379 --> 00:08:57,449
+这意味着我正在做细粒度的凝聚，好吗？
+That means that I'm doing fine green condensation, okay?
+
+120
+00:08:57,449 --> 00:09:02,840
+这样做的优点就是我们可以获得更高的精度，因为如果你对每个元素都进行凝聚的话
+So the prose is basically we have more accuracy because if you do per element codation
+
+121
+00:09:02,840 --> 00:09:04,439
+你其实什么都没做，对吧？
+you are essentially doing nothing, right?
+
+122
+00:09:04,439 --> 00:09:07,380
+是的，你基本上没有进行量化。
+Yeah, you are basically doing no conduation.
+
+123
+00:09:07,380 --> 00:09:12,920
+好的。如果你用百分比量化，基本上就是用一个刻度来表示所有的数值。
+Okay. And if you do percentage quantity, basically you use one scale for all the values.
+
+124
+00:09:12,920 --> 00:09:17,880
+好处是，如果你更偏向绿色（环保），那你基本上会有更高的精度。
+Okay. The pros is if you are more fun green, then you are basically doing more accuracy.
+
+125
+00:09:17,880 --> 00:09:19,459
+你的误差会更小。
+You have less duty error.
+
+126
+00:09:19,459 --> 00:09:24,140
+明白了吗？但缺点是，如果你对每个数值分别处理，就像我说的，你其实没有做量化，
+Okay? But the counts is if you do per value, like I said, you are not doing dutation,
+
+127
+00:09:24,140 --> 00:09:28,740
+那你就会回到使用浮点数表示和浮点数运算，
+then you are rolling back to use the flowing point orientation and the flowing point arithmetic,
+
+128
+00:09:28,740 --> 00:09:30,239
+这样其实你什么都没有节省，对吧？
+you are saving nothing, right?
+
+129
+00:09:30,239 --> 00:09:34,619
+所以最终你会面临一个问题，那就是
+So basically, eventually you are facing a problem that is what is what is
+
+130
+00:09:34,619 --> 00:09:36,979
+你到底想在这里做怎样的量化粒度？
+the quantuation granularity you want to do here?
+
+131
+00:09:36,979 --> 00:09:42,919
+是的，H，所以看起来我们有了一个通道。
+Yeah. H, so it seems like we got a channel.
+
+132
+00:09:42,919 --> 00:09:46,839
+我们得到了一个非常高精度和折扣。
+We got a fing high precision and discounting.
+
+133
+00:09:46,839 --> 00:09:52,219
+就是这样。
+That is Yeah.
+
+134
+00:10:02,060 --> 00:10:13,079
+是的，你可以这么做。好的，酷。这有点极端，因为就像我说的，
+Yeah, you can do that. Yeah. Okay. Cool. This is a little bit extreme because like I said,
+
+135
+00:10:13,079 --> 00:10:18,139
+这很复杂，因为真的取决于你怎么看，
+it's very complicated because it really depends on how you looking like,
+
+136
+00:10:18,140 --> 00:10:22,100
+更实际的方法基本上是做两级凝聚。
+more practical way is basically do two level condensation.
+
+137
+00:10:22,100 --> 00:10:28,440
+这里，最初我们有时间量化权重减去零点，对吧？
+Here, originally, we have time quantize weight minus zero point, okay?
+
+138
+00:10:28,440 --> 00:10:31,760
+我们可以做的是只做两级，好吗？
+What we can do is we just two level, okay?
+
+139
+00:10:31,760 --> 00:10:37,280
+所以在这个矩阵里，你可以看到，我们在做，呃，缺失修改
+So in this matrix, you can see, we are doing, uh, the miss modification
+
+140
+00:10:37,280 --> 00:10:39,520
+然后我们得到了右侧的结果。
+and we get the results on the right hand side.
+
+141
+00:10:39,520 --> 00:10:42,060
+所以我们可以做两级处理。
+So we can do two level.
+
+142
+00:10:42,060 --> 00:10:47,100
+第一级是我们在这里应用全局凝聚因子Gamma，
+The first level is we apply global condensation factor Gamma here,
+
+143
+00:10:47,100 --> 00:10:49,579
+这个因子会应用在张量之前，好吗？
+which will be applied pretensor, okay?
+
+144
+00:10:49,579 --> 00:10:52,679
+然后在此基础上，我们继续对其进行量化。
+And then on top of that, we continue to quantize it.
+
+145
+00:10:52,679 --> 00:10:57,724
+但在第一级条件下，我们将其量化为更低的自由位数，比如16位到8位。
+But in the first level condition we quantize it to lower bit of freedom 16-8 bit.
+
+146
+00:10:57,724 --> 00:11:02,330
+然后在第一级，我们将其从八位进一步压缩到比如说四位整数。
+And then at the first level, we contact it from eight bit two to say four bit integer.
+
+147
+00:11:02,330 --> 00:11:05,129
+好吗？我们这样做分层凝聚。好的。
+Okay? We do this hierarchical condadation. Okay.
+
+148
+00:11:05,129 --> 00:11:11,070
+如果我们用方程来表示，其实我们就是从量子态转变为方程。
+So if we represent this as equation is basically we are basically changing from quit to equation.
+
+149
+00:11:11,070 --> 00:11:12,249
+这里我们有两个缩放因子。
+Here we have two skinning factor.
+
+150
+00:11:12,249 --> 00:11:17,710
+好的，我们首先用一个通用的缩放因子gamma对张量中的所有元素进行缩放，
+Okay. We first scale all elements in the tensor using a common skinning factor gamma,
+
+151
+00:11:17,710 --> 00:11:22,430
+然后我们是每组一个技能，对吧，SQ。
+and then we skill per group, yeah, SQ.
+
+152
+00:11:22,430 --> 00:11:25,550
+这样做更好的原因是我们节省了很多存储空间。
+So the reason this is better is because we save a lot of storage.
+
+153
+00:11:25,550 --> 00:11:30,430
+所以我们不需要为每组做一个皮肤因子。
+So we don't have to, like, do one skinning factor per group.
+
+154
+00:11:30,430 --> 00:11:34,509
+至少在更高精度下，我们不需要这样做，对吧？
+Um, at least a higher precision, we don't need to do that, okay?
+
+155
+00:11:35,170 --> 00:11:40,949
+就像我说的，这里的Gamma是一个浮点型的跨绿色皮肤因子，
+Here, like I said, the Gamma is a floating point cross green skinning factor and
+
+156
+00:11:40,949 --> 00:11:43,909
+SQ是每个向量的整数技能因子。
+SQ is an integer per vector skill factor.
+
+157
+00:11:43,909 --> 00:11:50,530
+我们只需要为橙色准备一份Gamma，但每组需要很多不同的SQ。
+We only need one copy of Gamma for oranges, but we need many many different SQ for each group.
+
+158
+00:11:51,090 --> 00:11:54,350
+假设我们正在做四比特量化。
+Assume that we are doing four bit quantization.
+
+159
+00:11:54,350 --> 00:12:03,030
+也就是说我们的最终目标是四比特，而我们原始的权重
+That is our inventual target is four bit, and our original basically our original weight
+
+160
+00:12:03,030 --> 00:12:07,810
+基本上是浮点型的，我们正在做这种全局压缩。
+is basically floating point, we are doing this global condensation.
+
+161
+00:12:07,810 --> 00:12:12,710
+我们正在做的分组条件是每个向量技能每16个元素用4位。
+We are doing group condition is four bit per vector skill every 16 elements.
+
+162
+00:12:12,710 --> 00:12:16,064
+成本基本上是4加。
+The cost is essentially four plus.
+
+163
+00:12:16,064 --> 00:12:23,299
+164加4，然后在16个数字之间摊销，对吧？
+164 plus four, then amort has across 16 numbers, right?
+
+164
+00:12:23,299 --> 00:12:25,589
+因为每组有16个元素，对吗？
+Because each group has 16 elements, okay?
+
+165
+00:12:25,589 --> 00:12:32,539
+所以我们实际上是用4.25位有效地表示每个数字。
+Therefore, we are essentially effectively well represented each number using 4.25 bits.
+
+166
+00:12:32,539 --> 00:12:36,399
+明白了吗？这基本上就是当你读一些论文时，有些人会说，
+Okay? That is basically when you read some papers, some people say,
+
+167
+00:12:36,399 --> 00:12:41,499
+嗯，我基本上是用4.5位来量化我的权重。
+um, I'm basically quantizing my weight using uh four point half bits.
+
+168
+00:12:41,499 --> 00:12:43,139
+这就是这个说法的来源，明白了吗？
+That's where it's coming from. Okay?
+
+169
+00:12:43,139 --> 00:12:45,820
+他们基本上是在做这种分层压缩。
+They are basically doing this kind of hierarchical condensation.
+
+170
+00:12:45,820 --> 00:12:50,059
+并且有一个缩放因子是在不同元素之间摊销的。
+And there is one skinning factor which is amortized across different elements.
+
+171
+00:12:50,059 --> 00:12:52,980
+所以平均来说，你基本上每个条目做了4点，嗯，4又四分之一比特的压缩。
+And so in average, you are basically doing four point,
+
+172
+00:12:52,980 --> 00:12:58,100
+好吗？如果你真的非常想要再精细一点，你可以做得更激进一点。
+uh, four and a quarter bit condensation, per entry.
+
+173
+00:12:58,100 --> 00:13:07,359
+你知道，可以采用更激进的权重方式。
+Okay? And if you really, really, want to grind this a little bit, okay, you can do like,
+
+174
+00:13:07,359 --> 00:13:09,200
+至少，你可以做多层次的分层压缩。
+you know, more like aggressive weight.
+
+175
+00:13:09,200 --> 00:13:11,699
+好吗？你只需要不断减少你的分组集合。
+At least, you do multi level hierarchical condensation.
+
+176
+00:13:11,699 --> 00:13:15,420
+在较小的分组中，你会用更低的比特数，在较大的分组中，比如说，
+Okay? You just continue to reduce your group set.
+
+177
+00:13:15,420 --> 00:13:20,180
+在张量级别，你会用更高的比特数。
+And at a smaller group, you are going to use a lower bit, and at a larger group, for example,
+
+178
+00:13:20,180 --> 00:13:21,919
+这样我可以给你更高的精度，但实现起来会更复杂。
+at the tensor level, you are going to use a higher bit.
+
+179
+00:13:21,919 --> 00:13:24,360
+好的，明白。那这个部分有问题吗？
+And I can give you a lot of accuracy, but it's more complicated.
+
+180
+00:13:24,360 --> 00:13:29,379
+好的。嗯，酷。大家有问题吗？
+Okay. Yeah. Okay. Cool. Any questions on this?
+
+181
+00:13:29,379 --> 00:13:33,140
+基本上，这就是实际操作中凹陷的样子。
+So basically, this is how denting looks like in practice.
+
+182
+00:13:33,140 --> 00:13:36,500
+那么，当你开始在这个区域工作时，
+So, um, so when you start working on this area,
+
+183
+00:13:36,500 --> 00:13:39,579
+我认为，你真的需要关注一下你的权重的数值。
+I think, you really want to look into the values of your weight.
+
+184
+00:13:39,579 --> 00:13:41,000
+比如说，你拿到一个模型。
+For example, you are given a model.
+
+185
+00:13:41,000 --> 00:13:45,120
+你基本上想要绘制一下你的模型权重分布，比如说，
+You want to basically plot your model width distribution, for example,
+
+186
+00:13:45,120 --> 00:13:49,379
+按通道或者沿着某个维度，然后你试图观察
+per channel or basically along some dimension, and you try to see the distribution of
+
+187
+00:13:49,379 --> 00:13:55,559
+这些权重的分布，并尝试找出一个合适的量化策略，对吧？
+these weights and try to figure out what's the right strategy for a perform quandon. Okay.
+
+188
+00:13:55,559 --> 00:14:00,959
+好，我们一直在讨论如何对权重量化，但是你知道，在深度学习工作中，
+Okay, we have been talking about how to quantize the weights, but, you know, in deepen work,
+
+189
+00:14:00,959 --> 00:14:06,340
+我们还有另一个需要担心的事情，就是内存密集型的激活。
+we have another worry, uh like memory intensive thing, which is activation.
+
+190
+00:14:06,340 --> 00:14:09,200
+有时候我们也需要对激活进行量化，对吧？
+We also need to quantize our activation sometimes, okay?
+
+191
+00:14:09,200 --> 00:14:11,579
+那么，如何对激活值进行量化呢。
+So how to quantize activation.
+
+192
+00:14:11,579 --> 00:14:18,259
+激活的问题在于，权重，尤其是在推理阶段是静态的。
+So the problem of activation is, weight, especially inference time is static.
+
+193
+00:14:18,259 --> 00:14:21,134
+在训练阶段，我认为它是半静态的，因为，
+At the training time, I think is semi static because,
+
+194
+00:14:21,134 --> 00:14:23,669
+尤其是当你的模型即将收敛时，
+especially when your model is going to converge,
+
+195
+00:14:23,669 --> 00:14:27,750
+你的权重只会有很小的变化，嗯，更新。
+you only have a small Delta updated, um, to your weight.
+
+196
+00:14:27,750 --> 00:14:30,510
+所以你的权重基本上会在一个很小的范围内波动。
+So your weight will basically escalate among small range.
+
+197
+00:14:30,510 --> 00:14:32,069
+我会说它是半静态的。
+I would say it's semi static.
+
+198
+00:14:32,069 --> 00:14:35,569
+但对于激活来说就很不一样了，对吧，因为每次你输入一个
+But for activity it's quite different, right, because every time you are giving a batch of
+
+199
+00:14:35,569 --> 00:14:40,310
+批次的数据进行推理或训练时，每个批次的数据可能都非常不同。
+data in inference or in training, and the batch of data could be very different across batches.
+
+200
+00:14:40,310 --> 00:14:45,469
+所以每次你给网络输入一个批次时，激活值的变化可能会很大，对吧。
+So every time when you give a batch network, the activation value can change a lot, right.
+
+201
+00:14:45,469 --> 00:14:51,949
+这意味着对于每一组激活值，你都需要确定正确的army和RMAX。
+So which means that for every group of activation, you have to determine the right army and RMAX.
+
+202
+00:14:51,949 --> 00:14:55,485
+而对于不同的批次，这个army和MAX可能会非常不同。
+And for different batches, this army and MAX can be very different.
+
+203
+00:14:55,485 --> 00:15:00,739
+这就是为什么当我们尝试对激活值进行量化时，需要使用一种叫做动态范围调整的技巧。
+That's why when we try to quantize activations, we need to apply a trick called dynamic ranging.
+
+204
+00:15:00,739 --> 00:15:04,420
+所以我们需要为每个数据点动态地确定army和RMAX。
+So we need to dynamically determine army and RMAX for each data point.
+
+205
+00:15:04,420 --> 00:15:10,779
+明白了吗？确定激活值的army和RMAX有两种方法。
+Okay? So there are two ways to determine army and RMAxu for activations.
+
+206
+00:15:10,779 --> 00:15:12,640
+第一种方法非常简单。
+The first way is very simple.
+
+207
+00:15:12,640 --> 00:15:15,340
+我们基本上就是做移动平均，好吗？
+We basically do moving average, okay?
+
+208
+00:15:15,340 --> 00:15:22,340
+也就是说，每当我们观察到一个批次时，我们会用Apha来控制，
+So that is every time we observe a batch, we basically using Apha to control,
+
+209
+00:15:22,340 --> 00:15:24,880
+我们想从这个批次中学习多少，好吗？
+how much we want to learn from this batch, okay?
+
+210
+00:15:24,880 --> 00:15:30,879
+我们用这个offa来让我们的Army Max稍微向当前批次靠近一点，好吗？
+We use this offa to slightly move our Army Max toward the current batch, okay?
+
+211
+00:15:30,879 --> 00:15:35,679
+通过这样做，我认为我们可以适应那些非常特殊的新批次。
+And by doing this, I think we can adapt to new badges which are extremely say,
+
+212
+00:15:35,679 --> 00:15:38,820
+它们有不同的动态范围，对吧？
+have a different dynamic range, okay?
+
+213
+00:15:38,900 --> 00:15:44,040
+另一种方法是，你了解你的数据。假设你了解你的数据。
+Okay, another way is that, you know your data. Assume you know your data.
+
+214
+00:15:44,040 --> 00:15:47,179
+例如，你在某个模型上训练了你的数据，并且你知道，
+For example, you train your data on some model and you know that say,
+
+215
+00:15:47,179 --> 00:15:52,380
+我要在自动驾驶环境中部署我的数据，而且我知道，
+I'm going to deploy my data, um, in autous driving environment, and I know uh,
+
+216
+00:15:52,380 --> 00:15:56,740
+我要读取的大多数自动驾驶危机中的图像或视频都来自圣地亚哥。
+most of the images or videos I'm going to read in auto driving crises from San Diego.
+
+217
+00:15:56,740 --> 00:16:01,419
+所以，这意味着你实际上知道你的数据分布，对吧？
+So, um, then that means that you actually know your distribution data, right?
+
+218
+00:16:01,419 --> 00:16:07,340
+那你可以收集一个数据集，这个数据集叫做校准数据集，对吧？
+So you can connect a dataset, which is called a calibration dataset, okay?
+
+219
+00:16:07,340 --> 00:16:12,919
+在你部署模型之前，你首先在校准数据集上运行你的量化过程，
+And before you deploy your model, you first run your condensation on the calibration data set
+
+220
+00:16:12,919 --> 00:16:17,100
+并找出这个数据集可能的最小值和最大值。
+and figure out what would be the possible army and RMAX for that dataset.
+
+221
+00:16:17,100 --> 00:16:20,040
+你可以假设在测试时检查推理时，
+And you can assume that at the test time inspect the inference,
+
+222
+00:16:20,040 --> 00:16:22,139
+你的数据不会有太大的变化。
+your data is not going to shift a lot.
+
+223
+00:16:22,139 --> 00:16:27,000
+所以这个army和RMAx应该为后续批次和新数据保留，好吗？
+So this army and RMAx should preserve for incoming batches, new data, okay?
+
+224
+00:16:27,000 --> 00:16:29,960
+这基本上就是我们在实际中使用的技巧。
+And this is basically the trick we use in practice.
+
+225
+00:16:29,960 --> 00:16:34,520
+所以在很多Ms中，当你尝试量化模型时，你必须确定你的目标领域。
+So in many Ms, when you try to quantize the model, you have to figure out your target domain.
+
+226
+00:16:34,520 --> 00:16:41,880
+例如，你希望M执行一个特定任务，比如生成代码或做聊天机器人。
+For example, you want M to do see a specific task that generates code or doing chatbard.
+
+227
+00:16:41,880 --> 00:16:45,959
+如果这是你的任务场景，你基本上会收集一些聊天机器人数据，然后尝试校准
+If that's your tax case you basically connect some chatboard data and you try to calibrate
+
+228
+00:16:45,959 --> 00:16:49,100
+一下Arman RMAx，然后你用
+a little bit the Arman RMAx and you quantat using
+
+229
+00:16:49,100 --> 00:16:52,900
+校准后的rmi RMAx来量化，这样效果应该会很好。
+the calibrated rmi RMAx and that should work pretty well.
+
+230
+00:16:52,900 --> 00:16:56,760
+好吗？这就是我们所说的条件下的校准。
+Okay? So this is what we call calibration in condition.
+
+231
+00:16:56,760 --> 00:17:00,939
+我认为这是一个非常重要的步骤，可以确保你的模型确实，
+I think this is a very essential procedure to make sure your model indeed, uh,
+
+232
+00:17:00,939 --> 00:17:06,939
+对这类异常值，对不起，异常激活具有鲁棒性，对吧？
+robust to those kind of outliers sorry, outlier activations, okay?
+
+233
+00:17:06,939 --> 00:17:09,959
+很好，这里有问题吗？
+Cool. Any question here?
+
+234
+00:17:10,560 --> 00:17:14,320
+好的，关于量化就讲到这里。
+Okay, that's all about quantitation.
+
+235
+00:17:14,320 --> 00:17:16,020
+我认为这是一个非常重要的领域。
+I think this is a very important area.
+
+236
+00:17:16,020 --> 00:17:19,359
+嗯，我接下来会多讲一点关于这个话题，
+Um, I'm going to talk a little bit more about this,
+
+237
+00:17:19,359 --> 00:17:23,570
+但在那之前，我们先来聊一下混合精度，好吗？
+but before that, let's talk about mixed precision, okay.
+
+238
+00:17:23,570 --> 00:17:27,519
+所以我认为现在有了量化的知识，你可能已经知道
+So I think now with the knowledge of connotation, you probably already know
+
+239
+00:17:27,519 --> 00:17:29,119
+混合精度要做什么了，对吧？
+what mixed press is going to do, right?
+
+240
+00:17:29,119 --> 00:17:30,880
+也就是说，对于目标领域，
+That is, for the target domain,
+
+241
+00:17:30,880 --> 00:17:35,700
+我不会限制自己只用某一个特定的比特数。
+I'm not going to restrict myself to be one specific uh, number of bits.
+
+242
+00:17:35,700 --> 00:17:38,500
+我不会只针对四位或者八位比特。
+I'm not going to target only four bits or eight bits.
+
+243
+00:17:38,500 --> 00:17:41,119
+我基本上可以混合使用所有这些可能性。
+I can basically mix all this kind of possibility.
+
+244
+00:17:41,119 --> 00:17:45,039
+我会尝试找出一个最佳平衡点，让我尽可能多地节省资源。
+And I try to figure out a sweet spot where I can save as much as possible.
+
+245
+00:17:45,039 --> 00:17:49,519
+同时还能保持相对较好的准确率，好吗？
+Well, I still have relatively good accuracy, okay?
+
+246
+00:17:49,519 --> 00:17:54,360
+为了让大家更有动力，其实在我们之前的课程中，我们说过每一层，
+So to motivate a little bit, basically, my in our previous lecture, we said that each layer,
+
+247
+00:17:54,360 --> 00:18:01,260
+我们会对权重或激活使用相同的目标比特数。
+we are going to apply the same, uh, target number bits for, uh, either with or activation.
+
+248
+00:18:01,260 --> 00:18:03,220
+这被称为统一量化。
+This is called uniform connotation.
+
+249
+00:18:03,220 --> 00:18:05,719
+但是我们可以更聪明一点，对吧？
+Okay. But we can be a little bit smarter, right?
+
+250
+00:18:05,719 --> 00:18:11,090
+所以，我们可以采用一种非统一量化方式，这被称为混合精度量化。
+So, we can do a long uniform condui which is called a mixed precision condition.
+
+251
+00:18:11,090 --> 00:18:13,590
+好的。那么对于每一层，呃，
+Okay. So for each layer, uh,
+
+252
+00:18:13,590 --> 00:18:18,670
+我基本上可以针对权重和激活，选择不同的比特数，
+I can basically target different number of bits, uh, for weights and activation,
+
+253
+00:18:18,670 --> 00:18:22,669
+因为背后的直觉是每一层都有不同的动态范围，
+because the intuition behind this is each layer has a different dynamic range and
+
+254
+00:18:22,669 --> 00:18:25,690
+以及对精度有不同程度的鲁棒性。
+different kind of robustness to precision.
+
+255
+00:18:25,690 --> 00:18:30,269
+也许对于那一层，它不是那么敏感，所以我可以更激进地应用量化。
+Maybe for that layer, it's not so sensitive, so I can more aggressively apply codaon.
+
+256
+00:18:30,269 --> 00:18:35,869
+但对于那一层，呃，它非常，呃，敏感，你实际上不能
+But for that layer, uh, it's very, uh, like, uh, sensitive and you cannot actually
+
+257
+00:18:35,869 --> 00:18:39,650
+修改任何微小的数值，所以你必须保留原始精度。
+modify any small amount of value, so you have to preserve the original precision.
+
+258
+00:18:39,650 --> 00:18:43,990
+明白吗？我基本上可以找出每一层应该用什么样的精度，
+Okay? And I can basically figure out what is the right precision I use for each layer,
+
+259
+00:18:43,990 --> 00:18:46,689
+至少在粒度上可以做到。
+uh, at least granularity.
+
+260
+00:18:46,689 --> 00:18:52,359
+但这种方法的问题是，呃，它太复杂了，对吧，
+But the problem of this approach is u it's too complicated, right,
+
+261
+00:18:52,359 --> 00:18:56,019
+因为神经网络有很多层，你真的需要
+because a neural network has so many layers, and you really need
+
+262
+00:18:56,019 --> 00:18:59,139
+做大量的工作来确定每一层的激活值和权重应该用什么精度，对吧？
+to do a lot of work to figure out what is the right precision I use for
+
+263
+00:18:59,139 --> 00:19:01,899
+每一层的激活值、权重都要考虑合适的精度，好吗？
+activations for weight and for each layer, okay?
+
+264
+00:19:01,899 --> 00:19:06,739
+那么该怎么做呢？在我们弄清楚怎么做之前，
+So how to do this? So, uh, before we figure out how to do this,
+
+265
+00:19:06,739 --> 00:19:10,360
+我可以先给你展示一下它的复杂性。
+um, uh, I can show you the complexity.
+
+266
+00:19:10,360 --> 00:19:15,560
+基本上，对于每一层来说，比如我们的目标位数、预算是八位，对吧？
+So basically, for each layer, say, our target bits is our budget is eight bits, okay?
+
+267
+00:19:15,560 --> 00:19:20,699
+那么对于每一层的权重或激活值，你基本上有64种选择，对吗？
+Then for each layer for the weight or for activation, you basically have 64 choices, right?
+
+268
+00:19:20,699 --> 00:19:22,500
+而且你有很多很多层。
+And you have the many layers and layers.
+
+269
+00:19:22,500 --> 00:19:27,780
+所以你有一个64次方的设计空间，非常庞大。
+So basically, you have a design space which is 64 power, okay, which is super huge.
+
+270
+00:19:27,780 --> 00:19:33,980
+对于这种问题，我认为学术界……
+And and this is very, um, for this kind of problem, I think academia,
+
+271
+00:19:33,980 --> 00:19:37,219
+人们真的很喜欢这样，因为你有项目可以申请，对吧？
+people really like that because you have something to grant, okay?
+
+272
+00:19:37,219 --> 00:19:40,219
+当你想出一个新方案时，你就可以发表新论文，对吧？
+You can publish new papers when you figure out a new scheme, right?
+
+273
+00:19:40,219 --> 00:19:43,759
+所以，嗯，有一种方法可以解决这个问题，基本上就是你用，
+So, um, one way to figure out this is basically you use,
+
+274
+00:19:43,759 --> 00:19:46,960
+就像我说的，机器学习用于系统，好吗？
+like I said, machine learning four systems, okay?
+
+275
+00:19:46,960 --> 00:19:49,914
+我想我在兼容性课程里讲过这个，对吧。
+I think I talked about this in compatible class, right.
+
+276
+00:19:49,914 --> 00:19:52,429
+在C时代的课程里，你要优化这些循环，对吧？
+C era class you are going to optimize those loops, right?
+
+277
+00:19:52,429 --> 00:19:54,570
+你有很多很多方法可以展开这些循环。
+You have many many ways to enroll these loops.
+
+278
+00:19:54,570 --> 00:19:58,169
+如果你让人来做这个，会花很多时间。
+So if you ask human to do that, it will take a lot of time.
+
+279
+00:19:58,169 --> 00:20:01,949
+所以你其实也可以找到一些机器学习模型，然后你尝试
+So you can also basically find some machine learning models and you try to
+
+280
+00:20:01,949 --> 00:20:06,770
+基本上执行一些引导式搜索，并用代价模型来引导搜索。
+basically perform some guided search and use a cost model to guide search.
+
+281
+00:20:06,770 --> 00:20:08,810
+这张幻灯片表达的是同样的想法，对吧？
+So this slide is the same idea, okay?
+
+282
+00:20:08,810 --> 00:20:10,289
+我在做准确的评估。
+I'm doing accurate critique.
+
+283
+00:20:10,289 --> 00:20:14,949
+明白吗？每次我都会列举一种可能性，把某些条件位应用到
+Okay? Every time I'm going to enumerate a possibility that apply certain bits of
+
+284
+00:20:14,949 --> 00:20:17,390
+每一层的宽度和激活上。
+condition to the width and activation of each layer.
+
+285
+00:20:17,390 --> 00:20:22,189
+然后我应用它，看看我的准确率是多少，
+And I then apply it and I try to see how many accuracy I have and
+
+286
+00:20:22,189 --> 00:20:25,210
+还会看我能节省多少内存或计算资源。
+also how many memory or computer I can save.
+
+287
+00:20:25,210 --> 00:20:27,374
+基本上，我有一个代价函数。
+Basically, I have a cost function.
+
+288
+00:20:27,374 --> 00:20:33,380
+然后我测量实际的代价，尝试拟合这种“演员-评论家”循环，
+And then I measure the real cost and I try to fit this kind of actor critical loop
+
+289
+00:20:33,380 --> 00:20:39,500
+并试图学习一个能够建模比特数与最终代价关系的模型。
+and try to learn some model that can model this relation between lumber bits and the eventual cost.
+
+290
+00:20:39,500 --> 00:20:41,839
+然后我基本上就可以这样做了。
+And then I can basically do this.
+
+291
+00:20:41,839 --> 00:20:46,040
+我基本上可以把它部署在一台电脑上，让它运行七天，然后返回
+I can basically deploy this on a computer and let it run for seven days and return
+
+292
+00:20:46,040 --> 00:20:48,000
+一个很好的发现结果。
+a good solution in the discovery.
+
+293
+00:20:48,000 --> 00:20:51,740
+明白吗？事实证明，这个方法非常有效。
+Okay? And it turns out that this is pretty effective.
+
+294
+00:20:51,740 --> 00:20:57,180
+如果你把我刚才描述的这个HAQ方法和均匀量化方法进行比较的话，
+If you compare this HAQ which is a method that I just described compared to uniform codenation, uh,
+
+295
+00:20:57,180 --> 00:21:01,539
+你可以看到它确实能够找到一个很好的方案，
+you can see it can indeed figure out pretty good and scheme where you can
+
+296
+00:21:01,539 --> 00:21:04,359
+可以在保持准确率的同时，依然拥有不错的延迟表现。
+preserve accuracy where still have a pretty good latency.
+
+297
+00:21:04,359 --> 00:21:10,380
+好的，好的。这非常有趣，是一个非常好的研究领域，
+Okay. Okay. This is very interesting, very good research field,
+
+298
+00:21:10,380 --> 00:21:12,519
+我认为在这个领域有很多人发表了论文。
+and I think people publish a lot in this.
+
+299
+00:21:12,519 --> 00:21:16,880
+接下来我要介绍的是，这篇论文？
+But next what I'm going to introduce is, This paper?
+
+300
+00:21:16,880 --> 00:21:21,620
+这篇论文没有放在阅读清单里，但我强烈推荐，好吗？
+This paper is not put on the reading list, but I highly recommend, okay?
+
+301
+00:21:21,620 --> 00:21:25,240
+这是由英伟达撰写的一篇混合精度训练论文。
+This is a mixed precision training paper written by media.
+
+302
+00:21:25,240 --> 00:21:29,800
+不知为何，这篇论文如今成了标准，好吗？
+And for some reason, this paper becomes the standard today, okay?
+
+303
+00:21:29,800 --> 00:21:33,459
+顺便说一下，这个混合精度训练正是我刚才描述的内容。
+Um, By the way, this mixed preceding training is exactly what I described.
+
+304
+00:21:33,459 --> 00:21:38,759
+所以你基本上会在你的新网络中，对不同的算子或层应用不同的精度。
+So you basically apply different precision for different operators layers in your new network.
+
+305
+00:21:38,759 --> 00:21:43,629
+但不幸的是，这种方案并不是由自动化框架发现的。
+But unfortunately, uh, this scheme is not discovered by automatic framework.
+
+306
+00:21:43,629 --> 00:21:47,639
+这同样是由英伟达的专家设计的。
+Okay, it's again, designed by expert from media.
+
+307
+00:21:47,639 --> 00:21:51,079
+所以我认为，英伟达的人花了很多时间去研究
+So basically, I think media people, they spend a lot of time on figuring
+
+308
+00:21:51,079 --> 00:21:55,860
+如何在双网络中正确地组合不同位数，
+out what is the right way of combining different bits, um, in Twin Networks
+
+309
+00:21:55,860 --> 00:21:58,939
+他们最终发表了这篇论文，而这篇论文也成为了
+and they eventually publish this paper, and this paper becomes the standard
+
+310
+00:21:58,939 --> 00:22:00,239
+训练语言模型的标准。
+in train language models.
+
+311
+00:22:00,239 --> 00:22:04,959
+好吗？所以我想花点时间深入讲解这篇论文，我希望你们真的
+Okay? So I want to spend some time diving into this paper, and I want to make sure you guys really
+
+312
+00:22:04,959 --> 00:22:07,890
+明白这里在做什么，好吗？
+understand what is doing here, okay?
+
+313
+00:22:07,890 --> 00:22:12,999
+直觉上，在许多神经网络中，尤其是语言模型里，
+So the intuition is, in many, many neural networks, especially in language models.
+
+314
+00:22:12,999 --> 00:22:17,380
+层对动态范围和精度更加敏感。
+Okay? So layers are more sensitive to dynamic range and precision.
+
+315
+00:22:17,380 --> 00:22:21,439
+我今天之所以提到这个，是因为你们已经完成了P1，对吧。
+The reason I brought up this today is because you already finished P one, right.
+
+316
+00:22:21,439 --> 00:22:25,599
+我觉得你们中有些人可能在softmax这里卡住了，对吗？
+And I think some of you probably got stuck on softmax, right?
+
+317
+00:22:25,599 --> 00:22:29,919
+当你做softmax的时候，你已经返回了很多很大的数值，对吧。
+When you do softmax, you already return, a lot of lumber value, right.
+
+318
+00:22:29,919 --> 00:22:36,299
+这是因为在很多操作，比如softmax中，
+So that is because for many, many operations like softmax, um, where you are
+
+319
+00:22:36,299 --> 00:22:39,319
+你基本上都会涉及到这种操作，归一化。
+basically involved with this kind of operation, normalization.
+
+320
+00:22:39,319 --> 00:22:43,679
+你会得到一个浮点数值，呃，你会得到很多浮点数值，然后你会得到
+You take a floating point value, uh you take many floating point value and you get
+
+321
+00:22:43,679 --> 00:22:46,700
+一个是数值的求和，然后你要对它进行归一化，对吧？
+a summion of the values and then you normalize it, okay?
+
+322
+00:22:46,700 --> 00:22:50,680
+对于这种操作来说，它对精度非常敏感。
+For this kind of operation, it's very sensitive to precision.
+
+323
+00:22:50,680 --> 00:22:54,980
+好的。如果你使用较低位数的精度，你会损失很多准确性，明白吗？
+Okay. If you use a lower bit precision, you are going to lose a lot of accuracy, okay?
+
+324
+00:22:54,980 --> 00:22:59,319
+所以直觉上，当我们尝试计算这种归一化操作时，
+So intuition is when we try to calculate this kind of normalization operation,
+
+325
+00:22:59,319 --> 00:23:01,199
+我们需要非常非常精确。
+we need to be very, very precise.
+
+326
+00:23:01,199 --> 00:23:06,479
+呃，精确基本上意味着你需要为小数部分分配更多的位数，
+Uh, Being precise basically means that you need to allocate more bits for fraction,
+
+327
+00:23:06,479 --> 00:23:09,685
+对吧，如果你还记得我们的课程内容。
+right, if you remember our lecture, okay?
+
+328
+00:23:09,685 --> 00:23:13,709
+同样地，这也是Softmax的一部分，对吧？
+And similarly, uh, this is part of Softmax, right?
+
+329
+00:23:13,709 --> 00:23:17,809
+记住在softmax中，你也要用到指数函数，对吧？
+And remember in softmax, you also are taking expansion function, right?
+
+330
+00:23:17,809 --> 00:23:19,990
+所以基本上是e的某个数的幂。
+So basically E Samsung number.
+
+331
+00:23:19,990 --> 00:23:22,449
+这个数值很容易就会爆炸，对吧？
+And this number can easily get explode, right?
+
+332
+00:23:22,449 --> 00:23:25,489
+因为它是以E为底的幂，对吧？
+Because it's a power of E, right?
+
+333
+00:23:25,489 --> 00:23:31,509
+如果某个数真的要爆炸了，我们该怎么办？
+And if something really is going to explode, then what should we do?
+
+334
+00:23:33,030 --> 00:23:35,509
+加一个动态范围，对吧。
+Add a dynamic range, right.
+
+335
+00:23:35,509 --> 00:23:38,295
+好，那我们怎么加动态范围呢？
+Okay, so how do add a dynamic range?
+
+336
+00:23:38,295 --> 00:23:41,199
+让它更容易爆炸，对吧？
+Give it more explod, right?
+
+337
+00:23:41,199 --> 00:23:43,839
+也就是在爆炸的部分分配更多的比特位。
+That is allocate more bits on the exploding part.
+
+338
+00:23:43,839 --> 00:23:46,899
+这意味着softmax是一个非常神奇的操作，
+Which means that softmax is such a magical operation that
+
+339
+00:23:46,899 --> 00:23:50,340
+它对动态范围和精度都很敏感。
+is sensitive to dynamic range and sensitive to precision.
+
+340
+00:23:50,340 --> 00:23:52,340
+明白了吗？这就是直觉。
+Okay? And this is intuition.
+
+341
+00:23:52,340 --> 00:23:55,379
+所以当你执行softmax时，你可能需要为指数和小数部分分配更多的位数
+So when you perform softmax, you probably should allocate more bits
+
+342
+00:23:55,379 --> 00:23:58,079
+对吧？
+on both explent and fraction, right?
+
+343
+00:23:58,079 --> 00:24:00,280
+这意味着我们其实没有选择的余地。
+That means that we really don't have a choice.
+
+344
+00:24:00,280 --> 00:24:04,060
+我们必须为softmax使用更高精度的浮点数。
+We have to use a higher precision floating point for softmax.
+
+345
+00:24:04,060 --> 00:24:08,219
+好的。同样地，对于这种梯度累加，
+Okay. And similarly, for this kind of grading accumulation,
+
+346
+00:24:08,219 --> 00:24:11,879
+你总是把梯度加到参数上，对吧？
+you always add grading to the parameters, right?
+
+347
+00:24:11,879 --> 00:24:16,020
+有时候你的梯度可能会非常大，对吧，尤其是在训练初期
+And sometimes your grading could be extremely large, right, especially at the initial training
+
+348
+00:24:16,020 --> 00:24:17,799
+或者当你现在遇到这种情况时，你该怎么办？
+or when you're now, what do you do?
+
+349
+00:24:17,799 --> 00:24:23,580
+它对动态范围非常敏感，所以你要确保在累加时，
+It's very sensitive to dynamic range, so you want to make sure that when you accumulate,
+
+350
+00:24:23,580 --> 00:24:26,634
+不要让你的浮点位数溢出，明白吗？
+you don't explode your rolling point bits, okay?
+
+351
+00:24:26,634 --> 00:24:32,030
+基于这种直觉，我刚才展示的那篇论文，基本上提出了一个方案。
+So with this kind of intuition, so the paper I just showed, they basically come up with a scheme.
+
+352
+00:24:32,030 --> 00:24:36,129
+他们认为我们应该识别那些对
+They are saying that we should identify those ops that are extremely sensitive
+
+353
+00:24:36,129 --> 00:24:37,710
+动态范围精度极其敏感的操作。
+to precision in dynamic range.
+
+354
+00:24:37,710 --> 00:24:41,310
+然后我们应该对这些操作使用全精度，比如说，
+And then we should use full precision, for example,
+
+355
+00:24:41,310 --> 00:24:46,150
+例如1.32，只要遇到这些操作就用全精度。
+1.32 for them, whenever we met these kind of ops.
+
+356
+00:24:46,150 --> 00:24:52,089
+但一旦完成这些操作，我们基本上就可以降到更低的精度，因为我们总是希望
+But once we finish these ops, we can basically downcast to lower precision because we always want to
+
+357
+00:24:52,089 --> 00:24:54,129
+总是希望使用更低的精度，对吧。
+know always want to use lower precision, right.
+
+358
+00:24:54,129 --> 00:24:58,829
+更低的精度在内存和计算上都更高效，对吧？
+Lower precision is more memory efficient and more computer efficient, okay?
+
+359
+00:24:58,829 --> 00:25:01,730
+基于这种直觉，他们开始做了很多实验。
+And with this kind of intuition, they start doing a lot of experiments, okay.
+
+360
+00:25:01,730 --> 00:25:04,870
+他们试图找出如何正确地组合不同的精度。
+They try to figure out what is the right way to combine different precisions.
+
+361
+00:25:04,870 --> 00:25:06,770
+于是他们想出了这个方案。
+And they come up with this scheme.
+
+362
+00:25:06,770 --> 00:25:13,309
+好的。我让你看这个30秒，然后我们再详细讲解。
+Okay. I'll like you look at this for 30 seconds then we go through it in detail.
+
+363
+00:25:39,450 --> 00:25:43,570
+这是我从那篇论文中引用的一个图。
+Okay, so this is a figure I quoted from that paper.
+
+364
+00:25:43,570 --> 00:25:47,650
+如果你想了解更多细节，可以去读那篇论文，但我们现在来过一遍，好吗？
+And if you want to know more detail, go read that paper, but let's go through this, okay?
+
+365
+00:25:47,650 --> 00:25:50,870
+这基本上就是现在混合精度的工作方式。
+So this is basically how mixed precision works today.
+
+366
+00:25:50,870 --> 00:25:52,650
+它是混合了两种精度。
+It's mixing two precisions.
+
+367
+00:25:52,650 --> 00:25:53,909
+一种是浮点32位。
+One is the floating 0.32.
+
+368
+00:25:53,909 --> 00:25:55,589
+另一种是浮点16位。
+The other is flowing 0.16.
+
+369
+00:25:55,589 --> 00:25:59,810
+这是直到上个月为止的标准。
+Okay. And this is the standard today until last month.
+
+370
+00:25:59,810 --> 00:26:01,390
+好吗？因为上个月，
+Okay? Because last month,
+
+371
+00:26:01,390 --> 00:26:05,829
+我记得Deep Sik对吧，他们发布了一篇论文说他们所有操作都在AP八上完成。
+I think deep sik right, they release a paper saying that they do everything in AP eight.
+
+372
+00:26:05,829 --> 00:26:10,869
+好的，那我觉得还是可以提一下这个，但我会稍后再提Deep Sik。
+Okay. Uh, so I think it's still good to bring up this, but I'm going to bring up Deep sick later.
+
+373
+00:26:10,869 --> 00:26:12,110
+好的，他们是怎么做Peight的。
+Okay, how they do Peight.
+
+374
+00:26:12,110 --> 00:26:18,450
+但这其实还是像CheBT，像现在大多数模型的训练方式一样。
+But this is still like how CheBT how most of, like, today's model are trained, okay.
+
+375
+00:26:18,930 --> 00:26:22,389
+所以这里可以看到，
+So here it is seen that,
+
+376
+00:26:22,389 --> 00:26:24,430
+我有一个主权重。
+I have a master weight.
+
+377
+00:26:24,430 --> 00:26:28,069
+这个主权重基本上是以浮点0.32保存的。
+Okay. This master weight was basically saved in floating 0.32.
+
+378
+00:26:28,069 --> 00:26:30,050
+好的，非常高的精度，非常高的精度。
+Okay, high precision, very high precision.
+
+379
+00:26:30,050 --> 00:26:35,870
+好的，每当我开始做计算时，我首先会做一次降精度操作。
+Okay. And whenever I try to start doing competition, what I do is I'm going to first do a downcast.
+
+380
+00:26:35,870 --> 00:26:37,829
+对吧？这就是过程。
+Okay? This is the dution right.
+
+381
+00:26:37,829 --> 00:26:41,115
+所以基本上，我是在做32位到16位的降精度处理。
+So basically, I'm downcasting 32-16 bit.
+
+382
+00:26:41,115 --> 00:26:46,660
+好的。我基本上得到了浮点0.16的权重。
+Okay. I basically get a floing 0.16 weights.
+
+383
+00:26:46,660 --> 00:26:50,880
+我将使用FP16的权重来进行前向计算。
+I'm going to use fpin 16 weights to do forward competion.
+
+384
+00:26:50,880 --> 00:26:56,999
+这很好，因为如果你还记得在浮点运算中的ODS产品说明书，
+This is pretty good because if you still remember the ODS product sheet in flopping,
+
+385
+00:26:56,999 --> 00:27:00,300
+呃，我认为16位的浮点运算能力比32位高得多。
+uh, I think 16 bit is much more higher flops than 32 bits.
+
+386
+00:27:00,300 --> 00:27:03,330
+你可以使用16位张量进行计算。
+You can use 16 bit tensor word competion.
+
+387
+00:27:03,330 --> 00:27:08,600
+并且因为你使用的权重和激活都是浮点0.16的权重，
+And because you use weight and activation is both in flowing 0.16 weights,
+
+388
+00:27:08,600 --> 00:27:12,600
+你也会得到浮点0.16权重的激活值。
+you are going to also produce flowing 0.16 weight activations.
+
+389
+00:27:12,600 --> 00:27:18,580
+好的。同样地，我将用这16位的权重和激活来做反向传播，好吗？
+Okay. And similarly, I'm going to use this 16 bits of weights and activation to do backward, okay?
+
+390
+00:27:18,580 --> 00:27:26,649
+这样我就会得到，基本上会产生浮点0.16的梯度，对吧？
+That will give me, that will basically produce um gradients, right, that is in flowing 0.16. Okay.
+
+391
+00:27:27,650 --> 00:27:30,329
+那么问题基本上就停留在这里。
+Then the problem basically last here.
+
+392
+00:27:30,329 --> 00:27:36,189
+所以当我们尝试将这些梯度应用到我们的参数二时。
+So when we try to apply these gradients into our priamter two.
+
+393
+00:27:36,189 --> 00:27:42,349
+好的，我们要做的基本上是，我们会拿这些梯度，然后应用
+Okay. What we do is basically, we will take this gradings, and we are going to apply
+
+394
+00:27:42,349 --> 00:27:47,370
+这个浮点0.16到这个主权重上，用来更新这个主权重到下一个版本。
+this floating 0.16 into this master weight to upload to update this master weight
+
+395
+00:27:47,370 --> 00:27:50,850
+我们应用的方式基本上是，我们会把它提升精度。
+into version next version.
+
+396
+00:27:50,850 --> 00:27:55,169
+我们会把它从16位提升到32位。
+And the way we apply it basically, we are going to upcast it.
+
+397
+00:27:55,169 --> 00:27:58,890
+好吗？我们基本上只会在
+We are going to upcast from 16 bits into 32 bits.
+
+398
+00:27:58,890 --> 00:28:04,110
+更高的精度下进行这种权重更新，
+Okay? We are going to basically only do this kind of weight update at
+
+399
+00:28:04,110 --> 00:28:11,210
+以确保我们保持精度，并且能够对动态范围具有鲁棒性。
+higher precision to make sure we preserve precision and we can basically be robust to dynamic range.
+
+400
+00:28:11,210 --> 00:28:13,710
+好的，这就是核心思想。
+Okay. This is a halo idea.
+
+401
+00:28:13,710 --> 00:28:18,029
+但是当我们把这个应用到Adam上的时候，麻烦的地方就来了。
+But the dirty part happens when we apply this to Adam.
+
+402
+00:28:18,029 --> 00:28:20,910
+明白吗？因为记住，在Adam中，呃，
+Okay? Because remember in Adam, uh,
+
+403
+00:28:20,910 --> 00:28:24,349
+Adam是我们用来优化神经网络的默认优化器。
+Adam is the default optimism we use for optimize neural networks.
+
+404
+00:28:24,349 --> 00:28:28,329
+当我们应用这个方法时，我觉得这样就可以了，
+And when we apply this I think for this, we are good, right,
+
+405
+00:28:28,329 --> 00:28:30,349
+因为这基本上是针对反向传播的。
+because it's basically for the backward.
+
+406
+00:28:30,349 --> 00:28:31,870
+这和Adam没有关系。
+It's not relevant with atom.
+
+407
+00:28:31,870 --> 00:28:36,949
+但当我们把这个应用到Adam时，会发生什么呢？如果你还记得Adam的话，
+But when we apply this into Adam, what happens is, if you still remember in Adam,
+
+408
+00:28:36,949 --> 00:28:39,749
+嗯，我们有两个矩，没错吧。
+um, we have two moments, right.
+
+409
+00:28:39,749 --> 00:28:44,470
+我们需要计算一阶和二阶矩，然后用这些矩来归一化
+We need to calculate the first and second moments, and we use those moments to basically normalize
+
+410
+00:28:44,470 --> 00:28:48,489
+我们的梯度，然后再把它应用到原始的w上。
+our gradient libit and then apply it into the original version of the w. Okay.
+
+411
+00:28:48,489 --> 00:28:51,729
+现在让我们看看如何在Adam中应用这个方法。好的。
+And now let's see how we apply this in Adam. Okay.
+
+412
+00:28:51,730 --> 00:28:55,389
+我还是会用这个作为例子。
+So I will still use this as an example.
+
+413
+00:28:55,389 --> 00:28:58,590
+所以训练GBD三，因为这是最好的例子，
+So training GBD three, because this is the best example
+
+414
+00:28:58,590 --> 00:29:00,429
+能帮助你理解发生了什么。
+that will help you understand what's going on.
+
+415
+00:29:00,429 --> 00:29:05,970
+好的，我们关心的是当我们使用这种混合精度训练
+Okay, um, and what we care about is when we use this mixed precision training,
+
+416
+00:29:05,970 --> 00:29:08,549
+框架时，实际上会用多少内存？
+um, framework, uh, how many memory will actually use?
+
+417
+00:29:08,549 --> 00:29:09,729
+我们能节省多少内存，对吧？
+How many memory we can save, right?
+
+418
+00:29:09,729 --> 00:29:14,980
+因为我们的最终目标是通过合并来节省内存，好吗？
+Because our eventual goal is, um, we want to save memory through conation, okay?
+
+419
+00:29:14,980 --> 00:29:17,229
+简单回顾一下，对吧？
+So just a little bit recap, right?
+
+420
+00:29:17,229 --> 00:29:18,630
+针对最大的模型，
+For the largest model,
+
+421
+00:29:18,630 --> 00:29:21,649
+175B，我们需要用16位来存储权重，对吗？
+175 B, we need to store the weights in 16 bits, right?
+
+422
+00:29:21,649 --> 00:29:28,789
+那就是350G的激活值，你在MCQ里做过这个，对吧？
+So which is 350 giga activations, you did this in MCQ, right?
+
+423
+00:29:28,789 --> 00:29:30,449
+所以我们在边界处做检查点保存。
+So we checkpoint at the boundary.
+
+424
+00:29:30,449 --> 00:29:33,629
+我们得到了这么多激活值，对吧？
+We get this many of activations, okay?
+
+425
+00:29:33,670 --> 00:29:36,230
+问题在于最优权重。
+The problem is optimal weights.
+
+426
+00:29:36,230 --> 00:29:41,549
+所以我不确定你还记不记得之前内存那节课，我们讲过多少内存
+So I'm not sure if you still remember in previous lecture in the memory lecture how many memory
+
+427
+00:29:41,549 --> 00:29:44,390
+我们需要用于最优状态。
+we need for optimal states.
+
+428
+00:29:46,710 --> 00:29:51,969
+我们有梯度，对吧？我们有一阶矩和二阶矩，对吧？
+We have grading, right? We have first moment and second moment, right?
+
+429
+00:29:51,969 --> 00:29:59,110
+好的，所以基本上，就是三份数值，每个数值都会以目标精度保存。
+Okay. So basically, uh, uh, three copies of values and each value will be sip in a target precision.
+
+430
+00:29:59,110 --> 00:30:03,789
+好吗？现在我们试着把这个应用到混合精度训练框架中。
+Okay? Now, let's try to apply this in our mixed precision training framework.
+
+431
+00:30:03,789 --> 00:30:09,419
+好吗？所以当我们应用混合精度训练时，情况就发生了变化。
+Okay? So when we apply mixed precision training, the story changes here.
+
+432
+00:30:09,419 --> 00:30:12,840
+我们不能用FP16来表示权重，对吧，因为我们要保证精度。
+We cannot see weight in FP 16, right, because we want to preserve accuracy.
+
+433
+00:30:12,840 --> 00:30:17,899
+所以我们必须保留一份主权重的副本，对吧，就像这个图里显示的那样。
+Okay? So we have to maintain a copy of master weight, right, in this figure.
+
+434
+00:30:17,899 --> 00:30:25,540
+这份副本基本上是四，四位，对吧，32位，四位乘以175。
+Okay? So this copy is basically four, four bits, right, 32 bits, four bits times 175.
+
+435
+00:30:25,540 --> 00:30:27,619
+这是700G，好吗？
+This is 700 giga, okay?
+
+436
+00:30:27,619 --> 00:30:35,619
+所以这里我们有一个四倍的因子，因为我们用LP16内核进行计算。
+So here we have a factor of four Um, because we perform competition using our LP 16 inter core.
+
+437
+00:30:35,619 --> 00:30:39,300
+所以我们都会针对参数生成一份梯度的副本，
+So we all produce a copy of gradients against the perimeter,
+
+438
+00:30:39,300 --> 00:30:44,300
+而这份梯度的副本就是用P16保存的，就在这里。
+and this copy of gradients is saved in P 16, right here.
+
+439
+00:30:44,300 --> 00:30:53,220
+所以这里我们有一个二倍的因子，就是我们用16位生成的原始梯度副本。
+Okay? So we have a factor two here, which is the original copy of gradients we produce at 16 bit.
+
+440
+00:30:54,340 --> 00:31:01,459
+好的，我们还需要有一个持续更新的副本，也就是说我们需要以某种方式持续运行。
+Okay. And we also need to have a running copy that is we need to somehow run
+
+441
+00:31:01,459 --> 00:31:04,100
+复制这个，然后把这个复制应用到我们的权重上。
+this copy and apply this copy to our wt.
+
+442
+00:31:04,100 --> 00:31:06,619
+明白了吗？所以又是一个因子2。
+Okay? So another factor two.
+
+443
+00:31:07,900 --> 00:31:16,019
+这里的秘诀其实就是，当你在Adam中应用混合精度时，你还必须存储
+And the secret here is basically when you apply this mixed precision in atom, you have to also store
+
+444
+00:31:16,019 --> 00:31:19,700
+第一和第二矩以更高的精度。
+the first and second moments in higher precision.
+
+445
+00:31:19,700 --> 00:31:22,839
+因为记住，归一化最终你是想用
+Because remember, malization eventually you want to use
+
+446
+00:31:22,839 --> 00:31:24,989
+这个第一和第二矩来做归一化。
+this first and second moment to normalization.
+
+447
+00:31:24,989 --> 00:31:27,460
+基本上就是对梯度进行归一化，好吗？
+Basically lomize gradients, okay?
+
+448
+00:31:27,460 --> 00:31:32,840
+而归一化对精度和动态范围都非常敏感。
+And the lomization is very sensitive to precision and also to, uh, dmic range.
+
+449
+00:31:32,840 --> 00:31:37,760
+所以我们也必须用高精度来存储这个第一和第二矩。
+So we have to also store this first and second moment in high precision.
+
+450
+00:31:37,760 --> 00:31:42,059
+所以在这里我们又得到了一个4乘2的因子，好吗？
+So here we get another factor of four times two, okay?
+
+451
+00:31:42,059 --> 00:31:44,160
+然后我们又得到了一个八倍的因子。
+And we get another factor eight.
+
+452
+00:31:44,160 --> 00:31:46,219
+好吗？这就是我们的做法。
+Okay? This is what we do.
+
+453
+00:31:46,219 --> 00:31:50,080
+当我们应用这些开放状态时，我们需要保存什么。
+What do we need to save when we apply this open states.
+
+454
+00:31:51,030 --> 00:31:55,509
+在这里，我要给你们讲这节课中最重要的信息之一。
+So here, I'm giving you one of the most important message in this lecture.
+
+455
+00:31:55,509 --> 00:31:57,069
+好的，你需要记住这一点。
+Okay, you need to remember this.
+
+456
+00:31:57,069 --> 00:32:04,889
+所以当我们训练语言模型时，呃，我们所需的内存下限就是这个。
+So when we train language models, um, the memory we need is lower bounded by this one.
+
+457
+00:32:04,889 --> 00:32:10,230
+好的，这基本上就是第一个四倍因子，第二个因子是梯度，
+Okay? And this is basically the first factor of four second factor gradients,
+
+458
+00:32:10,230 --> 00:32:12,570
+运行副本、第一阶矩、第二阶矩。
+running copy, first moment, second moment.
+
+459
+00:32:12,570 --> 00:32:15,790
+好的，这才是真正训练语言模型时的内存使用情况。
+Okay. This is the real real memory usage for train language models.
+
+460
+00:32:15,790 --> 00:32:17,929
+是的，因为在我之前的讲座中，
+Yeah, because in my previous lecture,
+
+461
+00:32:17,929 --> 00:32:20,969
+我从未提到过混合前置训练，但现在我基本上是在告诉你，
+I never mentioned the mixed preceding training, but now I'm basically tell you,
+
+462
+00:32:20,969 --> 00:32:23,070
+我们实际上正在使用混合前置训练。
+we're actually using mixed preceding training.
+
+463
+00:32:23,070 --> 00:32:27,579
+这意味着，你最终得到了16倍的因子。
+So which means that, uh, you ended up with a factor of 16
+
+464
+00:32:27,579 --> 00:32:31,480
+N。这里的N是你的amber参数，也就是一份amber参数的拷贝。
+N. We N is your amber parameters, one copy of amber parameters.
+
+465
+00:32:31,480 --> 00:32:33,279
+为什么这个公式如此重要？
+Why is this equation so important?
+
+466
+00:32:33,279 --> 00:32:37,640
+因为下次当别人问你，我能用H100训练一个模型吗？
+Because next time when people ask you, can I train a model using H 100?
+
+467
+00:32:37,640 --> 00:32:39,840
+我能在H100上训练Lama 7B吗？
+Can I train Lama seven B on H 100?
+
+468
+00:32:39,840 --> 00:32:42,299
+在单个H100上，你立刻就明白了，
+On single H 100, you immediately know,
+
+469
+00:32:42,299 --> 00:32:48,019
+比如你有一个7B的Lama模型，你用7乘以16，
+I use this, say, you have a seven B model Lama, and you use seven times 16
+
+470
+00:32:48,019 --> 00:32:50,899
+这样你就知道了你所需的最低内存是多少。
+and you know the lower bound memory that you need.
+
+471
+00:32:50,899 --> 00:32:55,319
+显然，这个数字大于80GB，这意味着你无法
+Which is apparently this number is greater than 80 gigat that means you are not able to
+
+472
+00:32:55,319 --> 00:32:59,339
+在单个H100上训练Lama 7B。
+train Lama seven B on single H 100.
+
+473
+00:32:59,339 --> 00:33:03,530
+好的，这样说有道理吗？
+Okay. Does it. Does it make sense?
+
+474
+00:33:03,530 --> 00:33:05,470
+好的，所以一定要记住这一点，好吗？
+Okay. So make sure you remember this, okay?
+
+475
+00:33:05,470 --> 00:33:08,650
+这是训练语言模型的下限，好吗？
+This is the lower bound for training language models, okay?
+
+476
+00:33:08,650 --> 00:33:13,719
+任何框架都一样。它适用于Petro，也适用于TensorFlow、JAX，任何框架。
+Any framework, yeah. It apples to Petro, you apply to tender flow jacks, any framework.
+
+477
+00:33:13,719 --> 00:33:17,090
+为什么要复制梯度？
+Why you copy gradients?
+
+478
+00:33:17,090 --> 00:33:22,149
+因为一方面，你需要用权重梯度来推导激活梯度。
+Because, on one hand, you need to derive the activation gradients using weed gradits.
+
+479
+00:33:22,149 --> 00:33:25,029
+你必须保存它。另一方面，当你把梯度应用到主网络时，
+You have to save that. On the other hand, when you apply that gradient to the primary,
+
+480
+00:33:25,029 --> 00:33:29,269
+为了进行类型提升，你需要复制以进行类型提升。对，对吧？
+how to upcast it, you need to copy to upcast. Yeah. Yeah. Okay?
+
+481
+00:33:29,510 --> 00:33:35,329
+好的，16。这还没有考虑激活值。
+Okay, 16. And this is not considering activations.
+
+482
+00:33:35,329 --> 00:33:40,269
+明白吗？所以如果你也想考虑激活值，你需要回到这张幻灯片，然后尝试
+Okay? So if you want to also consider activations, you need to go back to this slide and try
+
+483
+00:33:40,269 --> 00:33:42,569
+多研究一下这个内容。
+to study this a little bit.
+
+484
+00:33:42,569 --> 00:33:44,750
+好吗？我们如何保存激活值。
+Okay? So how we save activations.
+
+485
+00:33:44,750 --> 00:33:49,449
+很好。记住这个。
+Cool. Okay, memorize this.
+
+486
+00:33:49,449 --> 00:33:52,629
+我认为这非常重要。
+I think this is extremely important. Okay.
+
+487
+00:33:52,629 --> 00:33:59,010
+好的，这基本上就是我关于量化，或者更广泛地说，精简机器学习的讲座总结。
+Yeah, that basically wrap up my lecture on quantuon or more broadly, skinning down machine learning.
+
+488
+00:33:59,010 --> 00:34:01,570
+我想花几分钟来谈谈这个领域。
+I want to spend a few minutes to talk about this area.
+
+489
+00:34:01,570 --> 00:34:04,189
+基本上，精简机器学习和深度学习
+So basically skinning down machine learning and deep learning is
+
+490
+00:34:04,189 --> 00:34:08,409
+是机器学习和系统领域非常活跃的研究方向。
+a very active area of research in machearing and systems.
+
+491
+00:34:08,409 --> 00:34:12,350
+很多教授、学生都在做这件事，对吧？
+A lot of people a lot of professors, students are doing this, okay?
+
+492
+00:34:12,350 --> 00:34:18,249
+因为在边缘设备上运行机器学习一直有很强的需求，对吧？
+So because running machine learning on edge devices is always strongly demanded, right?
+
+493
+00:34:18,249 --> 00:34:20,249
+我觉得每个人都想这么做。
+I think everyone wants to do that.
+
+494
+00:34:20,249 --> 00:34:24,065
+这就是为什么在这个规模上有很高的需求，对吧？
+That's why there's a high demand on this scale, okay?
+
+495
+00:34:24,065 --> 00:34:30,219
+但我想指出的一点是，嗯，这个缩小规模的市场，
+But one thing that I want to point out is, um, uh, this market of scaling down
+
+496
+00:34:30,219 --> 00:34:33,319
+它有一个非常关键的特性。
+merginary it has a very key characteristics.
+
+497
+00:34:33,319 --> 00:34:35,439
+好吧？这是一个非常分散的市场。
+Okay? It's a very fragmented market.
+
+498
+00:34:35,439 --> 00:34:37,859
+那么我说的分散市场是什么意思呢？
+So what do I mean by fragmented market?
+
+499
+00:34:37,859 --> 00:34:42,180
+我是在和云市场做对比，云市场是我们边际扩展的地方。
+So I'm comparing this to cloud market where we scale up marginally.
+
+500
+00:34:42,180 --> 00:34:47,299
+好的，所以如果你想想云市场，它一点也不分散，对吧？
+Okay. So why is if you think about cloud market, it's not fragmented at all, right?
+
+501
+00:34:47,299 --> 00:34:51,299
+基本上，AWS 占有 70% 的市场份额，对吧？
+Basically, AWS has 70%, uh, market share, right?
+
+502
+00:34:51,299 --> 00:34:52,800
+然后是 GCP 和微软。
+And then GCP and Microsoft.
+
+503
+00:34:52,800 --> 00:34:54,879
+好的，三大巨头，明白了。
+Okay, three, big three, okay.
+
+504
+00:34:54,879 --> 00:34:59,380
+但是如果你说要精简硬件的话，其实没有真正的赢家，对吧？
+But if you talk about skinning down marchiney there's no, like, a winner, okay?
+
+505
+00:34:59,380 --> 00:35:01,399
+所以每家公司都在做自己的事情。为什么呢？
+So everyone is doing their own thing. Why?
+
+506
+00:35:01,399 --> 00:35:05,200
+因为在云端，我们只有通用芯片。
+Because in Cloud, we only have media chips.
+
+507
+00:35:05,200 --> 00:35:08,720
+明白吗？我们大致上都是部署通用芯片。
+Okay? We roughly deploy everything, media chips.
+
+508
+00:35:08,720 --> 00:35:11,039
+而在云端，AWS 是唯一的赢家。
+And in Cloud, AWS is the only winner.
+
+509
+00:35:11,039 --> 00:35:12,359
+你可能也知道，是的。
+You probably know, yeah.
+
+510
+00:35:12,359 --> 00:35:15,599
+但是当你谈到精简硬件时，芯片的种类就非常多样了。
+But when you talk about screen down, there are so many diverse chips.
+
+511
+00:35:15,599 --> 00:35:20,179
+我想在上一节课，我们的气体讲座变更等等，呃，呃，
+I think in the previous lecture, our gas lecture change et cetera, uh, uh,
+
+512
+00:35:20,179 --> 00:35:23,639
+当我们进行合并编译时，主要的问题是有太多不同的芯片
+when we do merginy compilation, the main problem is there are so many different chips
+
+513
+00:35:23,639 --> 00:35:27,889
+你必须对比到不同的，比如内核库或者其他东西，对吧？
+that you have to compare down to different, like, kernel libraries or whatever, right?
+
+514
+00:35:27,889 --> 00:35:32,739
+所以这是一个非常分散的市场，这意味着如果你选择在这个领域做研究，
+So it's a very frag market market, which means that if you choose to do research in this area,
+
+515
+00:35:32,739 --> 00:35:35,299
+发表论文很容易，因为总是有问题存在。
+it's very easy to publish because there's always a problem.
+
+516
+00:35:35,299 --> 00:35:36,920
+对，针对目标硬件。
+Right, for target hardware.
+
+517
+00:35:36,920 --> 00:35:38,819
+是的，因为从业人员不够多。
+Yeah, because there are not enough people.
+
+518
+00:35:38,819 --> 00:35:41,659
+如果你选择在这个领域做生意，
+And if you choose to do a business in this area,
+
+519
+00:35:41,659 --> 00:35:45,570
+我会说这是个不错的生意，特别是对于初创公司来说，
+I would say it's a good business, right, because especially for startups,
+
+520
+00:35:45,570 --> 00:35:50,330
+因为你总是可以选择一个尚未被充分关注的目标领域，
+right, because you can always choose a target domain which is under addressed,
+
+521
+00:35:50,330 --> 00:35:52,509
+然后你试图帮他们解决问题。
+and you try to address the problem for them.
+
+522
+00:35:52,509 --> 00:35:57,789
+的确，这是一个非常不错的领域，你可以在这里创业并被收购。
+Indeed, this is a pretty good, um, uh, area that you can build a startup and get
+
+523
+00:35:57,789 --> 00:36:00,369
+我可以给你举个例子。
+acquired. I can give you an example.
+
+524
+00:36:00,369 --> 00:36:04,690
+Ten chi，对吧，他的公司AutoML，在英特尔芯片上表现得相当不错。
+Ten chi right, his company AutoML, they do pretty well on Intel chips.
+
+525
+00:36:04,690 --> 00:36:10,669
+我觉得在某个时候，他们收到了英特尔一个很不错的收购报价。
+And I think at some point, they got a pretty good offer from Intel, to acquire them.
+
+526
+00:36:10,669 --> 00:36:14,810
+但他们拒绝了，因为他们想做得更大。
+But they declined, because they want to do bigger.
+
+527
+00:36:14,810 --> 00:36:19,389
+他们想要更大的发展，对吧？最终市场会发生变化。
+They want, right? Eventually market changes.
+
+528
+00:36:19,389 --> 00:36:27,150
+好的，另一个例子是，一位做定量的教授，就是我提到的Songha的公司，
+Okay. Another example is, um, a mating professor, the quantititi guy, I mentioned Songhas company,
+
+529
+00:36:27,150 --> 00:36:30,089
+他在条件方面做了很多工作，对吧？
+and he's doing condition a lot, right?
+
+530
+00:36:30,089 --> 00:36:31,770
+他基本上就是条件领域的引路人。
+He's a guide of condition, basically.
+
+531
+00:36:31,770 --> 00:36:37,009
+他为Avidia和高通做了很多冷凝工作，对吧？
+And he does a lot of condensation work for Avidia and for Qualcomm, okay?
+
+532
+00:36:37,009 --> 00:36:38,329
+他基本上是针对
+He basically optimize against
+
+533
+00:36:38,329 --> 00:36:40,550
+英伟达芯片和高通芯片进行优化。
+Nvidia chips and Qualcomm chips.
+
+534
+00:36:40,550 --> 00:36:43,130
+结果证明他非常成功。
+And it turns out that he was very successful.
+
+535
+00:36:43,130 --> 00:36:47,329
+我记得在2022年，他的公司被英伟达收购了，对吧？
+I think in 2022, his company was acquired by Nvidia, okay?
+
+536
+00:36:47,329 --> 00:36:51,690
+我听说他同时收到了高通和英伟达的两个报价。
+I heard that he got two offers from both, like, Quadcom and Nvidia.
+
+537
+00:36:51,690 --> 00:36:54,049
+好的，他选择在2022年去Avidia，对吧？
+Okay, he chose to go A Midia in 2022, okay?
+
+538
+00:36:54,049 --> 00:36:56,169
+这笔交易相当不错，对吧？
+That's a pretty good deal, good deal, right?
+
+539
+00:36:56,169 --> 00:36:57,889
+因为在2022年，WIDA芯片，
+Because in 2022, WIDA Chip,
+
+540
+00:36:57,889 --> 00:37:00,875
+Amdatock还在，对吧？嗯，好的？
+Amdatock is still here, right? Yeah, okay?
+
+541
+00:37:00,875 --> 00:37:06,740
+我也有一些朋友在做这种生意，他们基本上会选择，
+And I also have a few friends which do this kind of business, and they basically choose,
+
+542
+00:37:06,740 --> 00:37:11,639
+硬件厂商，因为你知道，现在的硬件厂商非常有钱，对吧？
+hardware winder because, you know, hardware winder lot is very rich today, right?
+
+543
+00:37:11,639 --> 00:37:14,520
+他们有很多资金，想要收购各种小公司。
+And they have a lot of money. They want to acquire every small companies.
+
+544
+00:37:14,520 --> 00:37:17,240
+他们的目标基本上就是那些速度快的硬件。
+And they basically target that speed hardware.
+
+545
+00:37:17,240 --> 00:37:21,000
+他们会为这些硬件做非常深入的定制或实现，
+They try to do very deep, like don or implementation for them hardware,
+
+546
+00:37:21,000 --> 00:37:24,060
+然后希望被收购。他们一直都是这样。
+and they hope to be acquired. And they always.
+
+547
+00:37:24,060 --> 00:37:30,490
+好吧？但坏消息是，如果你真的想做一家非常大的公司，
+Okay? But the bad news is, um, if you really want to build a really big business,
+
+548
+00:37:30,490 --> 00:37:34,549
+比如像谷歌、亚马逊那么大，我觉得这不是
+for example, as large as Google, as a Amazon, I don't think this is
+
+549
+00:37:34,549 --> 00:37:39,189
+一个适合做大事业的领域，因为就像我说的，这很容易
+a good area for doing that because like I said, it's very easy to it's very
+
+550
+00:37:39,189 --> 00:37:41,189
+很难把所有芯片统一起来，对吧？
+difficult to unify every chips, right?
+
+551
+00:37:41,189 --> 00:37:43,910
+你必须为一种类型的压缩设计
+You have to design one type of condensation
+
+552
+00:37:43,910 --> 00:37:46,830
+一套算法和一个针对某种硬件的内核库。
+and algorithm and a kernel library for one typo hardware.
+
+553
+00:37:46,830 --> 00:37:49,729
+这个领域非常非常碎片化，所以每个人都在做自己的事情。
+It's very very fragmented, so everybody is doing their own.
+
+554
+00:37:49,729 --> 00:37:54,040
+明白吗？嗯，就研究方向而言，
+Okay? Um, and in terms of research direction,
+
+555
+00:37:54,040 --> 00:37:57,859
+我认为这个领域还有很多事情在发生，因为每次有新模型出现，
+I think there are still a lot of going on because every time there's a new model,
+
+556
+00:37:57,859 --> 00:38:02,460
+每当有新硬件，或者有新类型的内核算子出现，
+when there's a new hardware, when there's a new kind of kernel operator,
+
+557
+00:38:02,460 --> 00:38:04,999
+量化领域的人基本上都会去尝试这些东西。
+quanta people is going to basically tact them.
+
+558
+00:38:04,999 --> 00:38:07,139
+是的，他们可能会为此做好准备。
+Yeah, they are going to probably feel prepared for that.
+
+559
+00:38:07,139 --> 00:38:12,420
+明白吗？而且大家在这个领域做了很多工作，比如量化和剪枝，
+Okay? And people are doing a lot in this area, for example, quantadon pruning,
+
+560
+00:38:12,420 --> 00:38:15,379
+因为你最终是想把你的模型部署到边缘设备上，对吧？
+because you eventually want to deploy your ID devices, right,
+
+561
+00:38:15,379 --> 00:38:18,700
+你开始关注能量，好吧，能量效率。
+you start care about energy, okay, energy efficiency.
+
+562
+00:38:18,700 --> 00:38:20,560
+你还会做联邦加工，
+And you also do federation machining,
+
+563
+00:38:20,560 --> 00:38:23,180
+好的，这在本次讲座中没有涉及。
+Okay, which was not covered in this lecture.
+
+564
+00:38:23,180 --> 00:38:25,620
+但很遗憾，我们聘请了一位新教师。
+But unfortunately, we hired a faculty.
+
+565
+00:38:25,620 --> 00:38:27,439
+他将在今年秋天加入我们。
+He's going to join this fall.
+
+566
+00:38:27,439 --> 00:38:29,419
+是的，他是做量子编辑的，好吗？
+Yeah, he's a quant editing guy, okay?
+
+567
+00:38:29,419 --> 00:38:33,540
+如果你感兴趣，可以去听听他的课，好吗？
+And if you're interested, you can try to listen to his classes, okay?
+
+568
+00:38:33,540 --> 00:38:36,420
+很好。这就是我关于量子编辑的全部内容。
+Cool. That's all from me on quant edition.
+
+569
+00:38:36,420 --> 00:38:38,299
+好的，那我们继续，好吗？
+Okay. Then let's move on, okay?
+
+570
+00:38:38,299 --> 00:38:39,999
+整体情况。所以我们完成了
+Big picture. So we finish
+
+571
+00:38:39,999 --> 00:38:43,659
+DataFgraph 右侧是 AutoDvGraph Oenation。
+DataFgraph right AutoDvGraph Oenation.
+
+572
+00:38:43,659 --> 00:38:46,744
+我们还会更深入地探讨算子 Oenation。
+We also dive deeper into operator Oenation.
+
+573
+00:38:46,744 --> 00:38:51,010
+嗯，我们还会开始讨论运行时，如何进行调度，如何管理内存，如何做量化。
+Uh, we also start talking about run time, how to schedule, how to do memory, how to do quantition.
+
+574
+00:38:51,010 --> 00:38:56,429
+好吗？现在，我觉得我们要进入最后一个大型讲座部分 Paradition，对吧？
+Okay? Now, I think we are going to enter our last big lecture Paradition, right?
+
+575
+00:38:56,429 --> 00:39:00,829
+好的。受到启发，我想要涵盖这么多内容，可以吗？
+Okay. Inspired I want to cover this many content, okay?
+
+576
+00:39:00,829 --> 00:39:05,909
+我会解释为什么我们需要开始学习 paraldition。
+I'm going to justify why we need to start why we need to study paraldition.
+
+577
+00:39:05,909 --> 00:39:10,589
+然后我会讲讲机器学习中的并行性，以及
+Then I'm going to talk about machine learning parallelism and
+
+578
+00:39:10,589 --> 00:39:15,130
+如何讨论连接通信，因为这是机器学习并行性的基石。
+how to talk about connective communication because it's a cornerstone for machine learning paralism.
+
+579
+00:39:15,130 --> 00:39:19,530
+好吗？然后我们开始讨论并学习所有这些数据模型，
+Okay? And then we start talking about and study all this data model
+
+580
+00:39:19,530 --> 00:39:22,709
+操作符间中断并行性，我们就此总结。
+interoperator interrupted palism we wrap up,
+
+581
+00:39:22,709 --> 00:39:27,514
+嗯，通过回顾一些关于自动并行的最新研究。
+uh, by reviewing some latest work on automatic parallon.
+
+582
+00:39:27,514 --> 00:39:31,899
+好的，酷。那么我们为什么需要活塞呢？
+Okay. Cool. So why we need piston?
+
+583
+00:39:31,899 --> 00:39:35,700
+我觉得我们基本上需要回到我们的主线故事。
+I think we basically need to come back to our mainstream story.
+
+584
+00:39:35,700 --> 00:39:40,839
+慢一点。所以，我认为我们应该在开始讨论的时候做这件事
+More slow. So, I think we should do this when we start talking about when
+
+585
+00:39:40,839 --> 00:39:42,639
+当我们开始论证加速器的必要性时。
+we start justify accelerators.
+
+586
+00:39:42,639 --> 00:39:50,979
+好的。所以二十年前，是的，我们还有摩尔定律，但现在已经停止了，对吧？
+Okay. So 20 years ago, yes, we are still having the more slow, but now it stopped, right?
+
+587
+00:39:50,979 --> 00:39:57,649
+同时在机械行业，发生了什么呢，好吧。
+Okay. Meanwhile in machinery industry, what happened is, Okay.
+
+588
+00:39:57,649 --> 00:40:03,030
+模型的规模基本上每18个月增长十倍，太疯狂了。
+The model size, they are basically ten times every 18 months. It's crazy.
+
+589
+00:40:03,030 --> 00:40:05,149
+而且这条曲线还在继续。
+And this curve is still going on.
+
+590
+00:40:05,149 --> 00:40:09,730
+最新的TipSIg模型有6000亿个参数，好吧。
+The latest TipSIg model is 600 biniar perimeters, okay.
+
+591
+00:40:09,730 --> 00:40:15,630
+基本上，佣兵模型的规模正在疯狂增长，为什么人们开始开发这些大型模型？
+So basically the size of mercenary model is growing crazily, why people start developing
+
+592
+00:40:15,630 --> 00:40:17,789
+有两个原因。
+all these large models? Two reasons why.
+
+593
+00:40:17,789 --> 00:40:22,700
+一个原因是，通过简单地增加模型的规模，
+One is because, um, by simply skiing the size of the models,
+
+594
+00:40:22,700 --> 00:40:25,020
+你会得到更好的性能表现。
+you are going to have a way better performance.
+
+595
+00:40:25,020 --> 00:40:28,359
+这里，横轴表示模型的参数数量。
+So here, the excess is the number of parameters of the model.
+
+596
+00:40:28,359 --> 00:40:33,660
+纵轴表示在20个自然语言基准测试中的平均表现，
+The Y excess is the average performance of 20 benchmarks in literal language,
+
+597
+00:40:33,660 --> 00:40:36,420
+呃，呃，自然语言处理。
+uh, uh, literal language processing.
+
+598
+00:40:36,420 --> 00:40:38,080
+所以你不用在意具体的基准测试是什么。
+So you don't care about what the benchmark.
+
+599
+00:40:38,080 --> 00:40:41,299
+基本上，我们把它标准化到0%到100%之间。
+Basically, we normalize that into from 0% to 100%.
+
+600
+00:40:41,299 --> 00:40:44,700
+好的，100%就是完美表现。
+Okay. 100% is perfect performance.
+
+601
+00:40:44,700 --> 00:40:46,840
+零基本上就是零表现。
+Zero is basically the zero performance.
+
+602
+00:40:46,840 --> 00:40:50,739
+一旦我们进行了归一化，你会发现当我们调整模型规模时，好吗？
+And once we normalize it you observe that when we skill the model size, okay?
+
+603
+00:40:50,739 --> 00:40:55,800
+当我们尝试在这20个基准测试上测量平均表现时，你会看到基本上
+And we try to measure the average performance on all these 20 benchmarks, you will see basically
+
+604
+00:40:55,800 --> 00:40:57,820
+性能会持续提升。
+the performance will just keep increasing.
+
+605
+00:40:57,820 --> 00:41:03,819
+好的。好的，这让人有希望，对吧，因为如果你能达到100%，你基本上就实现了AI。
+Okay. Okay, this gives hope, right, because if you can achieve 100%, you are basically achieving AI.
+
+606
+00:41:03,819 --> 00:41:06,979
+真正的通用人工智能。好的，这就是第一个原因。
+True AGI. Okay. That's the first reason.
+
+607
+00:41:06,979 --> 00:41:11,499
+好的，增加模型规模可以带来很大的性能提升。很简单。
+Okay, Skinny model size can give you a lot of performance improvement. That's simple.
+
+608
+00:41:11,499 --> 00:41:18,120
+第二点是人们开始观察到大型模型具有一些涌现能力，
+The second is people start observing that big models have some emergent capability,
+
+609
+00:41:18,120 --> 00:41:23,260
+我真的很喜欢谷歌制作的这个动图，好吗？
+and I really like this Jif produced, um, by Google, okay?
+
+610
+00:41:23,260 --> 00:41:29,825
+这个动图想要说明的其实是，当你不断扩大模型规模时，
+So what is this Jif try to illustrate is basically, when you continue to skill the model sizes,
+
+611
+00:41:29,825 --> 00:41:32,510
+能够完成一些非常复杂的任务。
+Be able to do some very complicated tasks.
+
+612
+00:41:32,510 --> 00:41:37,829
+好的，所以这有点像是一次飞跃。
+Okay. So this is kind of like a leap pas leap forward.
+
+613
+00:41:37,829 --> 00:41:41,049
+就像一个婴儿，每隔几个月就会发展出一项新技能。
+It's like a baby that every few months, it's going to develop a new skill.
+
+614
+00:41:41,049 --> 00:41:44,669
+突然之间，是的。好的。人们确实观察到了这一点。
+Suddenly, yeah. Okay. And people indeed observe this.
+
+615
+00:41:44,669 --> 00:41:49,770
+如今，我认为人们已经在讨论一些非常高级的技能，比如推理，
+Today, I think people are already talking about some very advanced skills, reasoning,
+
+616
+00:41:49,770 --> 00:41:53,449
+当你以某种方式扩展你的模型，并且你的模型开始推理时，
+When you skill your model in some way and your model start to reason,
+
+617
+00:41:53,449 --> 00:41:58,429
+开始解决这种数学问题，对吧？
+start to solve this kind of mathematical questions, okay?
+
+618
+00:41:59,340 --> 00:42:05,719
+不，我要做的基本上是对齐我应该对齐的两条曲线。
+No. I try to do is basically I'm going to align the two curves I should.
+
+619
+00:42:05,719 --> 00:42:08,200
+一条是模型的规模。
+One is the model sizes.
+
+620
+00:42:08,200 --> 00:42:11,339
+另一条是芯片的能力。
+The other is chips capability.
+
+621
+00:42:11,339 --> 00:42:15,239
+这是模型的规模，每18个月增长十倍。
+This is the model sizes, ten X every 18 months.
+
+622
+00:42:15,239 --> 00:42:21,780
+这是摩尔定律，你可以看到差距正在扩大，扩大了很多，
+This is the Morse law, you can see the gap is widening, a lot of widening,
+
+623
+00:42:21,780 --> 00:42:24,539
+这意味着摩尔定律将不再适用，
+Which means that Morse law is not going to work,
+
+624
+00:42:25,619 --> 00:42:30,179
+摩尔定律基本上是描述CPU发展的，好吗。
+Morse law is basically characterized in the development of CPU, okay.
+
+625
+00:42:32,690 --> 00:42:39,110
+好的。我希望你还记得我的这张幻灯片，对吧？所以我们有两个选择。
+Okay. I hope you still remember my slide this slide, right? So we have two options.
+
+626
+00:42:39,110 --> 00:42:42,649
+一个是加速器，另一个是量子计算，而且量子计算正在进行中，
+One is accelerator. The other is quantum computing, and quantum computing is going on,
+
+627
+00:42:42,649 --> 00:42:46,689
+我们基本上可以把我们的加速器故事映射到那条曲线上，好吗。
+and we can basically project our accelerator story into that curve. Okay.
+
+628
+00:42:46,689 --> 00:42:52,589
+如果我们预测加速器能力的增长，
+And if we project the growth of the capability of accelerators,
+
+629
+00:42:52,589 --> 00:42:57,119
+结果基本上还是差距很大，对吧？
+what happens is basically still wide gap, right?
+
+630
+00:42:57,119 --> 00:43:01,779
+它基本上处于我们所需和当前CPU实际提供之间的中间位置。
+It's basically in the middle of what we need and what we actually what CPU current currently offer.
+
+631
+00:43:01,779 --> 00:43:05,979
+好吗？所以VD GPU的增长，计算能力还是
+Okay? So the growth of the VD GPU, the compute flops is still
+
+632
+00:43:05,979 --> 00:43:08,699
+赶不上需求，对吧？这是个问题。
+not catching up, okay? That's a problem.
+
+633
+00:43:08,699 --> 00:43:12,600
+而TPU的增长曲线，比GPU稍微好一些。
+And the TPU curve green curves a little bit better than GPU.
+
+634
+00:43:12,600 --> 00:43:21,639
+明白吗？嗯，很好。而且这个差距每18个月会扩大256倍。
+Okay? Yeah. Cool. And this gap is increasing, uh, 256 times every 18 months.
+
+635
+00:43:21,639 --> 00:43:24,820
+是的。所以基本上，如果你只用一个加速器，
+Yeah. So basically, all the accelerators, if you use a single accelerator,
+
+636
+00:43:24,820 --> 00:43:28,540
+你是追不上我们需要开发的模型规模的。
+you're not going to catch up with the model sizes we need to develop.
+
+637
+00:43:28,540 --> 00:43:31,900
+明白吗？这是从计算的角度来看。
+Okay? And this is from the compute perspective.
+
+638
+00:43:31,900 --> 00:43:35,440
+你也可以从内存的角度画出类似的曲线。
+And you can also draw this kind of curve on from a memory perspective.
+
+639
+00:43:35,440 --> 00:43:41,139
+实际上发生的情况是，内存的增长更加疯狂，对吧？
+What happens is basically, um, the memory increase even crazier, okay?
+
+640
+00:43:41,139 --> 00:43:45,200
+所以我们需要的内存，用来存储和训练模型，基本上……
+So the memory that we need to store the model to train the model basically,
+
+641
+00:43:45,200 --> 00:43:48,859
+嗯，它每两年增长35倍。
+uh, it increase 35 times every two years.
+
+642
+00:43:49,660 --> 00:43:53,900
+但是GPU内存的增长要平缓得多，对吧？
+But the GPU memory girls is much flatter, okay?
+
+643
+00:43:53,900 --> 00:43:57,859
+所以基本上，你根本无法赶上这个速度，对吧。
+So basically, there's no way that you can catch up. Okay.
+
+644
+00:43:58,260 --> 00:44:02,279
+而且能在单个GB上运行的最大模型，基本上我们停在了BRT。
+And the largest model fit on single GB basically we stop at BRT.
+
+645
+00:44:02,279 --> 00:44:06,940
+好的，BRT基本上就是我们能在单个GI上存储的模型，对吧？
+Okay. BRT is basically the model that we can store on single GI, okay?
+
+646
+00:44:08,540 --> 00:44:11,539
+然后在某个时刻，我们基本上会遇到变化。
+And at some point, we basically face the change.
+
+647
+00:44:11,539 --> 00:44:13,140
+那就是我们仅仅存储参数就需要超过100个
+That is we need more than 100
+
+648
+00:44:13,140 --> 00:44:18,209
+GPU，还不包括那些优化器状态和激活值，对吧？
+GPOs to just store the parameters, not mentioning those openmeter states and activations, okay?
+
+649
+00:44:18,209 --> 00:44:21,419
+是的，我希望这个图，这是真实的数据，对吧？
+Yeah, I hope this figure this is real data, okay?
+
+650
+00:44:21,419 --> 00:44:22,919
+这是真实的数据，不是说
+This real data, it's not like
+
+651
+00:44:22,919 --> 00:44:24,679
+我编造了这个，好吧，是真实数据。
+I made up this, okay, real data.
+
+652
+00:44:24,679 --> 00:44:28,159
+我希望这基本上能证明没有其他出路，对吧？
+And I hope it's basically justify that there's no way out, right?
+
+653
+00:44:28,159 --> 00:44:31,140
+我们唯一能做的就是进行部分相加。
+The only way that we do is basically we do part addition.
+
+654
+00:44:31,140 --> 00:44:33,459
+这就是为什么我们需要学习并行化，好吗？
+That's why we need to study paraliztion, okay?
+
+655
+00:44:33,459 --> 00:44:36,140
+很好，那我们来谈谈部分相加。
+Cool. Then let's talk about part addition.
+
+656
+00:44:36,140 --> 00:44:40,359
+好的，我想你们很多人可能已经在做这部分了，对吧？
+Okay. So I think many of you probably already worked on this part, right?
+
+657
+00:44:40,359 --> 00:44:43,719
+就像，如果你用Petro，或者你今天做其他类似的事情，
+Like, if you do Petro you do whatever kind of thing today,
+
+658
+00:44:43,719 --> 00:44:46,359
+你们可能已经开始使用
+you probably have already started working with like
+
+659
+00:44:46,359 --> 00:44:49,519
+Petroc分布式或者Tinder flow分布式这类库了，对吧。
+Petroc distributed or Tinder flow distributed kind of library, right.
+
+660
+00:44:49,519 --> 00:44:54,119
+而且，我觉得你们大多数人在做这个的时候
+And, um, and I think most of you when you work on this,
+
+661
+00:44:54,119 --> 00:44:56,480
+基本上你会接触到两个概念。
+you are basically educated with two concepts.
+
+662
+00:44:56,480 --> 00:44:58,020
+一个叫做数据并行。
+One is called data parism.
+
+663
+00:44:58,020 --> 00:44:59,839
+另一个叫做任务并行。
+The other is called the Mtopism.
+
+664
+00:44:59,839 --> 00:45:03,099
+那么什么是数据并行和任务并行呢？明白了吗？
+So what is data palism and topolism? Okay?
+
+665
+00:45:03,099 --> 00:45:07,099
+我认为数据并行很容易理解，我们一直在讨论这个，
+I think the dataparism is very easy to understand we have been talking about that at
+
+666
+00:45:07,099 --> 00:45:09,600
+在加速层面上，基本上就是SIMD。
+the accelerated levels basically SIMD.
+
+667
+00:45:09,600 --> 00:45:13,899
+比如GPU里有很多很多核心，你把每一部分数据分配给不同的核心。
+Uh I GPU you hold many many cores you give each part of data.
+
+668
+00:45:13,899 --> 00:45:15,560
+这基本上就是数据并行。
+That is basically data parism.
+
+669
+00:45:15,560 --> 00:45:19,700
+在本节课的这个部分，数据并行的意思是你有很多很多不同的GPU，
+And in this part of the lecture, uh, data paralisis means that you have many many different GPUs,
+
+670
+00:45:19,700 --> 00:45:22,894
+你把每一部分数据分配给每一个GPU。其实是一样的。
+you give each GPU a part of data. It's the same.
+
+671
+00:45:22,894 --> 00:45:26,670
+所以在数据并行中，我们有很多很多的GPU。
+So in data parism we have many many GPUs.
+
+672
+00:45:26,670 --> 00:45:29,329
+每个GPU可能都安装在某些节点上，对吧？
+Each GPU is probably installed on some notes, right?
+
+673
+00:45:29,329 --> 00:45:31,150
+我们有一个巨大的数据集。
+And we have a huge dataset.
+
+674
+00:45:31,150 --> 00:45:36,070
+基本上我们把数据集拆分，然后给每个GPU分配一个部分数据集，
+And we basically split the data set and we give each GPU a paro dataset,
+
+675
+00:45:36,070 --> 00:45:40,989
+让它们一起处理，好吗，同时并行处理。好。
+and we let them proceed together, okay, in parallel. Okay.
+
+676
+00:45:40,989 --> 00:45:46,509
+所以这里，数据并行实际上有一个核心假设，就是整个模型需要
+So here, Datapism actually has a core assumption that is, uh, the entire model needs to
+
+677
+00:45:46,509 --> 00:45:48,515
+能够放在一台机器或一块GPU上。
+fit on a single machine or GPU.
+
+678
+00:45:48,515 --> 00:45:54,539
+好的。那么如果模型无法放在一台机器上会发生什么呢？
+Okay. So what happens, if the model does not fit on a single machine?
+
+679
+00:45:54,539 --> 00:45:56,939
+那基本上就需要多机并行了。
+That basically give us multipis
+
+680
+00:45:56,939 --> 00:45:58,219
+我们需要对模型进行分区。
+We need to party in the model.
+
+681
+00:45:58,219 --> 00:46:04,759
+好吗？所以，这意味着我们需要对模型本身进行并行化。那么，什么是模型呢？
+Okay? So, meaning that we need to paralyze the model itself. So what is the model?
+
+682
+00:46:06,150 --> 00:46:09,049
+因为在这节课中，我认为我们已经知道这个模型是什么了。
+Because in this lecture, I think we know what this model.
+
+683
+00:46:09,049 --> 00:46:12,249
+它基本上是一个计算图，我们定义了那个通信图，
+It's basically computer graph, we define that comminute graph,
+
+684
+00:46:12,249 --> 00:46:13,969
+我们稍后会再回到这个问题。
+and we are going to come back to that later.
+
+685
+00:46:13,969 --> 00:46:17,590
+但是，假设这是一个未标记的模型。
+But however, say, this is a unla model.
+
+686
+00:46:17,590 --> 00:46:20,850
+它基本上包含了很多数学模型，许多许多非线性函数，
+It's basically a lot of mat model, many many non linear functions,
+
+687
+00:46:20,850 --> 00:46:24,689
+嗯，就像组成了完整的计算图一样。
+uh, like composing complete computer graph.
+
+688
+00:46:24,689 --> 00:46:30,050
+好的。那么当我们谈论如何对这些模型进行划分时，
+Okay. So when we talk about, uh, how we basically partition these models,
+
+689
+00:46:30,050 --> 00:46:33,249
+我们其实是在讨论如何划分这些张量操作，对吧？
+we are talking about how we partitioning this kind of tensor operators, right?
+
+690
+00:46:33,249 --> 00:46:36,939
+直观上来说，有几种方式可以实现。
+So intuitively, there are a few ways, okay?
+
+691
+00:46:36,939 --> 00:46:39,329
+一种方法是我们可以从中间切开，对吧？
+One is like we can cut in the middle, right?
+
+692
+00:46:39,329 --> 00:46:42,610
+比如说这个模型有四层，我们基本上从中间切开。
+So say this general has four layers, we basically cut in the middle.
+
+693
+00:46:42,610 --> 00:46:46,149
+我们把前两层分给第一个GPU，后两层分给另一个GPU，对吧？
+We give the first GPU two layers, the other GPU another two layers, right?
+
+694
+00:46:46,149 --> 00:46:48,689
+这就是第一种模型类型。
+This is a model type number one.
+
+695
+00:46:48,689 --> 00:46:54,330
+好的。另一种方式是，我们甚至可以进行流水线执行，
+Okay. Another way is, um, we can even pipeline execution
+
+696
+00:46:54,330 --> 00:46:58,770
+这样会更复杂但更高效，不过我们可以之后再讨论这个，好吗？
+to make it even more complicated but more efficient, but we can talk about this layer, okay?
+
+697
+00:46:58,890 --> 00:47:04,569
+嗯，好。那么做模型分区的第二种方式是什么？
+Um, Okay. And what's the second way of doing mod party?
+
+698
+00:47:07,040 --> 00:47:09,499
+所以这是一种垂直切分，对吧？
+So this is vertical cut right.
+
+699
+00:47:09,499 --> 00:47:10,819
+我也可以做水平切分。
+I can do horizontal cut.
+
+700
+00:47:10,819 --> 00:47:12,960
+好的，是的，这其实很直观。
+Okay? Yeah, so it's very intuitive.
+
+701
+00:47:12,960 --> 00:47:14,239
+我也可以进行横向切分。
+I can also horizontal cut.
+
+702
+00:47:14,239 --> 00:47:18,879
+所以对于每一层，我会把那一层切成不同的部分，然后把每个部分分配给每个GPU。
+So for each layer, I'm going to cut that layer into different parts and I give each GB a part.
+
+703
+00:47:18,879 --> 00:47:23,624
+明白吗？这其实是另一种类型的模型并行方式，好吗？
+Okay? This is another part of another type of mod partism, okay?
+
+704
+00:47:23,624 --> 00:47:27,749
+你可以看到，这会变得相当复杂，因为每一层可能有
+And you can see this can become rather complicated because each layer probably has
+
+705
+00:47:27,749 --> 00:47:34,529
+不同类型的算子，而且每个神经网络可能有不同类型的层，对吧？
+different kind of operators and each neural network probably have different kind of layers, right?
+
+706
+00:47:34,529 --> 00:47:37,930
+我们还有不同类型的集群。
+And we also have a different type of cluster.
+
+707
+00:47:37,930 --> 00:47:41,450
+我们可以有一个节点上安装了八个GPU的集群。
+We could have a cluster with eight GPUs installed in one node.
+
+708
+00:47:41,450 --> 00:47:46,109
+我们也可以有一个非常大的集群，里面有成千上万个GPU，
+We can also have a pretty big cluster where we have tens of thousands of GPUs,
+
+709
+00:47:46,109 --> 00:47:48,289
+并且它们以不同的方式分布。
+and they are distributed in different ways.
+
+710
+00:47:48,289 --> 00:47:51,690
+这样一来，问题就会变得非常复杂。
+Okay? And that will basically make the problem very complicated.
+
+711
+00:47:51,690 --> 00:47:53,859
+这就是我们接下来要深入探讨的内容。
+And that's what we are going to dive deeper.
+
+712
+00:47:53,859 --> 00:48:01,110
+好的。但直观上，我觉得就像我说的，你有一个经典的机器学习划分视角。
+Okay. But intuitively, I think, like I said, uh, you have a classic view of machine learning partism
+
+713
+00:48:01,110 --> 00:48:05,470
+你把划分分为数据划分、多重划分。
+where you classify pism into data parts, Multi partism.
+
+714
+00:48:05,470 --> 00:48:08,529
+我觉得接下来我要做的，就是把这种
+And I think next, what I'm going to do is I'm going to map this kind of like
+
+715
+00:48:08,529 --> 00:48:14,549
+对划分的直观解释映射到我们对模型、数据和计算的定义上，对吧？
+intuitive explanation of pism into our definition of models and data on compute, right?
+
+716
+00:48:14,549 --> 00:48:21,110
+因为我们希望从纯计算和系统的角度来研究这个划分问题。
+Because we want to approach this pism from sure computation and system perspective.
+
+717
+00:48:21,110 --> 00:48:24,304
+这样我们就知道在系统层面该怎么处理了。
+So we know what to do what to deal with on system side.
+
+718
+00:48:24,304 --> 00:48:26,739
+好的，还是回顾一下，对吧？
+Okay. Still recap, right?
+
+719
+00:48:26,739 --> 00:48:32,019
+这是我第二节课用到的图，我们有神经网络，
+This is the figure we use in my second lecture, where we have neural networks and
+
+720
+00:48:32,019 --> 00:48:35,039
+这个神经网络可以用这个主方程来表示，对吧？
+this neural network can be represented using this master equation, right?
+
+721
+00:48:35,039 --> 00:48:37,900
+还记得每个符号的定义吗？
+Still remember the definition of each symbol.
+
+722
+00:48:37,900 --> 00:48:39,039
+记得。
+Okay.
+
+723
+00:48:39,039 --> 00:48:42,420
+那么从计算的角度来看，partsm是什么？
+So from a computational perspective, what is partsm?
+
+724
+00:48:42,420 --> 00:48:45,879
+好吗？我觉得从计算的角度来看，我们关心两件事，对吧？
+Okay? I think from a computation perspective, we care about two things, right?
+
+725
+00:48:45,879 --> 00:48:47,760
+一是如何计算。
+One is how to compute.
+
+726
+00:48:47,760 --> 00:48:50,800
+如何计算计算图。第二是内存。
+How to compute the computer graph. Second is memory.
+
+727
+00:48:50,800 --> 00:48:54,479
+我希望我们花这么多时间在内存上，主要是为了确保
+I hope we spend so many time on memory, how to basically make sure
+
+728
+00:48:54,479 --> 00:48:56,699
+计算能够受限于峰值内存。
+the computation will subject to the peak memory.
+
+729
+00:48:56,699 --> 00:49:03,425
+好吗？所以对于计算机来说，如果你看这个方程，呃，哪些元素需要计算？
+Okay? So for computer, if you look at this equation, uh, what are the elements that require compute?
+
+730
+00:49:03,425 --> 00:49:07,550
+第一个元素是这个函数，它执行前向和反向计算。
+The first element is this function, which perform forward and backward.
+
+731
+00:49:07,550 --> 00:49:13,030
+好吗？当我们谈论并行化时，基本上需要在这个计算函数中分成两部分，
+Okay? And when we talk about parism, we basically need to parts in this compute function across
+
+732
+00:49:13,030 --> 00:49:15,009
+跨越不同数量的设备。明白吗？
+different number of dips. Okay?
+
+733
+00:49:15,009 --> 00:49:23,049
+第二部分是F操作很重要，对吧？我们在这里对参数应用梯度。
+A second part is the F op matters, right, where we apply gradients, uh, two parameters.
+
+734
+00:49:23,049 --> 00:49:24,830
+我们需要应用这个函数
+And we need to apply this function
+
+735
+00:49:24,830 --> 00:49:28,550
+F。我们需要在不同的设备上执行这个函数F。
+F. We need to perform this function F across different dipts.
+
+736
+00:49:28,550 --> 00:49:32,970
+好吗？这就是这个方程的主要计算部分。
+Okay? And this is the main compute from this equation.
+
+737
+00:49:32,970 --> 00:49:36,175
+好，我们将学习如何进行并行化。
+Okay, we are going to study how to parallelism.
+
+738
+00:49:36,175 --> 00:49:41,499
+在内存部分，我们有两个主要的消耗来源，一个是D，
+On the memory part, we have two main sources of consumption is D,
+
+739
+00:49:41,499 --> 00:49:44,760
+D是数据，批次数量。
+D is data, number batches.
+
+740
+00:49:44,760 --> 00:49:49,019
+如果你对D进行分区，它就变成了数据并行，很清楚。
+And if you partition D, it becomes data pismV clear.
+
+741
+00:49:49,019 --> 00:49:53,660
+好吗？Theta，Theta 基本上就是参数。
+Okay? And Theta, Theta is basically the uh parameters.
+
+742
+00:49:53,660 --> 00:49:58,160
+好吗？我们需要对参数进行分区，因为我们无法将整个模型放在一个 GPU 上。
+Okay? We need to partition parameters because we cannot put the model into one GPU.
+
+743
+00:49:58,160 --> 00:50:00,130
+内存不够用。
+The memory is not sufficient.
+
+744
+00:50:00,130 --> 00:50:07,819
+好的。我们真正需要研究和关注的一个部分是通信。
+Okay. And one part that we really need to study and take care of is, um, communication.
+
+745
+00:50:07,819 --> 00:50:12,299
+为什么通信很重要？因为在单个设备上，你确实有通信，但是
+Why communication is important because on a single device, you do have communication, but
+
+746
+00:50:12,299 --> 00:50:15,400
+通信基本上发生在内存层级之间。
+communication basically happens between memory hierarchy.
+
+747
+00:50:15,400 --> 00:50:18,079
+你在不同的内存之间进行通信，比如，
+You communicate between, uh,
+
+748
+00:50:18,079 --> 00:50:22,900
+从 CPU 内存到 HBM、SRAM，再到缓存、再到寄存器。
+CPU memory to HPM SRM to catch it to register.
+
+749
+00:50:22,900 --> 00:50:24,819
+这完全是本地的。
+Okay. And that is pure local.
+
+750
+00:50:24,819 --> 00:50:30,339
+所以你的设备，比如你的 GPU 库像 Coda，会为你提供所有这些内存拷贝的功能。
+So your device, uh your GPU library like Coda, they provide all this kind of memory copy for you.
+
+751
+00:50:30,339 --> 00:50:32,505
+实现起来非常容易。
+It's very easy to implement.
+
+752
+00:50:32,505 --> 00:50:38,150
+但是当你分布式处理时，情况就不一样了，你必须在
+But when you go distributed this different story, you have to communicate these things across
+
+753
+00:50:38,150 --> 00:50:42,130
+不同的GPU之间进行通信，以及不同的节点是如何连接的。
+different GPUs and how different dips get connected.
+
+754
+00:50:42,130 --> 00:50:46,629
+设备之间有一些互连，这种互连可能是，
+There is some interconnect between devices, and this interconnect could be,
+
+755
+00:50:46,629 --> 00:50:50,589
+如果你把GPU放在一个机箱里，就是Medius Vlink。
+medius Vlink if you put GPUs in one box.
+
+756
+00:50:50,589 --> 00:50:55,550
+或者如果你想继续扩展规模，就必须通过网络。
+Or if you want to continue to scale up, you have to go through the network.
+
+757
+00:50:55,550 --> 00:50:58,450
+网络的话，有不同类型的网络。
+Network, you have different kind of networks.
+
+758
+00:50:58,450 --> 00:51:04,590
+你有亚马逊的，比如弹性结构这样的网络技术。
+You have Amazons, like elastic fabric, this kind of network technology.
+
+759
+00:51:04,590 --> 00:51:06,110
+你也有Infinivn。
+You also have infinivn.
+
+760
+00:51:06,110 --> 00:51:11,890
+如果你学过网络，你会知道还有TCP/IP这种，基本上有很多层。
+You have TCP IP kind of basically many layers if you have studied networking.
+
+761
+00:51:11,890 --> 00:51:13,849
+那么该如何处理通信呢。
+Then how to handle communication.
+
+762
+00:51:13,849 --> 00:51:17,029
+这也是分布式系统中主要的复杂性来源。
+And that is the main source of complexity in poison.
+
+763
+00:51:17,029 --> 00:51:23,490
+所以我们要非常小心地处理通信，因为我们知道通信比本地操作要慢得多，
+So how to carefully handle communication because we know communication is much slower than locality,
+
+764
+00:51:23,490 --> 00:51:26,290
+因为本地操作只是内存层级之间的移动。
+because locality, you just moves between memory hierarchy.
+
+765
+00:51:26,290 --> 00:51:28,770
+但一旦开始通信，延迟就会很高。
+But once you start doing communication, you have a high latency.
+
+766
+00:51:28,770 --> 00:51:30,989
+明白吗？我们必须处理这个问题。
+Okay? We have to handle that.
+
+767
+00:51:30,989 --> 00:51:35,069
+还有如何处理通信参数，以及，呃，
+And how to handle communication parameters and also, uh,
+
+768
+00:51:35,069 --> 00:51:37,989
+通信激活，这取决于
+the communication activations, and that depends on
+
+769
+00:51:37,989 --> 00:51:41,729
+我们如何划分神经网络，也就是计算图。
+how we partition the new network, the computation graph.
+
+770
+00:51:41,729 --> 00:51:49,249
+明白吗？这些内容会在内部讲到，我们现在先了解一下高层次上我们要做什么。
+Okay? So that'll be inside, um, we know what do we do at a high level.
+
+771
+00:51:49,249 --> 00:51:53,950
+那么我们基本上可以尝试从这个角度来理解数据和多路并行，
+Then we can basically try to understand data and multipaism from this perspective,
+
+772
+00:51:53,950 --> 00:51:55,310
+从计算机的角度来看。
+from this computer perspective.
+
+773
+00:51:55,310 --> 00:52:00,109
+对于数据并行，我们要做的基本上就是对数据进行分区。
+So for data parism, what we do is basically we are going to partition the data.
+
+774
+00:52:00,109 --> 00:52:02,650
+我们会把数据分成不同的部分，然后分配给每个GPU。
+We are going to piton the data and we give each GPU
+
+775
+00:52:02,650 --> 00:52:05,529
+每个GPU拿到不同的数据，然后各自进行计算，对吧？
+different data and they compute on their own, right?
+
+776
+00:52:05,529 --> 00:52:11,259
+但问题是，每个GPU虽然各自计算，
+But the problem is, um, each GPU is going to compute on their own,
+
+777
+00:52:11,259 --> 00:52:13,100
+但在某个时刻，它们需要进行同步。
+but at some point, they need to synchronize.
+
+778
+00:52:13,100 --> 00:52:17,499
+否则，每个GPU基本上都是按照自己的节奏在计算，
+Because otherwise, GPU is basically computer on their own pace and they are
+
+779
+00:52:17,499 --> 00:52:19,299
+并没有真正为同一个任务做出贡献。
+not basically contributing to the same job.
+
+780
+00:52:19,299 --> 00:52:21,740
+你通过分区其实并没有取得进展。
+You are not making progress through partition.
+
+781
+00:52:21,740 --> 00:52:26,480
+所以我在数据分配时，需要沟通哪些内容。
+So I datapati what kind of thing will need to communicate.
+
+782
+00:52:29,160 --> 00:52:32,779
+我们很快就会弄清楚。基本上我们需要搞清楚的部分，
+We are going to soon figure out. So basically the part that we need to figure out
+
+783
+00:52:32,779 --> 00:52:35,919
+是如何传递参数和输入数据，对吧？
+is how to communicate the parameters and ingredients, okay?
+
+784
+00:52:35,919 --> 00:52:41,159
+还有整个算法，所以基本上，我们把数据分成不同部分，对吧？
+And the entire algorithm, um, so basically, we part in the data, okay?
+
+785
+00:52:41,159 --> 00:52:45,940
+我们给每个GPU分配不同的数据，同时也复制参数。
+We give HGPU a different data where we also replicate the parameters.
+
+786
+00:52:45,940 --> 00:52:49,040
+所以我们给每个GPU一份参数的副本。
+So we give each GPU a copy of the parameters.
+
+787
+00:52:49,040 --> 00:52:52,940
+明白了吗？然后GPU会拿到参数的副本，
+Okay? And then GPU is going to take the copy the parameters,
+
+788
+00:52:52,940 --> 00:52:55,899
+当然还有模型代码的副本。
+and also a copy of the model code, of course, okay.
+
+789
+00:52:55,899 --> 00:53:01,369
+然后它会在指定的数据批次上执行计算。
+And it's going to apply this computation on that specific designated batch of data.
+
+790
+00:53:01,369 --> 00:53:03,799
+完成这些后，我们会得到什么结果？
+And once we do this, what we'll produce?
+
+791
+00:53:03,799 --> 00:53:05,979
+我们会生成一份梯度的副本，对吧？
+We will produce a copy of gradients, right?
+
+792
+00:53:05,979 --> 00:53:11,059
+记住，在这个优化过程中，我们需要做的是把
+And remember in this optimization, what we do is we need to apply
+
+793
+00:53:11,059 --> 00:53:13,659
+梯度应用到参数上，对吧？
+the gradients into primeters, right?
+
+794
+00:53:13,659 --> 00:53:17,080
+所以HTPU可以独立地把梯度应用到参数上。
+So HTPU could apply the gradients independently to the parameters.
+
+795
+00:53:17,080 --> 00:53:19,300
+但这样做没有意义，因为否则，
+But it does not make sense, because otherwise,
+
+796
+00:53:19,300 --> 00:53:24,180
+EHPU做的，嗯，换句话说，GPU基本上是在各自为政。
+EHPU is doing, um, in other way, GPU is basically doing their own communion.
+
+797
+00:53:24,180 --> 00:53:26,800
+没有任何通信。所以我们在daal纯粹主义中要做的是，
+There's no communication. So what do we do is basically in daal purism,
+
+798
+00:53:26,800 --> 00:53:28,240
+我们要同步梯度。
+we are going to synchronize the gradients.
+
+799
+00:53:28,240 --> 00:53:32,360
+好吗？我们会有一个通信机制，在这个机制下我们会连接
+Okay? We are going to have a communication mechanism where we are going to connect gradients
+
+800
+00:53:32,360 --> 00:53:34,019
+所有GPU的梯度。
+from all the GPUs.
+
+801
+00:53:34,019 --> 00:53:37,390
+我们先累积它们，然后再应用到参数上。
+We accumulate them, and then we apply to the parameters.
+
+802
+00:53:37,390 --> 00:53:41,680
+好的。当我们应用到参数上后，我们会得到一份新的参数副本。
+Okay. And once we apply to the parameters, we are going to get a new copy of the parameters
+
+803
+00:53:41,680 --> 00:53:46,640
+然后我们基本上会把这份参数副本分发给DPS，然后开始下一次迭代。
+and we basically redistribute that copy of parameters to DPS, and we start next iteration.
+
+804
+00:53:46,640 --> 00:53:49,200
+明白了吗？这就是数据并行。
+Okay? This is data partarism.
+
+805
+00:53:49,200 --> 00:53:52,819
+而在模型并行的情况下，事情会变得更复杂，对吧？
+And I Mdparism things becomes more complicated, okay?
+
+806
+00:53:52,819 --> 00:53:56,319
+所以，我们不再对数据进行分区了。
+So, we don't partition data anymore.
+
+807
+00:53:56,319 --> 00:53:58,620
+明白了吗？我们要对模型进行分区。
+Okay? We are going to partition the model.
+
+808
+00:53:58,620 --> 00:54:01,619
+嗯，对模型进行分区其实是非常薄弱的，对吧？
+Uh Partitioning model is very, very weak, right?
+
+809
+00:54:01,619 --> 00:54:03,319
+那么我说的模型并行是什么意思呢？
+So what do I mean by parison model?
+
+810
+00:54:03,319 --> 00:54:04,599
+其实有很多很多种可能性。
+There are many many possibilities.
+
+811
+00:54:04,599 --> 00:54:07,700
+一个是我要对模型参数进行分区，也就是Theta。
+One is I'm going to partition the model parameters, which is the Theta.
+
+812
+00:54:07,700 --> 00:54:11,660
+另一个是我要对竞争进行分区，也就是那个函数。
+The other one is I'm going to petition the competition, which is that function.
+
+813
+00:54:11,660 --> 00:54:14,200
+好的，Lambda L，明白吗？
+Okay. Lambda L, okay?
+
+814
+00:54:15,450 --> 00:54:18,909
+这里的问题是我们如何处理数据？
+The problem here is how do we deal with data?
+
+815
+00:54:18,909 --> 00:54:21,109
+对吧？因为在多分区的情况下，
+Right? Because in multiparism,
+
+816
+00:54:21,109 --> 00:54:22,189
+我不知道该如何处理数据。
+I don't know how to deal with data.
+
+817
+00:54:22,189 --> 00:54:23,550
+我可以分区，也可以不分区。
+I could parts or not partition.
+
+818
+00:54:23,550 --> 00:54:25,489
+好的，我们会想办法解决的。
+Okay. We are going to figure it out.
+
+819
+00:54:25,489 --> 00:54:29,269
+当然，我们还需要对优化器状态进行分区，因为我们已经对模型的一部分进行了分区，
+And, of course, we need to partition optiber states because we already part in part of
+
+820
+00:54:29,269 --> 00:54:34,490
+并且我们必须将部分梯度应用到部分参数上。
+the model and we have to apply the partial gradients into the part of parameters.
+
+821
+00:54:34,490 --> 00:54:37,789
+好的，我们进行分区。好的。
+Okay, we partition. Okay.
+
+822
+00:54:37,789 --> 00:54:41,130
+嗯，这样你就能看到全局了，对吧？其实很复杂。
+Uh, that'll give you a big picture, right? It's very complicated.
+
+823
+00:54:41,130 --> 00:54:46,250
+好的。你有很多分区的选择，同时还要受网络延迟的影响。
+Okay. You have so many choices to petition, and you also subject to networking latency.
+
+824
+00:54:46,250 --> 00:54:48,709
+你还受内存限制的影响，还受其他各种因素的影响，
+You subject to memory constraints, you subject to whatever,
+
+825
+00:54:48,709 --> 00:54:51,789
+比如说，呃，这些都会让你的任务变慢，明白吗？
+like, uh, well, make your job slow, okay?
+
+826
+00:54:51,789 --> 00:54:56,689
+你必须确保以聪明的方式进行分区，这样你的任务才不会变慢。
+You have to make sure, uh, you petition in a smart way that your job is not slow.
+
+827
+00:54:56,689 --> 00:54:59,189
+明白吗？这就是问题的一部分。
+Okay? This is part of the issue.
+
+828
+00:54:59,420 --> 00:55:03,039
+好的，现在我基本上要开始讲一下我们如何
+Okay, now, I'm going to basically start talking about how we
+
+829
+00:55:03,039 --> 00:55:06,199
+让整个流程变得更加清晰。
+make this entire picture much more clear.
+
+830
+00:55:06,199 --> 00:55:11,459
+好的。所以我希望你还记得这个图，对吧？
+Okay. So I hope you still remember this figure, right?
+
+831
+00:55:11,459 --> 00:55:16,579
+所以我们可以用计算图来表示我们的模型，这个计算图基本上是
+So we can represent our model using a computer graph, and this computer graph basically is
+
+832
+00:55:16,579 --> 00:55:19,880
+由三部分组成：前向、反向和更新。
+composed of three parts forward, backward and with update.
+
+833
+00:55:19,880 --> 00:55:23,620
+好的，最终我们会得到这个图。
+Okay. And eventually we'll end up with this graph.
+
+834
+00:55:23,620 --> 00:55:26,180
+好的，那什么是paradisi？
+Okay. So what is paradisi?
+
+835
+00:55:26,180 --> 00:55:31,239
+所以如果你只是在模型层面上思考paradisi，
+So if you only talk about if you think that paradiing at the model level,
+
+836
+00:55:31,239 --> 00:55:32,459
+你是无法弄明白的。
+you're not going to figure it out.
+
+837
+00:55:32,459 --> 00:55:35,179
+因为这太复杂了，有太多不同类型的模型。
+Okay, it's too complicated because there are so many different kind of models.
+
+838
+00:55:35,179 --> 00:55:37,340
+所以现在，让我们换一种思维方式。
+So now, let's basically change your mindset.
+
+839
+00:55:37,340 --> 00:55:39,159
+我们先不考虑模型本身。
+We forget about the model.
+
+840
+00:55:39,159 --> 00:55:41,099
+好吗？所有的模型基本上都是计算图。
+Okay? All the model are basically computer graph.
+
+841
+00:55:41,099 --> 00:55:45,579
+好的。我会给你一张计算机图，你只需要仿照它。这就是仿照。
+Okay. I'm going to give you a computer graph, you just paradi it. That's paradion.
+
+842
+00:55:45,579 --> 00:55:49,919
+好吗？所以在这节课里，我要讲的内容是，
+Okay? So in this lecture, what I'm going to the way I taught I taught is,
+
+843
+00:55:49,919 --> 00:55:55,539
+我要教你如何仿照，基本上我会给你这张计算机图。
+I'm going to teach parodies basically I'm going to give you this computer graph.
+
+844
+00:55:55,539 --> 00:55:59,359
+我还会给你一个像这样的设备集群。
+I'm also going to give you a device cluster like this.
+
+845
+00:55:59,359 --> 00:56:04,160
+我觉得集群很容易理解，特别是给你这个集群。
+I think cluster is very easy to read, especially given to this cluster.
+
+846
+00:56:04,160 --> 00:56:08,520
+比如说，这是Medius DGX盒子，这是V100，
+For example, this is the medius DGX box, and this is V 100,
+
+847
+00:56:08,520 --> 00:56:10,959
+但基本上E100和H100是一样的。
+but basically E 100 and H 100 is the same.
+
+848
+00:56:10,959 --> 00:56:15,469
+它们的连接方式让你可以看到这个GPU。
+They are connected in a way where you can see this GPU.
+
+849
+00:56:15,469 --> 00:56:23,660
+好的。而HGPU基本上有多路连接，这种连接带宽非常高。
+Okay. And HGPU basically has a multi way link, this Mink is very high bandwidth.
+
+850
+00:56:23,660 --> 00:56:29,199
+也就是说，当HGPU和这个盒子里的其他GPU通信时，
+Meaning that HGPU when they talk to another GPU inside of this box is
+
+851
+00:56:29,199 --> 00:56:32,119
+非常高带宽的通信，非常非常快。
+very high bandwidth communication. Very very fast.
+
+852
+00:56:32,119 --> 00:56:35,584
+这几乎就像是一个内存层次结构，只是稍微慢一点。
+It's almost like a memory hierarchy, but just a little bit slower.
+
+853
+00:56:35,584 --> 00:56:42,749
+好的，但如果你在这里再画一个框，如果这个GPU想和另一个GPU通信，
+Okay. But if you draw another box here and if this GPU wants to communicate with another GPU here,
+
+854
+00:56:42,749 --> 00:56:47,270
+问题就出现了，他们必须通过这个互联网。
+the problem exists, they have to go through this Internet.
+
+855
+00:56:47,270 --> 00:56:51,089
+他们必须把数据从GPU内存转移到CPU内存，然后
+They have to move things from GPU memory to CP memory and let
+
+856
+00:56:51,089 --> 00:56:56,010
+让CPU通过这个互联网发送这些内容。
+the CPU to send those contents through this Internet.
+
+857
+00:56:56,010 --> 00:56:58,370
+你可以看到通信带宽的规模。
+And you can see the scale of the communication bandwidth.
+
+858
+00:56:58,370 --> 00:57:02,260
+互联网几乎比链路慢十到一百倍。
+Internet is almost like ten to 100 times slower than link.
+
+859
+00:57:02,260 --> 00:57:09,250
+好的，也许我可以把这个再抽象一点，就是我们有这样一个集群。
+Okay. And maybe I can make this a little bit more abstract, that is, we have this kind of cluster.
+
+860
+00:57:09,250 --> 00:57:10,949
+这里我有四个节点，可以吗？
+Here I have four nodes, okay?
+
+861
+00:57:10,949 --> 00:57:12,949
+一、二、三、四，对吧？
+One, two, three, four, right?
+
+862
+00:57:12,949 --> 00:57:18,469
+基本上每个节点有几个GPU，这里我写了四个，但现在通常是八个，好吧。
+And basically each node has a few GPUs here I give four, but typically today is eight, okay.
+
+863
+00:57:18,469 --> 00:57:23,949
+这些GPU之间有高速连接，我这里用绿色线表示。
+These GPUs are basically have a fast connection, which I use green green line here.
+
+864
+00:57:23,949 --> 00:57:28,710
+如果你想让不同机箱里的GPU之间通信，
+And if you want to communicate between any GPU that is from different boxes,
+
+865
+00:57:28,710 --> 00:57:31,250
+你就必须通过慢速连接。
+you have to subject to the slow connection.
+
+866
+00:57:31,250 --> 00:57:35,949
+好的。通过这样重复的设备集群，
+Okay. And with this repenton of this device cluster, um,
+
+867
+00:57:35,949 --> 00:57:38,469
+那么我们的问题就变得稍微
+then our problem is become a little bit more,
+
+868
+00:57:38,469 --> 00:57:41,189
+我觉得，比之前的版本更好了。
+I would say, nicer than previous version.
+
+869
+00:57:41,189 --> 00:57:43,419
+就是说，呃，好吧。
+That is, uh Okay.
+
+870
+00:57:43,419 --> 00:57:48,280
+所以这部分基本上等同于在设备集群上划分计算图。
+So part of this basically equals to partitioning computational graph on device Claster.
+
+871
+00:57:48,280 --> 00:57:51,419
+好吗？在左边，我们有一个计算机图。
+Okay? On the left hand side, we are given committer graph.
+
+872
+00:57:51,419 --> 00:57:55,559
+好吗？在右边，我们有另一个图，但这个图不是计算机图。
+Okay? On the right hand side, we are given another graph, but this graph is not a computer graph.
+
+873
+00:57:55,559 --> 00:57:57,779
+它基本上是设备的图。好的。
+It's basically graph of devices. Okay.
+
+874
+00:57:57,779 --> 00:58:02,119
+在这里，我没有用图这个词，但你可以这样理解，好吗？
+And here, I don't use graph, but you can understand it that way, okay?
+
+875
+00:58:02,119 --> 00:58:09,779
+这个图有一个非常独特且确定的特征，就是在一个盒子内部，
+And this graph has a very unique and very determined characteristics that is inside of one box,
+
+876
+00:58:09,779 --> 00:58:13,900
+是快速连接，而盒子之间是慢速连接。
+it's fast connection and between boxes store connection.
+
+877
+00:58:13,900 --> 00:58:18,540
+我们的问题基本上是如何在设备集群上划分计算机图。
+And our problem is basically how to partition commuter graph on the device clasor.
+
+878
+00:58:18,540 --> 00:58:21,060
+好的，问题定义完毕。
+Okay? Problem defined.
+
+879
+00:58:21,060 --> 00:58:22,719
+好，有什么问题吗？
+Okay. Any question?
+
+880
+00:58:22,719 --> 00:58:28,519
+当然，你还需要满足内存限制，对吧？
+Of course, you need to subject to memory constraints, right?
+
+881
+00:58:28,519 --> 00:58:33,659
+你需要服从，比如说，通信带宽。而你希望你的作业能够完成。
+You need to subject to, for example, communicating bandwis. And you want your job.
+
+882
+00:58:33,659 --> 00:58:38,059
+一旦你在这个设备集群上对图进行了划分，你希望你的作业能够
+Once you partition this graph on this device cluster, you want your job to run as
+
+883
+00:58:38,059 --> 00:58:40,300
+尽可能快地运行，并且没有自动内存管理。
+fast as possible without auto memory.
+
+884
+00:58:40,300 --> 00:58:48,359
+明白了吗？很好。在明确了这个问题后，我们开始聊一聊如何划分这个问题。
+Okay? Cool. With this defined problem, let's start talking about a little bit on how to partin this.
+
+885
+00:58:48,359 --> 00:58:51,840
+好的，这里我将开始讲解如何划分图。
+Okay, here, I'm going to start talking about how to paten graphs.
+
+886
+00:58:51,840 --> 00:58:53,139
+为了简化一点，
+To simpfy a little bit,
+
+887
+00:58:53,139 --> 00:58:55,219
+我会给你一个非常简单的图，好吗？
+I'm going to give you a very simple graph, okay?
+
+888
+00:58:55,219 --> 00:59:00,059
+在这个图里，你有，嗯，这就是我们在
+So here in this graph, you have, um, this is the one we used in
+
+889
+00:59:00,059 --> 00:59:02,620
+上一节课中用到的，基本上是一个单层的MLP。
+the previous lecture it basically single layer MLP.
+
+890
+00:59:02,620 --> 00:59:09,259
+好的，呃，有两个中间节点m1u和一个MSC，两个权重是W1、W2，还有一个输入X。
+Okay? Uh, two met m1u and one MSC, two is W one, W two, and one input X.
+
+891
+00:59:09,259 --> 00:59:14,179
+但和我之前的讲座相比，这里我要引入更多的旋转。
+But compared to my previous lecture, here, I'm going to introduce a little bit more rotation.
+
+892
+00:59:14,179 --> 00:59:16,899
+我要给每个节点分配一个颜色。
+I'm going to give each node a color.
+
+893
+00:59:16,899 --> 00:59:19,639
+这里我有一个由两个节点组成的集群，
+So here I have a cluster of two nodes,
+
+894
+00:59:19,639 --> 00:59:26,799
+设备一和设备二，蓝色代表第一个设备，粉色代表第二个设备，
+Device one and device two, and blue is the first device and pink is the second device,
+
+895
+00:59:26,799 --> 00:59:33,979
+如果一个节点是某种颜色，说明这个节点、这个操作、这个计算发生在那个设备上。
+if a node is one color, that means that node that operator, that computation happens on that device.
+
+896
+00:59:33,979 --> 00:59:40,019
+明白了吗？这样说清楚吗？很好。那么用这种表示法，我们可以开始对这个图进行分区，
+Okay? Does that make sense? Cool. Then this notation, we can start partitioning this graph,
+
+897
+00:59:40,019 --> 00:59:43,534
+我们还可以用符号表示，分区线上我们做了什么？
+and we can use notation to notate, what do we do on the partitioning bar?
+
+898
+00:59:43,534 --> 00:59:47,390
+好，这是我们的第一个策略。
+Okay. This is our first strategy.
+
+899
+00:59:47,390 --> 00:59:51,590
+如果你还记得前面几页幻灯片，我是在中间切开的。
+If you still remember a few slides before, I cut in the middle.
+
+900
+00:59:51,590 --> 00:59:54,089
+我是在不同层之间切开的，
+I cut in between different layers,
+
+901
+00:59:54,089 --> 00:59:58,990
+我把前两层分配给一个设备，另外两层分配给第二个设备。
+I give the first two layers to one device and another two layers in the second device.
+
+902
+00:59:58,990 --> 01:00:04,890
+所以在这里，如果我在策略中反映这一部分，基本上就是这样。我在中间切开。
+So here, if I reflect that part in strategy is basically this one. I cut in the middle.
+
+903
+01:00:04,890 --> 01:00:12,750
+我把第一个元件分配给蓝色设备，基本上把第二个和第二个记忆分配
+I give the first met to the blue device, and I give basically the due and second memo
+
+904
+01:00:12,750 --> 01:00:14,949
+给第二个设备。我在中间切开。
+to the second device. I cut it in the middle.
+
+905
+01:00:14,949 --> 01:00:18,929
+我用不同的颜色。策略一，好的。
+I use different color. Strategy one, okay.
+
+906
+01:00:19,070 --> 01:00:26,349
+我其实可以做一些不同的，比如我可以做一个水平切割。
+And I can basically do slightly different, for example, I can do a horizontal cut.
+
+907
+01:00:26,349 --> 01:00:28,529
+我把权重W1，
+I put the weight W one,
+
+908
+01:00:28,529 --> 01:00:33,109
+W2放在第一个设备上，其余的放在第二个设备上。
+W two on first device, and I put the rest on on second device.
+
+909
+01:00:33,109 --> 01:00:39,009
+所以记住，当我们在中间切开时，当那两个节点正好在一半的位置，
+So remember, when we cut in the middle when those two nodes where the halfway at,
+
+910
+01:00:39,009 --> 01:00:41,090
+如果它们在不同的设备上，会发生什么？
+if they are on different devices, what would happen?
+
+911
+01:00:41,090 --> 01:00:42,449
+他们需要沟通，对吧？
+They need to communicate, right?
+
+912
+01:00:42,449 --> 01:00:46,529
+他们需要沟通。我们接下来还会再讲这一部分，但是
+They need to communicate. And we're going to, with this part again, but
+
+913
+01:00:46,529 --> 01:00:48,745
+我们先假设我们已经知道如何沟通了。
+let's assume that we know how to communicate.
+
+914
+01:00:48,745 --> 01:00:54,699
+好的。所以我会说这两种策略是一样的，因为
+Okay. So I would say the two strategy is the same because
+
+915
+01:00:54,699 --> 01:00:56,999
+我实际上就是把那些笔记分开了，
+I actually basically cut those notes,
+
+916
+01:00:56,999 --> 01:00:59,560
+我把不同的笔记放在不同的设备上。
+I put different notes on different devices.
+
+917
+01:00:59,560 --> 01:01:02,340
+那你能给我一个不同的策略吗？
+So could you give me a different strategy?
+
+918
+01:01:09,100 --> 01:01:13,639
+如果你还记得我之前幻灯片里的直观幻灯片，
+So if you remember in my previous slides in intuitive slide,
+
+919
+01:01:13,639 --> 01:01:19,660
+我也可以切割水平卡片，把一层切成一半或者一半的网络。
+I also can cut horital card I cut a layer into half or one half network.
+
+920
+01:01:19,660 --> 01:01:25,539
+那对于那张卡片，它对应的是这两种中的哪一种？
+So for that card, does that card correspond to one of these two?
+
+921
+01:01:26,590 --> 01:01:28,669
+一个，你觉得是一个吗？
+One, you think is one?
+
+922
+01:01:28,669 --> 01:01:31,069
+不，这不是一个，因为在其他切分中，
+No, it's not one, because in other cut,
+
+923
+01:01:31,069 --> 01:01:33,749
+我基本上把备忘录分成了两部分。
+I basically cut the metmo I cut the memo into two parts.
+
+924
+01:01:33,749 --> 01:01:36,709
+而在这两个图中，我实际上根本没有切分备忘录。
+And in these two figures, I actually don't cut memo at all.
+
+925
+01:01:36,709 --> 01:01:40,309
+备忘录总是在一个设备上整体执行。
+The metamo is always perform as a whole on one device.
+
+926
+01:01:40,309 --> 01:01:42,890
+这意味着如果我尝试切分算子，
+Which means that if I try to cut operators,
+
+927
+01:01:42,890 --> 01:01:45,749
+我实际上会采用不同的策略，比如这样。
+I actually have a different strategy like this.
+
+928
+01:01:45,950 --> 01:01:54,869
+所以这里我用这种符号表示得更直观一些，也就是说我要切分
+So here I use this notation a little bit more intuitively, that is I'm going to cut
+
+929
+01:01:54,869 --> 01:02:01,109
+算子，我会把算子分成两半，用不同的颜色表示，一半在
+operator I'm going to give the operator half and half different colors, and one half is performed on
+
+930
+01:02:01,109 --> 01:02:04,330
+一个设备上执行，另一半则在不同的设备上执行。
+one device and then the other half is performing different devices.
+
+931
+01:02:04,330 --> 01:02:07,049
+所以你要弄清楚怎么解析这一部分。
+So you figure out how to parse that one.
+
+932
+01:02:07,049 --> 01:02:12,169
+呃，如果你看这部分，它的意思是对于这个met more，好吗？
+Uh, if you look at this part, it means that for this met more, okay?
+
+933
+01:02:12,169 --> 01:02:13,730
+我打算从中间切开。
+I'm going to cut in the middle.
+
+934
+01:02:13,730 --> 01:02:18,050
+我把met more的前半部分放在一个设备上，后半部分放在另一个设备上。
+I put the first half of the met more on one device, the second half on second devices.
+
+935
+01:02:18,050 --> 01:02:22,309
+因为我切开了metam，输入和输出也需要切开，对吧？
+Be I cut metam the input and output also need to be cut, right?
+
+936
+01:02:22,309 --> 01:02:26,129
+所以因为我想执行metam的前半部分，也就是mat，
+So because I want to perform the first half of the metam which is mat,
+
+937
+01:02:26,129 --> 01:02:28,289
+我想在第一个设备上执行mat。
+I want to perform mat on the first device.
+
+938
+01:02:28,289 --> 01:02:30,949
+所以我也得把输入切成两半，对吧？
+So I have to also cut the input into two half, right?
+
+939
+01:02:30,949 --> 01:02:32,689
+这部分将会执行Mt。
+And this part is going to perform Mt.
+
+940
+01:02:32,689 --> 01:02:36,229
+好的，然后第二个设备将会执行more，明白吗？
+Okay. And the second device is going to perform more. Okay.
+
+941
+01:02:36,229 --> 01:02:38,870
+所以我也需要剪掉这个输出。
+So I also need to cut this output.
+
+942
+01:02:38,870 --> 01:02:40,769
+抱歉，是另一部分输入，对吗？
+Sorry, another part of input, right?
+
+943
+01:02:40,769 --> 01:02:42,969
+然后你要操作粉色条。
+And you're going to perform the pink bar.
+
+944
+01:02:42,969 --> 01:02:44,669
+好的。这样说得通吧？
+Okay. Makes sense, right?
+
+945
+01:02:44,669 --> 01:02:48,229
+酷。还有别的方法吗？
+Cool. Is there a different way?
+
+946
+01:02:48,500 --> 01:02:52,339
+当然，我可以在操作层面做一个横向切割。
+Of course, I can do a horizontal cart at operating level.
+
+947
+01:02:52,339 --> 01:02:56,979
+抱歉，这个颜色有点儿，看不太清，但你明白我的意思。
+So sorry this color is a little bit, uh, not working, but you get it.
+
+948
+01:02:56,979 --> 01:02:58,679
+我基本上可以这样切，对吧？
+I can basically cut in this way, right?
+
+949
+01:02:58,679 --> 01:03:01,179
+对，所以对于
+Yeah. And so for
+
+950
+01:03:01,179 --> 01:03:05,559
+Metamor，我可以基本上按照不同的轴来切割，a，这样会导致
+Metamor I can cut basically following different axes, a, it will result into
+
+951
+01:03:05,559 --> 01:03:08,620
+不同类型的分割策略。
+different kind of parting strategies.
+
+952
+01:03:08,660 --> 01:03:12,419
+好的，这一页有问题吗？
+Okay. Any question on this slide?
+
+953
+01:03:15,500 --> 01:03:21,000
+很好。那么这里，我将介绍两种略有不同的策略。
+Cool. So here, I'm going to introduce two slightly different strategy.
+
+954
+01:03:21,000 --> 01:03:23,099
+明白吗？在第一行，
+Okay? So in the first row,
+
+955
+01:03:23,099 --> 01:03:26,260
+我基本上采用了一种不切割操作符的策略。
+I'm basically applying a strategy where I don't cut operators.
+
+956
+01:03:26,260 --> 01:03:28,539
+我只切割图结构，明白吗？
+I only cut the graph. Okay?
+
+957
+01:03:28,539 --> 01:03:32,580
+我把这种策略称为操作符间分割。
+And I call this strategy interoperatd pism.
+
+958
+01:03:32,580 --> 01:03:35,219
+呃，你应该能推断出这个名字的含义，对吧？
+Uh, you can infer the meaning of this lame, right?
+
+959
+01:03:35,219 --> 01:03:36,739
+操作符间分割基本上意味着
+Interoperator parism basically means that
+
+960
+01:03:36,739 --> 01:03:38,360
+我从不切割操作符。
+I never cut an operator.
+
+961
+01:03:38,360 --> 01:03:39,579
+我基本上只是切割了图。
+I basically only cut the graph.
+
+962
+01:03:39,579 --> 01:03:43,080
+我把图的不同节点分配到不同的设备上。
+I assign different nodes of the graph to different devices.
+
+963
+01:03:43,080 --> 01:03:46,340
+在第二行，我调用了跨操作的棱镜。
+And in the second row, I called the interoperative pism.
+
+964
+01:03:46,340 --> 01:03:47,720
+也就是说，我要接触这个算子。
+That is, I'm going to touch the operator.
+
+965
+01:03:47,720 --> 01:03:51,199
+我要在两个不同的设备上执行同一个算子，然后我会
+I'm going to perform one operator on two different devices and I figure
+
+966
+01:03:51,199 --> 01:03:53,059
+想办法之后聚合结果。
+out how to aggregate results later.
+
+967
+01:03:53,059 --> 01:03:58,119
+好的，你可以看到跨操作棱镜的定义，
+Okay. Um, you can see the definition of interoperative prism and
+
+968
+01:03:58,119 --> 01:04:01,159
+跨操作棱镜我觉得比数据和多操作棱镜
+inter operative parism is much I would say much more or
+
+969
+01:04:01,159 --> 01:04:04,879
+要模糊得多。
+less uh ambiguous compared to data and motpoism.
+
+970
+01:04:04,879 --> 01:04:08,539
+为什么？当我谈论多操作棱镜时，你们不知道我指的是什么。
+Why? I motoparism when I talk about Mtoparism, don't know what I mean.
+
+971
+01:04:08,539 --> 01:04:12,019
+你可能不知道，因为“我”可以有很多很多种意思。
+You probably don't know, because I can mean many many things.
+
+972
+01:04:12,019 --> 01:04:15,560
+但当我谈到 inter 和 intra 时，这是非常精确的。
+But when I talk about inter and interoperats, it's very precise.
+
+973
+01:04:15,560 --> 01:04:20,359
+Inter 基本上意味着我不会切操作符，但 intra 意味着我会这么做。
+Interbasically means, I'm not going to cut operator, but intra means I'm going to do that.
+
+974
+01:04:20,359 --> 01:04:23,219
+好的，那我问你一个问题。
+Okay. Then let me ask you a question.
+
+975
+01:04:23,219 --> 01:04:26,800
+那么 datapism 是 inter 还是 intraoperative parism？
+So is datapism inter or intraoperative parism?
+
+976
+01:04:26,800 --> 01:04:36,219
+请问，Intra 是 Inter 吗？
+Please. Is Intra Inter?
+
+977
+01:04:36,219 --> 01:04:39,759
+Intra？是的，Datab 是 intra，为什么？
+Intra? Yes, Datab intra Why?
+
+978
+01:04:39,759 --> 01:04:45,899
+因为你切了 X，而 X 是你的节点，你确实切了 X，X 是你的输入。
+Because you cut X and X is your node, and you indeed cut X X is your input.
+
+979
+01:04:45,899 --> 01:04:47,899
+你切的是批次，所以是 intra。
+You cut batches, so it's intra.
+
+980
+01:04:47,899 --> 01:04:50,679
+好的，我们会一遍又一遍地回到这个问题上。
+Okay. We're going to come back to this again again.
+
+981
+01:04:50,679 --> 01:04:53,819
+好吗？我们将要探索所有不同的Inter和Intra策略。
+Okay? We are going to explore all different strategies of Inter intra.
+
+982
+01:04:53,819 --> 01:04:57,960
+我们将要推理它们的权衡，比如通信量有多少。
+We are going to reason it trade off, how much it communicate.
+
+983
+01:04:57,960 --> 01:05:01,020
+需要多少内存，明白吗？
+How many memory it needs, okay?
+
+984
+01:05:02,790 --> 01:05:09,709
+好的。基于这些定义，让我稍微展开一下intra和intraparism。
+Okay. And given these definitions, uh, let me expand intra and intraparism a little bit.
+
+985
+01:05:09,709 --> 01:05:15,929
+对于矩阵，我们实际上可以对其进行划分，比如我们可以做行划分，好吗？
+So for matrix, we can actually partition it along, um, we can do row parison, okay?
+
+986
+01:05:15,929 --> 01:05:17,390
+我们也可以做列划分。
+We can also do column pion.
+
+987
+01:05:17,390 --> 01:05:21,109
+抱歉，这个颜色不一样，显示不出来。我来修一下。
+Sorry, this color is different, it's not working. I'm going to fix it.
+
+988
+01:05:21,109 --> 01:05:25,369
+我的意思是，你可以这样切，也可以那样切。
+But what I mean, basically, you can cut it in this way or you can cut it in this way.
+
+989
+01:05:25,369 --> 01:05:27,750
+这个我称为行划分，
+Okay. I call this row partition,
+
+990
+01:05:27,750 --> 01:05:30,329
+这个我称为列划分，明白吗？
+I call this column partition. Okay.
+
+991
+01:05:30,329 --> 01:05:37,489
+所以我将引入第三个定义和第三种颜色，这代表我可以复制它。
+So I'm going to introduce a third definition and a third color, which I could replicate it.
+
+992
+01:05:37,489 --> 01:05:39,609
+这意味着我并没有切分它。
+Which means that I'm not cutting.
+
+993
+01:05:39,609 --> 01:05:42,150
+好的，我基本上是在复制这个张量。
+Okay. I'm basically replicating this tenser.
+
+994
+01:05:42,150 --> 01:05:46,410
+如果这个颜色是绿色，表示我正在把这个节点复制到两个设备上。
+Okay. If this color is green, it means that I'm replicating this note on both devices.
+
+995
+01:05:46,410 --> 01:05:48,629
+所以每个设备都会有它的一个副本。
+So each device will have a copy of it.
+
+996
+01:05:48,629 --> 01:05:54,759
+好的，按照这个位置，我们可以可视化更多的并行策略。
+Okay. So following this location, we can visualize more parlement strategies. Okay.
+
+997
+01:05:54,759 --> 01:06:00,080
+接下来，我将可视化一些著名的并行策略。
+And next, I'm going to basically visualize a few notable parliament strategies.
+
+998
+01:06:00,080 --> 01:06:05,339
+基本上，接下来我要展示的每种策略都是非常著名的论文提出的，
+And basically each strategy I'm going to visualize next is very famous paper,
+
+999
+01:06:05,339 --> 01:06:07,320
+超过一千个站点，好吗？
+more than 1,000 stations, okay?
+
+1000
+01:06:07,320 --> 01:06:09,739
+并且它们已经被应用在训练中了。
+And they are being adopted in training.
+
+1001
+01:06:09,739 --> 01:06:14,299
+我这样做的原因是因为我想向你们展示，我们可以用这个图形来说明很多很多不同的概念，明白吗？
+The reason I do this is because I want to show you that we can use
+
+1002
+01:06:14,299 --> 01:06:18,940
+这个图形基本上可以用来说明许多不同的概念，好吗？
+this repenton to basically illustrate many, many different concepts, okay?
+
+1003
+01:06:20,340 --> 01:06:27,900
+那么第一个。嗯，请你们看它10秒钟，
+So the first one. Um, plea you look at it for 10 seconds,
+
+1004
+01:06:27,900 --> 01:06:31,739
+然后我会问你们这是什么。
+and I'm going to ask you what what this is.
+
+1005
+01:06:36,220 --> 01:06:39,059
+有人想回答吗？
+Anyone want to answer?
+
+1006
+01:06:42,060 --> 01:06:44,699
+其实我刚刚已经讲过这个了。
+I actually talked about this right now.
+
+1007
+01:06:44,699 --> 01:06:46,920
+这是什么？对，数据对比。
+What is this? Yeah, data parison.
+
+1008
+01:06:46,920 --> 01:06:49,060
+好的，你答对了。为什么是数据对比？
+Okay. You got it. Why is data parison?
+
+1009
+01:06:49,060 --> 01:06:51,139
+因为我有两个设备，对吧？
+Because I have two devices, right?
+
+1010
+01:06:51,139 --> 01:06:53,139
+我复制了宽度，对吗？
+I replicate the width, right?
+
+1011
+01:06:53,139 --> 01:06:56,199
+这意味着每个设备都有一份width的副本。
+Which means that each device has a copy of width.
+
+1012
+01:06:56,199 --> 01:06:57,959
+我在输入中进行了分区。
+And I part in the input.
+
+1013
+01:06:57,959 --> 01:07:02,819
+因为我在输入中分区，所以这个metamo也会被分区，对吧？
+Because I part in the input, so this metamo is going to be partin as well, right?
+
+1014
+01:07:02,819 --> 01:07:05,620
+这种分区会一直在神经网络中传播下去。
+All the way like propagated through this neural network.
+
+1015
+01:07:05,620 --> 01:07:08,699
+所以每个设备都会计算不同的损失。
+So each device is going to calculate different loss.
+
+1016
+01:07:08,699 --> 01:07:14,379
+我跳过了绿色更新部分，但我们稍后会回到这一点。
+And I skip the update green update part, but we'll come back to that later.
+
+1017
+01:07:14,379 --> 01:07:16,759
+明白了吗？这就是数据并行，好吗。
+Okay? This is data parison, okay.
+
+1018
+01:07:16,759 --> 01:07:20,939
+我希望你们在听完我的讲解后，回去尝试
+I hope you basically after my lecture, you go back and try to
+
+1019
+01:07:20,939 --> 01:07:23,520
+理解这种重复，因为它非常重要。
+internalize this repetition because it's very important.
+
+1020
+01:07:23,520 --> 01:07:26,200
+我们将把这个过程变得任意复杂。
+We are going to make this arbitrarily complicated.
+
+1021
+01:07:26,200 --> 01:07:29,499
+好吗？那这个怎么样？
+Okay? How about this one?
+
+1022
+01:07:32,460 --> 01:07:36,259
+有人做过M吗？不，是这个。
+Anyone work on M No, this one.
+
+1023
+01:07:37,100 --> 01:07:41,519
+抱歉，这是某种modoparism类型。
+Sorry. Is is one type of modoparism.
+
+1024
+01:07:41,519 --> 01:07:48,639
+那是什么类型？好的？这是我在阅读megaton时给你的那个。
+What is that type? Okay? This is the one I give it to you in reading megaton.
+
+1025
+01:07:48,639 --> 01:07:52,760
+好的。通常，人们把这种modopoism叫做张量并行。
+Okay. And typically, people call this kind of modopoism tensor partism.
+
+1026
+01:07:52,760 --> 01:07:58,939
+好的？它叫做张量并行，是当今语言模型训练中常用的一种并行方式。
+Okay? It's called tensor partism it is a typical pism used in today's language model training.
+
+1027
+01:07:58,939 --> 01:08:03,060
+你会注意到，这里我们不是复制权重，
+And one thing you'll notice that is here instead of replicating
+
+1028
+01:08:03,060 --> 01:08:05,080
+而是复制输入。
+weights we are replicating the input.
+
+1029
+01:08:05,080 --> 01:08:09,300
+基本上，每个设备都会得到一份输入的副本，
+And basically, each device is going to get a copy of the input,
+
+1030
+01:08:09,300 --> 01:08:11,979
+然后我们会分开处理权重。好吗？
+and we are going to patina weight. Okay?
+
+1031
+01:08:11,979 --> 01:08:16,099
+另外因为我们给权重做了氧化处理，所以我们也会参与到元数据中，好吗？
+And also because we patina weight, we are also going to part in the meto, okay?
+
+1032
+01:08:16,099 --> 01:08:21,199
+然后我们还会把所有分区一直传播到下一个元数据模块。
+And then we also propagate all the partitions all the way to next met moo.
+
+1033
+01:08:21,199 --> 01:08:23,639
+但对于下一个元数据模块，我们会复制备忘录。
+But for the next Mtmo we are going to replicate the memo.
+
+1034
+01:08:23,639 --> 01:08:29,139
+好的。嗯。好的。我想让你把这个和我给你的阅读材料结合起来理解，
+Okay. Yeah. Okay. I want you to cross boons this into the reading I give it to you,
+
+1035
+01:08:29,139 --> 01:08:32,159
+必读材料，就是那篇microtome的论文。
+the required reading, which is microtome paper.
+
+1036
+01:08:32,360 --> 01:08:42,479
+那这个呢？好，这个稍微抽象一点，但我可以告诉你。
+How about this one? Okay. This is a little bit more abstract, but I can tell you.
+
+1037
+01:08:42,479 --> 01:08:49,569
+这个本质上是流水线并行，你在这里注意到的主要是，
+This one is essentially pipeline parism the thing that you notice here is basically,
+
+1038
+01:08:49,569 --> 01:08:51,190
+我没有做内部并行，
+I don't do intraperparism,
+
+1039
+01:08:51,190 --> 01:08:52,329
+我从不做分区操作。
+I never parting operator.
+
+1040
+01:08:52,329 --> 01:08:54,889
+但我做的基本上是，嗯，
+But what I do is basically, um,
+
+1041
+01:08:54,889 --> 01:08:57,889
+我在这里把 M 分成了两部分，我在中间切开了。
+I part in this met M. I cut in the middle.
+
+1042
+01:08:57,889 --> 01:08:59,749
+我给每个设备分配了不同的 metmo。
+I give each device a different metmo.
+
+1043
+01:08:59,749 --> 01:09:03,509
+与此同时，我用很长的时间来流水线执行 metam。
+Meanwhile, I pipeline execution of metam using a long time.
+
+1044
+01:09:03,509 --> 01:09:08,029
+每次我都会给一个批次，这个批次首先进入第一个设备。
+Each time I'm going to give a batch and this batch first comes into the first device.
+
+1045
+01:09:08,029 --> 01:09:11,890
+然后当第一个设备的 metm 完成后，它会把计算结果
+And then once the first device metm finished, it will forward the computation
+
+1046
+01:09:11,890 --> 01:09:13,729
+或者激活传递到第二个设备。
+or the activation to the second device.
+
+1047
+01:09:13,729 --> 01:09:16,389
+同时，在下一个时间步，这个设备会去获取
+Meanwhile, in the next time step, this device is going to fetch
+
+1048
+01:09:16,389 --> 01:09:18,849
+另一个批次来进行并行计算。
+another batch to the parallel competion.
+
+1049
+01:09:18,849 --> 01:09:22,019
+这基本上就是流水线并行。明白了吗？
+This is basically pipeline parism. Okay.
+
+1050
+01:09:22,019 --> 01:09:25,139
+那这个呢？这个就更疯狂了，对吧？
+How about this one? This is even crazier, right?
+
+1051
+01:09:25,139 --> 01:09:26,779
+不，我有四个设备。
+No, I have four devices.
+
+1052
+01:09:26,779 --> 01:09:30,959
+好的。设备三和设备四，它们使用了不同的颜色。
+Okay. And device three and device four, they are using different colors.
+
+1053
+01:09:30,959 --> 01:09:40,059
+好的。这个我不太会称它为三G对比，但它非常复杂。
+Okay. This one is called I wouldn't call it three G parison, but it's very complicated.
+
+1054
+01:09:40,059 --> 01:09:45,499
+的确，这是我们现在用于语言模型训练和GBD训练的方法。
+Indeed, this is something that we use today for language model training for GBD training.
+
+1055
+01:09:45,499 --> 01:09:46,979
+你会注意到的事情是
+The thing you'll notice that is
+
+1056
+01:09:46,979 --> 01:09:48,739
+我手里有四个设备，对吧？
+I hold four devices, right?
+
+1057
+01:09:48,739 --> 01:09:53,419
+我的做法是我先把我的设备分成两组。
+What I do is I first cut my devices group into two groups.
+
+1058
+01:09:53,419 --> 01:09:56,119
+第一组是这组，蓝色和红色。
+The first group is this group, blue and red.
+
+1059
+01:09:56,119 --> 01:09:59,399
+第二组是绿色和黄色。
+Second is green and yellow.
+
+1060
+01:09:59,399 --> 01:10:06,179
+我的做法是，如果你把这两组看作一个超级设备或者设备组，
+And what I do is if you think of these two as one mega device or device group,
+
+1061
+01:10:06,179 --> 01:10:12,349
+我首先做的是进入互操作分区，我会从中间切开。
+what I do is I first to enter of inter operative partism, I cut in the middle.
+
+1062
+01:10:12,349 --> 01:10:17,469
+我把这部分Nork分给第一组，把这部分N分给第二组。
+I give this part of Nork to the first group and I give this part of N to the second group.
+
+1063
+01:10:17,469 --> 01:10:23,830
+好的。如果你把这两个设备看作一个元设备，这就是纯粹的互操作分区。
+Okay. And if you think this two device are one meta device, this is pure interpartim.
+
+1064
+01:10:23,830 --> 01:10:28,469
+但我没有用这个设备组，而是继续做内部操作分区。
+But instead of this device group, what I do is I continue to do intraop partism.
+
+1065
+01:10:28,469 --> 01:10:35,709
+好的？我基本上在第一组内做列分区，把第一组的两个设备分开，
+Okay? I basically cut in column parison, for the first group, the two device in the first group,
+
+1066
+01:10:35,709 --> 01:10:39,089
+然后我在第二组再做一次列分区，明白吗？
+and I do another column party in the second group. Okay?
+
+1067
+01:10:39,089 --> 01:10:46,789
+这比较复杂，因为它本质上结合了互操作和内部操作分区，涉及更多设备。
+This is rather complicated because it essentially combines inter and intra op pismoO more devices.
+
+1068
+01:10:46,789 --> 01:10:50,809
+现在，人们把这种方式称为分区，好吗？
+And today, people give the name that is parism, okay?
+
+1069
+01:10:50,809 --> 01:10:54,419
+如果你想训练非常大的模型，
+And um if you want to train really large model,
+
+1070
+01:10:54,419 --> 01:10:58,539
+比如说用超过1000块GPU，这就是你的首选方法。
+for example, on more than 1,000 GPUs, this is your to go.
+
+1071
+01:10:58,539 --> 01:11:00,819
+接下来我会进行解释。
+I'm going to explain next.
+
+1072
+01:11:00,819 --> 01:11:07,479
+好的。那么我还有最后一页幻灯片要讲，来解释为什么我花了这么多时间给你做这个入职培训。
+Okay. Then I have one last slide to explain why I spent
+
+1073
+01:11:07,479 --> 01:11:09,799
+为什么我们如此关注intra和intra。
+so much time to onboard you on this orientation.
+
+1074
+01:11:09,799 --> 01:11:12,519
+但在那之前，我想先做个小结，好吗？
+Why we care about intra and intra.
+
+1075
+01:11:13,040 --> 01:11:16,019
+对于中断式划分，我们基本上是把不同的算子分配到不同的设备上。
+But before that, I want to summarie a little bit okay.
+
+1076
+01:11:16,019 --> 01:11:21,039
+对于中断式划分，我们是把单个算子的不同区域分配到不同的设备上。
+For interrupted partism we basically assign different operators to different devices.
+
+1077
+01:11:21,039 --> 01:11:28,159
+这个很容易理解。
+For interrupted partism we assign different regions of a single operator to different devices.
+
+1078
+01:11:28,159 --> 01:11:31,319
+好的，现在让我们看看，如果我们把这两种划分方式应用到一个小的计算图上，计算模式到底是什么样的。
+And that's easy to understand.
+
+1079
+01:11:32,810 --> 01:11:40,669
+现在我们来尝试看看，如果我们把这两种划分方式应用到一个小的计算图上，计算模式到底是什么样的。
+Okay. Now, let's try to see what the computational pattern really looks like if we apply
+
+1080
+01:11:40,669 --> 01:11:44,469
+现在我们来尝试看看，如果我们把这两种划分方式应用到一个小的计算图上，计算模式到底是什么样的。
+these two types of partism to a small graph.
+
+1081
+01:11:44,469 --> 01:11:46,589
+好的，我们现在要更深入地探讨这个划分。
+Okay, we are going to dive deeper into this partition and
+
+1082
+01:11:46,589 --> 01:11:49,409
+我们基本上是在思考GPU上会发生什么。
+we basically thinking in a way that what happens on GPU.
+
+1083
+01:11:49,409 --> 01:11:52,229
+好吗？这是最重要的幻灯片之一。
+Okay? And this is one of the most important slides.
+
+1084
+01:11:52,229 --> 01:11:54,129
+所以一定要确保你理解了它。
+So make sure you understand it.
+
+1085
+01:11:54,129 --> 01:11:57,869
+如果你不明白，来问我，我会尽量解释清楚。
+And if you don't understand, come to ask me, I try to explain this.
+
+1086
+01:11:57,869 --> 01:12:01,349
+好的，来看这个有五个节点的图。
+Okay. Consider this graph with five notes.
+
+1087
+01:12:01,349 --> 01:12:05,949
+这个图是我通过跳过al和MSE得到的。
+Okay. I got this graph by basically skipping the al and the MSE.
+
+1088
+01:12:05,949 --> 01:12:07,189
+我让它变得更简单了。
+I make it even simpler.
+
+1089
+01:12:07,189 --> 01:12:09,174
+好的，嗯，
+Okay. Um,
+
+1090
+01:12:09,174 --> 01:12:15,819
+实际上，这个图本质上是在做两个矩阵变换，就像这个方程所示。
+So in fact, this graph is essentially doing two matrix modifications as this equation shows.
+
+1091
+01:12:16,460 --> 01:12:21,679
+好的，我希望你基本上能够内化这张图上的这个方程，对吧？
+Okay, I want you to basically internalize this equation on this graph, right?
+
+1092
+01:12:21,679 --> 01:12:26,659
+所以在这里，我基本上把W分成了两个设备的两部分，对吧？
+So here, I basically partition the W into two devices into two parts, right?
+
+1093
+01:12:26,659 --> 01:12:28,699
+然后我复制了X。
+And I replicate X.
+
+1094
+01:12:28,699 --> 01:12:30,499
+我喜欢每一份
+And I like each copy of
+
+1095
+01:12:30,499 --> 01:12:41,599
+X列分区的W，这基本上也会给我，我还会分区另一个呃W和W二，
+X column partition the W which will basically give me, also I do partition another uh W and W two,
+
+1096
+01:12:41,599 --> 01:12:43,779
+然后我把它们绑定在不同的设备上。
+and I tie them together on different devices.
+
+1097
+01:12:43,779 --> 01:12:45,859
+我让每一部分都来自不同的设备。
+I make each part from different devices.
+
+1098
+01:12:45,859 --> 01:12:48,599
+明白了吗？明白，这个方程，对吧？
+Okay? Okay, with this equation, right?
+
+1099
+01:12:48,599 --> 01:12:52,519
+很好。好的。
+Cool. Okay.
+
+1100
+01:12:52,519 --> 01:12:54,159
+我们来看看设备上发生了什么。
+Let's see what's happening on device.
+
+1101
+01:12:54,159 --> 01:12:56,119
+好的。我们从第一份备忘录开始。
+Okay. Let's start from the first memo.
+
+1102
+01:12:56,119 --> 01:13:00,039
+那我们就从这个开始。那么在这里
+So let's start with this one. So here
+
+1103
+01:13:00,039 --> 01:13:02,119
+我知道X是被复制的，对吧？
+I know X is replicated, right?
+
+1104
+01:13:02,119 --> 01:13:06,159
+这意味着设备一和设备二都会有X的副本。
+So which means both device one and two will have copy x.
+
+1105
+01:13:06,159 --> 01:13:10,999
+好的？那么W1的方式是列分区的，对吧？
+Okay? So the way W one, it is column partition, right?
+
+1106
+01:13:10,999 --> 01:13:16,959
+这意味着设备一拥有W1的左半部分，对吧？
+So which means that device one has the left part of W one, right?
+
+1107
+01:13:16,959 --> 01:13:19,079
+设备二拥有W1的右半部分。
+And Device two has the right part of W one.
+
+1108
+01:13:19,079 --> 01:13:24,479
+好的？所以X是被复制的，对吧？
+Okay? So X is replicated, right?
+
+1109
+01:13:24,479 --> 01:13:31,239
+所以每个设备都有X和W的左/右部分。
+So each device has X Left par W par, W. Okay?
+
+1110
+01:13:31,239 --> 01:13:34,139
+我们要进行矩阵乘法。那么我们会得到什么？
+We are going to perform at the mall. So what do we get?
+
+1111
+01:13:36,290 --> 01:13:38,669
+我们把它们绑在一起，对吧？
+We tie them together, right?
+
+1112
+01:13:38,669 --> 01:13:42,569
+对于第一个设备，我会得到Mdmal结果的前半部分，
+For the first device, I'm going to get the first half of the Mdmal result,
+
+1113
+01:13:42,569 --> 01:13:45,649
+也就是met，对于第二个设备，
+which is met, for the second device,
+
+1114
+01:13:45,649 --> 01:13:52,949
+我会得到Mdm M的后半部分，这就是为什么在这个表示法中，
+I'm going to get the second half of Mdm M, that's why basically in this notation,
+
+1115
+01:13:52,949 --> 01:13:57,129
+我得到了这个met和M。这就是我们的结果。
+I get this met and M. It's our result.
+
+1116
+01:13:59,170 --> 01:14:04,709
+我们基本上可以在这里检查这个分区的结果。
+And we can basically check the result here the partition here.
+
+1117
+01:14:04,709 --> 01:14:09,369
+我们发现这个met基本上对应这个met，而这个mo对应small，
+We find that basically this met corresponds to this met and this mo correspond with small,
+
+1118
+01:14:09,369 --> 01:14:13,049
+没有问题，它们是对齐的。我们没问题。
+there's no problem it aligns. We're good.
+
+1119
+01:14:13,049 --> 01:14:15,149
+我们将继续进行下一个meth mod。
+We are going to proceed to the next meth mod.
+
+1120
+01:14:15,149 --> 01:14:22,249
+好的。好的。在下一个met模式中，我们从这个开始。
+Okay. Okay. In the next met mode, we start with this.
+
+1121
+01:14:22,249 --> 01:14:25,209
+好吗？不，我们直接进入这里吧。
+Okay? No, let's move right into here.
+
+1122
+01:14:25,209 --> 01:14:27,049
+好的，看看这个。
+Okay. Look at this one.
+
+1123
+01:14:27,049 --> 01:14:31,309
+好的，在这个图中，我们说对于第一个设备，
+Okay. So in this figure, we said that we are going to for the first device,
+
+1124
+01:14:31,309 --> 01:14:36,429
+我们将使用met，对于第二个设备，我们将使用mod，同时，
+we are going to have met for the second device, we are going to have mod, meanwhile, uh,
+
+1125
+01:14:36,429 --> 01:14:40,489
+对于这个W2，对吧，我们基本上做一个低分割，好吗？
+for this W two, right, we basically do a low parting, okay?
+
+1126
+01:14:40,489 --> 01:14:44,889
+这意味着对于第一个设备，我们有W2的上半部分，对吧？
+Which means that for the first device, we have the upper part of W two, right?
+
+1127
+01:14:44,889 --> 01:14:48,029
+对于第二个设备，我们有W2的下半部分，好吗？
+For the second device, we have the lower part of W two, okay?
+
+1128
+01:14:48,029 --> 01:14:52,109
+那我们要做什么？我们要做乘法器运算。
+And what do we do we are going to do the multiplier.
+
+1129
+01:14:52,109 --> 01:14:55,169
+好的，如果我们这样做会发生什么？
+Okay? So what are happen if we do this?
+
+1130
+01:14:56,850 --> 01:15:03,229
+那我们都会得到一个矩阵met M，它的完整形状和原始metamo是一样的。
+So we all get a matrix met M, which is the full shape of the same shape of the original metamo.
+
+1131
+01:15:03,229 --> 01:15:06,229
+但是它们的数值是不同的。
+But their values are different.
+
+1132
+01:15:06,229 --> 01:15:13,729
+因为如果你还记得我们的Mdm交叉，这个叫做部分和，对吧？
+Because if you still remember our Mdm cross, this is called partial sum, right?
+
+1133
+01:15:13,729 --> 01:15:17,609
+所以invintu金属值应该是我们要把这两个加起来
+So the invintu metal value should be we should add these two
+
+1134
+01:15:17,609 --> 01:15:19,949
+一起加起来，就是invent memo，对吧？
+together together the invent memo, right?
+
+1135
+01:15:19,949 --> 01:15:23,149
+好的。然后我们要做的是，我们再次检查这个。
+Okay. Then what we do is, again, we're going to check this.
+
+1136
+01:15:23,149 --> 01:15:25,249
+这是我们执行后得到的结果，对吧？
+This is what we get if we execute it right.
+
+1137
+01:15:25,249 --> 01:15:27,629
+这是我们在图上预期的结果，对吧？
+And this is what we expect on graph, right?
+
+1138
+01:15:27,629 --> 01:15:30,369
+好吗？我们要在这个上面检查一下。
+Okay? We are going to check this on this.
+
+1139
+01:15:30,369 --> 01:15:33,209
+那我们来检查一下，好吗？
+So let's check it, okay?
+
+1140
+01:15:33,209 --> 01:15:38,109
+所以在这个里面，每个设备基本上得到一个部分和。
+So on this one, each device basically get a partial sum.
+
+1141
+01:15:38,109 --> 01:15:43,109
+但在这个图中，我们希望每个设备都获得元数据的副本。
+But on this graph, we want each device to get a replica of the met.
+
+1142
+01:15:43,109 --> 01:15:52,119
+那么我们如何从这里过渡到这里，如何满足对每个手机的约束？
+So how we can transition from here to here, how we can satisfy the constraint on life handset.
+
+1143
+01:15:52,119 --> 01:15:56,779
+我们要把它们加在一起，对吧？那要怎么加在一起呢？
+We add them together, right? So how to add them together?
+
+1144
+01:15:57,980 --> 01:16:00,779
+所以为了把它们加在一起，
+So in order to add them together,
+
+1145
+01:16:00,779 --> 01:16:05,599
+我需要第一个设备把这个纯和发送给第二个设备，对吧？
+I need the first device to send this pure sum to the second device, right?
+
+1146
+01:16:05,599 --> 01:16:09,579
+同时，我需要第二个设备把这个和发送给第一个设备。
+And meanwhile, I need to second device to send this pum to the first device.
+
+1147
+01:16:09,579 --> 01:16:12,339
+也就是说，我需要这种操作。
+That is, I need this kind of operation.
+
+1148
+01:16:12,380 --> 01:16:15,659
+也就是对我来说有用，对我来说有用。
+That is using to me and using to me.
+
+1149
+01:16:15,659 --> 01:16:18,139
+然后我自己做求和，可以吗？
+And then I do the summation myself, okay?
+
+1150
+01:16:18,139 --> 01:16:20,699
+对吧？这就是我最小化通信的方法。
+Right? That's the way that I minimize communication.
+
+1151
+01:16:20,699 --> 01:16:27,469
+好吗？基本上是什么操作来执行这个操作？
+Okay? What operation basically perform this operation?
+
+1152
+01:16:27,469 --> 01:16:31,670
+什么样的通信操作能满足这个约束？这叫做归约（reduce）。
+What kind of communication operation will satisfy this constraint? It's called reduce.
+
+1153
+01:16:31,670 --> 01:16:34,089
+好吗？你们知道归约吧？
+Okay? You guys know reduce, right?
+
+1154
+01:16:34,089 --> 01:16:35,809
+好的。如果你不知道也没关系。
+Okay. If you don't know, it's fine.
+
+1155
+01:16:35,809 --> 01:16:37,369
+我会在下个学期教你们。好的。
+I'm going to teach you next quarter. Okay.
+
+1156
+01:16:37,369 --> 01:16:40,269
+但不是下个学期，是下节课。
+But not next quarter, next class.
+
+1157
+01:16:40,269 --> 01:16:43,169
+好的。但本质上，在这里，你可以看到。
+Okay. But essentially, here, you can see.
+
+1158
+01:16:43,169 --> 01:16:45,829
+当我进行这种分区时，
+When I do this kind of partition,
+
+1159
+01:16:45,829 --> 01:16:48,049
+我推导出什么样的执行，
+I derive what execution,
+
+1160
+01:16:48,049 --> 01:16:51,569
+我会尝试看看如何满足这种分区方式。
+I try to see how I can satisfy this kind of partitioning.
+
+1161
+01:16:51,569 --> 01:16:56,489
+我最终发现我其实需要用reduce，这个reduce基本上就是
+And I eventually found that I actually need reduce, this reduce is basically how
+
+1162
+01:16:56,489 --> 01:17:01,149
+pardon处理这种分区的方式。
+pardon handles this kind of partitioning.
+
+1163
+01:17:01,149 --> 01:17:04,229
+好的。我们来看第二个例子。
+Yeah. Okay? Let's look at second example.
+
+1164
+01:17:04,229 --> 01:17:06,299
+好的，请说。策略。
+Yeah, please. Strategy.
+
+1165
+01:17:06,299 --> 01:17:08,819
+抱歉，是这个策略。
+Sorry. This strategy.
+
+1166
+01:17:08,819 --> 01:17:10,619
+这是一个好策略吗？
+Is this a good strategy.
+
+1167
+01:17:10,619 --> 01:17:13,519
+这是一个好策略。这就是Mctron。
+This is a good strategy. This is the Mctron.
+
+1168
+01:17:13,519 --> 01:17:21,719
+是的，是的。它确实很慢，因为你需要用reduce，而reduce是一个非常耗费资源的操作，
+Yeah. Yeah. It's pretty slow, because you need to reduce and reduce is a very expensive operation,
+
+1169
+01:17:21,719 --> 01:17:23,519
+但没有更便宜的方法了。
+but there's no cheaper way.
+
+1170
+01:17:23,519 --> 01:17:27,639
+因为最终，我要把这个转化成最优问题。
+Because eventually, I'm going to convert this into optimal problem.
+
+1171
+01:17:27,639 --> 01:17:30,099
+我将证明这是最优的方法。
+I will prove this is the optimal way.
+
+1172
+01:17:30,099 --> 01:17:34,219
+你做不到更好。明白吗？没有道理。
+You cannot do better. Okay? Doesn't make sense.
+
+1173
+01:17:41,670 --> 01:17:45,649
+好的，我们假设这就是我们想要的。
+Yeah, let's assume that this is what we want.
+
+1174
+01:17:45,649 --> 01:17:50,409
+但我想解释为什么我们需要这样做，因为为了进行下一个操作，
+But I want to explain why we need this because in order to perform the next palm,
+
+1175
+01:17:50,409 --> 01:17:53,849
+如何让这个要求在这个副本之后得到满足。
+how to have this met following this replica.
+
+1176
+01:17:53,849 --> 01:18:01,089
+好的。那么我将用最后一个例子来结束我的讲解
+Yeah. Okay. Then I'm going to finish my lecture using one final example
+
+1177
+01:18:01,089 --> 01:18:03,709
+下一个例子会更简单。
+and the next example is going to be easier.
+
+1178
+01:18:05,350 --> 01:18:11,209
+这是历史上的另一部分，我称之为“并行化”。其实很简单。
+This is another part of history, which I call inter paralization. It's pretty simple.
+
+1179
+01:18:11,209 --> 01:18:15,729
+在第一个设备上发生的事情基本上是，对于后续的学者，我知道
+What happens on first device is basically uh, for following scholar, I know
+
+1180
+01:18:15,729 --> 01:18:17,809
+这个备忘录将在第一个设备上执行。
+this memo is going to perform on the first device.
+
+1181
+01:18:17,809 --> 01:18:21,169
+它基本上有这两个输入，X在W上，一个是本地的。
+And it basically has these two input X on W one local.
+
+1182
+01:18:21,169 --> 01:18:27,009
+那么在第一个设备上发生的事情是X，输入1，我在第一个设备上得到了备忘录的结果。
+So what happens on the first device is X, types one, I get the memo results on the first device.
+
+1183
+01:18:27,009 --> 01:18:30,209
+然后我开始把我的I移到第二个备忘录里。
+And then I start moving my I into the second memo.
+
+1184
+01:18:30,209 --> 01:18:34,609
+在这里，我希望我的第二个备忘录发生在第二个设备上，也就是红色的设备上。
+Here I want my second memo to happen on the second device, the red device.
+
+1185
+01:18:34,609 --> 01:18:37,069
+所以，在第二个设备上，
+So here, in the second device,
+
+1186
+01:18:37,069 --> 01:18:39,289
+我有这个W2，这也是本地的，对吧？
+I have this W two, which is also local, right?
+
+1187
+01:18:39,289 --> 01:18:42,009
+而且我希望我的结果被写入第二个设备。
+And I want my results to be written in the second device.
+
+1188
+01:18:42,009 --> 01:18:44,449
+但我发现我缺少了我的输入，对吧？
+But I find that I'm missing my input, right?
+
+1189
+01:18:44,449 --> 01:18:47,869
+这个输入在哪里呢？就在第一个设备上，对吧？
+And this input where it is, is on the first device here, right?
+
+1190
+01:18:47,869 --> 01:18:51,124
+那么为了满足这种计算需求，我该怎么办？
+So in order to satisfy this kind of competion, what I do?
+
+1191
+01:18:51,124 --> 01:18:54,899
+我还通过这里的通信模式变化来进行交流。
+I also communicate by the communicating pattern changes here.
+
+1192
+01:18:54,899 --> 01:18:59,599
+我做的是让第一个设备直接把更多的结果发送给第二个设备。
+What I do is I ask the first device to send the more results directly to the second device.
+
+1193
+01:18:59,599 --> 01:19:03,339
+明白了吗？这就是我做的，对吧？
+Okay? That's what I did, right?
+
+1194
+01:19:03,339 --> 01:19:07,639
+这被称为点对点通信。
+This is called P to P communication.
+
+1195
+01:19:07,639 --> 01:19:10,799
+这是一种与前面那种稍有不同的通信模式。
+This is a slightly different communicating pattern from this one.
+
+1196
+01:19:10,799 --> 01:19:14,839
+在前面那种模式中，我需要每个设备都与其他设备通信。
+In this one, I need every device to communicate with the other device.
+
+1197
+01:19:14,839 --> 01:19:18,059
+但在这种模式下，我只需要一个设备与另一个设备通信。
+But in this one, I only need one device to communicate to the other.
+
+1198
+01:19:18,059 --> 01:19:20,819
+一个是发送方，另一个是接收方。
+One is sender, the other is receiver.
+
+1199
+01:19:21,220 --> 01:19:23,999
+我想你现在已经发现它们的区别了。
+I think now you already spot the difference.
+
+1200
+01:19:23,999 --> 01:19:25,859
+我现在要给你一个陈述。
+I'm going to give you a statement.
+
+1201
+01:19:25,859 --> 01:19:30,059
+对于手术中的分区操作，只要你进行这种操作员分区，
+So for intraoperative partism, as long as you do this kind of operator partitioning,
+
+1202
+01:19:30,059 --> 01:19:34,019
+你就会引入一些连接通信。
+you are going to deduce some connective communication.
+
+1203
+01:19:34,020 --> 01:19:39,139
+但对于这种互操作性，如果你不在操作员中分区，而是在图中分区，
+But for this interoperatism, if you don't party in operator, you always part in a graph,
+
+1204
+01:19:39,139 --> 01:19:41,919
+你只需要点对点通信。
+you only need PTP communication.
+
+1205
+01:19:41,919 --> 01:19:47,699
+这基本上给你带来了一个关键的区别，因为不同的通信方式成本差异很大。
+That basically give you a key difference because different communication have very different cost.
+
+1206
+01:19:47,699 --> 01:19:53,799
+降维操作比点对点通信要昂贵得多，这需要映射到
+A reduce is much, much more expensive than PTP, that need to be mapped into
+
+1207
+01:19:53,799 --> 01:19:56,279
+不同的网络层级中。
+different network hierarchies.
+
+1208
+01:19:56,279 --> 01:19:59,759
+例如，如果你有高带宽，你应该优先选择降维操作。
+For example, if you have high bandwidth, you should prefer to reduce.
+
+1209
+01:19:59,759 --> 01:20:03,299
+如果你的带宽较低，你应该避免使用降维操作。
+And if you have low bandwidth, you should prefer to use you should avoid radius.
+
+1210
+01:20:03,299 --> 01:20:04,859
+你应该优先使用点对点通信。
+You should prefer using PTP.
+
+1211
+01:20:04,859 --> 01:20:07,399
+在下一节课中，我将介绍这个用于通信的原语
+In the next lecture, I'm going to introduce this to communicating
+
+1212
+01:20:07,399 --> 01:20:11,499
+以确保我们理解其背后的数学原理。谢谢。
+primitives to make sure we understand the mathematics behind it. Thank you.

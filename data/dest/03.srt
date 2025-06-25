@@ -1,0 +1,4964 @@
+1
+00:00:05,800 --> 00:00:09,979
+好的，嗯。让我们开始吧。
+Okay, yeah. Let's get started.
+
+2
+00:00:09,979 --> 00:00:12,000
+好的好的，谢谢你们的到来。
+Cool, cool. Thanks for coming.
+
+3
+00:00:12,000 --> 00:00:17,839
+我们将继续讨论一些基础内容。
+And we are going to continue to talk about some basics.
+
+4
+00:00:20,780 --> 00:00:25,159
+好的，在那之前，我想先说一下关于注册的最新情况。
+Okay. Before that, I want to give some update on enrollment.
+
+5
+00:00:25,159 --> 00:00:27,879
+我觉得有几个学生退课了。
+So I think a few students drop.
+
+6
+00:00:27,879 --> 00:00:30,300
+所以我们还有60个空位。
+So we have 60 more seats.
+
+7
+00:00:30,300 --> 00:00:36,619
+我会和CSE合作，安排下一个本科生的注册。
+I'm going to work with CSE to enroll the next bachelor students.
+
+8
+00:00:37,900 --> 00:00:40,780
+然后在周四，可能是在讲座之后，
+Then on Thursday, probably after lecture,
+
+9
+00:00:40,780 --> 00:00:42,560
+我会再次和CSE一起处理相关事宜。
+I'm going to work with CSE again.
+
+10
+00:00:42,560 --> 00:00:46,420
+我相信到时候有些学生交了作业后，会选择退课。
+I believe at that time after some students homework, they are going to drop the scores,
+
+11
+00:00:46,420 --> 00:00:48,540
+所以会有更多的座位。
+so there will be more seats.
+
+12
+00:00:49,900 --> 00:00:54,920
+这也意味着我们周四很可能会有作业一准备好。
+Which also means that Thursday likely we'll have our homework one ready.
+
+13
+00:00:54,920 --> 00:01:00,340
+好的，那我们今天开始讲内容吧。
+Yeah. Okay, let's get started with the content today.
+
+14
+00:01:00,340 --> 00:01:05,140
+还记得我们上周学了什么吗？有三点，对吧？
+So so still remember what we learned last week, right? Three things, right?
+
+15
+00:01:05,140 --> 00:01:11,800
+第一，我们做了一个非常非常快速的机器学习回顾，
+The first one is we took a very, very fast review of machine learning,
+
+16
+00:01:11,800 --> 00:01:13,919
+尤其是当今的机器学习。
+especially today's machine learning.
+
+17
+00:01:13,919 --> 00:01:16,139
+我们把我们的工作内容总结为
+We summarize our workload as
+
+18
+00:01:16,139 --> 00:01:24,160
+Metham加上softmax再加上一些其他算子，从计算的角度来看，对吧？
+Metham plus softmax plus a few other operators, right, from the computational perspective, okay?
+
+19
+00:01:24,160 --> 00:01:29,479
+然后我们开始定义计算图，嗯，还记得
+And we start defining the computational graphs, um, still remember
+
+20
+00:01:29,479 --> 00:01:31,440
+节点和边的定义吗？
+the definitions of nodes and edges, right?
+
+21
+00:01:31,440 --> 00:01:38,419
+所以节点代表计算操作符和它的潜力，边基本上就是
+So nodes represent the computational operators and its a potential, and edges are basically
+
+22
+00:01:38,419 --> 00:01:41,709
+数据流动的方向和依赖关系。
+the data flowing directions and dependency.
+
+23
+00:01:41,709 --> 00:01:47,399
+然后我们开始讨论，特别是 TensorFlow 和 PyTorch 的编程风格，
+And then we start talking about the programming flavors of especially TenerfornPatrig,
+
+24
+00:01:47,399 --> 00:01:50,319
+我们发现它们非常不同。
+and we find that they are quite different.
+
+25
+00:01:50,319 --> 00:01:53,879
+一个是符号式的，另一个是命令式的。
+One is symbolic, the other is imperative.
+
+26
+00:01:53,879 --> 00:01:56,779
+我们开始讨论静态和动态，对吧？
+We start talking about static and dynamic, right?
+
+27
+00:01:56,779 --> 00:02:00,660
+我们还谈到了最新的技术，叫做
+And we also talk about the latest technique which is called
+
+28
+00:02:00,660 --> 00:02:05,740
+JIT，即时编译，以及它们如何在一定程度上解决这个问题。
+JIT just in time compilation and how they can basically solve this problem a little bit.
+
+29
+00:02:05,740 --> 00:02:10,560
+好的。我们来做一些选择题，非常简单。
+Okay. Let's do some MCQ. Very easy.
+
+30
+00:02:12,030 --> 00:02:18,670
+你是一家为用户提供积分的公司的机器学习工程师，
+So you are machine learning engineer at a company that is providing points to users,
+
+31
+00:02:18,670 --> 00:02:25,530
+你的目标是为这些Ms实现高效的推理。例如，你是OpenA，你得到了
+your goal is running efficient inference for these Ms. For example, you are open A and you are given
+
+32
+00:02:25,530 --> 00:02:28,790
+一个同时拥有符号和Impervid API的框架，
+a framework which has both symbolic and impervid API,
+
+33
+00:02:28,790 --> 00:02:31,930
+这在今天的Interf和Petrox中都成立。
+which is true for both Interf and Petrox today.
+
+34
+00:02:31,930 --> 00:02:34,950
+在设计你的系统时，
+While designing your system,
+
+35
+00:02:35,270 --> 00:02:37,530
+我将给你四个选项。
+I'm going to give you four options.
+
+36
+00:02:37,530 --> 00:02:39,709
+看看这个，选哪一个？
+Take a look at that. Which one?
+
+37
+00:02:50,480 --> 00:02:53,119
+哪一个？B，对吧？
+Which one? B, right?
+
+38
+00:02:53,119 --> 00:02:56,980
+很简单，因为你希望在开发阶段更容易调试。
+Pretty simple, yeah, because you want something that's easier to debug at development.
+
+39
+00:02:56,980 --> 00:03:01,699
+一旦你理清了你的程序，基本上就可以用性能最高的方式部署它。
+And once you figure out your program, you basically deploy it using the most high performance one.
+
+40
+00:03:01,699 --> 00:03:07,499
+好，第二个问题。
+Okay? Second one.
+
+41
+00:03:07,499 --> 00:03:13,679
+以下哪项关于数据流图是不正确的，看看AB、C和D。
+Which of the following is not true about dataflow graphs, take a look at AB and C and D.
+
+42
+00:03:24,360 --> 00:03:26,539
+哪一个？
+Which one?
+
+43
+00:03:26,539 --> 00:03:29,480
+是C，对吧？所以是静态数据。
+C, right? So static data.
+
+44
+00:03:29,480 --> 00:03:31,520
+数据流图意味着它是静态的。
+Data flow graph means that it's static.
+
+45
+00:03:31,520 --> 00:03:36,100
+所以你只需要定义一次，它就会一直运行下去，适用于更大量的数据。
+So you just define once and it will run forever for bitter data.
+
+46
+00:03:36,100 --> 00:03:40,559
+给定静态数据流图，批处理是很自然的，
+And given static data graph, batching is natural, you
+
+47
+00:03:40,559 --> 00:03:43,619
+你只需要把批次扔进图里，它就会运行。
+just throw batches into the graph and it will run.
+
+48
+00:03:43,619 --> 00:03:45,660
+因为形状是静态的。
+Because the shape is static.
+
+49
+00:03:45,660 --> 00:03:47,940
+D选项很明显。
+For D is obvious.
+
+50
+00:03:47,940 --> 00:03:51,360
+定义-运行是一种处理动态图数据的可行方式，
+Define run is a possible way to handle dynamic data for graphs,
+
+51
+00:03:51,360 --> 00:03:53,060
+因为你并不关心性能问题。
+because you don't care about performance.
+
+52
+00:03:53,060 --> 00:03:55,299
+那我们来看一下。好的。
+So let's see. Okay.
+
+53
+00:03:55,299 --> 00:04:00,219
+很简单，对吧？这基本就是期末考试的难度水平。
+Pretty easy, right? This is basically the level of difficulty in final exam.
+
+54
+00:04:00,219 --> 00:04:05,200
+好的，那我们回到今天的主要内容。
+Okay. Yeah, let's go back to the main contents today.
+
+55
+00:04:05,200 --> 00:04:11,699
+我记得上节课我们讲了用基本操作来表达计算的表示方法，
+So I think last lecture, we talk about representation that express the computation using primitives,
+
+56
+00:04:11,699 --> 00:04:13,839
+而这种表示其实就是数据流图。
+and that repent is basically data flow graph.
+
+57
+00:04:13,839 --> 00:04:19,240
+我们还讲了如何在前向路径上定义数据流图，对吧？
+And we also talk about how to define dataflow graph at the forward path, right?
+
+58
+00:04:19,240 --> 00:04:24,400
+但我们做的是深度学习，我们不会止步于此，因为我们还关心反向
+But we are doing deep learning, we are not going to be ending there because we care about backward
+
+59
+00:04:24,400 --> 00:04:25,640
+图的反向传播，对吧？
+graph back propagation, right?
+
+60
+00:04:25,640 --> 00:04:28,560
+我们想要优化模型的权重。
+We want to optimize the model weights.
+
+61
+00:04:28,560 --> 00:04:33,320
+在本次讲座中，我们将从如何基本定义开始讲起。
+So in this talk, we are going to talk about we're going to start with how to basically define
+
+62
+00:04:33,320 --> 00:04:35,994
+使用数据流图来定义反向竞争。
+the backward competition using data flow graphs.
+
+63
+00:04:35,994 --> 00:04:40,210
+本次学习目标，首先我们会讲自动微分。
+And this learning goal, we first talk about auto differentiation.
+
+64
+00:04:40,210 --> 00:04:41,989
+一旦你理解了这一点，
+And once you understand that,
+
+65
+00:04:41,989 --> 00:04:46,089
+我就可以开始为你介绍机器学习系统中的核心问题。
+I can start presenting you basically the grand problem of machine learning systems.
+
+66
+00:04:46,089 --> 00:04:47,849
+我们试图优化什么？
+What do we try to optimize?
+
+67
+00:04:47,849 --> 00:04:52,950
+如果时间允许，我们还会讲一些更底层的内容，好吗？
+And if time permits, we're going to talk about a little bit lower level things, okay?
+
+68
+00:04:53,150 --> 00:04:56,690
+那么，自动微分，对吧？
+So, auto differentiation, right?
+
+69
+00:04:56,690 --> 00:04:58,709
+那我们在做自动微分的时候会做什么？
+So what do we do when we do auto
+
+70
+00:04:58,709 --> 00:05:01,270
+我们基本上就是在求梯度和导数。
+We basically take graditsT derivatives.
+
+71
+00:05:01,270 --> 00:05:06,790
+好吗？所以我希望你们还记得你们本科时学过的求导方法。
+Okay? So I hope you still remember your undergrad course, how to take derivatives.
+
+72
+00:05:06,790 --> 00:05:11,469
+那么给定F Theta，什么是F对Theta的偏导数？
+So given F Theta, what is partial F by Pi Theta?
+
+73
+00:05:11,469 --> 00:05:16,470
+我们可以按定义来求，就是这个极限，对吧？
+So we can take it by definition, which is basically this limit, right?
+
+74
+00:05:16,470 --> 00:05:20,610
+所以我们找一个很小的epsilon，然后尝试求这个极限。
+So we find a very small epson and we try to derive the limit.
+
+75
+00:05:20,610 --> 00:05:23,470
+这个在计算机程序中是可行的。
+And this is doable in computer program.
+
+76
+00:05:23,470 --> 00:05:28,249
+我们要做的基本上就是分别计算F在Theta和Theta加epsilon处的值，
+What do we do is basically we evaluate the function value F at Theta and Theta plus Epson,
+
+77
+00:05:28,249 --> 00:05:30,150
+然后我们就按照这个方法来做。
+and then we just follow this right.
+
+78
+00:05:30,150 --> 00:05:34,049
+只要epsilon足够小，我们实际上就可以近似出梯度，
+As long as apsnon is very small, we can actually approximate the grading,
+
+79
+00:05:34,049 --> 00:05:36,069
+对，也就是偏导数。
+right, the partial derivative.
+
+80
+00:05:36,069 --> 00:05:37,770
+但这里的问题是什么？
+But what is the problem here?
+
+81
+00:05:37,770 --> 00:05:40,750
+为什么DplingFramwork不用这个方法？
+Why DplingFramwork does not use this one?
+
+82
+00:05:41,330 --> 00:05:45,730
+好，第一个问题是，它非常慢，对吧？
+Okay, the first problem is, it's very slow, right?
+
+83
+00:05:45,730 --> 00:05:50,950
+因为每次我们都需要计算两个数值来得到一个梯度，一个导数，对吧？
+Because every time we need to evaluate two values to get one gradient, one derivative, okay?
+
+84
+00:05:50,950 --> 00:05:58,720
+第二个问题是，这种方法不准确，因为它本质上是
+Second problem is, this one is not accurate because it's it's basically we
+
+85
+00:05:58,720 --> 00:06:00,760
+我们在近似梯度值，对吧？
+are approximating the grading values, right?
+
+86
+00:06:00,760 --> 00:06:04,320
+而且我们基本上是取足够小的间隔来做近似。
+And we are basically take small enough apsion to approximate that.
+
+87
+00:06:04,320 --> 00:06:07,700
+你知道，计算机有很多浮点误差，如果你用这种方式，
+You know, computer has a lot of floating point arrows, and if you do this way,
+
+88
+00:06:07,700 --> 00:06:10,899
+那些浮点误差会在整个神经网络中传播，我们
+that floting point arrow will propagate all the way through neural network and we are
+
+89
+00:06:10,899 --> 00:06:12,639
+得不到准确的梯度。
+not going to get accurate gradient.
+
+90
+00:06:12,639 --> 00:06:15,320
+所以实际上，我们不会这么做。
+So in reality, we don't do this.
+
+91
+00:06:15,320 --> 00:06:20,760
+我们做的基本上是符号微分，基本上就是应用
+What we do is basically we do symbolic differentiation, and we basically applied
+
+92
+00:06:20,760 --> 00:06:27,539
+我们从微积分课上学到的知识，尝试推导梯度或偏导数
+what we learned from the calculus class and we try to derive the gradient or partial derivative
+
+93
+00:06:27,539 --> 00:06:29,820
+使用这些求导规则，对吧？
+using these derivative rules, right?
+
+94
+00:06:29,820 --> 00:06:34,655
+希望你们还记得。如果不记得的话，回去看看，提醒一下自己。
+I hope you still remember. If you don't take a look, okay, try to remind yourself, okay.
+
+95
+00:06:34,655 --> 00:06:39,549
+我们将要演示一个非常简单的例子。
+And we are going to walk through a very simple example.
+
+96
+00:06:39,549 --> 00:06:46,350
+这里我们有一个非常小的计算过程，你也可以把它看作是神经网络，对吧？
+So here we have a very small commutation, or you can also think this as neural network, right?
+
+97
+00:06:46,350 --> 00:06:51,609
+我们有两个输入X1和X2，然后进行一些计算
+Were we have two inputs X one, X two, and going through some computation
+
+98
+00:06:51,609 --> 00:06:53,650
+我在这里定义了这个计算，非常简单。
+which I defined here, pretty simple.
+
+99
+00:06:53,650 --> 00:06:55,869
+按照我们上节课讲的内容，
+And following what we taught in the last lecture,
+
+100
+00:06:55,869 --> 00:06:59,089
+我们基本上把它画成计算图来可视化。
+we basically write visualize it as commutation graph.
+
+101
+00:06:59,089 --> 00:07:02,790
+我们还为x1和x2赋值。
+And we also instantiate the values for x1x2.
+
+102
+00:07:02,790 --> 00:07:08,825
+所以你可以看到，通过竞争机制我们实际上可以推导出结果Y的值。
+So you can see, following the competon we can actually derive the value of the outcome, which is Y.
+
+103
+00:07:08,825 --> 00:07:14,900
+我们的目标是计算Y对X1的偏导数的值。
+And our goal is we try to calculate the value of partial Y by partial X one.
+
+104
+00:07:14,900 --> 00:07:17,860
+例如，我们想对X1求导。
+For example, we want to take the derivative against X one.
+
+105
+00:07:17,860 --> 00:07:20,959
+这就是我们在神经网络训练中通常做的事情。
+That's what we normally do in neur twork training.
+
+106
+00:07:21,360 --> 00:07:29,100
+所以我们基本上遵循偏导数规则，还有链式法则，在这方面，
+So we basically follow partial derivative rules, and also chain rules and um and in this regard,
+
+107
+00:07:29,100 --> 00:07:30,580
+我们实际上有两种方法。
+we actually have two ways.
+
+108
+00:07:30,580 --> 00:07:34,040
+我在这里列出了，一种是前向方式，就是我们可以，
+So which I list here, one is the forward way that is we can,
+
+109
+00:07:34,040 --> 00:07:36,400
+如果你看左边的函数，
+if you look at the function on the left side,
+
+110
+00:07:36,400 --> 00:07:41,000
+你可以从左到右求导，对吧？
+so you can take the derivative from left to right, right?
+
+111
+00:07:41,000 --> 00:07:46,520
+
+And you can calculate step by step from X, all the way to Y, that is from the inner of
+
+112
+00:07:46,520 --> 00:07:48,899
+
+the function to the outer part of the function.
+
+113
+00:07:48,899 --> 00:07:53,099
+
+Or you can do something that is taught in machine learning class that is back propagation.
+
+114
+00:07:53,099 --> 00:07:55,620
+
+You do from right to left, right?
+
+115
+00:07:55,620 --> 00:07:58,860
+
+You take the derivative Y against the
+
+116
+00:07:58,860 --> 00:08:04,310
+
+V six and the V five and then all the way back propagate through, um, X one and X two.
+
+117
+00:08:04,310 --> 00:08:06,029
+
+You can always get a results.
+
+118
+00:08:06,029 --> 00:08:08,630
+
+We are going to reason a little bit on these two modes, okay,
+
+119
+00:08:08,630 --> 00:08:13,930
+
+because there are a lot of softwares basically implementing two different kinds of modes.
+
+120
+00:08:13,930 --> 00:08:18,050
+
+Okay, we call the first mode, forward mode, auto differentiation or forward ED.
+
+121
+00:08:18,050 --> 00:08:21,210
+第二种模式，反向ED，明白吗？
+The second mode, backward ED, okay?
+
+122
+00:08:22,320 --> 00:08:25,999
+那我们先来讲一下前向模式。
+So let's first run through forward mode.
+
+123
+00:08:25,999 --> 00:08:31,980
+好的，前向模式的做法基本上是，我们要定义这个VI点。
+Okay. The way we do forward mode is basically, we are going to define this VI dot.
+
+124
+00:08:31,980 --> 00:08:39,000
+这个点基本上被定义为VI对XI的偏导数。
+The dot is basically defined as the partial derivative of VI against XI.
+
+125
+00:08:39,000 --> 00:08:43,460
+所以这就是图中的IS节点对应输入。
+So that is the IS node in the graph against the input.
+
+126
+00:08:43,460 --> 00:08:48,589
+明白了吗？那我们要做的就是
+Okay? So what do we do is we are going to our goal is try to
+
+127
+00:08:48,589 --> 00:08:53,749
+我们的目标是推导出偏导数∂Yi/∂X1的值，对吧？
+derive the value of partial Yi partial X one, right?
+
+128
+00:08:53,749 --> 00:08:57,109
+那我们要做的就是从X1开始，一直到
+So what do we do is we are going to start with from X one all the way
+
+129
+00:08:57,109 --> 00:09:01,150
+Y，我们要弄清楚怎么得到这个值。
+to Y and we try to figure out how we can get that value.
+
+130
+00:09:01,150 --> 00:09:03,629
+所以其实很简单，对吧？
+So it's pretty simple, right?
+
+131
+00:09:03,629 --> 00:09:09,839
+所以根据定义，呃，v一的导数基本上就是一，因为v一等于x一。
+So by definition, uh, we one dot is basically one, right, because we one is equal to X one.
+
+132
+00:09:09,839 --> 00:09:13,689
+对，所以导数基本上就是一。
+Right, so the dervative is basically one.
+
+133
+00:09:13,689 --> 00:09:18,689
+然后我们就一直这样做，按照图从左到右，
+And we just do it all the way, following the graph from left to right,
+
+134
+00:09:18,689 --> 00:09:25,109
+最终我们会得到v七的导数，基本上是，呃，5.5。
+and eventually we are going to reach we seven dot, which is basically, uh, 5.5.
+
+135
+00:09:25,109 --> 00:09:31,110
+好吗？我不会深入讲计算过程，但我觉得这个非常直接。
+Okay? I'm not going to dive deep into the calculation, but I think this one is very straightforward.
+
+136
+00:09:31,110 --> 00:09:32,530
+你只需要一步一步来就行了。
+You just do it step by step.
+
+137
+00:09:32,530 --> 00:09:34,809
+好，函数就是我的派系。好吧。
+Okay, function my faction. Okay.
+
+138
+00:09:34,809 --> 00:09:41,289
+有什么问题吗？没问题的话，最后我们可以写出答案，
+Any question? Cool. And finally, we can write the answer,
+
+139
+00:09:41,289 --> 00:09:48,190
+就是偏y对偏x一等于5.5，也就是v七的导数的值。
+which is a partial Y by partial X one is equal to 5.5, which is equal to the value of V seven dot.
+
+140
+00:09:49,150 --> 00:09:57,530
+好，通过这个过程你可以看到，呃，呃，前向模式AD的特点。
+Okay. And from this process, you can see, um, uh, the characteristics of forward forward mode 80,
+
+141
+00:09:57,530 --> 00:10:01,729
+基本上，我们从这里的输入节点开始，也就是X一或者X二。
+basically, we start from the input node right here is X one or X two.
+
+142
+00:10:01,729 --> 00:10:06,769
+然后我们一直推导梯度，直到输出节点，这里是Y。
+And we derive the gradient all the way to the opt nodes, here is Y.
+
+143
+00:10:06,769 --> 00:10:11,110
+那么，前向自动微分有什么优缺点呢？
+So what is the pros and cons of forward auto diff?
+
+144
+00:10:13,400 --> 00:10:15,640
+或许让我问你一个问题。
+Maybe let me ask you a question.
+
+145
+00:10:15,640 --> 00:10:18,160
+那Petrous用的是这种方法吗？
+So does petrous use this one?
+
+146
+00:10:18,160 --> 00:10:21,859
+不是吧？对吧？那一定是有什么原因，
+No, right? Yeah, there must be something that happening that,
+
+147
+00:10:21,859 --> 00:10:24,399
+让Petro没有采用这种方法。
+you know, prevent Petro from using that.
+
+148
+00:10:24,399 --> 00:10:25,840
+那我们来稍微读一下。
+So let's read it a little bit.
+
+149
+00:10:25,840 --> 00:10:30,959
+在更多的替代方法中，问题通常是我们在求解这个函数F，
+So in for more alternative, the problem is we are usually solving this function F,
+
+150
+00:10:30,959 --> 00:10:35,919
+从N维空间的输入到K维空间的输出。
+from N dimensional space input to a k dimensional space output.
+
+151
+00:10:35,919 --> 00:10:42,480
+为了求解关于输入X或X或XN的偏导数，
+And in order to derive the partial Y against input X or X or X N,
+
+152
+00:10:42,480 --> 00:10:48,379
+我们基本上只需要进行一次前向传播，就能得到关于某个输入的梯度，对吧？
+we basically need to run one forward pass to get the gradient with respect to one input, right?
+
+153
+00:10:48,379 --> 00:10:50,739
+所以如果我们有很多很多输入，那我们就需要……
+So if we have many many inputs, then we need to.
+
+154
+00:10:50,739 --> 00:10:55,660
+比如说，在这里，如果N非常大，那我们就需要进行前向传播
+So for example, here, if N is pretty large, then we need to run in forward pass
+
+155
+00:10:55,660 --> 00:11:02,920
+来获得从1到n每个X_i的梯度。在深度学习中，情况就是这样的。
+to get the gradients against every X I from one to n. In deep learning, uh, this is the case.
+
+156
+00:11:02,920 --> 00:11:11,040
+基本上在深度学习中，在很多机器学习问题里，我们的输入维度很高，比如说，
+Basically in deep learning, in many mansing problems, we have a high dimensional input, For example,
+
+157
+00:11:11,040 --> 00:11:15,040
+我们有很多参数，我们想要求出每个参数的梯度。
+we have a lot of parameters, we want to derive the gradient against each parameter.
+
+158
+00:11:15,040 --> 00:11:17,720
+比如说GPT-3有1750亿个参数。
+Like in GB three is 175 billion.
+
+159
+00:11:17,720 --> 00:11:20,620
+但我们只有一个输出，就是损失值。
+But we only had one output that loss loss value.
+
+160
+00:11:20,620 --> 00:11:24,770
+比如说下一个token的预测损失或者分类损失。
+For example, next token predicting loss or classification loss.
+
+161
+00:11:24,770 --> 00:11:27,400
+所以如果我们应用这个前向模式，
+So if we apply this forward mode,
+
+162
+00:11:27,400 --> 00:11:31,279
+用80来做微分其实非常非常低效，因为我们需要对每一个参数输入都做
+80 into deplening then it's very, very inefficient because we need to dp
+
+163
+00:11:31,279 --> 00:11:35,320
+梯度计算，并且我们需要运行的次数
+gradients for each input that is a parameter, and we need to run as
+
+164
+00:11:35,320 --> 00:11:37,160
+就等于参数的数量。
+many times as the number of parameters.
+
+165
+00:11:37,160 --> 00:11:41,560
+明白了吗？这就是为什么前向80其实对微分来说不是很有用。
+Okay? That's why forward 80 is actually not very useful for deperning.
+
+166
+00:11:41,560 --> 00:11:45,600
+好的。但它其实很容易理解，因为你只需要从左到右
+Okay. But it's very easy to think about, yeah, because you just go through
+
+167
+00:11:45,600 --> 00:11:47,259
+走一遍计算图就可以了。
+the computing graph from left to right.
+
+168
+00:11:47,259 --> 00:11:48,930
+你不需要反向传播。
+You don't need a backward pass.
+
+169
+00:11:48,930 --> 00:11:56,179
+好的。所以这基本上就引出了反向模式80，也就是反向模式自动微分，对吧？
+Okay. So that basically brings us to the reverse mode 80 or backward mode 80, okay?
+
+170
+00:11:56,179 --> 00:12:00,960
+这里，我将花一些时间再跑一遍这个计算图，
+Here, I'm going to, uh, spend some time to run through this graph again,
+
+171
+00:12:00,960 --> 00:12:04,460
+但是我们要应用反向模式ED，好吗？
+but we are going to apply the reverse mode ED, okay?
+
+172
+00:12:04,460 --> 00:12:08,880
+所以为了运行这个实模式ED，呃，显然和外部模式不同，
+So in order to run this real mode ED, uh, apparently different from the foreign mode,
+
+173
+00:12:08,880 --> 00:12:12,419
+我们要从Y一路回溯到XR乘以二。
+we are going to run from Y all the way back to XR x two.
+
+174
+00:12:12,419 --> 00:12:19,200
+好吗？为了实现这个，我们要引入一个新的定义，叫做joint。
+Okay? And in order to run that, we are going to bring a new definition that is joint.
+
+175
+00:12:19,200 --> 00:12:25,174
+好的，这里我定义V bar等于Y的偏导数。
+Okay? Here I define the V bar equals to partial Y.
+
+176
+00:12:25,174 --> 00:12:31,469
+关于I的偏导数，也就是输出
+By partial I, that is the partial derivative of the output
+
+177
+00:12:31,469 --> 00:12:34,909
+Y对当前节点I的偏导数。是的，
+Y against the current node I. Yeah,
+
+178
+00:12:34,909 --> 00:12:37,530
+I基本上就是索引节点。
+I is basically the index node.
+
+179
+00:12:37,530 --> 00:12:44,929
+我们基本上要反向计算每个I bar，对不起，是反向，不是反向
+We are going to basically compute each I bar in the reverse, sorry, reverse not reverse
+
+180
+00:12:44,929 --> 00:12:49,054
+是图的反向拓扑顺序，从Y一路回溯。
+reverse topological order of the graph, from Y all the way back.
+
+181
+00:12:49,054 --> 00:12:51,080
+
+So here's the commutation.
+
+182
+00:12:51,080 --> 00:12:54,639
+
+We are going to run a few equations, and then, um, probably you can take
+
+183
+00:12:54,639 --> 00:12:56,340
+
+more time to understand the rest.
+
+184
+00:12:56,340 --> 00:13:02,479
+
+So for the first one, uh, seven bar is basically like we are teaching partial derivative of we are
+
+185
+00:13:02,479 --> 00:13:06,659
+
+taking partial derivative of partial Y against partial seven, right?
+
+186
+00:13:06,659 --> 00:13:11,900
+
+Because Y basically equals to with seven, so the value is one, right, identity function.
+
+187
+00:13:11,900 --> 00:13:19,359
+
+And then we run to the second equation, which is, partial, sorry, with six bar.
+
+188
+00:13:19,359 --> 00:13:22,399
+
+And I hope you still remember chain rule, right?
+
+189
+00:13:22,399 --> 00:13:27,700
+
+So when we take the partial partial Y against with six,
+
+190
+00:13:27,700 --> 00:13:36,879
+
+we basically change the gradient of partial Y against seven and the partial derivative
+
+191
+00:13:36,879 --> 00:13:39,359
+V七对六，对吧？
+of V seven against six, right?
+
+192
+00:13:39,359 --> 00:13:40,880
+我们把它们绑在一起，是的。
+We tie them together, yeah.
+
+193
+00:13:40,880 --> 00:13:43,440
+然后我们基本上得到六杠。
+And we basically get six bar.
+
+194
+00:13:43,440 --> 00:13:48,840
+我们用链式法则一个一个地做，这个你在神经网络课上学过，
+And we do this one by one using the chain room, which you learned in the neuralnetwork class,
+
+195
+00:13:48,840 --> 00:13:53,419
+然后我们基本上可以一路反向传播到X一，
+and we can basically run all the way back to X one,
+
+196
+00:13:53,419 --> 00:13:58,000
+我们基本上可以得到一杠和二杠的值，
+and we basically can get the value of 1 bar and two bar,
+
+197
+00:13:58,000 --> 00:14:03,050
+就在这里，你可以看到它的值也是5.5，这和公式是一样的。
+which is there, and you can see the value is also 5.5, which is equal to the form.
+
+198
+00:14:03,050 --> 00:14:09,279
+好的，这里还有一点我需要补充说明，
+Okay. Um, here, there's a little bit one more thing I need to mention that is,
+
+199
+00:14:09,279 --> 00:14:15,220
+你可以看到对于第三周和第二周，当我们计算
+you can see for week three and we two, when we take the when we calculate the value of
+
+200
+00:14:15,220 --> 00:14:18,760
+W三杠和二杠的值时，这里会稍微复杂一些。
+W three by and we 2 bars a little bit more difficult complicated here.
+
+201
+00:14:18,760 --> 00:14:22,139
+也就是说，我们有这样一种类似图结构的东西，对吧？
+That is, we have this kind of like a graph structure, right?
+
+202
+00:14:22,139 --> 00:14:26,559
+在这里，w1 基本上同时影响 w2 和 w。
+Here, we one basically contributes to both we two and with.
+
+203
+00:14:26,559 --> 00:14:28,500
+而 w4 有两个输入。
+And we four has two inputs.
+
+204
+00:14:28,500 --> 00:14:32,939
+分别是 w 和 w。那么你还记得怎么推导
+That is wet and W. So do you still remember how to derive
+
+205
+00:14:32,939 --> 00:14:36,139
+这种结构的梯度吗？
+the gradients of this kind of like structure?
+
+206
+00:14:37,260 --> 00:14:41,459
+所以它需要两条路径才能到达 Y 的结果。
+So it takes we want two paths to reach the outcome of Y.
+
+207
+00:14:41,459 --> 00:14:43,280
+那么我们怎么求梯度呢？
+So how do take the grading.
+
+208
+00:14:43,280 --> 00:14:46,399
+其实很简单，对吧？基本上 t 已经完成了，对吧？
+It's pretty simple, right? So basically t is done, right?
+
+209
+00:14:46,399 --> 00:14:54,060
+所以我们想要的就是 ∂Y/∂V1，基本上我们就是展开这个函数
+So we want byte basically equal to partial Y by partial V one, and we basically enroll the function
+
+210
+00:14:54,060 --> 00:14:57,899
+Y。把 Y 作为 w2 和 w 的函数来展开。
+Y. Enroll Y as a function of we two and we.
+
+211
+00:14:57,899 --> 00:15:01,139
+我们还发现我们对W一进行函数运算。
+And we also find we we are function over W one.
+
+212
+00:15:01,139 --> 00:15:05,260
+所以我们只需要使用偏导数规则，一直写下去就行了。
+So we just use partial derivative rules and write it all the way.
+
+213
+00:15:05,260 --> 00:15:10,699
+这样我们基本上得到了这个方程，就是抛物线乘以偏导数。
+So we basically get the equation that is throw bar times the partial derivative we
+
+214
+00:15:10,699 --> 00:15:13,020
+两个对比项和第二项。
+two against and the second term.
+
+215
+00:15:13,020 --> 00:15:16,060
+明白了吗？这就是这里发生的事情。
+Okay? That's what happened here.
+
+216
+00:15:16,060 --> 00:15:20,239
+这两条方程里发生了什么。
+What happened here in these two equations.
+
+217
+00:15:20,239 --> 00:15:23,960
+好的。好的。这只是个热身，好吗？
+Okay. Okay. This is just a warm up, okay?
+
+218
+00:15:23,960 --> 00:15:25,679
+希望你们还记得这些内容。
+I hope you'll still remember all this.
+
+219
+00:15:25,679 --> 00:15:29,139
+这基本上就是基础微积分，对吧？
+Okay? This is basically basic calculus, right?
+
+220
+00:15:30,490 --> 00:15:34,429
+如果我们稍微推广一下，其实我们可以推导出
+So if we generalize a little bit, we can basically derive
+
+221
+00:15:34,429 --> 00:15:41,110
+这个说法是针对数据流图中的节点，对吧？对于被多个消费者使用的节点，
+this statement that is for node in the data flow graph, right for we one used by multiple consumers,
+
+222
+00:15:41,110 --> 00:15:46,009
+我们基本上可以这样计算，这个联合Wi bar等于
+we can basically calculate this at joint Wi bar equals to
+
+223
+00:15:46,009 --> 00:15:51,369
+也就是说，基本上是它所有消费者的总和，对吧？
+so basically the sum of all the all its consumers, right?
+
+224
+00:15:51,369 --> 00:15:57,189
+在这里，我们又定义了另一个术语，就是Wii到J bar，好吗？
+And here, we define another term which is Wii two J bar, okay?
+
+225
+00:15:57,189 --> 00:16:05,130
+其中I到G bar基本上是WJ bar乘以Wig对其中一个的偏导数。明白了吗？
+Where I two G bar is basically WJ bar times the partial derivative Wig against one. Okay?
+
+226
+00:16:05,130 --> 00:16:08,129
+这基本上就是分叉。
+This is like, basically bifurcation.
+
+227
+00:16:08,129 --> 00:16:14,729
+有什么问题吗？没问题吧。我们都明白了，对吧？这很简单的数学。
+Any question? Cool. We are good, right? Pretty simple math.
+
+228
+00:16:15,530 --> 00:16:22,049
+好的。那么现在，基本上你已经理解了前向模式AD和反向模式AD。
+Okay. Then now, you basically, understand both forward mode 80 and backward mode 80.
+
+229
+00:16:22,049 --> 00:16:26,830
+我们现在要总结一下反向模式AD，好吗？
+And we are going to summarize a little bit about backward mode 80, okay?
+
+230
+00:16:26,830 --> 00:16:31,769
+在反向模式AD中，补偿的工作流程基本上是从输出节点开始的，对吧？
+So in backward mode 80, compensation workflow is basically start from output nodes, right?
+
+231
+00:16:31,769 --> 00:16:35,229
+
+And we derive the grading all the way back to the input nodes,
+
+232
+00:16:35,229 --> 00:16:38,470
+
+which is a reverse order or for mode 80.
+
+233
+00:16:38,470 --> 00:16:45,165
+
+So what is the pros and cons of backward mode 80, sorry, this is backward mode.
+
+234
+00:16:45,165 --> 00:16:51,959
+
+So basically the pros of, uh, forward mode, it is the cons of the backward mode 80, right?
+
+235
+00:16:51,959 --> 00:16:58,060
+
+Because here, still, we have a function of wishing maps from N dimensional space
+
+236
+00:16:58,060 --> 00:16:59,560
+
+to a key dimensional space.
+
+237
+00:16:59,560 --> 00:17:03,040
+
+And if we want to take gradients, uh, using the backward mode,
+
+238
+00:17:03,040 --> 00:17:07,679
+
+we basically need the backward pass to get gradient with respect to all the inputs.
+
+239
+00:17:07,679 --> 00:17:11,740
+
+Okay. But like I said, why this one is adopted in deploying?
+
+240
+00:17:11,740 --> 00:17:13,700
+
+Because in deploying K is pretty small.
+
+241
+00:17:13,700 --> 00:17:16,399
+N 是不是很高？很大，对吧。好的。
+N is pretty high, right? Pretty large. Okay.
+
+242
+00:17:16,399 --> 00:17:22,199
+这就是为什么反向模式，自动微分基本上是默认的微分规则，
+That's why backward mode, AD is, um, uh, basically the default, uh, a differentiate rules that
+
+243
+00:17:22,199 --> 00:17:25,319
+我们在部署库和合并系统时都会用到。
+we use in deploying libraries in merging systems.
+
+244
+00:17:25,319 --> 00:17:34,979
+但是要记住，在其他领域，如果我们的 K 很大，
+Okay. But remember that in other areas where we have a pretty large K,
+
+245
+00:17:34,979 --> 00:17:37,920
+但 a 很小，我们还是可以回去用正向模式。
+but a small, we can still go back to use four mode.
+
+246
+00:17:37,920 --> 00:17:43,059
+比如说，在很多科学计算场景下，
+For example, in many many scientific computing scenarios, yeah, where we don't we have
+
+247
+00:17:43,059 --> 00:17:45,559
+输入维度很低，但输出维度很高。
+low dimensional input, but high dimis output.
+
+248
+00:17:45,559 --> 00:17:48,859
+对。好的，那我们回到我们的问题。
+Yeah. Okay. Then back to our question.
+
+249
+00:17:48,859 --> 00:17:52,820
+现在，你已经理解了自动微分的底层机制。
+Now, you understand the underlying mechanisms of ED.
+
+250
+00:17:52,820 --> 00:17:58,039
+但要记住，我们的目标是用自动微分推导数据流图，因为我们
+But remember, our mission is we try to use ED to derive dataflow graphs because we
+
+251
+00:17:58,039 --> 00:18:00,439
+想要一些可以代表竞争的东西，对吧？
+want something that can represent the competition, right?
+
+252
+00:18:00,439 --> 00:18:04,319
+ED 帮助我们获得梯度，但我们想把 ED 写进计算图里。
+ED helps us to get the gradients, but we want to write ED into the graph.
+
+253
+00:18:04,319 --> 00:18:11,120
+好的。那么我们如何构建一个可以计算梯度的竞争图呢？
+Okay. So how can we construct a competition graph that calculates the gradients?
+
+254
+00:18:11,120 --> 00:18:14,699
+我们知道梯度可以通过伴随值来计算。
+We know that gradients can be calculated from the adjoint values.
+
+255
+00:18:14,699 --> 00:18:19,579
+所以本质上，我们要定义一个可以计算伴随值的计算图，对吧？
+So essentially how we can, uh define computer graph that calculate the adjoin values, right?
+
+256
+00:18:19,579 --> 00:18:23,649
+好吗？我来告诉你答案。
+Okay? I'm going to give you the answer.
+
+257
+00:18:23,649 --> 00:18:25,450
+我会带大家过一遍这个算法。
+I'm going to run through this algorithm.
+
+258
+00:18:25,450 --> 00:18:28,630
+基本上，所有不同的库其实都用这个算法。
+Basically, all the different libraries they basically use this algorithm.
+
+259
+00:18:28,630 --> 00:18:33,350
+这个算法基本上就是用反向模式 AD 来计算梯度的。
+This is algorithm that basically calculate the gradients using backward mode 80.
+
+260
+00:18:33,350 --> 00:18:36,245
+我会稍微带大家过一遍这个算法，好吗？
+I'm going to run through this algorithm a little bit okay?
+
+261
+00:18:36,245 --> 00:18:42,280
+我休息的方式是，我要给你举一个换元的例子，嗯，这个换元
+The way I rest, I'm going to give you an example commutation, um and the commutation
+
+262
+00:18:42,280 --> 00:18:48,399
+基本上就是一个非常简单的函数F，它会接收一个输入，取指数再加一，
+is basically very simple function F, which will take one input, take exponential plus one as in
+
+263
+00:18:48,399 --> 00:18:52,139
+然后再乘以u本身，得到输出。
+times u itself and get the output.
+
+264
+00:18:52,139 --> 00:18:58,799
+但在我们运行这个数据流图上的算法之前，我们要做什么呢？我想给你
+But before we run the uh algorithm on this dataflow graph, what do we do I try to give you
+
+265
+00:18:58,799 --> 00:19:00,800
+一个关于这个算法整体流程的高层次描述。
+a high level picture of what's going on in that algorithm.
+
+266
+00:19:00,800 --> 00:19:02,840
+好的，我们来逐行阅读它。
+Okay. Let's read it line by line.
+
+267
+00:19:02,840 --> 00:19:08,699
+基本上，我们是想要获取某个特定节点的梯度，对吧？
+So basically, we want to take the gradients of a specific node, right?
+
+268
+00:19:08,699 --> 00:19:13,895
+所以我们会维护一个节点的所有偏导aljoint。
+So we are going to maintain all partial joints of a node.
+
+269
+00:19:13,895 --> 00:19:18,550
+因为一旦我们有了偏导aljoint的列表，就可以把它们加在一起，
+Because once we have a list of partial aljoints can sum them together,
+
+270
+00:19:18,550 --> 00:19:20,269
+我们就能得到梯度值，对吧？
+we get the gradient value, right?
+
+271
+00:19:20,269 --> 00:19:23,290
+这就是我在上一页幻灯片中定义的内容。
+That's what I defined in my previous slide.
+
+272
+00:19:23,290 --> 00:19:30,470
+所以这个结构基本上会尝试为每个节点的所有偏伴随值进行优化。
+So this organ will basically try to opt the values for all the partial adjoints for each node.
+
+273
+00:19:30,470 --> 00:19:34,509
+获取这些值的方法，首先是遍历图结构，
+The way you get the values basically first, it traverse the graph
+
+274
+00:19:34,509 --> 00:19:38,350
+按照反向拓扑顺序遍历，这是由反向模式定义的，
+following a reverse topological order that is defined by backward mode
+
+275
+00:19:38,350 --> 00:19:40,549
+没错，因为我们必须以这种方式遍历。
+80 right because we have to traverse in that way.
+
+276
+00:19:40,549 --> 00:19:46,690
+我们的做法是，首先把该节点的所有偏导数加起来，
+And what we do is, uh, we first, sum all the partial algoin of that node
+
+277
+00:19:46,690 --> 00:19:50,395
+这样才能得到它的偏导数总和。
+together in order to get its partial duptive.
+
+278
+00:19:50,395 --> 00:19:53,520
+这样说有道理吗？这就是定义本身，好吗？
+Does that make sense? That is by definition, okay?
+
+279
+00:19:53,520 --> 00:19:57,980
+然后，一旦我们得到了这个节点的偏导数，
+And then once we have the partial derivative of this node,
+
+280
+00:19:57,980 --> 00:20:01,240
+接下来我们要做的就是查看它的输入节点。
+what do we do is we are going to look at is input node.
+
+281
+00:20:01,240 --> 00:20:07,160
+也就是说，所有对这个节点有贡献的节点。
+That is, that is, all the nodes that contribute to this one node.
+
+282
+00:20:07,160 --> 00:20:11,440
+明白了吗？在ph图上有指向这个节点的入边。
+Okay? Have incoming edge on the ph graph to this node.
+
+283
+00:20:11,440 --> 00:20:14,819
+我们要计算部分伴随，明白吗？
+And we are going to compute the partial adjoint, okay?
+
+284
+00:20:14,819 --> 00:20:22,499
+这里，对于任意输入K，我们计算B，K到I bar，根据定义就是这个方程，对吧？
+Here is for any input K, we compute B, K to I bar, which is by definition this equation, right?
+
+285
+00:20:22,499 --> 00:20:30,519
+好的，然后我们会把这个值更新到那个节点，就是索引为K的节点，对吧？
+Okay. And then we are going to update this value into that node, which is with index of K, right?
+
+286
+00:20:30,519 --> 00:20:34,240
+也就是说，下次我们按照奖励顺序遍历图时，
+That is next time we traverse the graph following the rewards order,
+
+287
+00:20:34,240 --> 00:20:36,320
+我们会访问这个K节点，就在这里。
+we are going to visit this K, right here.
+
+288
+00:20:36,320 --> 00:20:39,140
+我们基本上会得到部分的导数。
+We are going to get it basically partial duptive.
+
+289
+00:20:39,140 --> 00:20:45,159
+明白了吗？你可以看到这个程序基本上是递归的，对吧，因为它会
+Okay? And you can see this program is basically recursive, right, because it will go
+
+290
+00:20:45,159 --> 00:20:47,320
+一直回溯到IR节点。
+through all the way back to the IR node.
+
+291
+00:20:47,320 --> 00:20:51,299
+它会遍历这个节点，基本上会返回它的值。
+It traverse or the node, and basically it will return the value of this.
+
+292
+00:20:51,299 --> 00:20:54,439
+这正是我们想要的，对吧。好的。
+That's what we want. Right. Okay.
+
+293
+00:20:54,439 --> 00:21:00,589
+关于这个程序有什么问题吗？好的。
+Any question about this program. Okay.
+
+294
+00:21:00,589 --> 00:21:04,949
+我们来过一遍这个。我想我已经解释过了。
+Let's run through this. I think I already explained this.
+
+295
+00:21:04,949 --> 00:21:08,549
+这个基本上就是把所有的部分连接加起来，得到梯度或者部分。
+This one is basically sum up all the partial joints to get the gradient or partial
+
+296
+00:21:08,549 --> 00:21:13,549
+dtiveT 这个是计算并将部分连接传播到它的输入。
+dtiveT one is compute and propagates the partiality joints to its inputs.
+
+297
+00:21:14,750 --> 00:21:17,150
+我们来过一遍这个，好吗。
+Let's run through this, okay.
+
+298
+00:21:17,150 --> 00:21:22,790
+所以给定这个图，我们将按照奖励的拓扑顺序来操作，
+So given this graph, we are going to follow the rewards topological order,
+
+299
+00:21:22,790 --> 00:21:24,709
+我们将从
+we are going to start from
+
+300
+00:21:24,709 --> 00:21:26,790
+W四开始，也就是最后一个节点。
+W four, which is the last node.
+
+301
+00:21:26,790 --> 00:21:32,799
+这里，i 等于四，我在这里做个记录。
+And here, I equals to four, which I take note here.
+
+302
+00:21:32,799 --> 00:21:37,749
+然后我们基本上要运行这行代码，对吧？
+And we are going to basically, uh, run this line, right?
+
+303
+00:21:37,749 --> 00:21:45,290
+我们发现对于开放节点，呃，w4 它只有一个部分偏导，就是一等于一。
+And we find that for the open node, uh, we four it only has one partial aloin which is one equal
+
+304
+00:21:45,290 --> 00:21:48,449
+因为这是恒等函数，没有什么特别的。
+to one because it's identity function, nothing special.
+
+305
+00:21:48,449 --> 00:21:53,189
+所以我们基本上把它们加在一起，呃，发现这个值基本上就是一。
+So we basically something together, uh, and we find that the value is basically one.
+
+306
+00:21:53,189 --> 00:21:57,049
+现在我想在我的图中表示这个结果。
+And now I want to represent this in my graph.
+
+307
+00:21:57,049 --> 00:22:01,889
+所以我选择了一个更方便的方法，就是直接赋值一，
+So I basically choose a more convenient method that is directly assign value one,
+
+308
+00:22:01,889 --> 00:22:05,129
+直接赋值给一个叫做 wifour bar 的节点。
+right to a node called wifour bar.
+
+309
+00:22:05,129 --> 00:22:07,624
+这个函数其实就是恒等函数。
+And this function is basically identity.
+
+310
+00:22:07,624 --> 00:22:10,219
+好的，这一行我们就完成了，对吧？
+Okay. And we finish this line, right?
+
+311
+00:22:10,219 --> 00:22:13,800
+接下来的步骤基本上就是进入那个内循环。
+And the next step is basically we go into that inner loop.
+
+312
+00:22:13,800 --> 00:22:19,320
+好的，我们要检查所有对WFO有贡献的节点。
+Okay, we are going to check all the nodes that basically contribute values into
+
+313
+00:22:19,320 --> 00:22:22,919
+然后我们尝试推导这个部分伴随量。
+WFO and we try to derive this partial adjoint.
+
+314
+00:22:24,380 --> 00:22:29,299
+好的，这里我们要检查两件事，对吧？
+Okay. Uh, here we are going to inspect two things, right?
+
+315
+00:22:29,299 --> 00:22:31,739
+一个是W二到wafer的配对，因为
+One is the pair W two to wafer because
+
+316
+00:22:31,739 --> 00:22:35,120
+WIR是二的函数，第二个是wi到wi四。
+WIR is a function of two and the second is wi wi four.
+
+317
+00:22:35,120 --> 00:22:41,379
+好的，同时我们基本上要把这个过程记录下来。
+Okay. Um, meanwhile, we are going to basically, uh, document this.
+
+318
+00:22:41,379 --> 00:22:45,419
+我们要记录这个最后一个节点的梯度，对吧。
+We are going to record this last note grad, right.
+
+319
+00:22:45,419 --> 00:22:51,629
+在这里你可以看到，当K等于的时候，
+And here, um, you can see, when K equals to,
+
+320
+00:22:51,629 --> 00:22:55,079
+所以这里i等于四，并且我们已经有了W四的伴随量。
+so here I equals to four and we already have W four bar,
+
+321
+00:22:55,079 --> 00:23:00,079
+我们将从输入I的列表开始，我们知道输入I
+and we are going to start from the list inputs I and we know that input I
+
+322
+00:23:00,079 --> 00:23:02,099
+基本上等于wet或者with three，对吧？
+basically equals to either wet or with three, right?
+
+323
+00:23:02,099 --> 00:23:05,059
+所以我们将从K等于2开始，对吧？
+So we are going to start from K equals to two, right?
+
+324
+00:23:05,059 --> 00:23:07,279
+然后我们要运行这个程序，好吗？
+And we are going to run this program, okay?
+
+325
+00:23:07,279 --> 00:23:10,239
+所以我们有224 bar等于
+So we 224 bar equals
+
+326
+00:23:10,239 --> 00:23:15,719
+W四bar乘以偏导we four对W二的偏导，对吧？
+W four bar times partial we four by partial W two, right?
+
+327
+00:23:15,719 --> 00:23:19,560
+而且我们已经有了w四bar的值，就是在这里。
+And we already have the value of w four bar, which is here.
+
+328
+00:23:19,560 --> 00:23:22,499
+我们给它赋值为1。
+We assigned a value equal to one.
+
+329
+00:23:22,499 --> 00:23:29,920
+然后我们要写下这个值224 bar，以及如何用数据流图表示它。
+And we are going to write down this value with 24 bar, and how to represent as dataflow graph.
+
+330
+00:23:29,920 --> 00:23:38,479
+我们发现偏导four对W二的偏导基本上等于with three，对吧？
+We find that the partial four by partial W two is basically equal to equal to with three, right?
+
+331
+00:23:38,479 --> 00:23:42,499
+因为在这里，你可以看到，我们的四等于wei两次乘以三。
+Because here, you can see, we four equals to wei two times with three.
+
+332
+00:23:42,499 --> 00:23:46,439
+所以如果你取偏导数，基本上我们的值是和三有关，对吧？
+So if you take the partial derivative, basically our value is with three, right?
+
+333
+00:23:46,439 --> 00:23:53,140
+所以为了表示这个wei二到四的bar，我们以这样的方式构建一个图
+So in order to represent this way two to four bar, we construct a graph in a way
+
+334
+00:23:53,140 --> 00:23:55,059
+就是我们把它和三节点连接起来，
+that we connect this with three node and
+
+335
+00:23:55,059 --> 00:23:59,279
+W四bar，操作符基本上是乘法，对吧？
+W four bar and the operator basically is multiplier, right?
+
+336
+00:23:59,279 --> 00:24:03,920
+所以我们基本上得到了wei 224 bar的重复。
+So we basically get the repetition of wei 224 bar.
+
+337
+00:24:03,920 --> 00:24:09,999
+好，有什么问题吗？记住，我们的目标是把所有内容都用图来表示。
+Okay. Any question? So remember, our goal is we try to represent everything in graph.
+
+338
+00:24:09,999 --> 00:24:13,659
+是的，因为一旦我们有了这个图，我们就可以表示前向和反向两种情况。
+Yeah, because once we have that graph, we can represent both forward and backward.
+
+339
+00:24:13,659 --> 00:24:16,339
+好的，同样的事情，对吧，我们可以运行。
+Okay. And same thing, right, we can run.
+
+340
+00:24:16,339 --> 00:24:21,739
+我们完成了K等于二，然后我们向前移动到下一个三节点，
+We finish the K equal to two, then we move forward to the next node with three,
+
+341
+00:24:21,739 --> 00:24:25,359
+对，这也是对Wi四的另一个贡献者。
+right, which is another contributor to Wi four.
+
+342
+00:24:25,359 --> 00:24:27,800
+同样的道理，我们基本上应用那个规则。
+And same thing, we basically apply that rule.
+
+343
+00:24:27,800 --> 00:24:33,679
+所以，三到四的bar等于wei四乘以四对三的偏导。
+So with three to four bar equals to wei four times partial four by partial with three.
+
+344
+00:24:33,679 --> 00:24:38,979
+四对三的偏导基本上等于W二，对吧，因为它是相乘的。
+And partial wi four partial three is basically equal to W two, right, because it's multiply.
+
+345
+00:24:38,979 --> 00:24:44,999
+我们对乘数求导，所以结果是w四部分乘以W二。
+We take a directive against multiplier, and so the value is w four part times W two.
+
+346
+00:24:44,999 --> 00:24:48,619
+这就是为什么我们在这里加了一个乘数，对吧？
+That's why we basically add an multiplier here, right?
+
+347
+00:24:48,619 --> 00:24:54,839
+所以我们用w四部分和W二相乘，得到with bar。
+So we multiply with four part and W two, and we get with bar.
+
+348
+00:24:54,839 --> 00:24:57,399
+呃，其实我们没有得到with bar。
+Uh, actually, we didn't get with bar.
+
+349
+00:24:57,399 --> 00:25:02,519
+我们得到的是三到四的bar，但我们发现with三只有一个输入。
+We get with three to four part, but we found that with three only has, uh, one input.
+
+350
+00:25:02,519 --> 00:25:04,039
+另一个输入是常数。
+The other input is constant.
+
+351
+00:25:04,039 --> 00:25:07,139
+所以基本上这两个值是一样的，对吗？
+So basically these two values are the same, right?
+
+352
+00:25:07,139 --> 00:25:12,899
+对。所以为了简单起见，我们基本上，呃，呃，创建了另一个带有 bar 的节点，
+Right. So for the simplicity, we basically, uh, uh, create another node which is with bar,
+
+353
+00:25:12,899 --> 00:25:15,079
+然后我们把它放在这里。
+and we put it here.
+
+354
+00:25:15,600 --> 00:25:20,499
+明白了吗？还跟得上吧？
+Okay? Still follow, right?
+
+355
+00:25:20,499 --> 00:25:29,200
+很好。这意味着这个循环完成了第一次迭代，我们在 I 等于 with four 时结束，
+Cool. That means that this loop finish the first iteration, we finish with I equals to with four,
+
+356
+00:25:29,200 --> 00:25:31,459
+然后我们继续，好吗？
+and then we proceed. Okay?
+
+357
+00:25:31,459 --> 00:25:36,720
+同时，记住，我们要在这里记录每个节点的所有部分伴随值。
+And meanwhile, remember, we are going to document all the partial adjoint here for each node.
+
+358
+00:25:36,720 --> 00:25:43,699
+好的。然后我们继续运行这个，接着回到 with
+Okay. And then we continue run this and we go back to with
+
+359
+00:25:43,699 --> 00:25:46,580
+three，因为我们用的是逆拓扑顺序。
+three because we are using a reverse topological order.
+
+360
+00:25:46,580 --> 00:25:48,519
+所以我们回到 with three。
+So we go back to with three.
+
+361
+00:25:48,519 --> 00:25:52,759
+我们基本上做的就是发现对于w3来说已经完成了，对吧，因为我们
+And what we do is basically we find that with three is already done right because we
+
+362
+00:25:52,759 --> 00:25:56,959
+w3只有一个部分伴随，所以我们只需要把它们加在一起，就是这里。
+three only has one partial adjoint, so we just sum them together, which is here.
+
+363
+00:25:56,959 --> 00:26:02,799
+好的。然后我们进入这个内循环，检查有多少个节点，
+Okay. And then we go into this inner loop and we inspect how many nodes,
+
+364
+00:26:02,799 --> 00:26:08,739
+呃，对w3有贡献，我们发现只有k2到w2，对吧？
+uh, contribute to with three, and we find that there's only cakes to two, we two, right?
+
+365
+00:26:08,739 --> 00:26:13,179
+所以我们基本上就是尝试计算w2到w3的伴随，
+Uh, so we basically take we basically try to calculate the wei two to three bar,
+
+366
+00:26:13,179 --> 00:26:18,119
+按照公式，我们得到w3的伴随乘以偏导数，
+uh, and following the equation, we get with three bar times partial by partial way,
+
+367
+00:26:18,119 --> 00:26:22,179
+然后我们得到的这个值其实就是w2的伴随本身，对吧？
+two, and we get this value is basically with bar itself, right?
+
+368
+00:26:22,179 --> 00:26:25,310
+就是这样。
+So, yeah.
+
+369
+00:26:25,310 --> 00:26:31,109
+然后我们继续按照反向拓扑顺序，回到了W2。
+And we continue following the reverse topic order, and we get back to W two.
+
+370
+00:26:31,109 --> 00:26:37,249
+在这个例子中，我们发现w2实际上是输入w1的一个复杂函数。
+Okay? In this example, we found we two is actually a expensive function of the input that we one.
+
+371
+00:26:37,249 --> 00:26:44,210
+好吗？所以在这里，我们首先按照这个方程，我们发现我们有两个部分联合。
+Okay? So here, we first follow this equation, we found that we two has two partial joint.
+
+372
+00:26:44,210 --> 00:26:46,229
+所以我们把它们加在一起，对吧。
+So we sum them together, right.
+
+373
+00:26:46,229 --> 00:26:48,370
+然后在这里我们把它们加在一起。
+And here we sum them together.
+
+374
+00:26:48,370 --> 00:26:53,209
+这两个部分联合基本上就是我们两个，两个四杆和我们223杆，对吧？
+And these two partial joints basically we two, two, four bar and we 223 bar, right?
+
+375
+00:26:53,209 --> 00:26:57,990
+根据数据流图，我们基本上添加了两条边并把它们加在一起，
+Following the data photograph, we basically add two edges and sum them together,
+
+376
+00:26:57,990 --> 00:27:01,715
+然后我们得到了我们两个杆，好吗？
+and we results into we two bar, okay?
+
+377
+00:27:01,715 --> 00:27:09,560
+然后我们进入内循环，当k等于1时，我们尝试计算我们想要的杆。
+And then we run into the inner loop, and when cake to one, we try to calculate we want to burn.
+
+378
+00:27:09,560 --> 00:27:14,899
+按照方程，我们得到了这个，基本上就是这个结果。
+Following equation, we get this uh basically this result.
+
+379
+00:27:14,899 --> 00:27:20,835
+为了把这个表示到数据流图中，我们要做的是连接这个节点。
+In order to represent this into Dataflograph, what we do is we are going to connect this node.
+
+380
+00:27:20,835 --> 00:27:23,269
+还有指数一的值。
+And the value of exponential one.
+
+381
+00:27:23,269 --> 00:27:28,709
+我们发现一的指数值本质上是方式二。
+And we find that the exponential value of one is essentially way two.
+
+382
+00:27:28,709 --> 00:27:35,669
+所以我们在这里再加一条边，这样我们就得到了122杠。
+So we add another edge all the way here, and that gives us uh we 122 bar.
+
+383
+00:27:35,669 --> 00:27:38,549
+我们还发现一没有任何输入。
+And we also find out one does not have any input.
+
+384
+00:27:38,549 --> 00:27:41,569
+所以我们12杠基本上等于1杠。
+So we 12 bar basically equals to 1 bar.
+
+385
+00:27:41,569 --> 00:27:47,364
+我们就稍微简化一下这个图，并在这里创建另一个指向1杠的节点。
+So we basically simplify the graph a little bit and create another node to 1 bar here.
+
+386
+00:27:47,364 --> 00:27:54,020
+好的，这基本上就是我们如何通过数据流图运行这个算法的过程。
+Okay. That's basically how we run this algorithm through data pho graph.
+
+387
+00:27:54,020 --> 00:27:59,680
+当我们向前运行数据流图时，我们还会创建
+And as we run through, forward data photograph, we also create
+
+388
+00:27:59,680 --> 00:28:01,779
+另一个与数据流图相连的图。
+another graph that connected to the photograph.
+
+389
+00:28:01,779 --> 00:28:05,559
+那就是我们的反向图，也就是这个图中红色的部分。
+That is our backward graph, which is the red part of this graph.
+
+390
+00:28:05,559 --> 00:28:11,470
+好，有什么问题吗？好的，很棒。
+Okay. Any question? Okay, cool.
+
+391
+00:28:11,470 --> 00:28:17,310
+如果你在理解过程中有任何困难，呃，可以回去再看一下这张幻灯片。
+If you have any trouble following any part of this, uh, go back and take a look at this slide.
+
+392
+00:28:17,310 --> 00:28:20,909
+我觉得这很清楚。只要稍微想一想，我们就能弄明白。
+I think it's pretty clear. Just think a little bit and it we figure out.
+
+393
+00:28:20,909 --> 00:28:26,969
+好的，总结一下，呃，在这个过程中，我们基本上做的事情是
+Okay. So in summary, uh, during this process, what we do is basically we
+
+394
+00:28:26,969 --> 00:28:29,269
+以符号化的方式构建反向图。
+construct the backward graph in a symbolic way.
+
+395
+00:28:29,269 --> 00:28:32,829
+嗯，我们实际上并没有计算具体的数值，对吧？
+Um, we don't actually calculate the values, right?
+
+396
+00:28:32,829 --> 00:28:40,209
+这样做的原因是我们真的非常需要这个图，因为就像在神经网络中一样，
+And the reason is because we really, really want this graph because like in neural network,
+
+397
+00:28:40,209 --> 00:28:44,010
+我们会输入不同类型的数据，而数据会在这个图中流动。
+we are going to give different kind of data and the data will run risk graph.
+
+398
+00:28:44,010 --> 00:28:48,849
+我们不能只进行一次计算，因为这个计算应该
+And we cannot just do one time competition because this competon should be
+
+399
+00:28:48,849 --> 00:28:51,109
+适用于所有不同类型的数据批次。
+applied to all different kind of databtches.
+
+400
+00:28:51,109 --> 00:28:56,729
+所以有了这个图，不管输入是什么，我们都可以推导出接下来的内容。
+So given this graph, we can basically, uh, whatever input it comes, we are going to derive following
+
+401
+00:28:56,729 --> 00:29:00,349
+竞争定义图可以被重复使用。
+the competon defining graph, it can be reused.
+
+402
+00:29:00,349 --> 00:29:04,809
+这个在tf patric中很常用。
+And this one is commonly used in tf patric.
+
+403
+00:29:04,809 --> 00:29:10,650
+好的，现在让我们来推理一下，分析一下权衡。
+Okay. Now let's do reasoning reason a little bit, okay on the trade offs.
+
+404
+00:29:10,650 --> 00:29:16,110
+在典型的机器学习课程中，
+So So in a typical machine learning class,
+
+405
+00:29:16,110 --> 00:29:20,810
+我认为老师会教你，比如说反向传播。
+I think the teacher will tell you, we'll teach you like bipagon.
+
+406
+00:29:20,810 --> 00:29:24,489
+记住反向传播，基本上就是你拿左边的图，
+And remember B propagation, basically, you take that left figure and
+
+407
+00:29:24,489 --> 00:29:26,609
+然后你做一次反向传递。
+you run a backward pass through.
+
+408
+00:29:26,609 --> 00:29:29,109
+但在这门课里，我们实际上并不做反向传播。
+But in this class, we are actually not doing backprogion.
+
+409
+00:29:29,109 --> 00:29:31,389
+我们做的是反向模式，完全不同。
+We are doing reverse mode allots different.
+
+410
+00:29:31,389 --> 00:29:37,769
+为什么？因为在这里，我们要构建一个反向图，并且把反向图连接到
+Why? Because in set, we are going to construct a backward graph and we connect the backward graph to
+
+411
+00:29:37,769 --> 00:29:40,850
+照片，然后我们得到一个更大的图。
+the photograph and we get even bigger graph.
+
+412
+00:29:40,880 --> 00:29:46,399
+在大约十年前最初的机器学习框架设计中，
+And in the initial set of machine learning frameworks design like ten years ago,
+
+413
+00:29:46,399 --> 00:29:48,060
+他们实际上就是用的那种模式。
+they are actually using that mode.
+
+414
+00:29:48,060 --> 00:29:51,240
+所以基本上在系统中，他们用的是反向传播。
+So basically in the system, they are using back propagation.
+
+415
+00:29:51,240 --> 00:29:53,400
+他们从不构建反向图。
+So they never construct a backward graph.
+
+416
+00:29:53,400 --> 00:29:58,239
+他们只是拿着前向图，获取梯度并传播梯度。
+They just take the photograph and take the gradients and propagated gradients.
+
+417
+00:29:58,239 --> 00:30:03,079
+但在现代深度学习框架中，我们采用了这种图的方法，也就是，
+But in the modern dpling frameworks, we are using this graph approach, that is,
+
+418
+00:30:03,079 --> 00:30:08,359
+我们会构建反向图，而且几乎每个框架都在用这种方式进行计算。
+we construct the backward graph, and it has been used by basically every framework to prog.
+
+419
+00:30:08,359 --> 00:30:12,359
+所以我的问题是，为什么这种方式变得更流行了？
+So my question is why this one become more popular.
+
+420
+00:30:16,200 --> 00:30:25,494
+就是说，为什么我们要关心得到一个反向图呢？
+Like, why do we care about getting a Brograph? Yeah.
+
+421
+00:30:25,494 --> 00:30:31,190
+信息，没错。
+Information Exactly.
+
+422
+00:30:31,190 --> 00:30:36,490
+这是一个主要原因，因为如果你只有照片，那么你的系统只会读取
+That's one primary reason, because if you only have photograph, then your system will only read
+
+423
+00:30:36,490 --> 00:30:38,890
+照片，你只能在表示方式上进行优化。
+the phograph and you can optimize over representation.
+
+424
+00:30:38,890 --> 00:30:45,169
+但如果你还有一个背景图，你的系统可以——我的系统并不关心回溯。
+But if you also have a background graph, your system can my system does not care about for backward.
+
+425
+00:30:45,169 --> 00:30:48,730
+我只有一个视角，就是给定一个计算图。
+I only have one perspective that I'm given a computing graph.
+
+426
+00:30:48,730 --> 00:30:51,129
+我要去优化其他的图，对吧？
+I'm going to optimize other graph, right?
+
+427
+00:30:51,129 --> 00:30:55,370
+所以我们基本上想要一个对整个计算过程的整体表示。
+So we basically want a holistic representation of the competition.
+
+428
+00:30:55,370 --> 00:30:57,790
+还有其他原因吗？
+Any other reason?
+
+429
+00:31:03,950 --> 00:31:09,670
+没错。
+Exactly.
+
+430
+00:31:09,670 --> 00:31:11,290
+这非常适用。
+It's very amenable.
+
+431
+00:31:11,290 --> 00:31:17,030
+比如说，你可能知道现在的边际模型可以非常复杂。
+So for example, you probably know that today's marginy model can be very complicated.
+
+432
+00:31:17,030 --> 00:31:20,789
+有时候你需要对梯度再求梯度。
+Sometimes you need to take the gradient of the gradient.
+
+433
+00:31:20,789 --> 00:31:26,189
+如果你用那种模式，如何对梯度或梯度的梯度求导就会非常困难，因为梯度
+If you do that mode, how to take the gradient or gradients very difficult because the gradient
+
+434
+00:31:26,189 --> 00:31:27,770
+被隐藏在图的某个地方。
+is hidden somewhere in the graph.
+
+435
+00:31:27,770 --> 00:31:32,329
+但在图的右侧，你可以看到梯度被明确地
+But in the right side of the graph, you see the gradient is explicitly
+
+436
+00:31:32,329 --> 00:31:34,489
+表现在图中，那你该怎么做呢？
+represented in the graph and what do you do?
+
+437
+00:31:34,489 --> 00:31:38,189
+如果你的计算需要计算梯度或梯度的梯度，
+If your competition needs to care calculate the gradient or gradient,
+
+438
+00:31:38,189 --> 00:31:42,670
+你只需要在上面加更多的节点，自动库基本上会帮你
+you just add more nodes on top of that, the Autolibrary will basically help
+
+439
+00:31:42,670 --> 00:31:45,050
+按照计算过程推导出梯度。
+you derive the gradients following the competition.
+
+440
+00:31:45,050 --> 00:31:51,730
+好的，换句话说，这个图基本上就代表了整体的……
+Okay. So in other words, this graph it represents the holistic basically, uh,
+
+441
+00:31:51,730 --> 00:31:58,009
+就像是对竞争的表示，这对系统来说非常友好，因为系统并不
+like representation of the competition, and it's very friendly to systems because system does not
+
+442
+00:31:58,009 --> 00:31:59,870
+在意语义机会层。
+care about semantics opportunity layer.
+
+443
+00:31:59,870 --> 00:32:01,410
+我只关心竞争。
+I only care about competition.
+
+444
+00:32:01,410 --> 00:32:08,909
+明白了吗？呃，我要详细讲的第三个原因是
+Okay? Uh a third reason which I'm going to talk about in
+
+445
+00:32:08,909 --> 00:32:13,469
+因为我们这里还缺少一些东西。
+detail is because we are still missing some piece here.
+
+446
+00:32:13,469 --> 00:32:18,189
+那么如果我们想完成深度学习程序，还缺什么呢？
+So what is missing if we want to complete the deep learning program?
+
+447
+00:32:18,430 --> 00:32:21,829
+我们有前向传播，也有反向传播。
+We hold forward, we held backward.
+
+448
+00:32:22,660 --> 00:32:25,299
+是的，我们还需要梯度更新。
+Yeah, we need a grading update.
+
+449
+00:32:25,299 --> 00:32:30,720
+如果你采用这种方法，那么你的梯度更新规则就会被隔离。
+If you do this approach, then your grading update rule is going to be isolated.
+
+450
+00:32:30,720 --> 00:32:32,220
+你将会自己编写优化器。
+You are going to write your own optim.
+
+451
+00:32:32,220 --> 00:32:35,580
+但是如果你使用这种模式，你可以继续添加
+But if you do this mode, what you do is you can continue adding
+
+452
+00:32:35,580 --> 00:32:38,719
+一个或多个代表梯度更新的节点。
+one and more nodes that represent the grading update.
+
+453
+00:32:38,719 --> 00:32:43,239
+在后面的课程中，特别是在arm部分，我们会发现梯度更新是
+In the later lectures, especially in the arm sessions, we'll find that grading updates is one of
+
+454
+00:32:43,239 --> 00:32:47,659
+最消耗内存的操作之一，我们将对其进行优化。
+the most memory consuming operations, and we are going to optimize it.
+
+455
+00:32:47,659 --> 00:32:52,439
+如果我们有该部分的图表示，那么系统查看起来会非常容易。
+And if we have a graph repton for that part, then it's pretty easy for the system to look at that.
+
+456
+00:32:52,439 --> 00:32:56,300
+好的，现在让我们试着完成这一部分，好吗？
+Okay. Now, let's try to finish this part, okay.
+
+457
+00:32:56,300 --> 00:32:58,739
+我们将把这个应用到实际操作中。
+We are going to put this into practice.
+
+458
+00:32:58,780 --> 00:33:05,289
+抱歉，我们要回到我们的主方程，并且我们将
+Sorry. We are going to go back to our mass equations and we are going to instiate
+
+459
+00:33:05,289 --> 00:33:08,349
+用几个模型来实例化这个主方程。
+this master equation using a few models.
+
+460
+00:33:08,349 --> 00:33:13,709
+那就是一个简单的回归模型和一个两层神经网络。
+That is a simple regression model, two layer neural network.
+
+461
+00:33:13,709 --> 00:33:16,669
+我们有两个权重，W一和W二，还有一个输入X。
+We have two ways W one, W two, one input X.
+
+462
+00:33:16,669 --> 00:33:21,929
+这个输入会经过一个非线性函数，然后这个值会被用来和
+Uh, this will go through a nonlinear function, and then the value will be compared to
+
+463
+00:33:21,929 --> 00:33:25,490
+真实值Y进行均方误差损失的比较。
+the ground Y using mean square loss.
+
+464
+00:33:25,490 --> 00:33:32,629
+为了表示这个两层神经网络，我们基本上要做的是，顺便说一句，
+And in order to represent this two layer neural network, what we do is basically, by the way,
+
+465
+00:33:32,629 --> 00:33:34,569
+我们这里还有一个梯度更新规则。
+we also have a grading update rules here.
+
+466
+00:33:34,569 --> 00:33:38,670
+也就是说，每次我们拟合批数据时，我们都会得到梯度，然后我们会按照
+That is every time we fit the bat, we are going to get gradients and we are going to follow
+
+467
+00:33:38,670 --> 00:33:41,850
+这个规则来更新参数。
+this rule to update the updated parameters.
+
+468
+00:33:41,850 --> 00:33:49,070
+为了把它表示成一个神经网络，我们实际上有三个部分，
+And in order to represent this as a neural network, we essentially have three parts,
+
+469
+00:33:49,070 --> 00:33:50,749
+你需要记住这一点。
+and you need to remember this.
+
+470
+00:33:50,749 --> 00:33:53,570
+每次我们尝试表示新的神经网络结构时，
+Every time we try to represent the new net recommendation,
+
+471
+00:33:53,570 --> 00:33:55,670
+你不需要照片。我们有三个部分。
+you don't need photograph. We have three parts.
+
+472
+00:33:55,670 --> 00:33:59,010
+第一部分是前向，对吧？我们定义照片。
+The first part is forward, right? We define photograph.
+
+473
+00:33:59,010 --> 00:34:02,409
+然后我们使用自动微分库
+And then we take the auto differentiation library
+
+474
+00:34:02,409 --> 00:34:05,310
+基本上自动推导出反向传播过程，
+to basically automatically derive the backward pass,
+
+475
+00:34:05,310 --> 00:34:08,330
+这个我已经在前面的幻灯片里讲过了。
+which I already ran through, in the previous slides.
+
+476
+00:34:08,330 --> 00:34:11,614
+那部分你不需要做，因为Pat会帮你完成。
+And that part, you don't have to do that because Pat will do that for you.
+
+477
+00:34:11,614 --> 00:34:16,000
+第三部分，正如我刚才提到的，你需要进行更新操作。
+And the third part as I mentioned, you need to perform with the update.
+
+478
+00:34:16,000 --> 00:34:19,179
+现在我要，我们要把这些内容整合到一张图里。
+Now I'm going to we're going to put all this together into one graph.
+
+479
+00:34:19,179 --> 00:34:26,000
+对于前向，呃，定义是一样的，节点代表操作符和它的势能，
+So for forward, uh, uh, same definition, nodes represent the operator and it's a potential,
+
+480
+00:34:26,000 --> 00:34:29,200
+边则代表数据流动的方向。
+and the edges represent the data flowing directions.
+
+481
+00:34:29,200 --> 00:34:31,580
+前向过程其实很简单。
+For forward is pretty straightforward.
+
+482
+00:34:31,580 --> 00:34:34,099
+我们有X和W。
+We have X and W one.
+
+483
+00:34:34,099 --> 00:34:37,859
+它们经过Melmo，一直到MSE损失。
+They go to Melmo and all the way to the MSE loss.
+
+484
+00:34:37,859 --> 00:34:41,519
+然后你把它交给Petrog，我们将在Petrog中推导
+And then you give it to Petrog and the petrog we are going to derve the
+
+485
+00:34:41,519 --> 00:34:45,459
+反向过程，按照我刚刚讲的流程。
+backward following what I just uh went through.
+
+486
+00:34:45,459 --> 00:34:52,390
+好的。关键部分是我们还需要添加优化器操作。
+Okay. And the critical part is we also need to add the optim meter operator.
+
+487
+00:34:52,390 --> 00:34:54,110
+那么如何添加优化器操作呢？
+So how to add op meters.
+
+488
+00:34:54,110 --> 00:34:59,729
+这其实就是找到优化器的更新规则，然后连接一些节点，
+That is what we basically find out the op meter update rules and we connect some nodes,
+
+489
+00:34:59,729 --> 00:35:01,990
+对吧？我们更新参数。
+right? We update parameters.
+
+490
+00:35:01,990 --> 00:35:04,369
+好吗？非常简单。
+Okay? Uh, very simple.
+
+491
+00:35:04,369 --> 00:35:10,490
+基本上，在右侧你可以看到一个完整的图，代表了这个新网络。
+Basically, in the right hand side, you basically see a full graph that represent this new network.
+
+492
+00:35:10,490 --> 00:35:12,569
+而且这个图可以变得任意复杂，对吧？
+And this can go arbitrary complex, right?
+
+493
+00:35:12,569 --> 00:35:17,549
+记住，实际上这就是一个有成千上万个节点的神经网络，
+Remember, in reality, this is a neural network with thousands of nodes
+
+494
+00:35:17,549 --> 00:35:19,670
+包括前向传播、反向传播和参数更新。
+with forward, backward and updates.
+
+495
+00:35:19,670 --> 00:35:23,249
+所以这个图可以由底层的系统来维护。
+So this graph could be maintained by a system at a lower level.
+
+496
+00:35:23,249 --> 00:35:32,630
+好，作为作业，我们要实现这个自动微分库，
+Yeah. Okay, as a homework, we are going to implement this auto different library
+
+497
+00:35:32,630 --> 00:35:34,889
+用我给你们的一些算子来实现。
+with a few operators I give it to you.
+
+498
+00:35:34,889 --> 00:35:40,110
+其中一个算子就是softmax，这是一个非常有趣的算子。
+And one operator is basically softmax, and this is a very interesting operator.
+
+499
+00:35:40,110 --> 00:35:46,649
+我认为它的表达形式非常优雅，你们要来实现它。
+I think it's greeting is a very uh elegant form, and you are going to do this.
+
+500
+00:35:46,649 --> 00:35:55,429
+好的，酷。这基本上就是自动微分的全部内容，有什么问题吗？
+Okay. Cool. That basically covers auto differentiation. Any question?
+
+501
+00:35:57,190 --> 00:36:01,249
+好的，一旦你理解了所有的微分概念，
+Okay, once you understand all the differentiation,
+
+502
+00:36:01,249 --> 00:36:06,210
+我认为现在是介绍机器学习系统架构概览的合适时机。
+I think it's the right time to introduce the architecture overview of machine learning systems.
+
+503
+00:36:06,210 --> 00:36:08,129
+那么人们在这里都在做些什么呢。
+So what people are cooking here.
+
+504
+00:36:08,129 --> 00:36:11,749
+就像我刚才说的，不是吗，
+So as I said, no,
+
+505
+00:36:11,749 --> 00:36:15,629
+如果我给你一个神经网络，你会像这样用数据流图来表示吗？
+I give you a neural network, you are going to represent as a data flow graph like that?
+
+506
+00:36:15,629 --> 00:36:17,929
+这是一个来自TensorFlow的非常棒的动画。
+Pretty nice animation from tensor flow.
+
+507
+00:36:17,929 --> 00:36:22,350
+它有输入节点，数据会在这个图中流动。
+It has input nodes, I have data flowing through that graph.
+
+508
+00:36:22,350 --> 00:36:27,690
+对于这个图，它同时表示了前向传播、反向传播和参数更新。
+For that graph, it also represents both forward, backward, and we update.
+
+509
+00:36:27,690 --> 00:36:30,889
+那么我们的系统目标是什么呢？
+So what is our system go here?
+
+510
+00:36:30,889 --> 00:36:32,849
+我们的系统其实很简单，对吧。
+So our system is pretty simple, right.
+
+511
+00:36:32,849 --> 00:36:36,790
+我们尽量让这个过程非常快，因为我们想要优化
+We try to make this very fast, because we want to optiment
+
+512
+00:36:36,790 --> 00:36:39,330
+系统以实现最佳性能。
+the system to achieve the best performance.
+
+513
+00:36:39,330 --> 00:36:44,909
+所以我们的系统目标基本上就是让它运行得非常快。
+So our system go here is basically we try to make it fast so it can run super fast.
+
+514
+00:36:44,909 --> 00:36:47,549
+其次，我们还要让它具备可扩展性，对吧？
+Secondly, we try to make it scale, right?
+
+515
+00:36:47,549 --> 00:36:52,229
+因为有时候你不能只用一张GPU来运行，所以你需要扩展到
+Because sometimes you cannot run the scrap on a single GPU, so you need to scale this
+
+516
+00:36:52,229 --> 00:36:55,030
+很多很多GPU上，这样才能更快。
+to many many GPUs to make it even faster.
+
+517
+00:36:56,010 --> 00:37:01,069
+我们还要确保它的内存使用高效，因为你已经知道GPU内存
+We want to make sure it's memory efficient because you already know that GPU memory is
+
+518
+00:37:01,069 --> 00:37:06,849
+是非常稀缺的资源，为了处理像GPD三这样的模型，
+very scare resources in order to treat models like GPD three,
+
+519
+00:37:06,849 --> 00:37:13,170
+你必须优化你的系统，让内存使用尽可能高效。
+you have to basically optimize your system to use the memory as efficient as possible.
+
+520
+00:37:13,970 --> 00:37:17,110
+有时候我们还希望能在不同的硬件上运行，
+And sometimes we want to run on diverse hardware,
+
+521
+00:37:17,110 --> 00:37:19,049
+GPU、CPU、iPhone 或其他设备。
+GPU CPU, iPhone or whatever.
+
+522
+00:37:19,049 --> 00:37:25,650
+对，我们努力确保这个图可以在不同的平台上运行，好吗？
+Yeah. Okay. We try to make sure this graph can run across different platforms, okay?
+
+523
+00:37:25,890 --> 00:37:32,370
+而且我们不希望消耗太多能源，因为我们需要为电费买单，
+And we don't want to consume a lot of energy, because we have to pay for the electricity,
+
+524
+00:37:33,330 --> 00:37:35,729
+当然，这一点你们已经知道了。
+of course, you already know this.
+
+525
+00:37:35,729 --> 00:37:38,909
+我们努力确保用户能够非常容易地
+We try to make sure that users feel very easy to
+
+526
+00:37:38,909 --> 00:37:42,889
+编程或调试这个神经网络数据流图，好吗？
+program or debug this neur network dataflow graph. Okay?
+
+527
+00:37:42,889 --> 00:37:48,389
+这基本上就是机器学习系统人员试图解决的问题范围。
+That is basically a spectrum of problems that merchant learning system people are trying to solve.
+
+528
+00:37:48,389 --> 00:37:54,569
+好吗？也就是说，给定一个图，给定一些硬件，你要努力实现这些目标。
+Okay? That is given a graph, given some hardware, you try to achieve these goals.
+
+529
+00:37:54,569 --> 00:38:00,909
+我接下来会给大家一个概述，这是一个非常非常简化的概述，
+I'm going to give you an overview and it's a very, very simplified overview of how people realize
+
+530
+00:38:00,909 --> 00:38:04,729
+讲述人们如何在现有的机器学习框架中实现这些，比如Petro和Interflow。
+this in the existing machine learning frameworks like Petro and interflow.
+
+531
+00:38:04,729 --> 00:38:08,949
+
+Um, maybe frameworks can be different, but basically, my overview
+
+532
+00:38:08,949 --> 00:38:10,310
+
+will apply to all these frameworks.
+
+533
+00:38:10,310 --> 00:38:13,489
+
+So in the future, uh, maybe when you start working on something,
+
+534
+00:38:13,489 --> 00:38:18,489
+
+you can try to map some code written in your framework into these layers and think
+
+535
+00:38:18,489 --> 00:38:21,164
+
+about what their functionality are, right?
+
+536
+00:38:21,164 --> 00:38:24,839
+
+So at the higher layer, maybe start from there.
+
+537
+00:38:24,839 --> 00:38:28,219
+
+We have a data ph graph, right, and we have a cluster of GPUs.
+
+538
+00:38:28,219 --> 00:38:32,799
+
+Okay? And at the higher layer, we already know that we are going to
+
+539
+00:38:32,799 --> 00:38:34,979
+
+represent the neuralnetwork as the data flow graph.
+
+540
+00:38:34,979 --> 00:38:39,099
+
+And there are some auto differentiation libraries that will basically take your photograph,
+
+541
+00:38:39,099 --> 00:38:42,279
+将反向传播连接在一起，以便用更新来表示。
+drupe the backward and connect them together to represent with updates.
+
+542
+00:38:42,279 --> 00:38:44,319
+这两部分我们已经讲过了。
+These two parts we already covered.
+
+543
+00:38:44,319 --> 00:38:49,399
+好的，这只是加工系统的高层部分。
+Okay. And this is only the higher layer of machining systems.
+
+544
+00:38:49,399 --> 00:38:54,759
+为了加快速度，系统人员实际上在这背后构建了很多层。
+In order to make it fast, uh, the system people actually build a lot layers behind this.
+
+545
+00:38:54,759 --> 00:38:58,619
+他们会做一个所谓的图增强层。
+So what they do is they will do a so called graph augmentation layer.
+
+546
+00:38:58,619 --> 00:39:00,199
+那什么是图增强呢？
+So what is graph opening?
+
+547
+00:39:00,199 --> 00:39:01,819
+我很快会给你一个概述。
+I will give you a overview pretty soon.
+
+548
+00:39:01,819 --> 00:39:07,939
+但你可以理解为用户编写的那个图可能效率不高。
+But you can understand that that graph, which is written by the user may be inefficient.
+
+549
+00:39:07,939 --> 00:39:11,799
+然后系统会拿到那个图，尝试进行一些分析，
+Then the system will take that graph and try to analyze it a little bit to make
+
+550
+00:39:11,799 --> 00:39:13,539
+使其变成一个更高效的版本。
+it more efficient version.
+
+551
+00:39:13,539 --> 00:39:19,880
+这可以通过许多现有的图论方法或各种图变换来实现。
+And this can be done using many existing graph theory or whatever kind of graph transformation.
+
+552
+00:39:19,880 --> 00:39:25,639
+是的，基本上我试图推导出一个与初始图等价的图，
+Yeah. Basically, I try to derive a graph that is equivalent with the initial graph,
+
+553
+00:39:25,639 --> 00:39:29,199
+但是第二个，也就是新的图会高效得多。
+but the second one will be the new one will be much more efficient.
+
+554
+00:39:29,199 --> 00:39:31,819
+这就是我们称之为图增强的一个层次。
+That is a layer we call graph augmentation.
+
+555
+00:39:31,819 --> 00:39:37,359
+明白了吗？在petrogentener流中，有很多代码其实就是在做图增强。
+Okay? And in petrogentener flow, there are so many codes that is basically doing graph augmentation.
+
+556
+00:39:38,219 --> 00:39:44,599
+图增强之后，我们可以选择性地加入一个并行分区层。
+And after Graph organization, what we try to do is we can optionally have a parledtion layer.
+
+557
+00:39:44,599 --> 00:39:47,220
+也就是说，我们试图把这个图分布到多个GPU上。
+That is we try to distribute this graph on many GPOs.
+
+558
+00:39:47,220 --> 00:39:51,079
+但我说这个层是可选的，因为如果你的图在
+But I said this layer is optional because if your graph is fine on
+
+559
+00:39:51,079 --> 00:39:52,999
+单个GPU上就能运行良好，那你就不用关心这个。
+a single GPO, then you don't care about this.
+
+560
+00:39:52,999 --> 00:39:56,219
+这意味着这段代码路径不会被激活。
+That means that this code pass is not going to be able to activate it.
+
+561
+00:39:56,219 --> 00:39:58,399
+但在很多情况下，就像今天的例子一样，
+But in many cases, in today's case,
+
+562
+00:39:58,399 --> 00:40:03,819
+我认为一个GPU实际上无法在合理的时间内训练一个模型，所以你必须这样做。
+I don't think a GPU can actually train a model in reasonable amount of time, so you have to do this.
+
+563
+00:40:03,819 --> 00:40:08,799
+你需要把这个计算图分布到很多很多设备上，
+You're going to take this graph and going to distribute this graph over many many devices and
+
+564
+00:40:08,799 --> 00:40:10,740
+并且确保结果依然是正确的。
+make sure the results are still correct.
+
+565
+00:40:10,740 --> 00:40:16,549
+明白了吗？然后我们还关心运行时的表现。
+Okay? And then we also care about the run time.
+
+566
+00:40:16,549 --> 00:40:20,429
+也就是说，一旦运行了，它会消耗多少内存，应该如何运行。
+That is once it runs, how many memory consume, how it should run.
+
+567
+00:40:20,429 --> 00:40:22,149
+有这么多操作符，对吧。
+There are so many operators, right.
+
+568
+00:40:22,149 --> 00:40:24,329
+有左分支，也有右分支。
+There's a left branch, there's a right branch.
+
+569
+00:40:24,329 --> 00:40:26,469
+我应该如何安排每个分支的调度？
+How should I schedule each branch?
+
+570
+00:40:26,469 --> 00:40:32,289
+是不是应该让一个分支提前运行，还是应该延迟一个分支优先另一个分支。
+Should one branch run ahead of time, or should delay the schon one branch over the other.
+
+571
+00:40:32,289 --> 00:40:38,849
+这很重要，因为它基本上会影响你的效率，是的。
+And this matters because it can basically affect your efficiency, yeah.
+
+572
+00:40:38,849 --> 00:40:41,399
+我们也会讨论这个问题。
+And we're going to talk about this as well.
+
+573
+00:40:41,399 --> 00:40:48,389
+最后，在Louis层，请记住，这些图是由许多
+And finally, at the Louis layer, remember, these graphs are constructed by a lot of
+
+574
+00:40:48,389 --> 00:40:53,590
+原语构建的，这些原语可以是Mm、softmax等。
+primitives and the primitives could be Mm, softmax and whatever.
+
+575
+00:40:53,710 --> 00:40:59,009
+最终，如果你想运行这个图，你需要运行这些原语。
+Eventually, if you want to run this graph, you need to run those primitives.
+
+576
+00:40:59,009 --> 00:41:02,489
+这意味着你必须提供一个原语库，
+That means that you have to provide a library of primitives that can
+
+577
+00:41:02,489 --> 00:41:06,269
+能够在不同类型的设备上运行，比如GPU、CPU等。
+run on different kind of devices like GPU CPU, whatever.
+
+578
+00:41:06,269 --> 00:41:11,650
+在更底层，我们基本上有算子库，在那里我们实现了这些算子的实现，
+Lower layer, we basically have operator library where we implement the implementation,
+
+579
+00:41:11,650 --> 00:41:17,530
+也就是我们所说的这些算子、原语在目标设备上的内核。
+the exact we call kernels of these operators, primitives on those target devices.
+
+580
+00:41:17,530 --> 00:41:22,109
+这是非常底层的代码，我们也会涉及到这一部分。
+This is a pretty low level code, and we are also going to touch base on that.
+
+581
+00:41:22,550 --> 00:41:29,049
+这基本上可以让你了解流程和影响方面的整体情况。
+This basically gives you an overview of what's going on in terms of flow and impacts.
+
+582
+00:41:29,049 --> 00:41:31,059
+呃，这根本行不通。
+Uh, it is simply not working.
+
+583
+00:41:31,059 --> 00:41:34,939
+但如果你去看TenderfowKolbs或Patrick obises，你会发现有比这更多的层次。
+But if you go to TenderfowKolbs or Patrick obises you'll find there are much more layers than this.
+
+584
+00:41:34,939 --> 00:41:37,839
+但基本上，你可以把好几层合并成其中一层。
+But basically, you can condense several layers into one of these.
+
+585
+00:41:37,839 --> 00:41:40,459
+明白了吗？有问题吗？
+Okay? Any question?
+
+586
+00:41:41,699 --> 00:41:49,239
+好的。那我简单介绍一下每一层主要在做什么。
+Cool. Okay, let me give you overview basically what each layer is cooking.
+
+587
+00:41:49,239 --> 00:41:52,299
+所以，如果你想在这个领域做研究，
+So basically, if you want to do research in this,
+
+588
+00:41:52,299 --> 00:41:54,460
+你其实可以选择你最感兴趣的那一层。
+you can actually choose a layer that is most interesting.
+
+589
+00:41:54,460 --> 00:41:58,780
+我可以告诉你，每一层实际上都已经有一千多篇论文发表了。
+And I can tell you each layer actually has already more than 1,000 papers published.
+
+590
+00:41:58,780 --> 00:42:00,400
+讨论如何进行操作。
+Discussing how to do openation.
+
+591
+00:42:00,400 --> 00:42:01,099
+嗯。
+Yeah.
+
+592
+00:42:01,099 --> 00:42:04,479
+好的。第一层，正如之前所说，是图操作。
+Okay. The first layer, graph openation as already said,
+
+593
+00:42:04,479 --> 00:42:08,859
+其目标基本上是将用户定义的原始图G重写为
+the goal is basically rewrite the original graph G, defined by users into
+
+594
+00:42:08,859 --> 00:42:10,839
+另一个图，称为G prime。
+another graph, which is called G prime.
+
+595
+00:42:10,839 --> 00:42:15,859
+我的目标是让G prime的运行速度比G快得多。明白吗？
+And my goal is G prime will run much faster than G. Okay?
+
+596
+00:42:15,859 --> 00:42:17,940
+你可能会好奇为什么会这样。
+You probably are wondering why this could happen.
+
+597
+00:42:17,940 --> 00:42:21,819
+我会给你举个例子，看看左边这部分图，对吧？
+I'm going to give you an example and look at the left piece of graph, right?
+
+598
+00:42:21,819 --> 00:42:25,039
+那你能猜出这是来自哪里吗？
+So can you guess where is this from?
+
+599
+00:42:27,489 --> 00:42:32,090
+很明显，这里有一个count到D，所以一定来自卷积网络。
+Apparently, there's a count to D, so it must from convolutional network.
+
+600
+00:42:32,090 --> 00:42:35,369
+更准确地说，是来自resnet。
+And to be more precise, is from resent. Okay.
+
+601
+00:42:35,369 --> 00:42:38,189
+在餐厅里，你基本上有输入X。
+And in restaurant, you basically have input X.
+
+602
+00:42:38,189 --> 00:42:39,969
+你需要等待W和B。
+You have to wait W and B.
+
+603
+00:42:39,969 --> 00:42:41,929
+你首先应用一个计数二，对吧？
+You first apply a count two, right?
+
+604
+00:42:41,929 --> 00:42:45,449
+一旦你得到输出，你就会得到输出Y，
+And once you get the output, you are going to get the output Y,
+
+605
+00:42:45,449 --> 00:42:51,389
+然后你还有另外两个参数R和P，你运行一个bachelor，然后得到第二个O Z。
+and you have another two parameters R and P, and you run a bachelor and you get the second O Z.
+
+606
+00:42:51,389 --> 00:42:56,749
+为了稍微简化一点，我们基本上可以在这里表示交换，对吧？
+And to simplify a little bit, we can basically represent the commutation there, right?
+
+607
+00:42:56,749 --> 00:43:02,109
+所以第一层基本上是计数二，就是一些循环和求和，对吧？
+So the first layer is basically count two, which is some loops and sums, right?
+
+608
+00:43:02,109 --> 00:43:04,849
+然后加上偏置B。
+And then plus bias B.
+
+609
+00:43:04,849 --> 00:43:09,909
+第二层基本上是取第一层的输出Y，然后做别的事情。
+And the second layer is basically take the output of the first layer of Y and do something else.
+
+610
+00:43:09,909 --> 00:43:14,130
+好吗？这是这个图的简化版本。
+Okay? This is a simplified version of this graph.
+
+611
+00:43:14,900 --> 00:43:19,839
+有一种方法可以让这个过程更快，就是我们不运行这个计算图，而是这样做。
+And one way we can make this faster is we don't run this graph, but we do this.
+
+612
+00:43:19,839 --> 00:43:23,679
+我们发现其实可以把这个计算展开一点，
+We find that we can actually enroll this computation a little bit,
+
+613
+00:43:23,679 --> 00:43:26,679
+我们尝试定义一些其他的方式，叫做W二和B二，
+we try to define some other ways called W two and B two,
+
+614
+00:43:26,679 --> 00:43:29,639
+其中W二和B二的定义就在这里。
+where the definition of W and B two is there.
+
+615
+00:43:29,639 --> 00:43:37,099
+那我们具体做了什么呢？我们在图层面提前进行了一些计算。
+What do we do oicly we perform some computation ahead of time, on the graph level.
+
+616
+00:43:37,099 --> 00:43:42,919
+我们把W二定义为原始的W乘以R，也就是权重，
+We define W two as the original width W times the R which is the weight
+
+617
+00:43:42,919 --> 00:43:45,219
+batm的权重，B二也是类似的。
+of the batm and similarly for B two.
+
+618
+00:43:45,219 --> 00:43:47,585
+这样我们就不需要再运行batom了。
+And then we don't have to run batom.
+
+619
+00:43:47,585 --> 00:43:53,849
+对，我们把所有的计算都合并到一个计数为二的操作符里，但实际上
+Right, we field all the computation into one operator with count two, but we behind the scene
+
+620
+00:43:53,849 --> 00:43:57,110
+我们只是把权重从W和B切换成了w2和b。
+we basically switch the weight from W B into w2b.
+
+621
+00:43:57,110 --> 00:44:01,429
+事实证明，第二个计算图运行速度比第一个快得多，对吧？
+And it turns out that the second graph runs much faster than the first one, right?
+
+622
+00:44:01,429 --> 00:44:07,709
+这很明显，因为你总是多运行了一个算子，对吗？
+Because it's quite obvious because you alwayd running one more operator, ok?
+
+623
+00:44:07,709 --> 00:44:14,399
+嗯，我们可以更激进地进行优化。
+Um, and we can do it more aggressively.
+
+624
+00:44:14,399 --> 00:44:20,059
+我们的方法是整体观察数据流图的重复部分。
+The way we do it is we are going to look at the holistic repetition of the dataflow graph.
+
+625
+00:44:20,059 --> 00:44:24,859
+我们会寻找每一个可以把C、D和Bachelom合并的机会。
+We are going to look for every opportunity that we can put C D and Bachelom together.
+
+626
+00:44:24,859 --> 00:44:29,860
+在这里，我要给你一个非常极端的例子。
+In this one, I'm going to give you a very extreme example.
+
+627
+00:44:29,860 --> 00:44:37,039
+这里有输入，我们先经过两个卷积操作，也就是1x1卷积，
+Here we have input. We are going through two convolution, which is one by one convolution,
+
+628
+00:44:37,039 --> 00:44:41,699
+然后我们经过C的3x3卷积，再把结果相加，
+then we go through C three by three and then add the results together and
+
+629
+00:44:41,699 --> 00:44:44,020
+再经过激活函数，得到最终结果。
+go through value and get the results.
+
+630
+00:44:44,020 --> 00:44:50,920
+很明显，这里的1x1和3x3卷积，它们的滤波器大小是不同的。
+And here, apparently, this one by one and three by three, their filter size are different.
+
+631
+00:44:50,920 --> 00:44:52,939
+一个是三乘三，另一个是一乘一。
+One is three by three, the other one by one.
+
+632
+00:44:52,939 --> 00:44:57,980
+所以把它们合并成一个算子并不容易。
+So it's not very easy to put them together into one operator.
+
+633
+00:44:57,980 --> 00:45:02,999
+那我们要做的就是把这个一乘一扩展成三乘三。
+So what do we do is we are going to enlarge this one by one into a three by three.
+
+634
+00:45:02,999 --> 00:45:05,579
+我们可以这样做，对吧？从数学上来说是等价的，你可以这么做，
+We can do that, right, mathematically equivalent, you can do that,
+
+635
+00:45:05,579 --> 00:45:09,979
+但问题是通过扩展操作，这个算子显然会变慢，
+but the problem is through enlarging operation, this operator apparently will become
+
+636
+00:45:09,979 --> 00:45:15,019
+因为之前我们只需要计算一乘一，现在要计算三乘三了。明白吗？
+slower because previously we only calculate one by one, but now we calculate three by three. Okay.
+
+637
+00:45:15,019 --> 00:45:16,919
+记住，这一步会变慢。
+Remember, this step becomes lower.
+
+638
+00:45:16,919 --> 00:45:23,560
+但好处是，现在这个一乘一在形状上至少和三乘三等价了。
+But the benefit is now this one by one becomes equivalent at least on shape with three batter.
+
+639
+00:45:23,560 --> 00:45:28,924
+我们可以把数学公式写在一起，然后把它们填充到三乘三里。
+We can write the mathematical equation together and we can fill them into 13 battery.
+
+640
+00:45:28,924 --> 00:45:33,229
+好的，这一步会稍微快一点，对吧？
+Okay. And this step is going to be slightly faster, right?
+
+641
+00:45:33,229 --> 00:45:35,669
+所以我们变慢了，然后又变快了。
+So we become slower and then faster.
+
+642
+00:45:35,669 --> 00:45:37,669
+然后我们继续这样做。
+And we continue doing this.
+
+643
+00:45:37,669 --> 00:45:43,309
+在这里，你可以看到，呃，我们将要把这些分裂的部分填充进来并全部
+So here, you can see, uh, we are going to fill this split come and add all
+
+644
+00:45:43,309 --> 00:45:46,389
+合并成一个更完整的故事。
+together into a more complete sstry.
+
+645
+00:45:46,389 --> 00:45:49,789
+如果你比较这个图和这个图，你会发现我们减少了
+And if you compare this graph and this graph, you'll find that we reduce
+
+646
+00:45:49,789 --> 00:45:51,889
+从这个图到这个图的节点数量。
+the number of nodes from this graph to this graph.
+
+647
+00:45:51,889 --> 00:45:55,989
+比如这个图只有两个节点，而这个图有很多节点。
+Like this graph only have two nodes, but this graph has so many nodes.
+
+648
+00:45:55,989 --> 00:46:02,879
+我们可以继续填充，最终我们把整个图填充成只有两个节点。
+And we can continue to fill and eventually we fill the autograph into into one, only two nodes.
+
+649
+00:46:02,879 --> 00:46:07,949
+好的，你可以看到，这很有趣，因为我们
+Okay. You can see, this is pretty interesting because we
+
+650
+00:46:07,949 --> 00:46:10,509
+首先让图变慢，然后又让它变快了。
+first make the graph slower and then we make it faster.
+
+651
+00:46:10,509 --> 00:46:14,829
+如果你评估这个优化后的计算图，你会发现它比原始的计算图更快。
+And if you evalue the vital graph, you'll find as as the vital graph is faster
+
+652
+00:46:14,829 --> 00:46:16,449
+只要优化后的计算图比第一个计算图更快，我们就达到了目标。
+than the first graph, we are good.
+
+653
+00:46:16,449 --> 00:46:20,329
+明白了吗？这基本上就是我们对计算图进行增强的方法。
+Okay? This is basically what we do for graph augmentation.
+
+654
+00:46:20,329 --> 00:46:25,389
+而且考虑到我们的计算图有成千上万个节点，还有很多不同的操作符，
+And given that our graph has thousands of nodes and there are so many different operators,
+
+655
+00:46:25,389 --> 00:46:29,029
+你可以想象我们有很多机会进行这种增强，对吧？
+you can imagine there are so many opportunities that we can do this kind of augmentation, right?
+
+656
+00:46:29,029 --> 00:46:31,529
+这就是大家在这一层要做的事情。
+And that's what people do in this layer.
+
+657
+00:46:31,529 --> 00:46:41,559
+好的。我记得在最初的课程，尤其是上周的课程，有些同学，
+Okay. Um, I think in the initial lecture, especially in last week's lecture, some people,
+
+658
+00:46:41,559 --> 00:46:46,379
+有学生问我为什么融合操作会比原始计算图更快？
+some students ask me why fusing can be faster than the original graph?
+
+659
+00:46:46,379 --> 00:46:51,600
+我们来深入探讨一下。但在此之前，我们先看一个更实际的例子。
+Let's do a deep dive. But before that, let's look at a more realistic example.
+
+660
+00:46:51,600 --> 00:46:53,400
+这个你们应该很熟悉。
+This is familiar.
+
+661
+00:46:53,400 --> 00:46:56,704
+这是注意力机制中的transformer注意力，对吧？
+This is attention transformers attention, right?
+
+662
+00:46:56,704 --> 00:47:02,949
+如果你还记得注意力机制，我们要做的是用meto来操作
+And if you still remember in attention, what we do is we are going to play with meto that
+
+663
+00:47:02,949 --> 00:47:09,249
+就是我们有QK的权重w，还有输入，也就是边的隐藏向量，
+is we have weight for QK w and we have input, which is the edge hidden vector,
+
+664
+00:47:09,249 --> 00:47:13,669
+然后我们要把它们和大写的QQ一起组合在一起，
+and we are going to me met mood them together together the capital QQ,
+
+665
+00:47:13,669 --> 00:47:15,450
+接着我们要执行注意力操作。
+then we are going to perform attention.
+
+666
+00:47:15,450 --> 00:47:19,989
+但如果你去看任何一个transformer库，你会发现他们并不是这样写的
+But if you go into any transformer library you will find that they don't write
+
+667
+00:47:19,989 --> 00:47:22,009
+他们不会用这种数学方式或者程序方式来实现。
+mathematical or programs in this way.
+
+668
+00:47:22,009 --> 00:47:25,049
+他们会这样写，就是，
+They are going to write in this way, that is, uh,
+
+669
+00:47:25,049 --> 00:47:31,409
+他们会把QQw合并，然后直接在一个输出中计算QQv
+they are going to merge the QQw and then they directly calculate the QQv in one output
+
+670
+00:47:31,409 --> 00:47:34,089
+这个输出变量被称为QQvO。
+which is called QQvO thing variable.
+
+671
+00:47:34,089 --> 00:47:36,470
+显然这就是融合。
+Apparently this is fusion.
+
+672
+00:47:36,470 --> 00:47:40,890
+我们基本上是在通过融合一些算子来减少计算图的规模。
+We are basically, reducing the graph size by fusing some operators.
+
+673
+00:47:40,890 --> 00:47:43,159
+好的，那回到刚才的问题。
+Okay then back to the question.
+
+674
+00:47:43,159 --> 00:47:49,000
+为什么这样会更快？是什么根本机制让它变得更快？
+Why this could be faster? What is the fundamental mechanism that makes this faster?
+
+675
+00:47:49,000 --> 00:47:56,399
+记住，在计算中我们关心的是算术强度，通常用AI表示，
+So remember that in computing, we care about arismtic intensity, which is denoted as AI,
+
+676
+00:47:56,399 --> 00:48:02,919
+另一个AI，算术强度，它被定义为执行的数学操作数量，
+another AI, arithmetic intensity, this is defined as the lumber mathematical operations,
+
+677
+00:48:02,919 --> 00:48:07,340
+呃，比如计算操作，除以，呃，内存访问的次数，
+uh, like compute operations, divided by, uh, the lumber memory access,
+
+678
+00:48:07,340 --> 00:48:11,799
+就是你要从内存或其他存储设备读取多少比特数据。
+like how many bits you are going to rate from your memory or whatever kind of storage.
+
+679
+00:48:11,799 --> 00:48:17,959
+明白了吗？这个值越高，就意味着你能更好地利用计算硬件，
+Okay? And the higher this value, then that means you can utilize your computer hardware better,
+
+680
+00:48:17,959 --> 00:48:20,999
+这就会转化为更快的计算速度。
+and that will translate into faster competition.
+
+681
+00:48:20,999 --> 00:48:28,059
+好的。呃，这种融合之所以有效，是因为如果你看这个例子，
+Okay. Uh, the reason that this fusion works because if you look at this example,
+
+682
+00:48:28,059 --> 00:48:34,119
+我们基本上要做的是有两个浮点数组A和B。
+what we do is basically we have to array flowing point rage A and B.
+
+683
+00:48:34,119 --> 00:48:36,399
+我们尝试把它们的值相加，然后把结果放到
+We try to add their values and throw the value into
+
+684
+00:48:36,399 --> 00:48:44,199
+C中。这是一个非常简单的例子，但它有助于我们理解AI，也就是原始强度。
+C. And this is a very simple example, but it helps us understand AI, okay, original intensity.
+
+685
+00:48:44,199 --> 00:48:47,299
+我们实现的方法是用循环，对吧？
+So the way we do that is we rate loop, right?
+
+686
+00:48:47,299 --> 00:48:49,759
+我们遍历数组，然后把结果写入
+We look through the rays and we write the result into
+
+687
+00:48:49,759 --> 00:48:53,400
+C中，我们可以估算结果的强度。
+C. And we can estimate the resin intensity.
+
+688
+00:48:53,400 --> 00:48:55,799
+在这个过程中，我们首先读取A[i]，对吧？
+So in this process, we first read AI right.
+
+689
+00:48:55,799 --> 00:49:00,019
+这是一次读取，然后我们读取B[i]，把它们相加。
+This is one ad, then we read BI and we add them together.
+
+690
+00:49:00,019 --> 00:49:01,459
+这是一次计算机操作。
+This is a computer operation.
+
+691
+00:49:01,459 --> 00:49:05,459
+然后，一旦我们有了结果，我们就把结果放到C里。
+And then once we have the results, we throw the result into C. So
+
+692
+00:49:05,459 --> 00:49:09,279
+那么有多少是像计算机一样的操作，有多少是读写操作。
+how many like a computer and how many read and write.
+
+693
+00:49:10,040 --> 00:49:13,019
+所以是一个计算操作，对吧，然后有三个读写操作。
+So one computer, right, and three ran rate.
+
+694
+00:49:13,019 --> 00:49:20,629
+所以AI本质上就是，嗯，一除以三，对吧？好的，一比三。
+So the AI is essentially, um, one divide by three, right? Okay, one by three.
+
+695
+00:49:20,629 --> 00:49:28,469
+如果我们继续这样做，写出更复杂的算法，也是同样的道理。
+Same thing if we continue doing this, we make more complicated algorithm and written in this way.
+
+696
+00:49:28,469 --> 00:49:35,969
+也就是说，我们尝试把所有结果加在一起，然后把结果存到E里。呃，
+That is, we try to add all the results together and store result in E. Uh,
+
+697
+00:49:35,969 --> 00:49:41,129
+抱歉，我们尝试把A和B加起来，再加上C和D，然后把结果放到E里。我们
+sorry, we try to add A and B and T C and plus D and throw result in E. And what we
+
+698
+00:49:41,129 --> 00:49:44,529
+做的基本上是先把A和B相加，把结果存到临时变量里。
+do is basically we first add A and B, strew results in temp.
+
+699
+00:49:44,529 --> 00:49:49,789
+然后我们按照这个顺序继续计算，直到得到我们想要的最终结果。
+Then we follow this order and continue to compute until we get the final results we want.
+
+700
+00:49:49,789 --> 00:49:53,229
+那么，这个程序的AI是多少？
+And so what is the AI of this program?
+
+701
+00:49:57,890 --> 00:50:04,309
+这也是三分之一，对吧，因为这条线是三分之一。这条线是三分之一。
+It's also one by three, right, because this line is one by three. This line is one by three.
+
+702
+00:50:04,309 --> 00:50:08,729
+这个模块也是三分之一，因为我们读取了临时变量一，
+And this mall is also one by three because we read temp one,
+
+703
+00:50:08,729 --> 00:50:11,069
+C，并把结果写入临时变量二。
+C and write results into temp two.
+
+704
+00:50:11,069 --> 00:50:12,769
+这个也是三分之一。
+And this one is also one by three.
+
+705
+00:50:12,769 --> 00:50:14,369
+所以总的来说，还是三分之一。
+So in total, it's still one by three.
+
+706
+00:50:14,369 --> 00:50:20,629
+好的，好的。但如果我们稍微把这个程序写得
+Okay. Okay. But if we slightly write this program in
+
+707
+00:50:20,629 --> 00:50:23,770
+更高效一点，我们就能得到这个程序。
+a more efficient way that is we can get this program.
+
+708
+00:50:23,770 --> 00:50:27,669
+我不是一步一步地计算结果。
+Instead of I calculate the results step by step.
+
+709
+00:50:27,669 --> 00:50:29,830
+我基本上是在一个长公式里计算。
+I basically calculate in a long equation.
+
+710
+00:50:29,830 --> 00:50:34,730
+我要读取A、B、C和D，然后直接一起进行一些运算，
+I'm going to read A, B, C, and D. I directly perform some competition altogether,
+
+711
+00:50:34,730 --> 00:50:40,469
+然后我把它扔到E里，这个的AI是多少？
+and then I throw it out into E, what is the AI over this one?
+
+712
+00:50:43,010 --> 00:50:45,909
+所以我们可以看到有一个速率。
+So we can see there's one rate.
+
+713
+00:50:45,909 --> 00:50:52,529
+有一个速率，对吧，先读A，第二条路B，第三，第一根棒D，第五写E。
+There's one rate, right, read A, second road B, third, first rod D and the fifth write E.
+
+714
+00:50:52,529 --> 00:50:55,069
+所以IO基本上是五。
+So the IO is basically five.
+
+715
+00:50:55,069 --> 00:50:59,290
+计算机这边是有一个加，一个加，还有一个乘。
+And the computer is there's one plus, one plus, and one multiplier.
+
+716
+00:50:59,290 --> 00:51:00,969
+所以计算机这边是。
+So the computer is.
+
+717
+00:51:00,969 --> 00:51:03,649
+所以AI本质上是三比五。
+So the AI is essentially three by five.
+
+718
+00:51:03,649 --> 00:51:06,689
+我们可以看到这基本上是操作融合，对吧。
+And we can see this is basically opera fusion right.
+
+719
+00:51:06,689 --> 00:51:10,989
+因为如果你把这个程序映射到计算图上，这里只有一个节点
+Because if you map this program into computer graph, this one only have one node
+
+720
+00:51:10,989 --> 00:51:12,689
+它基本上把所有东西都连接在一起。
+that basically connect everything together.
+
+721
+00:51:12,689 --> 00:51:15,910
+但是这个有很多节点会写入和读取结果。
+But this one has so many nodes that will write and read results.
+
+722
+00:51:15,910 --> 00:51:20,710
+所以如果你做这种融合，你会发现你的AI会高很多。
+So if you do this kind of o fusion, you will find out your AI is much higher.
+
+723
+00:51:20,710 --> 00:51:25,130
+这就是为什么我们真的希望尽可能多地进行融合。
+That's why we really want fuse as much as possible.
+
+724
+00:51:25,130 --> 00:51:33,169
+明白了吗？我们大概在两节课之后会回到这个话题，然后我们会讨论
+Okay? And we're going to go back to this in probably two lectures away, and we are going to talk
+
+725
+00:51:33,169 --> 00:51:35,849
+如何找到这些机会。
+about how we can find these opportunities.
+
+726
+00:51:36,710 --> 00:51:42,609
+好的。正如我所说，为了执行这种图优化，有很多方法。
+Okay. As I said, in order to perform this kind of graph ormentation, there are many ways.
+
+727
+00:51:42,609 --> 00:51:44,689
+一种方法是你可以写很多很多规则。
+One way is you can write many many rules.
+
+728
+00:51:44,689 --> 00:51:49,269
+比如说，你可以在图上写一个扫描器，这个扫描器程序会
+For example, you can write a scanner on the graph, and that scanner program will
+
+729
+00:51:49,269 --> 00:51:51,750
+基本上检查你的模板。
+basically uh check your templates.
+
+730
+00:51:51,750 --> 00:51:56,170
+只要我发现有一个com操作符和另一个com操作符连接在一起，
+As long as I find there's a com operator connected with another con operator,
+
+731
+00:51:56,170 --> 00:51:59,390
+我将要应用一种特定的融合方法。
+I'm going to apply a specific fusion.
+
+732
+00:51:59,390 --> 00:52:03,130
+这是目前最常用的融合技术。
+This is the most adopted, uh, fusing technique.
+
+733
+00:52:03,130 --> 00:52:07,609
+如果你查看TensorFlow的代码，他们有很多模板都是用这种方式写的。
+And if you check tender flow code, uh, they have so many templates that are written in this way.
+
+734
+00:52:07,609 --> 00:52:12,819
+他们有一个图扫描器，会扫描计算图，基本上就是寻找优化的机会。
+Okay? They have a graph scanner will scan the graph that basically find opportunities.
+
+735
+00:52:12,819 --> 00:52:16,549
+另一种方式是一些前沿研究，人们发现
+Another way is some cutting research where people find that
+
+736
+00:52:16,549 --> 00:52:20,310
+有一些自动化机制可以发现这种融合技术，
+there are some automatic mechanism that we can discover this kind of fiting techniques,
+
+737
+00:52:20,310 --> 00:52:22,309
+我们稍后会再详细介绍。
+and we'll cover a little bit later.
+
+738
+00:52:22,309 --> 00:52:28,509
+这给你一个关于图优化整体情况的概览。
+Okay. This gives you an overview of what's going on on the graph oppoiation.
+
+739
+00:52:28,509 --> 00:52:31,729
+希望你觉得有趣，有什么问题吗？
+I hope it's interesting. Any question?
+
+740
+00:52:34,440 --> 00:52:38,960
+好的，那我们再深入一层来讲解。
+Okay. Then let's go to one layer deeper.
+
+741
+00:52:38,960 --> 00:52:42,639
+一旦我们打开这个图，我们希望将这个图部署到许多设备上，
+Once we open this graph, we want to deploy this graph over many,
+
+742
+00:52:42,639 --> 00:52:45,419
+这就叫做并行化。
+many devices, that is called paralyzation.
+
+743
+00:52:45,419 --> 00:52:53,740
+并行化的问题在于我有一个计算图，还有一些设备集群。
+And the problem paralyzation is that I have a computer graph, and I have some device cluster.
+
+744
+00:52:53,740 --> 00:52:58,800
+这个可视化让你看到媒体中正在发生什么，
+And this visualization gives you a picture of what's going on in media,
+
+745
+00:52:58,800 --> 00:53:05,120
+媒体基本上以某种集群的形式塑造它，就像Google开放Amado一样。
+media basically shapes it kind of cluster to Google opening Amado.
+
+746
+00:53:05,200 --> 00:53:08,640
+我想通过这个可视化强调的关键点是，
+The key point I want to make through this visualization,
+
+747
+00:53:08,640 --> 00:53:13,119
+你可以看到，vida通常会以这种方式构建集群。
+you can see, vida usually make this cluster in this way.
+
+748
+00:53:13,119 --> 00:53:19,359
+也就是说，它有很多很多节点，每个节点有几个GPU，通常是八个或四个。
+That is, it has many many nodes, and each node has a few GPUs, typically eight or four.
+
+749
+00:53:19,359 --> 00:53:26,199
+在每个节点内部，这些GPU通过一种叫做
+And inside of each node, uh, those GPUs are connected using communication technology called
+
+750
+00:53:26,199 --> 00:53:32,540
+veilink的通信技术连接，veilink的速度非常快，几乎和直接从内存读取一样快。
+veilink that unveiling super fast is almost as fast as reading things directly from memory.
+
+751
+00:53:32,540 --> 00:53:38,280
+好吗？但是如果两个位于不同节点的GPU想要通信，
+Okay? But if any two GPUs located on two different nodes wants to communicate,
+
+752
+00:53:38,280 --> 00:53:41,474
+它们是通过其他互连方式连接的。
+they are connected using some other interconnect.
+
+753
+00:53:41,474 --> 00:53:44,210
+比如说，InfiniBand或者其他什么。
+For example, infinite band or whatever.
+
+754
+00:53:44,210 --> 00:53:48,409
+那个不是由NVIDIA制造的，是其他公司生产的。
+That one was not manufactured by media by someone else.
+
+755
+00:53:48,409 --> 00:53:54,029
+那个连接的速度比NVLink慢十倍，甚至一百倍。
+That one is ten times slower or even 100 times slower than the link.
+
+756
+00:53:54,029 --> 00:53:58,389
+所以如果你想把这个图分布到这些节点上，你必须考虑到这一点，
+So if you want to distribute this graph over this, you have to take this into
+
+757
+00:53:58,389 --> 00:54:00,849
+因为这是NVIDIA给我们的硬件条件。
+consideration because this is what media giving to us.
+
+758
+00:54:00,849 --> 00:54:07,770
+你必须找到一种方法来切分这个图，把每一部分放到不同的设备上。
+You have to find a way to cut this graph and put every part of it on different devices.
+
+759
+00:54:07,770 --> 00:54:17,134
+这样一部分通信会发生在节点内部，另一部分通信会发生在节点之间。
+So some communication will happen inside node, and some communication will happen across nodes.
+
+760
+00:54:17,134 --> 00:54:21,179
+那么一般来说，什么样的通信应该发生在节点内部呢？
+So in general, what kind of communication should happen inside of node,
+
+761
+00:54:21,179 --> 00:54:24,739
+以及节点之间应该进行什么样的通信。
+and what kind of communication should happen across nodes.
+
+762
+00:54:27,980 --> 00:54:32,519
+正如我所说，在一个节点内部，你没有带宽限制，通信速度非常快。
+As I said, inside of a node, you have not bandoes you communicate pretty fast.
+
+763
+00:54:32,519 --> 00:54:35,359
+所以你可以把大量的通信放在节点内部。
+So you can put heavy communication inside node.
+
+764
+00:54:35,359 --> 00:54:39,219
+但在节点之间，你有一些较慢的互连。
+But across nodes, you have some snow interconnect.
+
+765
+00:54:39,219 --> 00:54:44,399
+所以你要确保你的布局方式能够最小化节点之间的通信。
+So you want to make sure you place in a way where you minimize the communication between nodes.
+
+766
+00:54:44,399 --> 00:54:48,120
+明白了吗？这基本上就是我们要解决的问题。
+Okay? That is basically what pi trying to solve.
+
+767
+00:54:48,120 --> 00:54:54,039
+所以当我们尝试切分这个图时，我们是在寻找一种能够最小化节点间通信的方法，
+So when we try to cut this graph, we try to find a way that minimize communication across nodes and
+
+768
+00:54:54,039 --> 00:54:56,349
+并最大化节点内部的通信。
+maximize communication between nodes.
+
+769
+00:54:56,349 --> 00:55:01,239
+对吧？你可以看到这又变成了另一个优化问题。
+Yeah. Okay? You can see this boils down into another opimenting problem.
+
+770
+00:55:01,239 --> 00:55:07,439
+并且根据通信模式，我们会在其上应用不同的算法。
+And depending on the communication pattern, we are going to put different algorithm on top of it.
+
+771
+00:55:07,439 --> 00:55:12,599
+这也是训练大规模模型所必需的关键部分。
+And this is also the essential part needed for training models at large as
+
+772
+00:55:12,599 --> 00:55:19,319
+GBD，我们稍后会深入讲解这个内容，好吗？关于这一层有问题吗？
+GBD and we are going to do a deep dive on this later, okay? Any questions on this layer?
+
+773
+00:55:19,450 --> 00:55:24,329
+也许我可以用更像Groni的语言来讲，好吗？
+Yeah, maybe I can speak more like Groni language, okay?
+
+774
+00:55:24,329 --> 00:55:27,969
+你们可能听说过张量并行之类的东西，对吧？
+You probably heard about things like tensor paralism, right?
+
+775
+00:55:27,969 --> 00:55:32,290
+还有流水线并行、序列并行、上下文并行。
+Pipeline palism, sequence paralism, context paralism.
+
+776
+00:55:32,290 --> 00:55:36,010
+它们基本上都是在尝试找到一种方法，
+They are basically trying to figure out a way that basically
+
+777
+00:55:36,010 --> 00:55:37,889
+来解决我刚才提到的那个问题，好吗？
+solve that problem I just mentioned, okay?
+
+778
+00:55:37,889 --> 00:55:40,009
+我们会涵盖所有这些内容。
+And we are going to cover all this.
+
+779
+00:55:42,890 --> 00:55:47,670
+就像我说的，你需要弄清楚如何构建图、如何通信，
+Like I said, you want to figure out how to graph, how to communicate,
+
+780
+00:55:47,670 --> 00:55:51,830
+因为现在你有了通信计算机，所以你需要安排通信计算机的调度。
+because now you have communicated computer, so you want to schedule the communicate computer
+
+781
+00:55:51,830 --> 00:55:57,810
+所以它们尽可能多地重叠，呃，因为你在做分布式通信，
+so they overlap as much as possible, uh, because you are doing distributed communication,
+
+782
+00:55:57,810 --> 00:56:01,349
+所以你关心一致性，你想确保分布式
+so you care about consistency, you want to make sure distributed
+
+783
+00:56:01,349 --> 00:56:07,450
+和非分布式的结果是一样的，有时候你希望自动
+versus non distributed the results are the same, sometimes you want to automatically
+
+784
+00:56:07,450 --> 00:56:10,610
+并行化，因为你要开发新的神经网络
+paralyze it because you are going to develop new neur networks
+
+785
+00:56:10,610 --> 00:56:14,970
+而你不想关心，也不想为每个新写的网络
+and you don't want to care about you don't want to craft paralyzing strategy
+
+786
+00:56:14,970 --> 00:56:16,350
+手动设计并行化策略。
+for ach new network you wrote.
+
+787
+00:56:16,350 --> 00:56:22,740
+好的，然后我们进入另一个层面，对吧，就是运行时和调度。
+Okay and then we go to another layer behind, right, runtime and scheduling.
+
+788
+00:56:22,740 --> 00:56:26,119
+所以在这一层，我觉得很直接，对吧？
+So in this layer, I think it's pretty straightforward, right?
+
+789
+00:56:26,119 --> 00:56:30,139
+就是我们在操作系统里做什么，怎么让程序运行起来。
+It's what do we do in operating systems, how we make a program run.
+
+790
+00:56:30,139 --> 00:56:34,940
+所以我们基本上想要以某种方式调度计算、通信和内存，基本上，
+So we basically want to schedule the computer and communication and memory in a way that basically,
+
+791
+00:56:34,940 --> 00:56:36,259
+首先，你需要足够快。
+first, you need to be fast.
+
+792
+00:56:36,259 --> 00:56:38,960
+其次，我们希望通信和计算能够重叠进行。
+Second, we want to overlap the communication and compute.
+
+793
+00:56:38,960 --> 00:56:41,880
+第三，我们的内存不是无限的。
+And third, our memory is not infinite.
+
+794
+00:56:41,880 --> 00:56:46,660
+我们只有80G的A或H100，所以我们需要受到内存限制的约束。
+We have 80 giga for A or H 100, so we want to be subject to the memory constraints.
+
+795
+00:56:46,660 --> 00:56:49,219
+明白吗？这基本上就是运行时要做的事情。
+Okay? That is basically what runtime does.
+
+796
+00:56:49,219 --> 00:56:51,519
+嗯，所以呢？
+Yeah. So what?
+
+797
+00:56:55,480 --> 00:57:00,689
+呃，这是个很好的问题。
+Uh that's a great question.
+
+798
+00:57:00,689 --> 00:57:05,909
+没有人对此加以限制。这也是为什么现在有很多创业公司在做芯片。
+No one is limiting that. That's why there are many many startups building silicons, today.
+
+799
+00:57:05,909 --> 00:57:07,909
+他们正在筹集大量资金。
+And they are raising a lot of money.
+
+800
+00:57:07,909 --> 00:57:13,369
+他们基本上是在尝试从媒体中构建不同的配置。
+And they are basically trying to build different configurations from media.
+
+801
+00:57:13,369 --> 00:57:16,110
+比如说，英伟达给你配备了80G的显存，
+For example, media, give you a memory of 80 giga,
+
+802
+00:57:16,110 --> 00:57:20,190
+而AMD基本上给你配备了160G的显存。
+and AMD is basically giving you a memory of 160 giga.
+
+803
+00:57:20,190 --> 00:57:22,790
+最终，这还是取决于你的工作负载。
+Eventually, it depends on your workload.
+
+804
+00:57:22,790 --> 00:57:26,989
+你的工作负载可能只需要80G，所以你没必要多花钱
+Your workload probably only need 80 giga, so you don't have to pay extra price
+
+805
+00:57:26,989 --> 00:57:29,310
+去买160G的显卡。
+to buy the 160 giga cards.
+
+806
+00:57:29,310 --> 00:57:35,490
+是的，现在有很多半导体公司在制造各种不同类型的硬件，
+Yeah. So there are so many uh silicon companies are building different kind of hardware,
+
+807
+00:57:35,490 --> 00:57:37,629
+我们稍后会聊一下这个话题。
+we are going to talk about that a little bit.
+
+808
+00:57:37,629 --> 00:57:40,329
+也许下一个话题再说，好吗？
+Maybe next next, okay.
+
+809
+00:57:41,370 --> 00:57:48,329
+最后，我们来看更底层的内容，我们要讨论如何实现一个非常非常，
+And finally, we go to the layer below, we are going to talk about how to implement a really, really,
+
+810
+00:57:48,329 --> 00:57:52,790
+非常快的基础操作，特别是针对metamo。
+really fast primitive, especially for metamo.
+
+811
+00:57:52,790 --> 00:57:56,609
+就像我说的，如果你解决了metamo，你就解决了80%的问题。
+Like I said, if you solve metamo you solve 80% of the problem.
+
+812
+00:57:56,970 --> 00:58:03,130
+但事情并没有那么简单，因为当你谈到算子实现时，
+Um but it's not that simple because when you talk about operator implementation,
+
+813
+00:58:03,130 --> 00:58:06,069
+你会遇到很多多样性的问题。
+you face a lot of diversity issues.
+
+814
+00:58:06,069 --> 00:58:11,059
+首先，你有不同的硬件架构，就像你提到的那样，
+That is first you have different hardware architecture like that you mentioned,
+
+815
+00:58:11,059 --> 00:58:17,899
+你需要针对不同代的MDA GPU进行优化，BD每两年都会推出新GPU，
+you need to optimize for different generations of MDA GPUs BD will ship GPUS every two years,
+
+816
+00:58:17,899 --> 00:58:22,239
+你甚至还有TPU、CPU，比如说，
+you also even have TPU CPU and for example,
+
+817
+00:58:22,239 --> 00:58:24,139
+M三、M四之类的东西。
+M three, four, this kind of things.
+
+818
+00:58:24,139 --> 00:58:26,160
+你希望你的程序能在所有地方运行。
+You want your to run on everywhere.
+
+819
+00:58:26,160 --> 00:58:32,365
+你必须为每一个硬件平台定制算子实现。
+You have to craft operator imitations for every hardware platform.
+
+820
+00:58:32,365 --> 00:58:39,509
+第二，你还有不同的方式来存储这些张量值。
+Eight. Second, you have different ways of storing these tensor values.
+
+821
+00:58:39,509 --> 00:58:41,770
+你可以用不同的精度来存储它。
+You can store it in different precisions.
+
+822
+00:58:41,770 --> 00:58:46,150
+对于每种精度，设备会使用不同的曲线。
+For each precision, it will use different curves from the device.
+
+823
+00:58:46,150 --> 00:58:47,950
+所以程序也会不同。
+So the program will be different.
+
+824
+00:58:47,950 --> 00:58:50,745
+因此你必须为每种精度设计不同的内核。
+So you have to craft a different kernel for each precision.
+
+825
+00:58:50,745 --> 00:58:56,640
+正如你可能知道的，媒体一直在大力倡导降低精度。
+As you probably know, media is strongly advocating for reducing precisions.
+
+826
+00:58:56,640 --> 00:59:02,520
+就像十年前，我们还在用32位精度训练神经网络。
+Like ten years ago, we are training neural network on 32 bits of precisions.
+
+827
+00:59:02,520 --> 00:59:10,879
+而现在，如果你看看最新的神经网络，它们都是用16位精度训练的，直到今年，
+And today, if you check the latest neural network, they are trained on 16 up to this year,
+
+828
+00:59:10,879 --> 00:59:15,719
+最先进的AM基本上是用FP8训练的。
+the std art AM is basically trained on FP eight.
+
+829
+00:59:15,719 --> 00:59:22,439
+Jensen在圣诞节发布了一张新卡，他说，现在你可以用FP4来训练。
+Jensen who give a new card during Christmas, he said, no, you can train on FP four.
+
+830
+00:59:22,439 --> 00:59:27,159
+也就是说，每个权重基本上只用四个位来表示。
+That is each weight is basically represent using only four bits.
+
+831
+00:59:27,159 --> 00:59:28,520
+这怎么可能呢？
+How could that be possible?
+
+832
+00:59:28,520 --> 00:59:31,159
+我们接下来会深入探讨这个问题。
+And we are going to dive into that.
+
+833
+00:59:31,960 --> 00:59:39,020
+第三个问题基本上是，记住，我们的操作符有不同的形状。
+The third issue is basically, remember, our operators have different shapes.
+
+834
+00:59:39,020 --> 00:59:42,879
+我们可能会有3x3的，也可能会有5x5的。
+We could have three by three come, we could have five by five come.
+
+835
+00:59:42,879 --> 00:59:45,900
+对于MTM来说，我们可能会有2D和3D的。
+And for MTM, we could have 2d3d.
+
+836
+00:59:45,900 --> 00:59:53,659
+由于我们存储数值的方式，同一种操作在不同形状下
+And because of this because of the way we store the values, um, uh, a a same kind of probably
+
+837
+00:59:53,659 --> 00:59:57,519
+可能会有非常不同的性能表现，我们也会深入讨论这个问题。
+will have very different performance on different shapes, and we are going to dive into that.
+
+838
+00:59:57,519 --> 01:00:00,960
+有时候我们会针对某些特定的形状进行索引。
+And sometimes we index on some specific shapes.
+
+839
+01:00:00,960 --> 01:00:04,619
+就像我刚才说的，比如对于count 2D，我们非常关注X的性能
+As I said, for example, for count two D, we really care about the performance of X
+
+840
+01:00:04,619 --> 01:00:07,999
+因为它是ret net的基石，对吧。
+because it is a cornerstone of ret net, right.
+
+841
+01:00:07,999 --> 01:00:10,319
+对于这个met Mo，呃，
+And for this met Mo, uh,
+
+842
+01:00:10,319 --> 01:00:15,139
+2d3d，我们非常关注某些值，某些是2的幂次方的维度，因为
+2d3d, we really care about some value, some dimensions of power two because it
+
+843
+01:00:15,139 --> 01:00:20,214
+这是人们构建transformers和TPD的方式，我们想为他们做到极致优化。
+is the way how people build transformers and TPD, and we want to optimize to the extreme for them.
+
+844
+01:00:20,214 --> 01:00:23,849
+好的。这些因素基本上让
+Okay. And all these factors basically make the implementation of
+
+845
+01:00:23,849 --> 01:00:25,710
+算子的实现变得非常非常复杂。
+operators really, really complicated.
+
+846
+01:00:25,710 --> 01:00:29,729
+好吗？好的，有了这些，
+Okay? Okay. With that,
+
+847
+01:00:29,729 --> 01:00:34,949
+我觉得我基本上给你们概述了一下现在机器学习系统的人们
+I think I basically, give you an overview of what merchant learning system people are
+
+848
+01:00:34,949 --> 01:00:39,449
+在做什么，以及大家在petro和tender flow里都在“烹饪”些什么。好吗？
+doing and what basically people are cooking in petro and tender flow. Okay?
+
+849
+01:00:39,449 --> 01:00:41,909
+让我们回到我们的整体框架图。
+Let's go back to our high level picture.
+
+850
+01:00:41,909 --> 01:00:45,869
+所以现在我们知道如何表示我们的模型了，对吧？数据流图。
+So now we know how to represent our models, right dataflow graph.
+
+851
+01:00:45,869 --> 01:00:52,549
+我们也知道如何基本表示我们的反向传播过程，好吗，关于反向传播。
+We also know how to basically represent our backward pass, okay, for backward pass.
+
+852
+01:00:52,549 --> 01:00:57,469
+嗯，我们接下来会讲一下如何表示数据，
+Um, we are going to talk about how to represent data a little bit,
+
+853
+01:00:57,469 --> 01:01:00,589
+但一般来说，数据是用张量来表示的，对吧？
+but in general, data is represented using tensors, right?
+
+854
+01:01:00,589 --> 01:01:04,189
+但是张量里面有一些神奇的地方，我们也会讲到。
+But there are some magics in tensors, we are going to talk about that.
+
+855
+01:01:04,189 --> 01:01:09,090
+记住，我们的最终目标是把这些数据和模型表示，
+And remember, our ultimate goal is we take this data and this mode representation,
+
+856
+01:01:09,090 --> 01:01:14,489
+在不同的硬件上实现高效运行，好吗？有问题吗？
+we are going to make it fast on different hardware, okay? Any question?
+
+857
+01:01:16,030 --> 01:01:22,610
+好的，太好了。我觉得这基本上就把基础内容讲完了。
+Okay, cool. I think that basically wrap up the basics.
+
+858
+01:01:22,610 --> 01:01:26,489
+那我们接下来进入第一层，我们会从
+Then let's basically go into the first layer, and we are going to start from
+
+859
+01:01:26,489 --> 01:01:29,429
+运算符优化层开始讲起。
+the operator optimization layer.
+
+860
+01:01:29,429 --> 01:01:33,470
+好的，我们要讲讲如何真正实现一些高效的运算符。
+Okay, we are going to talk about how to really implement some fast operators.
+
+861
+01:01:33,470 --> 01:01:38,430
+所以记住我们的目标，针对这里这种操作符，我给你一个元操作。
+So remember our goal, given this kind of operator here, I give you a meto.
+
+862
+01:01:38,430 --> 01:01:44,889
+我们的目标是尝试找到在CPNTP上非常非常快的实现，从这里开始构建，
+Our goal is try to find implementation that is very, very fast on CPNTP building from there,
+
+863
+01:01:44,889 --> 01:01:49,190
+我们将要组合越来越复杂的数据流图。
+we are going to compose more and more complicated data phlograph.
+
+864
+01:01:49,620 --> 01:01:54,040
+嗯，我想我已经说过了，我再重复一遍。
+Um, I think I already said that and I repeat.
+
+865
+01:01:54,040 --> 01:02:00,039
+这一层的目标是，我们试图找到能够最大化AI的实现，好吗？
+The goal of this layer is we try to find implementation that is well that will maximize AI, okay?
+
+866
+01:02:00,039 --> 01:02:03,920
+我们基本上是想让计算量尽可能多。
+We try to basically make the number of compute as much as possible.
+
+867
+01:02:03,920 --> 01:02:07,440
+但我们要尽量减少内存IO的访问。
+But we try to minimize the memory IO access.
+
+868
+01:02:07,440 --> 01:02:11,479
+这基本上就是计算的基本原理，对吧？
+That is basically the fundamentals of compute, right?
+
+869
+01:02:11,479 --> 01:02:13,845
+我们要最大化原始强度。
+We try to maximize the original intensity.
+
+870
+01:02:13,845 --> 01:02:16,489
+在这一部分，我们要讨论三件事，对吧。
+In this part, we are going to talk about three things, right.
+
+871
+01:02:16,489 --> 01:02:20,250
+首先是图像学习，我们如何让算子整体变得更快，
+First is the image learning, how we can make the operator fast in general,
+
+872
+01:02:20,250 --> 01:02:24,170
+不管是什么平台，比如说无论你用的是CPU还是GPU，
+regardless of platforms, for example, no matter you are using CPO or GPU,
+
+873
+01:02:24,170 --> 01:02:26,509
+我们要怎么让算子变快。
+how we can make operator fast.
+
+874
+01:02:26,509 --> 01:02:31,049
+然后，正如我刚才说的，MTMo非常重要，所以我们要深入探讨MT MO。
+Then, as I said, MTMo is so important, so we are going to dive into MT MO.
+
+875
+01:02:31,049 --> 01:02:33,149
+我们会进行非常深入的讲解。
+We're going to very deep dive.
+
+876
+01:02:33,149 --> 01:02:36,709
+接着，因为GPU是目前主要的计算平台，
+And then because GPU is a major platform for computing today,
+
+877
+01:02:36,709 --> 01:02:42,265
+是一种特殊的硬件，所以我们会深入讲解如何让这些算子在GPU上变快。
+is special machinery, so we are going to dive deep into how to make this operators fast on GPUs.
+
+878
+01:02:42,265 --> 01:02:45,319
+好的，那我们从第一个开始。
+Okay, so let's start with the first one.
+
+879
+01:02:45,319 --> 01:02:48,899
+那么我们如何让算子整体变快呢？
+So how we can make operator fast in general, okay?
+
+880
+01:02:48,899 --> 01:02:52,039
+通常来说，有三种方法可以让算子变快。
+In general, there are three ways to make operator fast.
+
+881
+01:02:52,039 --> 01:02:55,379
+首先我们尝试对我们的操作符进行向量化，对吧？
+The first ways we try to vectorize our operators, right?
+
+882
+01:02:55,379 --> 01:02:59,019
+如果你每天都写Lump Pi操作符，这其实很简单，对吧？
+And this is pretty straightforward if you write Lump Pi operators every day, right?
+
+883
+01:02:59,019 --> 01:03:04,439
+写向量化代码总是比写面向对象编程要快。
+Uh, writing vectorized code is always faster than writing a oop.
+
+884
+01:03:04,439 --> 01:03:07,480
+第二种方法是我们尝试调整数据布局。
+The second way is we try to play with data layout.
+
+885
+01:03:07,480 --> 01:03:11,920
+通过定义合适的数据布局，也就是如何表示数据，
+And by defining the right data layout, that is representing the data,
+
+886
+01:03:11,920 --> 01:03:15,640
+以正确的方式组织张量，我们实际上可以减少
+inspite tensors in the right way, we can actually reduce overhead
+
+887
+01:03:15,640 --> 01:03:18,080
+许多机器学习操作符中的开销。
+in many many operators in machinery.
+
+888
+01:03:18,080 --> 01:03:23,280
+第三种方式，当然，就是增加线程数并进行并行计算。
+The third way, of course, per addition, we just give it more threats and we compute in parallel.
+
+889
+01:03:23,280 --> 01:03:26,529
+好吗？我们从第一个方法开始。
+Okay? Let's start with the first one.
+
+890
+01:03:26,529 --> 01:03:29,350
+就像我说的，第一个方法其实很简单。
+Like I said, the first one is pretty straightforward.
+
+891
+01:03:29,350 --> 01:03:38,529
+这是一段代码，我们在这里将A和B的值清除，并将结果写回到C中。
+And this is a piece of code where we add the values to erase A and B and write values back to C.
+
+892
+01:03:38,529 --> 01:03:45,009
+其中一个版本基本上是我们使用了非向量化的版本。
+One version of it is basically we use unvectorized, uh, version.
+
+893
+01:03:45,009 --> 01:03:47,289
+我们只是遍历所有的值。
+We just loop over all the values.
+
+894
+01:03:47,289 --> 01:03:49,049
+但我们也可以进行向量化处理。
+And we can vectorize it.
+
+895
+01:03:49,049 --> 01:03:54,750
+我们进行向量化的方法，基本上是调用一些更高级的函数，
+The way we corize basically we are going to call some more advanced functions,
+
+896
+01:03:54,750 --> 01:03:56,289
+这个函数叫做load flow four。
+which is called load flow four.
+
+897
+01:03:56,289 --> 01:04:01,170
+在这种情况下，每次我们都会从内存中加载四个浮点数到一个寄存器中。
+In this case, every time we are going to load four floats inside one from the memory.
+
+898
+01:04:01,170 --> 01:04:08,930
+然后我们将这四个浮点数相加，并把结果写入另一个目标内存地址，
+And we are going to add the four flows together and the write value into another destination memory
+
+899
+01:04:08,930 --> 01:04:11,849
+这个内存地址存储着四个浮点数，也就是C，然后我们
+address which store four flows, which is called C, and then we
+
+900
+01:04:11,849 --> 01:04:14,470
+存储这个值并移动指针。
+store the value and we move the pointer.
+
+901
+01:04:14,470 --> 01:04:16,729
+这是一个写操作的版本。
+And this is a write version.
+
+902
+01:04:16,729 --> 01:04:26,529
+好吗？有人能告诉我为什么这个版本比左边的快吗？有谁知道吗？
+Okay? Can anyone tell me why the version is faster than the left one? Yeah.
+
+903
+01:04:31,300 --> 01:04:39,099
+是的。在许多现代硬件中，它们有这种加载流水线，允许你一次加载多个值。
+Yeah. Yeah. In many modern hardware, they have this kind of load flow four that allows you to load,
+
+904
+01:04:39,099 --> 01:04:41,379
+这样你可以一次性加载很多数值。
+many values in one pass.
+
+905
+01:04:41,379 --> 01:04:44,839
+这是硬件制造商提供的功能。
+This is given by the hardware manufacturer.
+
+906
+01:04:44,839 --> 01:04:51,139
+所以如果你能利用这一点，你基本上可以用这种方式实现计算的向量化。
+So if you are able to leverage this, you basically can vectorize your compute in this way.
+
+907
+01:04:51,500 --> 01:04:55,659
+这已经内置到petrogentensor flow中了。
+This has been built into petrogentensor flow.
+
+908
+01:04:55,659 --> 01:05:00,619
+我认为只要你调用默认的API，并且尽量让你的代码尽可能向量化，
+I think as long as you call the default API and you try to write your code in a way that
+
+909
+01:05:00,619 --> 01:05:07,060
+它就会以这种方式工作，好吗？
+is as vectorized as much as possible is what work in this way, okay?
+
+910
+01:05:09,260 --> 01:05:14,739
+这是记录点。第二点是我们还会调整数据布局。
+That is recordis. The second one is we also play with data layout.
+
+911
+01:05:14,820 --> 01:05:17,920
+还记得一开始我们讲到全局概念的时候，
+Remember at the beginning at the global picture,
+
+912
+01:05:17,920 --> 01:05:23,980
+我说我们的输入imergiO数据沉浸基本上是以张量的形式存储的。
+I said our input imergiO data immersion is basically stored in tensor.
+
+913
+01:05:23,980 --> 01:05:30,539
+那什么是张量？张量基本上就是一个高维数组，那么从根本上说，
+But what is tensor? Tensor is basically a high dimensional array, fundamentally, how is high
+
+914
+01:05:30,539 --> 01:05:32,939
+高维数组是如何在内存中存储的呢？
+dimision array stored in memory?
+
+915
+01:05:33,400 --> 01:05:38,600
+好的。从根本上讲，在内存中，我们并不会真的存储任何高维的东西。
+Okay. Fundamentally, in memory, we're not going to store anything that is high dimensional.
+
+916
+01:05:38,600 --> 01:05:40,719
+我们只能以一维的方式存储数据，对吧？
+We can only store things in one dimension, right?
+
+917
+01:05:40,719 --> 01:05:43,159
+所以我们会以顺序的方式存储数据。
+So we store things in a sequential way.
+
+918
+01:05:43,159 --> 01:05:49,260
+明白了吗？也就是说在内存层面，我们其实没有张量的概念，这基本上就是
+Okay? That is from a memory level, we don't have any tensor awareness, and this basically visualize
+
+919
+01:05:49,260 --> 01:05:51,120
+我们存储数值的方式的可视化。
+the way that we store values.
+
+920
+01:05:51,120 --> 01:05:53,759
+我们基本上就是从左到右进行存储。
+We basically store from the left to right.
+
+921
+01:05:53,840 --> 01:06:00,380
+例如，在这里，每个值在内存中基本上占用八个字节。
+For example, here, each value basically takes eight bytes in memory.
+
+922
+01:06:00,380 --> 01:06:06,699
+我们表示张量的方式基本上有两种，通常我们会介绍两种方式，一种是行优先。
+And the way we represent tensor is basically, uh, we usually introduce two ways, one is row major.
+
+923
+01:06:06,699 --> 01:06:08,179
+另一种是列优先。
+The other is column major.
+
+924
+01:06:08,179 --> 01:06:11,599
+我觉得你们大家应该都非常熟悉这个。
+And I think all of you guys should be very familiar with this.
+
+925
+01:06:11,599 --> 01:06:15,919
+在行优先中，我们基本上是先存储每一行，
+In row major, we basically store each row first,
+
+926
+01:06:15,919 --> 01:06:18,599
+然后再存储第二行和第三行。
+and then we start with the second row and the third row.
+
+927
+01:06:18,599 --> 01:06:23,279
+在列优先中，方式相反，这里以二维情况为例，
+In column major, the other way, this is for the two dimensional case,
+
+928
+01:06:23,279 --> 01:06:25,200
+但你可以推广到很多很多维度。
+but you can generalize into many many dimensions.
+
+929
+01:06:25,200 --> 01:06:28,739
+明白了吗？这里有一个可视化图。
+Okay? And this is a visualization.
+
+930
+01:06:28,739 --> 01:06:34,199
+第一个红色的是行优先，第二个是列优先。
+The first one red one is row major, the second one is column major.
+
+931
+01:06:34,590 --> 01:06:42,549
+好的。我们需要注意数据的布局，因为如果你看这个程序，
+Okay. And we need to be aware of data layout because if you look at this program,
+
+932
+01:06:42,549 --> 01:06:47,049
+假设我们的数据是按行优先存储的，也就是说我们画一个零，
+assuming that our data is stored in row major, that is we draw a zero,
+
+933
+01:06:47,049 --> 01:06:52,389
+从零一直到零减一，然后我们再从
+zero all the way to zero minus one, and then we start from uh
+
+934
+01:06:52,389 --> 01:06:55,989
+A10开始，然后继续按照行优先的顺序。
+A 10 and then, following the row major.
+
+935
+01:06:56,390 --> 01:07:02,309
+好的。那么你觉得这个程序好吗？
+Okay. So do you think this program is good?
+
+936
+01:07:02,350 --> 01:07:05,929
+为什么？因为如果你注意的话，你会发现这个循环是
+Why? Because if you pay attention you will find that the loop is
+
+937
+01:07:05,929 --> 01:07:10,710
+先在内层维度循环，然后再在外层维度循环。
+written in a way that it first loops from the inside of dimension, and then outside of dimension.
+
+938
+01:07:10,710 --> 01:07:13,549
+这样会非常慢。
+And this is going to be extremely slow.
+
+939
+01:07:13,549 --> 01:07:18,569
+为什么？是的，缓存是一个问题。
+Why? Yeah, cache is one problem.
+
+940
+01:07:18,569 --> 01:07:24,410
+第二个问题是，每次你尝试循环时，你都需要移动指针数组。
+Second is going to every time when you try to tu loop, you are going to move the pointers array
+
+941
+01:07:24,410 --> 01:07:28,770
+这样会引入一些额外的压力。
+of stress that way introduce some overhead.
+
+942
+01:07:28,770 --> 01:07:34,629
+改进这个程序的一种方法是，我们尝试交换那两个循环，先循环I再循环J。
+One way to improve this program is basically we try to swap those two loops we loop I and then J.
+
+943
+01:07:34,629 --> 01:07:37,149
+这其实很简单。
+This is pretty straightforward.
+
+944
+01:07:37,310 --> 01:07:45,110
+好，现在我们知道数据存储在张量中，我要给你们一个选择题。
+Okay. Now we know that our data is stored in tensor and I'm going to give you MCQ,
+
+945
+01:07:45,830 --> 01:07:51,309
+机器学习系统是以行优先还是列优先存储数据的？
+Machine learning systems store data in row major or column major.
+
+946
+01:07:56,270 --> 01:08:02,930
+谁想回答？比如说Piro。
+Who wants to answer? Like for example Piro.
+
+947
+01:08:02,930 --> 01:08:11,399
+好的，其实我可以告诉你，他们并不是以行优先或列优先的方式存储数据。
+Yeah. Okay. Actually, I can tell you, um, they don't throw data in row major or column major.
+
+948
+01:08:11,399 --> 01:08:14,240
+他们采用了一种新的格式来存储数据，我接下来会介绍。
+They throw data in a new format which I'm going to introduce.
+
+949
+01:08:14,240 --> 01:08:16,919
+这种格式叫做strted格式，好吗？
+That is called strted format. Okay?
+
+950
+01:08:16,919 --> 01:08:19,019
+那么什么是strted格式呢？
+So what is the strategy format?
+
+951
+01:08:19,019 --> 01:08:23,339
+这基本上是这节课的最后部分。
+This is basically the last part of this class.
+
+952
+01:08:23,339 --> 01:08:28,839
+好吗？所以在strted格式中，你需要引入另外两个参数。
+Okay? So in strted format, you introduce two more parameters, okay.
+
+953
+01:08:28,839 --> 01:08:30,819
+第一个参数叫做偏移量。
+The first parameter is called offset.
+
+954
+01:08:30,819 --> 01:08:35,859
+也就是说，当你尝试从张量中索引值时，你首先要加上偏移量的值。
+That is when you try to index value from a tensor, you first add offset value.
+
+955
+01:08:35,859 --> 01:08:43,199
+好吗？第二个参数叫做步幅，步幅也是一个张量，
+Okay? The second, parameter is called stress, and the stress is also tensor
+
+956
+01:08:43,199 --> 01:08:45,304
+它的维度和原始张量相同。
+with a dimension equal to the original tensor.
+
+957
+01:08:45,304 --> 01:08:53,949
+好的，就像我刚才说的，偏移量基本上表示张量相对于
+Okay. So like I said, the offset basically means that the offset of the tensor relative to
+
+958
+01:08:53,949 --> 01:08:56,689
+底层存储的偏移，步幅，
+the underlying storage, the stress,
+
+959
+01:08:56,689 --> 01:09:02,329
+基本上表示在张量的某个维度上移动一个单位时，
+I basically indicates how many elements need to be skipped in memory to move when
+
+960
+01:09:02,329 --> 01:09:05,444
+内存中需要跳过多少个元素。
+unit in the dimension of the tensor.
+
+961
+01:09:05,444 --> 01:09:12,539
+这意味着这里你有一个三维张量数组，索引值的方式基本上是这样的，
+That means that here you have array three dimensional tensor, the way that index value is basically,
+
+962
+01:09:12,539 --> 01:09:20,299
+你取底层存储，然后首先尝试计算索引以及偏移量，
+you take underlying storage and you first try to calculate index as well plus offset,
+
+963
+01:09:20,299 --> 01:09:26,379
+然后你将每个维度乘以步长，最终你会得到这个值。
+and then you multiply each dimension by strett and eventually you'll get this value.
+
+964
+01:09:26,379 --> 01:09:28,099
+这被称为步长格式。
+This is called strategy format.
+
+965
+01:09:28,099 --> 01:09:34,579
+这很简单吧？让我们用一个非常简单的问题结束这节课。
+This is pretty straightforward? Let's end this lecture with a very simple question.
+
+966
+01:09:34,579 --> 01:09:40,839
+这两个可视化基本上展示了步长格式的含义。
+These two visualization basically give you what it means by strategy format.
+
+967
+01:09:40,839 --> 01:09:44,759
+花5秒钟看一下这个。
+Take 5 seconds to look at this.
+
+968
+01:09:44,759 --> 01:09:47,119
+好的，我们很容易理解。
+Okay. We easy to understand.
+
+969
+01:09:47,119 --> 01:09:48,719
+让我问你两个问题。
+Let me ask you two questions.
+
+970
+01:09:48,719 --> 01:09:52,779
+那么当我们有二维的时候，会是什么情况？
+So what do we have when we have two dimensions.
+
+971
+01:09:52,779 --> 01:09:57,279
+那么当我们让stride 0等于1时，我们得到了什么？
+So what do we have when we have the stress zero equal to one,
+
+972
+01:09:57,279 --> 01:10:01,699
+而stride 1等于shape 0时，这是什么？
+and the stress one equal to a shape zero. What is this?
+
+973
+01:10:04,780 --> 01:10:07,599
+这是列主序，对吧？
+This is a column major, right?
+
+974
+01:10:07,599 --> 01:10:14,339
+你可以看到我们可以用不同的stride值来表示行主序或列主序。
+You can see we can use, uh, different values of stress to represent the row major or column major.
+
+975
+01:10:14,339 --> 01:10:20,319
+我们也可以做类似的事情，就是一旦我们把stride的第一个维度设为shape 1，
+And we can do something similar that is once we set the first dimension of stress equal
+
+976
+01:10:20,319 --> 01:10:26,424
+stride的第二个维度设为1，那么我们就得到了行主序。
+to shape one and the second dimension of stress equal to one, then we get to the row major.
+
+977
+01:10:26,424 --> 01:10:34,989
+好，你可以看到stride实际上提供了很大的灵活性。那么为什么它灵活呢？
+Okay. You can see stress actually gives a lot of flexibility. So why is flexible?
+
+978
+01:10:35,070 --> 01:10:42,989
+最后一个问题，好吗？如果一个形状为1,2,3,4的张量被共享，
+Last question, okay? If a tensor of shape one, two, three, four is shared,
+
+979
+01:10:42,989 --> 01:10:46,249
+它在内存中是按照行主序连续存储的。
+it stored continuous in memory following row major.
+
+980
+01:10:46,249 --> 01:10:58,069
+那stride是多少？我们都知道stride肯定是一个四维数组。
+So what is the stress? So we all know that stress is definitely a four dimensional array.
+
+981
+01:10:58,069 --> 01:11:00,589
+抱歉，数组是四个元素，对吗？
+Sorry, array was four entries, right?
+
+982
+01:11:00,589 --> 01:11:03,189
+那到底什么是步长呢？
+So what is exactly the stress?
+
+983
+01:11:09,790 --> 01:11:16,169
+如果你在非主导汽油中这样做的话，你会发现基本上，
+So if you do this, um, in inter non pilot petrol, you will find that basically,
+
+984
+01:11:16,169 --> 01:11:23,389
+我们创建了一个有24个元素的数组，然后我们用一、二、三、四来分组，并且我们尝试
+we create array with 24 elements, and we ship using one, two, three, four, and we try to put
+
+985
+01:11:23,389 --> 01:11:26,749
+把步长设为24、12、4和1。
+stress on well find stress be 24, 12, four, and one.
+
+986
+01:11:26,749 --> 01:11:31,969
+这意味着，如果你试图在第一维上移动一个元素，也就是这个维度，
+That means, if you try to move an element in the first dimension that is this dimension,
+
+987
+01:11:31,969 --> 01:11:34,309
+你需要跳过24个元素。
+you need to skip 24 elements.
+
+988
+01:11:34,309 --> 01:11:39,744
+如果你试图按照这个维度移动元素，你需要跳过12个元素。
+And if you try to move element following this dimension, you need to skip 12 elements.
+
+989
+01:11:39,744 --> 01:11:41,379
+好的，非常直观。
+Okay. Pretty straightforward.
+
+990
+01:11:41,379 --> 01:11:48,479
+好的，我们之所以有步长，是因为一旦我们有了这种存储元素的定义，
+Okay. The reason we have stress is because once we have this kind of definition of storing elements,
+
+991
+01:11:48,479 --> 01:11:53,319
+实际上，我们可以利用这个线程来优化很多操作符，这部分我会在下节课讲解。
+we can actually using this thread to optimize a lot of operators, which I will cover next lecture.
+
+992
+01:11:53,319 --> 01:11:56,219
+好的，今天就到这里，谢谢大家。
+Okay. That's all I have today. Thank you.
+
+993
+01:17:20,330 --> 01:21:45,939
+嗯嗯。
+H h.

@@ -1,0 +1,4539 @@
+1
+00:00:08,760 --> 00:00:14,579
+好的，我们开始吧。谢谢大家的到来。
+Okay, let's get started. Yeah, thanks for coming.
+
+2
+00:00:14,579 --> 00:00:20,099
+嗯，先回顾一下上节课发生了什么，对吧？
+Um, just to recap what happened in last lecture, right?
+
+3
+00:00:20,099 --> 00:00:24,899
+我们讨论了如何让算子整体运行得更快，对吧？
+So we talk about how to make operator faster in general, right?
+
+4
+00:00:24,899 --> 00:00:31,320
+然后我们意识到必须使用加速器，因为当前的CPO
+And then we realize that we have to use um, accelerators because the current CPO
+
+5
+00:00:31,320 --> 00:00:33,599
+已经遇到了瓶颈，对吧？
+is hitting a wall, right?
+
+6
+00:00:33,599 --> 00:00:40,080
+接着我们开始讨论如何构建加速器，对吧？
+And then we start talking about how to Um, how to build accelerators, right?
+
+7
+00:00:40,080 --> 00:00:42,220
+我们还谈到了加速器市场。
+And we talk about the accelerator market.
+
+8
+00:00:42,220 --> 00:00:46,839
+好的，那今天的课程我们会继续讨论GPU。
+Okay? And in today's lecture, we are going to continue to talk about GPUs.
+
+9
+00:00:46,839 --> 00:00:52,020
+但在此之前，我们先做几个选择题，好吗？帮助大家理解。
+But before that, let's do a few MCQs, okay, to help you, okay?
+
+10
+00:00:52,020 --> 00:00:54,659
+第一个问题是，
+And the first one,
+
+11
+00:00:54,659 --> 00:00:57,100
+我给你一分钟时间。
+I will give you 1 minute.
+
+12
+00:01:32,740 --> 00:01:43,380
+好的，那么是哪一个？A。关于钢材和成本，你能解释一下吗？
+Okay, so which one? A. So so the steel and the cost, could you explain?
+
+13
+00:01:52,910 --> 00:02:01,989
+嗯嗯。
+Uh huh.
+
+14
+00:02:07,430 --> 00:02:09,849
+所以IO是12，对吗？
+So the IO is 12, right?
+
+15
+00:02:09,849 --> 00:02:12,309
+你加载A和B，然后写入
+You load a load B and write
+
+16
+00:02:12,309 --> 00:02:19,989
+C。因为A和B是两个D矩阵，所以它们的形状是2乘2。
+C. Be because A and B are two D matrices, so the shape is two by two.
+
+17
+00:02:19,989 --> 00:02:25,429
+所以为了加载A，你需要加载四个浮点数，而且我们不能编号我们加载的流，对吧？
+So in order to load A, you need to load four floats, and we can't number flows we load, right?
+
+18
+00:02:25,429 --> 00:02:31,410
+所以我们可以确定IO的分母基本上是12。
+So we are pretty sure the IO the denominator is basically 12.
+
+19
+00:02:31,410 --> 00:02:33,790
+那么问题是这里有多少计算量？
+Then the question is how many compute here?
+
+20
+00:02:33,790 --> 00:02:41,969
+哦，第二个答案。
+Oh second answer.
+
+21
+00:02:42,890 --> 00:02:45,649
+C。明白了吗？
+C. Okay?
+
+22
+00:02:45,649 --> 00:02:48,869
+正确答案其实是D。明白了吗。
+The answer is actually D. Okay.
+
+23
+00:02:48,869 --> 00:02:54,749
+所以这是我必须要介绍的内容，你们需要记住。
+So this is something that I have to introduce, and you guys need to memorize
+
+24
+00:02:54,749 --> 00:02:57,169
+因为这是非常基础的知识。
+because this is very fundamental.
+
+25
+00:02:57,169 --> 00:03:03,749
+有一个重要的点你们需要知道，就是flops，基本上flop是我们用来统计的一个指标，
+So one important note that you need to know is the flops of basically flop is a major that we count
+
+26
+00:03:03,749 --> 00:03:08,270
+用来计算我们为算子执行了多少浮点运算。
+how many floating point operations we do for operator flops
+
+27
+00:03:08,270 --> 00:03:14,389
+对于Mt M这种形式，也就是C等于A和B相乘，其中A和B的形状分别是
+for Mt M for this kind of form where C equals to A and B, where A and B are shape of
+
+28
+00:03:14,389 --> 00:03:21,829
+MN和BP，结果是MP。这个操作的flops是2乘以M乘以N乘以P。
+MN BP and the result is M P. The flops of this operation is it's two M and
+
+29
+00:03:21,829 --> 00:03:26,490
+有人能告诉我为什么这里是2吗？
+P. Can anyone tell me why is why there's two here?
+
+30
+00:03:28,610 --> 00:03:32,549
+没错，你需要计算乘法和加法。
+Yes, exactly. You need to count multiply and add.
+
+31
+00:03:32,549 --> 00:03:39,869
+好吗？如果你去做这个，你就会发现如何进行多重计数和加法。
+Okay? Yeah. If you go and um basically do this, you'll find out how to count multiple and add.
+
+32
+00:03:39,869 --> 00:03:45,349
+所以基本上，任何形式的metamol，你都会得到这些flops，对吧？
+Okay? So basically, any form of metamol you basically get these flops, right?
+
+33
+00:03:45,349 --> 00:03:51,729
+然后在那一行，你写等于Mmo A和B，基本上就是二乘以八，对吧？
+And then on that line, you say equals to Mmo A and B, and it's basically two times eight, right?
+
+34
+00:03:51,729 --> 00:03:55,150
+是16。好的，16除以12。
+It's 16. Okay, 16/12.
+
+35
+00:03:55,150 --> 00:03:58,109
+好的，原始强度是1.3。
+Okay. The original intensity is 1.3.
+
+36
+00:03:58,109 --> 00:04:01,319
+嗯，好，非常好。
+Yeah, okay. Very good.
+
+37
+00:04:01,319 --> 00:04:05,959
+你想要比较的一件事是将这个程序和
+One thing you want to compare is comparing this program to
+
+38
+00:04:05,959 --> 00:04:07,720
+我上节课讲的那个程序进行比较。
+the program that I presented last lecture.
+
+39
+00:04:07,720 --> 00:04:08,940
+还记得上节课吗，
+Remember in the last lecture,
+
+40
+00:04:08,940 --> 00:04:13,780
+我用的例子是你基本上在两个矩阵之间做一个非常简单的加法。
+I use example where you basically perform a very simple add between two matrices.
+
+41
+00:04:13,780 --> 00:04:16,680
+你会发现输入输出基本是一样的。
+You'll find that the IO is essentially the same.
+
+42
+00:04:16,680 --> 00:04:19,540
+我读取两个矩阵，然后把结果写入一个矩阵。
+I read two matrices and I write the result into one.
+
+43
+00:04:19,540 --> 00:04:22,780
+但你可以看到这个在强度上的响应要好得多，为什么呢？
+But you can see this one has a much better response in intensity, why?
+
+44
+00:04:22,780 --> 00:04:27,080
+因为矩阵乘法是非常密集的运算。
+Because metamo is very dense competition.
+
+45
+00:04:27,680 --> 00:04:32,479
+如果你知道这样一个事实，基本上，当你用GPU来做矩阵乘法时，
+If you know the fact that basically, when you use GPU to perform this metamo
+
+46
+00:04:32,479 --> 00:04:37,075
+用GPU来做元素级加法，它们大致花费的时间是一样的。
+and use GPO to perform that element wise ad, they roughly take the same time.
+
+47
+00:04:37,075 --> 00:04:38,869
+这就是为什么GPU如此强大，
+That's why GPU is so powerful,
+
+48
+00:04:38,869 --> 00:04:42,670
+GPU在执行矩阵乘法时比做元素级操作要高效得多。
+GPU can perform Metamo much more efficient than animal wise.
+
+49
+00:04:42,670 --> 00:04:48,569
+所以这个事实实际上促使了许多现代机器学习模型的设计，
+So this fact actually needs to the kind of needs to design many modern machinery models
+
+50
+00:04:48,569 --> 00:04:53,330
+因为我们真的希望用矩阵乘法，至少在数学上，矩阵乘法比元素级操作更有表现力。
+because we really want to use met M because at least mathematically met Mo is more expressive than
+
+51
+00:04:53,330 --> 00:04:55,670
+一个简单的动物智者通道，对吧？
+a simple animal wise aisle, right?
+
+52
+00:04:55,670 --> 00:04:58,409
+但是它们在GPU上运行所需的时间是一样的。
+But they take the same time running on GPUs.
+
+53
+00:04:58,409 --> 00:05:04,449
+明白了吗？这很重要，你需要记住这一点，因为我们之后会用这个来推导
+Okay? Very important, you need to memorize this because we are going to use this to derive
+
+54
+00:05:04,449 --> 00:05:08,750
+语言模型的浮点运算次数，明白了吗？
+the flops for language models, yeah, down the road.
+
+55
+00:05:08,750 --> 00:05:13,830
+好，第二个，1分钟。
+Okay? Second one, 1 minute.
+
+56
+00:05:13,990 --> 00:05:42,350
+这个很简单，对吧？那么是哪一个？
+This is the easy one, right? So which one?
+
+57
+00:05:42,670 --> 00:05:44,830
+基本上是F，对吧？
+It's basically F, right?
+
+58
+00:05:44,830 --> 00:05:49,369
+除了F，其他的我希望都在讲座中介绍过了，好吗？
+Except F, all the others I hope introduced in the lecture, okay?
+
+59
+00:05:49,369 --> 00:05:51,930
+好，第三个呢？
+Okay. The third one?
+
+60
+00:05:51,930 --> 00:05:55,590
+也许半分钟，这个很简单。
+Maybe half a minute. This is the easy one.
+
+61
+00:06:13,270 --> 00:06:16,590
+哪一个？A，对吧。
+Which one? A, right.
+
+62
+00:06:16,590 --> 00:06:22,789
+所以基本上，如果你还记得应力的定义，基本上就是如果我们沿着这个维度移动，
+So basically, if you remember the definition of stress is basically if we move along this dimension,
+
+63
+00:06:22,789 --> 00:06:26,309
+我们需要沿着行主序列移动多少个元素。
+how many elements we need to move along the row major sequence.
+
+64
+00:06:26,309 --> 00:06:34,350
+所以这里我用了一个小技巧，就是我引入了一个非常简单的维度，就是1，对吧？
+So here I play a trick that is I introduce a very like a trivial dimension, which is one, right?
+
+65
+00:06:34,350 --> 00:06:38,949
+所以你基本上只需要把这个1复制到这里，因为如果你沿着这个维度移动，
+So you basically just copy this one here because if you move along this dimension,
+
+66
+00:06:38,949 --> 00:06:41,749
+你只需要移动一个元素，好吗？
+you just move one element, okay?
+
+67
+00:06:45,990 --> 00:06:49,550
+很好。最后一个。
+Cool. The last one.
+
+68
+00:07:07,030 --> 00:07:09,770
+哪一个？C，对吧？
+Which one? C, right?
+
+69
+00:07:09,770 --> 00:07:11,870
+是的，我们一个一个来。
+Yeah, let's go with one by one.
+
+70
+00:07:11,870 --> 00:07:17,750
+所以缓存告诉我们，缓存并不会节省内存，因为
+So cache telling definitely does not save memory on catch because
+
+71
+00:07:17,750 --> 00:07:21,049
+我们将在缓存中使用更多的内存，好吗？
+we are going to use more memory in catch, okay?
+
+72
+00:07:21,049 --> 00:07:29,250
+它减少的是rhyme和缓存之间的内存，而不是缓存和寄存器之间，对吗？
+And it reduce memory between rhyme and catch, not cache and register, right?
+
+73
+00:07:29,250 --> 00:07:34,029
+好的。能够减少这个的，基本上是寄存器调度，对吗？
+Okay. The one that reduce this is basically register telling, okay?
+
+74
+00:07:34,029 --> 00:07:36,869
+这个，对，没错。
+And this one, yeah, true.
+
+75
+00:07:36,869 --> 00:07:39,669
+这样会增加算术强度吗？
+Does it increase arithmat intensity?
+
+76
+00:07:39,669 --> 00:07:43,969
+是的，会增加，但不是因为它让计算变快了。
+Yes, it increases, but it's not because it makes compute faster.
+
+77
+00:07:43,969 --> 00:07:46,369
+是因为它减少了IO，好吗？
+It's because it reduce IO, okay?
+
+78
+00:07:46,369 --> 00:07:51,229
+很好。就是这些。我们继续吧。
+Cool. Yeah, that's all it. And let's continue.
+
+79
+00:07:51,229 --> 00:07:56,950
+那么今天，为了这个学习目标，我们将继续上节课的话题。
+So today, to this learning goal, okay, we are going to continue last lectures topic.
+
+80
+00:07:56,950 --> 00:08:02,530
+我们将更深入地探讨GPU，并且会讨论一些非常
+We are going to dive deeper into GPUs, and we are going to talk about some very,
+
+81
+00:08:02,530 --> 00:08:06,230
+嗯，Cuda中的简单示例。好吗？
+um, simple examples in Cuda. Okay?
+
+82
+00:08:06,230 --> 00:08:15,180
+这是一个展示GPU的图片，我们来稍微解析一下这张图。
+So, so this is a picture that illustrating GPU, let's parse this picture a little bit because
+
+83
+00:08:15,180 --> 00:08:20,780
+这张图基本上引用自dia，它和你用过的其他处理器非常相似。
+this one is basically quoted from dia, it's very similar to any other processors
+
+84
+00:08:20,780 --> 00:08:23,360
+你们以前用过的处理器，对吧？
+you have ever played with, right?
+
+85
+00:08:23,360 --> 00:08:29,080
+我们有全局内存，还有一些L2、L1缓存。
+We have a global memory, and we have some L two, L one catch.
+
+86
+00:08:29,080 --> 00:08:37,000
+这是GPU的内存层级结构，我们这里还有一些L0缓存，
+Okay? This is GPU memory hierarchy and we have some LO catch here,
+
+87
+00:08:37,000 --> 00:08:40,859
+它比L2再高一层，对吧？
+which is one layer upper than L two, right?
+
+88
+00:08:40,859 --> 00:08:42,740
+我们还有一些寄存器。
+And we have some registers.
+
+89
+00:08:42,740 --> 00:08:44,759
+这就是GPU的内存层级结构。
+This is GPU memory hierarchy.
+
+90
+00:08:44,759 --> 00:08:49,174
+让GPU与众不同的是，你会发现有很多叫做SM的东西。
+The thing that makes GPU different, you'll find that there are so many things called SM.
+
+91
+00:08:49,174 --> 00:08:53,889
+好的。通常在CPU中，你只有几个核心。
+Okay. And normally in CPU, you just has a few course.
+
+92
+00:08:53,889 --> 00:08:56,809
+但在GPU中，你有一个叫做SM的定义。
+But in GPU you have a definition called SM.
+
+93
+00:08:56,809 --> 00:09:01,929
+SM基本上代表的是流处理器单元，对吧？
+And SM defined basically stands for streaming market prorocessor, okay?
+
+94
+00:09:01,929 --> 00:09:04,129
+我接下来会讲这个内容。
+And I'm going to talk about this.
+
+95
+00:09:07,830 --> 00:09:12,070
+所以在GPU中，我们有几个非常基本的概念。
+So in GPU, we have a few very basic concepts, okay.
+
+96
+00:09:12,070 --> 00:09:17,230
+第一个概念基本上就是kernel、线程、块和网格。
+And the first concepts are basically kernel threads, blocks and grids.
+
+97
+00:09:17,230 --> 00:09:21,770
+好的，我们可能想从线程开始讲起。
+Okay. And we probably want to talk about talk from threads.
+
+98
+00:09:21,770 --> 00:09:25,670
+线程基本上是处理数据块的最小单位。
+So threat is basically the smallest unit to process the chunko data.
+
+99
+00:09:25,670 --> 00:09:30,630
+实际上在GPU上工作的主要就是线程，对吧？
+That is the thing that is actually working in GPU is basically a thread, okay?
+
+100
+00:09:30,630 --> 00:09:37,030
+一个线程基本上对应于GPU上的一个CUDA核心或者张量核心。
+And a thread basically corresponds to the acuda core, okay or tensor core on GPU.
+
+101
+00:09:37,030 --> 00:09:42,450
+这个核心基本上就是那些算术逻辑单元，就像你嵌入到GPU里的那样，对吧？
+And this core is basically those ALU, like you embedded into your GPU, okay?
+
+102
+00:09:42,450 --> 00:09:48,450
+我知道我们还有一个“块”的定义，块其实很容易理解。
+And I know then we also have the definition of block, and block is very easy to understand.
+
+103
+00:09:48,450 --> 00:09:51,409
+它基本上是一组共享内存的线程。
+It's basically a group of threads that share memory.
+
+104
+00:09:51,409 --> 00:09:55,010
+所以在GPU中，我们把一些线程分组在一起，形成一个块。
+So in GPO, we group some threads together and we form a block.
+
+105
+00:09:55,010 --> 00:09:59,990
+明白了吗？而这个块就是让GPU和CPU有些许不同的地方。
+Okay? And this block is the thing that makes GPO slightly different from CPU
+
+106
+00:09:59,990 --> 00:10:03,529
+还记得在这张图里，我们有很多个SM。
+that is remember in this picture, we have so many SMs.
+
+107
+00:10:03,529 --> 00:10:08,409
+大致来说，每个SM（流处理器）对应一个块，
+Okay? So roughly each SM streaming microprocessor will corresponds to a block and
+
+108
+00:10:08,409 --> 00:10:10,330
+每个块里有很多很多线程。
+each block has many many threats.
+
+109
+00:10:10,330 --> 00:10:16,220
+这些线程会并行地计算某个给定的任务。
+And this all these threads will compute in parallel, oh for some given task.
+
+110
+00:10:16,220 --> 00:10:21,210
+然后我们还有一个更高层的概念，叫做网格。
+And then we have another higher layer concept called grid and grid,
+
+111
+00:10:21,210 --> 00:10:27,050
+你们可能已经推断出来，这基本上就是连接或者说是将执行相同内核的块联系在一起。
+you probably already infer is basically a connection or blocks that ascue the same kernel.
+
+112
+00:10:27,050 --> 00:10:30,430
+那什么是内核呢？内核基本上就是我们称呼GPU代码的方式。
+So what is a kernel? Kernel is basically how we call GPU code.
+
+113
+00:10:30,430 --> 00:10:32,710
+我们不叫它程序，我们叫它内核。
+We don't call it a program. We call it kernel.
+
+114
+00:10:32,710 --> 00:10:34,450
+这只是一个更高级的名字，好吗？
+It's a fancier name, okay?
+
+115
+00:10:34,450 --> 00:10:37,029
+换句话说，我们基本上知道在
+In other way, we basically know like in
+
+116
+00:10:37,029 --> 00:10:42,449
+GPU中我们大致上是把内核启动到网格上，然后网格再把任务分配到块上，
+GPO we roughly launch a kernel to grids right then Griz launches things into blocks and
+
+117
+00:10:42,449 --> 00:10:45,610
+块再把这些任务分配给线程。
+blocks give those things to threads.
+
+118
+00:10:45,610 --> 00:10:49,849
+在这三层之间其实有一定的层级关系。
+And there are some kind of hierarchy between all these three layers.
+
+119
+00:10:49,849 --> 00:10:52,609
+明白了吗？有问题吗？
+Okay? Any question?
+
+120
+00:10:52,650 --> 00:11:00,679
+很好。就像我说的，这就是一个线程，其实它并不能独立工作。
+Cool. This is a thread, like I said, it actually doesn't work.
+
+121
+00:11:00,679 --> 00:11:05,419
+这是一个低级别的工作线程，它基本上对应于一个配额核心。
+It's a los level worker and it basically corresponds to a quota core.
+
+122
+00:11:06,470 --> 00:11:12,470
+这是一个块，块中有很多线程，我们会将一些计算任务映射到一个块上。
+And this is a block block has so many threads, and we are going to map some computation to a block.
+
+123
+00:11:12,470 --> 00:11:18,590
+我所说的将计算任务映射到一个块，就是把计算任务分配到块中的所有线程上。
+And what I mean by mapping the commuting into a block, we map the commuting into all the threads in
+
+124
+00:11:18,590 --> 00:11:22,089
+块中的每个线程都会承担一部分计算任务。
+a block and each thread of the block will take a part of
+
+125
+00:11:22,089 --> 00:11:24,530
+因为还记得在上一节课中，
+the computation because remember in the last lecture,
+
+126
+00:11:24,530 --> 00:11:26,129
+我提到过GPU基本上是用于
+I mentioned GPO is basically for
+
+127
+00:11:26,129 --> 00:11:29,790
+SIMD，也就是单指令多数据处理。
+SIM D single instruction multiple processing.
+
+128
+00:11:29,790 --> 00:11:35,830
+你运行同一个程序，但在数据的不同分区上运行这个程序。
+You ask you the same program, but you ask you the program on different partition of the data.
+
+129
+00:11:35,830 --> 00:11:39,430
+这就是我们如何在块的不同线程之间分配工作的方式。
+Yeah, that's how we split work between different threads of the block.
+
+130
+00:11:39,430 --> 00:11:48,300
+这是网格，网格基本上就是由很多很多块组成的。
+Okay. And this is grid, a grid is basically many many blocks.
+
+131
+00:11:52,780 --> 00:11:55,959
+那么根据这些定义，
+Then given these definitions,
+
+132
+00:11:55,959 --> 00:11:57,620
+我想问你几个问题。
+I want to ask you a few questions.
+
+133
+00:11:57,620 --> 00:12:00,840
+当我们说一块GPU更强大时，我们是什么意思？
+When we say that a GPU is more powerful, what do we mean?
+
+134
+00:12:00,840 --> 00:12:04,969
+当我们说H hundred比A 100更强大，或者我们真的这样说吗？
+When we say H hundred is more powerful than A 100 or do we?
+
+135
+00:12:04,969 --> 00:12:09,960
+更多的浮点运算，当你把这个反映到线程和块上时，我们是什么意思？
+More flops, when you reflect this on thread on the blocks what do we mean.
+
+136
+00:12:09,960 --> 00:12:15,000
+有三种含义，第一种是你可能有更多的SM。
+There are three meaning, The first one is you probably have more SMs.
+
+137
+00:12:15,000 --> 00:12:17,500
+你可以在GPU中集成更多的SM。
+You can build more SMs into GPU.
+
+138
+00:12:17,500 --> 00:12:18,900
+这正是英伟达正在做的事情。
+And that's what media is doing.
+
+139
+00:12:18,900 --> 00:12:21,939
+我们每一代都在集成越来越多的SM。
+We build more and more SMs every generation.
+
+140
+00:12:21,939 --> 00:12:27,900
+明白了吗？因为当你有更多的SM时，你就有更多的线程，你的性能更好，你就更强大。
+Okay? Because when you have more SMs, you have more threads and you're better, you're more powerful.
+
+141
+00:12:27,900 --> 00:12:32,519
+或者我们可以增加每次考试的成本，对吧？
+Or we can build more cost per exam, right?
+
+142
+00:12:32,519 --> 00:12:36,120
+也就是说，我们增加流式多处理器中的线程数量，明白吗？
+That is we increase the number of threads in streaming multiprocessor, okay.
+
+143
+00:12:36,120 --> 00:12:38,549
+而且每个线程就像我之前说的那样对应着。
+And each thread corresponds to, like I already said.
+
+144
+00:12:38,549 --> 00:12:42,800
+好的。或者我们可以制造更强大的核心。
+Okay. Or we can build more powerful cross.
+
+145
+00:12:42,800 --> 00:12:47,920
+但实际上这条路线已经碰壁了，就像我说的，因为我们受到了物理极限的限制。
+But this line is actually hitting wall, like I said, because we are subject to the physical limit.
+
+146
+00:12:47,920 --> 00:12:52,419
+是的，核心的尺寸已经到了纳米级，我们现在已经无法再缩小了。
+Yeah, the cross is nanometers, that we are not able to reduce it anymore now.
+
+147
+00:12:52,419 --> 00:12:56,099
+明白吗？所以大致上，如果你看看当前的发展轨迹，
+Okay? So roughly, if you look at the immediate trajectory,
+
+148
+00:12:56,099 --> 00:12:58,919
+他们基本上就在做这两件事，明白吗？对。
+they are basically doing these two things. Okay? Yeah.
+
+149
+00:12:58,919 --> 00:13:05,059
+每年都会发布一款拥有更多SM，或者每个SM拥有更多核心的GPU，对吧？
+Every year, release a GPU with more SMs or probably more cross per SM, okay?
+
+150
+00:13:08,380 --> 00:13:11,920
+好的。我们来看一下英伟达是如何发布GPU的。
+Okay. Let's look at how media release GPUs,
+
+151
+00:13:11,920 --> 00:13:15,125
+这是我从网上找到的一个时间线。
+This is a timeline that I get from Internet.
+
+152
+00:13:15,125 --> 00:13:19,189
+我觉得这里有一些你想要获取的代码。
+And I think there are some code that you want to get from here that
+
+153
+00:13:19,189 --> 00:13:23,830
+这是我们为深度学习做的产品线。
+is this is a product line that we do for deep learning.
+
+154
+00:13:23,830 --> 00:13:30,869
+好的。它是从一个叫做P P 100的代码开始的，那大约是在十年前发布的，对吧？
+Okay. It starts from a code called P P 100, and that was released, about ten years ago, okay?
+
+155
+00:13:30,869 --> 00:13:32,930
+现在来看它的深度学习性能很弱。
+It's very weak DP today.
+
+156
+00:13:32,930 --> 00:13:35,270
+但在那个时候，我觉得它还是相当昂贵的。
+But at that time, I think it's still quite expensive.
+
+157
+00:13:35,270 --> 00:13:38,569
+你得花大约两万美元才能买到其中一个，对吧？
+You have to pay like 20 k to purchase one of these, okay?
+
+158
+00:13:38,569 --> 00:13:43,089
+然后我们就开始从P 100逐步演化架构，
+And then we start, like, evolving the architectures from P
+
+159
+00:13:43,089 --> 00:13:48,829
+从P 100到V 100，再到E 100，直到今天的H 100，对吧？
+100 to V hundred to E 100 to today's um, H 100, right?
+
+160
+00:13:48,829 --> 00:13:53,759
+可能到今年夏天，我们基本上就会进入B 100了。
+And probably by the summer of this year, we'll basically going into B 100, okay.
+
+161
+00:13:53,759 --> 00:13:58,209
+与此同时，你也可以看到还有其他几款GPU，嗯，
+And meanwhile, you can also see there are a few other GPUs that is, um,
+
+162
+00:13:58,209 --> 00:14:05,349
+它们的档次稍微比这个H100低一些。
+slightly lower lower tier than is, uh, this code with 100.
+
+163
+00:14:05,349 --> 00:14:08,230
+好吗？它们叫做p4、t4和P80。
+Okay? It's called p4t4 and P 80.
+
+164
+00:14:08,230 --> 00:14:16,209
+所以这是另一代、另一系列的GPU，你可以这样理解，
+So this is another generation of another line GPO media build for you can think it in a way that
+
+165
+00:14:16,209 --> 00:14:19,590
+它们适用于那些对计算需求没那么高的任务。
+is for those less computation intensive jobs.
+
+166
+00:14:19,590 --> 00:14:22,190
+好的，而这个则适用于更常见的任务。
+Okay. And this is for the more coming jobs.
+
+167
+00:14:22,190 --> 00:14:25,349
+因此，这些GPU的价格会比这个便宜一些。
+Therefore, the GPU are a little bit cheaper than this one.
+
+168
+00:14:25,349 --> 00:14:29,374
+比如说，内存更少，核心更少之类的，好吗？
+For example, less memory, less exams or whatever, okay?
+
+169
+00:14:29,374 --> 00:14:32,400
+这大致就是时间线。
+And this is roughly timeline.
+
+170
+00:14:32,400 --> 00:14:39,499
+如果我们把这个和媒体的走势对齐，你就能看到它什么时候开始起飞。
+And if we basically align this with media stock, and you can see when it takes off,
+
+171
+00:14:39,499 --> 00:14:41,499
+大概是从这里开始的，对吧？
+it's roughly from here, right?
+
+172
+00:14:41,499 --> 00:14:48,899
+对。当媒体发布Ava H100时，股价就开始暴涨了。今年发生了什么？
+Yeah. When media ships Ava hundred, the stock price start exploding. What happened this year?
+
+173
+00:14:49,990 --> 00:14:52,390
+我说的是GBD那篇论文吗？
+I GBD The paper?
+
+174
+00:14:52,390 --> 00:14:55,649
+对，GBD那篇论文就是今年发布的。
+Yeah, GBD The paper, was released this year.
+
+175
+00:14:55,649 --> 00:14:59,310
+真正的起飞基本上就是在这里。
+And the real taking off is basically here.
+
+176
+00:15:00,710 --> 00:15:06,429
+在这个阶段，我认为语言模型市场变得非常非常有竞争力，而且
+At this point, I think the language model market becomes very very competitive and more and
+
+177
+00:15:06,429 --> 00:15:12,170
+越来越多的大公司想要采购H100，建立非常大的集群，
+more big corporate want to purchase and H hundred build really large clusters,
+
+178
+00:15:12,170 --> 00:15:14,329
+他们的订单来自
+and they are ordered from
+
+179
+00:15:14,329 --> 00:15:17,430
+英伟达，大概是在去年的2023年，
+Nidia and roughly last year in 2023,
+
+180
+00:15:17,430 --> 00:15:21,530
+英伟达的股价增长了，你知道的，就是这样。
+Nidia stock price growth and, you know, yeah.
+
+181
+00:15:21,530 --> 00:15:26,619
+加密货币也是一个原因，对吧。好的。
+Crypto is another reason, yeah. Okay.
+
+182
+00:15:26,619 --> 00:15:33,620
+还有一个你需要了解的有趣现象是，
+Um, so another interesting phenomenon you want to be familiar with is basically,
+
+183
+00:15:33,620 --> 00:15:37,339
+就是关于Ms和线程的数量，
+um, the number of Ms and threads on
+
+184
+00:15:37,339 --> 00:15:41,799
+WDA GPU生成GPU以及市场的变化。
+WDA GPU generating GPU and how the market goes.
+
+185
+00:15:41,799 --> 00:15:44,319
+基本上，英伟达是卖GPU的，对吧？
+Basically, media is the one that sells GPU, right?
+
+186
+00:15:44,319 --> 00:15:48,399
+但当你想用GPU时，你并不是直接从英伟达购买的，对吧。
+But when you try to use GPU, you don't directly buy from media, right.
+
+187
+00:15:48,399 --> 00:15:50,080
+你实际上是通过，比如说，
+You actually use from, for example,
+
+188
+00:15:50,080 --> 00:15:54,200
+云服务，比如AWS、GCP或者其他云平台来使用的。
+Cloud from Abs from GCP or whatever, this kind of to Cloud.
+
+189
+00:15:54,200 --> 00:15:58,840
+基本上，在英伟达之上还有一层基础设施，
+Basically, there is a layer of, uh, infrastructure on top of media,
+
+190
+00:15:58,840 --> 00:16:01,800
+他们为你构建软件和基础设施，明白吗？
+which build software, build infrastructure for you, okay?
+
+191
+00:16:01,800 --> 00:16:08,719
+嗯，对于Vb hundred，这是我们用来微调许多模型的那一款，
+And um so for Vb hundred, which is the one that we use to trim many,
+
+192
+00:16:08,719 --> 00:16:14,600
+就像bird生成中的bird，对于Vb hundred，我们大约有80个SM。
+many models like a bird in the bird generation, for Vb hundred, we have roughly 80 SMs.
+
+193
+00:16:14,600 --> 00:16:17,600
+每个SM有两个case线程。
+And for each SM, we have two case threads.
+
+194
+00:16:17,600 --> 00:16:19,220
+好的，那就是计算能力。
+Okay, that's computing power.
+
+195
+00:16:19,220 --> 00:16:25,699
+这样其实可以让你了解它每秒能进行多少次浮点运算，
+Okay, you can actually This actually give you a sense of how many floating point it can
+
+196
+00:16:25,699 --> 00:16:28,159
+大致来说，
+calculate per second because roughly,
+
+197
+00:16:28,159 --> 00:16:31,419
+我可以把这个数字当作计算能力，对吧？
+I can have this lumber that is uh computing, right?
+
+198
+00:16:31,419 --> 00:16:36,259
+这个数字代表并行计算的浮点操作数，对吧？
+This lumber floating point operating that computing in parallel, okay?
+
+199
+00:16:36,259 --> 00:16:41,709
+对，然后我们快进到Av 100，对吧？
+Yeah. And then we fast forward to Av 100, right?
+
+200
+00:16:41,709 --> 00:16:48,229
+那就是基本上开始训练GBD三的GPU。
+That is the GPU that is basically, uh start twining GBD three.
+
+201
+00:16:48,229 --> 00:16:55,049
+你可以看到，媒体所做的基本上就是增加了SM的数量，从80增加到108。
+And you can see what media does is basically increase the number of SMs, 80-108.
+
+202
+00:16:55,049 --> 00:16:57,250
+但是每个SM的线程数保持不变。
+But it keeps the number of threads per SM.
+
+203
+00:16:57,250 --> 00:17:02,390
+明白了吗？接着我们再看H100，数量还在持续增加。
+Okay? And then we go to H 100 and we keep increasing.
+
+204
+00:17:02,390 --> 00:17:06,109
+我们从108增加到144。
+We increased 108-144.
+
+205
+00:17:06,109 --> 00:17:09,269
+从这些硬件规格中，你会注意到一个事实，
+And from this hardware specification, you will notice the fact that
+
+206
+00:17:09,269 --> 00:17:14,479
+每当媒体推出新一代产品时，计算能力并没有翻倍，对吧？
+every time media shifts a new generation, the computer is not double. Right?
+
+207
+00:17:14,479 --> 00:17:20,180
+因为如果你数一下SM的数量，表面上看，这个数字远没有108的两倍。
+Because if you count the number of SMs, apparently, this number is a lot double of 108.
+
+208
+00:17:20,180 --> 00:17:26,000
+但媒体怎么还能声称摩尔定律仍在延续呢？
+But how could the media claim the fact that uh, the mores law is still continuing?
+
+209
+00:17:26,000 --> 00:17:29,459
+这是因为，每一代GPU中，
+Yeah, that's because, uh, in every generation of the GPUs they
+
+210
+00:17:29,459 --> 00:17:31,239
+他们都在构建一些低精度的核心。
+are building some lower precision course.
+
+211
+00:17:31,239 --> 00:17:35,200
+所以他们建议你使用更低精度来训练模型。
+So they advocate you to use lower precision to train departing.
+
+212
+00:17:35,200 --> 00:17:39,699
+我们也使用更低精度，而且当你有更多的SM时，
+And we use lower precision, uh, and also when you have slightly more SMs,
+
+213
+00:17:39,699 --> 00:17:45,800
+你的每秒浮点运算能力确实可以翻倍，尤其是在新一代GPU上。
+you indeed can double your flowing point per second, you have a new generation of GPUs.
+
+214
+00:17:45,800 --> 00:17:50,789
+好吗？那我们来玩一个很简单的游戏。
+Okay? And then let's play a very simple game.
+
+215
+00:17:50,789 --> 00:17:53,449
+好的。你觉得这个价格是多少？
+Okay. So how much price do you think this one?
+
+216
+00:17:53,449 --> 00:17:58,850
+比如说，如果你想用1小时或者100小时，在AWS上要花多少钱？
+Like, if you want to get 1 hour or 100, how much do you need to pay on AWS?
+
+217
+00:18:03,970 --> 00:18:09,969
+现在，价格基本上是3美元一小时，
+Okay. Today, the price is basically 3 hours,
+
+218
+00:18:09,969 --> 00:18:13,009
+每小时每个TPU要3美元，非常贵。
+$3 per hour per TPV very expensive.
+
+219
+00:18:13,009 --> 00:18:18,309
+那么，当我们从W100升级到100时，价格是多少？
+Okay. And when we evolve from W 100 to 100, how much?
+
+220
+00:18:18,309 --> 00:18:22,669
+如果我们按SM数量来算，大概是5美元，对吧？
+So if we count the SMS, it should be roughly $5, right?
+
+221
+00:18:22,669 --> 00:18:26,349
+但事实是，呃，四，y。
+But the fact is, uh four, y.
+
+222
+00:18:26,349 --> 00:18:33,879
+如果我们进化到100-100，会有多少，也许是五或六，对吧？
+And if we evolve 100-100, how much and maybe five or six, right?
+
+223
+00:18:33,879 --> 00:18:36,259
+但其实，是12。
+But yeah, it's 12.
+
+224
+00:18:36,259 --> 00:18:39,300
+好的。我增加了超过一倍。
+Okay. I increased more than double.
+
+225
+00:18:39,300 --> 00:18:44,339
+事实上，如果你去ABS并尝试运行H100，你是拿不到的。
+In fact, if you go to ABS and you try to run the H 100, you are not going to get it.
+
+226
+00:18:44,339 --> 00:18:46,979
+你知道为什么吗？因为这些H100基本上都
+You know why? Because all these H hundred are basically
+
+227
+00:18:46,979 --> 00:18:49,880
+被大公司用来训练语言模型占用了。
+occupied by big corporates train language models.
+
+228
+00:18:49,880 --> 00:18:53,179
+我认为大学里的学生或教职工是拿不到的。
+I don't think students or faculty in university you are able to get it.
+
+229
+00:18:53,179 --> 00:18:55,460
+好的。是的，竞争非常激烈。
+Okay. Yeah, it's very competitive.
+
+230
+00:18:55,460 --> 00:18:58,159
+我觉得今年年中左右，
+And I think by the middle of this year,
+
+231
+00:18:58,159 --> 00:19:03,729
+ATB和所有云服务提供商，他们将会推动B100的发展，嗯，
+ATBs and all the cloud providers, they are going to shape B 100 and um,
+
+232
+00:19:03,729 --> 00:19:06,930
+但基本上，到那个时候，我们就能够获得H100了。
+but basically, at that time, we will be able to get H 100.
+
+233
+00:19:06,930 --> 00:19:09,430
+所以学术界基本上总是落后一代。
+So the academia is basically one generating behind.
+
+234
+00:19:09,430 --> 00:19:13,550
+明白吗？这就是我们正在做的事情，好吗？
+Okay? That's what we are doing, okay?
+
+235
+00:19:13,710 --> 00:19:18,049
+很好。这就是关于GPU市场和云的一些补充说明，
+Cool. That is a little bit more about the GPU market and the cloud,
+
+236
+00:19:18,049 --> 00:19:22,670
+顺便说一句，这是一个巨大的市场。嗯，很棒。
+and this is a huge market, by the way, yeah. And, um, cool.
+
+237
+00:19:22,670 --> 00:19:30,109
+所以我会给你一个任务，就是去调查一下H100的价格和SM的数量，
+So I will give you a task that is, um, uh, go and survey the price of 100 and the number of SMs,
+
+238
+00:19:30,109 --> 00:19:33,229
+我们现在正要开始着手这件事，好吗？
+uh we just going into shape, okay?
+
+239
+00:19:34,280 --> 00:19:41,100
+这基本上就是WDS GPU构建的硬件架构和抽象类型
+And that is basically the kind of hardware architecture and abstractions WDS GPU build
+
+240
+00:19:41,100 --> 00:19:46,199
+显然Koda是WDA为其开发的编程语言
+into Koda apparently is the programming language that WDA build for
+
+241
+00:19:46,199 --> 00:19:49,280
+让开发者能够在GPU上编写代码。
+developers to write code on top of GPU.
+
+242
+00:19:49,280 --> 00:19:51,239
+这是关于Koda的历史。
+It history about Koda.
+
+243
+00:19:51,239 --> 00:19:55,500
+它是在2007年随着MDS Tesla架构推出的，
+So it was introduced in 2007 with MDS Tesla architecture,
+
+244
+00:19:55,500 --> 00:20:04,319
+并且它有一种用于GPU编程的C语言，其设计完全匹配了刚才提到的网格块和
+and it has a C language for programming GPU, and its design exactly matches the uh grade block and
+
+245
+00:20:04,319 --> 00:20:07,400
+我刚刚介绍的三层层次结构。
+read three layer hierarchy I just introduced.
+
+246
+00:20:07,400 --> 00:20:12,790
+让我们深入了解一下。好的。这是一段Koda代码。
+Let's dive into it. Okay. And this is a piece of quota code.
+
+247
+00:20:12,790 --> 00:20:18,889
+为了便于理解，我还在
+So for the understanding, I also um, put the grid on the block definition,
+
+248
+00:20:18,889 --> 00:20:22,290
+这张幻灯片的左侧部分放了网格和块的定义。
+uh, on the left part of this slide.
+
+249
+00:20:22,290 --> 00:20:26,249
+你可以看到，也许你可以稍微解析一下这个。
+And you can see, uh, maybe you can parse this one a little bit.
+
+250
+00:20:26,249 --> 00:20:28,610
+但这实际上不是Koda代码。
+But this is actually not quota code.
+
+251
+00:20:28,610 --> 00:20:31,430
+这是CPU代码，只有这一行是配额代码。
+This is the CPU code, and only this line is quota code.
+
+252
+00:20:31,430 --> 00:20:34,089
+你还记得我们把这个叫什么，对吧？
+And you still remember what we call this, right?
+
+253
+00:20:34,089 --> 00:20:37,110
+它是一个核函数。我们称之为配额核函数。
+It's a kernel. We call it quota kernel.
+
+254
+00:20:37,110 --> 00:20:39,109
+它的作用，你可以看到，嗯，
+And what it does, you can see, um,
+
+255
+00:20:39,109 --> 00:20:43,510
+我首先要做一些准备工作，然后才能启动核函数。
+I first do a few like, uh, preparation before I can launch the kernel.
+
+256
+00:20:43,510 --> 00:20:48,894
+在准备代码中，我做的是定义一些维度变量X和NY。
+And in preparation code, what I do is I define some dimension variables X and NY.
+
+257
+00:20:48,894 --> 00:20:54,264
+然后我定义了一个三维数组，叫做每块线程数。
+And then I define a three dimensional array, which is called a threads per block.
+
+258
+00:20:54,264 --> 00:20:56,010
+好的，三维的。
+Okay, three dimensional.
+
+259
+00:20:56,010 --> 00:21:00,229
+从这里你可以看到，每个块大约有12个线程，对吧？
+Okay. And from this, you can see per block roughly have 12 threads, right?
+
+260
+00:21:00,229 --> 00:21:05,269
+然后我还定义了一些三维的，我们称之为块数。
+Okay. And then I also define some three dom no we called lumber blocks.
+
+261
+00:21:05,269 --> 00:21:10,669
+好吗？我这样做的方法是用原始的形状数组去除以
+Okay? And the way I do it is I use the original shape array to divide it by
+
+262
+00:21:10,669 --> 00:21:13,710
+每个块的sra，从而得到这些木块。
+sra per block in order to get these lumber blocks.
+
+263
+00:21:13,710 --> 00:21:15,430
+它也是一个三维数组。
+It's also three dimsion array.
+
+264
+00:21:15,430 --> 00:21:20,289
+然后我开始启动Qunar内核，Quada内核的语法看起来像这样。
+And then I start launching Qunar kernel and the grammar of Quada kernel looks like this.
+
+265
+00:21:20,289 --> 00:21:23,189
+这里就是你向内核传递参数的地方。
+So this is where you pass argument into the kernel.
+
+266
+00:21:23,189 --> 00:21:28,089
+同时，你会得到这个地方，你需要传递两个元数据。
+And meanwhile, you get this where you pass two metadata.
+
+267
+00:21:28,089 --> 00:21:29,829
+一个是我刚刚创建的三维数组
+One is the three dom array
+
+268
+00:21:29,829 --> 00:21:31,809
+叫做lumber blocks（木块）。
+I just created called lumber blocks.
+
+269
+00:21:31,809 --> 00:21:34,350
+另一个是每块的thre。
+The other is the thre per block.
+
+270
+00:21:34,350 --> 00:21:39,029
+这基本上意味着你将要启动你的内核，基本上会
+And this basically means you are going to launch your kernel that will basically
+
+271
+00:21:39,029 --> 00:21:41,369
+在这个数量的区块和这个数量的线程上运行
+run on this number of blocks and this number of threads on
+
+272
+00:21:41,369 --> 00:21:44,729
+TPU。好的，有什么问题吗？
+TPU. Okay. Any question?
+
+273
+00:21:45,370 --> 00:21:57,409
+很好。从这个图中我们实际上可以算出有多少线程和区块会被运行
+Cool. From this figure we can actually figure out how many threads and blocks is going to
+
+274
+00:21:57,409 --> 00:22:05,529
+因为这里已经非常明确地声明了。会运行多少个区块？
+run Because this is declared here, very explicitly. How many blocks will run?
+
+275
+00:22:08,750 --> 00:22:11,769
+所以基本上就是把这两个值相乘，对吧？
+So basically multiply these two values, right?
+
+276
+00:22:11,769 --> 00:22:14,049
+对于这个x来说是
+And for this x is
+
+277
+00:22:14,049 --> 00:22:16,670
+12，线程每个区块的第一维是4。
+12 and the first dimension of threads per block is four.
+
+278
+00:22:16,670 --> 00:22:22,769
+所以这个值是3，这个是2，我们总共运行6个区块。
+So this value is three, for this one is two, we are running on six blocks.
+
+279
+00:22:22,769 --> 00:22:26,710
+那么有多少线程在运行呢？
+And then how many threads are running?
+
+280
+00:22:27,590 --> 00:22:32,449
+基本上就是这两个值的乘积，对吧？是72个线程。
+It's basically the product of two values, right? It's 72 threads.
+
+281
+00:22:32,449 --> 00:22:38,050
+好吗？所以我们大致上是运行在六个块上，总共有72个线程。
+Okay? So we are roughly running on six blocks with in total, 72 threads.
+
+282
+00:22:38,050 --> 00:22:43,049
+所以每个块会有12个线程。明白了吗。
+So each block will have 12 threads. Okay.
+
+283
+00:22:43,049 --> 00:22:48,789
+明白。所以我们基本上是在72个线程中映射社区，对吧？
+Clear. So we are basically mapping the community in 72 threads, okay?
+
+284
+00:22:52,670 --> 00:22:54,929
+是的，这就是我刚才做的。
+Yeah, this is what I just did.
+
+285
+00:22:54,929 --> 00:23:00,770
+好吗？还记得我写那段代码的时候，
+Okay? So remember when I write that code where I mix
+
+286
+00:23:00,770 --> 00:23:04,490
+把CPC和PC混合在一起，我会做一些准备工作。
+CPC and PC together, I do some preparation.
+
+287
+00:23:04,490 --> 00:23:09,590
+在那些准备工作中，我主要是定义线程的形状，
+In that preparation, what I do is basically I define the shape of the threads,
+
+288
+00:23:09,590 --> 00:23:13,049
+也就是块下的三维数组线程。
+the three dimensional array, threads under the blocks.
+
+289
+00:23:13,049 --> 00:23:17,730
+在Coda中，对于那个形状有一些定义。
+In Coda, there is a few uh, definitions about that shape.
+
+290
+00:23:17,730 --> 00:23:20,789
+好的，所以在这页幻灯片上，你基本上就是定义。
+Okay? So here in this slide, you basically definition.
+
+291
+00:23:20,789 --> 00:23:23,010
+我们首先有一个定义，叫做网格维度（grade Dam）。
+We first have a definition which is called a grade Dam.
+
+292
+00:23:23,010 --> 00:23:26,849
+好的，这个网格维度基本上定义了我有多少个块属于这个网格。
+Okay. This grade deem basically defines how many blocks I have that grade.
+
+293
+00:23:26,849 --> 00:23:30,590
+我在一个网格中只有一个等级。所以记住，在一个GPO中我只有一个网格。
+I have in one grade. So remember in one GPO I only have one grade.
+
+294
+00:23:30,590 --> 00:23:36,629
+好吗？所以这个网格维度基本上就是一个网格中块的总数。
+Okay? So basically this grade deem is the total number of blocks in a grade basically should be
+
+295
+00:23:36,629 --> 00:23:42,769
+它应该等于GPU中SM的数量，因为每个SM对应一个块。
+equal to the number of SMs, right in GPU because each SM maps to a block.
+
+296
+00:23:42,769 --> 00:23:46,030
+所以这个网格维度基本上定义了网格的维度。
+So this grade dam basically defines the dimension of the grade.
+
+297
+00:23:46,030 --> 00:23:50,769
+这里举个例子，这是网格维度X，这是网格维度Y。
+And this will give you example, this is a grade deam X and this grid Dam Y.
+
+298
+00:23:51,010 --> 00:23:53,989
+如果我在这个网格数组上进行索引，
+If I index on this graded array,
+
+299
+00:23:53,989 --> 00:23:58,240
+我基本上会得到一个M，也就是一个块。这里就是这样。
+I basically get one M which is a block. Okay, here.
+
+300
+00:23:58,240 --> 00:24:02,600
+然后因为我的块在网格中是按照一定方式排列的。
+And then because my block is arranged in a way in a grade.
+
+301
+00:24:02,600 --> 00:24:07,579
+所以我会有一个块索引，基本上是帮助我索引这是哪个块。
+So what I do is I will have a block index, basically help me index which block this is.
+
+302
+00:24:07,579 --> 00:24:12,700
+好的。同样地，我还有一个块维度，为什么我要有一个块维度呢？
+Okay. And similarly, I have a block dam why I have a block dam.
+
+303
+00:24:13,070 --> 00:24:17,009
+因为一个块有很多很多线程，所以我必须以某种方式组织它们，
+Because a block has many many threads, so I have to organize them in
+
+304
+00:24:17,009 --> 00:24:18,970
+这样我才能映射我的计算。
+a way that I can map my competition.
+
+305
+00:24:18,970 --> 00:24:24,609
+我还有一个块D。在这个图中，你可以看到这个块D基本上是三乘三的。
+I also have a block D. And in this figure, you can see this block D is basically three by three.
+
+306
+00:24:24,609 --> 00:24:28,690
+好的？我把九个线程组织到我的块里的D里。
+Okay? I organize nine threads, into D in my block.
+
+307
+00:24:28,690 --> 00:24:34,490
+最后，当然我还有一个线程索引，因为线程是最小的单位，
+And finally, of course, I have a thread index, because thread is the smallest unit,
+
+308
+00:24:34,490 --> 00:24:36,889
+所以我需要索引来索引它们。
+so I have index to index them.
+
+309
+00:24:36,889 --> 00:24:39,129
+好的，那我有两个问题。
+Okay. Then I have two questions.
+
+310
+00:24:39,129 --> 00:24:41,550
+那什么是大D？
+So what is a great D?
+
+311
+00:24:43,900 --> 00:24:49,319
+所以grade I总是等于零或者一，这取决于你怎么给它编号
+So grade I always equal to zero or one, depending on how you index it because
+
+312
+00:24:49,319 --> 00:24:51,019
+因为我们只有一个grade，对吧？
+we only have one grade, right?
+
+313
+00:24:51,019 --> 00:24:53,620
+那thread dam呢？
+So what about thread dam?
+
+314
+00:24:53,900 --> 00:24:57,979
+这也是个简单的事情，因为它也只剩下一个。
+It's also a trivial thing, because it reduced to one.
+
+315
+00:24:57,979 --> 00:25:04,140
+因为thread是最小的单位，所以我只在一个维度上读取。
+Because thread is the smallest unit, so I only for eareads one dimension.
+
+316
+00:25:04,140 --> 00:25:10,340
+有什么问题吗？嗯，抱歉。
+Any question? Yeah. Sorry.
+
+317
+00:25:10,340 --> 00:25:16,319
+Grade ID基本上就是grade的索引，对吗？
+Grade ID is basically index of the grade, right?
+
+318
+00:25:16,319 --> 00:25:19,325
+因为我只有一个grade，所以索引是零。
+Because I only have one grade, so the index is zero.
+
+319
+00:25:19,325 --> 00:25:30,029
+好的，明白。这基本上给你一个coda程序的例子。
+Okay. Cool. Okay, this basically give you an example of a coda program.
+
+320
+00:25:30,029 --> 00:25:36,190
+在这个程序里，我们做的基本上是尝试把两个矩阵相加。
+And in this a program, what we do is basically try to we try to add two matrices.
+
+321
+00:25:36,190 --> 00:25:41,970
+我想对于这部分内容，你们已经很熟悉了，我已经解释过这是CPU代码。
+I think for this part, you guys are already for miliar I already explained this is the CPU code.
+
+322
+00:25:41,970 --> 00:25:49,129
+除了这部分代码之外，你们还需要实现内核。
+And in addition to this part of the code, you also need to implement the kernel,
+
+323
+00:25:49,129 --> 00:25:51,960
+这基本上就是内核的实现。
+this is basically the implementation of the kernel.
+
+324
+00:25:51,960 --> 00:25:58,609
+这个CPU部分的代码主要作用是启动一组线程，
+So what this CPU part of the code does is basically it launch a grade of da threats and it
+
+325
+00:25:58,609 --> 00:26:04,269
+这个调用会阻塞，
+will basically so this call will basically blocks,
+
+326
+00:26:04,269 --> 00:26:09,289
+嗯，直到你启动的所有线程都返回为止，明白吗？
+um and until all the threats you launch return. Okay?
+
+327
+00:26:09,289 --> 00:26:13,089
+实际上发生的情况是你传递了数组A、B和C，
+And what it happening is basically you pass the array A, B, and C,
+
+328
+00:26:13,089 --> 00:26:16,469
+其中A和B是你想要相加的两个数组，而C是
+which is A and B are the two arrays you want to add together and C is
+
+329
+00:26:16,469 --> 00:26:17,649
+你想要写入结果的地方，对吧？
+where you want to write the results, right?
+
+330
+00:26:17,649 --> 00:26:21,990
+你把这个参数传给了square内核，这个square内核会运行这个操作，明白了吗？
+And you give this argument to the qua kernel, and this squaar kernel is going to run this, okay?
+
+331
+00:26:21,990 --> 00:26:26,035
+现在让我们把注意力转移到这个quadar内核上，好吗。
+And let's move our focus on this quadar kernel, okay.
+
+332
+00:26:26,035 --> 00:26:31,919
+在quata内核中有一些非常奇怪的语法，但你必须记住它。
+So there are some very weird grammar in quata kernel, but you have to remember it.
+
+333
+00:26:31,919 --> 00:26:35,940
+定义quata内核的方式是使用一些注解。
+The way that you define quata kernels, you use some annotation.
+
+334
+00:26:35,940 --> 00:26:37,859
+例如，你会用到global注解，
+For example, you give you the global notation which
+
+335
+00:26:37,859 --> 00:26:41,499
+它基本上表示一个quaakernel函数是在GPU上运行的。
+basically denotes a quaakernel function runs on GPU.
+
+336
+00:26:41,499 --> 00:26:45,600
+好的，如果你用global来开始一个函数，基本上就意味着它是一个quadra内核。
+Okay. And if you start function with global, basically, it means it's a quadra kernel.
+
+337
+00:26:45,600 --> 00:26:50,979
+当然，你会把数组传递进去，对吧？
+Okay. And, um, and of course, you pass array into that, right?
+
+338
+00:26:50,979 --> 00:26:55,000
+但这里有趣的是，当你实现quadra内核时，
+But the interest thing here is when you implement quadra kernel, uh,
+
+339
+00:26:55,000 --> 00:26:59,679
+因为这个函数会在你从CPU启动的所有线程上运行。
+because this function is going to run all the threads, you launched from CPU.
+
+340
+00:26:59,679 --> 00:27:05,255
+所以当你实现内核时，你必须考虑每个线程的任务是什么。
+So when you implement uh kernel, you have to think about like what is the job of that thread.
+
+341
+00:27:05,255 --> 00:27:08,750
+因为我们使用SIMD，所以它会进行分割处理。
+Because we do SIMD, so it split works.
+
+342
+00:27:08,750 --> 00:27:12,949
+所以每个线程只会处理全局数据ABC的一部分。
+So each thread will take only a split of the global data ABC.
+
+343
+00:27:12,949 --> 00:27:17,289
+所以你需要思考，这个线程的任务是什么。
+So you have to think in a way that what is the job of this thread.
+
+344
+00:27:17,289 --> 00:27:23,789
+在这个程序中，基本上可以说，我们做的是利用块索引和块维度以及
+So in this program, you can basically say, what do we do is we use Block index and block Dam and
+
+345
+00:27:23,789 --> 00:27:30,349
+线程索引来获取在数组A、B和C上的索引，对吧。
+thread index to get uh get index over this array A B and C, right.
+
+346
+00:27:30,349 --> 00:27:34,790
+然后我们用这个索引去定位一部分数据，并把它们相加，
+And then we use this array to index a part of data and we add them together,
+
+347
+00:27:34,790 --> 00:27:38,969
+然后把结果写回到C数组里。明白了吗？
+and write the result back to C. Okay.
+
+348
+00:27:38,969 --> 00:27:42,919
+有什么问题吗？好的。
+Any question? Okay.
+
+349
+00:27:42,919 --> 00:27:47,500
+所以这里的关键点其实是，你必须使用块维度和线程索引，
+So the metal point here is basically, you have to use this block dam thread index,
+
+350
+00:27:47,500 --> 00:27:51,559
+通过这种方式来确定你所负责的那一部分数据。
+this kind of thing to figure out what is the proportion of
+
+351
+00:27:51,559 --> 00:27:53,679
+你希望这个线程处理的数据。
+data that you want this thread to process on.
+
+352
+00:27:53,679 --> 00:27:56,960
+然后你把结果写回到数组中。
+And then you write the result back to the array.
+
+353
+00:27:56,960 --> 00:27:59,079
+你还需要处理这个问题。
+And you need to also address.
+
+354
+00:27:59,079 --> 00:28:04,479
+你需要以正确的方式访问内存以避免冲突，
+You need to address the memory in the correct way to avoid conflict,
+
+355
+00:28:04,479 --> 00:28:10,099
+因为你不能写入另一个线程也在写入的数组，否则就会有问题。
+because you cannot write to array where another thread is also writing to that why have a problem.
+
+356
+00:28:10,099 --> 00:28:14,164
+所以我们本质上是在用Perl写SIMD代码。
+So we're essentially writing SMD code, in perl.
+
+357
+00:28:14,164 --> 00:28:20,249
+好的。基本上，GPU编程的核心就是你必须这样思考，
+Okay. Basically the essence of GP programming is you have to think in
+
+358
+00:28:20,249 --> 00:28:25,470
+并且你要想办法找出最有效的方式来划分任务，
+this way and you try to figure out the most efficient way that you can partition
+
+359
+00:28:25,470 --> 00:28:28,570
+并且编写这种SIMD代码。
+the job and write this kind of SIMD code.
+
+360
+00:28:28,570 --> 00:28:40,629
+好吗？有一件重要的事情需要注意，就是当我们在GPU上实现Coda时。
+Okay? One important thing you want to note that when we implement Coda on top of GPU
+
+361
+00:28:40,629 --> 00:28:48,789
+我们在这里非常清楚地将CPU代码和GPU代码分开了，显然在这部分是主机代码，呃，
+is we have a very clear separation of CPU and GPU code, apparently on this host code, uh,
+
+362
+00:28:48,789 --> 00:28:52,490
+这很容易理解，也符合我们编程的直觉。
+this is very easy to understand and this follows our intuition of programming.
+
+363
+00:28:52,490 --> 00:28:53,770
+它是一段串行代码。
+It's a serial code.
+
+364
+00:28:53,770 --> 00:28:57,549
+基本上就是让CPU上的单线程一行一行地执行。
+It basically ask you line by line, by a single thread on CPU.
+
+365
+00:28:57,549 --> 00:29:02,249
+但在绿色部分，我们有设备代码，这部分代码就有点
+But on the green part, we have the device code, and this code is a little bit
+
+366
+00:29:02,249 --> 00:29:04,450
+反直觉，因为它是并行代码。
+counterintuitive because it is a parallel code.
+
+367
+00:29:04,450 --> 00:29:07,429
+它会在GPU上的许多线程中启动。
+It's going to be launched on many many threads in the GPU.
+
+368
+00:29:07,429 --> 00:29:12,789
+所以，呃，这是GPU上的SIMD并行执行。
+So, uh, it's SMD parallel execution on GPU.
+
+369
+00:29:14,070 --> 00:29:19,469
+那么，我希望你能理解这部分内容，我有几个问题。
+Then, I hope you understand this part and I have a few questions.
+
+370
+00:29:19,590 --> 00:29:23,909
+那么，在启动kernel之后会发生什么？
+So what happens post launching the kernel?
+
+371
+00:29:27,430 --> 00:29:33,509
+也就是说，如果我的CPU一行一行地向你请求代码直到这里，然后
+That is, if my CPU ask you this code line by line all the way down to here and
+
+372
+00:29:33,509 --> 00:29:35,569
+当我启动这个内核后，会发生什么？
+after I launch this kernel, what happened?
+
+373
+00:29:35,569 --> 00:29:38,549
+假设这里还有另一行代码。
+So suppose there's another line of code here.
+
+374
+00:29:38,549 --> 00:29:45,009
+我的CPU会继续向你请求这段代码吗？不会。
+Will my CPU continue to ask you this code? No.
+
+375
+00:29:45,009 --> 00:29:46,910
+为什么？
+Why?
+
+376
+00:29:52,680 --> 00:29:59,559
+A，我的CPU会继续请求你后面的代码，因为就像我说的，
+A, my CPO will continue to ask you the next lines of code because like I said,
+
+377
+00:29:59,559 --> 00:30:01,379
+这个内核实际上是在
+this kernel actually runs on
+
+378
+00:30:01,379 --> 00:30:03,839
+GPU上运行的，而这段代码是在CPU上运行的。
+GPU and this code runs on CPU.
+
+379
+00:30:03,839 --> 00:30:07,239
+CPU代码是百分之百串行的。
+CPU code is 100% like a serial.
+
+380
+00:30:07,239 --> 00:30:10,719
+但是一旦我的CPU把这段代码交给GPU专门运行，它就会
+But once my CPU launch, give this code dedicated to GPU and it will
+
+381
+00:30:10,719 --> 00:30:13,240
+继续执行下一行代码。
+continue to launch next line of code.
+
+382
+00:30:13,240 --> 00:30:15,359
+它不是阻塞的，对吗？
+It's not blocking, o?
+
+383
+00:30:15,960 --> 00:30:18,600
+如果这个函数有返回值怎么办？
+What if this function has a return value?
+
+384
+00:30:18,600 --> 00:30:27,400
+比如说，我把值返回给数组X，然后我的代码就是下一行
+For example, I return the value to arrayed X, then my code is my following line
+
+385
+00:30:27,400 --> 00:30:32,759
+所以我的CPU代码基本上会进行其他操作，比如对这个数组X进行操作。
+so my CPU code is going to basically play some other operations, say operate on this array X.
+
+386
+00:30:32,759 --> 00:30:37,979
+我会遇到什么问题？你不应该这样做。
+What do I have? You shouldn't do that.
+
+387
+00:30:37,979 --> 00:30:42,119
+这是非常糟糕的代码，因为有一点你必须记住。
+That is very bad code because this is something you really need to remember.
+
+388
+00:30:42,119 --> 00:30:47,339
+如果你启动了你的数据核函数，呃，不能保证返回的值
+If you launch your da kernel, um, uh, it's not guaranteed that the returned value
+
+389
+00:30:47,339 --> 00:30:51,039
+会因为这段代码会和
+will basically because this code will run concurrently with
+
+390
+00:30:51,039 --> 00:30:57,100
+这个核函数代码并发运行，在这个核函数结束之前，如果你操作返回的RAX，
+this code kernel code before this kernel finishes, if you operate on the return RAX,
+
+391
+00:30:57,100 --> 00:31:01,460
+这会导致未定义的行为，因为你不知道 theta 或 GPU 是否已经完成了你的任务。
+it's going to give you undetermined behavior, because you don't know if theta
+
+392
+00:31:01,460 --> 00:31:03,119
+或者 GPU 是否已经完成了你的工作。
+or GPU has finished your job.
+
+393
+00:31:03,119 --> 00:31:07,399
+明白了吗？你知道这个问题的解决方法吗？
+Okay? Uh, do you know what is the solution for this?
+
+394
+00:31:09,450 --> 00:31:11,809
+在 CDA 中，有一个非常著名的 API，
+So in CDA, there's a very famous
+
+395
+00:31:11,809 --> 00:31:13,970
+叫做 CDA synchronize。
+API called CDA synchronize.
+
+396
+00:31:13,970 --> 00:31:19,949
+所以为了阻塞这个调用，你必须在这里添加 DA synchronize，这意味着你想要
+So in order to block this call, you have to add DA synchronize here, and that means that you want to
+
+397
+00:31:19,949 --> 00:31:23,149
+同步 CPU 和 GPU 的执行。
+synchronize the execution of CPU and GPU.
+
+398
+00:31:23,149 --> 00:31:28,170
+CPU 的代码必须等待这个内核返回，然后才能继续执行后面的代码。
+CPU has the CPO code has to wait for this kernel to return and then continue the rest of the code.
+
+399
+00:31:28,170 --> 00:31:30,089
+好的。如果你去
+Okay. And if you go to
+
+400
+00:31:30,089 --> 00:31:34,590
+Petroc，如果你深入到 Petroc 的底层，你会发现 Petroc 里有很多 coda synchronize。
+Petroc and if you go to the lower level of Petroc you'll find in Petroc so many coda synchronize
+
+401
+00:31:34,590 --> 00:31:39,889
+到处都要确保高层用户能够真正获得这些值，好吗。
+everywhere to make sure that the user at a higher level, they actually get the values, okay.
+
+402
+00:31:43,530 --> 00:31:49,609
+好的。Koa 程序的一个特点是线程基本上是
+Okay. One characteristics of Koa program is the threads are basically
+
+403
+00:31:49,609 --> 00:31:51,890
+在程序中显式且静态的。
+explicit and static in programs.
+
+404
+00:31:51,890 --> 00:31:57,450
+所以由开发者来负责实现 CPU 和 GPU 的分离。
+So it's the developer's responsibility to provide this kind of CPU and GPU separation.
+
+405
+00:31:57,450 --> 00:32:02,830
+你需要编写一部分 CPU 代码，然后在 CPU 代码中嵌入一些数据核函数，然后在另一个文件中，
+You have to write a part of CPU and then the CPU you embed a few da kernels and then another file,
+
+406
+00:32:02,830 --> 00:32:07,694
+你可能需要实际实现这个核函数，好吗？
+you probably implement actually provide implementation of the a kernel, okay?
+
+407
+00:32:07,694 --> 00:32:14,419
+同时，开发者还需要显式声明 block 的形状
+And also it's responsibility of the developers to basically explicitly declare the block
+
+408
+00:32:14,419 --> 00:32:18,939
+以及你想要使用的线程数。
+deem the shapes and the threads number threads you want to use.
+
+409
+00:32:18,939 --> 00:32:24,800
+数据映射到 block 和线程上也是开发者的责任。
+And it's also the developer's responsibility to map the data to blocks and stress.
+
+410
+00:32:24,800 --> 00:32:31,340
+至少，你的大脑里要并行思考，至少要做到 SIMD。
+At least, you have to think, uh, in parallel in your brain and, you know, at least SIMD,
+
+411
+00:32:31,340 --> 00:32:35,144
+所以你可以把任务分配到很多很多线程上，对吧？
+so you can launch the jobs to many many threads, okay?
+
+412
+00:32:35,144 --> 00:32:42,169
+这也是为什么很多编译器，比如 torch.compel，
+And this is one primary reason why many compilers, for example, torch dot compel,
+
+413
+00:32:42,169 --> 00:32:48,009
+它们要求静态形状，因为如果你没有声明这些形状，
+they require static shapes because uh if you don't actually declare the ships,
+
+414
+00:32:48,009 --> 00:32:53,450
+那你就需要做很多填充或者其他操作来让这个形状
+then you have to do a lot of padding or whatever kind of operation to make this ship
+
+415
+00:32:53,450 --> 00:32:58,009
+变成静态的，这样才能把这些任务分配到
+static in order to launch these jobs into explicit number of
+
+416
+00:32:58,009 --> 00:33:00,669
+你在 quaakernel 里声明的明确数量的线程上，对吧？
+threats that you declare in quaakernel, right?
+
+417
+00:33:00,669 --> 00:33:03,569
+好的，这意味着 Koda 是非常非常静态的。
+Okay. That means that Koda is very very static.
+
+418
+00:33:03,569 --> 00:33:09,629
+它基本上不允许你声明一个可变数量的，比如 block 和线程。
+It does not allow you to basically declare a variable number, for example, blocks and threats.
+
+419
+00:33:09,629 --> 00:33:11,189
+明白吗？
+Okay?
+
+420
+00:33:11,230 --> 00:33:21,169
+有什么问题吗？所以正因为这样，
+Any question? So because of this,
+
+421
+00:33:21,169 --> 00:33:26,289
+我认为当你开始编写Ka程序时，检查边界条件非常重要。
+I think when you start writing a Ka program, is very important to check boundary conditions.
+
+422
+00:33:26,289 --> 00:33:27,929
+那么我说的边界条件是什么意思呢？
+So what do I mean by boundary conditions.
+
+423
+00:33:27,929 --> 00:33:29,870
+这里，我给你举个例子。
+So here, I give you example.
+
+424
+00:33:29,870 --> 00:33:35,490
+在这个核函数中，我们做的是控制流程。
+In this a kernel, what we do is, we durt a control flow.
+
+425
+00:33:35,490 --> 00:33:42,029
+好的。那么我们具体做什么呢？其实我们是检查X的值，以及我们获取X的方式，
+Okay. So what do we do is basically we check the value of X and the way we get X,
+
+426
+00:33:42,029 --> 00:33:47,970
+基本上，我们使用块索引和读取索引，从输入数组SMD中索引出这个值。
+basically, we use the block index and read index to index the value from the input array, SMD.
+
+427
+00:33:47,970 --> 00:33:52,410
+好的，我们检查X的值，如果X大于零，我们就做某些事情。
+Okay. And we check the value of X, and if X is greater than zero, we do something.
+
+428
+00:33:52,410 --> 00:33:53,929
+否则，我们就做其他事情。
+Otherwise, we do something else.
+
+429
+00:33:53,929 --> 00:33:55,570
+这就是控制流程。
+Okay, this is the control flow.
+
+430
+00:33:55,570 --> 00:33:58,069
+如果你写这种类型的，嗯，
+And if you write this kind of, like, um,
+
+431
+00:33:58,069 --> 00:34:01,189
+Koda内核不会非常高效，因为就像我说的，
+Koda kernels is not going to be very efficient because like I said,
+
+432
+00:34:01,189 --> 00:34:02,969
+Koda非常静态。
+Koda is very static.
+
+433
+00:34:02,969 --> 00:34:09,009
+所有的核心基本上都以相同的速度运行，并且必须做完全相同的工作。
+So all the cores, they basically operate at the same pace and they have to do exactly the same job.
+
+434
+00:34:09,009 --> 00:34:11,329
+但在这个内核中，你写的内容基本上是在让
+But in this kernel, what you write is basically you are asking
+
+435
+00:34:11,329 --> 00:34:13,989
+不同的线程或核心做稍微不同的工作。
+different stress or courts to do slightly different job.
+
+436
+00:34:13,989 --> 00:34:16,510
+那么Koda怎么处理这种情况呢？
+So how Koda can handle this kind of thing, okay?
+
+437
+00:34:16,510 --> 00:34:23,899
+它的处理方式基本上是，比如说，
+So the way it handles that is basically, um, so it's going to, for example, here,
+
+438
+00:34:23,899 --> 00:34:29,359
+我这里有八个核心，我们基本上会映射到八个线程，
+I have eight cores, okay, and we are going to basically map to eight stress,
+
+439
+00:34:29,359 --> 00:34:32,300
+然后我们会把这个任务分配给这八个线程。
+and we are going to map this job to this eight thress.
+
+440
+00:34:32,300 --> 00:34:35,679
+所以在第一步，我们只是进行我们的计算。
+So in the first step, we just do our competition, okay.
+
+441
+00:34:35,679 --> 00:34:41,399
+在某个时刻，我们会遇到这个E和Ls，我们要检查我在线程中得到的值是否大于零。
+At some point, we hit this E and L s and we are going to check if the value I get in
+
+442
+00:34:41,399 --> 00:34:43,939
+在这个线程中，我们要检查得到的值是否大于零。
+this thread is greater than zero.
+
+443
+00:34:43,939 --> 00:34:49,500
+在这个例子中，你可以看到，呃，我们有三个线程基本上返回了true，
+And in this example, you can see, uh, we have three threads that basically return true,
+
+444
+00:34:49,500 --> 00:34:51,339
+其余的线程返回了false。
+and the rest return force.
+
+445
+00:34:51,339 --> 00:34:52,979
+就像我刚才说的，
+So like I said,
+
+446
+00:34:52,979 --> 00:34:54,460
+Coda是非常静态的。
+Coda is very static.
+
+447
+00:34:54,460 --> 00:34:58,320
+所以，呃，它实际上无法处理这种EFL语义。
+So uh, it actually cannot process this kind of EFL sematic.
+
+448
+00:34:58,320 --> 00:35:01,479
+它不能对某些线程做这个，对其他线程做那个，
+It cannot for some course do this and for other courses do this,
+
+449
+00:35:01,479 --> 00:35:03,019
+他们必须做完全相同的事情。
+they have to do exactly the same thing.
+
+450
+00:35:03,019 --> 00:35:05,469
+那么我该如何处理这个问题呢？
+So how can I handle this?
+
+451
+00:35:05,469 --> 00:35:08,320
+Coda 处理这个问题的方式基本上是这样的，
+So the way Coda handles that is basically,
+
+452
+00:35:08,320 --> 00:35:14,179
+我会让你执行 true 分支，然后再执行第一个分支。
+I'm going to make I'm going to ask you the true branch and then the first branch.
+
+453
+00:35:14,179 --> 00:35:19,219
+对于 true 分支，当我让他们执行时，我实际上会为
+So for the true branch, when I ask them I'm going to actually do the work for
+
+454
+00:35:19,219 --> 00:35:21,879
+所有数值大于零的线程执行工作。
+all the threads that are with the value greater than zero.
+
+455
+00:35:21,879 --> 00:35:23,279
+至于剩下的线程，
+But for the rest of them,
+
+456
+00:35:23,279 --> 00:35:25,619
+我只是让它们空闲，什么也不做。
+I just put them idle, doing nothing.
+
+457
+00:35:25,619 --> 00:35:31,599
+它们必须等待。然后我会让你执行 else 分支，也是一样的操作。
+They have to wait. And then I'm going to ask you the else branch, same thing.
+
+458
+00:35:31,599 --> 00:35:38,079
+可以想象，这段代码效率很低，因为有太多空闲时间，对吧？
+As you can imagine, this code is very efficient because there are so many idle times, right?
+
+459
+00:35:38,079 --> 00:35:40,200
+我们基本上把这种情况称为“气泡”。
+And we basically call this bubbles.
+
+460
+00:35:40,200 --> 00:35:46,600
+在 Koda 中，如果你这样做控制流相关的工作，你会遇到很多气泡。
+In Koda, if you do this kind of control flow job, you are going to hit a lot of bubbles.
+
+461
+00:35:46,600 --> 00:35:50,179
+没问题，酷。
+No problem. Cool.
+
+462
+00:35:51,740 --> 00:35:56,779
+那么一旦我们完成了这个ELS分支，我们就会继续进行剩下的工作。
+Then once we finish this ELS branch, we are going to proceed with the rest of the job.
+
+463
+00:35:56,779 --> 00:36:00,139
+之所以不能这样做，是因为他们想让所有的分支保持同步。
+The reason could not do this is because they want to keep all the cross on the same pace.
+
+464
+00:36:00,139 --> 00:36:02,799
+他们必须在同一时间点执行完全相同的操作。
+They have to exactly actue the same thing at the same time point.
+
+465
+00:36:02,799 --> 00:36:12,369
+好的，其实这和配额的整体情况关系不大，但是
+Okay Actually, this is a little bit irrelevant from the global picture of quota but
+
+466
+00:36:12,369 --> 00:36:18,789
+我之所以介绍这个，是因为，嗯，呃，这里我给出了“协同执行”和
+the reason I introduced this because um uh, here I give the definition of coherent excusion and
+
+467
+00:36:18,789 --> 00:36:20,409
+“分歧执行”的定义，基本上就是
+divergence execution is basically what
+
+468
+00:36:20,409 --> 00:36:22,509
+我刚才描述的内容，只是用了一个更高级的名字。
+I described but with a fancier name.
+
+469
+00:36:22,509 --> 00:36:26,989
+协同排除基本上就是对所有数据应用相同的指令，
+Coherent exclusion is basically the same instruction applied to all data,
+
+470
+00:36:26,989 --> 00:36:31,129
+分歧则基本上就是我刚才举的那个例子。那么我们为什么要关心这个呢？
+divergence is basically the case I give it to you. So why would care about this?
+
+471
+00:36:31,129 --> 00:36:35,710
+嗯，因为如果你们熟悉语言建模的话，
+Um, Because if you guys are familiar language modeling,
+
+472
+00:36:35,710 --> 00:36:39,895
+你们可能知道在语言建模中我们经常做的一件事叫做掩码。
+you probably know that in language modeling there the thing that we often do is called masking.
+
+473
+00:36:39,895 --> 00:36:44,399
+对吧？我会进行一些注意力操作，但我会把某些部分屏蔽掉，因为
+Right? I do some attenting but I mask something out because
+
+474
+00:36:44,399 --> 00:36:47,019
+我不想要那部分的值。
+I don't want that part of value.
+
+475
+00:36:47,019 --> 00:36:50,560
+一个非常常见的掩码机制叫做因果掩码。
+A very common masking mechanism is called the caudal masking.
+
+476
+00:36:50,560 --> 00:36:54,280
+对，我总是关注前面的标记，而不是后面的标记。
+Right. I always attend to the previous tokens, but not the future tokens.
+
+477
+00:36:54,280 --> 00:36:59,759
+如果你想在Coda中实现这种掩码方式，会非常高效，
+And if you want to implement this kind of masking in Coda, it's going to be super efficient way,
+
+478
+00:36:59,759 --> 00:37:04,159
+因为我要检查那个东西是不是在因果掩码上，对吧。
+because I'm going to check if that thing is, uh, on the caudal mask, right.
+
+479
+00:37:04,159 --> 00:37:05,739
+如果它在因果掩码里，
+And if it's in the cod mask,
+
+480
+00:37:05,739 --> 00:37:07,099
+我就会移除那个值。
+I'm going to remove the value.
+
+481
+00:37:07,099 --> 00:37:08,859
+否则，我就保留这个值，对吧。
+Otherwise, I keep the value, right.
+
+482
+00:37:08,859 --> 00:37:11,699
+这种机制在 Coda 中很难实现。
+And this kind of mechanism is very hard to implement Coda.
+
+483
+00:37:11,699 --> 00:37:13,719
+那我们怎么让这个过程变快呢，好吗？
+So how we can make this fast, okay?
+
+484
+00:37:13,719 --> 00:37:18,479
+这是我们之后要学习的内容，嗯，当我们去到，嗯，
+And this is going to be something we study when we, um, go to the um,
+
+485
+00:37:18,479 --> 00:37:23,869
+transformer park 的时候，好吗？对，很棒。
+transformer park, okay? Yeah. Cool.
+
+486
+00:37:23,869 --> 00:37:27,690
+这基本上就涵盖了 Koda 的执行模型。
+That basically covers the execution model for Koda.
+
+487
+00:37:27,690 --> 00:37:29,990
+好的，接下来我们要讲内存部分。
+Okay. And then we are going to talk about the memory.
+
+488
+00:37:29,990 --> 00:37:34,749
+嗯，这里基本上展示了 Koda 的内存模型。
+Um, so Koda memory model is basically illustrated here.
+
+489
+00:37:34,749 --> 00:37:38,129
+呃，你可以看到，嗯，因为你有主内存，对吧，
+Uh, you can see, um, because you have a horse memory, right,
+
+490
+00:37:38,129 --> 00:37:41,669
+我们通常把应急系统叫做 RAM，对吧？
+which we often call emergency system as RAM, right?
+
+491
+00:37:41,669 --> 00:37:43,910
+这基本上就是配额内存。
+And this is basically Quota memory.
+
+492
+00:37:43,910 --> 00:37:45,010
+我们称之为GPU内存。
+We call it GPU memory.
+
+493
+00:37:45,010 --> 00:37:51,729
+好的。那么你知道现在GPU内存的底层机制是什么吗？
+Okay. So do you know what is lower level, like mechanism for GPU memory today?
+
+494
+00:37:52,730 --> 00:37:56,329
+它叫做HBM，高带宽内存。
+So it's called HBM, high bandwidth memory.
+
+495
+00:37:56,329 --> 00:37:58,589
+它比CPN内存快得多。
+Okay, it is much faster than CPN memory.
+
+496
+00:37:58,589 --> 00:38:06,209
+所以为了区分现在的想象系统，我们把CPO内存称为DRM，可以吗？
+So to distinguish this today imagining system, we call the CPO memory called DRM, okay?
+
+497
+00:38:06,209 --> 00:38:09,150
+这是我们上周做的，对吧，就是讲解的时候。
+This is what we did last week, right, for the telling.
+
+498
+00:38:09,150 --> 00:38:14,349
+好的。将来我们会用HBM来表示GPU内存。
+Okay. And in the future, we will use HBM to denote the GPU memory.
+
+499
+00:38:14,349 --> 00:38:17,690
+它是一种由美迪亚开发的内存机制。
+Okay? It is a memory mechanism that developed by media.
+
+500
+00:38:17,690 --> 00:38:22,159
+它的带宽比主机内存高，好吗？
+Okay. It has a higher bandwidth, um, than host memory, okay?
+
+501
+00:38:22,159 --> 00:38:26,209
+所以从经验上来说，这个图已经告诉你内存是如何工作的，对吧？
+So imperical, this figure already tells you how the memory works, right?
+
+502
+00:38:26,209 --> 00:38:33,270
+基本上，呃，CPU在计算机上有自己的内存，而像CUDA设备，比如说GPU，
+So basically, uh, CPU has its own memory on the computer and CODA devices, for example, O OS GPUs,
+
+503
+00:38:33,270 --> 00:38:36,589
+它们有自己的内存，这种内存被称为HBM，对吧？
+they have their own memory, which is called HBM, okay?
+
+504
+00:38:38,150 --> 00:38:44,650
+好的。计算机管理内存空间的方式基本上是，
+Okay. And the way that computer manage memory space basically,
+
+505
+00:38:44,650 --> 00:38:50,510
+我希望你还记得，操作系统是如何管理主机内存的？
+I hope you still remember, so how is the host memory managed in OS?
+
+506
+00:38:54,360 --> 00:38:57,759
+我们把它们组织成页面，对吧？
+We organize them into pages, right?
+
+507
+00:38:57,759 --> 00:38:59,919
+这叫做页式内存，对吧？
+It's called page memory, right?
+
+508
+00:38:59,919 --> 00:39:04,059
+我们把所有内存分页，这样我们就可以索引这些页面，对吧？
+We page all the memory together, so we can index the pages, okay?
+
+509
+00:39:04,059 --> 00:39:07,980
+嗯嗯，但是CUDA内存有点不同。
+Um um but the Cut memory is slight different.
+
+510
+00:39:07,980 --> 00:39:12,140
+它有独立的主机和设备内存空间。
+So it has it has distinct holes and device memory spaces.
+
+511
+00:39:12,140 --> 00:39:16,400
+好的。这意味着如果你运行的是CPU代码，那么ZPU代码将不会访问GPU内存中的任何页面。
+Okay. Which means that if you launch a CPU code, that ZPU code is not going to access
+
+512
+00:39:16,400 --> 00:39:18,320
+好的。如果你运行的是GPO代码，GPO代码也不会访问操作系统中的页面。
+any pages in GPU memory.
+
+513
+00:39:18,320 --> 00:39:23,820
+明白了吗？而且在GPO中，我们实际上并不会显式地以页面为单位管理内存。
+Okay. And if you launch GPO code, the GPO code is not going to access the pages in OS.
+
+514
+00:39:23,820 --> 00:39:29,300
+我们只是把它当作一个整体的内存池，然后从那里获取所需的内存。
+Okay? And also in GPO, we do not actually explicitly manage memory in pages.
+
+515
+00:39:29,300 --> 00:39:33,859
+好的。为了在RAM和GPA模型之间填充内存，
+Okay, we just put it as entire memory pool, and we will get it from there.
+
+516
+00:39:33,859 --> 00:39:43,819
+我们基本上用的是这个API——memo copy。
+Okay. And in order to populate the memory, uh, between RAM and GPA model,
+
+517
+00:39:43,819 --> 00:39:46,859
+所以我们必须调用Malloc。
+we do is basically we use this API memo copy.
+
+518
+00:39:46,859 --> 00:39:48,740
+而且这个Malloc也有一个前缀，叫做Koda Malloc。
+So we have to call Malloc.
+
+519
+00:39:48,740 --> 00:39:52,100
+我们首先在GPO内存上调用Coda Mock，然后再进行quota memo copy。
+And that Malloc also has a prefix that is called Koda Malloc.
+
+520
+00:39:52,100 --> 00:39:55,699
+我们首先在GPO内存上调用Coda Mock，然后再进行quota memo copy。
+We first Coda Mock on GPO memory, and then we do quota memo copy.
+
+521
+00:39:55,699 --> 00:40:01,139
+这个memoco基本上就是把一部分内存从RAM复制到设备上。
+This memoco you basically copy some memory from the RAM to device.
+
+522
+00:40:01,139 --> 00:40:06,860
+好的。这个设备，你可以看到它是用Koda Malloc分配的，
+Okay. And this device, uh, you can see it is allocated using Koda Malloc,
+
+523
+00:40:06,860 --> 00:40:08,260
+所以它是配额内存的一部分。
+so it's part of the quota memory.
+
+524
+00:40:08,260 --> 00:40:13,279
+好的，明白了吗？这是很标准的操作。
+Okay. Okay? This is a pretty standard things, okay?
+
+525
+00:40:16,020 --> 00:40:20,999
+还有一个你需要记住的概念，就是锁页内存（pin memory）。
+There's a little bit more concept that you need to remember that is pin memory.
+
+526
+00:40:20,999 --> 00:40:28,059
+当我们说锁页内存时，指的其实是RAM的一部分，也就是主机和CPU的内存。
+Okay? So when we see pin memory, it is basically a part of the RAM, the host and CPO memory. Okay.
+
+527
+00:40:28,059 --> 00:40:32,800
+我们之所以需要锁页内存，是因为有时候我们经常需要移动内存，
+Um, the reason we have pin memory because sometimes we often need to move memory,
+
+528
+00:40:32,800 --> 00:40:36,360
+在DRAM和HBM之间传递内容。
+populate contents between DRAM and HBM.
+
+529
+00:40:36,360 --> 00:40:41,819
+所以一旦你的电脑安装了Koda和媒体驱动，
+So we already once your computer installed with Koda and the media driver will try to
+
+530
+00:40:41,819 --> 00:40:44,699
+驱动就会尝试锁定一部分主机内存。
+pin a part of the host memory.
+
+531
+00:40:44,699 --> 00:40:51,305
+所以它可以为主机和HBM之间的内存拷贝预留这部分空间。
+So it can reserve this part for this kind of memory copy between host and HBM.
+
+532
+00:40:51,305 --> 00:40:56,389
+并且因为媒体驱动基本上会预留主机内存的这部分，
+And because media striver basically reserve this part of the host memory,
+
+533
+00:40:56,389 --> 00:40:57,809
+所以操作系统无法对其进行分页。
+so it's not pageable by OS.
+
+534
+00:40:57,809 --> 00:41:00,829
+好的，它是被锁定的，其他进程无法使用它。
+Okay, it's locked. Any other protests cannot use that.
+
+535
+00:41:00,829 --> 00:41:07,489
+明白吗？在CUDA中，有一些API只能使用锁页内存。
+Okay? And in CUDA, there are a few APS that they can only use pin memory.
+
+536
+00:41:07,489 --> 00:41:12,350
+它们不能直接从HBM拷贝到主机内存的任意部分。
+They cannot directly copy things from HBM to any part of the host memory.
+
+537
+00:41:12,350 --> 00:41:17,449
+它们必须先从HBM拷贝到锁页内存，然后再让CPU完成剩下的操作。
+They have to first copy from HBM to pin memory and then let the CPU to do the rest.
+
+538
+00:41:17,449 --> 00:41:24,270
+明白吗？这就是Koda中内存工作方式的高级介绍，
+Okay? Okay, that is a higher level introduction of how memory works in Koda,
+
+539
+00:41:24,270 --> 00:41:29,814
+接下来我们会更深入地讲解，好吗。
+and we are going to dive deeper, okay.
+
+540
+00:41:29,814 --> 00:41:32,040
+我们已经介绍了HBM。
+We introduced the HBM.
+
+541
+00:41:32,040 --> 00:41:37,280
+但实际上，我们知道任何这样的设备都有内存层级结构，
+But actually, we know any device like this, they have a memory hierarchy,
+
+542
+00:41:37,280 --> 00:41:39,020
+它们有缓存，也有寄存器。
+they have catches, they have registers.
+
+543
+00:41:39,020 --> 00:41:40,299
+那这是怎么运作的呢？
+So how does that work?
+
+544
+00:41:40,299 --> 00:41:48,519
+从这张图你可以看到，在内部，每个线程都有自己的私有内存空间，
+From this picture, you can see, internally, for each thread, it has its own private memory space,
+
+545
+00:41:48,519 --> 00:41:52,620
+这是比HBM还要低一级的内存。
+it's even lower level memory other than HBM.
+
+546
+00:41:52,620 --> 00:41:55,559
+这是只有该线程才能访问的私有空间。
+It is a private space only by that thread.
+
+547
+00:41:55,559 --> 00:41:59,819
+它必须更快，因为我们构建了这样的内存层级结构，对吧？
+I must be faster because we build this kind of memory hierarchy, okay?
+
+548
+00:41:59,819 --> 00:42:05,059
+并且因为每个块有很多线程，而该块也
+And also because each block has many threads and that block also
+
+549
+00:42:05,059 --> 00:42:10,939
+有一块特定的内存空间，虽然很小，但所有线程都可以共享。
+has a certain memory space where very small, and all those threads will be able to share.
+
+550
+00:42:10,939 --> 00:42:14,419
+一个块中的所有线程都可以共享那部分内存。
+All those threads in a block will be able to share that part of memory.
+
+551
+00:42:14,419 --> 00:42:17,239
+这意味着所有这些线程都可以访问那段内存。
+That means all those stress can access that memory.
+
+552
+00:42:17,239 --> 00:42:21,399
+但是其他线程块中的线程实际上无法访问这个线程块的内存。
+But stress in another block cannot actually access the memory in this block.
+
+553
+00:42:21,399 --> 00:42:27,240
+有道理。好的。正如我刚才说过的，你还有一个全局设备内存，
+Makes sense. Okay. And as I already said, you also have a global device memory
+
+554
+00:42:27,240 --> 00:42:29,219
+也就是所谓的HBM，对吧？
+which is called HBM, right?
+
+555
+00:42:29,219 --> 00:42:32,520
+那就是每个线程都可以访问那部分内存。
+That is every thread can actually access that part of memory.
+
+556
+00:42:32,520 --> 00:42:40,199
+这部分内存可能非常大，有很多空间，但速度要慢得多，明白吗？
+And this part is probably pretty large, a lot of space, but much slower, okay?
+
+557
+00:42:40,240 --> 00:42:43,080
+那为什么我们要把它设计得这么复杂呢？
+So why we make it so complex?
+
+558
+00:42:43,080 --> 00:42:46,460
+这是因为我们想让我们的程序运行得更快。
+This is because we want to make our program faster.
+
+559
+00:42:46,460 --> 00:42:51,100
+之所以采用这种内存结构，完全是为了让程序更快。
+The reason we do this kind of memory has all because we want to make it faster.
+
+560
+00:42:51,100 --> 00:42:55,880
+为了让大家理解这一点，我接下来会举个例子。
+So in order to understand this, um, I'm going to give you an example.
+
+561
+00:42:55,880 --> 00:43:01,299
+在这个例子中，我们要做的基本上就是一个滑动窗口平均，对吧？
+So in this example, what we want to do is basically we do a window average, okay?
+
+562
+00:43:01,299 --> 00:43:05,259
+我觉得在CPU上实现这个滑动窗口平均非常简单，对吧？
+And I think implement this Window average is very easy on CPU, right?
+
+563
+00:43:05,259 --> 00:43:10,579
+你基本上就是遍历输入数组，然后每次取连续的三个元素，
+You basically looping over the input array, and you take every three
+
+564
+00:43:10,579 --> 00:43:15,649
+计算它们的平均值，然后把结果写回输出数组。
+adjacent elements and you take the average, and then you write results back into the output array.
+
+565
+00:43:15,649 --> 00:43:21,900
+好，那我的问题是，因为我们要把这个任务交给da来执行。
+Okay. Then my question is, because we are going to launch this to da.
+
+566
+00:43:21,900 --> 00:43:27,600
+所以当我们开始为这个数组编写da内核时，我们的思考方式需要有所不同。
+So when we start writing the da kernel for this array, the way we think need to be different.
+
+567
+00:43:27,600 --> 00:43:31,939
+我们需要思考这个计算的哪些部分可以被并行化。
+We need to think about which part of this computation can be paralyzed.
+
+568
+00:43:31,939 --> 00:43:37,079
+然后整体思路就是把那些可以并行化的部分映射到
+And then the high level idea is basically we map those part that can be paralyzed into
+
+569
+00:43:37,079 --> 00:43:39,800
+不同的线程上，这样它们就可以并行执行了。
+different threads so they can ask you in parallel.
+
+570
+00:43:39,800 --> 00:43:44,019
+那我的问题是，哪些部分是可以并行化的？
+Then my question is what is the paralyzable part?
+
+571
+00:43:47,900 --> 00:43:53,059
+对，没错。所以基本上每个线程要抓取三个元素，对吧？
+Yeah, exactly. So you basically each thread to grab three elements, right?
+
+572
+00:43:53,059 --> 00:43:55,339
+计算平均值并写回去。
+Computer average and write back.
+
+573
+00:43:55,339 --> 00:44:00,759
+而且每个操作，也就是每次计算三个元素的平均值的操作，
+And each operation that is each operation of computing the average of
+
+574
+00:44:00,759 --> 00:44:05,300
+都与其他操作相互独立，所以它们可以完全并行化。
+three elements are independent from other operations, so they can be perfectly paralyzed.
+
+575
+00:44:05,300 --> 00:44:10,579
+明白了吗？这基本上就是我们的高层思路，就是热点是平方核，对吧？
+Okay? That's basically our high level idea that the hot rate is square kernel, okay?
+
+576
+00:44:10,820 --> 00:44:16,879
+就像我说的，每三个相邻的元素，嗯，嗯，都可以合成为一个输出，对吧？
+So like I said, every three adjacent elements, um, uh, can be reduced as an output, right?
+
+577
+00:44:16,879 --> 00:44:19,260
+而且这个操作是独立的。
+And this operation is independent.
+
+578
+00:44:19,260 --> 00:44:21,920
+所以我基本上可以把它们映射到不同的线程上。
+So I can basically map them to different threads.
+
+579
+00:44:21,920 --> 00:44:24,119
+好的，那我们来做一下。
+Okay? Um let's do that.
+
+580
+00:44:24,119 --> 00:44:25,999
+好，我们来看看这个例子。
+Okay, let's go through this example.
+
+581
+00:44:25,999 --> 00:44:31,439
+所以我做的是，我会从头开始，就像我说的，你需要，用户有责任
+So what I do is I start from, like I said, you need to its users responsibility
+
+582
+00:44:31,439 --> 00:44:33,399
+去区分CPU和GPU的代码。
+to separate the CPU and GPU code.
+
+583
+00:44:33,399 --> 00:44:35,439
+所以我必须从我的CPU代码开始。
+So I have to start with my CP code.
+
+584
+00:44:35,439 --> 00:44:40,979
+在我的CPU代码中，我的任务是尝试定义block和thread的ID
+And in my CP code, my mission is trying to define the block and thread ID
+
+585
+00:44:40,979 --> 00:44:47,660
+以及它们的形状，以便将计算映射到Coda GPU上的许多线程中。
+and their shape in order to map their computon into these many many threads on Coda GPUs.
+
+586
+00:44:47,660 --> 00:44:51,919
+在这个例子里，我有一个1K乘1K的数组，好吗。
+So in this one, I'm given array of one Kb one K, okay.
+
+587
+00:44:51,919 --> 00:44:53,669
+这是一个相当大的数组。
+It's a pretty large array.
+
+588
+00:44:53,669 --> 00:44:58,979
+我要做的是在我的设备上分配足够的内存。
+And what I do is I'm going to allocate allocate enough memory on my device.
+
+589
+00:44:58,979 --> 00:45:00,880
+这里我调用了Coda Mock。
+Here I call Coda Mock.
+
+590
+00:45:00,880 --> 00:45:04,820
+我要把内存分配到一个叫做Dv input的数组上。
+I'm going to allocate memory onto array called Dv input.
+
+591
+00:45:04,820 --> 00:45:11,699
+我请求的内存量基本上应该是浮点数大小的倍数。
+And the amount of memory I'm asking is basically, it should be times the size of the float.
+
+592
+00:45:11,699 --> 00:45:12,879
+但这里我多申请了一个。
+But here I ask one more.
+
+593
+00:45:12,879 --> 00:45:15,600
+为什么？因为我想处理边界条件。
+Why? Because I want to handle the boundary condition.
+
+594
+00:45:15,600 --> 00:45:20,799
+我多申请了两个，因为还记得当我遍历那个数组时，在元素的末尾，
+I ask two more because remember when I loop that array, at the end of the element,
+
+595
+00:45:20,799 --> 00:45:25,199
+我还需要再读取两个元素，对于输出，我不知道该怎么做
+I how to read another two elements, for the output, I don't know how to do that
+
+596
+00:45:25,199 --> 00:45:28,539
+因为我只是要把结果写回去，对吧？
+because I'm going to just write the results back, right?
+
+597
+00:45:28,539 --> 00:45:34,240
+所以我让Koda给我分配了两个数组，一个用于输入，一个用于输出，明白吗？
+So I ask Koda to give me two arrays, one for input and one for output, okay?
+
+598
+00:45:34,240 --> 00:45:37,599
+然后我基本上就启动了我的核函数，对吧？
+And then I basically launch my kernel, right?
+
+599
+00:45:37,599 --> 00:45:39,719
+在这个核函数里，我做的事情是，
+In this kernel, what I do is,
+
+600
+00:45:39,719 --> 00:45:46,099
+我定义了一些全局变量，就是每个块的压力，因为我定义了这个，
+I define some global variable that is stress per block, and, because I define this,
+
+601
+00:45:46,099 --> 00:45:49,579
+我可以推断出我的区块数量，并且它没有被每个区块的压力分割。
+I can infer my number of blocks and it is undivided by stress per block.
+
+602
+00:45:49,579 --> 00:45:52,409
+好的，然后我把这个给他们。
+Okay. And I give this to them.
+
+603
+00:45:52,409 --> 00:45:54,849
+明白了吗？这是代码中的CPR部分。
+Okay? This is the CPR part of the code.
+
+604
+00:45:54,849 --> 00:45:57,649
+我希望你们还记得，这个很简单，对吧？
+I hope you still This one is easy, right?
+
+605
+00:45:57,649 --> 00:46:02,289
+然后我剩下的工作基本上就是尝试实现这个内核。
+And then the rest of my job is basically I'm trying to implement this kernel.
+
+606
+00:46:02,289 --> 00:46:05,549
+好的，还记得硬件的想法吗？
+Okay. And still remember hw idea,
+
+607
+00:46:05,549 --> 00:46:10,639
+我会让每个线程去获取元素，并且每次读取都没有回退。
+I'm going to let each thread to fetch elements and ever read without back.
+
+608
+00:46:10,639 --> 00:46:15,029
+对吧。好的，所以我在这个squad内核中需要做的高层次的事情是
+Right. Okay. So the high level thing that I need to do in
+
+609
+00:46:15,029 --> 00:46:19,669
+我首先要给那个线程编个索引，对吧？
+this squad kernel is I first index that thread, right?
+
+610
+00:46:19,669 --> 00:46:24,209
+然后我要确保那个线程知道它需要获取哪三个元素。
+And I make sure that thread knows which is three elements you need to fetch.
+
+611
+00:46:24,209 --> 00:46:27,829
+我还要确保它知道我把结果写回到哪里，
+And I also make sure it knows that where I write the results back,
+
+612
+00:46:27,829 --> 00:46:31,809
+并且我需要避免冲突，因为我不能让两个线程读取同一个元素，
+and I need to avoid conflicts because I cannot two threads read into the same element,
+
+613
+00:46:31,809 --> 00:46:35,909
+否则，这个值将是不确定的，明白吗？
+otherwise, the value will be undetermined, okay?
+
+614
+00:46:36,230 --> 00:46:38,289
+这就是代码。
+So this is this is the code.
+
+615
+00:46:38,289 --> 00:46:43,149
+我想大家可以花大约10秒钟看一下。
+I would like to take a look at maybe 10 seconds.
+
+616
+00:46:51,749 --> 00:46:54,609
+这个很简单，对吧？
+Okay, this one is simple, right?
+
+617
+00:46:54,609 --> 00:46:57,709
+这是我的Koda内核的签名。
+So this is my signature of my Koda kernel.
+
+618
+00:46:57,709 --> 00:47:00,149
+我必须像之前说的那样用global开始，
+I have to start with a global like I already said,
+
+619
+00:47:00,149 --> 00:47:03,330
+因为这样有助于编译器识别这个Coda。
+because it helps the compiler to identify this Coda.
+
+620
+00:47:03,330 --> 00:47:07,409
+然后我把参数传递到这个Quota内核中。
+And then I pass the arguments into this Quota kernel.
+
+621
+00:47:07,409 --> 00:47:11,669
+这行代码是做什么的？
+And what this line is doing?
+
+622
+00:47:12,719 --> 00:47:17,659
+它基本上是在尝试索引，试图找出当前线程的索引。
+It's basically trying to index, trying to figure out the current thread index.
+
+623
+00:47:17,659 --> 00:47:22,940
+明白了吗？记住，就像我说的，块ID、块D和线程ID，这些是全局变量。
+Okay? Remember, like I said, the block ID, the block D and thread ID, the global variables.
+
+624
+00:47:22,940 --> 00:47:25,799
+所以基本上，每个线程都记住自己的值。
+So basically, each thread remember their own value.
+
+625
+00:47:25,799 --> 00:47:29,779
+你只需要把那个值编码出来，然后全部返回就可以了。
+You just need to basically code that value and it all return out.
+
+626
+00:47:29,779 --> 00:47:32,199
+一旦我有了索引，我接下来要做的基本上是，
+Once I have index, what I do is basically,
+
+627
+00:47:32,199 --> 00:47:34,659
+我分配一个线程本地变量。
+I allocate a thread local variable.
+
+628
+00:47:34,659 --> 00:47:39,569
+记住，这个变量是线程本地的，只有当前线程拥有这个变量。
+Remember this variable is thread local, only this current thread consist variable.
+
+629
+00:47:39,569 --> 00:47:46,139
+然后我会取出这三个元素，计算它们的平均值。
+And I'm going to basically fetch the three elements, and do my average.
+
+630
+00:47:46,139 --> 00:47:50,719
+这里我有一个循环，基本上执行三次，明白了吗。
+Here, I have a loop which basically perform three times, okay.
+
+631
+00:47:50,719 --> 00:47:52,740
+因为我有这个索引。
+And because I have this index.
+
+632
+00:47:52,740 --> 00:47:55,999
+我用这个索引去索引我的输入数组，对吧？
+I use this index to index my input array, right?
+
+633
+00:47:55,999 --> 00:48:01,939
+我从当前元素开始，读取接下来的三个元素的索引，明白吗？
+And I read the index from the current element to the future three elements, okay?
+
+634
+00:48:01,939 --> 00:48:07,360
+然后我基本上把它们加在一起，然后这个基本上是取平均值，
+And I basically add them together, and then this one basically take the average,
+
+635
+00:48:07,360 --> 00:48:12,149
+对吧，然后把结果写回输出。明白了吗。
+right, and write the result back into output. Okay.
+
+636
+00:48:12,389 --> 00:48:16,989
+所以当你启动这个内核时，这个内核实际上只在一个线程上运行。
+So when you launch this kernel, this kernel actually run on one thread.
+
+637
+00:48:16,989 --> 00:48:20,590
+但是因为Kota会把这个内核启动到很多很多线程上，
+But because Kota is going to launch this kernel onto many many threads,
+
+638
+00:48:20,590 --> 00:48:22,329
+所以它们基本上是并行运行的。
+so basically they run in parallel.
+
+639
+00:48:22,329 --> 00:48:27,149
+明白了吗？有问题吗？
+Okay? Any question?
+
+640
+00:48:27,590 --> 00:48:28,909
+很好。
+Cool.
+
+641
+00:48:28,909 --> 00:48:32,409
+这是我们在这门课上要做的最简单的一个内核。
+This is the one simplest kernel we are going to do in this class.
+
+642
+00:48:32,409 --> 00:48:35,349
+以后我们会做更难的内核。
+We are going to do much difficult ones in the future.
+
+643
+00:48:35,349 --> 00:48:40,269
+好的，那我有两个问题。
+Okay. Then I have two questions.
+
+644
+00:48:40,269 --> 00:48:43,549
+我这里总共启动了多少个线程？
+How many thread in total here I launched?
+
+645
+00:48:48,079 --> 00:48:56,999
+基本上是1k乘以1k。那有多少个块呢？
+It's basically one k by one times one k. How many blocks?
+
+646
+00:48:58,400 --> 00:49:06,019
+这个变量基本上给出了块数，就是八千。因为在这里，
+This variable basically gives you blocks it's basically eight K. Because here,
+
+647
+00:49:06,019 --> 00:49:08,800
+每个块的线程数我定义为128。
+threads per block, I define it as 128.
+
+648
+00:49:08,800 --> 00:49:12,939
+我的做法基本上就是用总数除以128来计算。我要启动的线程数。
+What I do is basically use undivided by 128. I'm going to launch.
+
+649
+00:49:12,939 --> 00:49:20,320
+基本上，这个内核会在八千个块上启动，每个块有128个线程。
+Basically this kernel is going to be launched on eight k blocks where each block has 128 threads.
+
+650
+00:49:20,320 --> 00:49:22,859
+那你可能会有一个问题。
+Then you probably come up with a question.
+
+651
+00:49:22,859 --> 00:49:27,679
+哪种GPU有八个k块？对吧？
+What GPU has eight k blocks? Right?
+
+652
+00:49:27,679 --> 00:49:33,059
+就像我一开始说的，呃，今天的H100只有44个执行单元，对吧。
+Like I said, at the beginning, uh, today's H 100, they only have 44 exams, right.
+
+653
+00:49:33,059 --> 00:49:35,319
+所以我们稍后会讲到那部分，好吗。
+So welcome to that part later, okay.
+
+654
+00:49:35,319 --> 00:49:38,619
+但总体来说，这段代码是正确的。
+But in general, this code is correct.
+
+655
+00:49:38,619 --> 00:49:41,959
+一般来说，你希望启动的块数要多于GPU实际拥有的块数。
+And in general, you want to launch more blocks than GPU has.
+
+656
+00:49:41,959 --> 00:49:44,759
+这被称为对GPU的超量订阅。
+And this is called oversubscription to GPUs.
+
+657
+00:49:44,759 --> 00:49:50,439
+当我们写GPU代码时，我们总是想超量订阅，因为我们希望让所有单元都保持忙碌。
+And when we write GPU code, we always want to oversubscribe because we want to keep all them busy.
+
+658
+00:49:50,439 --> 00:49:55,340
+实际上我们知道，在GPU的Kota Bacon中，有一个调度器会尝试调度
+And we actually know that in GPU in Kota Bacon, there's a scheduler that is trying to schedule
+
+659
+00:49:55,340 --> 00:49:58,719
+一个一个地安排任务，直到完成，好吗？
+a job one by one until it finishes, okay?
+
+660
+00:50:00,770 --> 00:50:04,050
+所以，是的，我们完成了第一个内核。
+So yeah, we finish our first kernel.
+
+661
+00:50:04,050 --> 00:50:06,129
+好的。那么先找出一个问题。
+Okay. So identify a problem.
+
+662
+00:50:06,129 --> 00:50:08,209
+你们都知道这个内核里有个问题。
+You guys know there's a problem in this kernel.
+
+663
+00:50:08,209 --> 00:50:09,589
+否则我就不会讲这个了。
+Otherwise, I'm not going to talk about this.
+
+664
+00:50:09,589 --> 00:50:11,890
+事情不会那么简单的。
+It's not going to be that simple.
+
+665
+00:50:13,130 --> 00:50:17,249
+什么？对，没错。
+Sorry? Yes, exactly.
+
+666
+00:50:17,249 --> 00:50:22,049
+如果你看这个，每个线程都会读取三个元素，对吧？
+So if you look at this, so each thread is going to read three elements, right?
+
+667
+00:50:22,049 --> 00:50:26,729
+但是对于相邻的线程，是的，它们会多次读取相邻的元素，对吗？
+But for adjacent threads, yeah, it's going to read adjacent elements many many times, right?
+
+668
+00:50:26,729 --> 00:50:30,849
+所以在这个程序里，我们基本上是对每个线程，
+So in this program, what do we do is basically for each thread,
+
+669
+00:50:30,849 --> 00:50:34,769
+读取三个元素，然后让那个线程处理。
+we read three elements and we have that thread.
+
+670
+00:50:34,769 --> 00:50:38,929
+所以我们读取了三次，总共这么多次，对吧？
+So we read three times and times. Right?
+
+671
+00:50:38,929 --> 00:50:45,570
+但是直觉告诉我，在计算这部分结果时，我们并不知道如何去做B。
+But the hall intuition tells me that we don't how to B when we calculate this chunk of the results,
+
+672
+00:50:45,570 --> 00:50:49,909
+对，我们实际上不知道怎么读取，比如说，这里是一、二、三、四、五，
+right, we actually don't how to read for example, this is one, two, three, four, five,
+
+673
+00:50:49,909 --> 00:50:52,049
+我们不知道怎么读取15次。
+we don't how to read 15 times.
+
+674
+00:50:52,049 --> 00:50:55,389
+我们只需要读取这部分内容。
+We just need to read this part of the content.
+
+675
+00:50:55,389 --> 00:50:57,969
+这里是一、二、三、四、七次。
+This is one, two, three, four, seven times.
+
+676
+00:50:57,969 --> 00:51:02,090
+好的，所以在之前的核函数中，每个t都必须重复读取这三个元素。
+Okay. So in the previous kernel, each t has to repeatedly read the three elements.
+
+677
+00:51:02,090 --> 00:51:07,170
+但是理想情况下，我们只需要读取七次来计算这五个结果。
+Okay but ideally, we should only read seven times to calculate the five results.
+
+678
+00:51:07,170 --> 00:51:09,369
+明白了吗？那我们该怎么做呢？
+Okay? So how to do this.
+
+679
+00:51:10,409 --> 00:51:14,869
+这基本上就是为什么Coda有共享内存，对吧？
+So this is basically why Coda has shared memory, right?
+
+680
+00:51:14,869 --> 00:51:20,629
+假设我们有一些所有同一个block里的线程都能访问的共享内存。
+Suppose we have some shared memory that all the threads in one block or access.
+
+681
+00:51:20,629 --> 00:51:24,249
+我们可以做的基本上就是利用这种内存层次结构，对吧。
+What we can do is basically we utilize this kind of memory hierarchy, right.
+
+682
+00:51:24,249 --> 00:51:29,530
+我们首先把这七个元素读入共享内存，然后我们启动这段代码
+We first read the seven elements into the shared memory, and then we launch this code
+
+683
+00:51:29,530 --> 00:51:31,569
+在另一个线程块中的所有线程上运行。
+into all those threads in another block.
+
+684
+00:51:31,569 --> 00:51:35,689
+因为我们线程块中的这些线程实际上可以访问共享内存，
+And because those threads in our block can actually access shared memory,
+
+685
+00:51:35,689 --> 00:51:37,650
+他们就不需要直接从HBM读取数据了。
+they don't have to read directly from HBM.
+
+686
+00:51:37,650 --> 00:51:42,149
+他们只需要从中间层，也就是共享内存中获取内容，对吧？
+They just basically fetch contents from the intermediate layer, the shared memory, right?
+
+687
+00:51:42,149 --> 00:51:46,270
+所以我们只需要做七次就可以了，好吗？
+So we only need to do seven times, okay?
+
+688
+00:51:46,270 --> 00:51:51,829
+有了这个高亮点，我们来深入探讨一下，我们要稍微改进一下这个内核。
+With that highlintuion, let's try to dive deeper, we are going to improve this kernel a little bit.
+
+689
+00:51:51,829 --> 00:51:53,589
+我们尝试减少内存访问次数。
+We try to reduce the lumber rates.
+
+690
+00:51:53,589 --> 00:51:57,510
+好的，这里有一个例子。
+Okay. And here's the example.
+
+691
+00:51:57,510 --> 00:52:02,289
+我会让你看这个内核大约30秒。
+I'm going to let you look at this kernel for maybe 30 seconds.
+
+692
+00:52:20,409 --> 00:52:21,569
+好的。
+Okay.
+
+693
+00:52:21,569 --> 00:52:22,969
+是的，我们试着一起过一遍。
+Yeah, let's try to go through it.
+
+694
+00:52:22,969 --> 00:52:26,629
+好吗？所以这里，我们基本上是添加了这段代码。
+Okay? So here, what we do is basically we add this chunk of code.
+
+695
+00:52:26,629 --> 00:52:28,969
+其余的部分大致相同。
+For the rest is roughly the same.
+
+696
+00:52:28,969 --> 00:52:31,669
+那么这段代码的作用基本上首先是这样的。
+So what this chunk of code is doing is basically first.
+
+697
+00:52:31,669 --> 00:52:36,389
+我尝试声明一个叫做support的内存空间，
+I try to declare a memory space which I call support,
+
+698
+00:52:36,389 --> 00:52:40,029
+这个support的大小是每个块的线程数加二。
+and this support has a size of threat per block plus two.
+
+699
+00:52:40,029 --> 00:52:44,769
+之所以要加二，是因为我要处理边界条件，明白吗？
+The reason it plus two is because I try to handle the edge condition, okay?
+
+700
+00:52:44,769 --> 00:52:48,269
+你会发现一个奇怪的地方，就是我还有另一个前缀。
+One weird thing you find is basically I have another prefix,
+
+701
+00:52:48,269 --> 00:52:51,649
+这个叫做带有两个下划线的shared。
+which is called shared with two double underscores.
+
+702
+00:52:51,649 --> 00:52:59,329
+这就是你在Quota内核中声明这些共享内存的方式，如果你把这个传递给Quota编译器，
+This is how you declare those shared memory in Quota kernel, if you pass this to Quota compiler,
+
+703
+00:52:59,329 --> 00:53:04,229
+他们就知道你是在请求同一个块中跨线程的共享内存。
+they know that you are asking memory from the shared memory in one block across threads.
+
+704
+00:53:04,229 --> 00:53:10,869
+我请求这块内存，然后，嗯，我将要，嗯，读取数据。
+I ask for this memory, and then um, I'm going to, um, read.
+
+705
+00:53:10,869 --> 00:53:15,389
+我会把输入读到支持部分，然后把结果写回到支持部分。
+I'm going to read the input to the part of the support and write the results back to the support.
+
+706
+00:53:15,389 --> 00:53:19,714
+记住，这个索引其实已经在这里计算出来了，好吗？
+Remember, this index is basically already calculated here, okay?
+
+707
+00:53:19,714 --> 00:53:24,059
+因为我还需要两个元素，所以我要让
+And because I need two more elements, so I'm going to ask
+
+708
+00:53:24,059 --> 00:53:26,719
+前两个线程多做一点工作。
+the first two threads to do a little bit more job.
+
+709
+00:53:26,719 --> 00:53:30,399
+好吗？顺便说一句，这其实不是很好，对吧？
+Okay? This is not good, by the way, right?
+
+710
+00:53:30,399 --> 00:53:34,159
+记住，因为这是I，这是一个控制流，这意味着当第一个
+Remember, because this is the I, this is a control flow, which means that when the first
+
+711
+00:53:34,159 --> 00:53:37,559
+两个线程正在读取两个元素，其他所有线程基本上都在等待。
+two threads are reading into two elements, all the other threads are basically waiting.
+
+712
+00:53:37,559 --> 00:53:40,520
+我等了一会儿，产生了一点点气泡。
+I wit a little bit. I produce a little bit bubble.
+
+713
+00:53:40,520 --> 00:53:43,279
+但这没关系。一旦我有了这个，
+But that's fine. Once I have this,
+
+714
+00:53:43,279 --> 00:53:46,279
+我基本上会再加一行，叫做同步提升。
+I basically add another line which is called synchres.
+
+715
+00:53:46,279 --> 00:53:50,419
+这种同步提升和我之前介绍的Koda同步不太一样。
+This sync rise is quite different from the Koda synchronize I introduced.
+
+716
+00:53:50,419 --> 00:53:53,739
+这种同步基本上让一个块中的所有线程都同步。
+This syncs basically think all the threads in one block.
+
+717
+00:53:53,739 --> 00:53:56,029
+它让所有线程都等待。
+It tells all threats to wait.
+
+718
+00:53:56,029 --> 00:54:01,519
+直到你们所有人都完成了这行以上的代码。
+Until all of you have finished any code above this line.
+
+719
+00:54:01,519 --> 00:54:03,079
+在这一点上，
+And at this point,
+
+720
+00:54:03,079 --> 00:54:04,539
+我觉得剩下的就……然后呢
+I think the rest and then what
+
+721
+00:54:04,539 --> 00:54:06,439
+我做的基本上就是求和的工作。
+I do is basically I do the sum job.
+
+722
+00:54:06,439 --> 00:54:10,119
+嗯，我觉得在这个循环里，唯一的不同是我没有直接读取
+Um, I think for this loop, the only difference is instead of directly reading
+
+723
+00:54:10,119 --> 00:54:15,519
+来自GBM的输入，而是我基本上从support中读取结果，
+from this input which rests on GBM, what I do is basically I read the results from support,
+
+724
+00:54:15,519 --> 00:54:18,399
+support就是这个block的共享内存。
+which is the shared memory that block.
+
+725
+00:54:18,399 --> 00:54:24,219
+明白了吗？所以如果你把这段代码和之前的kernel做比较，我做的基本上是，
+Okay? So if you compare this code to previous kernel, what I do is basically, uh,
+
+726
+00:54:24,219 --> 00:54:29,219
+我节省了很多，就像在之前的block，在之前的kernel版本里，
+I save a lot of as in the previous block, in the previous version of the kernel,
+
+727
+00:54:29,219 --> 00:54:35,839
+我基本上每个block要做三次128次操作，因为每个block有128个res。
+I basically do three times 128 per block, uh, because each block has 128 res.
+
+728
+00:54:35,839 --> 00:54:41,059
+但在这个kernel里，我只读取了30次130次，这几乎是
+But in this kernel, I only read 30 times 130, which is almost three times
+
+729
+00:54:41,059 --> 00:54:43,299
+前一个kernel的三分之一。
+smaller than the previous kernel.
+
+730
+00:54:43,299 --> 00:54:44,519
+而且这个kernel要好得多。
+And this kernel is much better.
+
+731
+00:54:44,519 --> 00:54:47,139
+是的，这就是为什么我喜欢华需要引入共享内存的原因。
+Yeah, that's why I like Hua needs to introduce a shared memory.
+
+732
+00:54:47,139 --> 00:54:54,129
+好吗？总结一下，就是有两种同步方式。
+Okay? And to summarize a little bit, yeah, there are two kind of synchronize
+
+733
+00:54:54,129 --> 00:54:59,929
+同步线程，在同步线程中，当我们这样说时，意味着我们需要等待
+sync threads and in synchro threads, uh when we call that, it means that we need to wait
+
+734
+00:54:59,929 --> 00:55:03,309
+一个块中的所有线程都到达那个点。
+for all threads in a block to arrive at that point.
+
+735
+00:55:03,309 --> 00:55:08,809
+还有一种情况是同步无法同步，比如我们想同步CPU代码和CPU代码时。
+Another thing synchronized could not synchronize, as we want to sync the CPU code and the CPU code.
+
+736
+00:55:08,809 --> 00:55:13,169
+好吗？这基本上就回答了这个问题，对吧？
+Okay? And that basically answer this question, right?
+
+737
+00:55:13,169 --> 00:55:19,349
+所以如果你不在这里同步，你的CPU代码会继续执行而不会等待结果，
+So if you don't s here, you CP code to continue to execute without waiting for results,
+
+738
+00:55:19,349 --> 00:55:23,649
+那么你实际上就不应该依赖这个内核的返回结果，因为
+then you shouldn't actually rely on the return results of this uh kernel because
+
+739
+00:55:23,649 --> 00:55:28,449
+你无法确定它什么时候会结束，你的程序会有不确定的行为。
+you are not sure when it will finish, your program is going to have undetermined behavior.
+
+740
+00:55:28,449 --> 00:55:34,189
+好的。好的。这基本上就结束了我们的第一个内核。
+Okay. Okay. That basically wrapped up our first kernel.
+
+741
+00:55:34,189 --> 00:55:40,829
+有什么问题吗？有。为什么我们有这个？
+Any question? Yeah. Why we have what?
+
+742
+00:55:42,150 --> 00:55:48,029
+哪个块？你是说这个吗？
+Which block? You mean this one?
+
+743
+00:55:50,949 --> 00:55:54,029
+顺便问一下，问题是什么？
+What is the question, by the way.
+
+744
+00:56:01,880 --> 00:56:05,440
+你的意思是，为什么我们分配这个支持吗？
+You mean, why we allocate this support?
+
+745
+00:56:05,440 --> 00:56:14,599
+在这个核函数里，y y 加二，我们会把它启动到一个块里。
+Y y plus two in this kernel, we are going to launch it into one block.
+
+746
+00:56:14,599 --> 00:56:17,880
+那个块只有128个线程。
+That block only have 128 threads.
+
+747
+00:56:17,880 --> 00:56:22,120
+但我们需要处理边界条件。
+But we need to handle boundary condition.
+
+748
+00:56:22,600 --> 00:56:27,419
+记住，我们需要从左到右扫描数组，并且要确保每个线程
+Remember, we need to scan the array from left to right, and we need to make sure each thread
+
+749
+00:56:27,419 --> 00:56:33,560
+能准确访问到相同的元素，相同形状的输入，并产生相同的输出。
+exactly has access to the same elements, same shape of inputs and produce the same output.
+
+750
+00:56:33,560 --> 00:56:35,600
+我们必须处理边界条件。
+We have to handle boundary condition.
+
+751
+00:56:35,600 --> 00:56:44,440
+好的，酷。这就结束了我们的第一个内核。
+Okay. Cool. Okay. That wrap up our first kernel.
+
+752
+00:56:44,440 --> 00:56:50,539
+在下一节课中，我们将要讲解met more，Mt Mo会比这个更复杂，
+In the next lecture, we are going to do met more Mt Mo is going to be more complicated than this,
+
+753
+00:56:50,539 --> 00:56:56,700
+因为我们有三层循环，你们已经可以预测到我们要做分块处理。
+because we have three layer loops and you can already predict that we are going to do telling.
+
+754
+00:56:56,700 --> 00:56:58,820
+我们必须对DPs进行分块处理。
+We have to do telling on DPs.
+
+755
+00:56:58,820 --> 00:57:04,159
+但在那之前，我想再介绍一下Coda的一些基础知识。
+But before that, I want to introduce a bit more on the fundamentals of Coda, okay.
+
+756
+00:57:04,560 --> 00:57:13,519
+所以当你把这个内核启动到dA到媒体设备时，会发生什么呢？任何C++代码，
+So when you launch this kernel, um, uh, to dA to media devices, what happen any C plus plus code,
+
+757
+00:57:13,519 --> 00:57:15,639
+你需要做的是编译这段代码。
+so what do you do is you need to comple this code.
+
+758
+00:57:15,639 --> 00:57:21,060
+好的，当你把这段代码交给编译器后，编译器会把
+Okay. And after you put you give this code to compiler, uh, the compiler is going to convert
+
+759
+00:57:21,060 --> 00:57:24,500
+这段代码转换成处理器能理解的非常底层的指令，对吧。
+this code into a very low level instructions, right, the processor can understand.
+
+760
+00:57:24,500 --> 00:57:30,459
+所以对于dA程序，编译器的基本流程大致可以总结如下。
+So the compilers basically for dA program roughly uh can be summarized as this.
+
+761
+00:57:30,459 --> 00:57:34,160
+所以它有一些程序文本指令，对吧？
+So it has some program texts instructions, okay?
+
+762
+00:57:34,160 --> 00:57:37,580
+它还包含了关于所需资源的信息。
+And it also has information about the required resources.
+
+763
+00:57:37,580 --> 00:57:41,720
+比如说，在这个程序中，因为你明确地定义了
+Okay? For example, in this program, uh, because you explicitly define
+
+764
+00:57:41,720 --> 00:57:47,279
+你请求的线程数和块数，所以编译指令会
+the number of threads and blocks you ask for, the compiling instruction is going to
+
+765
+00:57:47,279 --> 00:57:49,240
+包含资源需求的信息。
+contain the resource requirement.
+
+766
+00:57:49,240 --> 00:57:53,939
+所以在这个程序中，资源需求就是我需要——我是用户。
+So in this program, the resource requirement is I need to I'm the user.
+
+767
+00:57:53,939 --> 00:57:57,759
+我请求每个块有128个线程。
+I'm asking for h 128 threads per block.
+
+768
+00:57:57,759 --> 00:58:01,339
+我请求每个线程有8字节的本地数据。
+I'm asking for eight bytes of local data per thread.
+
+769
+00:58:01,339 --> 00:58:04,279
+这里分配的就是本地数据，就是这类东西。
+This is the local data allocated here, this kind of thing.
+
+770
+00:58:04,279 --> 00:58:09,605
+我正在分配这些。我需要这部分内存来存放临时变量。
+I'm allocating this. I need this part of memory to see the temporary variables.
+
+771
+00:58:09,605 --> 00:58:18,729
+
+I'm also asking for 31 30 floating point spaces of shared space per red block, right?
+
+772
+00:58:18,729 --> 00:58:21,609
+
+This is the resource requirement is kernel ask for.
+
+773
+00:58:21,609 --> 00:58:25,869
+
+Okay? Once you have this kind of resource requirement, what do you do is basically you
+
+774
+00:58:25,869 --> 00:58:31,290
+
+submit this instruction to CODA to GPU and GPU actually has built
+
+775
+00:58:31,290 --> 00:58:34,069
+
+in scheduler to schedule this kind of jobs.
+
+776
+00:58:34,069 --> 00:58:38,180
+
+Okay? So let's see how the scheduler works.
+
+777
+00:58:38,180 --> 00:58:43,749
+
+So the way that scheduler works is basically they try to accommodate uh,
+
+778
+00:58:43,749 --> 00:58:48,690
+
+different requirements of blocks, threads or whatever kind of memory requirement
+
+779
+00:58:48,690 --> 00:58:51,450
+
+that user could come up with in their Ka program.
+
+780
+00:58:51,450 --> 00:58:55,869
+
+Okay? Uh, the user could ask for a static but large number of blocks that is,
+
+781
+00:58:55,869 --> 00:58:59,510
+例如，大于整个GPU的总块数。
+for example, greater than the total blocks of the entire GPU.
+
+782
+00:58:59,510 --> 00:59:04,690
+而且不同的GPU有不同数量的SM或者线程数。
+And also GPU, different GPUs have varying number of SMS or number of threads.
+
+783
+00:59:04,690 --> 00:59:07,050
+但是Koda是一种通用语言。
+So but Koda is a universal language.
+
+784
+00:59:07,050 --> 00:59:09,329
+它基本上调度所有这些事情。
+It basically schedule all these kind of things.
+
+785
+00:59:09,329 --> 00:59:14,669
+好吗？所以这种调度方式基本上是，它有一个假设，就是，
+Okay? So the way this schedule is basically, uh it has a crestin that is, uh,
+
+786
+00:59:14,669 --> 00:59:17,869
+线程块可以以任何顺序执行。
+the thread blocks can be executed in any order.
+
+787
+00:59:17,869 --> 00:59:24,709
+对，这个假设很合理，因为你的代码应该是AMD的，对吧？
+Right. This is a very reasonable assumption because your code is supposed to be AMD, right?
+
+788
+00:59:24,709 --> 00:59:27,770
+因为每个线程基本上都是独立执行的。
+Uh, because each thread basically asks you independently.
+
+789
+00:59:27,770 --> 00:59:30,970
+所以这个假设是很合理的。
+So this assumption is quite reasonable.
+
+790
+00:59:30,970 --> 00:59:35,910
+好的，然后TPO要做的就是把线程块映射到核心上。
+Okay? And then what the TPO does is going to map the thread blocks to cross,
+
+791
+00:59:35,910 --> 00:59:41,810
+使用动态扩展策略，我们试图满足你的资源需求。
+uh using a dynamic scaling policy that were trying to fulfill your resource requirement.
+
+792
+00:59:41,810 --> 00:59:44,409
+好吗？那我们来看这个例子。
+Okay? So basically let's see this example.
+
+793
+00:59:44,409 --> 00:59:45,989
+这是我们的窗口求和，对吧？
+This is our Window sum, right?
+
+794
+00:59:45,989 --> 00:59:48,530
+C和D是等价的，对吗？
+C we D equivalently, okay?
+
+795
+00:59:48,530 --> 00:59:53,230
+我们尝试将内核调度到许多许多的考试中。
+And we try to schedule the kernel to many many exams.
+
+796
+00:59:53,230 --> 01:00:00,230
+好的，我们要做的基本上是，我们有这段代码，还有一个GPU。
+Okay. What we do is basically, um, we have this code here, and we have a GPU.
+
+797
+01:00:00,230 --> 01:00:02,950
+假设我们有一个只有两个SM的GPU。
+Suppose we have a GPU with only two SMs.
+
+798
+01:00:02,950 --> 01:00:05,689
+好吗？下面给出了相关规格。
+Okay? And the specs are given below.
+
+799
+01:00:05,689 --> 01:00:11,230
+如果你稍微看一下这个规格，你会发现我们有两个SM。
+So if you uh, slightly read this spec, you can see, we have two SMs.
+
+800
+01:00:11,230 --> 01:00:19,209
+我们在这个SM里有一些线程，这个SM的共享内存空间等于1.5千字节。
+We have a few stress in this stem this SM has shared memory space equal to 1.5 kilobytes.
+
+801
+01:00:19,209 --> 01:00:20,624
+好的，非常小。
+Okay, very small.
+
+802
+01:00:20,624 --> 01:00:24,579
+那么，Koda会如何安排这个任务呢？
+Okay, so how will Koda schedule this job?
+
+803
+01:00:24,579 --> 01:00:32,079
+那我们来一步步看看。首先，主机会把Koda内核指令发送到TPU设备，对吧？
+So let's go through them. So first, the host sends Koda kernel instruction to TPU devices. Okay?
+
+804
+01:00:32,079 --> 01:00:36,239
+然后调度器基本上会把第零块映射到
+And then scheduler basically maps the block zero to
+
+805
+01:00:36,239 --> 01:00:41,000
+物理SM零，也就是第一个流处理器。
+the physical SM zero to the first streaming processor.
+
+806
+01:00:41,000 --> 01:00:47,180
+它会从这个流处理器中预留一些资源。
+And it will reserve a few resources from this streaming processor.
+
+807
+01:00:47,180 --> 01:00:49,339
+那会预留多少资源呢？
+So how many resources reserve?
+
+808
+01:00:49,339 --> 01:00:55,180
+因为正如我刚才说的，之前编译的指令说我需要128个线程，
+Because as I said, the previous compiled instruction said I need 128 threads,
+
+809
+01:00:55,180 --> 01:00:58,149
+我还大概需要，
+and I also need roughly uh,
+
+810
+01:00:58,149 --> 01:01:01,249
+420字节的共享内存，对吧。
+420 bytes of shared memory, right.
+
+811
+01:01:01,249 --> 01:01:06,949
+所以它基本上会根据资源为这批作业进行分配。
+So it will basically split these per resources for this block of jobs.
+
+812
+01:01:06,949 --> 01:01:10,990
+然后因为你请求了很多很多个区块，对吧，记得，
+And then because you are asking for many, many blocks, right, remember,
+
+813
+01:01:10,990 --> 01:01:13,470
+你请求了八个关键区块。
+you are asking for eight key blocks.
+
+814
+01:01:13,470 --> 01:01:15,929
+但是我只有两个区块。我该怎么办。
+So but I only have two blocks. What I do.
+
+815
+01:01:15,929 --> 01:01:18,549
+我做的基本上是，我会一个一个地安排它们，好吗？
+What I do is basically, I'm going to schedule the one by one, okay?
+
+816
+01:01:18,549 --> 01:01:21,929
+我会把下一个区块分配给第二个执行单元，好吗？
+I'm going to launch the next block to the second exam, okay?
+
+817
+01:01:21,929 --> 01:01:26,549
+然后我把第三个区块分配给第一个执行单元，对吧，因为我还有空间。
+And then I launch the third block to the first AM, right, because I still have space.
+
+818
+01:01:26,549 --> 01:01:28,069
+然后我启动了我的第一个区块。
+And then I launched my first one.
+
+819
+01:01:28,069 --> 01:01:29,849
+好的，这个时候，
+Okay. Then at this point,
+
+820
+01:01:29,849 --> 01:01:35,689
+我发现，你可以看到这里的内存已经满了，
+I find that, um, you can see the memory here is already full,
+
+821
+01:01:35,689 --> 01:01:41,969
+因为每个作业块都会请求，嗯，430。
+because each block of job is going to ask for, um, 430.
+
+822
+01:01:41,969 --> 01:01:46,130
+但是我的总SM只有1.5千字节的共享内存。
+But my total SM only has a shared memory of 1.5 kilobyt.
+
+823
+01:01:46,130 --> 01:01:49,149
+所以当我尝试调度第五个作业时，
+So when I try to schedule my fifth job,
+
+824
+01:01:49,149 --> 01:01:50,849
+我发现没有空间了。
+I find I don't have space.
+
+825
+01:01:50,849 --> 01:01:53,390
+这基本上被称为超额分配。
+This is basically called oversubscription.
+
+826
+01:01:53,390 --> 01:01:56,790
+这意味着Koda会把剩下的块放到队列里。
+That means that Koda is going to put the rest of blocks in queue.
+
+827
+01:01:56,790 --> 01:02:01,149
+它会等这个块执行完，然后继续不断地启动新的块。
+It's going to wait for this block to finish and continue launch and launch launch.
+
+828
+01:02:01,149 --> 01:02:02,569
+这样，你就可以保持
+In this way, you can keep the
+
+829
+01:02:02,569 --> 01:02:04,269
+GPU的利用率始终很高。
+GPU utilization always high.
+
+830
+01:02:04,269 --> 01:02:11,509
+明白了吗？这就是Koda的调度方式，有什么问题吗？
+Okay? This is how Koda schedule works, okay? Any question? Yeah.
+
+831
+01:02:12,520 --> 01:02:18,079
+
+Sorry? It's basically in media driver.
+
+832
+01:02:18,079 --> 01:02:21,679
+
+Yeah. Not in CPU, yeah, yeah.
+
+833
+01:02:21,679 --> 01:02:26,040
+
+Okay. Yeah, this is what I just explained.
+
+834
+01:02:26,040 --> 01:02:29,820
+
+So basically, you have to queue all the block jobs and launch it one by one depending
+
+835
+01:02:29,820 --> 01:02:31,020
+
+on the available resources.
+
+836
+01:02:31,020 --> 01:02:36,300
+
+And you can see this is pretty advanced because if you look at today's cluster scheduler,
+
+837
+01:02:36,300 --> 01:02:40,439
+
+for example, Copernint slurm, and they basically use very similar things.
+
+838
+01:02:40,439 --> 01:02:49,479
+
+Yeah. Okay, that's pretty much wrap up all the deep technical contents of today.
+
+839
+01:02:49,479 --> 01:02:53,140
+
+Then we have some other things to talk about, okay?
+
+840
+01:02:53,140 --> 01:02:57,579
+
+So let's look at how media evolves your GPOs, okay?
+
+841
+01:02:57,579 --> 01:03:00,459
+这是一款非常著名的GPU GTX 80系列。
+So this is a very famous GPU GTX line 80.
+
+842
+01:03:00,459 --> 01:03:06,899
+我想你们很多人可能是为了玩游戏而购买了这款显卡，对吧。
+I think many of you probably purchase this for your GGiveF playing games, okay.
+
+843
+01:03:06,899 --> 01:03:09,519
+这款显卡同样也可以用于深度学习。
+And this can also be used for deep learning.
+
+844
+01:03:09,519 --> 01:03:16,879
+现在你们已经了解了SM和压力，我们可以从更底层来看一下它的规格。
+Um, because now you understand SMs and the stress, we can look at the specs, right at lower level.
+
+845
+01:03:16,879 --> 01:03:21,560
+这款GPU大约只有16个SM。
+So for this GPU you roughly only have 16 SMs.
+
+846
+01:03:21,560 --> 01:03:23,960
+数量非常少，如果你还记得的话，
+Okay. We very small number because if you remember,
+
+847
+01:03:23,960 --> 01:03:26,599
+H100有144个，对吧？
+H 100 is 144, right? Okay.
+
+848
+01:03:26,599 --> 01:03:32,159
+至于共享内存，就是你这个block里有多少内存线程，
+And for shared memory, that is how many memory threads in your block here,
+
+849
+01:03:32,159 --> 01:03:37,359
+它只有96KB，非常小。
+it only has 96 kilobytes very small,
+
+850
+01:03:37,360 --> 01:03:43,240
+每个SM大约可以提供2000个线程。
+ESM can offer you roughly two k threads,
+
+851
+01:03:44,040 --> 01:03:48,799
+ESM实际上有128个四分之一交叉点。
+ESM physically have 128 quarter cross.
+
+852
+01:03:48,799 --> 01:03:50,979
+那只是一个规格，但这里你会遇到一个问题。
+That is a spec, but here you spawn a problem.
+
+853
+01:03:50,979 --> 01:03:53,980
+那么为什么交叉点的数量不等于线程的数量呢？
+So why the number of cross is not equal to number of threats?
+
+854
+01:03:53,980 --> 01:03:57,929
+因为我说过，每个核心，每个线程都会在一个核心上请求你。
+Because I said each core, each thread is going to ask you on one core.
+
+855
+01:03:57,929 --> 01:04:02,160
+好吧，这部分我没有讲到，所以请查阅相关资料。
+Okay, this is a part that I didn't cover, so please check out the readings.
+
+856
+01:04:02,160 --> 01:04:06,939
+在Koda中，你可以创建比物理核心更多的线程。
+In Koda, you can create more threads than physical core.
+
+857
+01:04:07,260 --> 01:04:13,059
+这里有一个warp的概念，你必须理解这一部分。
+There's one concept rap and you have to understand the part.
+
+858
+01:04:13,059 --> 01:04:17,619
+但那太深入了，因为通常如果你不用warp的概念，
+But that is too deep because normally, if you don't use the concept of rap,
+
+859
+01:04:17,619 --> 01:04:19,659
+你依然可以写出非常高效的Koda代码。
+you can still write pretty efficient quota code.
+
+860
+01:04:19,659 --> 01:04:26,619
+但如果你想达到极致的性能，就必须理解warp。明白了吗？
+But if you want to go to the level of flash in three, you have to understand rap. Cool.
+
+861
+01:04:26,619 --> 01:04:31,444
+这有点更深入了，但试着自己想一想，好吗？
+That is a little bit further, but try to figure this out by yourself, okay.
+
+862
+01:04:31,444 --> 01:04:37,309
+然后我们来比较一下这个游戏显卡和H100，对吧？
+And then let's compare this gaming GPO with H 100, right?
+
+863
+01:04:37,309 --> 01:04:41,850
+媒体所做的基本上是，你可以看到这个thresher block没有变化，
+What the media does is basically, you can see this thresher block is unchanged,
+
+864
+01:04:41,850 --> 01:04:47,019
+还是两千，配额交叉也变了，还是128。
+still two k, quota cross changed, still 128.
+
+865
+01:04:47,019 --> 01:04:51,609
+但共享内存变化很大。
+But shared memory changes a lot.
+
+866
+01:04:51,609 --> 01:04:58,310
+例如，当他们从最初的GTX发展到A100时，
+For example, when they evolve this from the original GTX to A 100,
+
+867
+01:04:58,310 --> 01:05:00,630
+我们几乎把共享内存翻了一倍。
+we almost double the shared memory.
+
+868
+01:05:00,630 --> 01:05:09,169
+但当我们从E100发展到H100时，几乎只增加了1.5倍，并没有翻倍。
+But when we evolved from E 100 to H 100, we almost increased by 1.5, not double.
+
+869
+01:05:09,169 --> 01:05:13,690
+我们一直在增加共享内存。
+We keep increasing the the shared memory.
+
+870
+01:05:13,690 --> 01:05:19,110
+共享内存还有另一个名字，叫做SRAM。
+There's another name for shared memory, it's called SRAM.
+
+871
+01:05:19,110 --> 01:05:22,329
+如果你参加了上一节课，你可能已经知道，
+If you attend the last lecture, you probably know,
+
+872
+01:05:22,329 --> 01:05:28,810
+SRAM是语言模型推理中非常关键的资源。
+SRAM is a very critical resources for for language model inference.
+
+873
+01:05:28,810 --> 01:05:34,770
+这就是为什么媒体在从100到几百演进时，他们会尝试增加SRAM。
+That's why media, when they evolve from 100 to hundred, they try to increase SRAM.
+
+874
+01:05:34,770 --> 01:05:39,509
+我们将会讲解为什么SRAM对语言模型加速器如此重要。
+We are going to cover why this SRAM is so critical for language model infracelaor.
+
+875
+01:05:39,509 --> 01:05:44,150
+但从这个趋势可以看出，媒体正在努力增加SRAM内存，
+But from this trend, you can see media is trying to increase the SRAM memory,
+
+876
+01:05:44,150 --> 01:05:49,329
+同时SM也明显大幅增加，几乎是原来的十倍。
+also the SM apparently greatly increased, almost ten times.
+
+877
+01:05:49,329 --> 01:05:51,769
+因此，算力（flops）也大幅提升。
+And as a result, the flops increase a lot.
+
+878
+01:05:51,769 --> 01:05:57,269
+这些算力的提升主要来自于从普通的配额核心转变为张量核心。
+And these flops many comes from changing from normal Quota cre into tenser core.
+
+879
+01:05:57,269 --> 01:05:59,009
+还记得张量核心吗？
+Still remember tender core tender
+
+880
+01:05:59,009 --> 01:06:02,540
+张量核心非常擅长矩阵乘法，并且它只能做矩阵乘法。
+Core is very good at Mtmo, and it can only do meto.
+
+881
+01:06:02,540 --> 01:06:05,589
+好的，那为什么能量这么快呢？
+Okay, so why energy is so fast?
+
+882
+01:06:05,589 --> 01:06:09,410
+我把这个问题留给你们。好吧，我有一些阅读材料，如果你们去读，就会明白了。
+I will leave this to you. Okay, I have readings, and if you do readings, you will understand.
+
+883
+01:06:09,410 --> 01:06:14,580
+好的，那我们试着回顾一下我在上一节课讲过的内容。
+Okay. Then let's try to echo what I said in the last lecture.
+
+884
+01:06:14,580 --> 01:06:16,079
+记住，在上一节课里，
+Remember, in last lecture,
+
+885
+01:06:16,079 --> 01:06:18,319
+我讲过加速器市场，对吧？
+I talk about accelerator market, right?
+
+886
+01:06:18,319 --> 01:06:19,879
+有一家叫做
+So there's a company called
+
+887
+01:06:19,879 --> 01:06:24,419
+Grock的公司，这家公司很疯狂，因为他们的语言模型推理速度
+Grock that company is crazy because their language model inference speed
+
+888
+01:06:24,419 --> 01:06:27,040
+基本上是Medius的十倍甚至二十倍。
+is basically ten or 20 times medius.
+
+889
+01:06:27,040 --> 01:06:33,040
+我跟你们说过，他们对加速器的配置做了一些调整。
+And I basically tell you that they do some kind of adjustment on the accelerator configuration.
+
+890
+01:06:33,040 --> 01:06:35,260
+那么这个调整是什么？现在你们应该明白了。
+So what is that adjustment? Now you understand.
+
+891
+01:06:35,260 --> 01:06:40,059
+基本上他们也有23兆字节的容量。
+It's basically like they have 23 megabytes of as well.
+
+892
+01:06:40,059 --> 01:06:45,799
+所以对于每个流式多处理器来说，几乎是
+So for each streaming multiprocessor, they almost 100 times
+
+893
+01:06:45,799 --> 01:06:50,780
+共享内存的1000倍，相比于GPU来说。
+the uh 1,000 times of the shared memory, compared to GPU.
+
+894
+01:06:50,780 --> 01:06:54,740
+这个芯片有个奇怪的地方，就是它没有HBM。
+And one weird thing about this chip is that they don't have HBM.
+
+895
+01:06:54,740 --> 01:06:59,220
+它只有SRM，好像完全不在乎HBM。
+They only have SRM. Like, they don't care about HBM.
+
+896
+01:06:59,220 --> 01:07:00,799
+大部分的内存，他们只在
+The large part of memory, they only build
+
+897
+01:07:00,799 --> 01:07:02,859
+这个芯片里集成了SRM。
+SRM into this chip.
+
+898
+01:07:02,859 --> 01:07:07,720
+因为正如我刚才说的，SRM是语言模型推理的关键资源，
+And because as I said, SRM is a critical resources language model inference,
+
+899
+01:07:07,720 --> 01:07:13,059
+这基本上就解释了为什么它在语言模型推理上这么快，好吗？
+that basically explains why it is so fast at language model inference, okay?
+
+900
+01:07:14,050 --> 01:07:18,549
+好的，那这就是我今天要讲的全部内容。
+Okay, then that's pretty much what I have today.
+
+901
+01:07:18,549 --> 01:07:20,509
+下课后我有三个问题要问你。
+I have three questions for you after class.
+
+902
+01:07:20,509 --> 01:07:23,449
+好的。我认为你可以在阅读材料中找到大部分答案。
+Okay. I think you can find most of the answers in reading.
+
+903
+01:07:23,449 --> 01:07:25,369
+第一个是，B 100 怎么样，对吗？
+One is, how about B 100, right?
+
+904
+01:07:25,369 --> 01:07:27,649
+这个我已经在上次讲座里讲过了。
+I already left this to last lecture.
+
+905
+01:07:27,649 --> 01:07:30,930
+第二个是，tentercre 是怎么工作的？
+Second is how does the tentercre works?
+
+906
+01:07:31,290 --> 01:07:38,649
+第三个是，为什么 SM 里的 umber physical course 不等于 lumber active threats？
+Third one is why the umber physical course is not equal to the lumber active threats in SM.
+
+907
+01:07:38,649 --> 01:07:40,609
+好吗？谢谢你。
+Okay? Thank you.
+
+908
+01:13:06,880 --> 01:13:08,919
+嗯
+H

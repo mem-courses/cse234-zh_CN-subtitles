@@ -1,0 +1,5374 @@
+1
+00:00:05,960 --> 00:00:13,039
+好的。谢谢大家的到来。我们开始吧。
+Okay. Yeah. Thanks for coming. Let's get started.
+
+2
+00:00:13,520 --> 00:00:21,360
+好的。那么先回顾一下上节课的内容。
+Okay. So just a recap of last lecture.
+
+3
+00:00:21,360 --> 00:00:25,859
+上节课我们讲了GPU的内存，对吧？
+So in last lecture, we did GPU memo, right?
+
+4
+00:00:25,859 --> 00:00:31,479
+我记得我们讲了三个版本，一个非常直接的版本。
+I think we went through three versions, a very straightforward version.
+
+5
+00:00:31,479 --> 00:00:37,899
+嗯，我们开始做了一些寄存器级别的分块，然后又做了两级分块，对吧？
+Um, we start doing some register level telling, and then we do two level telling, right?
+
+6
+00:00:37,899 --> 00:00:40,270
+RM和寄存器，对吗？
+RM and register, okay?
+
+7
+00:00:40,270 --> 00:00:46,299
+我们还稍微讲了一下编译器，就是我们如何编译
+And we also talk about a little bit of compiler that is how we compile
+
+8
+00:00:46,299 --> 00:00:51,760
+一个算子的优秀实现时，我们有一个非常大的搜索空间。
+a good implementation for an operator, we have a pretty large search space.
+
+9
+00:00:51,760 --> 00:00:56,040
+我们基本上是在为这些循环搜索配置，
+We basically search the configurations for those loops,
+
+10
+00:00:56,040 --> 00:01:03,879
+然后我记得在今天课程开始前，我们还稍微提到了Triton。
+then I think we touched a little bit on Triton, before we started today lecture,
+
+11
+00:01:03,879 --> 00:01:10,620
+我们来做选择题，基本上是为了验证我们确实学会了。
+content let's do MCQ to basically verify we indeed learn.
+
+12
+00:01:11,020 --> 00:01:17,260
+第一个问题，在GPS的语境下，什么是内核？
+The first one, what is a kernel in the context of GPS?
+
+13
+00:01:21,860 --> 00:01:24,980
+是D，对吧？这个很明显。
+D, right? Yeah, this is obvious.
+
+14
+00:01:24,980 --> 00:01:28,059
+我试着记住这个词，内核。
+I try to remember this word, Kernel.
+
+15
+00:01:28,059 --> 00:01:35,379
+好，第二个问题，在GPU执行的语境下，共享内存的作用是什么？
+Yeah. Second one, what is a function of shared memory in the context of GPU execution?
+
+16
+00:01:37,780 --> 00:01:41,880
+是C，不是HBM，HBM指的是全局内存。
+C it's not HBM HBM means a global memory.
+
+17
+00:01:41,880 --> 00:01:45,660
+SRM指的是更高一层的内存，好吗？
+SRM means a layer higher, okay?
+
+18
+00:01:45,900 --> 00:01:54,180
+它不是用来计算的，是用来存储东西的，是C。那么，
+And it's not for compute, it's for storing things, it's C. What is
+
+19
+00:01:54,180 --> 00:01:58,180
+超额订阅GPU有什么意义？
+the significance of over subscribing the GPU?
+
+20
+00:02:01,300 --> 00:02:05,440
+显然，A、C和D都是错的，对吧？
+Apparently, A and C and D are wrong, right?
+
+21
+00:02:05,440 --> 00:02:08,040
+所以它归到B，对吧。
+So it's goes to B, yeah.
+
+22
+00:02:08,040 --> 00:02:13,860
+所以我们基本上需要给我们的流处理器分配很多很多任务，让GPU保持忙碌。
+So we basically need to give many, many jobs to our streaming multiprocessors to make GPU busy.
+
+23
+00:02:13,860 --> 00:02:17,339
+这就是超额分配的意思。
+That is what oversubscription means.
+
+24
+00:02:18,620 --> 00:02:22,780
+关于GPU内存，以下哪项是正确的？
+Which of the following is true about GPU memory?
+
+25
+00:02:36,170 --> 00:02:38,429
+B，没错，当然是B。
+B, yeah, of course.
+
+26
+00:02:38,429 --> 00:02:40,810
+其他选项都是错的，明白吗？
+All the rest are wrong, okay?
+
+27
+00:02:42,170 --> 00:02:47,509
+那么以下哪种操作最有可能
+So which of the following operations is most likely so most likely to
+
+28
+00:02:47,509 --> 00:02:50,570
+受到算术运算的限制。
+be limited by arithmetic operations.
+
+29
+00:02:58,410 --> 00:03:05,169
+通过查看所有六个选项，我们肯定可以首先排除A、C、D和E，对吧，
+So by looking at all the six options, definitely, we can first eliminate A, C, and D, and E, right,
+
+30
+00:03:05,169 --> 00:03:09,169
+因为它们不是算术密集型的。
+because they are not arithmetic intensive.
+
+31
+00:03:09,169 --> 00:03:13,909
+所以我们现在需要做的，基本上就是比较B和F，对吧？
+So what we need to do is basically compare B and F, right?
+
+32
+00:03:13,909 --> 00:03:19,030
+那么需要更多浮点运算的那个，更有可能受到算术操作的限制。
+And the one that has more that requires more flops are more likely to
+
+33
+00:03:19,030 --> 00:03:21,130
+所以我记得我给过你一个公式，对吧？用来计算矩阵乘法所需的浮点运算量。
+be limited by arithmetic operations.
+
+34
+00:03:21,130 --> 00:03:25,569
+对于选项B，
+So I think I give you a equation right, how to calculate the flops needed for matm and
+
+35
+00:03:25,569 --> 00:03:28,839
+我觉得它确实已经是一个相当大的矩阵乘法了，但它有一个维度等于1。
+the for the option B,
+
+36
+00:03:28,839 --> 00:03:34,879
+但对于第二个F，呃，前两个维度稍微小一点，
+I think it is indeed a pretty big metamol already, but it has one dimension that is equal to one.
+
+37
+00:03:34,879 --> 00:03:39,720
+但是第三个维度非常大。
+But for the second one F, uh, the first two dimensions are slightly smaller,
+
+38
+00:03:39,720 --> 00:03:41,679
+如果你比较所有需要的浮点运算，其实我觉得F的计算量非常大。
+but the third dimension is pretty big.
+
+39
+00:03:41,679 --> 00:03:47,000
+很好。那么在为GMM选择tile大小时，GMM基本上就是GPU上的矩阵乘法的意思，
+And if you compare all the flops needed, actually, I think F is very intensive.
+
+40
+00:03:47,000 --> 00:03:59,260
+好的，所以在为GMM选择tile size时，GMM其实就是指GPU上的矩阵乘法。
+Cool. So when picking a tile size for GMM GMM means basically stands for the metamol in GPUs,
+
+41
+00:03:59,260 --> 00:04:02,760
+为什么不总是选择最大的 tile 大小呢？
+why not always pick the biggest tile size?
+
+42
+00:04:06,790 --> 00:04:09,889
+B。好的。
+B. Okay.
+
+43
+00:04:09,889 --> 00:04:15,750
+我们一个个来看，对于某些 GMM 大小，tile 可能无法适配 GPHPM。
+Let's look it one by one, the tile might not fit on the GPHPM for some GMM sizes.
+
+44
+00:04:15,750 --> 00:04:20,429
+这个说法是错的，因为 HBM 很大，而且它对 tiling 没有贡献。
+This one is wrong because HBM is pretty big, and it's not contribute to tiling.
+
+45
+00:04:20,429 --> 00:04:27,930
+更大的 tile 大小可能导致某些 GMM 大小下并行度较低。这是正确的。
+The bigger size could result in low parism for some GMM sizes. This one is correct.
+
+46
+00:04:27,930 --> 00:04:33,729
+是的。如果你分配更大的 tile，就意味着你会有更少的线程。
+Yeah. If you allocate more larger tile, that means you are going to have fewer threads.
+
+47
+00:04:33,729 --> 00:04:37,489
+所以如果线程更少，你的并行度就会受到限制。
+So if you have fewer threads, then your pism will be limited.
+
+48
+00:04:37,489 --> 00:04:42,909
+大的 tile 数据复用率低，这个说法是错的，实际上数据复用率更高。
+Larger tiles have lower data use, it's wrong it has more data reuse.
+
+49
+00:04:42,909 --> 00:04:46,730
+呃，tile 更大意味着要读取更多的 M 数据。
+Uh, larger tiles means M data is read.
+
+50
+00:04:46,730 --> 00:04:48,789
+不，这个说法是错的，明白吗？
+No, this is wrong, okay?
+
+51
+00:04:48,789 --> 00:04:53,369
+好的，我们没问题了。那么我们继续进入今天的主要内容。
+Cool, we're good. Then let's move on to the main content of today.
+
+52
+00:04:53,369 --> 00:04:56,369
+今天我们要讲的是，我们将完成对 Triton 的讲解，
+And today, we are going to talk about we are going to finish treating,
+
+53
+00:04:56,369 --> 00:05:01,329
+然后我们会开始讨论编译器中的第二个非常重要的话题，
+and then we start looking at a second, very important topic for compiler
+
+54
+00:05:01,329 --> 00:05:04,030
+那就是图优化。
+that is basically graph optimiation.
+
+55
+00:05:04,030 --> 00:05:06,930
+还记得这张幻灯片吧？
+Okay, still remember this slide, right?
+
+56
+00:05:06,930 --> 00:05:14,529
+Triton 是一个很好的平衡点，介于像 TM 和 Koda 这样的全自动编译器，
+So treating is a very good sweet spot between, um, fully automatic compiler like TM and Koda,
+
+57
+00:05:14,529 --> 00:05:15,929
+以及基本上是手动的方式之间。
+which basically is manual.
+
+58
+00:05:15,929 --> 00:05:21,569
+Triton 试图在自动化和性能之间取得平衡。
+Okay? Triton tries to strike a balance between automation and also, um, performance.
+
+59
+00:05:21,569 --> 00:05:28,520
+它通过一些方式实现了这一点，比如说，给你从 N 开始的 Python，
+Okay? And it achieves this by basically, uh, for example, giving you Python from n. It
+
+60
+00:05:28,520 --> 00:05:35,840
+还允许你在 Python 中使用指针操作数组，但它也试图，
+also allows you to manipulate or raise using pointers, even in Python, but it also tries to,
+
+61
+00:05:35,840 --> 00:05:38,599
+基本上就是施加一些限制。
+uh, basically impose a few limitations.
+
+62
+00:05:38,599 --> 00:05:43,820
+这样处理起来可以更好地在后台为你实现一定程度的自动化。
+So treatment can better handle sort of like some degrees of automation in the backend for you.
+
+63
+00:05:43,820 --> 00:05:48,410
+比如说，met mootei，我觉得我们之前也看过这个程序，对吧。
+For example, met mootei and I think we look at this program a little bit, right.
+
+64
+00:05:48,410 --> 00:05:53,549
+我觉得我们已经走过这一部分了，所以这个和传统的Coda很不一样。
+I think we go through this one. So um, this is quite different from traditional Coda.
+
+65
+00:05:53,549 --> 00:05:55,929
+你知道有几点不同。首先它是基于python的。
+You know a few things. One is python based.
+
+66
+00:05:55,929 --> 00:06:00,049
+第二，这段代码只会被映射到一个区块上。
+Second is, um, uh, this code will only be mapped to one block.
+
+67
+00:06:00,049 --> 00:06:03,930
+由用户决定他们想把这段代码部署到多少个区块，对吧？
+It's for the user to decide how many blocks they want to launch this code too, right?
+
+68
+00:06:03,930 --> 00:06:10,850
+你决定的方法其实就是在这里声明网格大小，然后
+And the way you decide is basically uh, you declare the grid size here and you
+
+69
+00:06:10,850 --> 00:06:13,770
+把这个程序部署到一组区块上，好吗？
+launch this program to a grade of blocks, okay?
+
+70
+00:06:13,770 --> 00:06:18,030
+同时用户也需要注意，他们需要以某种方式编写代码，
+And it's also for the user to be aware that they need to write the code in a way that,
+
+71
+00:06:18,030 --> 00:06:21,330
+嗯，所以他们为每个线程操作数组。
+um, so they manipulate array for each thread.
+
+72
+00:06:21,330 --> 00:06:24,410
+所以每个线程都知道应该从输入的哪个区域读取数据，
+So each thread knows which area to read from the inputs and
+
+73
+00:06:24,410 --> 00:06:28,609
+并尝试基本上计算自己的那一部分，自己的任务。
+try to basically calculate its own part, its own person.
+
+74
+00:06:28,609 --> 00:06:33,130
+好的，我记得我们上节课讲到这里，我们现在从这里继续。
+Okay, I think we stopped here last lecture, and we'll continue from here.
+
+75
+00:06:33,130 --> 00:06:37,300
+那么，为了基本上修改这段代码，
+So um in order to basically change this code,
+
+76
+00:06:37,300 --> 00:06:41,079
+你可以从这段代码中看到，我们实际上是把这个函数只启动到一个块里，
+you can see from this code, we are essentially launching this function into one block
+
+77
+00:06:41,079 --> 00:06:42,880
+因为网格大小是1。
+because the grid size is one.
+
+78
+00:06:42,880 --> 00:06:47,960
+我们只有一个块。所以我们想把它改成多块的版本，因为我们想要
+We only have one block. So we want to change this into multiple block version because we want to
+
+79
+00:06:47,960 --> 00:06:50,579
+尽可能多地利用GPU上的SM单元。
+use as many SMS as possible from the GPU.
+
+80
+00:06:50,579 --> 00:06:54,740
+所以我们要做的基本上就是做这些更改。
+So what do we do is basically we make these changes.
+
+81
+00:06:54,740 --> 00:06:59,539
+我觉得你首先要注意的是，这里我们稍微增加了数组的大小。
+I think the first thing you want to note is here, we slightly increased array size.
+
+82
+00:06:59,539 --> 00:07:01,279
+是的，因为我们有了更多的块。
+Yeah, because we have more blocks.
+
+83
+00:07:01,279 --> 00:07:03,499
+我们想要计算更多的元素。
+We want to calculate more elements.
+
+84
+00:07:03,499 --> 00:07:10,260
+我们做的基本上还是每个块启动1024个线程，
+And what we do is basically we still launch like 1024 threads per block,
+
+85
+00:07:10,260 --> 00:07:15,335
+然后我们用数组大小除以1024，申请相应数量的块。
+and we divided the array size by 1024 and we request that many blocks.
+
+86
+00:07:15,335 --> 00:07:22,830
+好的，所以在这种情况下，我们有这么多块，每个块仍然有24个线程，
+Okay. So in this sense, so we have these many blocks and each block still has 24 threads,
+
+87
+00:07:22,830 --> 00:07:25,710
+每个线程基本上会计算一个元素。
+and each thread will basically calculate one element.
+
+88
+00:07:25,710 --> 00:07:29,550
+和程序的前一个版本相比，
+And compared to the previous version of the program,
+
+89
+00:07:29,550 --> 00:07:36,150
+我们现在需要考虑块的问题，并且要确保每个块中的每个线程
+what we need to do is we need to now consider blocks, and we need to make sure each thread in
+
+90
+00:07:36,150 --> 00:07:39,569
+实际上索引到数组中的正确元素。
+each block actually index the right element of the array.
+
+91
+00:07:39,569 --> 00:07:42,330
+所以当我们用这种拉取内部语义来操作时，
+So when we play with this kind of pull inter semantics,
+
+92
+00:07:42,330 --> 00:07:48,690
+我们需要引入另一个偏移量，这个偏移量基本上是每个块的线程数
+we need to introduce another offset that is basically uh the number of threads per block
+
+93
+00:07:48,690 --> 00:07:51,480
+乘以当前块的索引。
+times the current index of this block.
+
+94
+00:07:51,480 --> 00:07:57,590
+对吧，所以我们可以用这个EPI TD程序来返回当前块的索引。
+Right so we can use this EPI TD program to return the current block index.
+
+95
+00:07:57,590 --> 00:08:03,170
+然后我们基本上让数组偏移，比如说，每个块偏移1024，对吧？
+Then we basically offset the array by, for example, each block will offset by 1024, right?
+
+96
+00:08:03,170 --> 00:08:10,629
+然后我们把这个偏移量加到我们为每个线程索引创建的原始偏移数组上，
+And then we add this offset to the original, offset array we created for index each thread,
+
+97
+00:08:10,629 --> 00:08:14,630
+对，每个线程的内容，然后我们基本上可以以一种
+right, each thread content, and we can basically change this program in a way that
+
+98
+00:08:14,630 --> 00:08:17,949
+让它能在很多很多块和很多很多线程上运行的方式来改变这个程序。
+is it will operate on many many blocks and many many threads.
+
+99
+00:08:17,949 --> 00:08:25,490
+好吗？在这里，我们加了一个小小的掩码来避免越界读取，对吧？
+Okay? And here, we add a little bit mask to avoid that we read range, right?
+
+100
+00:08:25,490 --> 00:08:31,930
+所以如果我们的线程数大于数组的大小，
+So if our number of threas is greater than, um, than the array size,
+
+101
+00:08:31,930 --> 00:08:35,370
+然后我们基本上要确保我们不会越界。
+then we basically make sure we are not go out of range.
+
+102
+00:08:35,530 --> 00:08:38,970
+对这个程序有什么问题吗？
+Any question for this program?
+
+103
+00:08:39,640 --> 00:08:45,559
+很好。就像我说的，你只需要写这种程序就可以了。
+Cool. And like I said, you just need to write this kind of program
+
+104
+00:08:45,559 --> 00:08:49,040
+而线程会在后台做很多很多事情。
+and the treating is going to do many, many things behind the scene.
+
+105
+00:08:49,040 --> 00:08:52,559
+比如说，如果你写的是元线程，线程会帮你做调度。
+For example, if you write metamo treating is going to do telling for you.
+
+106
+00:08:52,559 --> 00:08:54,420
+你自己不需要知道怎么调度。
+You don't know how to tell by yourself.
+
+107
+00:08:54,420 --> 00:09:00,019
+如果你把线程的性能和Petros对比，你会发现其实还不错。
+And if you compare the treating performance to Petros, you can see, it's pretty decent.
+
+108
+00:09:00,019 --> 00:09:05,680
+记住，在Pyts里，这种代码或者这种内核，都是由Petros的开发者手动编写的，对吧？
+Remember, in Pyts this kind of code or this kind of kernel or manually
+
+109
+00:09:05,680 --> 00:09:08,459
+但在Cuda这种底层语言里，你需要自己处理很多事情。
+crafted by petrod developers, right?
+
+110
+00:09:08,459 --> 00:09:13,639
+但在Cuda这种底层语言里，你需要自己处理很多事情。
+But in Cuda, in low level language, okay, you need to take care of a lot of things.
+
+111
+00:09:13,639 --> 00:09:16,159
+但是在处理时，你只需要写 Python 代码就可以了
+But in treating, you just need to write Python and
+
+112
+00:09:16,159 --> 00:09:19,359
+你可以看到性能其实非常接近。好的。
+you can see the performance is pretty close. Okay.
+
+113
+00:09:19,640 --> 00:09:22,539
+另一个例子，稍微复杂一点。
+Another example, slightly more complicated.
+
+114
+00:09:22,539 --> 00:09:24,439
+我记得你们在第一次作业里做过这个，对吗？
+I think you did this in homework one, right?
+
+115
+00:09:24,439 --> 00:09:26,040
+我们让你们实现 softmax。
+We ask you to do softmax.
+
+116
+00:09:26,040 --> 00:09:31,400
+好吗？那你还记得你是怎么实现 softmax 的吗？
+Okay? So do you still remember how you implement softmax?
+
+117
+00:09:31,540 --> 00:09:38,480
+我相信你们大多数人可能只是，呃，用了一些基础操作，把 softmax 组合起来。
+So I believe most of you probably just, uh, use some primitives, from prior to compose softmax.
+
+118
+00:09:38,480 --> 00:09:42,339
+好的。呃，基本上，你们可能用了 exp 函数，对吧？
+Okay. Uh, so basically, you probably have expent function, right?
+
+119
+00:09:42,339 --> 00:09:47,180
+你们有一些求和，然后有除法之类的，把它们组合在一起。
+You have some mission and you have divided something like that. You compose them together.
+
+120
+00:09:47,180 --> 00:09:52,559
+我想现在你们应该已经意识到，这样做效率其实不会很高。
+I think up to this point, you probably already realize that this is not going to be super efficient.
+
+121
+00:09:52,559 --> 00:09:57,199
+为什么？因为你在组合许多许多基础原语。
+Why? Because you are composing many many elementary primitives
+
+122
+00:09:57,199 --> 00:10:01,439
+基本上你有一个更好的选择，你可以把它们全部整合在一起，
+and you are basically a better alternative, you can fill them all together,
+
+123
+00:10:01,439 --> 00:10:08,184
+你只需要实现softmax，这样可以大幅度减少
+you just implement softmax and that can, um substantially reduce the
+
+124
+00:10:08,184 --> 00:10:10,349
+嗯，IO，对吧？
+Uh, IO, right?
+
+125
+00:10:10,349 --> 00:10:12,869
+因为你不需要为每个原语单独读取。
+Because you don't how to read per primitive.
+
+126
+00:10:12,869 --> 00:10:19,330
+你只需要在一开始读取一次，然后可以在内存中用任何你想要的方式处理，比如分块或者内存层级。
+You can read just at the beginning and do some in memory using whatever telling or memory hierarchy.
+
+127
+00:10:19,330 --> 00:10:25,130
+好吗？人们改进softmax的一种方式基本上就是把它实现成一个整体的softmax。
+Okay? One way people improve softmax is basically they implement into softmax.
+
+128
+00:10:25,130 --> 00:10:32,509
+这基本上就是Petros为他们的softmax API内核用Koda实现的方式。
+And that is basically what uh Petros did for their softmax API kernel implement using Koda.
+
+129
+00:10:32,509 --> 00:10:35,234
+它不是由原语组合而成的，明白吗？
+It's not composed by primitives, Okay?
+
+130
+00:10:35,234 --> 00:10:38,499
+你可以想象这会有多难。
+And you can imagine how difficult this will be,
+
+131
+00:10:38,499 --> 00:10:44,540
+对，特别是如果X是多维的，你还需要做一些求和，
+right, especially considering if X is multi dimensional, you have to do some summation,
+
+132
+00:10:44,540 --> 00:10:49,159
+归一化，然后再做除法，这对于多维数组来说
+normalization and then do some division, and that is going to be
+
+133
+00:10:49,159 --> 00:10:51,839
+会变得相当复杂。
+rather complicated for multi dimensional array.
+
+134
+00:10:51,839 --> 00:10:55,279
+但是使用线程可以让这个过程变得非常简单。
+But the treating can makes this process really simple.
+
+135
+00:10:55,279 --> 00:10:59,019
+这里，我将展示第二段线程程序。
+And here, I'm going to show a second piece of treating program.
+
+136
+00:10:59,019 --> 00:11:03,860
+基本上，我们想要做的是对这个矩阵进行softmax操作，
+So here, basically what we want to do is we want to do a software mass on this matrix,
+
+137
+00:11:03,860 --> 00:11:08,440
+并且我们希望每个线程块都能对每一行进行计算。
+and we want ECblock to basically perform competition on each row.
+
+138
+00:11:08,440 --> 00:11:13,599
+好的，然后我们希望每一列，抱歉，我们希望每个线程块
+Okay. And then we want each column to basically, sorry, we want each threading a block to
+
+139
+00:11:13,599 --> 00:11:15,840
+从这一行中取一个元素。
+take an element from this row.
+
+140
+00:11:15,840 --> 00:11:18,320
+好吗？这样我们就可以做softmax了。
+Okay? And we can do softmax.
+
+141
+00:11:18,320 --> 00:11:22,020
+我们的目标是尝试输入端到端的softmax核函数。
+And our goal is we try to input end to end kernel for softmax.
+
+142
+00:11:22,020 --> 00:11:24,919
+好吗？我们不是用基本操作来组合的。
+Okay? We don't compose from primitives.
+
+143
+00:11:24,919 --> 00:11:30,300
+是的。我觉得有了之前的经验，这个程序相对来说比较容易理解，
+Yeah. And I think with the previous experience, this program is rather easy
+
+144
+00:11:30,300 --> 00:11:33,180
+和Koda相比，好吗？
+to understand compared to Koda, okay?
+
+145
+00:11:33,180 --> 00:11:35,119
+那我们来解析一下这个。
+So let's parse this one.
+
+146
+00:11:35,119 --> 00:11:39,760
+当然，我们首先要处理它，对吧，然后我们定义softmax的签名。
+So of course, we start with a treating it, right, and we define the signature of softmax.
+
+147
+00:11:39,760 --> 00:11:43,269
+然后呢，正如我刚才说的，
+And uh and with first index, like I said,
+
+148
+00:11:43,269 --> 00:11:47,690
+我希望每个块负责一行，每个线程负责一列。
+I want each block to take care of one row, and each thread will take one column.
+
+149
+00:11:47,690 --> 00:11:50,769
+所以我在这里做了一些索引。
+So I play some index here indexing here.
+
+150
+00:11:50,769 --> 00:11:53,929
+我对块进行了索引，并将其映射到行，对吧？
+I index the block and the map to roll, right?
+
+151
+00:11:53,929 --> 00:12:01,930
+我还创建了一个偏移量，这样每个线程都知道从哪里开始读取数据。
+And I also create an offset so that each thread knows where to read as a starting point.
+
+152
+00:12:01,930 --> 00:12:06,349
+然后我基本上创建了一个指针，实际上就是一个指针，
+And then I basically create a pointer, which basically is a pointer that
+
+153
+00:12:06,349 --> 00:12:09,289
+用来指示当前线程从哪里读取数据。
+is instructing the current thread to read from.
+
+154
+00:12:09,289 --> 00:12:12,250
+这个指针的创建方式是根据偏移量来的，
+And this pointer is created in a way that offset
+
+155
+00:12:12,250 --> 00:12:16,710
+先偏移这么多块，然后再偏移这么多列。
+this number of blocks and then this number of columns.
+
+156
+00:12:17,650 --> 00:12:23,470
+我加载这些数据。我让每个线程去加载这些数据，你还记得这个加载操作是做什么的吗？
+I load this data. I ask each ready to load this data and you still remember what this load is doing?
+
+157
+00:12:23,470 --> 00:12:27,850
+这叫做协作式抓取，每个线程都会执行自己的加载操作。
+It's called cooperative fetching, each rater will do its own load.
+
+158
+00:12:27,860 --> 00:12:31,800
+然后我会读取这里所有类似的代码。
+And then I read all this kind of code here.
+
+159
+00:12:31,800 --> 00:12:35,399
+那为什么这个内核会更快呢？
+So why this kernel is faster?
+
+160
+00:12:35,399 --> 00:12:38,579
+因为triton基本上是在SRM里做操作，对吧？
+Because triton basically play things in SRM, right?
+
+161
+00:12:38,579 --> 00:12:43,819
+如果你还记得的话，这不会，呃，如果你为很多原语编写代码，
+If you still remember, it's not going to, uh if you compose for many primitives,
+
+162
+00:12:43,819 --> 00:12:48,400
+每次你启动一个新的原语，比如指数函数或者求和函数，
+every time you launch a new primitive, for example, exponential function, or submisin function,
+
+163
+00:12:48,400 --> 00:12:52,999
+你都需要从HBM一直读取数据到SRM来缓存，对吧？
+you are going to read things from HBM all the way to SRM to catch, right?
+
+164
+00:12:52,999 --> 00:12:54,979
+然后你进行计算。但在这里，
+And you do compution. But here,
+
+165
+00:12:54,979 --> 00:12:58,420
+Triton在SRM上创建了所有这些临时变量。
+Triton created all these temporary variables at SRM.
+
+166
+00:12:58,420 --> 00:13:01,320
+所以你可以避免很多重复的数据读取或者
+So you can avoid a lot of repeated reading or data
+
+167
+00:13:01,320 --> 00:13:04,790
+从HBM到内存层级的数据获取。
+fetching from HBM all the way up to the memory hierarchy.
+
+168
+00:13:04,790 --> 00:13:07,600
+这就是数据获取和融合的工作原理。
+That's how fetching how fusion works.
+
+169
+00:13:07,600 --> 00:13:10,319
+你可以看到，Triton实际上允许你
+And you can see, treating actually allows you to do
+
+170
+00:13:10,319 --> 00:13:13,959
+非常容易地用Python语义实现这种融合。
+this kind of fusion very easily using Python semantics.
+
+171
+00:13:13,959 --> 00:13:17,159
+好吗？有问题吗？
+Okay? Any question?
+
+172
+00:13:18,610 --> 00:13:22,750
+很好。这是我们第二个处理程序的部分。
+Cool. This is our second piece of treating program.
+
+173
+00:13:22,750 --> 00:13:29,589
+嗯，我认为处理确实降低了编程GPU的门槛。
+Um, I think treating indeed lowers the barrier or programming GPUs.
+
+174
+00:13:29,589 --> 00:13:36,049
+如果你比较处理和petrog之间的性能，其实你可以看到，
+And if you compare the performance between treating and petrog you can see actually,
+
+175
+00:13:36,049 --> 00:13:38,890
+顺便说一下，这里的访问基本上就是延迟。
+by the way, the access is basically the latency.
+
+176
+00:13:38,890 --> 00:13:43,190
+你可以看到，在某些情况下，处理已经能够匹配
+And you can see, um, at some point, treating is already matching
+
+177
+00:13:43,190 --> 00:13:46,269
+使用Coda在petrog中实现的人类图形内核。
+the human graphi kernel using Coda in petrog.
+
+178
+00:13:46,269 --> 00:13:50,290
+但在某些维度增长时，我们会有奥林匹克差距，但没关系。
+But at some dimensions as growth, we have Olympic gap, but that's fine.
+
+179
+00:13:50,290 --> 00:13:51,830
+这个差距并不显著。
+The gap is not significant.
+
+180
+00:13:51,830 --> 00:13:58,330
+这绝对比，比如说，手动编写组合原语要好得多。
+It's definitely better than, uh, writing composing, for example, primitives, yeah.
+
+181
+00:13:58,890 --> 00:14:01,890
+是的，这基本上就是我想要涵盖的所有内容
+Yeah, that's basically, all the contents
+
+182
+00:14:01,890 --> 00:14:02,970
+关于triton的部分。
+I want to cover for triton.
+
+183
+00:14:02,970 --> 00:14:07,609
+总结一下，我认为triton，呃，嗯，呃，是这样的，
+To summarize, I think triton, uh, um, uh, this is,
+
+184
+00:14:07,609 --> 00:14:11,590
+我觉得triton在市场上的表现还是挺成功的，
+I think treat market piece is pretty successful in the sense
+
+185
+00:14:11,590 --> 00:14:14,389
+就像这个曲线所展示的，对吧？
+that which is shown in this curve, right?
+
+186
+00:14:14,389 --> 00:14:19,770
+所以你可以选择用Koda编程，但你需要投入大量时间
+So you can either choose to program Koda, but you are going to invest a lot of time in order
+
+187
+00:14:19,770 --> 00:14:22,324
+才能获得相当不错的性能。
+to get a pretty decent performance.
+
+188
+00:14:22,324 --> 00:14:26,540
+如果你想要极致的性能，你甚至可以用更底层的语言编程，比如说，
+Uh, if you want extreme performance, you can program even lower language, for example,
+
+189
+00:14:26,540 --> 00:14:31,100
+由某人发明的流式汇编语言，
+the streaming assembly invented by, uh, so basically is hardware language
+
+190
+00:14:31,100 --> 00:14:32,659
+基本上就是与GPU相关的硬件语言，对吧？
+associated with GPUs, right?
+
+191
+00:14:32,659 --> 00:14:37,080
+我认为这个世界上能真正使用编程语言的人非常少，呃，
+I think very few people in this world can actually uh, using a programming language
+
+192
+00:14:37,080 --> 00:14:39,060
+除了那些在媒体公司工作的人。
+except those in media company.
+
+193
+00:14:39,060 --> 00:14:44,359
+但确实，如果你想要极致的性能，你就需要花更多时间学习SASS，
+But yeah, indeed, if you want extreme performance, you just need to invest more time learning SASS,
+
+194
+00:14:44,359 --> 00:14:46,240
+最终你会想要获得最高的性能。
+and eventually you want to get the highest performance.
+
+195
+00:14:46,240 --> 00:14:51,439
+但对于处理，比如说，对于我们这些做机器学习或系统开发的人来说，
+But for treating, uh, for example, for us, as a machine learning or system developer who are
+
+196
+00:14:51,439 --> 00:14:55,760
+并不是特别专注于GPU或配额，呃，它确实提供了相当不错的价值。
+not that into GPU or quota, uh, it indeed provides pretty good value.
+
+197
+00:14:55,760 --> 00:14:58,840
+这基本上就是处理的最佳平衡点。
+And this is basically the sweet spot of treating.
+
+198
+00:14:58,840 --> 00:15:03,480
+是的，你不需要投入大量时间，但仍然能获得不错的性能。
+Yeah, you don't have to invest a lot of time, but you still get disney performance. Yeah.
+
+199
+00:15:03,480 --> 00:15:07,119
+这是……嗯，这是个好问题。
+This is. Yeah, that's a good question.
+
+200
+00:15:07,119 --> 00:15:08,719
+所以在我之前的幻灯片中，
+So in my previous slide,
+
+201
+00:15:08,719 --> 00:15:12,980
+我之前说treating是Koda的领域特定语言，其实我错了。
+I said treating is a domain specific language for Koda, and I was wrong.
+
+202
+00:15:12,980 --> 00:15:16,339
+现在我认为treating正在尝试扩展他们的范围。
+Today I think treating is trying to expand their scope.
+
+203
+00:15:16,339 --> 00:15:22,060
+基本上，他们保持前端语言不变，还是用Python写代码，但他们实际上可以
+So basically, they keep the fen language the same still writing Python, but they can basically
+
+204
+00:15:22,060 --> 00:15:24,620
+把这种语言编译到各种不同的硬件上，
+compile the language down all the way to different hardware,
+
+205
+00:15:24,620 --> 00:15:27,320
+比如说，AMD这样的硬件。
+for example, AMD, this kind of hardware.
+
+206
+00:15:27,320 --> 00:15:31,240
+明白了吗？其实这给了你另一个很好的理由。
+Okay? Yeah, that actually give you another good argument.
+
+207
+00:15:31,240 --> 00:15:35,680
+现在你只需要学一种语言，就能为不同的硬件写代码了。
+Now, you just need to learn one language and you can write code for different hardware.
+
+208
+00:15:35,770 --> 00:15:38,809
+很酷。好的。
+Cool. Okay.
+
+209
+00:15:38,809 --> 00:15:41,670
+有了这些，我觉得我们做得已经很不错了。
+With that, I think, uh, we have done pretty good here.
+
+210
+00:15:41,670 --> 00:15:45,069
+我们可以总结一下操作文档。
+We can summarize the um, operative documentation.
+
+211
+00:15:45,069 --> 00:15:49,690
+好吗？那我们试着回到整体的大局观，好吗？
+Okay? So let's try to bring us back to the big picture, okay?
+
+212
+00:15:49,690 --> 00:15:55,269
+我们在这个话题上花了将近四节课，对吧，是关于优化的。
+So, we spent almost four lectures on this, right, for optimization.
+
+213
+00:15:55,269 --> 00:16:00,750
+我们的终极目标是让每个算子在各种设备上都能高效运行。
+Our grand goal is we try to make individual operator run fast on diverse devices.
+
+214
+00:16:00,750 --> 00:16:06,449
+好吗？我们从一些通用的方法开始，比如向量化、数据布局。
+Okay? And we start with some general ways, for example, vectorization, data layout.
+
+215
+00:16:06,449 --> 00:16:09,870
+我们深入研究了矩阵乘法，对吧？详细讲解了它。
+We dive deep into met M, right? The telling.
+
+216
+00:16:09,870 --> 00:16:19,290
+然后我们开始讨论如何利用加速器，使用SIMD和并行化，
+And then we start talking about how to utilize accelerators and using SMD and paralization,
+
+217
+00:16:19,290 --> 00:16:22,414
+还有很多很多加速器核心。
+many, many, accelerator course.
+
+218
+00:16:22,414 --> 00:16:28,060
+接着我们开始在CUDA上手写自己的内核，我们学了一点CUDA。
+And then we started craft our own kernel on Koda, we learned a little bit Koda.
+
+219
+00:16:28,060 --> 00:16:33,520
+然后我说过，这其实很难，因为编写这种内核非常困难。
+And then I said that this is pretty hard because it's very hard to program this kernel.
+
+220
+00:16:33,520 --> 00:16:38,439
+所以人们开始发明算子编译器来自动生成代码，明白吗？
+So people started inventing operator compilers to automatic generate the code, okay?
+
+221
+00:16:38,439 --> 00:16:42,819
+我还说过，自动编译器本身也有一些问题，对吧。
+And I also said automatic compiler is still has its own problem, right.
+
+222
+00:16:42,819 --> 00:16:46,020
+有时候它会错过一些优化机会，有时候也很难做到最好，
+Sometimes it miss some opportunities, sometimes it's pretty hard, and it cannot
+
+223
+00:16:46,020 --> 00:16:48,019
+不能为你实现最佳性能。
+achieve the best performance for you.
+
+224
+00:16:48,019 --> 00:16:53,019
+所以我们开始讨论的，其实就是Koda和编译器之间的最佳平衡点。
+So then we start about treating is basically the sweet spot between Koda and compiler.
+
+225
+00:16:53,019 --> 00:16:56,739
+是的，这基本上就是社区里正在发生的事情，
+Yeah. That is basically what's happening in the community that people how
+
+226
+00:16:56,739 --> 00:17:01,485
+人们主要是在优化各个独立的算子。
+people basically optimize individual operators.
+
+227
+00:17:01,485 --> 00:17:06,489
+我们可以总结这一层，然后进入下一层，也就是图优化层。
+We can wrap up this layer and we go to another layer that is graph openation.
+
+228
+00:17:06,489 --> 00:17:11,709
+我希望你们还记得图优化的目标，对吧？
+I hope you still remember the goal of graph oglementation, right?
+
+229
+00:17:11,709 --> 00:17:15,010
+我们在左边有一个数据流图。
+So we basically have a dataflow graph on the left hand side.
+
+230
+00:17:15,010 --> 00:17:19,050
+我们已经知道如何让每个独立的算子足够快了，
+We already know how to make each individual operator fast enough,
+
+231
+00:17:19,050 --> 00:17:22,129
+使用我们在前四节课中讲过的所有技术。
+using all the techniques we covered in the previous four lectures.
+
+232
+00:17:22,129 --> 00:17:27,249
+现在我们要把整个计算图部署到GPO上。
+And now we are going to launch this entire graph to a GPO.
+
+233
+00:17:27,249 --> 00:17:31,050
+那么我们如何让由许多算子组成的整个计算图，
+So how can we basically make this entire graph composed of many,
+
+234
+00:17:31,050 --> 00:17:33,129
+能够尽可能快地运行呢？
+many operators run as fast as possible?
+
+235
+00:17:33,129 --> 00:17:36,749
+这基本上就是图优化的目标。
+Okay? That is basically the goal of graph openation.
+
+236
+00:17:36,770 --> 00:17:40,930
+这里我们稍微抽象一下。
+Okay, to basically abstract a little bit, okay.
+
+237
+00:17:40,930 --> 00:17:47,169
+我们的目标是把原始的数据流图G重写成G prime。
+Our goal is rewrite the original graph G data flow graph into G prime.
+
+238
+00:17:47,169 --> 00:17:49,430
+并且我们需要确保两件事。
+And we need to ensure two things.
+
+239
+00:17:49,430 --> 00:17:54,129
+第一，G prime需要比G运行得更快，这就是优化，对吧？
+One is the G prime needs to run faster than G. Right, it's called optimization, right?
+
+240
+00:17:54,129 --> 00:17:58,669
+第二，我们需要确保G prime输出的结果基本上是等价的，因为我们
+Second, is we need to ensure G prime basically outputs equivalent results because we
+
+241
+00:17:58,669 --> 00:18:03,914
+作为系统开发者，我们不应该去改变机器学习部分的结果，对吧？
+shouldn't as a system developer, we shouldn't alter the results of the machine learning side, right?
+
+242
+00:18:03,914 --> 00:18:10,199
+好的。那么，这个问题一个直接的解决方案其实就是，
+Okay. Yeah, so one straightforward solution for this problem is basically,
+
+243
+00:18:10,199 --> 00:18:12,660
+嗯，我们可以创建很多模板。
+uh, we can create a lot of templates.
+
+244
+00:18:12,660 --> 00:18:17,459
+比如说，我们有很多模板，而这些模板基本上是一对图。
+For example, we have so many templates and this template is basically a pair of graphs.
+
+245
+00:18:17,459 --> 00:18:21,505
+X和Y。X是原始图，Y是目标图。
+X and Y. X is the original graph and Y is the target graph.
+
+246
+00:18:21,505 --> 00:18:27,069
+对于任意一对这样的模板，我们知道X和Y会产生相同的结果，
+And for any pair since template, we know that X and Y is going to produce the same results,
+
+247
+00:18:27,069 --> 00:18:29,589
+但是Y会比X更快，对吧？
+but Y is going to be faster than X, right?
+
+248
+00:18:29,589 --> 00:18:33,729
+所以这种自由度让我们可以请人类专家
+So this freedom of um we can ask human experts
+
+249
+00:18:33,729 --> 00:18:39,609
+编写各种各样的图或子图模板、变换模板，
+to write many many kind of graph or subgraph template, transformation template,
+
+250
+00:18:39,609 --> 00:18:42,190
+这样可以保证正确性和性能提升。
+that guarantees correctness and performance skin.
+
+251
+00:18:42,190 --> 00:18:44,949
+记住，X等于Y，并且Y比X更快。
+Remember, X equals Y and Y is faster than X.
+
+252
+00:18:44,949 --> 00:18:48,009
+然后我们要做的基本上就是在整个由模型定义的数据流图上运行模式匹配。
+And then what we do is we basically run pattern matching
+
+253
+00:18:48,009 --> 00:18:52,190
+每当我们找到一个基本上匹配模板的模式时，我们就用Y替换X。
+over our entire data flow graph defined by the model.
+
+254
+00:18:52,190 --> 00:18:57,029
+这样可以保证我们获得性能提升和正确的结果。
+And whenever we find a pattern that basically matches template, we replace the X with Y.
+
+255
+00:18:57,029 --> 00:19:01,064
+好的，我们将从讨论这个开始。
+That is guaranteed to give us performance and correct results.
+
+256
+00:19:01,064 --> 00:19:03,679
+好的，如何运行这种模式匹配。
+Okay. And we will start by talking about this first.
+
+257
+00:19:03,679 --> 00:19:06,040
+社区里有一些非常知名的模板。
+Okay, how to run this kind of pattern matching.
+
+258
+00:19:06,040 --> 00:19:11,140
+我想如果你上过几门编译器课程，你可能也学过这个，对吧？
+So there are a few very well known templates in the community.
+
+259
+00:19:11,140 --> 00:19:17,280
+因为在传统编译器中，比如在为CIPs plus编译代码时，
+And I think you probably also studied this if you took a few courses in compiler, okay?
+
+260
+00:19:17,280 --> 00:19:21,760
+
+Because in compiler in traditional compiler, for example, in compiling code for CIPs plus,
+
+261
+00:19:21,760 --> 00:19:24,200
+我们也会做这种模式匹配。
+we also do this kind of pattern matching.
+
+262
+00:19:24,200 --> 00:19:27,799
+好吗？第一个，当然，这个我们已经讲过很多次了，对吧。
+Okay? The first one, of course, we have talking about this so many times, right.
+
+263
+00:19:27,799 --> 00:19:30,839
+这是非常重要的，就是融合，对吧？
+This is so important that is fusion, right?
+
+264
+00:19:30,839 --> 00:19:34,259
+融合基本上就是，当我们有一个matmu，当我们有一个层归一化，
+Fusion is basically, when we have a matmu when we have a layer nomination,
+
+265
+00:19:34,259 --> 00:19:39,279
+这就是我在homogom中给你的，如果你的操作库
+that is what I give it to you in homogom right and if your opera library
+
+266
+00:19:39,279 --> 00:19:46,809
+恰好有另一个叫N的操作符，那么你基本上会在整个图上运行模式
+happens to have another operator which is called N, then you basically run pattern
+
+267
+00:19:46,809 --> 00:19:48,230
+匹配。
+matching over your entire graph.
+
+268
+00:19:48,230 --> 00:19:53,550
+你会找到所有这些类型的模式，然后你把那个met mo替换成
+You'll find all these kind of patterns and you replace that met mo then go to into
+
+269
+00:19:53,550 --> 00:19:55,869
+字段操作符字段的metamn，对吧？
+field operator fields the metamn, right?
+
+270
+00:19:55,869 --> 00:19:57,489
+这样做一定会带来收益。
+This is guaranteed to give you a gain.
+
+271
+00:19:57,489 --> 00:20:03,209
+好吗？我希望你还记得为什么融合可以提升性能，对吧？
+Okay? And I hope you still remember why fusion can improve performance, right?
+
+272
+00:20:03,209 --> 00:20:06,989
+第一个原因是，嗯，减少IO，对吧？
+The first one is, um reduce IO right?
+
+273
+00:20:06,989 --> 00:20:09,969
+因为之前我需要读取两次，现在我只需要读取一次。
+Because previously, I need to read twice, now I only read once.
+
+274
+00:20:09,969 --> 00:20:13,050
+好吗？那第二个原因是什么？
+Okay? What is the second reason?
+
+275
+00:20:17,130 --> 00:20:23,709
+想象一下，在数据流图层面，你会有很多操作符，很多原语。
+So imagine at the dataflow graph level, you are going to have so many operators, so many primitives.
+
+276
+00:20:23,709 --> 00:20:28,790
+每次你尝试执行一个操作符，最终其实都会归结为
+Every time when you try to execute one operator, essentially eventually boils down
+
+277
+00:20:28,790 --> 00:20:31,629
+启动一个GPU内核，对吧？
+into launching a GPU kernel, right?
+
+278
+00:20:31,629 --> 00:20:36,609
+我觉得有一点需要指出的是，每次你启动一个GPU内核时，
+And I think one thing that I need to point out is every time when you launch a GPO kernel,
+
+279
+00:20:36,609 --> 00:20:40,194
+从CPU到GPU，你都会有启动的开销。
+from CPU to GPU, you are suffering launching overhead.
+
+280
+00:20:40,194 --> 00:20:44,279
+因为CPU需要向GPU发送指令，这会有延迟。
+Because you CP you need to send instruction to GPS, and that has a latency.
+
+281
+00:20:44,279 --> 00:20:47,880
+当你的计算图很小的时候，图变慢这件事并不明显，
+And this is not obvious when your graph is slow when your graph is small,
+
+282
+00:20:47,880 --> 00:20:51,159
+但当你有成千上万个操作时，这一点就会变得非常明显，
+but this becomes very obvious when you have thousands of operations,
+
+283
+00:20:51,159 --> 00:20:55,700
+每次你启动、启动、启动，累计的延迟就会变得很大。
+every time you launch lunch, lunch, lunch, and the accumulated latency is going to be big.
+
+284
+00:20:55,700 --> 00:21:00,479
+所以融合之所以非常有效的另一个原因是，
+So another reason that fusion really works pretty well is because if you
+
+285
+00:21:00,479 --> 00:21:05,619
+如果你尽可能多地融合操作符，你就能减少从CPU到GPU的启动开销。
+fuse as many operators as possible, you are going to reduce the lunging overhead from CPU to GPU.
+
+286
+00:21:05,619 --> 00:21:08,979
+明白了吗？显然，这个启动开销是一个常数。
+Okay? And apparently the lunging overhead is a constant.
+
+287
+00:21:08,979 --> 00:21:12,080
+无论你启动什么操作符，你都会有这个开销。
+No matter what operators you launch, you are going to suffer overhead.
+
+288
+00:21:12,080 --> 00:21:16,180
+所以随着你启动的操作符数量增加，这个开销也会增加，对吧？
+So it what grows as the lumber operators you launch, okay?
+
+289
+00:21:16,180 --> 00:21:20,379
+那么操作符融合的代价是什么？
+So what is the const of operator fusion?
+
+290
+00:21:25,520 --> 00:21:30,539
+其中之一就是你需要实现那个融合后的操作，对吧？
+One is you need to implement that fused up, right?
+
+291
+00:21:30,539 --> 00:21:36,060
+我们知道有很多操作符，它们可以以任意方式组合。
+And we know that there are so many operators and they can compose in arbitrary ways.
+
+292
+00:21:36,060 --> 00:21:42,359
+所以只要图中的一个操作符发生变化，你原来的字段操作符就不能用了，
+So as long as one operator in graph cha your original field operator is not going to work,
+
+293
+00:21:42,359 --> 00:21:43,719
+你就需要重新实现它。
+you need to implement that.
+
+294
+00:21:43,719 --> 00:21:47,699
+如果你一直这样做，某个时候你的代码库就会
+And if you continue doing this, at some point, your code base is going to
+
+295
+00:21:47,699 --> 00:21:50,059
+变得无法管理，对吧？
+become not able to be managed, right?
+
+296
+00:21:50,059 --> 00:21:55,839
+比如说有很多随机的操作符，比如填充ABC，对吧？
+So many random operators lim for example, filled the ABC up, right?
+
+297
+00:21:55,839 --> 00:22:00,360
+这确实就是现在比如说TensorFlow代码库里发生的事情。
+And that is indeed what happened in, for example today Tender flow codebase.
+
+298
+00:22:00,360 --> 00:22:03,780
+如果你去看一下，他们有很多这种类型的操作符。
+If you go there, you check, they have so many these kind of operators.
+
+299
+00:22:03,780 --> 00:22:10,679
+好的，所以，嗯，是的，嗯，但如果你不在乎这些，比如说你只是想
+Okay. So um, yeah, um, but if you don't care about this, for example, you don't you just want
+
+300
+00:22:10,679 --> 00:22:13,299
+发布一个产品，并且不关心这段代码以后会不会
+to ship a product and you don't care about if this code is going to be
+
+301
+00:22:13,299 --> 00:22:14,979
+如果你想长期保持这种状态，你可以这样做。
+maintained in a longer term, you can do this.
+
+302
+00:22:14,979 --> 00:22:19,280
+这是挤出最后一点性能的最佳方法。是的，请继续。
+This is the best way to squeeze the last bit of performance. Yeah, please.
+
+303
+00:22:23,810 --> 00:22:30,090
+一些小型的计算图。是的，是的。
+Some small graph. Yeah, yeah.
+
+304
+00:22:33,970 --> 00:22:40,309
+这是个好问题。这取决于相对的优化开销
+Yeah, that's a good question. So it depends on the relative overhead opmentation
+
+305
+00:22:40,309 --> 00:22:43,110
+以及该计算图的运行时延迟。
+and the runtime latency of that graph.
+
+306
+00:22:43,110 --> 00:22:48,430
+如果你的优化实际上比在P上运行计算图还要花时间，那你就不需要优化了。
+If your optimization actually takes longer than running graph on P then you don't have to optimize.
+
+307
+00:22:48,430 --> 00:22:52,449
+另一种思考方式是，优化，尤其是在
+Another way of thinking this is, uh, optimization, especially in
+
+308
+00:22:52,449 --> 00:22:54,509
+静态计算图中，是一次性的开销。
+static graphs, is a one time overhead.
+
+309
+00:22:54,509 --> 00:22:59,550
+所以你只需要承担一次这样的开销，然后可以把优化后的计算图保存到磁盘上。
+So you just put that overhead at once, and then you can save the optimized graph on disc.
+
+310
+00:22:59,550 --> 00:23:03,510
+下次你想用不同的数据运行这个计算图时，只需要从磁盘加载即可。
+Next time we try to launch a different data to that graph, you just load from disc.
+
+311
+00:23:03,510 --> 00:23:07,950
+好的。好的，回到这个话题。
+Okay. Okay, back to this topic.
+
+312
+00:23:07,950 --> 00:23:11,769
+好的。就像我说的，融合有它自己的优缺点。
+Okay. Like I said, fusion has its own pros and cons.
+
+313
+00:23:11,769 --> 00:23:14,730
+那我们该如何基本上找到一个平衡点呢？
+So how we can basically strike a balance.
+
+314
+00:23:14,730 --> 00:23:20,089
+所以我们还是要做适量的融合，但不要让dabs爆炸。
+So we still do decent amount of fusion, but without making the dabs explode.
+
+315
+00:23:20,089 --> 00:23:25,009
+所以你需要从这门课程中知道的一件事是
+So that uh one thing that you need to know from this course is
+
+316
+00:23:25,009 --> 00:23:27,245
+有一个非常好的库叫做Koda graph。
+there's a very good library called Koda graph.
+
+317
+00:23:27,245 --> 00:23:34,200
+好的。如果你开始做m推理，做一些类似推理调查的事情，
+Okay. If you start doing m inference doing, um, some sort of like basically inference survey,
+
+318
+00:23:34,200 --> 00:23:37,759
+你可能知道这个Kuta graph是由media发明的技术，
+you probably know this Kuta graph is the technology invented by media,
+
+319
+00:23:37,759 --> 00:23:39,079
+而且很多人都在用它。
+and a lot of people are using that.
+
+320
+00:23:39,079 --> 00:23:41,060
+并且它已经很好地集成到Priority中了。
+And it is well integrated into Priority.
+
+321
+00:23:41,060 --> 00:23:45,279
+好吗？所以这个Kuta图的作用基本上是，呃，Odia提供了一个库
+Okay? So what this Kuta graph does is basically uh Odia provides a library
+
+322
+00:23:45,279 --> 00:23:51,880
+它允许你在程序中，仍然可以编写比如说复杂的操作符
+that it allows the program allows you to still program your, for example, complex operators
+
+323
+00:23:51,880 --> 00:24:00,124
+或者使用像指数、乘法这种基础运算来构建图，你明白吗？
+or graphs using primitives like exponential at multiply this kind of primitives, from priority, see?
+
+324
+00:24:00,124 --> 00:24:06,090
+嗯，但是media会在DA层面，也就是GPU层面捕捉所有这些内核。
+Um, but media is going to capture all these kind of kernels at the DA level at the GPU level.
+
+325
+00:24:06,090 --> 00:24:10,630
+它还为你开放了一个API，这个API叫做Koda图。
+And it allow you to open API, which is called the Koda graph.
+
+326
+00:24:10,630 --> 00:24:15,309
+一旦你开启这个API，它基本上会把所有
+And once you turn turn this API on, it's going to basically fuse all
+
+327
+00:24:15,309 --> 00:24:18,710
+这些内核启动融合在一起。
+these um, kernel launches altogether.
+
+328
+00:24:18,710 --> 00:24:24,409
+比如说，如果你启动了ABCDE五个内核，对吧？
+Okay? So for example, if you launch like ABCDE, five kernels, right?
+
+329
+00:24:24,409 --> 00:24:26,410
+这就是时间线的样子。
+And this is how the timeline looks.
+
+330
+00:24:26,410 --> 00:24:30,409
+有时候你的CPU运行起来甚至比GPU还慢一点。
+Sometimes your CPU probably around a little bit even slower than GPU.
+
+331
+00:24:30,409 --> 00:24:32,589
+这就是为什么你会开始产生这种“气泡”现象。
+That's why you start creating these kind of bubbles.
+
+332
+00:24:32,589 --> 00:24:36,389
+比如，你把A从CPU启动到GPU，然后你又开始启动B。
+Like, you launch A from CPU to GPU and you start launching B.
+
+333
+00:24:36,389 --> 00:24:41,630
+但实际上，启动B所花的时间甚至比在GPU上执行A还要长，
+But launching B actually takes even longer than executing A on GPUs,
+
+334
+00:24:41,630 --> 00:24:46,050
+你就会看到这种“气泡”现象出现，你的执行速度也会变慢。
+you'll start seeing this kind of bubbles and your execution is going to be slowed down.
+
+335
+00:24:46,050 --> 00:24:53,909
+而media的作用，基本上就是，一旦你打开这个图，它就会捕捉
+And what media does is basically, uh, uh, once you turn on this a graph, it will basically capture
+
+336
+00:24:53,909 --> 00:24:56,770
+你即将启动的所有内核的整个计算图。
+the entire graph of kernels you are going to launch.
+
+337
+00:24:56,770 --> 00:25:01,769
+它不是一个一个地启动它们，而是把它们全部整合在一起，
+And instead of launching them one by one, they are going to basically put them all together,
+
+338
+00:25:01,769 --> 00:25:04,395
+把它们融合，然后只启动一次。
+fusing them together, and just launch once.
+
+339
+00:25:04,395 --> 00:25:09,539
+好的，一旦启动，它会在GPU上创建一个顺序指令，
+Okay, once it is launched, it will create a sequential instruction on GPUs that basically will
+
+340
+00:25:09,539 --> 00:25:14,860
+要求你按照顺序执行实际的代码，比如A、B、C、D、E。
+ask you the actual code or ABCDE following the order.
+
+341
+00:25:14,860 --> 00:25:16,579
+这里的关键区别是
+And the key difference here is
+
+342
+00:25:16,579 --> 00:25:18,779
+OD 并没有进行字段融合。
+OD is not doing field fusion.
+
+343
+00:25:18,779 --> 00:25:21,260
+所以它实际上并没有把代码融合到一个新的内核中。
+So it's not actually fielding the code into a new kernel.
+
+344
+00:25:21,260 --> 00:25:23,619
+它基本上只是融合了启动过程。
+It's basically only fielding the launching.
+
+345
+00:25:23,619 --> 00:25:27,460
+这就是为什么它很不错，因为从用户的角度来看，
+That's why this is pretty good because from a user perspective,
+
+346
+00:25:27,460 --> 00:25:29,120
+你实际上并不需要探索你的代码二进制。
+you don't actually explore your code bis.
+
+347
+00:25:29,120 --> 00:25:33,819
+你只需要开启这个 API，就可以减少持续的内核启动开销。
+You just need to turn on this API and it will reduce that constant kernel launching overhead.
+
+348
+00:25:33,819 --> 00:25:39,639
+明白了吗？这是一个非常实用的库，我希望你们将来在自己的工作中，
+Okay? And this is a pretty practical library, and I hope in your own work in the future,
+
+349
+00:25:39,639 --> 00:25:42,879
+能够稍微研究一下，并尝试利用它。
+you can study this a little bit and try to leverage this.
+
+350
+00:25:42,879 --> 00:25:45,579
+这个确实非常不错，好吗。
+This is indeed pretty good, okay.
+
+351
+00:25:46,710 --> 00:25:51,429
+好的。第二种模板方法叫做常量折叠，
+Okay. Then the second template approach is called constant folding,
+
+352
+00:25:51,429 --> 00:25:56,949
+这是一种非常传统的方法，我们老一辈的编译器专家
+and this is a very traditional approach that our old compiler people
+
+353
+00:25:56,949 --> 00:25:59,670
+在传统编译器中一直在使用。
+are doing in traditional compilers.
+
+354
+00:25:59,670 --> 00:26:02,009
+这个很容易理解，对吧？
+This is very easy to understand, right?
+
+355
+00:26:02,009 --> 00:26:06,364
+有时候你可能会组合出一个数据流图，恰好有这种模式。
+Sometimes you probably compose a dataflow graph that happens to have this pattern.
+
+356
+00:26:06,364 --> 00:26:11,919
+比如你先加上三，然后在某个时刻又加上四。
+Where you first add exam three, and at some point, you add another four to it.
+
+357
+00:26:11,919 --> 00:26:18,140
+这样其实不好，因为你实际上做的事情就是直接加七。
+And this is not good because essentially you are doing things like this, you basically add seven.
+
+358
+00:26:18,140 --> 00:26:23,120
+所以在图的组织过程中，我们有一些处理流程，这些流程比如说，
+So basically in graph organization, we have a few passes, and this passes basically, for example,
+
+359
+00:26:23,120 --> 00:26:25,620
+其中一个流程可以叫做常量折叠流程。
+one pass could be called constant folding pass.
+
+360
+00:26:25,620 --> 00:26:29,460
+它会扫描你当前所有的数据流图，尝试去寻找
+It will scan all your current uh dataflow graph and try to find
+
+361
+00:26:29,460 --> 00:26:34,419
+所有这些模式，基本上就是试图把三和四合并成一个。
+all these kind of patterns and try to basically feel that three and four and reduce to add into one.
+
+362
+00:26:34,419 --> 00:26:36,635
+这叫做常量折叠。
+This is called constant folding.
+
+363
+00:26:36,635 --> 00:26:39,790
+还有一些其他很明显的模式。
+And there are a few other patterns right where very obvious.
+
+364
+00:26:39,790 --> 00:26:42,810
+比如，有时候你会写一个叫做X乘法的代码，
+For example, sometimes you write a code called X multiplier,
+
+365
+00:26:42,810 --> 00:26:47,250
+然后我会把它简化成一个X。X加零，
+and I'm going to reduce it into a single X. X at zero,
+
+366
+00:26:47,250 --> 00:26:49,309
+我可以把它合并成一个X。
+I can fold it into a single X.
+
+367
+00:26:49,309 --> 00:26:50,909
+明白了吗？有道理吧？
+Okay? Makes sense, right?
+
+368
+00:26:50,909 --> 00:26:58,350
+很好。第三个我们在这个图里常用的模板
+Cool. Okay. The third template we normally use in this graph
+
+369
+00:26:58,350 --> 00:27:01,970
+叫做公共子表达式消除。
+Logunation is called common sub expression elimination.
+
+370
+00:27:01,970 --> 00:27:04,349
+好的，让我来讲一下这个例子。
+Okay. Let me go through this example.
+
+371
+00:27:04,349 --> 00:27:09,470
+这其实也是传统编译器中非常传统的一种技术。
+And this is also a pretty traditional technique in, uh, in traditional compiler, but it's
+
+372
+00:27:09,470 --> 00:27:12,334
+但它同样可以应用在虚构的编译器中。
+also adoptable in imaginary compiler.
+
+373
+00:27:12,334 --> 00:27:16,280
+在这里，用户声明了一系列的等式，对吧？
+So here, the user declare a sequence of equations, okay?
+
+374
+00:27:16,280 --> 00:27:20,800
+我们想对它做一些优化，因为我们不想一行一行地去询问。
+And, and we want to optimize it a little bit because we don't want to ask it line by line.
+
+375
+00:27:20,800 --> 00:27:22,080
+我们认为这里有一些空间可以利用。
+We believe there are some space.
+
+376
+00:27:22,080 --> 00:27:27,260
+我们的做法是为我们创建的每个变量添加一个上标，好吗？
+So the way we do that we are going to add a superscript for each variable we created, okay?
+
+377
+00:27:27,260 --> 00:27:30,439
+所以，我们会加上标注。
+So, we are going to add we are going to notate
+
+378
+00:27:30,439 --> 00:27:35,379
+给A加上上标1，B加上上标2。
+A with superscript one and B with the superscript two.
+
+379
+00:27:35,379 --> 00:27:37,559
+当然，C就是上标3，对吧？
+And of course, C at three, right?
+
+380
+00:27:37,559 --> 00:27:40,030
+然后我们会继续运行这个过程，好吗？
+And then we'll keep running this, okay?
+
+381
+00:27:40,030 --> 00:27:45,539
+第二行，D等于A，基本上，字体A等于1，而D
+And the second line D equals to A, basically, font A is equal to one and D
+
+382
+00:27:45,539 --> 00:27:50,279
+的值是从A赋值过来的，所以我们给它们相同的上标。
+is the value of D is assigned from A, so we give the same superscript.
+
+383
+00:27:50,279 --> 00:27:52,919
+好的。这意味着D和
+Okay. This means that D and
+
+384
+00:27:52,919 --> 00:27:56,819
+A实际上是等价的，我们继续运行这个。
+A is actually equivalent, we'll keep running this.
+
+385
+00:27:56,819 --> 00:27:59,399
+E二等于B二。
+E two equals to B two.
+
+386
+00:27:59,620 --> 00:28:05,199
+在这一点上，我们发现F三等于D一加E二，
+And at this point, we find that F three equals to D one plus E two,
+
+387
+00:28:05,199 --> 00:28:07,579
+并且我们发现F有一个三的上标。
+and we find F has a superscript of three.
+
+388
+00:28:07,579 --> 00:28:14,299
+对。所以，这基本上意味着这条等式，这行代码其实不是必须的，对吧？
+Right. So, which essentially means that this equation, this line of code is not essential, right?
+
+389
+00:28:14,299 --> 00:28:16,819
+我们可以去掉它。我们还可以稍微简化一下。
+We can remove it. And we can simplify it a bit.
+
+390
+00:28:16,819 --> 00:28:20,719
+简化的方法基本上是，我们发现F有一个上标
+The way we simplify it basically, we figure out that F has a superscript of
+
+391
+00:28:20,719 --> 00:28:23,139
+三和C也有相同的三个。
+three and C also has the same three.
+
+392
+00:28:23,139 --> 00:28:25,639
+所以我们基本上是把C的值赋给
+So we basically assign the value from C to
+
+393
+00:28:25,639 --> 00:28:28,490
+F。所以我们可以把add从图中移除。
+F. So we can remove add from the graph.
+
+394
+00:28:28,490 --> 00:28:31,639
+对吧？我们会继续运行它。
+Right? And we'll keep running it.
+
+395
+00:28:31,639 --> 00:28:36,719
+所以基本上在这一步中，我们找到了一个CSE热点，对吧？
+So basically in this pass, we basically find one CSE heat, right?
+
+396
+00:28:36,719 --> 00:28:38,219
+顺便说一句，这也是CSE。
+This is also CSE, by the way.
+
+397
+00:28:38,219 --> 00:28:45,140
+是的，很酷。我们还能用的另一个技巧叫做数据节点检查。
+Yeah. Cool. Another trick we can do is basically called data node examination.
+
+398
+00:28:45,140 --> 00:28:49,019
+也就是说，我们试图找到一些永远不会被执行的数据节点，然后
+That is, we try to find some data node that will never be executed and we try
+
+399
+00:28:49,019 --> 00:28:50,719
+把它们从图中移除，对吧？
+to remove that from graph, right?
+
+400
+00:28:50,719 --> 00:28:56,140
+所以在这个例子中，我们实际上可以继续进行另一个遍历，也就是DCE遍历。
+So in this example, we can actually continue at another pass, DCE pass.
+
+401
+00:28:56,140 --> 00:28:58,800
+在DCE遍历中，我们要找出一些无用节点。
+In the DCE pass, we are going to figure out some dan node.
+
+402
+00:28:58,800 --> 00:29:03,480
+我觉得你其实可以告诉我哪一个是Dante。
+And I think you can actually tell me which one is Dante.
+
+403
+00:29:04,200 --> 00:29:07,879
+就是说，哪个变量从来没有被使用过？
+Like, which variable is never used?
+
+404
+00:29:11,740 --> 00:29:14,719
+是这个，对吧？那我们可以直接把它移除。
+So this one, right? So we can directly remove it.
+
+405
+00:29:14,719 --> 00:29:21,500
+对，而且这样的话，D会被两行不同的代码重复赋值，
+Yeah. And, uh, in that way, the D is repeatedly assigned by two different lines,
+
+406
+00:29:21,500 --> 00:29:24,799
+而第一行不会被使用到。
+and the first line is not going to be a skewed.
+
+407
+00:29:24,799 --> 00:29:27,459
+所以我们可以直接把它移除，明白吗？
+So we can directly remove this. Okay?
+
+408
+00:29:27,459 --> 00:29:31,920
+我们基本上可以多次运行这个过程，最终会把它转化为
+We can basically run this many, many times and eventually we'll convert into
+
+409
+00:29:31,920 --> 00:29:36,700
+一个非常简洁的图，去掉了很多在用户代码或用户定义中不必要的节点。
+a pretty concise graph that remove a lot of unnecessary nodes from the Uter code or Uer definition.
+
+410
+00:29:36,700 --> 00:29:44,309
+好的，这种情况在带有控制流的图中也会发生，比如我们有X和Y。
+Okay. And this also happens in some graphs with control flow, for example, we have X and Y.
+
+411
+00:29:44,309 --> 00:29:50,230
+我们会经历一个条件操作，如果有一个真分支和一个强制分支。
+We go through a conditional operation if and we have a true branch and force branch.
+
+412
+00:29:50,230 --> 00:29:54,469
+但在某个时刻，我们发现强制分支永远不会被使用。
+But at some point, we find that the force branch will never be used.
+
+413
+00:29:54,469 --> 00:29:59,610
+所以我们基本上可以通过完全移除整个强制分支来修剪这个图。
+So we can basically prune this graph by completely remove the entire force branch.
+
+414
+00:29:59,610 --> 00:30:03,770
+我们可以将未使用的节点一路向前传播，直到这个节点
+We can propagate the unused node all the way back to a point where this node
+
+415
+00:30:03,770 --> 00:30:05,614
+不会被使用，然后我们就会把它移除。
+is not going to be used and we're going to remove it.
+
+416
+00:30:05,614 --> 00:30:09,560
+好的，所以基本上，这就是传统的图组织方式。
+Okay. So basically, this is a traditional graph organization.
+
+417
+00:30:09,560 --> 00:30:14,840
+我们运行数据流图，所有这些操作其实都是在实现我们的编译器。
+We run our dataflow graphs, and all these kind of passes are actually implementing our compilers.
+
+418
+00:30:14,840 --> 00:30:20,300
+所以如果你去阅读那些Storch编译后的代码，比如说SLE代码，
+So if you go read those Storch compiled code and, um, for example, SLE code,
+
+419
+00:30:20,300 --> 00:30:23,459
+你会发现很多文件本质上都对应着这种操作流程。
+you'll find a lot of files essentially map into this kind of passes.
+
+420
+00:30:23,459 --> 00:30:26,320
+他们会在你的图上运行很多很多次，以确保
+They are going to run many, many passes over your graph to make sure
+
+421
+00:30:26,320 --> 00:30:30,179
+他们会返回一个更精简的版本。
+uh they will return more concent version of it.
+
+422
+00:30:30,179 --> 00:30:35,659
+通过这样做，我们可以有效地移除节点，对吧，移除内存IO，
+And by doing this, we can effectively remove the nodes, right, remove the memory IO and
+
+423
+00:30:35,659 --> 00:30:38,419
+并尝试稍微简化一下技能图。
+try to reduce the skill graph a little bit.
+
+424
+00:30:38,419 --> 00:30:42,559
+好的，没问题。有问题吗？嗯。
+Okay. Cool. Any question? Yeah.
+
+425
+00:30:47,820 --> 00:30:50,699
+这是个好问题。那么，
+That's a good one. So for
+
+426
+00:30:50,699 --> 00:30:52,540
+你刚才提到的是Kodograph吗？
+Kodograph you're mentioning kotograph?
+
+427
+00:30:52,540 --> 00:30:54,679
+Kodograph需要stato图。
+Kodograph requires stato graphs.
+
+428
+00:30:54,679 --> 00:30:56,619
+是的，这是个好事情。
+Yeah, that's a good thing.
+
+429
+00:30:57,180 --> 00:31:01,260
+对，对，Kodograph要求图结构永远不变。
+Yeah, yeah, yeah, Kotograph requires graph never changes.
+
+430
+00:31:01,260 --> 00:31:04,239
+好的，这和Toti Compile非常相似。
+Okay. Yeah, it's very similar to Toti Compile.
+
+431
+00:31:04,239 --> 00:31:09,519
+好的。嗯，这些都挺简单的，对吧？
+Yeah. Okay. Okay, these are pretty easy things, right?
+
+432
+00:31:09,519 --> 00:31:13,100
+那我们来深入探讨一些更复杂的内容。
+Then let's dive deeper into something that is more complicated.
+
+433
+00:31:13,100 --> 00:31:19,099
+好的。你会注意到，当我们运行这种
+Okay. So one thing you notice that when we run this kind of
+
+434
+00:31:19,099 --> 00:31:24,099
+图匹配或者模板匹配模式时，我们是用贪心的方式来做的。
+graph or template matching pattern matching, what do we do we do it in a greedy way.
+
+435
+00:31:24,099 --> 00:31:28,840
+我们找到模式后，就把它替换成一个更高效的图。
+So we find the pattern, we replace it into a more efficient graph.
+
+436
+00:31:28,840 --> 00:31:35,000
+然后我们再去找第二个模式，把它移除并替换成更高效的版本。
+And then we go and find the second pattern and remove it replace it with a more efficient version.
+
+437
+00:31:35,000 --> 00:31:36,539
+但这样会有个问题，对吧？
+And this has a problem, right.
+
+438
+00:31:36,539 --> 00:31:39,779
+我希望你还记得这个，对吧？我之前也提到过。
+I hope you still remember this one, right? I mentioned as well.
+
+439
+00:31:39,779 --> 00:31:43,500
+所以最终，如果你用这种图结构的方式，
+So this one, eventually, if you do this kind of graph organization,
+
+440
+00:31:43,500 --> 00:31:45,839
+你还是会获得一些性能提升，对吧？
+you will get some performance again, right?
+
+441
+00:31:45,839 --> 00:31:49,920
+但我在第一步中提到过，我基本上是把
+But I mentioned in the first step where I basically change
+
+442
+00:31:49,920 --> 00:31:52,339
+com一个一个地变成com三个三个地。
+the com one by one into com three by three.
+
+443
+00:31:52,339 --> 00:31:58,039
+当我应用这个模式匹配模板时，图实际上一开始会变慢。
+When I apply this pattern matching template, the graph actually becomes slower first.
+
+444
+00:31:58,039 --> 00:32:03,470
+它先变慢，然后变快，最终会变得更快。
+I first becomes slower and then it becomes faster, and eventually it becomes faster.
+
+445
+00:32:03,470 --> 00:32:08,339
+如果我们只是做简单的模式匹配，我们永远不会发现这种
+And if we do naive pattern machine, we're never going to find this kind of
+
+446
+00:32:08,339 --> 00:32:10,940
+优化的机会，对吧？这就是个问题。
+Oenation opportunity, right? That's a problem.
+
+447
+00:32:10,940 --> 00:32:15,859
+那么我们该如何建模这种优化呢？我们可能需要
+So how we can basically model this kind of orenation that is we probably want
+
+448
+00:32:15,859 --> 00:32:21,884
+更大的搜索空间，这样我们才能更有效地获得更多的性能提升，对吧？
+a bigger search space so we can basically more effectively get more performance gains, okay?
+
+449
+00:32:21,884 --> 00:32:28,129
+这是一个问题。做简单模式匹配的第二个问题是，
+Uh, that's one problem. Second problem of doing aninau pattern matching is,
+
+450
+00:32:28,129 --> 00:32:35,509
+就是我们有太多的算子了，而且我们有太多的模型结构，对吧？
+um, like we have so many machinery operators, and we have so many model architectures, right?
+
+451
+00:32:35,509 --> 00:32:39,329
+即使在这门课程开始时我说过，我们大致只有五种模型，
+Even if at the beginning of this course, I said, we only have roughly five models,
+
+452
+00:32:39,329 --> 00:32:41,569
+但每种模型都有自己的变体。
+but each model has its own variants.
+
+453
+00:32:41,569 --> 00:32:45,049
+就像人们可以根据他们的应用以不同的方式定义它们一样。
+Like people can define them in various ways depending on their applications.
+
+454
+00:32:45,049 --> 00:32:49,870
+所以这就导致了图定义上的一些变化。
+So that create variations on the uh graph definition.
+
+455
+00:32:49,870 --> 00:32:54,189
+而且，正如我所说，我们最终希望将这个图部署到许多不同的硬件上，
+And also, as I said, we eventually want to launch this graph to many different hardware,
+
+456
+00:32:54,189 --> 00:32:58,079
+比如AMD、高通、联发科、英特尔等。
+AMD, like Qualcomm, media, uh, Intel.
+
+457
+00:32:58,079 --> 00:33:02,610
+所以基本上，每种硬件、每个算子以及每种算子组合，
+So basically, uh, each hardware each operator and each operator combination,
+
+458
+00:33:02,610 --> 00:33:06,849
+它们在不同硬件上的性能会有细微的差别，
+they have slightly different performance, uh, uh, when you
+
+459
+00:33:06,849 --> 00:33:08,810
+当你针对不同硬件进行优化时，会有不同的表现，对吧？
+optimize against different hardware, okay?
+
+460
+00:33:08,810 --> 00:33:12,350
+所以这意味着每家公司基本上都需要形成
+So that means that each company basically need to form
+
+461
+00:33:12,350 --> 00:33:15,969
+一个团队需要为他们自己的硬件编写模板。
+a team to write templates for their own hardware.
+
+462
+00:33:15,969 --> 00:33:20,229
+而且他们需要为每一个模型，每一个由社区定义的新兴模型反复进行这项工作。
+And they need to do that repeatedly for every model, every emerging model defined by
+
+463
+00:33:20,229 --> 00:33:21,950
+这是社区的惯例，对吧？
+the marche in community, okay?
+
+464
+00:33:21,950 --> 00:33:25,569
+这其实是非常高的人力开销，对吧。
+And that is a pretty high overhead, right, human overhead.
+
+465
+00:33:25,569 --> 00:33:28,350
+给你们举个例子。
+So, give you a little bit sense.
+
+466
+00:33:28,350 --> 00:33:32,110
+那流程中有多少个算子呢？
+So how many operators in the flow?
+
+467
+00:33:33,710 --> 00:33:37,030
+截至今天，大概有300个，
+So up to today, there are roughly 300,
+
+468
+00:33:37,030 --> 00:33:39,009
+300个算子，原语。
+300 operators, primitives.
+
+469
+00:33:39,009 --> 00:33:45,289
+是的，这数量很大，因为你可以想象会有多少种组合方式，对吧？
+Yeah. That is a lot because you can imagine how many combinations you can result into, right?
+
+470
+00:33:45,289 --> 00:33:49,650
+至于图结构，我觉得你可以直接数一数
+So graph architectures, I think you can just count
+
+471
+00:33:49,650 --> 00:33:53,050
+每年发表的论文数量和SML，大家创造了多少模型。
+the number of papers published annual ribs and SML, how many models people created.
+
+472
+00:33:53,050 --> 00:33:57,939
+是的。也许不是每一篇论文最终都会被应用，但数量还是很多，对吧？
+Yeah. Maybe not every paper will be eventually utilized, but still a lot, right?
+
+473
+00:33:57,939 --> 00:34:04,350
+回到硬件方面，目前我们大约有几十家硅片公司。
+And hardware back and we roughly have a a scale tens today, uh, silicon companies.
+
+474
+00:34:04,350 --> 00:34:10,649
+好的？所以这意味着我们基本上需要处理所有这些组合，而且这需要通过
+Okay? So that means we basically need to address all these combinations, and this need to be done by
+
+475
+00:34:10,649 --> 00:34:13,629
+人类专家编写模板，进行模式匹配来完成。
+human experts writing templates doing pattern matching.
+
+476
+00:34:13,629 --> 00:34:16,370
+好的。而且这显然是不可扩展的。
+Okay. And this is apparently not scalable.
+
+477
+00:34:16,370 --> 00:34:24,149
+好的。还有另一个我已经提到的问题，就是它既不健壮，也不可扩展，而且
+Okay. Uh, another problem I already mentioned, so it's not robust and it's not scalable and
+
+478
+00:34:24,149 --> 00:34:28,409
+性能也无法保证，因为有时候你会错失机会，
+performance is not guaranteed because sometimes you lose opportunities,
+
+479
+00:34:28,409 --> 00:34:30,650
+就像前面的例子所展示的那样。
+like the previous example showed.
+
+480
+00:34:30,650 --> 00:34:38,269
+好的？所以我们不再采用这种手动图操作的方法，而是尝试寻找更自动化的方式。
+Okay? So instead of doing this kind of menu graph openation, uh, we try to seek more automatic way.
+
+481
+00:34:38,269 --> 00:34:43,809
+所以我们开始思考一个问题，我们是否真的可以找出一个自动化的流程，
+So we start asking the question, can we actually, figure out a pipeline that we can automatically,
+
+482
+00:34:43,809 --> 00:34:49,030
+来优化这种图结构，并且保证性能提升和正确性。
+optimize this kind of graphs and guarantee performance gains and correctness.
+
+483
+00:34:49,030 --> 00:34:52,029
+好吗？那么在接下来的几分钟里，
+Okay? So in the next few minutes,
+
+484
+00:34:52,029 --> 00:34:58,509
+我会给大家介绍两条主要的研究方向，这两条方向基本上都是以自动化的方式来解决问题的。
+I'm going to tell you two leading lines of work that basically addresses in automatic way.
+
+485
+00:34:58,509 --> 00:35:05,389
+这里的关键思想是，我们尝试用
+So the key idea here is we try to replace manually designed graph oppmentations with
+
+486
+00:35:05,389 --> 00:35:10,660
+图替换的自动生成和验证，来取代手动设计的图优化。
+automatic generation and verification of graph substitutions for central algebra.
+
+487
+00:35:10,660 --> 00:35:12,389
+好的，这是什么意思呢？
+Okay. So what does this mean?
+
+488
+00:35:12,389 --> 00:35:16,610
+这意味着，呃，呃，首先，我们不想再自己写模板了，
+That means, uh, uh, first, we don't want to write our own templates
+
+489
+00:35:16,610 --> 00:35:19,290
+因为有太多的操作符，所以我们希望能够自动
+anymore because there are so many operators, so we want to automatically
+
+490
+00:35:19,290 --> 00:35:20,849
+生成这些模板，对吧？
+generate this templates, right?
+
+491
+00:35:20,849 --> 00:35:24,950
+是的，我们确实可以自动生成，但我们需要保证正确性。
+And yes, we indeed can automatically generate, but we need to guarantee correctness
+
+492
+00:35:24,950 --> 00:35:26,669
+而且我们还需要保证性能提升。
+and we need to guarantee performance gains.
+
+493
+00:35:26,669 --> 00:35:31,909
+所以我们需要发明一种机制，每当我们尝试用另一个图替换某个图时，
+So we need to invent some mechanism that whenever we try to replace some graph with another one,
+
+494
+00:35:31,909 --> 00:35:34,889
+呃，我们希望验证被替换后的图能够
+uh, we want to verify that the replaced one is going to give
+
+495
+00:35:34,889 --> 00:35:37,870
+给你带来正确的结果，并且确实能够提升性能。
+you correct results and indeed will improve performance.
+
+496
+00:35:37,870 --> 00:35:41,600
+明白吗？而且所有这些都可以自动应用和发现。
+Okay? And all this can be automatically applied and discovered.
+
+497
+00:35:41,600 --> 00:35:46,290
+所以，这项工作基本上被称为Teso，是一篇非常著名的论文，
+So, uh, this work is basically called Teso and it is a very famous paper,
+
+498
+00:35:46,290 --> 00:35:48,390
+嗯，呃，在图组织领域。
+um, uh, in Graph organization.
+
+499
+00:35:48,390 --> 00:35:52,929
+我认为它现在在Patriot中被广泛采用，嗯，这个图将为你提供
+I think it's well adopted in Patriot today, um, and this graph is going to give you
+
+500
+00:35:52,929 --> 00:35:59,760
+一个关于Teso如何解决自动图组织的高层次概览，基本上是这样的。
+a high level overview of how Teso um, address this uh automatic graph orgenation so basically,
+
+501
+00:35:59,760 --> 00:36:02,359
+它基本上是从一些算子规范开始的。
+it basically start with some operator specification.
+
+502
+00:36:02,359 --> 00:36:06,240
+比如说，用户会提供一个算子列表，比如说，
+So for example, the user provide a list of operators, for example,
+
+503
+00:36:06,240 --> 00:36:11,239
+tender flow 里所有的200个算子，并用数学的形式写下它们的规范，
+all the 200 operators in tender flow and write down in their specification in mathematical,
+
+504
+00:36:11,239 --> 00:36:16,539
+用正式的语言，比如说，这是一个二维列，它的形状是M乘N，
+formal language, for example, uh, this is column two D, and it will take a shape of M by N
+
+505
+00:36:16,539 --> 00:36:22,199
+然后应用一个三乘三的算子，对不起，是三乘三的滤波器，然后
+and being applied with a three by three operator, sorry, three by three filter and then
+
+506
+00:36:22,199 --> 00:36:25,859
+产生另一个具有特定形状的输出数组。
+produce another output ary with another certain shape.
+
+507
+00:36:25,859 --> 00:36:27,639
+所以这是正式定义的，明白吗？
+So this is formally defined, okay?
+
+508
+00:36:27,639 --> 00:36:32,039
+这是MathML，比如我把两个矩阵相乘，一个是A乘B，另一个是B乘C，
+And this is MathML, and I time two matrix together A by B and B by C,
+
+509
+00:36:32,039 --> 00:36:35,264
+那我会得到一个A乘C的矩阵，大概就是这样。
+and I'm going to get A by C matrix, something like that, okay.
+
+510
+00:36:35,264 --> 00:36:39,349
+对于这组给定的算子，我们基本上会做的是，
+This given set of operators, what we do is basically we try to,
+
+511
+00:36:39,349 --> 00:36:42,909
+嗯，嗯，基本上就是把这个算子组合起来。
+um, um, basically put this operator together.
+
+512
+00:36:42,909 --> 00:36:46,410
+我们枚举所有这些算子的可能组合。
+We enumerate all possible combinations of these operators.
+
+513
+00:36:46,410 --> 00:36:50,889
+我们就是把所有的组合都枚举出来，然后放在这里。
+We just enumerate all of them, and we put them here.
+
+514
+00:36:50,889 --> 00:36:56,629
+比如说，给定四个算子，Mm 来到池子里，也许还有罗马化，
+For example, given four operators Mm come to the pool and maybe romanization,
+
+515
+00:36:56,629 --> 00:36:59,950
+我们基本上可以枚举出所有由这四个算子组成的数据流图。
+we can basically enumerate all the possible dataflow graphs
+
+516
+00:36:59,950 --> 00:37:07,144
+然后我们尝试从整个集合中找到一些等价的图。
+that are composed from the four operators, we try to find some equivalents from the entire site.
+
+517
+00:37:07,144 --> 00:37:13,420
+对吧？一旦我们找到了等价的图，我们就可以生成很多图替换对。
+Right? And once we find the equivalent, uh, we can generate so many graph substitution pairs.
+
+518
+00:37:13,420 --> 00:37:18,280
+也就是说，我们有一个子图A，并且我们知道，比如说，
+That is, we have one subgraph A, and we know that there are, for example,
+
+519
+00:37:18,280 --> 00:37:20,959
+至少有100个等价的图，对吧？
+at least 100 equivalents, right?
+
+520
+00:37:20,959 --> 00:37:26,779
+那我们基本上可以用等价集合中的任意一个来替换原始的图A。
+And we can basically replace the original graph A with whatever in the equivalent set,
+
+521
+00:37:26,779 --> 00:37:29,379
+
+and we try to figure out those that basically will give
+
+522
+00:37:29,379 --> 00:37:32,260
+
+you performance gains while still guarantee correctness.
+
+523
+00:37:32,260 --> 00:37:38,279
+
+That's a how idea. Okay? Now, let's dive deeper into how this works. Okay.
+
+524
+00:37:39,070 --> 00:37:46,489
+
+So here we start with operators supported by our framework and hardware back end.
+
+525
+00:37:46,489 --> 00:37:49,790
+
+Here, I give a simple example.
+
+526
+00:37:49,790 --> 00:37:54,909
+
+We have four operators. Our first step is basically we enumerate all
+
+527
+00:37:54,909 --> 00:37:57,689
+
+possible graphs up to a fixed size.
+
+528
+00:37:57,689 --> 00:38:04,689
+
+For example, I want to, uh, enumerate all the possible graph shapes with four notes.
+
+529
+00:38:04,689 --> 00:38:07,309
+
+They can be connected in whatever ways.
+
+530
+00:38:07,309 --> 00:38:14,709
+
+Okay. And it turns out that there are many subgraphs, even only given four ups.
+
+531
+00:38:14,709 --> 00:38:20,990
+基本上，这些图大约有六千六百万个。
+Basically, there are roughly 66 million these graphs.
+
+532
+00:38:20,990 --> 00:38:22,299
+它们可以以这种方式组合。
+They can be combined in this way.
+
+533
+00:38:22,299 --> 00:38:29,169
+我们接下来要做的就是尝试找到替换关系。
+Oh what we try to do next step is we try to find the substitutions.
+
+534
+00:38:29,169 --> 00:38:34,089
+所以我们将替换定义为在整个集合中等价的图对。
+So we define substitution as a pair of equivalent graphs in this entire set.
+
+535
+00:38:34,089 --> 00:38:42,870
+明白了吗？所以我们寻找图的替换方式，基本上就是，呃，给定这六千六百万个图，
+Okay? So um the way we find graph substitute is basically, uh given this 66 million graphs,
+
+536
+00:38:42,870 --> 00:38:50,970
+我们会用随机输入张量计算输出指纹，也就是用随机化的输入，
+we are going to compute the output fingerprints with random input tensors with randomized inputs,
+
+537
+00:38:50,970 --> 00:38:54,589
+然后我们把输入送进图里，检查输出结果。
+and we fit the inputs into the graph and we check the outputs.
+
+538
+00:38:54,589 --> 00:38:59,449
+如果输出基本相同，我们就认为它们是可以互相替换的。
+And if the outputs are basically the same, we think they are basically substitutions.
+
+539
+00:38:59,449 --> 00:39:01,429
+这样说有道理吗？
+Does that make sense?
+
+540
+00:39:01,429 --> 00:39:06,549
+好的，嗯，所以通过运行这个过程，我们基本上可以找到很多
+Okay? Yeah. Um, so basically by running this process, we can basically find a lot
+
+541
+00:39:06,549 --> 00:39:08,929
+同行中有一些是替换项。
+of peers that are substitutions.
+
+542
+00:39:08,929 --> 00:39:13,549
+如果你按照我的方法来做。
+And if you do this, in my way.
+
+543
+00:39:13,549 --> 00:39:19,089
+基本上，你实际上可以通过
+So basically, you actually can generate roughly 28744 substitutions by
+
+544
+00:39:19,089 --> 00:39:22,409
+枚举最多包含四个操作符的图，生成大约28744个替换项，好吗？
+enumerating graphs with up to four operators, okay?
+
+545
+00:39:22,409 --> 00:39:30,259
+成对的。这仍然是一个相当大的集合，因为就像我说的，
+Pairs. And this is still a pretty large set because like I said,
+
+546
+00:39:30,259 --> 00:39:34,559
+在这个阶段，我们会得到很多模板，但这些模板是自动生成的，
+uh, at this point, we get a lot of templates, but it's automatically generated
+
+547
+00:39:34,559 --> 00:39:35,800
+而不是人工编写的。
+instead of human written.
+
+548
+00:39:35,800 --> 00:39:41,019
+但是这个集合太大了，如果我们用这些替换项进行模式匹配，
+But this is too large a set that if we run pattern matching using these substitutions,
+
+549
+00:39:41,019 --> 00:39:44,599
+它的扩展速度会非常慢。
+um, it will not scales too slow.
+
+550
+00:39:44,599 --> 00:39:47,989
+当然，也不能保证一定能提升性能。
+Okay. And it's not guaranteed to improve performance, of course.
+
+551
+00:39:47,989 --> 00:39:49,809
+我可以慢下来，对吧？
+I could slow down, right?
+
+552
+00:39:49,809 --> 00:39:53,049
+所以我们要做的是尽量修剪这个集合。
+So what we do is we try to prune this set.
+
+553
+00:39:53,049 --> 00:39:59,349
+我们会根据它们是否重复，或者
+We try to prune this set as much as possible, according to the if they are repetive if they
+
+554
+00:39:59,349 --> 00:40:03,830
+是否能给你相同的结果，或者是否能带来性能提升，尽量修剪这个集合。
+can basically give you equivalent results or if they are going to give you performance gains.
+
+555
+00:40:03,830 --> 00:40:06,169
+我们修剪的方法其实很简单。
+So the way we prune it is actually pretty simple.
+
+556
+00:40:06,169 --> 00:40:08,989
+这张幻灯片实际上给你举了几个例子。
+This slide actually give you a few example.
+
+557
+00:40:08,989 --> 00:40:13,209
+比如说，这两个图本质上是一样的，基本上第一个是
+For example, um, these two graph is essentially the same, right basically the first one is
+
+558
+00:40:13,209 --> 00:40:14,729
+变量重命名。
+basically variable liming.
+
+559
+00:40:14,729 --> 00:40:16,949
+我把A和B的重命名交换了一下。
+I switch the liming of A and B.
+
+560
+00:40:16,949 --> 00:40:20,169
+第二个基本上是，它们有一个公共的子图。
+Uh, the second one is basically, they have a common subgraph.
+
+561
+00:40:20,169 --> 00:40:23,069
+嗯，这是等价的，因为我基本上只是换了顺序，
+Uh, it's equivalent because I basically switch the order where I
+
+562
+00:40:23,069 --> 00:40:26,209
+当我把A加到它们上面时，BT保持不变。
+put the BT stay when I add A to them.
+
+563
+00:40:26,209 --> 00:40:29,009
+好的，嗯，我可以继续用这种
+Okay. Uh, I can continue using this kind of
+
+564
+00:40:29,009 --> 00:40:33,909
+数学规则来不断筛选所有的替换项。
+mathematical rules to keep pruning all the substitutions.
+
+565
+00:40:34,270 --> 00:40:38,909
+我的输入基本上有28744个替换项，
+And my input is basically 28744 substitutions,
+
+566
+00:40:38,909 --> 00:40:43,089
+筛选后，我实际上得到了734个替换项。
+and after pruning, I can actually get 734 substitutions.
+
+567
+00:40:43,089 --> 00:40:45,729
+明白了吗？记住，嗯，这还是很多。
+Okay? Remember, uh, this is still a lot.
+
+568
+00:40:45,729 --> 00:40:46,869
+好的。
+Okay.
+
+569
+00:40:48,980 --> 00:40:56,059
+问题是现在我们最终还是有将近700个等价的图替换项。
+The problem is now we ended up with almost 700 equivalent graph substitutions.
+
+570
+00:40:56,059 --> 00:40:58,539
+我们的目标是尝试对它们全部进行模式匹配。
+Our goal is trying to run pattern matching all of them.
+
+571
+00:40:58,539 --> 00:41:04,199
+但我们正在解决一个问题，因为记住，当我们尝试生成替换时，
+But we are fixing one problem because, remember, when we try to generate substitutions,
+
+572
+00:41:04,199 --> 00:41:11,839
+我们做的是使用随机张量，嗯，基本上我们从未真正正式验证过
+what do we do is we use randomized tensors, um basically we never actually formally verified that
+
+573
+00:41:11,839 --> 00:41:13,359
+它们确实是等价的。
+they are indeed equivalent.
+
+574
+00:41:13,359 --> 00:41:15,159
+问题可以这样表述。
+The problem can be stated in this way.
+
+575
+00:41:15,159 --> 00:41:21,920
+所以我们随机生成了两个域张量，A 和 B，然后我们有替换 F 和 G。基本上，
+So we randomize a field tensors, A and B, and we have substitutions F and G. Basically,
+
+576
+00:41:21,920 --> 00:41:24,639
+我们的随机张量 A 和 B，呃，
+our randomized tensors A and B, uh,
+
+577
+00:41:24,639 --> 00:41:27,579
+F 作用于 A 等于 G 作用于 A，F 作用于 B 等于 G 作用于 B。
+F A equals to GA and FB equals to GB.
+
+578
+00:41:27,579 --> 00:41:33,770
+我们想要表达的是，对于任意输入，
+And what do we what we try to state is we try to state that for it arbitrary input,
+
+579
+00:41:33,770 --> 00:41:37,009
+我们应该确保 F 作用于 X 等于 G 作用于 X。
+we should make sure FX is equal to GX.
+
+580
+00:41:37,009 --> 00:41:41,550
+但这并不成立，因为我们观察到的等价性只是在 A 和 B 上成立。
+And this is not true because what we observe is only the equivalent on ANB.
+
+581
+00:41:41,550 --> 00:41:44,469
+我们基本上不能说FX等于X。
+We cannot state basically FX equal to X.
+
+582
+00:41:44,469 --> 00:41:48,269
+基本上，这意味着我们还没有完成。
+Basically, that means that we are not finished yet.
+
+583
+00:41:48,269 --> 00:41:54,169
+鉴于这734个替换，我们还需要正式验证
+Given this 734 subsivitions, we also need to formally verify
+
+584
+00:41:54,169 --> 00:41:56,709
+它们在数学上确实是等价的。
+that they are indeed equivalent mathematically.
+
+585
+00:41:56,709 --> 00:42:02,809
+我们的做法基本上是，嗯，呃，我们有几个候选替换。
+The way we do that is basically, um, uh, we have a few candidate substitutions.
+
+586
+00:42:02,809 --> 00:42:08,710
+我们将运行验证，嗯，呃，过程，在这个过程中我们会利用
+We are going to run verification, um, uh, process where we will leverage
+
+587
+00:42:08,710 --> 00:42:12,849
+每个算子一开始写好的数学规范。
+the mathematical specifications written for each operator at the beginning.
+
+588
+00:42:12,849 --> 00:42:20,349
+好的。例如，在这个例子中，我们要求开发者为每个算子写这种
+Okay. For example, in this example, we ask the basically the developers write this kind
+
+589
+00:42:20,349 --> 00:42:22,350
+数学规范。
+of mathematical specifications for each operator.
+
+590
+00:42:22,350 --> 00:42:28,710
+比如说，卷积在拼接上是分配的，并且卷积是双线性的。
+For example, convolution is distributive over concatenations, and convolution is bilinear.
+
+591
+00:42:28,710 --> 00:42:33,630
+所以基本上要尝试列出一个操作的所有特性、数学特性。
+So basically try to state all the characteristics, mathematical characteristics of a operation.
+
+592
+00:42:33,630 --> 00:42:38,629
+一旦我们有了这种规范，我们基本上就可以查看我们的替代方案。
+So once we have this kind of specification, we can basically look at our substitutes
+
+593
+00:42:38,629 --> 00:42:41,089
+然后我们尝试根据这个规范进行检查。
+and we try to check against this specification.
+
+594
+00:42:41,089 --> 00:42:46,889
+例如，如果两个替代方案明显不符合这种数学规范，
+For example, if two substitute appear to be against this kind of mathematical specific we are
+
+595
+00:42:46,889 --> 00:42:48,540
+我们可以很确定它们并不等价。
+pretty sure that they are not equivalent.
+
+596
+00:42:48,540 --> 00:42:52,809
+对吧？所以我们可以根据这些事实进行检查，确保我们确实缩小了
+Right? So basically we can check against these facts and make sure we indeed narrow
+
+597
+00:42:52,809 --> 00:42:59,229
+那些基本上符合数学规范定义的替代方案的范围。
+down those substitutions that will basically conform to the specifications defining math.
+
+598
+00:42:59,229 --> 00:43:04,750
+明白吗？这里的想法是，嗯，编写规范比
+Okay? And the idea here is, um, writing specifications are easier
+
+599
+00:43:04,750 --> 00:43:07,329
+实际进行优化要容易，对吧？
+than actually conducting optimization, right?
+
+600
+00:43:07,329 --> 00:43:09,770
+因为你只需要对每个操作符做这件事。
+Because you just need to do that for each operator.
+
+601
+00:43:09,770 --> 00:43:13,009
+你不需要为每个图都单独做一次，因为一旦你写好了，
+You don't how to do it for each graph because once you wrote it,
+
+602
+00:43:13,009 --> 00:43:18,749
+我基本上可以用这个特定的方法来检查每个图，明白吗？到目前为止有问题吗？
+I can basically use this specific to check for each graph, okay? Any questions so far?
+
+603
+00:43:20,790 --> 00:43:23,029
+很好。
+Cool.
+
+604
+00:43:23,270 --> 00:43:28,050
+是的。通过这种规范和验证机制，
+Yeah. And with this kind of specification and verification mechanism,
+
+605
+00:43:28,050 --> 00:43:32,890
+我们实际上可以借用很多来自编译器和编程语言的很酷的技术。
+we can actually borrow a lot of cool technologies from compiler from programming language.
+
+606
+00:43:32,890 --> 00:43:36,830
+我们可以运行一些自动定理证明器来证明这两个图，
+We can run some automatic therm prover to prove that these two graphs,
+
+607
+00:43:36,830 --> 00:43:38,550
+在给定规范的情况下是等价的。
+given specifications are equivalent.
+
+608
+00:43:38,550 --> 00:43:43,209
+这可以给我们一些保证，也就是对于给定的两个替换，
+And this can give us some guarantee that given to substitutions,
+
+609
+00:43:43,209 --> 00:43:45,210
+我们可以检查它们在数学上是否等价。
+we check if they are mathematically equivalent.
+
+610
+00:43:45,210 --> 00:43:52,129
+好的，让你们感受一下这大概需要多长时间。
+Okay. To give you some sense how long this take.
+
+611
+00:43:52,129 --> 00:43:56,889
+所以为了枚举来自四个节点的所有替换，
+So in order to enumerate all the substitutions from four nodes,
+
+612
+00:43:56,889 --> 00:44:04,509
+四个操作符并生成一些剪枝，大致只需要5分钟。是的，是的。
+four operators and generating some pruning, it will roughly take only 5 minutes. Yeah. Yeah.
+
+613
+00:44:04,509 --> 00:44:06,049
+这比人类快多了，对吧？
+It's much faster than human, right?
+
+614
+00:44:06,049 --> 00:44:09,649
+是的。虽然Lumber相当庞大，但它比人类快多了
+Yeah. Although Lumber is pretty big, but it's much faster than human
+
+615
+00:44:09,649 --> 00:44:11,709
+因为我们可以让计算机自动完成这个过程。
+because we can't the computer to automate that.
+
+616
+00:44:11,709 --> 00:44:16,810
+好的？然后一旦我们有了规范，我们就可以根据规范进行验证。
+Okay? And then once we have the specifications, we can verify them against the specs.
+
+617
+00:44:16,810 --> 00:44:20,935
+我们可以写一些自动定理证明器，只需要10分钟。
+We can write some automatic theorem prover, that only takes 10 minutes.
+
+618
+00:44:20,935 --> 00:44:29,359
+好的。是的。但你可以有一个基础，嗯，基本上，如果你想做这种
+Okay. Yeah. But you can have a basis, um, basically, if you want to do this kind
+
+619
+00:44:29,359 --> 00:44:32,919
+图或者在内部照片上的定位，会花很多时间。
+of graph or position on inner photograph, it takes a lot of time.
+
+620
+00:44:32,919 --> 00:44:35,919
+比如你不需要运行那么多遍来做模式匹配。
+Like you don't need to run so many passes to do pattern matching.
+
+621
+00:44:35,919 --> 00:44:39,899
+他们还需要从编写模板开始，这样会花费更长的时间。
+And they also need to start with writing templates, and that take even longer
+
+622
+00:44:39,899 --> 00:44:45,180
+比起运行这种模式匹配、替换查找和验证来说，这要慢得多。
+than running this pattern matching and running this substitution finder and verification.
+
+623
+00:44:45,180 --> 00:44:52,949
+好的，一旦我们有了一组可用但未验证的替换，
+Okay. Yeah, once we have this set of available unverified substitutions,
+
+624
+00:44:52,949 --> 00:44:58,649
+我们基本上会应用已经验证过的替换来优化图结构。
+what we do is basically, we apply the verified substitutions to optimize the graph.
+
+625
+00:44:58,649 --> 00:45:06,049
+但就像我说的，目前我们还不能确定应用替换后，
+But like I said, um, for now, we are not sure if after we apply the substitution
+
+626
+00:45:06,049 --> 00:45:07,429
+性能是否真的会提升，对吧？
+whether our performance will gain, right?
+
+627
+00:45:07,429 --> 00:45:10,730
+因为我们只能证明这两个替换是等价的，
+Because we can only prove that two substitutions are equivalent,
+
+628
+00:45:10,730 --> 00:45:18,029
+但我们还没有观察到，实际上用Y替换X后，Y会比X快。
+but we haven't observed that indeed the second in one substitute X and why will be faster than X?
+
+629
+00:45:18,029 --> 00:45:22,089
+我们还面临另一个问题，就是如何把这种替换应用到图上。
+We are facing another problem how to apply this kind of substitute to a graph.
+
+630
+00:45:22,089 --> 00:45:26,049
+所以这其实又变成了另一个优化问题，对吧？
+So this basically boils down into another optimizing problem, right?
+
+631
+00:45:26,049 --> 00:45:30,730
+所以我们有一个给定的图，然后我们有一组要做模式匹配的东西，
+So we have a given graph, and we have a set of things that we try to do pattern matching,
+
+632
+00:45:30,730 --> 00:45:36,729
+然后我们基本上试图以某种方式优化这个图，呃，选择一组替换，
+and we try to basically optimize the graph in a way that, uh, peak a set of substitutions,
+
+633
+00:45:36,729 --> 00:45:40,129
+最终的性能会被，呃，最大化。
+the eventual performance will be, uh, maximized.
+
+634
+00:45:40,129 --> 00:45:44,510
+明白了吗？这个问题可以通过搜索来解决。
+Okay? And the and this problem can be solved by using searching.
+
+635
+00:45:44,510 --> 00:45:47,309
+比如说，我们不断尝试，不断试错。
+For example, we just keep trying keep trial and error.
+
+636
+00:45:47,309 --> 00:45:53,170
+我们不断选择任何可能的替换方式，然后进行模式匹配，
+We just keep picking up any possible substitutions and we do pattern matching,
+
+637
+00:45:53,170 --> 00:45:54,829
+得到优化后的图。
+we get optimized graph.
+
+638
+00:45:54,829 --> 00:45:59,310
+然后我们在TPU上运行优化后的图，得到结果，
+Then we run optimized graph on TPU and we get the lumber,
+
+639
+00:45:59,310 --> 00:46:05,590
+我们观察这个结果是否提升了性能，如果没有，我们就放弃，然后继续尝试。
+we observe that if this lumber is improving performance, if not, we give it up and we keep trying.
+
+640
+00:46:05,590 --> 00:46:08,259
+基本上就是枚举，对吧？
+Okay uh, basically enumeration, okay?
+
+641
+00:46:08,259 --> 00:46:11,400
+我们可以变得更有创造力一点。
+And we can be a little bit more like, creative.
+
+642
+00:46:11,400 --> 00:46:17,959
+也就是说，每次我们运行一次替换并获得一个配置编号时，我们可能都会把它记录下来。
+That is, every time we run a substitution and get a profile number, uh, we probably document it down
+
+643
+00:46:17,959 --> 00:46:23,479
+然后我们尝试训练一个成本模型，并尝试预测如果我们应用这种替换，
+and we try to train a cost model, and we try to predict if we apply this kind of substitution,
+
+644
+00:46:23,479 --> 00:46:25,579
+是否能够获得某种性能提升。
+whether we are going to get some performance scheme.
+
+645
+00:46:25,579 --> 00:46:28,640
+这样基本上可以加速我们的搜索过程。
+And that can basically accelerate our search process.
+
+646
+00:46:28,640 --> 00:46:34,739
+好的，最终我们基本上希望能够找出一个
+Okay. And eventually, we'll basically, uh, hopefully figure out, a
+
+647
+00:46:34,739 --> 00:46:39,099
+完美的替换图，它比原始的运行得更快。
+perfect basically substitutes graph that is run faster than the original one.
+
+648
+00:46:39,099 --> 00:46:43,960
+但我认为这里的关键点是整个过程都是自动化的。
+But I think the key the key point here is all this process is automated.
+
+649
+00:46:43,960 --> 00:46:46,999
+基本上，如果你想优化你的图，
+You basically if you want to run optimize your graph,
+
+650
+00:46:46,999 --> 00:46:53,459
+你要做的就是启动你的程序然后等待，你不需要去考虑模板之类的东西。
+all you do is basically launch your program and wait, you don't have to think about uh templates,
+
+651
+00:46:53,459 --> 00:46:56,939
+模式匹配这些，基本上你只需要等待，最终你
+pattern matching and all this basically you just need to wait and eventually you
+
+652
+00:46:56,939 --> 00:47:00,559
+我会说你肯定能得到一个更快的计算图。
+are going to I would say you are guaranteed to get a faster graph.
+
+653
+00:47:00,559 --> 00:47:09,159
+好的，明白。那么这个是怎么工作的呢？我觉得在某个阶段，人们把这个应用到一些
+Yeah. Okay. Cool. And so how this works, and I think at some point, people apply this to some
+
+654
+00:47:09,159 --> 00:47:12,059
+卷积和更小的神经网络上，比如说，
+convolutional and smaller neural networks, for example,
+
+655
+00:47:12,059 --> 00:47:16,939
+BERT、STN和NASNet，他们确实观察到
+birth stNt and Nats net and they indeed observe that
+
+656
+00:47:16,939 --> 00:47:22,000
+你可以做得比人工设计的方案好得多。
+you can do much better than um human crafted competitors.
+
+657
+00:47:22,000 --> 00:47:26,220
+这里的TASO基本上就是我刚才提到的那个，你可以自动优化，
+Here the taso is basically the one I mentioned, you automatically optimize,
+
+658
+00:47:26,220 --> 00:47:28,199
+你把它交给TASO，然后等待结果。
+you give it to Teso and weight.
+
+659
+00:47:28,199 --> 00:47:33,379
+然后你把TASO和其他几个基线进行对比，比如说TensorFlow XLA和TensorRT。
+And you compare Tasso to a few other baselines, for example, tener flow SLA and tenser RT.
+
+660
+00:47:33,379 --> 00:47:40,290
+XLA是谷歌的竞品，而TensorRT基本上，呃，它不是一个编译器。
+SLA is Google's competor and tenser RT is basically, um, Uh, it's not a compiler.
+
+661
+00:47:40,290 --> 00:47:43,489
+这是由Omdia开发的配额运行时。
+It's a quota runtime developed by Omdia.
+
+662
+00:47:43,489 --> 00:47:47,130
+是的，基本上里面有很多很多模板，都是Omdia工程师编写的。
+Yeah, basically, there are many many templates inside written by OmdiaEngineers.
+
+663
+00:47:47,130 --> 00:47:51,429
+实际上，你甚至可以找到比专家设计还要快的东西。
+And indeed, you can find something that is even faster than expert design.
+
+664
+00:47:51,429 --> 00:48:00,229
+好的，酷。这基本上是我们可以应用这种图优化的一种方式。
+Okay. Cool. That is basically one way that we can apply this kind of graph optimization.
+
+665
+00:48:00,229 --> 00:48:06,629
+那么总结一下这个工作流程，嗯，我之所以想总结，是因为这项工作已经发表了，
+So to summarize the workflow, okay, um, the reason I want to summarize because this work was out,
+
+666
+00:48:06,629 --> 00:48:09,889
+有很多人提出了各种不同的方法。
+there are so many peoples proposing all kinds of different ways.
+
+667
+00:48:09,889 --> 00:48:15,269
+你可以想象在搜索方式、如何创建替代方案上可以更有创意，
+You can imagine you can be more creative in how to search, right, how to create substitutions and
+
+668
+00:48:15,269 --> 00:48:17,929
+以及如何应用补贴来保证你的性能方案。
+how to apply subsidies to guarantee you how performance scheme.
+
+669
+00:48:17,929 --> 00:48:23,289
+自从这项工作被提出后，我可以说已经有超过200篇论文在
+So since this work was proposed, there are I would say more than 200 papers public in
+
+670
+00:48:23,289 --> 00:48:27,229
+这个方向上讨论如何让它更快，但基本上都归为
+this line discussing how to make this faster, but they basically fall into
+
+671
+00:48:27,229 --> 00:48:30,284
+接下来我要描述的就是这个工作流程。
+this workflow I'm going to describe next.
+
+672
+00:48:30,284 --> 00:48:33,639
+首先，你需要构建一个搜索空间。
+So you start by constructing a search space.
+
+673
+00:48:33,639 --> 00:48:38,599
+在我刚才描述的工作中，你基本上是在枚举每一种可能性，
+In the work I just described, you are basically enumrating every possibility,
+
+674
+00:48:38,599 --> 00:48:41,119
+最多到图中的四个节点。
+up to four nodes of the graph.
+
+675
+00:48:41,119 --> 00:48:47,479
+然后你枚举所有可能性，并尝试用一些启发式方法
+And then you enumerate all possibilities, and you try to using some heuristics to
+
+676
+00:48:47,479 --> 00:48:51,560
+剪枝掉那些明显错误、不正确的候选项。
+prune all the candidates that is apparently wrong, incorrect.
+
+677
+00:48:51,560 --> 00:48:59,119
+明白了吗？接着你会根据性能分析或代价模型，选择那些最优的候选项，对吧？
+Okay? And then you try to select those top candidates based on profile or cost model, right?
+
+678
+00:48:59,119 --> 00:49:06,159
+然后你应用这些变换来转换图，最终你会
+And you apply these transformations to transform the graph and eventually you will
+
+679
+00:49:06,159 --> 00:49:09,190
+得到一个性能更高的图。
+obtain a graph that is with higher performance.
+
+680
+00:49:09,190 --> 00:49:18,579
+好的，是的。当你有了优化后的图，并获得真实数据后，你可以再回来继续。
+Okay. Yeah. And once you have the optimized graph, you get real data, you can come back and
+
+681
+00:49:18,579 --> 00:49:21,080
+基本上就是不断迭代你的成本模型，使其更加准确。
+basically iterate your cost model to make it more accurate.
+
+682
+00:49:21,080 --> 00:49:26,040
+对，这有点涉及到所谓的系统中的机器学习。
+Yeah. This is like a slightly involving something called machine learning for systems.
+
+683
+00:49:26,040 --> 00:49:33,709
+也就是说，我尝试用机器学习来提升我的系统性能。明白吗？
+That is, I try to use machine learning to improve my system performance. Okay.
+
+684
+00:49:33,709 --> 00:49:36,090
+这种方法有一些潜在的局限性。
+There are potential limitations for this approach.
+
+685
+00:49:36,090 --> 00:49:42,870
+首先，可能你的搜索空间没有定义得足够全面，
+The first one is, maybe your search space is not defined as comprehensive as possible,
+
+686
+00:49:42,870 --> 00:49:44,830
+所以你还是会错过一些机会。
+so you will still miss some opportunity.
+
+687
+00:49:44,830 --> 00:49:49,529
+明白吗？所以定义一个足够大的搜索空间非常关键。
+Okay? So it's pretty critical that you define a large enough so space.
+
+688
+00:49:49,529 --> 00:49:53,269
+但如果你这么做了，你就会有一个超级大的空间，
+But if you do so, you are going to have a super large space that will
+
+689
+00:49:53,269 --> 00:49:55,610
+基本上会让搜索变得不可能。
+basically make searching impossible.
+
+690
+00:49:55,610 --> 00:49:58,070
+所以说，这个问题本质上是一个悖论。
+So basically, this problem is a paradox.
+
+691
+00:49:58,070 --> 00:50:02,750
+如果你想要更深入地优化，呃，你就无法及时收敛。
+If you want to optimize more, uh, you're not going to converge in a timely manner.
+
+692
+00:50:02,750 --> 00:50:06,875
+但如果你优化得不够，你又得不到好的性能。
+But if you want to optimize less, you are not going to get a good performance.
+
+693
+00:50:06,875 --> 00:50:12,660
+好的。就像我说的，搜索过程会非常慢，对吧，因为你基本上是在
+Okay. Like I said, the search is going to be pretty slow, right, because you are basically
+
+694
+00:50:12,660 --> 00:50:13,999
+反复试错，反复试错。
+trial on an arrow, trial on an arrow.
+
+695
+00:50:13,999 --> 00:50:19,739
+好的。如果你想构建这种代价模型，你需要一些真实的性能数据。
+Okay. And if you want to build this kind of cost model, you need some real profile data.
+
+696
+00:50:19,739 --> 00:50:23,299
+而为了获得这些真实的性能数据，你必须运行你的模型，比如说
+And in order to get this real profile data, you have to launch your say
+
+697
+00:50:23,299 --> 00:50:29,439
+自动在GPU上优化图，然后运行，比如十次迭代，获取真实的数据，对吧？
+automatically optimize the graph on GPO and run, say for ten iterations and get a real data, right?
+
+698
+00:50:29,439 --> 00:50:30,819
+这会花费一些时间。
+And that can take some time.
+
+699
+00:50:30,819 --> 00:50:36,080
+是的。比如说，当神经网络本身很复杂时，它会占用你的GPU资源。
+Yeah. Because for example, when a neural network is pretty costly, it will take your GPO cycles.
+
+700
+00:50:36,080 --> 00:50:36,959
+是的。
+Yeah.
+
+701
+00:50:36,959 --> 00:50:40,039
+好的，这部分有问题吗？
+Okay. Any questions on this?
+
+702
+00:50:41,940 --> 00:50:51,420
+很好。那么，我接下来要介绍另一种进行图结构组织的方法，
+Cool. Okay, um, then I'm going to dive into another way of doing graph organization,
+
+703
+00:50:51,420 --> 00:50:53,820
+而且这种方法更加有创意。
+and this is even more creative.
+
+704
+00:50:53,820 --> 00:50:58,779
+明白吗？我记得在之前的工作中，我们说过实际上可以通过
+Okay? So, I think in the previous work, we said that we can actually replace humans by
+
+705
+00:50:58,779 --> 00:51:03,479
+用搜索和代价模型自动化这个过程，从而替代人工。
+automating this process using search and cost model.
+
+706
+00:51:03,479 --> 00:51:08,974
+我还提到，一个关键步骤是你需要定义搜索空间。
+Um, I also said that a key step is you define search space.
+
+707
+00:51:08,974 --> 00:51:11,489
+但在这里，我们开始提出另一个问题。
+But here we start asking another question.
+
+708
+00:51:11,489 --> 00:51:16,089
+在之前的工作中，我们总是试图找到那些等价的替换方式。
+In the previous work, we always try to find those equivalent substitutions.
+
+709
+00:51:16,089 --> 00:51:18,249
+也就是说，给定图X，
+That is given graph X.
+
+710
+00:51:18,249 --> 00:51:21,449
+我们尝试将其替换为等价的图Y。
+We try to replace it into equivalent graph Y.
+
+711
+00:51:21,449 --> 00:51:27,569
+所谓等价，我的意思是，Y可以保证给你和X相同的结果。
+By equivalent, I mean, Y is guaranteed to give you the same results as X.
+
+712
+00:51:27,770 --> 00:51:31,389
+但有时候，也会有其他一些机会。
+But sometimes, there are some other opportunities.
+
+713
+00:51:31,389 --> 00:51:38,329
+比如说，也许我能找到一个模式是X，然后我用Y来替换X，
+For example, maybe I can find a pattern which is X, and then I replace X with Y,
+
+714
+00:51:38,329 --> 00:51:42,554
+但Y并不能保证和X得到等价的结果。
+but Y is not guaranteed to give equivalent results with X.
+
+715
+00:51:42,554 --> 00:51:45,719
+但Y比X快得多。
+But why much faster than X.
+
+716
+00:51:45,719 --> 00:51:48,780
+也许快十倍，或者快两倍。
+Maybe ten times faster or two times faster.
+
+717
+00:51:48,780 --> 00:51:51,519
+然后我可以对结果进行补偿，对吧？
+And then I can compensate the results, right?
+
+718
+00:51:51,519 --> 00:51:58,760
+呃，S Y和X在矩阵的某些位置上有差异，但我可以加上另一个算子
+Uh, S Y and X has a difference of add a few positions of the matrix, but I can add another operator
+
+719
+00:51:58,760 --> 00:52:03,300
+用来补偿结果，确保，呃，在应用补偿算子之后，
+that compens results to make sure, uh, after applying a compensation operator,
+
+720
+00:52:03,300 --> 00:52:05,240
+结果就是等价的。
+the results will be equivalent.
+
+721
+00:52:05,240 --> 00:52:10,840
+对吧？然后我基本上可以在前面30个流苏空间里，
+Right? And then I can basically in the previous 30 space of tassel,
+
+722
+00:52:10,840 --> 00:52:12,939
+我们错过了所有这些机会。
+we miss all these kind of opportunities.
+
+723
+00:52:12,939 --> 00:52:15,699
+好的，在这项工作中，我将介绍这种方法。
+Okay. And in this work, I'm going to introduce this way.
+
+724
+00:52:15,699 --> 00:52:21,239
+也就是说，在这个最终的例子中，在左边，
+That is, uh, in this in this final example, uh, on the left hand side, we
+
+725
+00:52:21,239 --> 00:52:23,419
+我们有完全等价的变换。
+have the fully equivalent transformations.
+
+726
+00:52:23,419 --> 00:52:26,939
+在右边，我们有部分等价的变换。
+On the right hand side, we have the partially equivalent transformations.
+
+727
+00:52:26,939 --> 00:52:33,140
+基本上对于FET，这两张图会给你完全相同的结果。
+Uh, so basically for FET, uh, these two graphs is going to give you exactly the same results.
+
+728
+00:52:33,140 --> 00:52:35,459
+但是在PT中就不是这样了。
+But in this PT is not.
+
+729
+00:52:35,459 --> 00:52:43,554
+但是通过启用PT的30空间，有时候我们甚至可以获得更好的性能，对吧？
+But by enabling the PT 30 space, sometimes we can even get better performance, Okay?
+
+730
+00:52:43,554 --> 00:52:55,450
+是的，他们只生成了几个操作符。
+Yeah. They only generate a few operators.
+
+731
+00:52:57,410 --> 00:52:59,850
+它们不会生成场算符。
+They don't generate field operators.
+
+732
+00:52:59,850 --> 00:53:07,569
+不会。是的，是的。
+No. Yeah, yeah.
+
+733
+00:53:07,569 --> 00:53:11,910
+所以在某些情况下，还是需要你自己写场算符。
+So at some point, still need to field by yourself and you need to write your own field operator.
+
+734
+00:53:11,910 --> 00:53:14,970
+但就像我说的，场算符可以用算符编译器来完成。
+But like I said, the field operator can be done using operator compiler.
+
+735
+00:53:14,970 --> 00:53:19,250
+对。你可以让算符编译器生成场算符的代码。
+Yeah. Yeah. You can ask operator compiler to generate code of field operator.
+
+736
+00:53:19,250 --> 00:53:21,749
+对。明白了吗？这是两个不同的层次。
+Yeah. Okay? These are two different levels.
+
+737
+00:53:21,749 --> 00:53:32,010
+对，明白。基本的想法是，嗯，呃，如果我们只把我们的30空间限制在FET上，
+Yeah. Cool. The idea is basically, um, uh, if we only limit our 30 space into FET,
+
+738
+00:53:32,010 --> 00:53:33,849
+我们会错失一些机会。
+we are going to miss some opportunities.
+
+739
+00:53:33,849 --> 00:53:37,010
+那我们为什么不把空间开放到PT呢，
+How about we just open space to PT,
+
+740
+00:53:37,570 --> 00:53:43,109
+PT可以带来更好的性能，但我们需要找到方法把它纠正回来，
+PT can give us better performance, but we need to find a way to correct it back,
+
+741
+00:53:43,109 --> 00:53:46,110
+因为结果并不等价，所以我们需要补充结果。
+because the results is not equivalent, we need to complement results.
+
+742
+00:53:46,110 --> 00:53:48,809
+好吗？那我们该怎么做呢？
+Okay? So how to do that.
+
+743
+00:53:49,180 --> 00:53:52,039
+那我给你举一个有启发性的例子，好吗？
+So to give you a motivating example, okay,
+
+744
+00:53:52,039 --> 00:53:57,079
+我想让你回忆一下卷积com two D的内容。
+I want you to recall a little bit, um on convolution com two D.
+
+745
+00:53:57,079 --> 00:54:00,219
+好吗？在卷积中，我们有这样一个例子，对吧。
+Okay? So in convolution, we have this example, right.
+
+746
+00:54:00,219 --> 00:54:05,240
+在这个例子里，我们有两个输入，比如说两张图片，还有一个滤波器，
+So here in this pre, we have two inputs, uh, two images, for example, and I have a filter,
+
+747
+00:54:05,240 --> 00:54:07,240
+就是这个绿色的小滤波器。
+which is the green one, small filter.
+
+748
+00:54:07,240 --> 00:54:12,400
+我在column two D中，会把这个小滤波器分别应用到这两张图片上，
+Uh I column two D, I'm going to apply this small filter over these two images separately,
+
+749
+00:54:12,400 --> 00:54:19,120
+然后我会得到一个稍微小一点的特征图，就是底部的蓝色部分。
+and I get slightly, uh, uh, smaller like feature map, which is blue at the bottom.
+
+750
+00:54:19,120 --> 00:54:23,639
+好的，我希望你还记得怎么应用这个com two。
+Okay. I hope you still remember how to apply this com two.
+
+751
+00:54:23,639 --> 00:54:32,240
+一种方法是我们注意到，如果我们把这一个黄色和橙色的特征图拼接在一起，
+So one way to do this is we notice that if we concatenate this one yellow orange maps together,
+
+752
+00:54:32,240 --> 00:54:35,739
+然后应用相同的操作符，我们可以运行得更快。
+and we apply the same operator, we can run much faster.
+
+753
+00:54:35,739 --> 00:54:42,820
+为什么？因为这样可以减少内核启动次数，也能减少很多内存IO，比如说。
+Why? Because we reduce kernel launches and also a lot of memory IO, for example.
+
+754
+00:54:42,820 --> 00:54:49,200
+但问题是二维运行的方式很奇怪，你需要处理边界条件。
+But the problem is the two D run at a very weird way that is you need to handle boundary conditions.
+
+755
+00:54:49,200 --> 00:54:53,640
+你知道，原本我是从左到右、从上到下扫描每一个特征图。
+You know, original one, I just scan each feature map from lab right from top to bottom.
+
+756
+00:54:53,640 --> 00:54:57,559
+但如果我把输入特征图拼接在一起，
+But if I concatenate the input fissure map together,
+
+757
+00:54:57,559 --> 00:55:02,660
+我会发现，在边界处，这两列会给出略微不同的结果
+I will find that in a boundary, those two columns are going to give you slightly different results
+
+758
+00:55:02,660 --> 00:55:04,459
+如果你把它们拼接在一起的话。
+if you put them together.
+
+759
+00:55:04,460 --> 00:55:09,709
+好的，就像我说的，第二列的运行速度比第一列快得多。
+Okay. Like I said, the second column runs much faster than the first column.
+
+760
+00:55:09,709 --> 00:55:12,569
+我还是想利用这个机会，该怎么做呢？
+I still want to leverage the opportunity, how to do.
+
+761
+00:55:12,569 --> 00:55:15,609
+所以在某个时候，我还是会这样做。
+So at some point, I still do this.
+
+762
+00:55:15,609 --> 00:55:17,750
+但我可以加入一些组合。
+But I can add some composition.
+
+763
+00:55:17,750 --> 00:55:19,409
+我可以管理一些数值，
+I can manage some value,
+
+764
+00:55:19,409 --> 00:55:24,589
+我用中间列计算，然后尝试把结果修正回来。
+I calculated using the middle column and I try to correct the results back.
+
+765
+00:55:24,589 --> 00:55:33,709
+明白了吗？所以这个高层次的想法基本上就是，我试图重新定义空间，我试图
+Okay? And so this high level idea is basically like I try to redefine space that um I try
+
+766
+00:55:33,709 --> 00:55:39,490
+探索这种类似于PT部分等价变换的方法，然后我把一些结果
+to explore this kind of like a PT partially equivalent transformations, and then I add some results
+
+767
+00:55:39,490 --> 00:55:42,029
+加回来，以确保结果仍然是精确的。
+back to still guarantee the results are exact.
+
+768
+00:55:42,029 --> 00:55:48,609
+但是，这样可以让我探索所有隐藏的机会。明白吧？
+But uh that allows me to explore all the kind of hidden opportunities. Makes sense, right?
+
+769
+00:55:48,609 --> 00:55:52,550
+好的，很棒。那么我现在要讲一下整个过程。
+Okay. Cool. So I'm going to go through the entire process.
+
+770
+00:55:52,550 --> 00:55:56,489
+这是另一个由TesoGroup开发的编译器，我觉得他们也是
+This is another compiler developed by the TesoGroup and I think they are also
+
+771
+00:55:56,489 --> 00:55:58,869
+在某种程度上应用于torch comple，是的。
+applied in torch comple in some way, yeah.
+
+772
+00:55:58,869 --> 00:56:03,810
+嗯，那么我们要如何基本上自动化整个流程。
+Um, so how we can basically automate this entire process.
+
+773
+00:56:03,810 --> 00:56:12,119
+所以，这个想法，这个工作流程基本上在这张幻灯片上展示了。
+So So the idea, the workflow is basically illustrated on this slide.
+
+774
+00:56:12,119 --> 00:56:15,960
+我们要做的是，给定一个输入程序，我们将生成自动变异体。
+So what do we do is given input program, we are going to generate auto mutant.
+
+775
+00:56:15,960 --> 00:56:20,079
+你可以把这个变异体基本上看作是一种替换。
+Uh, you can think of this mutant basically a u substitutions.
+
+776
+00:56:20,079 --> 00:56:22,800
+我不称之为替换，因为它们并不等价。
+I don't call it substituting because it's not equivalent.
+
+777
+00:56:22,800 --> 00:56:24,300
+这就是为什么我称它为变异体。
+That's why I call it mutant.
+
+778
+00:56:24,300 --> 00:56:30,339
+好的？嗯，我会生成自动变异体，并将这个变异体应用到我的
+Okay? Uh, I'm going to generate auto mutant, and I'm going to apply this mutant to my
+
+779
+00:56:30,339 --> 00:56:32,529
+原始程序上，以获得一个更快的版本。
+original program to get a faster version.
+
+780
+00:56:32,529 --> 00:56:37,280
+然后我会检查变异后的程序是否比之前的程序有错误。
+And then I check if the mutty program has an arrow from the previous program.
+
+781
+00:56:37,280 --> 00:56:41,399
+如果是的话，我会加一些变异修正器，把它修正回来。
+And if yes, I'm going to add some mutant corrector to correct it back.
+
+782
+00:56:41,399 --> 00:56:46,960
+好吗？因为我在图里加了一些额外的操作符，对吧，为了修正结果，
+Okay? And because I add some additional operators in the graph, right, in order to fix the results,
+
+783
+00:56:46,960 --> 00:56:52,259
+所以这基本上会扩大整个计算图，呃，可能会扩大整个计算图。
+so that basically enlarges the entire graph, uh, possibly enlarge the entire graph.
+
+784
+00:56:52,259 --> 00:56:56,479
+所以我会做的是，稍后手动把它们融合在一起，好吗？
+So what I do is I'm going to manually fuse them together later. Okay?
+
+785
+00:56:56,479 --> 00:57:01,279
+通过融合操作，我基本上可以，呃，确保这一点。
+And by applying fusion, then I can basically, uh, make sure.
+
+786
+00:57:01,279 --> 00:57:06,179
+所以这其实不是保证融合，而是机会性融合，所以我可以
+So it's basically not guaranteed fusion, it's opportunistic fusion, so I can
+
+787
+00:57:06,179 --> 00:57:09,530
+基本上尽量提升我性能的最终速度。
+basically try to maximize the last speed of my performance.
+
+788
+00:57:09,530 --> 00:57:13,200
+好的，那这就归结为两个问题了。
+Okay, then it becomes it boils down to two questions?
+
+789
+00:57:13,200 --> 00:57:16,400
+一个是如何变异程序，如何发现这种变异体。
+One is how to mutate the program, how to discover this kind of mutant.
+
+790
+00:57:16,400 --> 00:57:20,700
+第二个是，一旦我应用了变异体，如何进行修正。
+And second is how to correct, once I apply a mutant.
+
+791
+00:57:20,700 --> 00:57:23,420
+好吗？那要怎么变异呢？
+Okay? So how to mutate?
+
+792
+00:57:23,420 --> 00:57:29,790
+嗯，这其实非常相似，基本上，你可以把这个和之前的内容联系起来。
+Um, it is very similar to basically, uh, you can basically connect this to previous.
+
+793
+00:57:29,790 --> 00:57:33,210
+我们变异的方法是继续枚举。
+The way we mutate it we continue to enumerate.
+
+794
+00:57:33,210 --> 00:57:36,549
+枚举是计算机科学中最有用的技能之一。
+Enumerating is one of the best things you do in computer science.
+
+795
+00:57:36,549 --> 00:57:41,569
+是的，这是一种技能。明白吗？你要尝试枚举所有可能的程序，直到
+Yeah, it's skills. Okay? You try to enumerate all possible programs up to
+
+796
+00:57:41,569 --> 00:57:44,670
+一个固定的大小，使用所有可用的操作符。
+a fixed size using all available operators.
+
+797
+00:57:44,670 --> 00:57:48,390
+但这一次，不只是寻找那些数学上等价的操作，
+But this time, instead of only finding those mathematically equivalent operations,
+
+798
+00:57:48,390 --> 00:57:51,750
+你要尽量保留更多的操作，好吗？
+you try to keep more of them, okay?
+
+799
+00:57:54,230 --> 00:58:01,869
+嗯，所以不仅仅是找到aft，你还要保留那些是PT的，好吗？
+Um, so instead of only finding aft, you are going to also preserve those that is PT, okay?
+
+800
+00:58:01,869 --> 00:58:06,190
+但在这里，我还是希望确保搜索空间是可控的。
+But here, I want to still make sure that the search space is manageable.
+
+801
+00:58:06,190 --> 00:58:11,249
+所以与其保留所有不同类型的变体，你还记得最初的数字吧
+So instead of keeping all the different kind of mutants, still remember the base number right
+
+802
+00:58:11,249 --> 00:58:13,529
+6600万。那实在是太多了。
+66 million. So that's too much.
+
+803
+00:58:13,529 --> 00:58:16,589
+所以我不会那样做，我打算这样，
+So instead of doing that, what I'm going to do is uh,
+
+804
+00:58:16,589 --> 00:58:18,530
+我会给它随机输入。
+I'm going to give it random input.
+
+805
+00:58:18,530 --> 00:58:21,890
+而且我不会检查随机输出的具体值。
+And I don't check the value of the random, uh, the output.
+
+806
+00:58:21,890 --> 00:58:26,769
+我只检查输出的形状，因为我可以用形状作为一个弱过滤器来确保
+I only check the shapes because I can use shape as weak filter to make sure that
+
+807
+00:58:26,769 --> 00:58:32,289
+这些变体大致产生相同形状的输出，但它们的结果可能不同，明白吗？
+these mutants roughly provide the same shape of outputs, but their results could differ, okay?
+
+808
+00:58:32,289 --> 00:58:36,029
+这样可以控制我的搜索空间不会爆炸，对吧？
+So that can control my search space to not explode, right?
+
+809
+00:58:37,900 --> 00:58:43,639
+然后，一旦我们应用了这种变体，我们基本上需要
+And then once we apply this kind of mutant, we need to basically, uh,
+
+810
+00:58:43,639 --> 00:58:46,460
+检测这些结果是否正确。
+detect if these kind of results are correct.
+
+811
+00:58:46,460 --> 00:58:51,799
+基本上它们是等价的，它们最终都是完全装备的变换机器，
+I basically they are equivalent, they turn out to be fully equipment transform machine,
+
+812
+00:58:51,799 --> 00:58:53,699
+那我们就没有问题了，一切都很好。
+then we don't have a problem. We are good.
+
+813
+00:58:53,699 --> 00:58:57,379
+但如果不是这样，我们就需要考虑第二步。
+But if that's not the case, we need to consider the second step
+
+814
+00:58:57,379 --> 00:58:59,199
+也就是我们需要把结果纠正回来。
+that is we need to correct the results back.
+
+815
+00:58:59,199 --> 00:59:05,499
+明白了吗？所以接下来我们要面对另一个问题，就是我们如何验证，比如说，
+Okay? So then we are figuring, we are facing another problem that is how we can verify, for example,
+
+816
+00:59:05,499 --> 00:59:10,979
+在这个例子中，程序F等于prime G，假设G是F的一个变异体，对吧？
+in this example, program F equals to prime G, considering G is a mutant of F, right?
+
+817
+00:59:10,979 --> 00:59:19,119
+所以一种基本的验证方法是我们检查位置映射，对吧？
+So One way to basically verify we check position map position, right?
+
+818
+00:59:19,119 --> 00:59:24,079
+我们只需要给出随机输入，然后检查输出空间中的位置映射，如果
+We just give the random inputs and we check position me position in output space and if
+
+819
+00:59:24,079 --> 00:59:26,019
+所有位置都匹配，那我们就没问题。
+all the position matches, then we good.
+
+820
+00:59:26,019 --> 00:59:33,600
+但这显然很慢，所以我们做的是，呃，我们改为检查正M位置，
+But this is apparently quite slow, what we do is, uh, instead we check positive M position,
+
+821
+00:59:33,600 --> 00:59:35,499
+我们可以进行一些优化。
+we can do some optimization.
+
+822
+00:59:35,499 --> 00:59:39,679
+但在我们引入优化之前，先来看看现在有多慢，好吗？
+But before we introduce openation, let's try to see how slow this is, okay?
+
+823
+00:59:39,679 --> 00:59:42,659
+所以复杂度大致可以写成
+So the complexity is roughly written as
+
+824
+00:59:42,659 --> 00:59:46,419
+M乘以N，其中M是所有可能的输入，对吧？
+M times N where M is all the possible inputs, right?
+
+825
+00:59:46,419 --> 00:59:48,920
+N是所有的输出位置。
+And N is all the output positions.
+
+826
+00:59:48,920 --> 00:59:56,140
+基本上，如果我们真的想验证这是否正确，我们基本上需要枚举
+So basically, if we want to really verify if this are correct, we basically need to enumerate
+
+827
+00:59:56,140 --> 01:00:00,560
+所有M个输入，并在每个输入的所有位置上进行检查。
+all the input M inputs and check on all the positions for each input.
+
+828
+01:00:00,560 --> 01:00:02,599
+所以复杂度就是这样。
+So the complexity is bien.
+
+829
+01:00:02,599 --> 01:00:06,159
+好的。为了让这个因子变小，
+Okay. And in order to make this factor,
+
+830
+01:00:06,159 --> 01:00:12,839
+我认为我们的目标基本上是尝试同时减少M和N，来找出如何验证。
+I think our goal is basically trying to reduce both M and N, to figure out how to verify.
+
+831
+01:00:12,839 --> 01:00:15,559
+好吗？我们一个一个来讨论。
+Okay? Let's talk about one by one.
+
+832
+01:00:15,559 --> 01:00:18,439
+所以我们首先来谈谈如何减少N。
+So we'll first talk about how to reduce N.
+
+833
+01:00:18,439 --> 01:00:22,359
+N基本上是特征图的输出位置，比如在第二列。
+N is basically the output position of the feature map, for example, in column two.
+
+834
+01:00:22,359 --> 01:00:24,580
+那么如何基本上处理这个因素呢。
+So how to basically make this factor.
+
+835
+01:00:24,580 --> 01:00:29,780
+结果发现这个其实非常直接，也很容易实现。
+And it turns out this one is pretty straightforward and very easy big machinery.
+
+836
+01:00:29,780 --> 01:00:37,019
+好吗？我们的核心想法是，我们能不能只检查几个，甚至只检查一个位置，
+Okay? So, our high level idea is can we just check out a few or even just one position instead of
+
+837
+01:00:37,019 --> 01:00:41,879
+而不是每一个输出位置都去验证其正确性或错误性，对吧？
+every output position to assert the correctness or incorrectness, right?
+
+838
+01:00:41,879 --> 01:00:43,439
+结果发现我们不能这样做。
+And it turns out that we can't do that.
+
+839
+01:00:43,439 --> 01:00:48,099
+为什么？因为，对于大多数机器学习中的计算，
+Why? Because, um, for majority of competition in machine learning,
+
+840
+01:00:48,099 --> 01:00:51,579
+它们有一个非常好的数学性质，那就是，
+they have a very nice mathematical property that is,
+
+841
+01:00:51,579 --> 01:00:55,600
+它叫做多线性。那么什么是多线性呢？
+uh, it's called multilinear. So what is multilinear?
+
+842
+01:00:55,600 --> 01:01:01,799
+多线性基本上就是，如果一个函数F对所有输入都是线性的，它就是多线性的。
+Multinear is basically a function F is multilinear if the output is linear to all inputs.
+
+843
+01:01:01,799 --> 01:01:06,179
+我可以用下面的方程来说明这个性质。
+And I can actually illustrate this property in the equation below.
+
+844
+01:01:06,179 --> 01:01:10,100
+也就是说，对于任意输入，我都可以对它进行线性变换，结果
+That is, for any input, I can basically linearly transform it and the results
+
+845
+01:01:10,100 --> 01:01:12,480
+也会相应地进行线性变换。
+can be corresponding linearly transform.
+
+846
+01:01:12,480 --> 01:01:16,599
+比如说，加一个标量，乘一个标量之类的，对吧？
+For example, adding a scholar, time scholar or whatever, okay?
+
+847
+01:01:16,599 --> 01:01:22,559
+事实证明，对于很多很多机器学习算子来说，大约80%都是这样的。
+And it turns out that for many, many machinery operators, like, 80% of them.
+
+848
+01:01:22,559 --> 01:01:24,119
+所以基本上它们都是多线性的。
+So basically they are multi linear.
+
+849
+01:01:24,119 --> 01:01:26,339
+这个表格基本上可以让你有个直观的感受。
+And this table basically give you a sense.
+
+850
+01:01:26,339 --> 01:01:29,279
+好的，我希望你看看这个表格。
+Okay, I want you to look at this table.
+
+851
+01:01:33,460 --> 01:01:38,540
+一些非常重要的算子，比如说come、met mo，它们是多线性的。
+Some very important operators, for example, come, met mo, they are multilinear.
+
+852
+01:01:38,540 --> 01:01:43,980
+所以你可以对输入做线性变换，输出也会相应地被变换。
+So you can linearly transform the input and the output will be correspondingly transform.
+
+853
+01:01:43,980 --> 01:01:47,560
+为什么我们要关心这种多线性特性呢？
+Why we care about this multinear characteristic.
+
+854
+01:01:47,560 --> 01:01:51,680
+我们关心它的原因是因为我们有这个定理。
+The reason we care about it is because we have this serum.
+
+855
+01:01:51,680 --> 01:02:01,779
+对于两个多线性函数F和G，如果F在上区域的某个位置等于G，
+So for two multinear function F and G, uh, if F equals to G for region 01 position in upper region,
+
+856
+01:02:01,779 --> 01:02:05,600
+那么我们可以观察到F在所有位置都等于G。
+then we can observe that fix to G for all positions.
+
+857
+01:02:05,600 --> 01:02:09,240
+好的，那为什么这很重要呢？
+Okay? So why is this important?
+
+858
+01:02:09,240 --> 01:02:13,139
+因为最初我们需要检查所有的输出位置，对吧。
+Because, originally, we need to check all the output positions, right.
+
+859
+01:02:13,139 --> 01:02:15,880
+现在，如果我们知道这个算子是多线性的，
+And now, if we know that this operator is going to be multilinear,
+
+860
+01:02:15,880 --> 01:02:20,719
+我们只需要检查几个位置，就可以断定它们是等价的，对吧？
+we just need to check a few positions and we can assert their their equivalent, right?
+
+861
+01:02:20,719 --> 01:02:23,499
+比如说，有一个例子是在第二列。
+So one example is, uh, in column two.
+
+862
+01:02:23,499 --> 01:02:27,439
+每次我们应用一个过滤器时，结果都会落在一个区域内，
+Every time we apply a filter, right, we all result into a region that is,
+
+863
+01:02:27,439 --> 01:02:29,959
+比如说是三乘三或者四乘四的区域。
+say, three by three or four by four.
+
+864
+01:02:29,959 --> 01:02:33,160
+在那个区域里，我们不需要检查所有的四乘四区域。
+And in that region, we don't need to check all four by four regions.
+
+865
+01:02:33,160 --> 01:02:36,240
+我们只需要检查一个。如果它们的结果是等价的，
+We just need to check one. And if their results are equivalent,
+
+866
+01:02:36,240 --> 01:02:38,439
+我们就知道上面的区域其实也是等价的。
+we know the upper region are actually equivalent.
+
+867
+01:02:38,439 --> 01:02:43,959
+好的，这样可以有效地把我们的三维空间，也就是索引机器，从
+Okay. And this can effectively reduce our three space, the index machine from
+
+868
+01:02:43,959 --> 01:02:47,579
+检查所有输出位置变成只检查需要的区域。
+lumber output positions into lumber regions, we need to check.
+
+869
+01:02:47,579 --> 01:02:51,519
+这样说有道理吗？嗯，好。还有问题吗？
+Does that make sense? Yeah. Okay. Any question?
+
+870
+01:02:51,519 --> 01:02:56,639
+有的，嗯哼。
+Yeah. Uh huh.
+
+871
+01:02:58,360 --> 01:03:00,840
+你说的激活是什么意思？
+What do you mean by activation?
+
+872
+01:03:00,840 --> 01:03:03,579
+不不不，那是非线性的。对，对，对。
+No, no, that's nonlinear. Yeah. Yeah, yeah.
+
+873
+01:03:03,579 --> 01:03:06,779
+但你需要这样去思考。
+But you need to think in this way.
+
+874
+01:03:06,779 --> 01:03:10,279
+还记得我们一开始做的MS队列吗？
+So remember the MS que we did at the beginning, right?
+
+875
+01:03:10,279 --> 01:03:15,499
+那个计算量最大的其实是线性函数，对吧？
+The one that is your most flops is linear functions, right?
+
+876
+01:03:15,499 --> 01:03:20,479
+因为我们不能放弃优化Lu，否则会很慢。
+Because we can't give up optimizing Lu because it's going to be slow.
+
+877
+01:03:20,479 --> 01:03:21,919
+我们知道这样会很慢，对吧？
+We know it's going to be slow, right?
+
+878
+01:03:21,919 --> 01:03:26,689
+对。这个方法其实挺聪明的，对吧。
+Yeah. Okay. This one is pretty clever, right.
+
+879
+01:03:26,689 --> 01:03:30,669
+基本上，你就是想利用这种多元性并尝试
+So basically, you try to leverage this kind of multineity and try to
+
+880
+01:03:30,669 --> 01:03:36,729
+把N的维度从N降到R。
+reduce the dimension of N from N to R. Okay.
+
+881
+01:03:36,729 --> 01:03:40,849
+现在我们正在尝试找出如何简化M。你还记得吧。
+And now we are trying to figure out how to reduce M. You still remember, right.
+
+882
+01:03:40,849 --> 01:03:43,070
+所以我们需要检查每一个可能的输入。
+So we need to check for each possible input.
+
+883
+01:03:43,070 --> 01:03:47,909
+只要每个可能的输入它们是等价的或者不等价的，
+And as long as if each possible input, they are equivalent or they are not equivalent,
+
+884
+01:03:47,909 --> 01:03:52,769
+那么我们就可以直接应用这个变换，之后再想办法修正，对吧？
+then we can figure out how to correct later, right directly applying this transformation.
+
+885
+01:03:52,769 --> 01:03:55,169
+好吗？那我们怎么检查M呢？
+Okay? How to check M?
+
+886
+01:03:55,169 --> 01:04:00,490
+检查的方法还是一样，我们要用数学的方法来处理，好吗？
+Okay. The way we check them is still, we are going to place on math, okay?
+
+887
+01:04:00,490 --> 01:04:02,590
+然后我们有这样一个定理。
+And we have this theorem.
+
+888
+01:04:02,590 --> 01:04:05,170
+好吗？如果存在某个输入
+Okay? So if there exists input
+
+889
+01:04:05,170 --> 01:04:12,009
+我，呃，两个变换F和G，在某些位置上，存在
+I uh two transformation F and G, at several position, there exists
+
+890
+01:04:12,009 --> 01:04:17,230
+在位置P的输入，它们的值是不同的。
+input at the position P, their value are different.
+
+891
+01:04:17,230 --> 01:04:22,189
+
+Then the probability that F and G, given identical results on
+
+892
+01:04:22,189 --> 01:04:26,309
+
+T random inputs is very small, explly small.
+
+893
+01:04:26,430 --> 01:04:30,509
+
+Okay, I would like to appreciate this theorem a little bit.
+
+894
+01:04:38,500 --> 01:04:41,839
+
+Why is this therm help us reduce?
+
+895
+01:04:41,839 --> 01:04:46,780
+
+The reason because what this theorem, what we can do is basically, instead
+
+896
+01:04:46,780 --> 01:04:51,839
+
+of running all the possible inputs, we can run T random tests where T is a small number,
+
+897
+01:04:51,839 --> 01:05:00,909
+
+and we know that if AT passed, if AT passed, it's very unlikely that this F and G are equivalent.
+
+898
+01:05:00,909 --> 01:05:02,999
+
+The probability is very small.
+
+899
+01:05:02,999 --> 01:05:09,479
+
+So what we can do is maybe instead of small t, we can use relative largity and we can basically see
+
+900
+01:05:09,479 --> 01:05:12,940
+
+the probability that they are equivalent in equivalent is going to diminish.
+
+901
+01:05:12,940 --> 01:05:18,159
+在某个时候，如果一个随机输入会产生不同的结果，
+At some point, if one random input is going to be um, produce different results,
+
+902
+01:05:18,159 --> 01:05:22,605
+我们就知道它们并不等价，但如果全部通过，很可能它们是等价的。
+we know that they are not equivalent, but if all pass, likely they are equivalent.
+
+903
+01:05:22,605 --> 01:05:26,170
+好的。这是一个很不错的定理，随机测试。
+Okay. This is a pretty nice theorem, random testing.
+
+904
+01:05:26,170 --> 01:05:33,010
+好的。是的。有了这个定理，我们可以继续，减少搜索维度
+Okay. Yeah. With this theorem, what we can do is we can continue, reduce the search dimensing
+
+905
+01:05:33,010 --> 01:05:36,329
+我们可以把M u从M一直减少到T，对吧？
+M u from M all the way to T, right?
+
+906
+01:05:36,329 --> 01:05:42,949
+在这里，我们注意到T远小于M，并且也远小于N。
+Here, we notice that T is greatly smaller than M, and is much smaller than than N.
+
+907
+01:05:42,949 --> 01:05:48,405
+然后我们可以用这种技巧来加速验证过程。
+Then we can use this kind of tricks to basically uh accelerate verification.
+
+908
+01:05:48,405 --> 01:05:54,440
+好的。是的。有了这些，我觉得，我们基本上搞清楚了，
+Okay. Yeah. With that, I think, uh, we figure out how to basically,
+
+909
+01:05:54,440 --> 01:05:56,999
+嗯，嗯，我们知道如何生成变异体，对吧。
+uh, uh, we know how to generate mutant, right.
+
+910
+01:05:56,999 --> 01:05:58,400
+我们也知道如何验证结果。
+We also know how to verify results.
+
+911
+01:05:58,400 --> 01:06:00,500
+然后我们要做的基本上就是按照这个工作流程来操作。
+Then what we do is basically we follow this workflow.
+
+912
+01:06:00,500 --> 01:06:05,200
+我们会生成很多变体，然后尝试验证这两个变体是否等价。
+We generate a lot of mutants, we try to verify if these two mutants are equivalent.
+
+913
+01:06:05,200 --> 01:06:06,899
+如果它们等价，那我们就没问题了。
+If they are equivalent, we are good.
+
+914
+01:06:06,899 --> 01:06:11,919
+这基本上就归结为完全等价变换的问题。
+It's basically reduced to the problem of, uh, uh, fully equivalent transformations.
+
+915
+01:06:11,919 --> 01:06:15,419
+如果它们不等价，那就是PT Pat。
+If they are not equivalent, then it's PT Pat.
+
+916
+01:06:15,419 --> 01:06:18,430
+如果是Pat，我们会做的就是添加一些变体。
+And if it's pat, what we do is we add some mutant.
+
+917
+01:06:18,430 --> 01:06:21,580
+所以在这个例子中，抱歉，是添加一些变体修正。
+So in this example, sorry, add some multan correction.
+
+918
+01:06:21,580 --> 01:06:25,179
+所以在这个例子中，我们首先应用变体，然后我们发现，
+So in this example, we first apply mutant and then we figure out,
+
+919
+01:06:25,179 --> 01:06:27,920
+好的，它们有一些区域是不等价的。
+okay, they have some regions that are not equivalent.
+
+920
+01:06:27,920 --> 01:06:32,439
+所以我们会尝试添加另一个操作符，基本上再进行一次非常非常细微的——
+So we try to add another operator that basically perform another very, very thin, uh,
+
+921
+01:06:32,439 --> 01:06:34,799
+卷积并尝试纠正结果。
+convolution and try to correct results back.
+
+922
+01:06:34,799 --> 01:06:38,939
+就像我说的，因为这个操作，你会引入额外的复杂性。
+And like I said, because of this operation, you introduce another additional com
+
+923
+01:06:38,939 --> 01:06:40,920
+这可能会影响性能。
+and this potentially can harm the performance.
+
+924
+01:06:40,920 --> 01:06:44,440
+所以我们要做的是尝试手动处理
+So what do we do is we try to handle manually
+
+925
+01:06:44,440 --> 01:06:49,620
+把它们全部组合成一个场算子，好吗？
+uh field them all together into one field operator, okay?
+
+926
+01:06:49,790 --> 01:06:52,469
+好的，来总结一下，好吗？
+Cool. Uh, to do a recap, okay?
+
+927
+01:06:52,469 --> 01:06:53,689
+所以我们刚刚讨论了工作原理，对吧？
+So we talk about works, right?
+
+928
+01:06:53,689 --> 01:06:57,490
+一个是完全等变换。
+One is um fully equipment transformation.
+
+929
+01:06:57,490 --> 01:07:03,250
+另一个是部分等变换，它们基本上属于工作流程中
+The other is p partially equipment transformation, and they are basically fall into the workflow
+
+930
+01:07:03,250 --> 01:07:07,189
+实际上是在中间定义搜索空间的部分，嗯，
+actually in the middle that is defined search space, um,
+
+931
+01:07:07,189 --> 01:07:10,049
+尝试找出等价的图，呃，
+try to figure out the equivalent graphs, uh,
+
+932
+01:07:10,049 --> 01:07:14,169
+构建一个成本模型，然后尝试将这个方法应用到图中，找出那个
+build a cost model and then try to apply this subject in the graph and figure out the one
+
+933
+01:07:14,169 --> 01:07:15,930
+基本上能给你带来最佳性能的方案。
+that basically give you the best performance.
+
+934
+01:07:15,930 --> 01:07:22,070
+是的。他们非常优秀的原因是因为他们可以自动化整个过程。
+Yeah. And the reason they are very, um, very good is because they automate the entire process.
+
+935
+01:07:22,070 --> 01:07:25,729
+所以开发者并不知道如何手动编写这么多遍历，也
+And so the developer does not know how to write so many passes manually and
+
+936
+01:07:25,729 --> 01:07:30,750
+不知道如何为每个图、每个模型反复做这些事情。
+does not know how to do that again and again for each graph, each model, whatever.
+
+937
+01:07:30,750 --> 01:07:37,309
+好的，有什么问题吗？很棒，很棒。
+Okay. Any question? Cool, cool.
+
+938
+01:07:37,309 --> 01:07:42,289
+好的，我觉得我已经总结了这一页内容，我要跳过这一页了。
+Okay, I think I already summarized this slide and I'm going to skip this one.
+
+939
+01:07:42,290 --> 01:07:45,649
+那我们来做点真正有趣的事情，好吗？
+Then let's do something that's really fun, okay?
+
+940
+01:07:45,649 --> 01:07:50,590
+我想这就是我在这门课里想讲的所有编译器相关内容了。
+I think that's all the compiler stuff I want to cover in this lecture in this course, actually.
+
+941
+01:07:50,590 --> 01:07:53,249
+我不打算再谈论编译器了。
+I'm not going to I'm not going to talk about compiler anymore.
+
+942
+01:07:53,249 --> 01:07:54,869
+是的，这些都是关于编译器的讨论。
+Yeah, this is all the compiler talk.
+
+943
+01:07:54,869 --> 01:08:00,309
+但之后我会邀请一位嘉宾，来更深入地讲解这个话题。
+But later I'm going to have a invite invite speaker to talk about later in a deeper way.
+
+944
+01:08:00,309 --> 01:08:06,270
+但我想回顾一下这个社区里大家在编译器研究方面做了些什么。
+But I want to do a retrospective on what people on this community have done in compiler research
+
+945
+01:08:06,270 --> 01:08:08,670
+以及我们取得了哪些成就。
+and where we achieved.
+
+946
+01:08:08,670 --> 01:08:10,929
+好吗？那么，为了开始这个话题，
+Okay? So to begin that,
+
+947
+01:08:10,929 --> 01:08:13,630
+我会给大家讲一下历史，重新回顾一下。
+I'm going to give you a history, okay, revisit.
+
+948
+01:08:13,630 --> 01:08:18,510
+大致来说，我们的编译器研究是从2013年开始的。
+So roughly our compiler research start from 2013.
+
+949
+01:08:18,510 --> 01:08:22,049
+那时候我们还没有做机器学习编译器。
+Okay? At that point, we are not doing machine aring compiler.
+
+950
+01:08:22,049 --> 01:08:26,389
+至少我们当时还没有把它命名为机器学习编译器，对吧？
+It's not at least we don't give it name called machining compiler, okay?
+
+951
+01:08:26,389 --> 01:08:28,309
+我们首先要介绍的东西叫做highlight。
+The first thing we call is called highlight.
+
+952
+01:08:28,309 --> 01:08:33,129
+这个highlight是由MIT的一位博士生开发的，而且那个人并不是做机器学习的。
+This highlight was developed by MIT PD student, and that guy is not doing machine learning.
+
+953
+01:08:33,129 --> 01:08:35,024
+他做的是图形学相关的工作。
+He was doing like graphics.
+
+954
+01:08:35,024 --> 01:08:40,920
+所以他基本上开发了一个编译器，帮助人们更方便地
+So he basically developed a compiler that help people to more convenient conveniently
+
+955
+01:08:40,920 --> 01:08:43,339
+编写图形渲染代码。
+write graphics rendering code.
+
+956
+01:08:43,339 --> 01:08:46,839
+好吗？我为什么要提到这个，是因为你们可能知道很多
+Okay? Why why I mentioned this because you probably know a lot of
+
+957
+01:08:46,839 --> 01:08:53,279
+渲染中的操作其实也和Mtmo有关，所以他们做了很多切片。
+operations in rendering is also metmo something related with Mtmo So they do a lot of telling.
+
+958
+01:08:53,279 --> 01:08:54,919
+他们做了很多算子编译。
+They do a lot of operator compilation.
+
+959
+01:08:54,919 --> 01:08:59,759
+而这个highlight在图形学社区其实非常有名。
+And this highlight actually was very famous in the graphics community.
+
+960
+01:08:59,759 --> 01:09:00,859
+但在某个时刻，
+But at some point,
+
+961
+01:09:00,859 --> 01:09:04,859
+我认为，当机器学习兴起时，人们开始意识到我们应该加倍努力增强机器学习的工作负载。
+I think, when Machine learning took off, people started realizing that we should
+
+962
+01:09:04,859 --> 01:09:07,559
+可能需要加大对机器学习工作负载的投入。
+probably double down on augmenting Machin learning workload.
+
+963
+01:09:07,559 --> 01:09:09,779
+这就是第一个编译器出现的时候，对吧，LA。
+That's the first compiler come out, right, LA.
+
+964
+01:09:09,779 --> 01:09:12,599
+我在L讲座中提到过这个，好吗？是谷歌的东西。
+I mentioned this in L lecture, okay? Google stuff.
+
+965
+01:09:12,599 --> 01:09:17,490
+基本上它是在2016到2017年出现的。
+Okay. Uh, it basically come out at 20:16 to 2017.
+
+966
+01:09:17,490 --> 01:09:22,689
+但是XLA的问题首先是，它是一个非常封闭的社区。
+Okay. But the problem with XLA is first, is a very closed community.
+
+967
+01:09:22,689 --> 01:09:25,109
+谷歌对此并没有太多公开讨论。
+Uh, Google don't talk about a lot on this.
+
+968
+01:09:25,109 --> 01:09:27,609
+他们试图在XO内部推广TensorFlow。
+They try to sell tenterflow inside XO.
+
+969
+01:09:27,609 --> 01:09:30,129
+XOE只是一个基础层。
+XOE is only a bacon layer.
+
+970
+01:09:30,129 --> 01:09:33,409
+我不确定你们有没有在XOI上工作的经验。
+And I'm not sure if you guys have experience working on XOI,
+
+971
+01:09:33,409 --> 01:09:37,509
+但是，XOI 代码非常难以理解。
+but uh, XOI code is very hard to understand.
+
+972
+01:09:37,509 --> 01:09:38,909
+它非常非常底层。
+It's very very low level.
+
+973
+01:09:38,909 --> 01:09:44,029
+它包含了很多非常深奥的竞赛内容，我觉得，
+It has many many very deep competitive stuff where I don't think,
+
+974
+01:09:44,029 --> 01:09:48,069
+机器学习研究人员很难轻松掌握，好吗？
+machine learning researcher can easily, grasp, okay?
+
+975
+01:09:48,069 --> 01:09:50,929
+所以，然后，呃，嗯，与此同时，
+So then, um, uh, meanwhile,
+
+976
+01:09:50,929 --> 01:09:57,050
+谷歌正在推动面向机器和其他社区的编译方向，
+Google is pushing a direction of compilation for machinery and some other communities,
+
+977
+01:09:57,050 --> 01:09:58,589
+他们则在推动不同的方向。
+they are pushing a different direction.
+
+978
+01:09:58,589 --> 01:10:00,769
+他们说，我不会做编译。
+So they are saying, I'm not going to do compilation.
+
+979
+01:10:00,769 --> 01:10:02,689
+我不会自动化这个过程。
+I'm not going to automate this process.
+
+980
+01:10:02,689 --> 01:10:08,489
+我会给你一个手工打造的免费库，这个库里很多内容都是我手动写的，
+I'm going to give you a handcraft free library where I hand craftly I manually write many,
+
+981
+01:10:08,489 --> 01:10:10,629
+很多模板和字段操作
+many templates and field operations
+
+982
+01:10:10,629 --> 01:10:13,069
+我把它交给你，你自己去弄明白，好吗？
+I give it to you and you figure out by yourself, okay?
+
+983
+01:10:13,069 --> 01:10:15,249
+没有自动化，完全是手工绘图。
+No automated pure hand graphy.
+
+984
+01:10:15,249 --> 01:10:18,489
+还有一些非常著名的库，比如tension RT，对吧？
+And some very famous library tension RT, right?
+
+985
+01:10:18,489 --> 01:10:22,179
+你可能从媒体那里听说过这个。
+You probably heard about this one from media.
+
+986
+01:10:22,179 --> 01:10:27,409
+Codon是现在仍然被广泛使用的一个。
+And Codon is the one that still used widely today.
+
+987
+01:10:27,409 --> 01:10:34,289
+媒体分发Codon的方式是让他们的开发者为内核编写二进制代码。
+The way that media ships Codon is they ask their developers to write a binary code for a kernel.
+
+988
+01:10:34,289 --> 01:10:38,829
+他们把二进制代码编译成一个非常快的内核，然后交给你。
+And they compare the binary code into a very fast kernel and give it to you.
+
+989
+01:10:38,829 --> 01:10:42,199
+没有人能看懂里面发生了什么，但它就是很快。
+No one can understand what's going on there, but it's just fast.
+
+990
+01:10:42,199 --> 01:10:44,629
+对，还有onnx。
+Yeah. Okay. And also onyx,
+
+991
+01:10:44,629 --> 01:10:51,749
+OI是另一种中间层语言，用于在不同框架之间交换模型。
+OI is another um kind of mid layer language for you to exchange models between different frameworks.
+
+992
+01:10:51,749 --> 01:10:53,889
+你可以把它看作是一个半编译器的东西。
+And you can think it does a semi compiler thing.
+
+993
+01:10:53,889 --> 01:11:00,469
+明白吗？它基本上是模型的中间表示，可以
+Okay? It is basically intermediarenton for, uh, for models, and it can
+
+994
+01:11:00,469 --> 01:11:02,829
+在不同的框架之间使用。
+be used across different frameworks.
+
+995
+01:11:02,829 --> 01:11:09,669
+比如，你可以在Onyx中定义一个模型，然后它可以被pity等框架读取或理解。
+For example, you can define a model in Onyx and it can be read or understood by both pity.
+
+996
+01:11:09,669 --> 01:11:16,489
+然后在2018年，我们知道TVM是一个开源的编译器，
+And then in 2018, we know TVM TM is open source, uh, uh, compiler that basically,
+
+997
+01:11:16,489 --> 01:11:19,509
+非常有名。
+uh very famous, okay.
+
+998
+01:11:19,820 --> 01:11:26,660
+到了2019年和2020年，我们有一个非常有名的语言叫MIR。
+And in 2019 and 2020, we have a very famous language called MIR.
+
+999
+01:11:26,660 --> 01:11:30,084
+显然，MIR不是一个编译器，它只是一个分层编译器。
+Apparently, MIR is not a compiler, it's just a layering compiler.
+
+1000
+01:11:30,084 --> 01:11:31,969
+ML代表机器学习。
+So ML stands for machine learning and
+
+1001
+01:11:31,969 --> 01:11:34,529
+R代表中间表示。
+R stands for intermediate repton.
+
+1002
+01:11:34,529 --> 01:11:39,529
+这意味着他们想在编译层构建机器中间表示。
+That means that they want to build machine intermediate repreention in the compile layer.
+
+1003
+01:11:39,529 --> 01:11:44,329
+所以，在这个层之上，你可以用任何语言定义你的机器学习模型。
+So, uh, upper to this layer, you can define your machinering model in whatever language.
+
+1004
+01:11:44,329 --> 01:11:50,469
+然后它可以被降级到这个IR，再往下到这个层，你基本上可以，
+And it can be lowered into this, uh IR and lower to this layer, you can basically, uh,
+
+1005
+01:11:50,469 --> 01:11:54,249
+尝试优化这个R，比如说你可以提取一个图的定义。
+try to optimize this R, for example, you can extract a graph definition.
+
+1006
+01:11:54,249 --> 01:11:58,709
+你可以从这个R中提取算子的定义，你可以优化算子，
+You can extract operator definition from this R, you can optimize operator,
+
+1007
+01:11:58,709 --> 01:12:02,489
+你可以优化图，对吧，可以跨不同的框架进行优化。
+you can optimize graphs, right across different frameworks.
+
+1008
+01:12:02,489 --> 01:12:06,629
+这个是由谷歌主导的，对吧？
+This one was driven by Google, okay?
+
+1009
+01:12:07,410 --> 01:12:11,189
+还有flex flow，这基本上也是相关的工作。
+And there are also flex flow, which basically are works.
+
+1010
+01:12:11,189 --> 01:12:18,269
+我刚才介绍了tassel、PT和FET，都是图变换。
+I just introduced tassel and PT and FET, graph transformation.
+
+1011
+01:12:18,269 --> 01:12:21,529
+然后直到今天，我觉得比较有名的一个是
+And then up to today, I think the one that is pretty famous is
+
+1012
+01:12:21,529 --> 01:12:26,489
+基本上就是 torch touch、compel touch 和 dynamo。
+basically torch touch compel touch dynamo.
+
+1013
+01:12:26,489 --> 01:12:33,169
+Ti Dynamo 基本上可以理解为 torch 的中间表示。
+Ti Dynamo is basically, you can understand it as intermediate representation for torch.
+
+1014
+01:12:33,169 --> 01:12:36,549
+好的，在这四年之间，
+Okay. And between these four years,
+
+1015
+01:12:36,549 --> 01:12:42,889
+我认为已经有超过 500 篇编译器相关的论文发表了，基本上所有的研究者
+I think there are more than 500 compiler papers written, people are basically all the researchers
+
+1016
+01:12:42,889 --> 01:12:45,149
+在机器学习和系统领域的人，都在这个领域里，
+in machine learning and systems, they are all in this field and
+
+1017
+01:12:45,149 --> 01:12:46,809
+大家都在尝试开发更好的编译器。
+you try to develop a better compiler.
+
+1018
+01:12:46,809 --> 01:12:50,529
+好的，那我有一个终极问题。
+Okay. Then I have ultimate question.
+
+1019
+01:12:50,529 --> 01:12:55,969
+那为什么现在社区正在逐渐远离 compeer 呢？
+So why the community is shifting away from compeer today.
+
+1020
+01:12:56,970 --> 01:13:01,509
+我之所以问这个问题，是因为在这门课里，我的一个目标是，
+The reason I ask this question because in this course, one of my goal is,
+
+1021
+01:13:01,509 --> 01:13:06,829
+我试图帮助你获得预测未来的能力。
+I try to help you acquire the ability of predicting the future.
+
+1022
+01:13:06,829 --> 01:13:11,969
+好吗？因为如果你回头看，人们现在已经不再做比较了，为什么？
+Okay? Because if you look back, people are not doing compari anymore, why?
+
+1023
+01:13:26,440 --> 01:13:30,599
+是的，那是部分原因，但不是主要原因。
+Yeah, that's one partial reason, but not the primary reason.
+
+1024
+01:13:31,360 --> 01:13:34,259
+嗯，我也是这么觉得的。
+Yeah, I feel so.
+
+1025
+01:13:34,259 --> 01:13:39,239
+是的，虽然它不赚钱，但我觉得研究人员可能并不一定非得去赚钱，对吧？
+Yes, it doesn't make money, but I feel researchers probably don't have to go making money, right?
+
+1026
+01:13:39,239 --> 01:13:45,660
+比如说，博士生们，他们也不一定都在做计算机相关的工作。
+Like for example, PD students, they also don't work on computers.
+
+1027
+01:13:45,660 --> 01:13:51,259
+所以我会给出我的观点，但你们应该自己去思考这个问题。
+So I'm going to offer my argument, but you guys should figure out this by yourself.
+
+1028
+01:13:51,259 --> 01:13:57,739
+抱歉。那么你们还记得在这门课上，在过去几节课里，
+Sorry. So you guys still remember throughout this course, throughout the past few lectures,
+
+1029
+01:13:57,739 --> 01:14:01,939
+我一直在说编译器的主要观点是你将会
+I'm keeping saying that the main argument of compiler is you are going to
+
+1030
+01:14:01,939 --> 01:14:06,419
+有很多模型、很多算子、很多硬件，而你不会去雇佣
+have so many models, so many operators, and so many hardwares, and you are not going to hire
+
+1031
+01:14:06,419 --> 01:14:11,699
+有足够多的人来开发操作员和为他们定制的操作，对吧？
+enough people to develop operators and op ditions for them, right?
+
+1032
+01:14:11,699 --> 01:14:16,879
+所以基本上要假设你的机器模型仍然会出现分歧。
+So basically assume that your machinery model is going to still diverge.
+
+1033
+01:14:16,879 --> 01:14:20,019
+所以大多数人会开发新的架构和新硬件
+So most people is going to develop new architectures and new hardware
+
+1034
+01:14:20,019 --> 01:14:23,779
+来支持这种类型的工作负载，对吧？
+to support this kind of, like, workloads, right?
+
+1035
+01:14:23,779 --> 01:14:29,659
+只有拥有足够多样化的机器架构、硬件和操作员，
+Only with a divers enough machinery architectures and hardware and operators,
+
+1036
+01:14:29,659 --> 01:14:33,179
+我们才能看到编译器的价值，因为它节省了人类的时间。
+we can see the value of compiler because it saves humans time.
+
+1037
+01:14:33,179 --> 01:14:38,520
+但现在发生的事情，尤其是2020年之后，是有一种架构
+But what happens today especially after 2020 is there's one architecture
+
+1038
+01:14:38,520 --> 01:14:40,839
+主导了所有的机器架构。
+that dominates all machinery architecture.
+
+1039
+01:14:40,839 --> 01:14:48,059
+那就是基于ARM的Transformer，有一种硬件主导了所有硬件，那就是主流GPU，
+That is transformer on ARM there's one hardware that dominates all the hardware that is medius GPU,
+
+1040
+01:14:48,059 --> 01:14:51,599
+人们已经花了多年时间来优化编译器。
+people have been spending years optioning compilers.
+
+1041
+01:14:51,599 --> 01:14:53,959
+但在某个时候，当GPD只剩下三篇论文时，
+But at some point, when the GPD is three paper out,
+
+1042
+01:14:53,959 --> 01:14:57,439
+每个人都开始只在DPU上做transformer相关的工作。
+everyone start working only on transformers on DPU.
+
+1043
+01:14:57,439 --> 01:15:03,079
+如果你把这个问题简化一下，我的任务就是确保
+If you simplify this problem, my mission is I just make sure I'm going
+
+1044
+01:15:03,079 --> 01:15:07,219
+我能最大化transformer在GPU上的性能。我需要编译器吗？
+to maximize the performance of transformer on GPU. Do I need a compiler?
+
+1045
+01:15:07,219 --> 01:15:12,379
+不需要，对吧？我基本上只需要雇几个Koula的工程师，
+No, right? I basically just need to hire a few Koula engineers
+
+1046
+01:15:12,379 --> 01:15:14,499
+他们真的很擅长transformer，
+and who are really good at transformers,
+
+1047
+01:15:14,499 --> 01:15:16,579
+我把所有东西都整合在一起，对吧？
+I just field everything together, right?
+
+1048
+01:15:16,579 --> 01:15:18,819
+针对transformer。这就是我需要做的全部。
+For transformers. That's all I need to do.
+
+1049
+01:15:18,819 --> 01:15:21,039
+明白了吗？这真的就是发生的事情。
+Okay? That's really what happened.
+
+1050
+01:15:21,039 --> 01:15:25,079
+所以你需要看到这种趋势，才能理解技术会如何发展。
+So you need to see this kind of trends to understand how the technology will evolve.
+
+1051
+01:15:25,079 --> 01:15:30,079
+哦，这也是为什么flash attention最终会成功，因为在某个时刻，
+Oh that's also why flash attention succeed at the end because at some point,
+
+1052
+01:15:30,079 --> 01:15:32,639
+有个人发明了这个算法，
+there's a guy who invented this algorithm and it
+
+1053
+01:15:32,639 --> 01:15:36,919
+并且为注意力机制写了非常复杂的内核，所以其他注意力机制都没法比得上这么快。
+rate pretty sophisticated kernel just for attention, other attention so fast
+
+1054
+01:15:36,919 --> 01:15:39,079
+以至于每个编译器都无法竞争。
+that every compeller cannot compete.
+
+1055
+01:15:39,079 --> 01:15:43,639
+的确，编译器可以为不同的操作符提供优化，但我并不在意。
+Indeed, a compiler can provide values for different operator, but I don't care.
+
+1056
+01:15:43,639 --> 01:15:45,539
+我今天才听说flash attention，对吧？
+I only hear about flashing teaching today, right?
+
+1057
+01:15:45,539 --> 01:15:47,679
+是的，这就是原因。这就是我的观点。
+Yeah. That's why. That's my argument.
+
+1058
+01:15:47,679 --> 01:15:49,419
+但你可以自己去了解，好吗？
+But you can figure out about yourself, okay?
+
+1059
+01:15:49,419 --> 01:15:51,959
+呃，我想促进你们之间的讨论。
+Uh, I want to foster this discussion between you guys.
+
+1060
+01:15:51,959 --> 01:15:54,259
+所以也许你可以预测下一步会发生什么。
+So maybe you can predict next thing.
+
+1061
+01:15:54,259 --> 01:15:55,979
+比如说，对我来说，作为一名教师，
+For example, for me, as a faculty,
+
+1062
+01:15:55,979 --> 01:15:59,679
+我正在思考接下来应该做什么，因为如果我做了那个，
+I'm trying to figure out what is the next thing I should work on because if I work on that,
+
+1063
+01:15:59,679 --> 01:16:02,059
+如果我买对了东西，也许我甚至可以
+if I buy the right thing, maybe I can even something like
+
+1064
+01:16:02,059 --> 01:16:06,219
+一下子让大家都最大化地使用它。
+a flash and people will basically, uh maximizes usage.
+
+1065
+01:16:06,219 --> 01:16:12,659
+好吗？酷。最后，我们有一位嘉宾演讲者将在下周四到来。
+Okay? Cool. Uh lastly, we have this guest speaker who is coming next Thursday.
+
+1066
+01:16:12,659 --> 01:16:17,579
+如果你对机器系统稍微有点了解，可能见过这个人，对吧。
+Uh, If you slightly into machinery system, you probably see this phase, right.
+
+1067
+01:16:17,579 --> 01:16:22,579
+他叫陈晨，我称他为机器系统领域的GOAT（最伟大的人）。
+His name is Chen Chen and I call him the GOAT marcheing system.
+
+1068
+01:16:22,579 --> 01:16:24,479
+最棒的，没错，唯一最棒的。
+The best one, yeah, the only best one.
+
+1069
+01:16:24,479 --> 01:16:30,879
+他发明了三个框架，可能你们很多人都用过，对吧？
+Okay. And he invented this three frameworks, probably many of you have used, right?
+
+1070
+01:16:30,879 --> 01:16:32,679
+X Boost TAM。
+X Boost TAM.
+
+1071
+01:16:32,679 --> 01:16:35,399
+今天他正在研究MLC IM。
+And today he's working on MLC IM.
+
+1072
+01:16:35,399 --> 01:16:37,579
+MLC代表marchearing编译。
+MLC stands for marchearing compilation.
+
+1073
+01:16:37,579 --> 01:16:41,959
+好的，今天是2月6日。
+Okay. And the date is February 6.
+
+1074
+01:16:41,959 --> 01:16:44,559
+好的，酷。这就是我今天要说的全部内容。
+Okay, cool. That's all I have today.
+
+1075
+01:16:44,559 --> 01:16:48,699
+下一节课我们将涉及运行时。好的。
+And next lecture, we are going to touch runtime. Okay.

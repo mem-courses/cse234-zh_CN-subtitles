@@ -1,0 +1,4819 @@
+1
+00:00:08,480 --> 00:00:12,559
+好的，谢谢你回来。
+Okay. Thanks for coming back.
+
+2
+00:00:12,559 --> 00:00:14,879
+嗯，我们开始吧。
+Yeah, let's get started.
+
+3
+00:00:15,440 --> 00:00:18,859
+好的，关于报名的最新情况。
+Cool. Enrollment updates.
+
+4
+00:00:18,859 --> 00:00:22,899
+我们已经发出了两批邀请。
+We have sent out two batches of invitations.
+
+5
+00:00:22,899 --> 00:00:25,319
+一批在周三，另一批在周四。
+One on Wednesday, the other on Thursday.
+
+6
+00:00:25,319 --> 00:00:28,499
+我觉得我们会再尝试招收100名学生。
+I think we try to enroll another 100 students.
+
+7
+00:00:28,499 --> 00:00:31,600
+如果你想参加这门课，你需要接受邀请。
+And if you want to take this class, you need to accept.
+
+8
+00:00:31,600 --> 00:00:34,320
+你有24小时的截止时间。
+You have a 24 hours due.
+
+9
+00:00:34,520 --> 00:00:38,160
+截止后，我们将在明天早上招收下一批学生。
+After the deal, we are going to enroll the next batch tomorrow morning.
+
+10
+00:00:38,160 --> 00:00:40,239
+好的，明白了。
+Yeah. Okay.
+
+11
+00:00:43,260 --> 00:00:49,979
+嗯，我们开始今天的内容吧。
+Um, let's get started with today's contents.
+
+12
+00:00:49,979 --> 00:00:54,039
+我把那张图表放在那里，是为了确保你们明白自己现在处于什么位置。
+So I put that graph there so make sure you understand where you are now.
+
+13
+00:00:54,039 --> 00:00:56,200
+明白了吗？我们现在在最底层，好吗？
+Okay? Well, at the bottom layer, okay?
+
+14
+00:00:56,200 --> 00:00:59,909
+运算符。上一节课，
+Operators. So last lecture,
+
+15
+00:00:59,909 --> 00:01:04,450
+我们开始讨论了如何让运算符整体上变得更快，对吧？
+I think we start talking about how to make operators fast in general, right?
+
+16
+00:01:04,450 --> 00:01:14,690
+我们说可以通过利用平台上的矢量化函数来实现矢量化，
+And we said we can vectorize them by leveraging the torized functions from platforms,
+
+17
+00:01:14,690 --> 00:01:16,370
+加速平台。
+accelerator platforms.
+
+18
+00:01:16,370 --> 00:01:21,350
+我们还涉及了数据布局，但还没有讲完。
+And we also touch based on data layout and haven't finished yet.
+
+19
+00:01:21,350 --> 00:01:25,350
+好，今天我们会把这个讲完，然后我们还会讨论
+Okay. Today we are going to finish that, and then we are going to talk about
+
+20
+00:01:25,350 --> 00:01:27,570
+一个非常非常深入的话题。
+something that is very, very deep.
+
+21
+00:01:27,570 --> 00:01:31,169
+这就是我们的第一节元学习课程。
+And that is our first metam lesson.
+
+22
+00:01:31,169 --> 00:01:35,185
+好吗？我们会有很多很多这样的课程，但今天我们先上第一节。
+Okay? We are going to have many, many these lessons, but today we are going to take the first.
+
+23
+00:01:35,185 --> 00:01:39,439
+如果我们能完成这一部分，然后我们会讨论一些
+And if we can finish it part, and then we are going to talk about something
+
+24
+00:01:39,439 --> 00:01:42,659
+非常有趣的话题，那就是当前的GPO市场。
+that's really interesting that is the current GPO market.
+
+25
+00:01:42,659 --> 00:01:47,639
+我们会把那节课改成经济学课程。
+We are going to repurpose that class as a economics class.
+
+26
+00:01:47,639 --> 00:01:51,115
+我们试着去理解硅谷正在发生什么，好吗？
+We try to understand what's going on in Silicon Valley. Okay?
+
+27
+00:01:51,115 --> 00:01:54,529
+好的，我们继续讲数据布局。
+Yeah, let's resume with data layout.
+
+28
+00:01:54,529 --> 00:01:58,150
+嗯，还记得这个吧，对吧？
+Um, so still remember this one, right?
+
+29
+00:01:58,150 --> 00:02:03,969
+所以比起部署框架，他们基本上使用的是稀疏格式。
+So more than deploying frameworks, they basically use stress format.
+
+30
+00:02:03,969 --> 00:02:09,249
+和列主序或行主序相比，我们引入了另外两个参数。
+We like compared to column major or row major, we introduce two more parameters.
+
+31
+00:02:09,249 --> 00:02:12,129
+一个是偏移，对吧？
+One is offset, right?
+
+32
+00:02:12,129 --> 00:02:19,669
+另一个是步长，它是一个列表，维度等于张量的形状。
+The other is the stress, which is a list, okay with a dimension equal to the shape of the tensor.
+
+33
+00:02:19,669 --> 00:02:26,635
+这个可视化基本上给你一个关于步长的概念，好吗？
+And this visualization basically give you a concept of what does strat means, okay?
+
+34
+00:02:26,635 --> 00:02:31,420
+我们还做了一个很小的练习，如果我们有一个四维张量
+And we also did a very small exercise, if we have a four dimensional tensor
+
+35
+00:02:31,420 --> 00:02:33,019
+形状是1、2、3、4。
+with a shape one, two, three, four.
+
+36
+00:02:33,019 --> 00:02:34,479
+那步长是什么？
+So what stress?
+
+37
+00:02:34,479 --> 00:02:37,279
+我希望你们真的理解了这一点，好吗？
+I hope you guys actually understand that. Okay?
+
+38
+00:02:37,279 --> 00:02:43,519
+然后我们开始问这样一个问题，列主序和行主序其实都挺好的。
+And then we start asking the question, column major and row major are actually pretty good.
+
+39
+00:02:43,519 --> 00:02:47,215
+那为什么我们在保存张量时还要关心步长呢？
+Why do we care about saving stress when saving tensors?
+
+40
+00:02:47,215 --> 00:02:48,989
+为了回答这个问题，
+So in order to answer this question,
+
+41
+00:02:48,989 --> 00:02:57,409
+我想你们大多数人在编写petard或程序时，可能经常会用到这个API view。
+I think most of you when you write petard or programs, you probably often use this API view.
+
+42
+00:02:57,409 --> 00:02:59,690
+你可以用不同的形状查看一个张量。
+You can view a tensor in different shapes.
+
+43
+00:02:59,690 --> 00:03:01,649
+例如，原始形状是一、二、三、四，
+For example, the original shape is one, two, three, four,
+
+44
+00:03:01,649 --> 00:03:04,249
+但你也可以把它看作24乘1之类的，对吧？
+but you can view it as 24 by one or something, right?
+
+45
+00:03:04,249 --> 00:03:10,030
+我们之所以有这个“view”，是因为它可以方便很多这类
+And the reason we have this stress because it can facilitate a lot of this kind
+
+46
+00:03:10,030 --> 00:03:12,929
+数组操作算子的实现。
+of array manipulation operators.
+
+47
+00:03:12,929 --> 00:03:15,050
+而view就是这样一个例子。
+And view is such an example.
+
+48
+00:03:15,050 --> 00:03:22,895
+嗯，这里的核心概念是view可以把底层存储和view张量分开。
+Um, the core concept here is stress can separate the underlying storage and the view tensor.
+
+49
+00:03:22,895 --> 00:03:28,520
+所以基本上，当我们存储数组的值时，都是按顺序存储在内存中的。
+So basically when we store the values of the ray, we are always stored sequentially in memory.
+
+50
+00:03:28,520 --> 00:03:30,999
+但我们可以用很多很多不同的方式来看它。
+But we can view it in many many different ways.
+
+51
+00:03:30,999 --> 00:03:37,619
+嗯，因为这个原因，每当我们尝试以不同的方式、不同的形状查看测试时，
+And, um, and because of this, we can basically every time we try to view
+
+52
+00:03:37,619 --> 00:03:40,880
+我们不需要复制内容。
+the test in a different shape in a different way, we don't have to copy the content.
+
+53
+00:03:40,880 --> 00:03:44,599
+我们不需要从原始数组中复制内容，
+We don't have to copy the content from the original array in
+
+54
+00:03:44,599 --> 00:03:47,280
+到内存的另一个部分。
+the lower level memory into another part of the memory.
+
+55
+00:03:47,280 --> 00:03:51,180
+我们只需要对这种操作符进行零拷贝即可。
+We just need to we can do a zero copy for this kind of operators.
+
+56
+00:03:51,180 --> 00:03:53,620
+明白了吗？接下来的几页幻灯片里，
+Okay? And in the next few slides,
+
+57
+00:03:53,620 --> 00:03:58,540
+我会给你展示一些你用来操作数组的非常常见的操作符。
+I'm going to show you some very common operators you use to manipulate arrays.
+
+58
+00:03:58,540 --> 00:04:02,199
+我还会告诉你，实际上在petrich中这些操作符都是零拷贝的。
+And I'm going to tell you, actually, in petrich there or zero copy.
+
+59
+00:04:02,199 --> 00:04:06,340
+也就是说，当你执行这类操作符时，你不需要复制任何东西。
+That is when you perform this kind of operators, you don't have to copy anything.
+
+60
+00:04:06,340 --> 00:04:08,560
+没有任何额外开销，非常快，明白吗？
+It's zero overhead, very fast, okay?
+
+61
+00:04:08,560 --> 00:04:15,180
+所有这些基本上都可以归因于这种应力格式，好吗？
+And all this could contribute basically attribute to this stress format, okay?
+
+62
+00:04:15,660 --> 00:04:20,560
+当我操作之前，我希望你先花点时间思考一下如何实现这个，当
+When I preoperat I want you to first spin off your second to think about how to implement that when
+
+63
+00:04:20,560 --> 00:04:22,299
+我给你这个应力格式时。
+I give you this stress format.
+
+64
+00:04:22,299 --> 00:04:25,779
+第一个是切片，我们如何对张量进行切片？
+The first one slice, how we can slice the tensor?
+
+65
+00:04:25,779 --> 00:04:32,180
+比如说，这里我有一个四乘四的张量，也就是四乘四的矩阵，我想要切出其中一部分。
+For example, here, I have four by four tensor four by four matrix, and I want to slice that piece.
+
+66
+00:04:35,600 --> 00:04:41,820
+最简单的方法，你可能就是把那部分内容复制到另一个数组里
+So rudimentary way, you probably just copy that pyro content into another array
+
+67
+00:04:41,820 --> 00:04:44,040
+然后你就得到了那一部分。但我们不想进行复制。
+and you get that one. But we don't want to copy.
+
+68
+00:04:44,040 --> 00:04:49,879
+所以有一种方法是我们可以直接操作应力和偏移量的值。
+So one way to do that is we can just manipulate the values of the stress and offset.
+
+69
+00:04:49,879 --> 00:04:53,219
+所以我们首先把偏移量加一，对吧？
+So we first add the offset by one, right?
+
+70
+00:04:53,219 --> 00:04:58,959
+然后我们把形状重新写成三乘二，并且传递这个偏移量和形状
+And then we rewrite the shape into three by two, and we pass this offset and shape
+
+71
+00:04:58,959 --> 00:05:04,799
+输入应力和偏移值后，你基本上可以从这个更大的张量中切片出你需要的传感器。
+into the stress and offset values, and you basically can slice the sensor
+
+72
+00:05:04,799 --> 00:05:07,924
+从这个更大的张量中切出来。明白了吗？
+out from this bigger tenser. Okay? Does that make sense?
+
+73
+00:05:07,924 --> 00:05:09,729
+很好。
+Cool.
+
+74
+00:05:09,729 --> 00:05:14,330
+我觉得这里我想强调的关键点是复制。
+I think the key part here I want to make is the copy.
+
+75
+00:05:14,330 --> 00:05:19,329
+基本上，切片后的张量和原始张量是共享内存的。
+Basically, the sliced tensor, it shares memory with this original tensor.
+
+76
+00:05:19,329 --> 00:05:24,690
+但你依然会得到一个形状不同的新张量，对吧？
+But you still get a kind of a new tensor that with a different shape, right?
+
+77
+00:05:25,850 --> 00:05:32,070
+切片是一个很常见的操作符，但另一个非常常见的操作符是转置。
+And slice is a pretty common operator, but another very common operator is transpose.
+
+78
+00:05:32,070 --> 00:05:35,809
+这里，我觉得大家都明白转置或置换的操作。
+Here, I think everyone understands trasposeOPermute.
+
+79
+00:05:35,809 --> 00:05:39,250
+所以这里你有一个原始形状为2乘3的张量。
+So here you have a tensor with original shape of two by three.
+
+80
+00:05:39,250 --> 00:05:41,130
+你想把它转置成一个3乘2的张量。
+You want to transpose it into a three by two.
+
+81
+00:05:41,130 --> 00:05:51,090
+这怎么做呢？好，我们来看一下，我们可以通过一个非常非常简单的例子来演示。
+How does that? Okay, let's see, we can run through a very, very simple example.
+
+82
+00:05:51,090 --> 00:05:56,810
+这里我有一个四维的张量，然后我直接打印它的应力。
+So here I have a tensor four dimensional tensor, and I directly print it stress.
+
+83
+00:05:56,810 --> 00:06:02,610
+就像我们在上一节课说的，应力基本上就是24 12 4 1，对吧？
+And as we said in the last lecture, the stress is basically 24 12 for one, right?
+
+84
+00:06:02,610 --> 00:06:08,990
+然后这个permute基本上就是转置，但它是在高维空间里的，好吗？
+And then this permute is basically, uh transpose but it's in high dimensional, okay?
+
+85
+00:06:08,990 --> 00:06:13,470
+当我们尝试对维度进行permute时，基本上就是把第一个维度移到最后，
+And we try to permute the dimension, we basically shift the first dimension to the end,
+
+86
+00:06:13,470 --> 00:06:19,249
+然后把接下来的三个维度都往前移一个位置，好吗？
+and we put the next three dimensions one position ahead, okay?
+
+87
+00:06:19,580 --> 00:06:26,880
+你可以看到，如果我们打印permute后的值，底层的存储其实还是一样的，对吧？
+And you can see if we print the permuted value, the underlying storage is still the same, right?
+
+88
+00:06:26,880 --> 00:06:32,359
+顺序上还是从1一直到23，从那里到一直到23。
+Sequentially from one all the way to 23 from there to all the way to 23.
+
+89
+00:06:32,359 --> 00:06:38,360
+但这里发生变化的是，我们其实对应力做了一点点修改，对吧？
+But what changes here is basically we kind of modify the stress a little bit, right?
+
+90
+00:06:38,360 --> 00:06:39,999
+但只是修改了应力。
+But only modifying the stress.
+
+91
+00:06:39,999 --> 00:06:44,279
+记住，张量是分散的值，不会占用太多内存空间。
+Remember stress is a scatter values not going to be a lot of memory spaces.
+
+92
+00:06:44,279 --> 00:06:49,580
+你只需要修改一个小的数值，其实就可以实现这种转置。
+You just need to modify a small value, and you can actually achieve this kind of transpose.
+
+93
+00:06:49,580 --> 00:06:56,369
+实际上，在所有的petroloNpi中，当你做转置时，你其实也在做复制。
+In fact, in all petroloNpi when you do transpose, you are also doing they will copy.
+
+94
+00:06:56,369 --> 00:06:57,730
+你不需要复制任何东西。
+You don't have to copy anything.
+
+95
+00:06:57,730 --> 00:07:00,049
+你仍然在共享原始的内存存储。
+You are still sharing the original nye storage.
+
+96
+00:07:00,049 --> 00:07:02,350
+这就是为什么转置非常快，明白了吗？
+That's why transpose is super fast, okay?
+
+97
+00:07:02,350 --> 00:07:06,970
+这一切都是因为这种张量格式，明白吗？
+All because of this stress format. Okay.
+
+98
+00:07:07,290 --> 00:07:09,790
+那我们再做一个例子，好吗？
+Then let's do one more, okay?
+
+99
+00:07:09,790 --> 00:07:13,409
+第三个操作符是你经常用到的一个操作符，好吗？
+And the third operator is some operator you use a lot, okay?
+
+100
+00:07:13,409 --> 00:07:15,069
+广播。
+Broadcast.
+
+101
+00:07:15,069 --> 00:07:18,950
+这种广播操作是你在尝试做乘法或者加法时经常会遇到的，
+This broadcast operating is something that you always face when you try to
+
+102
+00:07:18,950 --> 00:07:23,549
+尤其是当你只有一个维度匹配时，
+multiply or when you try to add a race with only one dimensional matched,
+
+103
+00:07:23,549 --> 00:07:26,789
+但其他两个维度中，一个是高维，另一个是低维。
+but the other two dimension proper one is higher dimension and the other is lower dimension.
+
+104
+00:07:26,789 --> 00:07:31,190
+那你该怎么做呢？神奇的是，当你用numpy操作时，它会自动帮你完成这些。
+So how do you do that? And magically, when you do Lum pi, uh, they will do that for you.
+
+105
+00:07:31,190 --> 00:07:36,869
+当你把这两个张量相乘时，其实在背后会有一个隐式的广播过程，
+When you multiply these two tens together, uh, there's an implicit, broadcast
+
+106
+00:07:36,869 --> 00:07:38,350
+这个过程是在幕后发生的，对吧？
+happening behind the scene, right?
+
+107
+00:07:38,350 --> 00:07:40,625
+但你要怎么实现这种操作呢？
+But how you achieve this kind of thing.
+
+108
+00:07:40,625 --> 00:07:45,479
+一个最基础的方法就是，为了广播第二个张量，
+Like one rudimentary way is basically in order to broadcast the second tensor,
+
+109
+00:07:45,479 --> 00:07:48,579
+你只需要把那一行复制四次，就得到了目标张量。
+you just copy the row four times, and you get a target sensor.
+
+110
+00:07:48,579 --> 00:07:50,920
+但就像我说的，这种方法不好，因为复制操作很慢。
+But like I said, it is not good because copy is slow.
+
+111
+00:07:50,920 --> 00:07:54,299
+我不想复制。而且复制会消耗一些内存。
+I don't want to copy. And copy will consume some memory.
+
+112
+00:07:54,299 --> 00:07:56,639
+好吗？我不想浪费内存。
+Okay? I don't want to waste memory.
+
+113
+00:07:56,639 --> 00:07:59,619
+好吗？我们来想想怎么用stride来实现这个。
+Okay? Let's think about how we can achieve this using stress.
+
+114
+00:07:59,619 --> 00:08:02,519
+我让你们想10秒钟。
+I'll let you think about 10 seconds.
+
+115
+00:08:09,040 --> 00:08:11,779
+好的，有人想回答吗？
+Okay. Anyone want to answer?
+
+116
+00:08:11,779 --> 00:08:15,790
+对，对，没错，就是这样。
+Yeah. Yeah, yeah, exactly. Yeah.
+
+117
+00:08:15,790 --> 00:08:19,869
+我们只需要插入一个stride为零的项。我们来看看这样做的效果。
+We just insert one strut that is zero. Let's see how this works.
+
+118
+00:08:19,869 --> 00:08:20,410
+好吗？
+Okay?
+
+119
+00:08:20,410 --> 00:08:25,850
+那么这里，我们来检查一下原始张量。
+So here, let's inspect the original tensor.
+
+120
+00:08:25,850 --> 00:08:28,370
+原始张量的stride等于1，对吧？
+The original tensor has a stress equal to one, right?
+
+121
+00:08:28,370 --> 00:08:35,269
+因为它是一维的，形状是13，所以这些数据在内存中是顺序排列的，
+Because it's one dimensional, and its shape is 13, this data is sequentially in memory,
+
+122
+00:08:35,269 --> 00:08:37,610
+也就是一、二、三，非常直接。
+which is one, two, three, straightforward.
+
+123
+00:08:37,610 --> 00:08:43,190
+明白了吗？目标张量一的形状基本上是等于三，
+Okay? And the target tensor one is basically with a shape or equals for three,
+
+124
+00:08:43,190 --> 00:08:45,630
+因为我想要前三列。
+because I want to furs three columns.
+
+125
+00:08:45,630 --> 00:08:47,450
+就像我说的，我不想复制数据。
+Like I said, I don't want to copy data.
+
+126
+00:08:47,450 --> 00:08:53,490
+我想要零拷贝。数据应该在内存中保持为一、二、三，只有三个元素。
+I want zero copy. The data should be kept in memory as one, two, three, only three elements.
+
+127
+00:08:53,490 --> 00:08:57,529
+对。那么要怎么修改步幅呢？
+Right. So how to basically modify the stress.
+
+128
+00:08:57,529 --> 00:09:02,170
+记住，步幅的定义基本上就是在那个维度上有多少元素，
+So remember the definition of stress is basically like how many elements
+
+129
+00:09:02,170 --> 00:09:04,489
+我沿着那个维度移动，对吧？
+I move along that dimension, right?
+
+130
+00:09:04,489 --> 00:09:07,350
+所以为了得到那个张量，我要做的基本上就是插入
+So in order to get that tensor, what I do is basically I insert
+
+131
+00:09:07,350 --> 00:09:09,549
+一开始再加一条线程，从零开始，对吧？
+one more thread at the beginning at zero, right?
+
+132
+00:09:09,549 --> 00:09:15,310
+这意味着在我这里添加的这个虚拟维度上，有四个，对吧，就是板载传感器。
+That means along the fake dimension I added here four, right, the board carts sensor.
+
+133
+00:09:15,310 --> 00:09:17,329
+每次我沿着那个维度移动，
+Every time I move along that dimension,
+
+134
+00:09:17,329 --> 00:09:19,924
+我只是在时间零点，然后它会回到起点。
+I just time zero, and it will go back to the beginning.
+
+135
+00:09:19,924 --> 00:09:28,160
+好的，这基本上就是我们在幕后进行这类数组操作的方式。
+Okay. That's how we basically do this kind of, uh, array manipulations in behind patters, yeah.
+
+136
+00:09:28,160 --> 00:09:30,839
+嗯，好了，我要讲的就这些。
+Um, okay, that's all I have.
+
+137
+00:09:30,839 --> 00:09:36,060
+这些操作符实际上非常重要，而且它们都能从压力中受益。
+These operators actually are very important and they all benefit from stress.
+
+138
+00:09:36,540 --> 00:09:40,080
+好的，我们来做一些更硬核的东西。
+Okay, let's do something that's more hardcore.
+
+139
+00:09:40,080 --> 00:09:42,479
+嗯，这里，在某些情况下，
+Uh, here, in some cases,
+
+140
+00:09:42,479 --> 00:09:43,760
+我想交换这些小块。
+I want to swap the tiles.
+
+141
+00:09:43,760 --> 00:09:50,000
+好的，我有一个张量，你可以看到它还是0到15，但我想把粉色部分和蓝色部分交换。
+Okay, I have a tensor where you can see it still 0-15, but I want to swap
+
+142
+00:09:50,000 --> 00:09:52,024
+粉色部分和蓝色部分要怎么交换呢？
+the pink part with the blue part, how I do that.
+
+143
+00:09:52,024 --> 00:09:56,729
+好的。我这里写了一个小程序，你可以看到我的编程其实很笨。
+Okay. I wrote a little program here and you can see my programming is pretty stupid.
+
+144
+00:09:56,729 --> 00:09:58,249
+我需要复制很多东西，
+I need to copy a lot of things,
+
+145
+00:09:58,249 --> 00:10:01,429
+基本上我需要滑动一些张量并交换元素。
+I basically need to slide some tensor and swap elements.
+
+146
+00:10:01,429 --> 00:10:04,990
+我把如何实现零拷贝的方式留给你们思考。
+And I will leave to you how to implement this with zero copy.
+
+147
+00:10:04,990 --> 00:10:09,329
+好吗？我不会直接给你答案，自己想一想吧。
+Okay? I'm not going to give you the answer. Think about that. Okay.
+
+148
+00:10:09,329 --> 00:10:14,730
+但这里重要的是，每当你在Patric里写这种程序时，
+But here, the important thing is whenever you write this kind of program in Patric,
+
+149
+00:10:14,730 --> 00:10:16,550
+你需要考虑自己是不是在做零拷贝。
+you need to think about if you are doing zero copy.
+
+150
+00:10:16,550 --> 00:10:19,069
+如果你能做到零拷贝，就应该总是选择零拷贝，对吧？
+If you can't do zero copy, you should always do zero copy, right?
+
+151
+00:10:19,069 --> 00:10:22,929
+就像我说的，零拷贝就是零开销，你也不需要消耗任何内存。
+Like I said, zero copy is zero overhead, and you don't have to consume any memory.
+
+152
+00:10:22,929 --> 00:10:24,294
+嗯，对吧？
+Yeah. Okay?
+
+153
+00:10:24,294 --> 00:10:31,480
+嗯，到这里，我想我已经介绍完了应力的内容。
+Um, with that, I think I finished introducing the stress.
+
+154
+00:10:31,480 --> 00:10:35,960
+然后我们来想一想，嗯，什么是应力问题？
+And then let's think about, um, so what is the problem stress?
+
+155
+00:10:35,960 --> 00:10:38,834
+我觉得应力问题其实很明显，对吧？
+I think the problem stress is quite obvious, right?
+
+156
+00:10:38,834 --> 00:10:46,450
+比如说，如果我们查看一个张量，或者选择一个张量，或者其他操作，嗯，确实，我们可以得到一个张量，
+Uh, say, if we view a tensor or select a tensor or whatever, um, yeah, indeed, we can get a tensor,
+
+157
+00:10:46,450 --> 00:10:53,689
+但是，由操作符返回的新张量，它的值在内存中
+but, uh, the new tensor, returned by the operator, uh, under its values are
+
+158
+00:10:53,689 --> 00:10:55,529
+已经不是连续的了，对吧？
+not continuous in memory anymore, right?
+
+159
+00:10:55,529 --> 00:10:57,809
+因为只有原始张量在内存中是连续的。
+Because only the original tensor is continuous in memory.
+
+160
+00:10:57,809 --> 00:11:01,069
+一旦我们改变了应力或者其他操作，它就不再是连续的了。
+Once we change the stress or whatever, it's not continuous.
+
+161
+00:11:01,069 --> 00:11:07,029
+但就像我说的，在很多很多情况下，比如按元素操作或者乘法，
+But like I said, in many, many, for example, element wise or is multiplication or
+
+162
+00:11:07,029 --> 00:11:11,669
+在很多其他加速器平台上，当你做这种操作时，
+many many other accelerator platforms when you do this kind of operator,
+
+163
+00:11:11,669 --> 00:11:14,849
+你必须确保张量有连续的存储，对吧？
+you have to make sure tensor has a continuous storage, right?
+
+164
+00:11:14,849 --> 00:11:20,759
+这意味着每次你进行这种操作或操作时，
+So which means that every time when you apply this kind of or manipulation.
+
+165
+00:11:20,759 --> 00:11:25,720
+如果你继续进行下一个操作，而下一个操作对底层存储的连续性有要求，
+And if you proceed to next operation and the next Operation, have a requirement on the continuity
+
+166
+00:11:25,720 --> 00:11:29,199
+你需要做的是，有时候需要调用
+of the underlying storage, what do you do is you sometimes need to call
+
+167
+00:11:29,199 --> 00:11:35,160
+这个操作符 torch 或 contiguous，它基本上会为你重新排列
+this operator torch or contiguous, and it will basically rearrange the um,
+
+168
+00:11:35,160 --> 00:11:37,139
+底层存储。明白了吗？
+underlying storage for you. Okay?
+
+169
+00:11:37,139 --> 00:11:38,620
+所以这个听起来很相似。
+So this one sounds similar.
+
+170
+00:11:38,620 --> 00:11:41,439
+如果你不这样做，你很可能已经犯过很多次这个错误了。
+And if you don't do this, you probably made this error many many times in
+
+171
+00:11:41,439 --> 00:11:44,920
+你不希望抱怨你的张量在内存中不是连续的，
+torching you don't want to complain that your tensor is not continuous in memory,
+
+172
+00:11:44,920 --> 00:11:46,739
+所以我无法进行下一步操作。
+so I cannot proceed next operation.
+
+173
+00:11:46,739 --> 00:11:53,139
+明白了吗？很好。有问题吗？没有。
+Okay? Cool. Any question? No.
+
+174
+00:11:53,139 --> 00:12:00,340
+好的，那我们就完成了这个布局，接下来我们要介绍的基本上是，
+Okay, then we finish this layout and so the next thing that we want to introduce is basically,
+
+175
+00:12:00,340 --> 00:12:04,739
+我们也可以对操作符进行并行化，对吧？
+we can also paralyze um, operators, right?
+
+176
+00:12:04,739 --> 00:12:09,020
+所以在这里，我认为并行化尤其适用于这种操作。
+So here, I think the palsiton especially for this kind of operation.
+
+177
+00:12:09,020 --> 00:12:14,059
+在这里，我希望你还记得这个操作基本上是元素级的，对吧？
+So here, I hope you still remember the operation here is basically element we side, right?
+
+178
+00:12:14,059 --> 00:12:15,919
+我们把A和B相加，然后赋值给
+We add A and B and rather to
+
+179
+00:12:15,919 --> 00:12:21,769
+C。我们是从左到右逐个元素地进行操作，在这种元素级操作中，
+C. We do that element by element from left to right, in this kind of element wise operations,
+
+180
+00:12:21,769 --> 00:12:23,369
+并行化其实非常容易，对吧？
+it's very easy to paralyze it, right?
+
+181
+00:12:23,369 --> 00:12:27,370
+例如，在大多数CPU平台上，你可以使用这个装饰器
+For example, in most CPU platforms, you have this decorator
+
+182
+00:12:27,370 --> 00:12:33,289
+你可以把它装饰在你的循环上，它基本上会把加法操作
+which you can decorate on top of your loop, and it will basically split the addition operations to
+
+183
+00:12:33,289 --> 00:12:37,370
+分配到不同的CPU核心上，并且全部并行执行。
+different CPU course and it all perform in parallel.
+
+184
+00:12:37,370 --> 00:12:44,209
+这里的关键是分区或者说拆分很直接，因为
+The key thing here is the partition or the split is straightforward because it
+
+185
+00:12:44,209 --> 00:12:49,970
+这是逐元素的，每个元素的加法操作彼此独立。
+is a element wise at each element, addition is independent from other elements.
+
+186
+00:12:49,970 --> 00:12:52,610
+所以你可以很容易地拆分这些重复操作。
+So you can easily split the repetition.
+
+187
+00:12:52,610 --> 00:12:58,055
+这是一种非常简单的并行化操作符并利用多核的方法。
+This is a very simple way to paralyze operators and leverage mark course.
+
+188
+00:12:58,055 --> 00:13:04,100
+我们稍后会详细讨论这个问题，因为假设有些操作中，一个元素的
+We'll talk more about this because suppose there are some operations where one elements
+
+189
+00:13:04,100 --> 00:13:10,120
+加法依赖于另一个元素的加法，那我们该如何拆分这些操作符，
+add is dependent on another elements add, how can we basically split these operators,
+
+190
+00:13:10,120 --> 00:13:12,579
+这个部分我们之后会更深入地讲解。
+and we are going to dive deeper into that part later.
+
+191
+00:13:12,579 --> 00:13:16,680
+这基本上就涵盖了我们关于如何并行化算子的讲座内容。
+That basically will cover our lecture in how to paralyze the operator.
+
+192
+00:13:16,680 --> 00:13:20,670
+但这个方法太直接了，所以我把它放在这里。你明白的。
+But this one is too straightforward, so I put it here. You understand.
+
+193
+00:13:20,670 --> 00:13:27,020
+好的。总结一下，我们如何让算子更快，可以进行并行化，我们可以利用
+Okay. To summarize how we can make operator faster, we can do arization We can leverage
+
+194
+00:13:27,020 --> 00:13:30,979
+平台特定的并行化函数，比如load floor four。
+the platform specific Corize functions, for example, the load floor four.
+
+195
+00:13:30,979 --> 00:13:34,719
+好吗？我们还可以操作数据布局。
+Okay? We can also manipulate the data layout.
+
+196
+00:13:34,719 --> 00:13:41,120
+嗯，我们引入了strat格式，这让我们可以为很多很多算子做拷贝。
+Um, we introduce the strat format, which allows us to do copy for many, many operators.
+
+197
+00:13:41,120 --> 00:13:48,519
+对于一些非常简单直接的逐元素算子，我们做非常简单的并行化，好吗。
+And for some very simple straightforward animal wise operators, we do very simple parison, okay.
+
+198
+00:13:49,550 --> 00:13:50,829
+好的。
+Okay.
+
+199
+00:13:50,829 --> 00:13:57,729
+现在，我们进入下一部分，可能也是这次讲座中比较难的部分。
+Now, let's go into the next part and probably a difficult part of this lecture.
+
+200
+00:13:57,729 --> 00:13:59,850
+那么我们要如何让met moo更快。
+So how we can make met moo faster.
+
+201
+00:13:59,850 --> 00:14:03,889
+之前我们谈过数组操作。
+Previously, we have to talk about, array manipulations.
+
+202
+00:14:03,889 --> 00:14:07,610
+我们讲的是元素级操作，但矩阵乘法显然不是动物级操作，
+We talk about element wise, but met moo is apparently not animal wise,
+
+203
+00:14:07,610 --> 00:14:11,930
+你需要将第一个矩阵的行与第二个矩阵的列相乘，
+you have to multiply the role of the first matrix of the common second matrix,
+
+204
+00:14:11,930 --> 00:14:14,050
+并且这不是逐元素进行的。
+and it's not performed element by element.
+
+205
+00:14:14,050 --> 00:14:17,169
+那么我们如何让这些操作变得更快呢？
+So how we can make these kind of operators fast.
+
+206
+00:14:17,169 --> 00:14:22,150
+这非常重要，因为我们知道计算系统基本上就是在做矩阵乘法，对吧？
+And this is so important because we know marching system is all about met moo, okay?
+
+207
+00:14:22,800 --> 00:14:26,540
+一般来说，有两种思路。
+Um, there are in general, two ideas.
+
+208
+00:14:26,540 --> 00:14:30,360
+一种是我们有一些算法可以实现这个，我们会深入讲解这些算法。
+One is, we have some algorithm for that, and we are going to dive deep into the algorithm.
+
+209
+00:14:30,360 --> 00:14:32,580
+另一种是我们可以利用一些更高级的硬件。
+The other is we can use some more ace hardware.
+
+210
+00:14:32,580 --> 00:14:36,320
+这就是为什么我们在本讲最后开始讨论加速器的原因。
+That's why we start talking about accelerators, okay, in the final part of this lecture.
+
+211
+00:14:36,320 --> 00:14:37,279
+好吗？
+Okay?
+
+212
+00:14:37,279 --> 00:14:42,120
+嗯，在我们讨论优化技术之前，什么是Mtmo？
+Um, before we talk about the optimization techniques, so what is Mtmo?
+
+213
+00:14:42,120 --> 00:14:44,880
+好的，本质上代码中的Mthmo是什么？
+Okay. What is essentially a Mthmo in code?
+
+214
+00:14:44,880 --> 00:14:48,139
+我相信你们大多数人都自己实现过Mthmo，对吧？
+So I believe most of you have implement Mthmo by yourself, right?
+
+215
+00:14:48,139 --> 00:14:53,510
+Metamo本质上是一个三层循环，IJK，
+Metamo is essentially a a three layer loop, IJK,
+
+216
+00:14:53,510 --> 00:14:59,710
+这里我们试图将两个矩阵A和B相乘，并且我们试图把结果写入
+here we are trying to multiply two matrices A and B, and we try to write the results into
+
+217
+00:14:59,710 --> 00:15:03,410
+C，它们每一个都是二维的。
+C and each of them are two dimensional.
+
+218
+00:15:03,410 --> 00:15:09,090
+这里我简化了问题，它们的维度都等于N，两个维度都是。
+Here, I simplify the problem, their dimension or equal to N, both dimensions.
+
+219
+00:15:09,090 --> 00:15:14,490
+为了实现这个met mo，我们基本上写这个循环，遍历I、J，
+In order to implement this met mo, we basically write this loop we loop over I, J,
+
+220
+00:15:14,490 --> 00:15:19,809
+然后我们从两个矩阵中取一行和一列，进行操作。
+and then we take a row and column from two matrices and we do
+
+221
+00:15:19,809 --> 00:15:23,029
+做点积然后把结果写回C，对吧？
+a dot product and write the result back to C, right?
+
+222
+00:15:23,350 --> 00:15:31,350
+没有问题，对吗？好的，这个循环的复杂度是多少？
+No question, right? Okay. What is the complexity of this loop?
+
+223
+00:15:32,150 --> 00:15:34,330
+立方，对吧？立方。
+Cube, right? A cube.
+
+224
+00:15:34,330 --> 00:15:44,270
+好的。那么人类社会目前能达到的最佳复杂度是多少？你们知道吗？
+Okay. So what is the best complexity the human society can achieve? Do you guys know?
+
+225
+00:15:46,190 --> 00:15:50,630
+绝对比立方好，因为你们可能知道很多
+It's definitely better than cube, because you guys probably know a lot
+
+226
+00:15:50,630 --> 00:15:52,730
+在这个领域做研究的pH网络专家。
+of researchers pH networking in this area.
+
+227
+00:15:52,730 --> 00:15:55,410
+好的。那么，这里有个数字。
+Okay. Yeah. So here's the number.
+
+228
+00:15:55,410 --> 00:16:00,309
+大约是2.371552，对吧？
+It's roughly 2.37 1552. Okay?
+
+229
+00:16:00,870 --> 00:16:06,229
+但当然没有人能把它降到平方级，对吧？
+But no one can reduce it to square, of course, okay?
+
+230
+00:16:06,340 --> 00:16:13,359
+而且仅仅是复杂度其实非常，非常，我不能说是活跃的，
+And mere complexity is actually very, very, um, I wouldn't say active,
+
+231
+00:16:13,359 --> 00:16:15,179
+但这是一个老的研究方向，对吧？
+but old line of research, right?
+
+232
+00:16:15,179 --> 00:16:19,800
+人们从五六十年前就在做这方面的研究了，明白吗？
+People work on that from 50, 60 years ago, okay?
+
+233
+00:16:19,800 --> 00:16:23,799
+你可以看到，沿着这条线已经发表了很多很多重要的论文。
+And you can see, there are many, many notable papers published along the line.
+
+234
+00:16:23,799 --> 00:16:26,419
+我们就是这样进行这项研究的。
+And this is how we do on this research.
+
+235
+00:16:26,419 --> 00:16:31,759
+你可以看到，最初我们是在立方体这里，然后我们逐渐减少它。
+Okay you can see originally we are at cube, right, and we gradually reduce it.
+
+236
+00:16:31,759 --> 00:16:34,360
+我们试图发明一种算法让它变快。
+We try to invent one algorithm to make that fast.
+
+237
+00:16:34,360 --> 00:16:40,780
+嗯，但你可以看到，Y轴实际上非常细致，
+Um, but as you can see, the Y access is actually very fine green,
+
+238
+00:16:40,780 --> 00:16:44,440
+这意味着它已经趋于饱和了。
+which means that it's already saturated.
+
+239
+00:16:44,440 --> 00:16:48,979
+所以我得出的结论是，metamo 不是一个好的研究领域，因为如果你做这个，
+So I conclude that metamo is not a good area to research because if you do this,
+
+240
+00:16:48,979 --> 00:16:50,880
+你很难发表一篇好的论文。
+it's unlikely you can publish a good paper.
+
+241
+00:16:50,880 --> 00:16:53,480
+好吗？是的，它非常饱和。
+Okay? Yeah, it's very saturated.
+
+242
+00:16:53,480 --> 00:16:55,620
+嗯，但这是我们需要达到的目标，对吧？
+Um, but require our goal, okay?
+
+243
+00:16:55,620 --> 00:16:57,419
+我们试图让记忆更快，对吗？
+We try to make memo fast, right?
+
+244
+00:16:57,419 --> 00:16:59,480
+有两种方法可以让它变快。
+There are two ways to make it fast.
+
+245
+00:16:59,480 --> 00:17:01,565
+我们的最终目标是，对，请说。
+Our ultimate goal is, yeah, please.
+
+246
+00:17:01,565 --> 00:17:13,929
+所以从1990年开始，非常少，非常少。是的。
+So from 1990, very little, very little. Yeah.
+
+247
+00:17:13,929 --> 00:17:16,929
+是的，你可以认为几乎没有区别。
+Yeah, you can think there's almost no difference.
+
+248
+00:17:16,929 --> 00:17:21,530
+尤其是当你把这个放到真实系统中时，那些改进会变得微乎其微。
+Especially when you put this into real system, those kind of improvement will diminish.
+
+249
+00:17:21,530 --> 00:17:24,689
+是的，是的。好的。
+Yeah, yeah. Yeah. Okay.
+
+250
+00:17:24,689 --> 00:17:26,590
+我们回到这张幻灯片，好吗？
+Let's go back to this slide, okay.
+
+251
+00:17:26,590 --> 00:17:29,349
+我们的目标是最大化算术强度，对吧？
+Our goal maximize arithmetic intensity, right?
+
+252
+00:17:29,349 --> 00:17:36,550
+显然，这个AI等于计算量除以内存，内存IO。
+And apparently this AI equals to compute divided by memory, memory o.
+
+253
+00:17:36,550 --> 00:17:41,589
+所以这些人基本上在做的事情就是试图增加计算量，
+So what these people are doing basically they try to increase the number of the compute,
+
+254
+00:17:41,589 --> 00:17:43,169
+对吧？让它更快。
+right? Make it faster.
+
+255
+00:17:43,169 --> 00:17:45,950
+好的，好的。就像我说的，它已经饱和了。
+Okay. Okay. And like I said, it's saturated.
+
+256
+00:17:45,950 --> 00:17:47,609
+所以我们得采取另一种方法，对吧？
+So we have to take an alternative, right?
+
+257
+00:17:47,609 --> 00:17:51,550
+我们试着减少IO，这样我们还能让它快一点。
+We try to reduce the IOs so we can still make it fast.
+
+258
+00:17:51,550 --> 00:17:51,889
+明白了吗？
+Okay?
+
+259
+00:17:51,889 --> 00:17:53,550
+这样说有道理吗？整体来看。
+Does that make sense? Big picture.
+
+260
+00:17:53,550 --> 00:17:55,329
+好的，好的。
+Okay. Okay.
+
+261
+00:17:55,329 --> 00:18:00,609
+那么在接下来的课程中，我们将讨论如何让第二项变得更小。
+Then in the rest lecture, what are we going to talk about how we can basically make the second term
+
+262
+00:18:00,609 --> 00:18:02,529
+当我们执行它们时，如何让它更小。
+smaller when we perform at them.
+
+263
+00:18:02,529 --> 00:18:03,729
+好的。
+Okay.
+
+264
+00:18:04,020 --> 00:18:07,159
+嗯，为了讨论这个问题，
+Uh, in order to talk about that,
+
+265
+00:18:07,159 --> 00:18:11,819
+我想提醒你们一下你们在操作系统中学过的内容。
+I think I need to remind you of something you learned from operating systems.
+
+266
+00:18:11,819 --> 00:18:16,399
+好吗？还记得在计算机中，我们有内存层次结构，对吧？
+Okay? Remember in computers, we have memory hierarchy, right?
+
+267
+00:18:16,399 --> 00:18:22,439
+我们之所以有内存层次结构，是因为内存越靠近处理单元就越昂贵，
+The reason we have memory hierarchy is because memory becomes more and more expensive,
+
+268
+00:18:22,439 --> 00:18:26,259
+对吧？越靠近处理单元，内存就越贵。
+right when it is closer to the processing units, right?
+
+269
+00:18:26,259 --> 00:18:29,779
+比如，在处理器中，我们有寄存器。
+For example, in the processors, we have registers.
+
+270
+00:18:29,779 --> 00:18:31,460
+它非常快，极其迅速。
+It's super fast, likely fast.
+
+271
+00:18:31,460 --> 00:18:36,020
+它基本上是本地的，但我们不能做太多，因为成本太高了。
+It's basically local, but we cannot make many of them because it's so expensive.
+
+272
+00:18:36,020 --> 00:18:40,939
+这就是为什么我们要一层又一层地叠加，最终形成了内存层次结构。
+That's why we add layers and layers and layers, and we ended up with memory hierarchy.
+
+273
+00:18:40,939 --> 00:18:44,964
+一个缓存、两个缓存，然后是内存DRAM。
+One catch two catch then memory DRM.
+
+274
+00:18:44,964 --> 00:18:47,249
+那么DRAM之后是什么？
+What is behind dram?
+
+275
+00:18:47,249 --> 00:18:51,449
+是磁盘，对吧？而且磁盘也有不同的类型。
+Disks, right? And in discs, we have different kind of disks.
+
+276
+00:18:51,449 --> 00:18:54,230
+我们有SSD，也有其他类型的磁盘。
+We have SSD, we have different kind of disks anyway.
+
+277
+00:18:54,230 --> 00:18:56,670
+对，好的。但我们不关心那一部分，好吗？
+Yeah. Okay. But we don't care about that part, okay?
+
+278
+00:18:56,670 --> 00:19:02,069
+这里是每一层的大致读取速度和运行速度。
+And here, it is a rough speed read run speed for each layer, okay?
+
+279
+00:19:02,230 --> 00:19:05,769
+但我们想在这个基础上再加一层缓存，好吗？
+But we want to put memo on top of this, okay?
+
+280
+00:19:05,769 --> 00:19:08,310
+显然，这样太复杂了。
+So apparently, this is too complicated.
+
+281
+00:19:08,310 --> 00:19:10,844
+好的，我们要稍微简化一下。
+Okay, we are going to simplify a little bit.
+
+282
+00:19:10,844 --> 00:19:12,959
+我们只有三层。
+We only have three layers.
+
+283
+00:19:12,959 --> 00:19:15,859
+第一层是核心的ALU，对吧？
+The first layer is the course ALU, right?
+
+284
+00:19:15,859 --> 00:19:19,759
+核心在执行计算。
+Course which are performing competition.
+
+285
+00:19:19,759 --> 00:19:23,260
+第二层基本上是那些属于核心本地的存储，
+The second layer are basically those storage that are local to the course,
+
+286
+00:19:23,260 --> 00:19:24,720
+也就是寄存器。
+which are basically registers.
+
+287
+00:19:24,720 --> 00:19:29,199
+明白了吗？第三层是DRAM。
+Okay? The third layer is a DRAM.
+
+288
+00:19:29,199 --> 00:19:32,119
+我们知道这些是计算单元，对吧？
+And we know this is computing units, right?
+
+289
+00:19:32,119 --> 00:19:37,179
+我们也知道寄存器是核心本地的，所以它们就像投资一样，
+And we also know registers are local to cross, so they are like to invest,
+
+290
+00:19:37,179 --> 00:19:39,620
+显然，与寄存器相比，
+compared to registers, apparently,
+
+291
+00:19:39,620 --> 00:19:48,860
+DRAM 太慢了，简直像乌龟一样慢，我们要在这个基础上应用 Mm，看看怎么能做得更好。
+DRAM is so slow, it's turtle is slow, we are going to apply Mm on this and see how we can do better.
+
+292
+00:19:49,400 --> 00:19:55,379
+在我们这么做之前，我还是想提醒你们一下，记得怎么估算 aismont 强度。
+Before we do that, I still want to remind you to calculate how to estimate aismont intensity.
+
+293
+00:19:55,379 --> 00:19:59,180
+我们只需要数一下有多少次读取和写入，还记得这个循环吗，
+We just count how many red and reds, still remember this loop,
+
+294
+00:19:59,180 --> 00:20:05,520
+第一个循环的 aismont 强度是三分之一，第二个是五分之三。
+and the aismon intensity of the first loop is 1/3, and the second one is three by five.
+
+295
+00:20:05,520 --> 00:20:08,060
+因为在第二个循环中我们把操作融合在一起了。
+Because in the second loop we fuse operating together.
+
+296
+00:20:08,060 --> 00:20:09,199
+好的。
+Okay.
+
+297
+00:20:10,360 --> 00:20:16,839
+那么我现在要把 metamol 的三层循环改写成这种格式。
+Then I'm going to rewrite the three layer loop of metamol into this format.
+
+298
+00:20:16,839 --> 00:20:22,560
+我会让你们欣赏这个循环十秒钟，然后我会解释。
+I will let you appreciate this loop for 10 seconds, then I'm going to explain.
+
+299
+00:20:29,930 --> 00:20:31,689
+好的。
+Okay.
+
+300
+00:20:31,689 --> 00:20:37,250
+什么都没变，我只是标注了数组的起始位置。
+Nothing changes, but I just noted the origin of the arrays.
+
+301
+00:20:37,250 --> 00:20:44,529
+
+So here, uh, I noted that originally the array was stored on DRAM, which is the second layer, if
+
+302
+00:20:44,529 --> 00:20:46,109
+
+you remember the memory hierarchy.
+
+303
+00:20:46,109 --> 00:20:48,570
+
+In order to perform computer on ALU,
+
+304
+00:20:48,570 --> 00:20:54,090
+
+I have to move things from DRAM to ALU to local storage, which is register.
+
+305
+00:20:54,090 --> 00:20:59,969
+
+So I have to basically create a tempor storage here and I move things from DRAM to register,
+
+306
+00:20:59,969 --> 00:21:02,770
+
+and this will trigger IO ad.
+
+307
+00:21:02,770 --> 00:21:03,749
+
+Okay.
+
+308
+00:21:03,749 --> 00:21:06,490
+
+That's all. Nothing changes.
+
+309
+00:21:06,490 --> 00:21:12,670
+
+Now let's try to count how many ads we did in this loop because this is the most original version,
+
+310
+00:21:12,670 --> 00:21:20,150
+
+original flavor of metamo, we basically count how many times we read A read B and how many times
+
+311
+00:21:20,150 --> 00:21:24,129
+我们写入到C，A、B、C都在DRM上。
+we write to C Bet A, B, C are on DRM.
+
+312
+00:21:24,129 --> 00:21:29,390
+所以当我们统计读取A的次数时，基本上就是看这行代码被执行了多少次。
+So when we count the number of times we read A, we basically see how many times
+
+313
+00:21:29,390 --> 00:21:32,750
+这行代码被执行的次数很容易看出来。
+this line was executed and it's pretty easy.
+
+314
+00:21:32,750 --> 00:21:40,615
+这行代码在三层循环里面，所以是立方次，被执行了立方次，对吧？
+This line is inside of this three layer loop, so it's cube, It was executed cube times, okay?
+
+315
+00:21:40,615 --> 00:21:44,739
+同样地，B也是被执行了立方次。
+And similarly for B, it was executed in cube times.
+
+316
+00:21:44,739 --> 00:21:49,319
+当我们把结果读回来时，你可以看到这行代码是在循环外面的，对吧？
+When we read the results back, you can see this line was outside of this loop, right?
+
+317
+00:21:49,319 --> 00:21:54,739
+因为，我们基本上是把这些结果相乘，得到结果数组C中的一个结果。
+Because, yeah, we basically multiply this in order to get one results in
+
+318
+00:21:54,739 --> 00:21:59,739
+所以我们可以得出结论，就是立方、立方和平方。
+the resulting array C. So we can get the readon right which is basically
+
+319
+00:21:59,739 --> 00:22:01,739
+这样说有道理吗？明白了吗？
+in cube and cube and square. Okay?
+
+320
+00:22:01,739 --> 00:22:05,260
+很好。
+Does that make sense? Cool.
+
+321
+00:22:05,630 --> 00:22:10,109
+这是我们读和红色的数量。
+And this is the number of read and red we have.
+
+322
+00:22:10,109 --> 00:22:13,849
+第二个问题是，我们在这里用了多少空间。
+And the second question is, how many space we use here.
+
+323
+00:22:13,849 --> 00:22:18,729
+当然，我们在dim中用了一些空间，但dim非常大，所以我们不用关心它。
+Of course, we use some space in dim, but dim is pretty large, so we don't care about that.
+
+324
+00:22:18,729 --> 00:22:21,489
+所以我们更关心我们用了多少寄存器。
+So we care more about how many registers we use.
+
+325
+00:22:21,489 --> 00:22:25,930
+从这个循环你可以看到，我们实际上只分配了三个寄存器，
+And from this loop, you can see we actually only allocated three registers,
+
+326
+00:22:25,930 --> 00:22:31,429
+一个用来存储中间值C，另外两个是小的A和B，
+one to store the intermediate value C and the other two small ANB,
+
+327
+00:22:31,429 --> 00:22:33,949
+它们基本上是从dim中读取数据。明白了吗？
+which basically read things from dim. Okay?
+
+328
+00:22:33,949 --> 00:22:37,229
+所以我们用的空间是三个，明白了吗。
+So the space we use is three, okay.
+
+329
+00:22:38,530 --> 00:22:46,449
+基本上读取的代价就是2乘以cube再乘以从
+Basically the reading cost is basically two times cube times the speed of moving one element from
+
+330
+00:22:46,449 --> 00:22:50,970
+dram到寄存器移动一个元素的速度。这就是时间成本。
+dram to register. This is the time cost.
+
+331
+00:22:50,970 --> 00:22:59,689
+这样说清楚了吗？好的。现在我要介绍一个更高级的Mm版本。
+Does that make sense? Cool. Now I'm going to introduce a more advanced version of Mm.
+
+332
+00:23:03,930 --> 00:23:14,359
+抱歉，我好像没明白你的问题。
+Sorry. Like I don't think I get the question.
+
+333
+00:23:19,960 --> 00:23:25,400
+因为原始值存储在DR里，我们必须把它移动到寄存器中。
+Because the original value was stored in DR, we have to move it to register.
+
+334
+00:23:32,280 --> 00:23:35,000
+要手动移动吗？
+Move it manually?
+
+335
+00:23:42,040 --> 00:23:50,960
+是的，我们可以这么做。我稍后会讲这个。
+Yeah, we can do that. I will talk about that later.
+
+336
+00:23:50,960 --> 00:23:53,600
+是的，我觉得你已经发现问题了。
+Yeah. I think you already spot point.
+
+337
+00:23:53,600 --> 00:23:58,039
+这样效率不高。你没必要再移动一次，你可以直接放在那里。
+It's not efficient. You don't have to move it once. You can just put it there.
+
+338
+00:23:58,039 --> 00:24:02,520
+你不用再移动一次，对吧。这就是为什么这里我们只用三个寄存器。
+You don't move it again, right. That's why here we only use three registers.
+
+339
+00:24:02,520 --> 00:24:06,219
+你的情况下，你会用超过三个寄存器，因为下次你还需要移动。
+In your case, you are going to use more than three because next time you need to move.
+
+340
+00:24:06,219 --> 00:24:09,439
+好的，好的。
+Okay. Okay.
+
+341
+00:24:09,439 --> 00:24:13,140
+接下来我要介绍一个非常基础的概念，我希望
+Then I'm going to introduce something that is so fundamental that I hope
+
+342
+00:24:13,140 --> 00:24:14,559
+你们所有人都能理解。
+all of you guys can understand?
+
+343
+00:24:14,559 --> 00:24:17,319
+因为这个概念太基础了，如果你们不理解，
+Because this is so fundamental that if you don't understand,
+
+344
+00:24:17,319 --> 00:24:20,939
+你们就无法理解flash attention，也无法
+you are not going to understand the flash attention, and you are not going to
+
+345
+00:24:20,939 --> 00:24:23,699
+理解所有和attention相关的内容。
+understand all the attenon related stuff.
+
+346
+00:24:23,699 --> 00:24:27,219
+这个叫做寄存器分块元模型。
+This is called registered tiled metamor.
+
+347
+00:24:27,219 --> 00:24:30,249
+这是元模型的一个稍微改进的版本。
+This is a slightly improved version of met Mo.
+
+348
+00:24:30,249 --> 00:24:35,079
+嗯，我会给你们一个非常简短的描述，然后我会给你们10秒钟
+Um, and I'm going to give you a very short description, and I'm going to give you 10 seconds
+
+349
+00:24:35,079 --> 00:24:36,480
+再次体会这个循环。
+to appreciate this loop again.
+
+350
+00:24:36,480 --> 00:24:40,779
+好的，我们要做的基本上就是重新排列原来的三个数组。
+Okay. What we do is basically we reship the original three arrays
+
+351
+00:24:40,779 --> 00:24:43,840
+从二维到四维。
+by from the two dimension to four dimension.
+
+352
+00:24:43,840 --> 00:24:47,099
+这里，我们基本上是引入了两个更小的数，
+Here, what we do is basically we introduce two smaller numbers,
+
+353
+00:24:47,099 --> 00:24:49,540
+绝对比原始维度要小。
+definitely smaller than the original dimension.
+
+354
+00:24:49,540 --> 00:24:51,700
+然后我们告诉数组。
+And we tell the array.
+
+355
+00:24:51,700 --> 00:24:55,359
+我们有很多这种较小的矩阵，对吧？
+We have so many of these kind of smaller matrices, right?
+
+356
+00:24:55,359 --> 00:24:57,419
+然后我们把剩下的维度放在这里。
+And we put the rest of dimension here.
+
+357
+00:24:57,419 --> 00:25:02,439
+好的，这里我们显然引入了三个标识因子。
+Okay. And here we apparently introduce three uh telling factors.
+
+358
+00:25:02,439 --> 00:25:04,784
+V一、V二和V三。
+V one, V two and V three.
+
+359
+00:25:04,784 --> 00:25:10,949
+然后我们要做的是把原来的循环重写成这样。明白吗？
+And then what we do is we rewrite the original loop into this. Okay?
+
+360
+00:25:10,949 --> 00:25:14,589
+我想仔细看看这个循环。
+I would like to appreciate this loop a little bit.
+
+361
+00:25:16,270 --> 00:25:22,470
+我想确保这个循环和我最初写的循环是等价的，可以吗？
+I want to make sure that this loop is equivalent to the original loop I wrote, okay?
+
+362
+00:25:32,880 --> 00:25:35,800
+可以。确实是等价的，为什么这么问？
+Okay. Indeed, it's equivalent, why?
+
+363
+00:25:35,800 --> 00:25:42,320
+因为我们其实是在把原来的备忘录转化为块状备忘录。
+Because we are basically transforming the original memo into a block wise memo, here.
+
+364
+00:25:42,320 --> 00:25:49,539
+每次我都会取一行，这一行的原始行数等于一，
+Every time I basically will take a row with the number of original rows equal to one,
+
+365
+00:25:49,539 --> 00:25:54,999
+然后从这里取一列，这一列在B中的原始列数等于二。
+and take a column from here with umber of original columns from B equal to weight two.
+
+366
+00:25:54,999 --> 00:26:01,159
+然后我有第三个循环，基本上会从左到右、从上到下扫描，
+And then I have a third loop which will basically scan from left to right, from top to bottom,
+
+367
+00:26:01,159 --> 00:26:07,860
+并在这个小块中计算结果，然后把结果写回这个块。
+and calculate the results in this small block and write the result back to this block.
+
+368
+00:26:07,860 --> 00:26:12,760
+这样说有道理吗？酷，酷。
+Does that make sense? Cool, cool.
+
+369
+00:26:12,760 --> 00:26:16,080
+好，现在你明白这个循环了吧？
+Okay. Now, you understand this loop, okay?
+
+370
+00:26:16,080 --> 00:26:23,594
+而且这个循环非常神奇，我们基本上可以再次统计红色的部分，看看会发生什么。
+And this loop is so magical that we can basically again, count the red and red and see what happens.
+
+371
+00:26:23,594 --> 00:26:27,150
+我们首先要做的，就像我们对原始循环所做的一样，
+We are going to first, like what we did for the original loop,
+
+372
+00:26:27,150 --> 00:26:33,490
+我们要统计从DRM到寄存器读取A的次数。
+we are going to count how many times we read A from DRM to register.
+
+373
+00:26:33,490 --> 00:26:36,190
+我觉得这很直接。
+I think it's straightforward.
+
+374
+00:26:36,190 --> 00:26:44,149
+从这行代码可以看出，每次我们都通过way three读取一个大小为一的数组。
+So from this line, you can see every time we read array of size one by way three.
+
+375
+00:26:44,149 --> 00:26:46,370
+我们把它写入这个小数组。
+We write it to this small array.
+
+376
+00:26:46,370 --> 00:26:50,010
+我们只需要统计这行代码被执行了多少次。多少次呢？
+We just count how many times we ask you this line. How many times?
+
+377
+00:26:50,010 --> 00:26:52,889
+第一个循环没有被we one整除。
+The first loop is undivided by we one.
+
+378
+00:26:52,889 --> 00:26:57,059
+第二个没有被way two整除，第三个没有被way three整除，对吧。
+Second is undivided by way two, and third is undivided by way three. Right.
+
+379
+00:26:57,059 --> 00:27:01,220
+我们把这三个都相乘，同时也乘上数组的形状。
+We time all these three together, and we also time the shape of the array.
+
+380
+00:27:01,220 --> 00:27:06,139
+那我们读取了多少次？你可以看到这里的we one会被抵消，对吧？
+So how many times we read? You can see this we one will be canceled here, right?
+
+381
+00:27:06,139 --> 00:27:08,459
+这周的第三个也会被取消。
+And this week three will be canceled here.
+
+382
+00:27:08,459 --> 00:27:13,039
+所以基本上在第二周就是立方体，对吗？
+So it's basically cube by week two, right?
+
+383
+00:27:13,240 --> 00:27:15,900
+你在这里发现了魔法，对吧？
+And you found magic here, okay?
+
+384
+00:27:15,900 --> 00:27:18,140
+但只需要重写这个循环。
+But just rewrite the loop.
+
+385
+00:27:18,140 --> 00:27:25,279
+我已经把读取A的时间从立方体减少到了被第二周的因子除以的程度。
+I already reduced the time I read A from cube to a factor that is divided by we two.
+
+386
+00:27:25,279 --> 00:27:31,470
+明白了吗？有问题吗？很好。
+Okay? Any question? Cool.
+
+387
+00:27:31,470 --> 00:27:36,069
+同样地，我们也可以对B做类似的操作，只需要用
+Similarly, we can do that for B, we just time this shape with
+
+388
+00:27:36,069 --> 00:27:41,989
+循环因子和循环迭代次数相乘，我们就能得到
+the loop factors and loop iterations and we get the times
+
+389
+00:27:41,989 --> 00:27:45,089
+读取B的次数基本上是立方体除以w一。
+we read B is basically cubed divided by w one.
+
+390
+00:27:45,089 --> 00:27:52,469
+我们已经做得很不错了，因为我们已经把B的因子F也减少了。
+We're already doing pretty good because we already reduce both BofactorF it's the
+
+391
+00:27:52,469 --> 00:27:59,170
+结果会从寄存器返回到DRAM，所以它仍然是方形的。
+same because results back from register to DRAM, so it's still square.
+
+392
+00:28:01,770 --> 00:28:06,209
+那么下一个问题是我们在这里用了多少个寄存器？
+Then the next question is how many register we use here?
+
+393
+00:28:08,450 --> 00:28:11,889
+为了统计我们用了多少寄存器，基本上，
+So in order to count the lumber register we use, basically,
+
+394
+00:28:11,889 --> 00:28:16,270
+我们只需要统计在执行这个循环时需要存储多少个中间内存。
+we just count how many intermediate memory we need to store when performing this loop.
+
+395
+00:28:16,270 --> 00:28:22,289
+你可以很容易地看到我们用到的寄存器有这个，这个，还有这个。
+And you can easily see the lumber register we use here is this one, this one, and this one.
+
+396
+00:28:22,289 --> 00:28:25,029
+这个的形状是w1乘以w2。
+And this one is of shape way one times w two.
+
+397
+00:28:25,029 --> 00:28:27,649
+这是w1乘以w3，这是w2乘以w3。
+This is we one we three, we two with three.
+
+398
+00:28:27,649 --> 00:28:30,310
+所以我们用到的寄存器数量就是这个数字。
+So lumber register we use is this number.
+
+399
+00:28:30,310 --> 00:28:32,489
+我们只需要把它们加在一起就可以了，好吗？
+We just add them together, okay?
+
+400
+00:28:32,489 --> 00:28:35,130
+总体来说，你基本上明白这个意思了。
+And at a high level, you basically get the point.
+
+401
+00:28:35,130 --> 00:28:37,649
+这里我们基本上是用空间换时间，对吧？
+Here we are basically treating space for time, right?
+
+402
+00:28:37,649 --> 00:28:45,009
+我们稍微多用了些寄存器，但我们会减少之前的风险，好吗？
+And we slightly use more registers, but we will reduce the lumber risk we did, okay?
+
+403
+00:28:45,990 --> 00:28:53,869
+我们还总结了这里的加法成本是cb的平方除以2加上cb，但我们还想要乘以
+And we also summarize the ad cost here is cube by two plus cb did but we want times
+
+404
+00:28:53,869 --> 00:28:58,029
+从DM到寄存器移动内容的速度。
+the speed of moving contents from DM to register.
+
+405
+00:28:58,029 --> 00:29:00,530
+这个方法已经比之前的循环更好了。
+And this is already doing better than the previous loop.
+
+406
+00:29:00,530 --> 00:29:01,850
+你可以自己验证一下。
+And you can verify by yourself.
+
+407
+00:29:01,850 --> 00:29:07,090
+你可以回去打开C++编辑器，尝试用寄存器循环。
+You go back and bring up C plus plus, editor and try to register loops.
+
+408
+00:29:07,090 --> 00:29:11,269
+你会发现第二种方法实际上比第一种快得多，好吗？
+You'll find the second one actually actually much faster than the first one, okay?
+
+409
+00:29:16,270 --> 00:29:17,749
+是的。
+Yeah.
+
+410
+00:29:17,749 --> 00:29:19,770
+所以这里，为了执行这个循环，
+So here, in order to perform this loop,
+
+411
+00:29:19,770 --> 00:29:22,529
+我需要分配一些寄存器，对吧？
+I need to allocate something register, right?
+
+412
+00:29:22,529 --> 00:29:25,389
+我们只需要看看这个循环，看看我们在哪里分配的。
+And we just look at this loop and see where we allocate.
+
+413
+00:29:25,389 --> 00:29:30,709
+所以在这一行，我们分配了一个形状为w乘way的数组，对吧？
+So in this line, we allocate array of shape w by way too, right?
+
+414
+00:29:30,709 --> 00:29:36,270
+然后在这两行里，我们又分配了另外两个小数组A和B。我们只是把它们加在一起。
+And in these two lines, we allocate another small array A and B. We just add them together.
+
+415
+00:29:36,270 --> 00:29:39,470
+好，明白了吗？很棒。
+Okay. Clear? Cool.
+
+416
+00:29:40,820 --> 00:29:45,120
+好的，在我进入更深入的内容之前。
+Okay, before I move into something that's even deeper.
+
+417
+00:29:45,120 --> 00:29:48,339
+我们先试着理解一下这里发生了什么。
+Let's try to understand reveal what's going on here.
+
+418
+00:29:48,339 --> 00:29:55,420
+好吗？所以你通过看这些术语，首先注意到的是
+Okay? So the first thing you noted by looking at these terms, the first thing you notice is you'll
+
+419
+00:29:55,420 --> 00:29:59,299
+你会发现当我做分块时，其实我引入了
+find that when I do telling, actually I introduce I introduced
+
+420
+00:29:59,299 --> 00:30:02,179
+三个分块因子，我们需要三个。
+three tell factors, we want me with three.
+
+421
+00:30:02,179 --> 00:30:07,659
+但最后的代价和with three无关，对吧？
+But it ended up with a cost that is not related to with three, right?
+
+422
+00:30:07,659 --> 00:30:10,739
+好的，这真的很有趣。
+Okay This is something really interesting.
+
+423
+00:30:10,739 --> 00:30:12,119
+这意味着当
+That means that when
+
+424
+00:30:12,119 --> 00:30:13,999
+我尝试优化这种元模型时，
+I try to optimize this kind of metamor,
+
+425
+00:30:13,999 --> 00:30:18,980
+我可以随意选择with three，这不会影响我的性能。
+I can arbitrarily choose with three and that will not affect my performance.
+
+426
+00:30:18,980 --> 00:30:22,500
+这样说有道理吗？很酷。
+Does that make sense? Cool.
+
+427
+00:30:22,780 --> 00:30:27,959
+我想问的第二个问题是我们如何设定这个值。
+The second question I want to ask is how we can set the value for.
+
+428
+00:30:27,959 --> 00:30:31,200
+显然，我们想要影响很多事情。
+Apparently, we want to influence a lot of things.
+
+429
+00:30:31,200 --> 00:30:33,260
+我影响了我们的速度。
+I influence our speed.
+
+430
+00:30:34,640 --> 00:30:38,899
+显然，我们希望它尽可能大，对吧？
+Apparently, we want to be as large as possible, right?
+
+431
+00:30:38,899 --> 00:30:43,760
+因为否则，嗯，如果它们很大，那么我们的读取量就会变小。
+Because otherwise, um, because if they are large, then our read will be smaller.
+
+432
+00:30:43,760 --> 00:30:45,560
+但我们受到一些约束条件的限制。
+But we are subject to constraints.
+
+433
+00:30:45,560 --> 00:30:48,359
+也就是说，我们的寄存器数量是有限的。
+That is, we have limited number of registers.
+
+434
+00:30:48,359 --> 00:30:56,740
+所以我们受到的约束基本上就是这个数字，
+So we are subject to a constraint that is, um, basically, this number,
+
+435
+00:30:56,740 --> 00:31:02,799
+这一行应该小于ALU CPU中提供的寄存器总数，
+this line should be smaller than the total registers offered in ALU CPU,
+
+436
+00:31:02,799 --> 00:31:10,000
+在核心中这是我们必须要遵守的一个约束，对吧？
+right in the core that's one constraint we have to, uh, you know, respect, okay?
+
+437
+00:31:11,170 --> 00:31:13,669
+我来问一个基本的问题。
+Let me ask a fundamental question.
+
+438
+00:31:13,669 --> 00:31:16,910
+为什么本质上可以通过分配来降低成本？
+Why essentially can telling reduce the cost?
+
+439
+00:31:16,910 --> 00:31:23,850
+是的，从宏观上讲，我们实际上是用空间换IO，但为什么呢？
+Yeah, at a high level, yes, we are essentially treat space for IO, but why?
+
+440
+00:31:23,850 --> 00:31:26,290
+有人能解释一下吗？
+Can anyone explain?
+
+441
+00:31:26,330 --> 00:31:36,169
+是的。没错。
+Yeah. Yeah, exactly.
+
+442
+00:31:36,169 --> 00:31:42,130
+在最初的cube实现中，每次我们尝试执行元素操作时，
+In the original cube implementation, every time we try to perform element,
+
+443
+00:31:42,130 --> 00:31:45,289
+我们都必须把它们从DRAM内存移动到寄存器。
+we have to move them from memory from DRAM to register.
+
+444
+00:31:45,289 --> 00:31:50,229
+但在这里，我们首先移动一个块，然后固定它们，再读取剩下的内容，
+But here, we first move a block, but we fix them and we read the rest of
+
+445
+00:31:50,229 --> 00:31:55,150
+这意味着当我们读取剩下的内容时，实际上我们是在利用之前从DRAM加载到寄存器的数据。
+things which means that when we read the rest of things, actually we are using the previous load
+
+446
+00:31:55,150 --> 00:31:58,949
+希望大家都明白这一点。
+from DRAM to register.
+
+447
+00:31:58,990 --> 00:32:01,969
+这被称为寄存器tut，嗯，明白了吗？
+I hope everyone get this one.
+
+448
+00:32:01,969 --> 00:32:06,350
+好的，我们再深入一点。
+This is called register tut Mm, okay?
+
+449
+00:32:06,510 --> 00:32:08,869
+好吗？你知道，现实并不是这样的。
+Okay, let's go deeper.
+
+450
+00:32:08,869 --> 00:32:11,909
+好吗？你知道，现实并不是这样的。
+Okay? So you know, reality is not this right.
+
+451
+00:32:11,909 --> 00:32:14,749
+实际上，我们并没有三层的内存层级结构。
+In reality, we don't have three layers of memory hierarchy.
+
+452
+00:32:14,749 --> 00:32:21,270
+我们有CPU A，有寄存器，有DRAM，但实际上我们还有另一层，叫做
+We have CPU A, we have registered, we have DRAM, but we actually have another layer that is called
+
+453
+00:32:21,270 --> 00:32:25,270
+LON缓存，我认为LON缓存非常快，非常非常快。
+LON catch and I think LON catch is fast, is rapidly fast.
+
+454
+00:32:25,270 --> 00:32:27,009
+好的。它肯定比DRAM更快。
+Okay. It's definitely faster than DRM.
+
+455
+00:32:27,009 --> 00:32:30,150
+所以实际上，我们可能有三层结构。
+Okay. So in reality, we probably have three layers.
+
+456
+00:32:30,150 --> 00:32:33,889
+那么我们如何实现这一点，如何把元数据
+Okay. So how we can make this happen, how we can basically put metma
+
+457
+00:32:33,889 --> 00:32:35,355
+放在这个内存层级结构之上呢？
+on top of this memory hierarchy.
+
+458
+00:32:35,355 --> 00:32:36,219
+好的。
+Okay.
+
+459
+00:32:36,219 --> 00:32:43,679
+我将介绍另一种称为缓存旁路的技术。
+I'm going to introduce another telling technique that is called catch away telling.
+
+460
+00:32:45,360 --> 00:32:50,119
+嗯，所以这里其实没有什么本质上的不同。
+Um, so here, there's nothing significantly different.
+
+461
+00:32:50,119 --> 00:32:55,219
+好的。我们现在要做的基本上是，不能直接把内容从DRAM移动到寄存器。
+Okay. What we do is basically now, we cannot directly move contents from DRAM to register.
+
+462
+00:32:55,219 --> 00:32:58,899
+我们必须先从DRAM移动到本地缓存，然后再到寄存器。
+We have to move from DRAM to LON catch then Oca register.
+
+463
+00:32:58,899 --> 00:33:01,919
+我们要把这两个循环嵌套在一起。
+And we're going to embed these two loops together.
+
+464
+00:33:01,919 --> 00:33:07,500
+呃，这里我们首先在DRAM和本地缓存之间进行切分。
+Uh here we first tell between DRAM and ON catch.
+
+465
+00:33:07,500 --> 00:33:09,810
+我的切分方式是一样的。
+The way I do telling is the same.
+
+466
+00:33:09,810 --> 00:33:13,120
+嗯，我基本上只在一个维度上切分，可以吗？
+Um, I just basically tell one dimension, okay?
+
+467
+00:33:13,120 --> 00:33:15,719
+我引入了两个参数，B一和B二。
+I introduce two parameters B one and B two.
+
+468
+00:33:15,719 --> 00:33:17,659
+你知道，B三其实无所谓，对吧？
+You know, B three doesn't matter, right?
+
+469
+00:33:17,659 --> 00:33:20,380
+所以我已经解释过B三无所谓。
+So I already explained that B three doesn't matter.
+
+470
+00:33:20,380 --> 00:33:22,859
+我这里就直接把B三设为一了。
+I simply said B three as one here.
+
+471
+00:33:22,859 --> 00:33:27,459
+因为B三不会影响我们的性能。明白吗？
+Because B three is not going to, um, influence our performance. Okay.
+
+472
+00:33:27,459 --> 00:33:31,519
+我基本上做的就是这种翻耕操作。
+And what I do is basically, um, I do this kind of tilling.
+
+473
+00:33:31,519 --> 00:33:36,859
+所以在这里，每次我选择一行，每次我选择一列，然后
+So for here, every time I pick up a row for this, every time I pick up a column and then I
+
+474
+00:33:36,859 --> 00:33:39,624
+我做一个点积运算，尝试得到结果，明白吗？
+do a dot program and try to get the results, okay?
+
+475
+00:33:39,624 --> 00:33:48,629
+这发生在DRAM和RNC缓存之间，你知道，一旦我读取它们，要进行计算，
+And this happens between DRAM and RNCchm you know, once I read them, to perform computer,
+
+476
+00:33:48,629 --> 00:33:54,469
+那个计算不会发生在RN缓存里，所以你仍然需要把内容从O缓存移动到寄存器。
+that computer won't happen in RN cache so you still need to move contents from OCach to register.
+
+477
+00:33:54,469 --> 00:33:59,709
+所以在那一层，你也会执行元操作，但规模要小得多，对吧？
+So at that layer, you also perform metam but in a much smaller size, right?
+
+478
+00:33:59,709 --> 00:34:04,970
+我接下来要做的，就是应用我在前一页介绍的技术，
+And what I do is I'm going to apply the technique I just introduced um in the previous slide,
+
+479
+00:34:04,970 --> 00:34:09,410
+也就是我要做寄存器级的翻耕操作，明白吗？
+that is, I'm going to do that register wire telling, okay?
+
+480
+00:34:09,410 --> 00:34:19,669
+这样说有道理吗？很好。我已经解释过这个了。
+Does that make sense? Cool. And this will ended up with, um, so I already explained this.
+
+481
+00:34:19,669 --> 00:34:24,649
+数据的传输基本上是首先从DRAM开始，然后将内容从DRAM移动到
+The data movement passes basically it first starts from DRAM and then move content from DRAM to
+
+482
+00:34:24,649 --> 00:34:27,350
+一级缓存，然后再从一级缓存移动到寄存器，
+L one cache and then one cache to register,
+
+483
+00:34:27,350 --> 00:34:31,389
+这样就形成了这个循环。
+This ended up with this loop.
+
+484
+00:34:31,860 --> 00:34:36,839
+但在我们进入最终循环之前，好吗？
+But before we proceed to the ultimate loop, okay?
+
+485
+00:34:36,839 --> 00:34:39,219
+我们首先要分析这里的开销，好吗？
+We're first analyzing the cost here, okay?
+
+486
+00:34:39,219 --> 00:34:41,179
+我觉得你们已经明白这个思路了。
+And I think you guys already get the idea.
+
+487
+00:34:41,179 --> 00:34:47,099
+计算DRAM和缓存之间发生了多少次读取其实很容易，对吧？
+It's very easy to count how many rates it happens between DRAM and catch, right?
+
+488
+00:34:47,099 --> 00:34:50,019
+所以为了把A的内容从
+So in order to move A's content from
+
+489
+00:34:50,019 --> 00:34:55,939
+DRAM移动到缓存，我们基本上做的就是，嗯，A在这里发生，对吧？
+DRAM to ON CAT what we do is basically, um, A happens here, right?
+
+490
+00:34:55,939 --> 00:34:58,339
+并且有一个外层循环。
+And there's one outer loop.
+
+491
+00:34:58,339 --> 00:35:04,679
+所以我们只需要用这个数字除以B1，然后再乘以我们移动的形状，
+So we just time this number divided by B one, and we time the shape of the we move,
+
+492
+00:35:04,679 --> 00:35:07,404
+也就是再乘以B1。
+which is times B one.
+
+493
+00:35:07,404 --> 00:35:14,549
+所以在这两层之间发生的内存IO基本上是A的平方，对吧？
+So the lumber IO happens between these two layers is basically square for A, right?
+
+494
+00:35:14,549 --> 00:35:21,609
+那么对于B，我们该怎么做呢？它比A多一个循环。
+And here, what do we do for B, it has one more loop compared to A.
+
+495
+00:35:21,609 --> 00:35:27,129
+那如果我们把这个数量、这个数量、还有这个数量以及数组的形状相乘会发生什么？
+So what happens if we time this lumber, this lumber, and this lumber and the shape of the array.
+
+496
+00:35:27,129 --> 00:35:30,849
+那我们得到的代价就是Nub除以B。
+So we get the cost as Nub div by B.
+
+497
+00:35:30,849 --> 00:35:41,589
+好吗？总成本就是这两个数加在一起。
+Okay? And the total cost is The total c is basically, um, these two number together.
+
+498
+00:35:41,589 --> 00:35:44,570
+正如我所说，你仍然要受到约束条件的限制。
+And as I said, you still subject to constraint.
+
+499
+00:35:44,570 --> 00:35:47,189
+那就是你的L0缓存大小不能超过
+That is your LO catch size cannot be greater than
+
+500
+00:35:47,189 --> 00:35:52,029
+你内核上可用的L1缓存，对吧？
+the available L one catch offered on your course, right?
+
+501
+00:35:52,029 --> 00:35:55,850
+所以你也关心空间问题，我们用到的空间基本上是B一Tison。
+So you also care about the space, and the space we use is basically B one Tison
+
+502
+00:35:55,850 --> 00:36:01,109
+还有B二Timson，然后我们把它们加起来，总和应该小于一个缓存大小。
+and B two Timson and we sum them together, and they should be smaller than one catch size.
+
+503
+00:36:01,109 --> 00:36:03,029
+明白了吗？完全一样的道理。
+Okay? Exactly the same thing. Okay.
+
+504
+00:36:03,029 --> 00:36:05,270
+我只是减少了一个维度。
+I just reduce one dimension.
+
+505
+00:36:06,280 --> 00:36:13,900
+这个没问题吧？好。接下来我们要把这两个循环合并起来。
+Good with this one, right? Okay. And then we are going to put these two loops together.
+
+506
+00:36:13,900 --> 00:36:21,599
+这就是在当今架构中更现实、更实际的实现方式，比如说，
+And this is a more realistic more implementation in today's architectures, for example,
+
+507
+00:36:21,599 --> 00:36:26,419
+在GPU和CPU中，显然这仍然是一个简化版本，因为，
+in GPU and CPU, apparently, this is still a simplified version because,
+
+508
+00:36:26,419 --> 00:36:29,149
+你知道，还是有缓存的，对吧。
+you know, there's still to catch, right.
+
+509
+00:36:29,149 --> 00:36:30,979
+嗯，没错。
+Yeah. Okay.
+
+510
+00:36:30,980 --> 00:36:37,459
+所以在这个循环的外部，我们在做缓存分块，在这个循环内部，
+So in the outside of this loop, we are doing, catch a wire telling and inside of this loop,
+
+511
+00:36:37,459 --> 00:36:40,219
+我们现在是在做寄存器感知的分块，对吧？
+we are doing register aware telling, right?
+
+512
+00:36:40,219 --> 00:36:45,079
+这就是我之前说的。在这里，我们简单地让三个相等。
+That's what I said before. And here, we simply said with three equal to
+
+513
+00:36:45,079 --> 00:36:47,099
+设为一，因为我们知道第三个无关紧要。
+one because we know we three does not matter.
+
+514
+00:36:47,099 --> 00:36:49,620
+它不会影响性能。
+It won't affect performance.
+
+515
+00:36:50,930 --> 00:36:57,429
+为了让你理解这个循环，我们可以看到在这个框里，基本上我们在做缓存分块。
+And in order for you to understand this loop, we can see on this box, basically we are doing catch
+
+516
+00:36:57,429 --> 00:37:02,309
+使用B1和B2进行分块，并且把数据从DRAM移动到OCach。
+telling using B one and B two, and it moves things from DRAM to OCach.
+
+517
+00:37:02,309 --> 00:37:06,149
+然后在这个绿色框里，我们用V和V2做寄存器分块，
+And then in this green box, we are doing register telling using V and V two,
+
+518
+00:37:06,149 --> 00:37:08,510
+我们把数据从一个地方移动到寄存器。
+we are moving things from one to register.
+
+519
+00:37:08,510 --> 00:37:12,730
+最后，数据都在寄存器里，我们才真正开始计算。
+And finally, things are in register, we actually proceed the competition.
+
+520
+00:37:12,730 --> 00:37:17,770
+好吗？那我们再来分析一下开销，好吗？
+Okay? And let's try to analyze the cost again, okay?
+
+521
+00:37:19,590 --> 00:37:25,069
+将数据从dm移动到one的成本可以这样分析，对吧？
+The cost of moving things from dm to one can be analyzed in this way, right?
+
+522
+00:37:25,069 --> 00:37:26,629
+我们大致就是这样来看这个问题的。
+We roughly just look at this.
+
+523
+00:37:26,629 --> 00:37:29,669
+这是我们移动数据的操作。
+This is the operation where we move things.
+
+524
+00:37:29,910 --> 00:37:35,289
+第一项基本上就是移动这个数组的成本。
+And the first term is basically moving this array.
+
+525
+00:37:35,289 --> 00:37:39,889
+这个数组被执行了B一分之一次。
+And this array was executed divided by B one times.
+
+526
+00:37:39,889 --> 00:37:47,089
+每次移动类似这种形状的操作基本上就是把它们相乘。
+Very tEveryt excuse it move something in this shape basically time together.
+
+527
+00:37:47,089 --> 00:37:56,610
+我们就得到了将A从dram移动到one的成本，也就是平方，明白了吗？
+And we get the cost of moving things moving A from dram to one, which is square, okay?
+
+528
+00:37:56,610 --> 00:38:04,850
+类似地，当我们把数据从DRM移动到缓存并移动B时，我们只需要把这个因子、
+Similarly, when we move things from DRM to catch and move B, we just time this factor,
+
+529
+00:38:04,850 --> 00:38:08,449
+这个因子和形状相乘，就可以得到这个数值。
+this factor and the shape together and we get this number.
+
+530
+00:38:08,449 --> 00:38:14,829
+然后我们继续进入内层循环，也可以统计我们移动的次数。
+And then we proceed to the inner loop and we can also count uh the times we move
+
+531
+00:38:14,829 --> 00:38:17,230
+在一个和寄存器之间的事情。
+things between one and register.
+
+532
+00:38:17,230 --> 00:38:18,789
+你可以再三确认。
+And you can double check.
+
+533
+00:38:18,789 --> 00:38:27,949
+这是正确的。好的，这就是这个循环的全部内容。明白吗？
+This is correct. Okay. Yeah, that's all we have for this loop. Okay?
+
+534
+00:38:27,949 --> 00:38:31,949
+你可以看到，实际上这非常复杂，对吧？
+And you can see in reality, this is super complicated, right?
+
+535
+00:38:31,949 --> 00:38:34,670
+那是什么让它变得复杂呢？
+So what makes it complicated?
+
+536
+00:38:34,670 --> 00:38:41,209
+实际操作中，比如在CPU上，我们有从磁盘到DRAM到
+So in practice, um, for example, on CPU, we have a disc to dram to
+
+537
+00:38:41,209 --> 00:38:43,910
+一到一到二到一到寄存器。
+one to one to two to one to register.
+
+538
+00:38:43,910 --> 00:38:47,729
+这意味着我们至少在三个层级之间进行传递。
+That means we are doing telling across at least three layers.
+
+539
+00:38:47,729 --> 00:38:49,769
+也许我们可以忽略磁盘。
+Probably we can ignore disc.
+
+540
+00:38:49,769 --> 00:38:52,770
+这就是让事情变得复杂的原因之一。
+That's one thing that makes things complicated.
+
+541
+00:38:52,770 --> 00:38:58,789
+第二点是，我们需要确定1b2b1、b2c1和C2的取值，
+The second thing is, we need to determine the values for 1b2b1,
+
+542
+00:38:58,789 --> 00:39:05,029
+因为如果你还记得的话，呃，这些分块因子需要受到
+b2c1 and C two, Because if you still remember, uh, these telling factors need to be subject to
+
+543
+00:39:05,029 --> 00:39:07,769
+每一层空间约束的限制。
+the space constraints at each layer.
+
+544
+00:39:07,769 --> 00:39:09,569
+我们不能超过这个限制。
+We cannot be more than that.
+
+545
+00:39:09,569 --> 00:39:12,709
+否则，这个循环就不会运行了，明白吗？
+Otherwise, this loop is not going to run, okay?
+
+546
+00:39:14,050 --> 00:39:16,990
+第三点，你可以让它运行得更快的方法是，
+And the third thing that you can make this even faster
+
+547
+00:39:16,990 --> 00:39:20,429
+当我们从DRM读取数据到L2时，
+is when we are reading things from DRM to L two,
+
+548
+00:39:20,429 --> 00:39:24,229
+比如说，你也可以在读取时进行流水线处理，对吧？
+for example, you can also pipeline in the reading, right?
+
+549
+00:39:24,229 --> 00:39:26,930
+你还可以让CPU读取场景
+You can also let the CPU to read scenes
+
+550
+00:39:26,930 --> 00:39:34,969
+2-1，或者并发地读取到寄存器，这些都可以流水线处理，所以你基本上还能
+2-1 or concurrently one to register, and all this can be pipeline, so you can basically even
+
+551
+00:39:34,969 --> 00:39:37,489
+减少你用来阅读场景的时间，对吧？
+reduce the time that you use to read scenes, right?
+
+552
+00:39:37,489 --> 00:39:40,530
+你在不同的内存层级之间传递内容。
+You transfer contents between memory hierarchies.
+
+553
+00:39:43,130 --> 00:39:47,049
+就像我说的，这些都需要受到L2缓存大小的限制，
+And all these, like I said, need to subject to the size of L two,
+
+554
+00:39:47,049 --> 00:39:50,289
+L1缓存和寄存器也是一样。明白了吗？
+L one cache and registers. Okay?
+
+555
+00:39:50,289 --> 00:39:55,369
+这基本上就讲完了大部分内容，请继续。
+That basically finish most of the contents about telling, please.
+
+556
+00:40:00,050 --> 00:40:02,230
+是的，大多数情况下是这样。
+Yeah. Most cases.
+
+557
+00:40:02,230 --> 00:40:11,609
+是的，是的，请问D是什么？
+Yeah. Yeah. Please. D was what?
+
+558
+00:40:17,880 --> 00:40:19,699
+这是个很好的问题。
+That's a really good question.
+
+559
+00:40:19,699 --> 00:40:21,299
+我不知道，是的，我也不知道。
+I don't know. Yeah, I don't know.
+
+560
+00:40:21,299 --> 00:40:24,959
+我认为那些实现方式关注的是不同的部分。
+I think those line of implementation, they focus on different parts.
+
+561
+00:40:24,959 --> 00:40:29,280
+他们专注于降低计算复杂度，你还记得吗？
+They focus on reducing the compute complexity, if you remember.
+
+562
+00:40:29,280 --> 00:40:32,539
+这种讲解对于减少IO非常关键。
+This telling is essential in reducing the IO.
+
+563
+00:40:32,539 --> 00:40:37,859
+所以从理论上来说它们是可行的，你可以实现更高级的方法，
+So they are fungon theoretically, you can implement more advanced method that has
+
+564
+00:40:37,859 --> 00:40:41,159
+这种方法有更低的复杂度，同时你还可以实现这个。
+a lower complexity while you still implement this.
+
+565
+00:40:41,159 --> 00:40:52,220
+是的，虽然有一些限制，但在Koda中，我认为大多数人仍然采用cube算法。
+Yeah, there are some limitations, but in Koda, I think most people still adopt cube algorithm.
+
+566
+00:40:52,220 --> 00:40:55,719
+嗯，好的，没错。
+Yeah. Okay. Yeah.
+
+567
+00:40:57,680 --> 00:41:01,999
+是的，我们下周会在GPO上再次做这个。
+Yeah, we are going to do this on GPO again next week.
+
+568
+00:41:01,999 --> 00:41:04,140
+那会更加复杂。
+And that will be more complicated.
+
+569
+00:41:04,140 --> 00:41:06,959
+所以一定要花时间理解这些循环。
+So make sure you spend time to understand these loops.
+
+570
+00:41:06,959 --> 00:41:08,760
+好吗？这非常重要。
+Okay? This is so essential.
+
+571
+00:41:08,760 --> 00:41:11,299
+我对此看不到更多内容了。
+And I can't see more on this.
+
+572
+00:41:11,299 --> 00:41:14,339
+好吗？所以Flash Attention基本上就是基于这个的。
+Okay? So flash attention is basically based on this.
+
+573
+00:41:14,339 --> 00:41:18,279
+但在Flash Attention中，我们在那个M的基础上做了什么呢？
+But in flash attention, what do we do is on top of that met M we
+
+574
+00:41:18,279 --> 00:41:21,799
+我们再加上另一个操作符，甚至可以猜到。
+add another operator which is even guess.
+
+575
+00:41:21,799 --> 00:41:26,420
+Softmax。我们只是把softmax和Mtmo放在一起，然后进行运算。
+Softmax. We just put softmax and Mtmo together, and we do telling.
+
+576
+00:41:26,420 --> 00:41:28,669
+这基本上就是Flash Attention。明白了吗？
+That's basically flash attention. Okay?
+
+577
+00:41:28,669 --> 00:41:30,219
+哦。
+Oh.
+
+578
+00:41:35,140 --> 00:41:42,280
+他们就是这样做的。对，对。其实这并不是特别新的东西，但它非常基础。
+They, they do this. Yeah. Yeah. Yeah. This was not something super new, but it is so fundamental.
+
+579
+00:41:42,280 --> 00:41:46,899
+对，对，好的，好的。
+Yeah, yeah. Okay. Okay.
+
+580
+00:41:46,899 --> 00:41:48,679
+现在，让我们回顾最后一个问题。
+Now, let's review the final question.
+
+581
+00:41:48,679 --> 00:41:54,440
+为什么讲述有效？讲述之所以有效，基本上是因为你可以重用
+While telling works? The reason telling works basically you reuse
+
+582
+00:41:54,440 --> 00:41:57,259
+一些加载，你们很多人已经明白这一点了。
+some loading many of you already understand this.
+
+583
+00:41:57,259 --> 00:42:00,859
+如果你看一下数学公式的形式，
+If you look at the mathematical format of
+
+584
+00:42:00,859 --> 00:42:06,699
+Met M，你会发现有一些对数组的独立访问。
+Met M you'll find that there are some independent access of the array.
+
+585
+00:42:06,699 --> 00:42:08,779
+所以对数组的访问
+So the acess of the array
+
+586
+00:42:08,779 --> 00:42:10,859
+A 是独立于
+A is independent of the dimension of
+
+587
+00:42:10,859 --> 00:42:15,660
+J B J 只是 B 的一个维度，而 A 没有那个维度。
+J B J is only one dimension of B and A does not have that dimension.
+
+588
+00:42:15,660 --> 00:42:19,680
+你总是可以在其他无关的维度中读取一些内容
+You can always read something in the other irrelevant dimension
+
+589
+00:42:19,680 --> 00:42:25,699
+并且你尝试重用第一个数组中的一些加载，我们可以让 J 维度加一，
+and you try to reuse some loading from the first array, we can tell the J dimension by one,
+
+590
+00:42:25,699 --> 00:42:28,639
+这样就可以让我们重用 A 一次。
+and it will enable us reuse of A for one times.
+
+591
+00:42:28,639 --> 00:42:31,459
+这就是为什么我们可以把负载减少一倍。
+That's why we can reduce the load by one times.
+
+592
+00:42:31,459 --> 00:42:38,139
+好的，好的。完成这个之后，
+Okay. Okay. After finishing this,
+
+593
+00:42:38,139 --> 00:42:47,399
+我要介绍一个非常非常好的作业范例，就是这个。这个非常不错。
+I'm going to introduce a very, very good homework candidate, is this. This is pretty good.
+
+594
+00:42:47,399 --> 00:42:48,899
+这是我当年做作业时完成的
+This is what I did for my homework when
+
+595
+00:42:48,899 --> 00:42:50,800
+当时我在学习机械系统。
+I learned machinery systems.
+
+596
+00:42:50,800 --> 00:42:52,999
+有人能猜到这是什么吗？
+Can anyone guess what is?
+
+597
+00:42:53,590 --> 00:42:59,229
+这是我们大家都很熟悉的一个运算符，就是count two D。好吧。
+This is a operator that we all are very familiar with it's count two D. Okay.
+
+598
+00:42:59,229 --> 00:43:01,849
+count two 本质上是七层循环。
+Count two is essentially seven layer loop.
+
+599
+00:43:01,849 --> 00:43:04,269
+它比metamor复杂得多，好吗？
+It's much more complicated metamor, okay?
+
+600
+00:43:04,269 --> 00:43:06,329
+这是个玩笑，我不会让你们做这个的。
+That's a joke. I'm not going to let you do this.
+
+601
+00:43:06,329 --> 00:43:08,509
+好的。我之所以这样做，是因为当
+Okay. The reason I do this is because when
+
+602
+00:43:08,509 --> 00:43:11,389
+我学到这个count是被选中的那个，对吧？
+I learned this count is the chosen one, right?
+
+603
+00:43:11,389 --> 00:43:13,669
+但当你学到这个时，count并不是被选中的那个。
+But when you learn this, count is not the chosen one.
+
+604
+00:43:13,669 --> 00:43:15,969
+我认为transformer和tenting才是被选中的那个。
+I think transformer and tenting is the chosen one.
+
+605
+00:43:15,969 --> 00:43:20,459
+我会让你用tenting来讲解这个，好吗？
+I'm going to let you do this telling for a tenting, okay.
+
+606
+00:43:20,459 --> 00:43:25,529
+因为这更相关。好的，我们可以稍微
+Because it's more relevant. Okay. And we can go through this a little
+
+607
+00:43:25,529 --> 00:43:27,269
+讲一下，因为我们之后还会讨论这个。
+bit because we are going to talk about this later.
+
+608
+00:43:27,269 --> 00:43:32,989
+但本质上，count two基本上是一个七层循环，你有一个简单的空间循环。
+But essentially count two is basically a seven layer loop, and you have a simple spatial loop.
+
+609
+00:43:32,989 --> 00:43:37,389
+你有一些模板计算循环，还有一个归约循环。
+You have some stencil computation loop, and you have a reduction loop.
+
+610
+00:43:37,389 --> 00:43:44,729
+记住，这个归约循环在met Mol Metaml中也存在，第三个循环基本上就是归约循环。
+Remember, this reduction loop also exists in met Mol Metamlthird loop is basically reduction loop,
+
+611
+00:43:44,930 --> 00:43:47,389
+你还有另一个归约循环。
+you have another reduction loop.
+
+612
+00:43:47,389 --> 00:43:50,169
+但通常这个KH和
+But usually this KH and
+
+613
+00:43:50,169 --> 00:43:53,809
+Kw基本上就是滤波器的大小，所以你不用在意。
+Kw is basically the filter size, so you don't care about that.
+
+614
+00:43:53,809 --> 00:43:56,229
+它太小了，你就直接按原样处理就行。
+It's so small that you just do it as it is.
+
+615
+00:43:56,229 --> 00:44:02,589
+好的。为了说明这一点，呃，你基本上需要讲清楚
+Okay. And in order to do telling, uh, you basically need to tell
+
+616
+00:44:02,589 --> 00:44:06,970
+某些层的循环要针对四层内存层级。
+some layer loop against four layer memory hierarchy.
+
+617
+00:44:06,970 --> 00:44:08,769
+有很多种可能性。
+A lot of possibilities.
+
+618
+00:44:08,769 --> 00:44:17,350
+这真的很难，这也是为什么你知道，当人们做这个的时候，有时候会迷失方向。
+And this is really hard and that's why you know, when people do this, you can get lost, sometimes.
+
+619
+00:44:17,350 --> 00:44:20,909
+好的，酷，酷。
+Okay. Cool, cool.
+
+620
+00:44:20,909 --> 00:44:23,009
+是的，这就是我们的第一课
+Yeah, that's our first lesson on
+
+621
+00:44:23,009 --> 00:44:29,470
+Mtmo 和我希望你能理解这一点，告诉 Mtmooa 这是本次讲座最深奥的部分。
+Mtmo and I hope you understand this tell the Mtmooa that's the deepest part of this lecture.
+
+622
+00:44:29,470 --> 00:44:34,389
+接下来，我们将进入一个非常有趣的内容。
+And next, we are going to proceed into something that is really interesting. Okay.
+
+623
+00:44:34,390 --> 00:44:40,150
+就像我之前说的，制作 Mtmo 的一种方法基本上就是你做这个操作。
+So one way, like I said, one way to make Mtmo is basically you do this ting.
+
+624
+00:44:40,150 --> 00:44:45,229
+另一种方法是你利用 DPU 加速器，
+The other way is you utilize DPU accelerators,
+
+625
+00:44:45,229 --> 00:44:48,469
+这些加速器设备会让这个过程变得非常快。
+and those accelerator devices will make this super fast.
+
+626
+00:44:48,469 --> 00:44:52,709
+接下来我们要理解为什么这样可以让它更快。
+And next we are trying to understand why this can make more fast.
+
+627
+00:44:52,709 --> 00:44:55,350
+那么，这个加速器是如何工作的呢？
+Okay, how does that accelerator work, okay?
+
+628
+00:44:55,350 --> 00:45:02,529
+在我们讨论原因之前，我觉得，从高层次来看，你可能已经知道了。
+So before we talk about why, I think, um, at a high level, you probably already know.
+
+629
+00:45:02,529 --> 00:45:05,249
+本质上，GPU 是在尝试并行化这个循环，对吧？
+Essentially GPU is trying to paralyze this loop, right?
+
+630
+00:45:05,249 --> 00:45:09,629
+而且 GPU 有很多核心，每个核心都可以处理这个循环的不同部分。
+And GPU has so many courses that each can work on different part of this loop.
+
+631
+00:45:09,629 --> 00:45:13,130
+所以本质上和CPU的原理是一样的。
+So essentially the same fundamental to CPU.
+
+632
+00:45:13,130 --> 00:45:16,690
+就像你分配更多的线程，让更多的核心处理不同部分的计算。
+Like you allocate more threads, more curs to work on different parts of the competition.
+
+633
+00:45:16,690 --> 00:45:18,389
+但这个具体是怎么实现的呢？
+But how exactly that works?
+
+634
+00:45:18,389 --> 00:45:21,729
+在介绍GPU之前，我觉得，呃，
+Before I introduce GPUS I think, uh,
+
+635
+00:45:21,729 --> 00:45:26,070
+我需要先提一个你们大多数人应该很熟悉的概念，就是
+I need to bring up a concept that most of you should be very familiar with is basically
+
+636
+00:45:26,070 --> 00:45:28,609
+单指令多数据，对吧？
+single instruction, multiple data, right?
+
+637
+00:45:28,609 --> 00:45:35,190
+这是多核计算、并行计算的核心部分。
+That is the, um, um, essential part of multi core computing, parallel computing.
+
+638
+00:45:35,190 --> 00:45:39,750
+所以在单指令多数据中，嗯，你要做的其实是，
+So in single instruction multiple data, um, what you do is essentially,
+
+639
+00:45:39,750 --> 00:45:45,110
+你有不同的核心，每个核心都会运行同一个程序，
+um, you have a different course and each core will ask you the same program,
+
+640
+00:45:45,110 --> 00:45:46,489
+然后你把数据分配进去。
+and you part in the data.
+
+641
+00:45:46,489 --> 00:45:50,590
+你把数据分给每个核心一部分，然后他们会用同样的程序处理并输出结果，
+You give each core a part of the data and you will proceed with the same program and output results,
+
+642
+00:45:50,590 --> 00:45:53,130
+然后你对结果进行评分，得到最终的结果。
+and then you grade results, you get the final results.
+
+643
+00:45:53,130 --> 00:45:57,029
+好的。因为所有这些核心是一起处理的，而且它们只处理部分数据，
+Okay. Because all these course process together and they only take a part of data,
+
+644
+00:45:57,029 --> 00:46:02,830
+所以你可以享受并行化带来的好处，对吧？也就是加速，好吗？
+so you can you enjoy the benefit of paralization, right, which is speed ups, okay?
+
+645
+00:46:03,930 --> 00:46:06,909
+正如你可能知道的，
+And as you probably know,
+
+646
+00:46:06,909 --> 00:46:11,170
+CPU在这方面并不是很擅长，因为CPU的核心数量有限。
+CPO is not pretty good at this because CPU has a limited number of course.
+
+647
+00:46:11,170 --> 00:46:16,609
+原因是，嗯，原因在于芯片的设计方式，好吗？
+The reason is because, um, the reason is how ChiP was designed, okay?
+
+648
+00:46:16,609 --> 00:46:20,530
+比如，最初我们在设计像CPU这样的芯片时，
+Like, originally, we try to in order to design a chip like CPU,
+
+649
+00:46:20,530 --> 00:46:24,969
+除了计算单元之外，我们还需要放入很多其他组件，对吧？
+we need to put a lot of components in addition to compute units, right?
+
+650
+00:46:24,969 --> 00:46:26,750
+所以我们还需要加入一些控制单元。
+So we need to put some control.
+
+651
+00:46:26,750 --> 00:46:29,989
+比如说，CPU需要理解中间语言，对吧？
+For example, CPU needs to understand the IL, okay?
+
+652
+00:46:29,989 --> 00:46:31,690
+我们还需要加入一些缓存，
+We also need to put some catches,
+
+653
+00:46:31,690 --> 00:46:33,449
+L缓存到缓存。
+L cache to cache.
+
+654
+00:46:33,449 --> 00:46:36,649
+而且我们的面积是有限的，因为我们需要
+And we only have a limited area because we need to
+
+655
+00:46:36,649 --> 00:46:41,709
+让CPU变小，不能消耗太多电力，否则的话，
+make CPU small and it cannot consume a lot of power, otherwise, it cannot be
+
+656
+00:46:41,709 --> 00:46:43,329
+就无法部署在笔记本或手机上，对吧？
+deployed on laptop or phones, right?
+
+657
+00:46:43,329 --> 00:46:46,609
+所以我们在面积上有物理限制。
+So we need to have a physical limitation on area.
+
+658
+00:46:46,609 --> 00:46:50,579
+所以如果你加一些控制，加一些缓存，
+So if you put some controls, you put some catches then
+
+659
+00:46:50,579 --> 00:46:56,259
+你就只剩下那块空白区域可以放交叉点，所以我们在这里放了四个ALER。
+you only have that blank area where you can put cross, so we put four ALERs here.
+
+660
+00:46:56,259 --> 00:46:59,199
+然后人们就试图让它变得越来越快。
+Then people try to make this faster and faster faster.
+
+661
+00:46:59,199 --> 00:47:01,239
+这就是过去20年里发生的事情。
+That's what happened in the last 20 years in
+
+662
+00:47:01,239 --> 00:47:04,800
+硅谷的人们正在制造越来越好的芯片。
+Cilic Valley people are making better and better chips.
+
+663
+00:47:04,800 --> 00:47:11,100
+他们依然能够加入控制和检测机制，但技术进步的地方在于
+They are able to still put controls and catches, but where the technology
+
+664
+00:47:11,100 --> 00:47:15,299
+他们能够制造越来越小的算术逻辑单元（ALU），
+advances is basically they are able to make smaller and smaller ALUs that
+
+665
+00:47:15,299 --> 00:47:18,740
+这些ALU基本上拥有相同的计算能力，但体积更小。
+will basically have the same computing power, but much smaller.
+
+666
+00:47:18,740 --> 00:47:23,739
+因为体积更小，所以你可以在同样的面积里放更多它们。
+Because it's much smaller, so you can put more of them in this small area.
+
+667
+00:47:23,739 --> 00:47:27,240
+这就是为什么CPU会变得更快的原因。
+That's why this CPU becomes much faster.
+
+668
+00:47:27,680 --> 00:47:37,780
+明白了吗？好的。但是在某个阶段，由于物理限制，
+Makes sense? Okay. Um, but at some point, due to physical limitation,
+
+669
+00:47:37,780 --> 00:47:41,359
+我们就无法再进一步缩小ALU的尺寸了，对吧？
+we cannot further reduce the size of ALU, right?
+
+670
+00:47:42,000 --> 00:47:49,199
+所以基本上，我们就是把尺寸从70纳米缩小到60，再到50。
+So basically, we are basically reducing it from 70 anomeres to 60 to 50.
+
+671
+00:47:49,199 --> 00:47:51,679
+这基本上就是价值的历史，对吧？
+And this is basically the history of value, right?
+
+672
+00:47:51,679 --> 00:47:55,799
+在这一点上，我们能做得最好的基本上就是这个，对吧？
+And at this point, what we can do best is basically this one, right?
+
+673
+00:47:55,799 --> 00:47:59,719
+由我们最喜欢的公司苹果制造，他们可以做到300纳米，好吗？
+By Apple, our favorite company, and they can do 300 meter, okay?
+
+674
+00:47:59,719 --> 00:48:02,259
+这意味着你可以在这里放一个三英寸的东西。
+That means you can put a three indremere here.
+
+675
+00:48:02,259 --> 00:48:03,799
+显然，相比之下
+And apparently, compared to
+
+676
+00:48:03,799 --> 00:48:05,539
+你可以放很多70纳米的，对吧？
+70 anomere you can put a lot, right?
+
+677
+00:48:05,539 --> 00:48:07,879
+这就是为什么苹果的芯片这么厉害，对吧？
+That's why Apple's chips are so good, right?
+
+678
+00:48:07,879 --> 00:48:16,169
+好的。但我们做不到更好，因为我们受到物理限制，好吗？
+Okay. But we cannot do better because we are subject to physical limitations, okay?
+
+679
+00:48:16,169 --> 00:48:22,669
+如果你观察这个趋势，你会发现，顺便说一句，这就是摩尔定律，好吗？
+So if you observe this trend, you can see, uh, this is Morse law, by the way, okay?
+
+680
+00:48:22,669 --> 00:48:24,089
+每个人都明白这个。
+Everyone understands this.
+
+681
+00:48:24,089 --> 00:48:26,569
+
+And apparently Morris law is ending.
+
+682
+00:48:26,569 --> 00:48:30,709
+
+Uh, we cannot reduce the sight of ARU, so the computing power
+
+683
+00:48:30,709 --> 00:48:33,949
+
+of CPUs or similar chips cannot increase anymore.
+
+684
+00:48:33,949 --> 00:48:35,609
+
+You can see the plateaus at some point.
+
+685
+00:48:35,609 --> 00:48:38,169
+
+Okay? So how to break this limit.
+
+686
+00:48:38,169 --> 00:48:41,789
+
+And you can see this already plateau as 2015.
+
+687
+00:48:41,789 --> 00:48:44,890
+
+But that's not a reality.
+
+688
+00:48:44,890 --> 00:48:47,909
+
+If you writing check, our computing power is still increasing today.
+
+689
+00:48:47,909 --> 00:48:51,270
+
+Okay? There are two ways, in my opinion, you can disagree.
+
+690
+00:48:51,270 --> 00:48:52,569
+
+Okay, feel free to comment.
+
+691
+00:48:52,569 --> 00:48:55,429
+一种方式基本上就是你进入量子世界，
+One way is basically you go to the quantum world,
+
+692
+00:48:55,429 --> 00:49:01,250
+我会成为管理员，而你尝试开发量子计算，量子计算绝对是
+I'll become admin and you try to develop quantum computing, quantum computing is definitely
+
+693
+00:49:01,250 --> 00:49:03,530
+一个非常活跃的研究领域。
+a active area of research.
+
+694
+00:49:03,530 --> 00:49:06,469
+我觉得在加州大学圣地亚哥分校，有不少实验室在做这个。
+I think in UCSD, there are quite a few factory doing this.
+
+695
+00:49:06,469 --> 00:49:08,749
+但这对我来说太遥远了。
+But this is too far away for me.
+
+696
+00:49:08,749 --> 00:49:11,049
+我想要一些更接近现实的东西，可以吗？
+I want something that is closer, okay?
+
+697
+00:49:11,049 --> 00:49:17,170
+所以另一种方式基本上是我们尝试构建一种叫做专用硬件的东西，好吗？
+So the other way is basically we try to build something that is called specialized hardware, okay?
+
+698
+00:49:17,170 --> 00:49:21,509
+基本上，我们可以把摩尔定律转变为霍恩定律，好吗？
+Basically, we can convert the Morse law into horns law, okay?
+
+699
+00:49:21,509 --> 00:49:24,739
+我会解释这个。这样说有道理吧？
+I'm going to explain this. Makes sense, right?
+
+700
+00:49:24,739 --> 00:49:30,280
+顺便说一下，量子计算是一个非常不错的研究领域。
+Okay. By the way, quantum computing is a pretty good area of research.
+
+701
+00:49:30,280 --> 00:49:35,379
+如果你是一个有耐心的人，你可以在这个领域投资十年，
+If you are a person with patients, you can invest into the field for ten years,
+
+702
+00:49:35,379 --> 00:49:39,279
+也许十年后，即使是非常优秀的东西，也没问题，对吧？
+maybe after ten years, even something that's so good, okay?
+
+703
+00:49:40,030 --> 00:49:46,870
+专用硬件之所以有效，是因为它不是在ALU里加入很多控制、
+The reason specialized hardware works that instead of basically putting a lot of controls,
+
+704
+00:49:46,870 --> 00:49:52,530
+加入很多检测、加入很多非常复杂的逻辑，
+putting a lot of catches, putting a lot of very complex logic into the ALU,
+
+705
+00:49:52,530 --> 00:49:54,549
+我试着让核心稍微简单一点。
+I try to simplify the core a little bit.
+
+706
+00:49:54,549 --> 00:50:00,209
+明白吗？CPO核心据说可以做很多很多事情，比如EFL什么的，等等。
+Okay? The CPO core is so was told that it can do many many things like EFLs blah, blah, blah.
+
+707
+00:50:00,209 --> 00:50:01,789
+但我不在乎那些，因为现在，
+But I don't care about that because now,
+
+708
+00:50:01,789 --> 00:50:03,189
+我只关心机器学习。
+I only care about machine learning.
+
+709
+00:50:03,189 --> 00:50:04,529
+就像我说的，在机器学习领域，
+Like I said, in machine learning,
+
+710
+00:50:04,529 --> 00:50:05,770
+我只关心metmo。
+I only care about metmo.
+
+711
+00:50:05,770 --> 00:50:08,825
+那我只做一个只能执行Mtmo的核心怎么样？
+So how about I just make course that can only do Mtmo?
+
+712
+00:50:08,825 --> 00:50:10,999
+但不能做其他事情，对吧？
+But nothing else, right?
+
+713
+00:50:10,999 --> 00:50:15,879
+如果我这样稍微简化一下，我们可以放很多核心，而且可以让
+And if I simplify that a little bit in this way, we can put so many cores and we can make
+
+714
+00:50:15,879 --> 00:50:18,459
+核心变得更小，这样我们可以放更多的核心。
+the core even smaller and we can put so many cores here.
+
+715
+00:50:18,459 --> 00:50:22,560
+有两个原因，一个原因是我们可以让核心变得更小。
+Two reasons one reason is because we can make the core much smaller.
+
+716
+00:50:22,560 --> 00:50:26,759
+第二是我们基本上可以把那些控制单元从板子上移除。
+Second is we can basically remove those control units from the board.
+
+717
+00:50:26,759 --> 00:50:30,564
+所以我们可以把它们的空间腾出来，放更多的核心，对吧？
+So we can basically take their space and put more and more cores, okay?
+
+718
+00:50:30,564 --> 00:50:35,169
+对，对对，是计算单元，对，好的。
+Yeah. Yeah, yeah, computing units, yeah. Okay.
+
+719
+00:50:35,169 --> 00:50:40,310
+但如果你比较左边和右边的核心，红色的核心其实更“笨”，
+But if you compare the crew on the left and right, the red crew is actually more stupid,
+
+720
+00:50:40,310 --> 00:50:42,009
+我只能做met mo。
+I can only do met mo.
+
+721
+00:50:42,009 --> 00:50:45,329
+但这没关系。好吧。我们可以让它变得智能，对吧？
+But that's fine. Okay. We can make it smart, right?
+
+722
+00:50:45,329 --> 00:50:49,829
+好的。这是在较低层面上，这基本上就是GPU的工作原理。
+Okay. That is at the lower level, this is basically how GPU works.
+
+723
+00:50:49,829 --> 00:50:56,129
+明白了吗？也正因为如此，从2015年的某个时候开始，
+Okay? And because of this, we are basically from some point in 2015,
+
+724
+00:50:56,129 --> 00:50:59,550
+我们开始大规模生产GPU，对吧？
+we started massively manufacturing GPUs, okay?
+
+725
+00:50:59,550 --> 00:51:03,569
+还有一个值得注意的就是加速器。
+And one notable or accelerators. Okay.
+
+726
+00:51:03,569 --> 00:51:05,510
+而GPU就是一种加速器。
+And GPU is one type of accelerator.
+
+727
+00:51:05,510 --> 00:51:12,039
+所以，嗯，像我刚才说的，基本的想法就是我们使用大量的、但较弱且更
+So, um, uh the idea, like I said, is basically use tons we use but weak and more
+
+728
+00:51:12,039 --> 00:51:21,120
+专业化的设备，并进行大规模数据并行处理，或者说SIMD，这个概念最早在2000年代初由媒体公司推广
+specialized and we do massive data parism or SIMD, it was first popularized by media in early 2000
+
+729
+00:51:21,120 --> 00:51:26,299
+用于视频游戏和图形处理，因为最初他们只在
+for video games for graphics because originally, they only find application in
+
+730
+00:51:26,299 --> 00:51:29,419
+视频游戏中找到应用，因为视频游戏也需要大量的数学运算。
+video games because video games, you also do mathmo a lot.
+
+731
+00:51:29,419 --> 00:51:35,360
+但在某个时候，部署会迅速发展，所以这和部署非常契合，对吧？
+But at some point, deploing takes off, so this is fit with deploying pretty well, okay?
+
+732
+00:51:35,380 --> 00:51:40,799
+媒体在这个领域已经投资了很久，他们还开发了一些软件和
+Media has been investing in this area for so long and they also develop some software and
+
+733
+00:51:40,799 --> 00:51:45,019
+编程语言，让它运行得更快，确保人们可以在其基础上编程。
+programming language to make it faster, to make sure people can program on top of it.
+
+734
+00:51:45,019 --> 00:51:47,760
+我们要学习的一个著名编程语言就是Koda。
+One notable programming language we are going to learn is Koda.
+
+735
+00:51:47,760 --> 00:51:49,859
+这就是Koda的由来。
+That's how Koda comes from.
+
+736
+00:51:49,859 --> 00:51:52,399
+好的，这样说清楚了吗？
+Okay. Does that make sense?
+
+737
+00:51:52,399 --> 00:51:59,659
+很好。嗯，通常你需要上架构课才能学到这些，但在这门课里，
+Cool. Um, uh, usually you need to take architectural class to learn this, but in this class, we are
+
+738
+00:51:59,659 --> 00:52:03,479
+我们将在20分钟内讲完，而且不会讲得特别深入，好吗？
+going to cover it in 20 minutes, and we are not going to do super deep, okay.
+
+739
+00:52:03,479 --> 00:52:07,399
+嗯，不过我还想在这里补充一点。
+Um, but I want to add a little bit more here.
+
+740
+00:52:07,399 --> 00:52:13,819
+通常有三种方式可以构建专用硬件或加速器，
+So there are usually type three ways to basically build specialized hardware or accelerators,
+
+741
+00:52:13,819 --> 00:52:17,439
+接下来我会进行总结。
+which I summarize, next.
+
+742
+00:52:17,439 --> 00:52:25,039
+但在这里，我列出了一些非常著名的，我称之为加速器的东西，好吗。
+But here, I list some very, uh famous, uh, what I call accelerator, Okay.
+
+743
+00:52:25,039 --> 00:52:28,120
+第一个是TPU，你们已经知道谷歌开发了TPU。
+The first one, TPU, you already know Google Divided TPU.
+
+744
+00:52:28,120 --> 00:52:32,640
+谷歌开发TPU的原因很明显，是因为他们想要应对媒体的需求。
+The reason Google Divided TPO because they want to pay a media, quite apparently,
+
+745
+00:52:32,640 --> 00:52:39,619
+TPU是一种加速器，你可以从名字推断出来，
+TPU is one type of accelerator and TPU can only do, as you can infer from the lame,
+
+746
+00:52:39,619 --> 00:52:44,644
+它主要用于张量相关的操作，大多数只是内存操作，好吗？
+tensor related operations, mostly just memo, okay?
+
+747
+00:52:44,644 --> 00:52:47,830
+第二个基本上是，
+And the second one is basically,
+
+748
+00:52:47,830 --> 00:52:52,489
+英伟达正在尝试制造他们下一代的GPU，叫做
+Nvidia is trying to manufacture in their next generation GPO is called
+
+749
+00:52:52,489 --> 00:52:56,249
+B201，B
+B 201 feature of B
+
+750
+00:52:56,249 --> 00:53:00,350
+200的特点是它在某些精度下表现得非常好。
+200 is that they can do pretty well on certain precision.
+
+751
+00:53:00,350 --> 00:53:05,970
+例如，最初我们做的是P 32，在transformer中，我们做的是P 16。
+For example, originally we do P 32, in transformer, we do P 16.
+
+752
+00:53:05,970 --> 00:53:09,909
+这时，媒体说你应该做LP四P八。
+At this point, media is saying you should do LP four P eight.
+
+753
+00:53:09,909 --> 00:53:16,184
+好的。而且专注于精度也是一种专门化，对吧？
+Okay. And specializing in precision is also a type of specialization, okay?
+
+754
+00:53:16,184 --> 00:53:18,779
+第三个，当然是M三。
+And the third one, of course, M three.
+
+755
+00:53:18,779 --> 00:53:21,339
+这就是我们在我的笔记本电脑里有的东西，好吧。
+That is what we have in my loft laptop, okay.
+
+756
+00:53:21,339 --> 00:53:25,159
+它也是一种专用硬件，我们会深入探讨这个，好吗？
+It's also a specialized hardware, and we are going to dive deep into that, okay?
+
+757
+00:53:25,159 --> 00:53:28,699
+简单总结一下，我们今天正在构建的s value，
+And to summarize a little bit, so what s value are building today,
+
+758
+00:53:28,699 --> 00:53:31,160
+主要有三个方向，好吗？
+there are major three directions, okay?
+
+759
+00:53:31,160 --> 00:53:33,419
+第一个是我们尝试
+The first one is we try to
+
+760
+00:53:33,780 --> 00:53:38,519
+首先我们尝试专门化功能，好吗？
+First we try to specialize the functionality, okay?
+
+761
+00:53:38,519 --> 00:53:44,080
+比如说，我们生产的芯片只擅长于元学习，也就是TPU，
+For example, we produce chips that are only good at metam that is TPU,
+
+762
+00:53:44,080 --> 00:53:49,140
+或者只擅长于某种带有稀疏性的计算。
+or only good at certain computation with sparsity.
+
+763
+00:53:49,140 --> 00:53:55,680
+明白了吗？或者我们也可以制造一种不是那么专用，但仍然有专长的芯片。
+Okay? Or we can probably make a chip that is not so specialized, but still specialized.
+
+764
+00:53:55,680 --> 00:54:01,579
+比如说，我可以把CPU和GPU混合在一起，这基本上就是苹果公司在做的事情，对吧？
+For example, I can mix CPUs with GPUs, and that is essentially what Apple does, right?
+
+765
+00:54:01,579 --> 00:54:07,500
+因为如果你看苹果的宣传资料，每次他们发布新笔记本，
+Because if you see the marketing material from Apple, every time they release a new laptop,
+
+766
+00:54:07,500 --> 00:54:09,899
+他们都会说，我有多少多少个核心。
+they're saying, I have so many cores.
+
+767
+00:54:09,899 --> 00:54:11,940
+有些核心非常擅长视频处理。
+Some cars are so good at video processing.
+
+768
+00:54:11,940 --> 00:54:13,239
+有些核心非常适合深度学习。
+So cores are good at deep learning.
+
+769
+00:54:13,239 --> 00:54:16,009
+本质上，他们就是把不同的计算单元组合在一块主板上。
+Essentially, they're building different cs together into one board.
+
+770
+00:54:16,009 --> 00:54:20,600
+明白了吗？就是功能上的专用化。
+Okay. Makes sense, right. Functionality specialized.
+
+771
+00:54:20,600 --> 00:54:25,459
+我称之为这样，好吗？第二种专门化的方法其实就是降低精度，这个我已经提到过了。
+I call it. Okay? The second way to specialize is basically reduce precision, I already mentioned.
+
+772
+00:54:25,459 --> 00:54:32,480
+所以我大概不想……我可以通过用更短的计算方式来加快速度，
+So I don't I probably want to I can make it faster by computing on a shorter,
+
+773
+00:54:32,480 --> 00:54:35,880
+比如采用更短的浮点数表示。
+like rate shorter floating point reprendton.
+
+774
+00:54:35,880 --> 00:54:39,839
+对，这正是媒体公司大力倡导的，对吧？
+Yeah. Okay. This is what media is strongly advocating, right?
+
+775
+00:54:39,839 --> 00:54:45,300
+我记得十年前我学机器学习的时候，人们只用LP32来操作。
+And I think ten years ago, when I studied machine learning, people only operate on LP 32.
+
+776
+00:54:45,300 --> 00:54:51,379
+但现在，最新的模型，比如深度Sik模型，都是用P8来训练的。
+But today, the up to date model, for example, the deep sik model with three trained on P eight.
+
+777
+00:54:51,379 --> 00:54:54,559
+你可以看到精度已经降低了四倍，对吧？
+You can see the precision already reduced by four times, okay?
+
+778
+00:54:54,559 --> 00:55:00,000
+第三种可以专门化硬件的方法，就是你尝试去调整
+And the third way you can specialize hardware is you try to tune
+
+779
+00:55:00,000 --> 00:55:02,929
+板子的分布或配置。
+the distribution or configuration of the board.
+
+780
+00:55:02,929 --> 00:55:11,840
+记得我们做元件布线的时候，会有一些来自硬件的参数。
+Remember, when we do met telling, we have a few parameters from the from hardware.
+
+781
+00:55:11,840 --> 00:55:15,519
+这就是你有多少L1缓存，有多少L2缓存。
+That is how many L one cache you have, how many L two cache you have.
+
+782
+00:55:15,519 --> 00:55:18,619
+你有多少内存，以及你有多少核心。
+How many memory you have and how many cores you have.
+
+783
+00:55:18,619 --> 00:55:25,660
+明白了吗？一般来说，人们需要在这些参数之间寻求平衡。
+Okay? In general, people have to try to strike a balance between these parameters.
+
+784
+00:55:25,660 --> 00:55:27,499
+但在硅谷有一些公司。
+But there are companies in Silicon Valley.
+
+785
+00:55:27,499 --> 00:55:29,520
+他们尝试让硬件专门化。
+They try to specialize the hardware.
+
+786
+00:55:29,520 --> 00:55:31,360
+比如说，他们直接放弃内存。
+For example, they just give up memory.
+
+787
+00:55:31,360 --> 00:55:34,140
+我只造一个只有L1缓存、没有内存的芯片。
+I just build a chip with L one cache no memory.
+
+788
+00:55:34,140 --> 00:55:37,060
+这种芯片在某些任务上表现非常出色。
+And this kind of chip can do so well on certain tasks.
+
+789
+00:55:37,060 --> 00:55:41,819
+这就是你可以让硬件专门化的另一种方式，明白了吗？
+That's another way that you can specialize your hardware, Okay?
+
+790
+00:55:42,050 --> 00:55:46,370
+现在，我要教你一件非常重要的事情，好吗？
+Now, I'm going to teach you a very important thing, okay?
+
+791
+00:55:46,370 --> 00:55:51,630
+你应该能够并且有能力阅读这份表格，
+You should be able and you should have the ability to read the sheet,
+
+792
+00:55:51,630 --> 00:55:53,889
+这是由
+product specification provided by
+
+793
+00:55:53,889 --> 00:55:57,690
+MDia AMD 以及其他芯片公司提供的产品规格，因为我认为这非常重要。
+MDia AMD and by whatever chip company because I think it's so important.
+
+794
+00:55:57,690 --> 00:55:59,809
+这就是为什么sin值被称为正弦值，对吧。
+That's why sin value is called siting value, right.
+
+795
+00:55:59,809 --> 00:56:05,109
+所以这是一份我们将要学习的参数表，明白吗？
+So this is a pronoun sheet that we are going to take as is study, okay?
+
+796
+00:56:05,109 --> 00:56:08,269
+这是由
+And this is GPU spec provided by
+
+797
+00:56:08,269 --> 00:56:12,370
+NVDIa为他们当前的GPU 100系列提供的GPU规格，
+NVDIa for their GPU current generating GPU 100,
+
+798
+00:56:12,370 --> 00:56:15,569
+我的实验室有几块，我的学生们都非常喜欢，明白吗？
+my lab has a few, and my students really love that, okay?
+
+799
+00:56:15,569 --> 00:56:23,249
+通过查看这份参数表，你可以看到，前几条规则，你在说什么？
+And by looking at this pronoun sheet, you can see, the first few rules, what are you talking about?
+
+800
+00:56:24,330 --> 00:56:30,849
+它讲的是这张卡的计算能力，对吧？
+It's talking about the computing power of this card, right?
+
+801
+00:56:30,849 --> 00:56:38,830
+你会注意到，不同核心的计算能力是不同的。
+One thing that you notice that the computing power on different cores are different.
+
+802
+00:56:38,830 --> 00:56:42,849
+这就是为什么有一种核心被称为张量核心。
+That's why one core in immediate is called tensor core.
+
+803
+00:56:42,849 --> 00:56:48,510
+也就是说，他们专门为张量相关的操作，比如矩阵乘法，设计了一个核心。
+That means they build a core that is just good for tensor related operations, for example, metamo.
+
+804
+00:56:48,510 --> 00:56:55,310
+如果我们执行相同类型的精度，比如这里，这两种方式基本上
+If we perform the same type of precision, for example, here, both of these two rules basically
+
+805
+00:56:55,310 --> 00:56:58,849
+都是在32位浮点数上进行计算。
+perform competition on 32 bits of floating point.
+
+806
+00:56:58,849 --> 00:57:06,480
+但如果你使用张量核心，你可以获得接近1000万亿次浮点运算的性能。
+But if you use tensor core, you get a number of almost 1,000 Terra flops.
+
+807
+00:57:06,480 --> 00:57:09,559
+顺便说一下，Terra flops是描述计算能力的单位。
+By the way Terra flops is the unit that describe the computing power.
+
+808
+00:57:09,559 --> 00:57:11,339
+我们稍后会讲到这个。
+We are going to cover that later.
+
+809
+00:57:11,339 --> 00:57:13,899
+基本上，数值越高越好。
+But basically number higher is better, o.
+
+810
+00:57:13,899 --> 00:57:19,060
+但如果你在普通核心上进行计算，你会发现速度慢了十倍。
+But if you basically perform the computing on the normal core you can see, it's ten times slower.
+
+811
+00:57:19,060 --> 00:57:20,940
+这是一种专业化类型。
+That's one type of specialization.
+
+812
+00:57:20,940 --> 00:57:28,680
+好的，GPU。是的，但大多数是中心核心。
+Okay. GPU. Yeah, but majority is centerc.
+
+813
+00:57:28,680 --> 00:57:31,899
+对于这个GPU来说，大部分是中心核心。
+For this GPU, the majority is center core.
+
+814
+00:57:31,899 --> 00:57:34,979
+因为这个GPU是为深度学习制造的。
+Because this GPU is manufactured for deep learning.
+
+815
+00:57:34,979 --> 00:57:37,560
+GPU有不同的类型。
+There are different types of GPUs.
+
+816
+00:57:38,000 --> 00:57:46,680
+它花了相当多的行来描述不同精度下的浮点运算能力。
+And it spends quite a few rows to describe, um, uh, the flops that is for different precision.
+
+817
+00:57:46,680 --> 00:57:52,100
+然后它还会指定一些重要的内容，比如内存带宽。
+And then it also specify something that is important, for example, the memory bandwidth.
+
+818
+00:57:52,100 --> 00:57:54,160
+什么是内存带宽？
+What is the memory bandwidth?
+
+819
+00:57:56,390 --> 00:58:04,150
+基本上就是把数据从GPU的内存移动到缓存或者寄存器。
+Yeah, essentially moving things from the GPS memory to catch or to register.
+
+820
+00:58:04,150 --> 00:58:08,910
+这是我们在进行内存操作时所说的速度指标。
+That's the speed term that we applied when we do that memo,
+
+821
+00:58:08,910 --> 00:58:11,609
+
+and that number basically determine how fast
+
+822
+00:58:11,609 --> 00:58:15,470
+
+it is to move a floating point between memory hierarchy.
+
+823
+00:58:15,670 --> 00:58:21,829
+
+One interesting factor is, if you read these flops, you will see all these terms
+
+824
+00:58:21,829 --> 00:58:25,589
+
+comes with a star. So what is that star?
+
+825
+00:58:29,380 --> 00:58:36,719
+
+It's a very small font, you can see, marketing people really cheating. They're lying.
+
+826
+00:58:36,719 --> 00:58:40,160
+
+Okay. The star means with sparsity.
+
+827
+00:58:40,160 --> 00:58:46,700
+
+That means if you want to achieve the peak flops, you have to apply a sparsified competon.
+
+828
+00:58:46,700 --> 00:58:51,779
+
+Okay? And I don't know why media does this, but this is so confusing, right?
+
+829
+00:58:51,779 --> 00:58:55,579
+
+Because when you try to buy a GPU you saw your GPU can achieve 1,000 flops,
+
+830
+00:58:55,579 --> 00:58:57,700
+
+but it's only applied with sparsity.
+
+831
+00:58:57,700 --> 00:59:01,980
+有人知道如果没有稀疏性的话，它有多少吗？
+Does anyone know how many it has without sparsity?
+
+832
+00:59:03,270 --> 00:59:09,609
+什么？对，对。对，只有一半。
+Sorry? Yeah, yeah. Yeah, it's only half.
+
+833
+00:59:09,609 --> 00:59:14,730
+对。如果你在没有稀疏性的情况下计算，只有一半的浮点运算量。
+Yeah. If you apply compution without sparsity, it's only half of the flops.
+
+834
+00:59:14,730 --> 00:59:17,729
+这就是为什么你需要学会如何阅读产品参数。
+That's why you need to learn how to read product set.
+
+835
+00:59:17,729 --> 00:59:20,249
+否则，当你花钱时，你需要明智一点。
+Otherwise, when you spend money, you need to be wise.
+
+836
+00:59:20,249 --> 00:59:24,589
+请。对，我之后会解释这个。
+Please. Yeah, I why explain that later.
+
+837
+00:59:24,589 --> 00:59:28,709
+好的。那么稀疏是什么意思？这就是稀疏性的含义。
+Okay. So what does spars mean? This is sparsity means.
+
+838
+00:59:28,709 --> 00:59:33,189
+我想再欣赏一下这个图表十秒钟，试着
+I would like to appreciate this plot again for 10 seconds and try to
+
+839
+00:59:33,189 --> 00:59:35,749
+找出左边图中的规律。
+find the patterns on the left plot.
+
+840
+00:59:43,770 --> 00:59:51,730
+好的，你发现了什么规律吗？对，没错。
+Okay. Any pattern you you found. Yeah, exactly.
+
+841
+00:59:51,730 --> 01:00:00,010
+在媒体中，如果你能编写一个始终进行计算的内核或函数，
+In media, if you are able to write a kernel or a function, that always perform computation,
+
+842
+01:00:00,010 --> 01:00:02,749
+但受限于平均情况下只有一半的元素，其余的基本上是空的，
+subject to a constraint that is average will only have
+
+843
+01:00:02,749 --> 01:00:09,150
+那么你基本上就能获得这些浮点运算性能。
+half elements and the rest of them are basically empty, then you basically get these flops.
+
+844
+01:00:09,150 --> 01:00:15,689
+这就是稀疏性的含义，你可以看到这其实很难做到，
+That is what sparsity means, you can see this is pretty hard to to do,
+
+845
+01:00:15,689 --> 01:00:19,749
+至少对我来说，我觉得把我原本的计算转化成
+at least for me, I feel it's very hard to convert my original competition into
+
+846
+01:00:19,749 --> 01:00:21,669
+适合这种方式的东西非常难。
+something that fits into this.
+
+847
+01:00:21,669 --> 01:00:23,709
+很酷。这就是特别的意义。
+Cool. This is specially means.
+
+848
+01:00:23,709 --> 01:00:26,010
+这基本上呼应了我一开始说的话。
+This basically echoes what I said at the beginning.
+
+849
+01:00:26,010 --> 01:00:31,709
+所以你可以让你的硬件专门化，比如你做一些特别擅长
+So one way you can specialize your hardware you make some course that is so good at
+
+850
+01:00:31,709 --> 01:00:34,309
+某种特定计算的核心。
+some type of specified competition.
+
+851
+01:00:34,309 --> 01:00:36,559
+这就是媒体的作用。
+That is what media does.
+
+852
+01:00:36,559 --> 01:00:41,829
+好的，嗯，为了继续这个案例研究，你还可以看到如果你
+Okay, um, to continue this case study, you can also see if you
+
+853
+01:00:41,829 --> 01:00:47,450
+比较不同精度的计算，呃，峰值浮点运算能力，
+compare different precisions the computation, uh, the peak flops,
+
+854
+01:00:47,450 --> 01:00:50,389
+峰值计算能力也会不同，对吧？
+the peak computing power also differ, right?
+
+855
+01:00:50,430 --> 01:00:56,469
+我们稍后会讨论这个问题，这也是量化的基础。
+And we are going to talk about this later, and this is the fundamental for quantization.
+
+856
+01:00:56,469 --> 01:01:00,650
+那么我们在量化中做的事情，就是尝试对原始精度进行量化，
+So what do we do in machinery in quantization is we try to quantize the original precision,
+
+857
+01:01:00,650 --> 01:01:03,409
+比如说，把FP32一路降到FP8。
+for example, FP 32 all the way down to FP eight.
+
+858
+01:01:03,409 --> 01:01:09,389
+明白了吗？在媒体领域，人们非常喜欢量化的原因就是这个，
+Okay? And in media, the reason people really love quantity is because of this,
+
+859
+01:01:09,389 --> 01:01:13,750
+如果你能够把原始计算量化到更低的精度，
+if you are able to quantize your original computation into a lower precision,
+
+860
+01:01:13,750 --> 01:01:17,050
+你就能从更强大的计算PC浮点运算能力中获益。
+you can benefit from more powerful computing PC flops.
+
+861
+01:01:17,050 --> 01:01:22,629
+它会变得更快。明白吗？为什么会变得更快，其实很好理解，对吧？
+It will become faster. Okay? Why it can become faster, is very easy to understand, right?
+
+862
+01:01:22,629 --> 01:01:27,189
+原来的IP是32位，你需要对32位进行操作，但现在你只需要对8位操作。
+So original IP 32, you have to operate on 32 bits, but now you only operate on eight bits.
+
+863
+01:01:27,189 --> 01:01:29,469
+当然，这样就快了四倍，对吧？
+Of course, it's four times faster, right?
+
+864
+01:01:29,469 --> 01:01:34,649
+好的。但我这里想问一个问题，我不会直接告诉你答案，
+Okay. But the question here I want to ask, and I'm not going to give you
+
+865
+01:01:34,649 --> 01:01:40,509
+就是为什么这在机器学习程序中能起作用。好好想一想，对吧？
+answer is why this could work in machine learning programs. Okay, think about that, right?
+
+866
+01:01:40,509 --> 01:01:42,850
+这很神奇，对吧？因为在很多其他领域，
+This is magical, right? Because in many other areas,
+
+867
+01:01:42,850 --> 01:01:45,850
+也就是不是机器学习的领域，你降低精度，
+which is not machine learning, you reduce precision.
+
+868
+01:01:45,850 --> 01:01:48,770
+你的结果就会出现一些误差，对吧？
+You are going to have some errors, right on your results.
+
+869
+01:01:48,770 --> 01:01:51,329
+是的。但在机器学习中，这样做却能奏效。
+Yeah. But in margine learning, this can be made work.
+
+870
+01:01:51,329 --> 01:01:52,409
+这就是为什么机器学习如此特别。
+That's why immerge learning.
+
+871
+01:01:52,409 --> 01:01:54,205
+有一个很大的领域叫做qtison。
+There's such big field called qtison.
+
+872
+01:01:54,205 --> 01:02:00,159
+好的，明白。我觉得我们把孩子学习的部分讲完了，对吧？
+Okay. Cool. I think we finish our kids study one, okay?
+
+873
+01:02:00,159 --> 01:02:06,200
+下一个学习内容基本上是，我们尝试阅读苹果芯片的产品说明书。
+The next study is basically, we try to read the product sheet of Apple silicon.
+
+874
+01:02:06,200 --> 01:02:08,340
+苹果在搞什么？
+What is Apple cooking?
+
+875
+01:02:08,340 --> 01:02:11,419
+所以这就是苹果在搞的东西，对吧？
+So this is what Apple cooking, right?
+
+876
+01:02:11,420 --> 01:02:15,499
+通过看这个，你其实是在说他们在传达一个信息，
+By looking at this, you're basically saying they are conveying a message that
+
+877
+01:02:15,499 --> 01:02:17,139
+Michip什么都做不了。
+Michip can't do anything.
+
+878
+01:02:17,139 --> 01:02:20,640
+它可以做视频，可以做机器学习，可以做图形，
+It can do video, it can do machinery, it can do graphics,
+
+879
+01:02:20,640 --> 01:02:22,599
+它什么都能做，但苹果是怎么做到的呢？
+it can do anything, but how Apple achieves that.
+
+880
+01:02:22,599 --> 01:02:27,759
+好吗？苹果实现这一点的方式其实是，你可以看到，这是一个……
+Okay? The way Apple achieves that is basically, you can see, this is a por okay?
+
+881
+01:02:27,759 --> 01:02:32,530
+他们会在这个角落放一个16核的CPO。
+And they are going to put a 16 core CPO in this corner.
+
+882
+01:02:32,530 --> 01:02:37,320
+好的。然后在其他区域，这个区域基本上会放一些控制器或者缓存之类的，你不用在意。
+Okay. And then for the rest of areas, this area are basically put some control
+
+883
+01:02:37,320 --> 01:02:40,099
+或者是缓存或者其他什么，你不用关心。
+or catches or whatever, you don't care about it.
+
+884
+01:02:40,099 --> 01:02:45,450
+好的。在下面的区域，他们会放一个40核的GPU。
+Okay. And in the area below, what they do is they put a 40 chord GPU.
+
+885
+01:02:45,450 --> 01:02:52,180
+所以实际上，这个M3 Max就是把一些非常通用的CPU核心
+So what happens is essentially this M three Max is mixing some CPU course, which are super versatile
+
+886
+01:02:52,180 --> 01:02:55,920
+和一些不太通用但在内存操作上非常强大的GPU核心混合在一起。
+with some GPU course which are not versatile, but really good at memo.
+
+887
+01:02:55,920 --> 01:02:58,979
+那么为什么苹果可以做到这一点？
+So why Apple can do this?
+
+888
+01:02:58,979 --> 01:03:01,140
+因为苹果是一家软硬件一体化的公司。
+Because Apple is a software hardware company.
+
+889
+01:03:01,140 --> 01:03:06,079
+所以他们可以优化自己的操作系统，使得如果有
+So they can optimize their operating system in a way that if there's something that is
+
+890
+01:03:06,079 --> 01:03:12,259
+和机器学习或者内存操作相关的任务，我就会把我的程序调度到这些核心上运行。
+related with machine learning with Mtmo I'm going to dispatch my program to run on this course.
+
+891
+01:03:12,259 --> 01:03:15,519
+但如果是一些正常的事情，比如说，发个文档，我要
+But if something that is normal, for example, dit a doc, I'm going to
+
+892
+01:03:15,519 --> 01:03:17,699
+在这里调度这台电脑，对吧。
+dispatch the computer here, right.
+
+893
+01:03:17,699 --> 01:03:20,860
+世界上没有其他人能做到这一点，因为他们无法进行软硬件协同优化，
+No one else in the world can do this because they cannot do software,
+
+894
+01:03:20,860 --> 01:03:23,614
+明白了吗？
+hardware co opplementation. Does that make sense?
+
+895
+01:03:23,614 --> 01:03:29,830
+好的。那我们第二个案例基本就讲完了。希望你觉得有趣。
+Okay. Okay. That basically finish our second is study. I hope it's interesting.
+
+896
+01:03:29,830 --> 01:03:33,309
+好吗？我希望能教你一些关于硅谷的经济学知识，好吗？
+Okay? I hope to teach you some economics in Cynic Valley, okay?
+
+897
+01:03:33,309 --> 01:03:35,130
+是吗？不好意思？
+Is it sorry?
+
+898
+01:03:35,130 --> 01:03:37,789
+是的，英特尔正在研究怎么做，但他们还在追赶中。
+Yeah, Intel is studying doing that, but they are catching up.
+
+899
+01:03:37,789 --> 01:03:42,510
+是的，而且英特尔并不拥有软件层。
+Yeah. And also, Intel does not own software layer.
+
+900
+01:03:42,510 --> 01:03:45,950
+Mac OS 是苹果的，对吧？Windows 是微软的。
+Mc OS is Apples, right? Windows is Microsoft.
+
+901
+01:03:45,950 --> 01:03:51,190
+好的。好的。第三个研究将会结束本次讲座。
+Okay. Okay. The third study will wrap up this lecture.
+
+902
+01:03:51,190 --> 01:03:55,149
+好的。让我们试着看看发生了什么，以及人们在Cynical Valley正在创新些什么。
+Okay. Let's try to see what's going on and what people are innovating Cynical Valley.
+
+903
+01:03:55,149 --> 01:04:01,295
+他们正在尝试如何击败MD和苹果的垄断，对吧？
+So what they are trying to how you can beat MD Apple to monopoly, okay?
+
+904
+01:04:01,295 --> 01:04:07,919
+我相信你们大多数人已经听说过这三家公司，Grock、Cerebrus和Sabava。
+I believe most of you already heard about this, um, three companies, Grock, cerebrus and Sabava.
+
+905
+01:04:07,919 --> 01:04:08,399
+好的。
+Okay.
+
+906
+01:04:08,399 --> 01:04:12,920
+这三家公司基本上都在尝试制造新一代
+These are three companies that are basically trying to manufacture a new next generation
+
+907
+01:04:12,920 --> 01:04:15,019
+非常擅长机器学习的芯片。
+of chips that are so good at machine learning.
+
+908
+01:04:15,019 --> 01:04:16,519
+那么他们在“烹饪”什么呢？
+So what are the cooking, Okay?
+
+909
+01:04:16,519 --> 01:04:21,019
+他们基本上属于我在前面幻灯片中提到的那类公司。
+So they basically fall into the sort of category I mentioned in my previous slides.
+
+910
+01:04:21,019 --> 01:04:27,379
+他们正在尝试调整配置，例如缓存大小、内存等。
+They are trying to tune the configurations, for example, catch size, uh, memory, uh,
+
+911
+01:04:27,379 --> 01:04:32,459
+比如寄存器大小，为了确保他们能够
+like register size, to make sure that they try to
+
+912
+01:04:32,459 --> 01:04:37,280
+找到最适合特定工作负载的组合，比如语言模型推理。
+find a combination that works best for certain workloads, for example, language model inference.
+
+913
+01:04:37,280 --> 01:04:40,199
+明白了吗？如果你看这个性能图表，
+Okay? And if you look at this performance chart,
+
+914
+01:04:40,199 --> 01:04:46,020
+你可以看到Grock公司生产的芯片在这个工作负载下，
+you can see the chips produced by Grock on this workload,
+
+915
+01:04:46,020 --> 01:04:48,740
+主要是尝试从Lama生成tokens，
+which is basically trying to generate tokens from Lama,
+
+916
+01:04:48,740 --> 01:04:51,819
+它的速度几乎比其他芯片快了十倍。
+it can achieve almost ten times faster than the rest.
+
+917
+01:04:51,819 --> 01:04:56,399
+其他公司都是一些终端公司、初创公司，非常有名的那种，好吗？
+The rest of companies are some endpoint companies, startups, very famous ones, okay?
+
+918
+01:04:56,399 --> 01:04:59,119
+但他们都被
+But they are bit so hard by
+
+919
+01:04:59,119 --> 01:05:03,680
+Grogu打得很惨，其他公司都在采用媒体GPU。
+Grogu the rest of companies are all adopting media GPUs.
+
+920
+01:05:03,680 --> 01:05:06,740
+这基本上就是硬件创新的力量。
+This is basically the power of reinventing hardware.
+
+921
+01:05:06,740 --> 01:05:12,899
+好的。我认为你在软件层面上无法实现这一点，但我们仍然会去研究它。
+Okay. I don't think you can achieve this on software level, but we're still going to study that
+
+922
+01:05:12,899 --> 01:05:15,099
+因为这是一个软件课程。
+okay because it's a software class.
+
+923
+01:05:15,099 --> 01:05:22,860
+它之所以能实现这个功能，基本上是因为如果你对比一下Grock卡媒体的产品说明书，
+The reason it can achieve this is basically if you compare the product sheet of Grock card media,
+
+924
+01:05:22,860 --> 01:05:26,920
+你会发现有一个关键的区别，就是有一行叫做SRM。
+you will find a key difference that is there's a line called SRM.
+
+925
+01:05:26,920 --> 01:05:32,999
+什么是RM？好吧，你可能不明白，
+What is RM? Okay, fine, you don't understand it because
+
+926
+01:05:32,999 --> 01:05:38,119
+我下周会教这个内容，但你可以把SRM理解为类似于LON cat的东西。
+I'm going to teach that next week, but you can understand SRM as something similar to LON cat.
+
+927
+01:05:38,119 --> 01:05:41,739
+它基本上是内存层次结构中的一层，但它不是内存，
+It's basically a layer in the memory hierarchy, but it's not a memory,
+
+928
+01:05:41,739 --> 01:05:46,379
+它是比内存快，但比寄存器慢的存储，是中间的一层。
+it's faster memory, but it's slower than register. It's a layer there.
+
+929
+01:05:46,379 --> 01:05:51,019
+如果你对比左边的SRAM，
+And if you compare the SRAM says on the left hand side,
+
+930
+01:05:51,019 --> 01:05:57,180
+你会发现这个GR卡基本上做了一张拥有230兆字节SRM的卡。
+you'll find this GR card basically make a card with 230 megabytes of SRM.
+
+931
+01:05:57,180 --> 01:06:05,220
+但如果你和最新的Idea芯片对比，他们只有164千瓦的SRAM。
+But if you compare to the latest idea chip, they only have 164 kilowatt of SRM.
+
+932
+01:06:05,220 --> 01:06:08,869
+这就是Grock获胜的原因，明白吗？为什么它能赢？
+That's how Grock wins, okay. Why it wins?
+
+933
+01:06:08,869 --> 01:06:12,490
+因为如果我提醒你这个循环，你会发现假设
+Because if I remind you about this loop, you will find that suppose
+
+934
+01:06:12,490 --> 01:06:14,910
+这个寄存器等同于SRAM。
+this register is equivalent to SRAM.
+
+935
+01:06:14,910 --> 01:06:20,129
+你可以想象一下，如果我有一个100兆字节大小的寄存器和
+You can imagine if I have a register of size of 100 megabytes versus
+
+936
+01:06:20,129 --> 01:06:22,509
+100千字节，哪个会更快？
+100 kilobyts, which one will be faster.
+
+937
+01:06:22,509 --> 01:06:25,529
+因为我可以这样安排我的矩阵乘法，
+Because I can't tell my matrix multiplication in a way that
+
+938
+01:06:25,529 --> 01:06:28,630
+其实我甚至不需要移动任何东西。
+is I don't need to even move anything actually.
+
+939
+01:06:28,630 --> 01:06:30,510
+我只需要把所有东西都放进我的寄存器里。
+I just put everything in my register.
+
+940
+01:06:30,510 --> 01:06:32,469
+这就是它如此之快的原因。
+That's why it's so fast.
+
+941
+01:06:32,469 --> 01:06:36,469
+我希望我能让你对这里发生的事情有一个高层次的直观理解。
+I hope I give you a high level intuition what's going on here.
+
+942
+01:06:37,410 --> 01:06:44,649
+好，今天我基本上就讲到这里，但我会给你两个问题，好吗？
+Okay, that pretty much is all I have for today, but I'm going to give you two questions. Okay.
+
+943
+01:06:44,649 --> 01:06:48,170
+第一个问题是，我希望你去研究B100。
+The first question is, I want you to study B 100.
+
+944
+01:06:48,170 --> 01:06:50,029
+你基本上应该按照我
+You should basically follow what
+
+945
+01:06:50,029 --> 01:06:55,309
+今天教你的内容，去学习B100和C的代词表，你知道的，
+I teach you today and you try to study the pronoun sheet of B 100 and C. You know,
+
+946
+01:06:55,309 --> 01:06:56,929
+媒体声称B
+media is claiming that B
+
+947
+01:06:56,929 --> 01:07:00,129
+100正在延续摩尔定律，对吧？
+100 is continuing the Morse law, right?
+
+948
+01:07:00,129 --> 01:07:05,769
+按照摩尔定律，就是说每16个月你的计算能力可以翻倍。
+By Mrs law, it means that every 16 months you can double your computing power.
+
+949
+01:07:05,769 --> 01:07:07,649
+我希望你回答这个问题，B
+I want you to answer this question, how B
+
+950
+01:07:07,649 --> 01:07:12,150
+100相比上一代H100，是如何延续摩尔定律的？
+100 continue Morris law compared to the previous generation which is h 100,
+
+951
+01:07:12,150 --> 01:07:15,170
+还有B 200，这又是新一代产品。
+o also B 200, which is another generation.
+
+952
+01:07:15,170 --> 01:07:23,929
+好的。这里最关键的问题其实是，你知道，OID的股票就是这样的，对吧？
+Okay. The ultimate question here is basically, you know, OID stock is like this, right?
+
+953
+01:07:24,410 --> 01:07:27,849
+就是买它。对吧。好的。
+Is buy it. Yeah. Okay.
+
+954
+01:07:28,090 --> 01:07:32,049
+我的问题是，你已经说了，
+And the question I ask is so you already say,
+
+955
+01:07:32,049 --> 01:07:36,749
+我介绍了经济学、芯片价值的动态，还有人们是如何制造芯片的。
+I introduced the economics, the dynamics in sic value, how people manufacture chips.
+
+956
+01:07:36,749 --> 01:07:42,190
+但你可以看到，有很多公司能做出比OIDiA更好的芯片。
+But you can see, there are many companies who can make really better chips than OIDiA.
+
+957
+01:07:42,190 --> 01:07:44,669
+那么OID的模式是什么呢？
+But then what is OID mode?
+
+958
+01:07:44,669 --> 01:07:47,579
+为什么OID的股票这么好？
+Like why OID stock is so good?
+
+959
+01:07:47,579 --> 01:07:50,450
+对，对，是软件。
+Yeah. Yeah, the software.
+
+960
+01:07:50,450 --> 01:07:53,190
+最主要的就是软件。
+One primary is the software.
+
+961
+01:07:53,190 --> 01:07:56,270
+如果你想更精确一点的话，
+And if you want to be more precise,
+
+962
+01:07:56,270 --> 01:08:01,950
+我认为原因是因为Koda，他们有Koda，而其他芯片没有Koda。
+I think the reason is because Koda they have Koda and other chips do not have Koda.
+
+963
+01:08:01,950 --> 01:08:05,189
+而KODA将会是我们下周的重点。好的。
+And KODA will be our next week's focus. Okay.
+
+964
+01:08:05,189 --> 01:08:06,789
+谢谢。
+Thank you.

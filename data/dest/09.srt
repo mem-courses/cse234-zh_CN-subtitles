@@ -1,0 +1,5484 @@
+1
+00:00:14,840 --> 00:00:18,579
+好的。好的，嗯。谢谢你回来。
+Okay. Okay, yeah. Thanks for coming back.
+
+2
+00:00:18,579 --> 00:00:23,599
+我们开始吧。今天的讲座会很轻松。
+Let's get started. So today should be a very lightwek lecture.
+
+3
+00:00:23,599 --> 00:00:26,899
+我们只会讲一点量子相关的内容。
+We will only cover a little bit in quantuion.
+
+4
+00:00:26,899 --> 00:00:32,619
+嗯，好。然后我们希望你能参加周四的嘉宾讲座。
+Yeah. Okay. And then we hope you will attend the Thursday's guest lecture. Yeah.
+
+5
+00:00:32,619 --> 00:00:36,940
+我们希望你能向我们的嘉宾提一些很难的问题，好吗？
+We hope you ask very difficult questions to our guest, okay?
+
+6
+00:00:36,940 --> 00:00:43,179
+好的。在开始主要内容之前，我们先做几个选择题。
+Yeah. Okay, before we start the main content, let's do a few MCC.
+
+7
+00:00:43,179 --> 00:00:53,139
+嗯，以下哪一项不是内存消耗的主要来源？选D，对吧？
+Um, which of the following is not one of the main sources of memory consumption? D, right?
+
+8
+00:00:53,139 --> 00:00:55,020
+训练代码占用其实很少。
+Training code is pretty minimal.
+
+9
+00:00:55,020 --> 00:00:56,459
+和其他任何东西比起来都很少。
+Okay, compared to anything else.
+
+10
+00:00:56,459 --> 00:01:05,500
+好的。那么关于分段检查点，以下哪项说法是错误的？
+Okay. So which of the following statement is false about grading checkpointing?
+
+11
+00:01:17,300 --> 00:01:19,660
+哪一个？
+Which one?
+
+12
+00:01:24,060 --> 00:01:29,249
+A，我听到的是A。那我们一个一个来看。
+A, I heard A. So let's go one by one.
+
+13
+00:01:29,249 --> 00:01:32,729
+在模型训练过程中应用梯度检查点可以节省GPO内存。
+Apply grading checkpointing during model training could save GPO memory.
+
+14
+00:01:32,729 --> 00:01:37,009
+这个说法是对的，因为这正是梯度检查点的目的。
+This one is true because that's the purpose of grad checkpoint.
+
+15
+00:01:37,009 --> 00:01:41,790
+B，梯度检查点适用于模型权重和激活值。
+B, grading checkpointing applies to both model ways and activations.
+
+16
+00:01:41,790 --> 00:01:46,969
+第四点，就像我已经强调过的，梯度检查点只能节省激活值。
+Fourth, like I already emphasized, grading checkpointing can only save activations.
+
+17
+00:01:46,969 --> 00:01:51,769
+梯度检查点的位置会影响所需的计算量和内存。
+The location of grading checkpointing affects how much computation and memory are needed.
+
+18
+00:01:51,769 --> 00:01:56,609
+是的，所以你在这方面需要有策略，明白吗？
+Yes, so you need to be strategic on that, okay?
+
+19
+00:01:56,609 --> 00:02:00,770
+所以有可能将部分激活值从内存中移除，因为它们
+So it's possible to describe some of the activation from memory since they are
+
+20
+00:02:00,770 --> 00:02:02,109
+只在反向传播时才需要。
+only needed during backward pass.
+
+21
+00:02:02,109 --> 00:02:07,430
+是的，这大致解释了评分检查点是如何工作的。
+Yes, that's kind of the explain how grading check point works.
+
+22
+00:02:07,430 --> 00:02:10,329
+好的，这个需要花更长一点时间。
+Okay, this one take a bit longer.
+
+23
+00:02:10,329 --> 00:02:12,250
+我在上一节课已经讲过这个了，对吧？
+I already taught this right in the last lecture.
+
+24
+00:02:12,250 --> 00:02:13,429
+我想让你来计算一下。
+I want you to calculate it.
+
+25
+00:02:13,429 --> 00:02:18,610
+好的。那么，给你这张来自非常著名的GPD-3论文的表格，
+Okay. So given this table from the very famous GPD three paper,
+
+26
+00:02:18,610 --> 00:02:23,869
+GPD-3的激活大小是多少？2.7B。
+what is the activation size of GPD three? 2.7 B.
+
+27
+00:02:23,869 --> 00:02:29,309
+好的，假设我们用的是GPD-3的小版本，并且我们使用的是P16，
+Okay, the smaller version of GP three, assuming that we are using a P 16
+
+28
+00:02:29,309 --> 00:02:33,990
+还假设我们在transformer边界进行检查点保存。
+and also assuming that we are checkpointing at the transformer boundary.
+
+29
+00:02:33,990 --> 00:02:38,149
+好，我给你1分钟来计算。
+Okay, I will give you 1 minute to calculate.
+
+30
+00:02:51,750 --> 00:02:53,949
+嗯。
+Mm.
+
+31
+00:03:50,830 --> 00:03:53,349
+那是哪一个？
+So what one?
+
+32
+00:04:06,870 --> 00:04:10,549
+对，答案是C。好的。
+Yeah. The answer is C. Okay.
+
+33
+00:04:10,549 --> 00:04:17,010
+但我想直接做计算，不过我会给你一些基本的策略。
+But I want to do the calculation directly, but I will give you some so basically strategy.
+
+34
+00:04:17,010 --> 00:04:22,450
+这里说我们需要一个GPT-3，2.7B，对吧？
+So here, it said that we need a GPT three, 2.7 B, right?
+
+35
+00:04:22,450 --> 00:04:25,290
+所以我们基本上是在这一行做索引，对吧？
+So we basically index on this line, right?
+
+36
+00:04:25,290 --> 00:04:33,030
+好的，那么为了估算激活值，我们需要知道哪些参数。
+Okay? So in order to estimate the activation, what parameters we need to know.
+
+37
+00:04:33,830 --> 00:04:36,190
+我说的是LP 16，对吧？
+I said LP 16, right?
+
+38
+00:04:36,190 --> 00:04:40,390
+所以基本上每个数值会占用两个字节，对吧？
+So basically each value will contribute to two bites, right?
+
+39
+00:04:40,390 --> 00:04:43,389
+而且它还说我们只关心激活值。
+And it also said we only care about activation.
+
+40
+00:04:43,389 --> 00:04:46,710
+所以你还记得transformer的激活值吧，对吗？
+So you'll still remember the activation for transformer, right?
+
+41
+00:04:46,710 --> 00:04:49,229
+是批量大小乘以。
+It's batch size times.
+
+42
+00:04:49,950 --> 00:04:52,529
+序列长度，序列长度。
+Sequence length, sequence lengths.
+
+43
+00:04:52,529 --> 00:04:58,040
+好的。再乘以三的维度，对吧？
+Okay. Times times three in dimension, right?
+
+44
+00:04:58,040 --> 00:05:01,000
+所以基本上就是D模型。
+So basically D model.
+
+45
+00:05:01,760 --> 00:05:07,720
+因此，你需要从表格中查找参数。
+And therefore, you need to look for the parameters from the table.
+
+46
+00:05:07,720 --> 00:05:13,859
+那么批量大小是多少？在他们训练这个27亿参数模型时，
+So what is the battery size? This table when they train this 2.7 billion model,
+
+47
+00:05:13,859 --> 00:05:16,169
+用的是100万的批量大小。
+it used 1 million batch size.
+
+48
+00:05:16,169 --> 00:05:22,560
+好的。但这100万的批量大小是以token为单位的。
+Okay. But this 1 million body size is in a unit of tokens.
+
+49
+00:05:22,560 --> 00:05:29,840
+也就是说，每个批次里有100万个token，这个信息已经浮现出来了
+That is in each batch, there is 1 million tokens, this information is already surfacing the way
+
+50
+00:05:29,840 --> 00:05:36,220
+因为在最初的激活计算中，我们用的是批量大小乘以序列长度，
+because in this original activation calculation, we use batize times sequence length,
+
+51
+00:05:36,220 --> 00:05:39,519
+这个BS在琥珀序列中被表征出来。
+this BS is characterized in amber sequences.
+
+52
+00:05:39,519 --> 00:05:41,260
+这样说有道理吗？
+Does that make sense?
+
+53
+00:05:41,260 --> 00:05:47,790
+木材序列乘以序列长度等于token数量，对吧？
+Lumber sequences times sequence length equals to Number tokens, right?
+
+54
+00:05:47,790 --> 00:05:52,650
+好的。所以，这个乘积本质上就是1，对吗？
+Okay. Therefore, this product is essentially just one, right?
+
+55
+00:05:52,650 --> 00:05:55,069
+好的。所以，这就是1。
+Okay. Therefore, this is one.
+
+56
+00:05:55,110 --> 00:06:01,790
+D模型，这里告诉你D模型本质上就是在这里，对吧？
+D model, this t told you that D model is essentially, um, here, right?
+
+57
+00:06:01,790 --> 00:06:08,769
+呃，2560。明白了吗？这基本上就像你用这个数字乘以一百万，
+Uh, 2560. Okay? This is basically like you time one minion with this number,
+
+58
+00:06:08,769 --> 00:06:12,840
+你基本上就得到了每一层的激活数，对吧？
+you essentially get the activation per layer, right?
+
+59
+00:06:12,840 --> 00:06:16,650
+好的。所以基本上每个transformer边界，你都会遇到这种
+Okay. So basically each transformer boundary, you are going to meet this kind
+
+60
+00:06:16,650 --> 00:06:19,849
+激活，这种规模的激活。
+of activation, this size of activation.
+
+61
+00:06:19,849 --> 00:06:22,410
+但问题是，在这个模型中，
+But the problem is, in this model,
+
+62
+00:06:22,410 --> 00:06:25,210
+2.7B的GPT-3，你有很多很多层，对吧？
+270 B GPT three, you have many many layers, right?
+
+63
+00:06:25,210 --> 00:06:31,309
+我认为这个问题是在问，我们要在每一层的边界都应用梯度检查点。
+And I think this question asks that we are going to apply gradient checkpoint every layer boundary.
+
+64
+00:06:31,309 --> 00:06:34,430
+明白吗？也就是说每一层我们都做一次检查点，对吧？
+Okay? Which means each layer, we all checkpoint once, right?
+
+65
+00:06:34,430 --> 00:06:36,750
+我们只保存这些，其余的全部丢弃，明白吗？
+We only save them and we discard all the rest, okay?
+
+66
+00:06:36,750 --> 00:06:40,550
+所以基本上，我们需要把这个值乘以层数，对吧？
+So basically, we need to time this value with a number of layers, right?
+
+67
+00:06:40,550 --> 00:06:43,590
+那2.7B有多少层？
+So how many layers in 2.7 B?
+
+68
+00:06:43,590 --> 00:06:46,410
+你也可以从这个表格里查到，对吧？
+You can also get from this table, right?
+
+69
+00:06:46,410 --> 00:06:54,629
+在这里，32。好的。所以基本上你再乘以32，然后把它换算成GB。
+It's here, 32. Okay. So basically, you multiply another 32, and then you convert it into gigabytes.
+
+70
+00:06:54,629 --> 00:06:58,729
+这就是你的答案。明白了吗？很棒。
+That's your value. Okay? Makes sense. Cool.
+
+71
+00:06:58,729 --> 00:07:01,390
+我们将在考试中问一个不同的问题。
+We will ask a different question in exam.
+
+72
+00:07:01,390 --> 00:07:03,609
+好的，一个不同的模型，比如说Lama。
+Okay, a different model, for example, Lama.
+
+73
+00:07:03,609 --> 00:07:07,509
+好的。我希望你能理解这一点，好吗？
+Okay. I hope you understand this, okay?
+
+74
+00:07:07,590 --> 00:07:15,610
+很好。那么，我觉得在数学课上，我们基本上讨论了三个，
+Cool. Okay, I think in math lecture, we basically, um, talk about three,
+
+75
+00:07:15,610 --> 00:07:17,990
+非常重要的内存优化，对吧？
+very important memory ogenation right?
+
+76
+00:07:17,990 --> 00:07:24,699
+嗯，分级检查点、微批处理、分级累积和交换。
+Um, grading check pointing, micro baatchingO grading accumulation and swapping.
+
+77
+00:07:24,699 --> 00:07:30,000
+我觉得在实际操作中，你们面临的挑战是，每当遇到自动内存时，
+I think in practice, you are facing a challenge that is whenever you meet kind of auto memory,
+
+78
+00:07:30,000 --> 00:07:32,020
+你们该如何在这个领域中进行选择？
+how you actually navigate this space?
+
+79
+00:07:32,020 --> 00:07:33,539
+我应该使用哪种策略？
+Which strategy should I use?
+
+80
+00:07:33,539 --> 00:07:36,859
+课后我从很多同学那里都收到了这个问题。
+I got this question from a lot of you after class.
+
+81
+00:07:36,859 --> 00:07:39,520
+我基本上想在这一页花几分钟，因为我觉得
+I basically want to spend a few minutes on this slide because I think
+
+82
+00:07:39,520 --> 00:07:40,799
+这一页非常重要。
+this slide is pretty important.
+
+83
+00:07:40,799 --> 00:07:42,940
+以后当你开始做这类模型时，
+In the future, when you start working on these kind of models,
+
+84
+00:07:42,940 --> 00:07:45,759
+你基本上会需要掌握这些技巧。
+you are going to basically navigate the tricks.
+
+85
+00:07:45,759 --> 00:07:53,560
+明白吗？所以你首先要确定理想的训练批量大小，对吧？那为什么我们要从这里开始？
+Okay? So you start basically determine desired training bad size, right? So why we start with this?
+
+86
+00:07:54,780 --> 00:07:59,019
+因为训练批量大小是一个超参数，它会影响你的模型
+Because training body size is a hyperparameter, it will affect your model
+
+87
+00:07:59,019 --> 00:08:00,900
+以及你最终收敛的模型准确率，对吧？
+your converged model accuracy, right?
+
+88
+00:08:00,900 --> 00:08:05,619
+你基本上要先找出最适合你的任务的训练批量大小，这样才能
+You basically want to first figure out the best training body sizes for your job that will basically
+
+89
+00:08:05,619 --> 00:08:07,540
+得到你任务的最高准确率。
+yield the highest accuracy for your job.
+
+90
+00:08:07,540 --> 00:08:14,139
+明白吗？因为批量大小对于随机梯度下降来说是一个非常关键的参数。
+Okay? Because Beside is a super critical parameter for sochastic green descent.
+
+91
+00:08:14,139 --> 00:08:16,820
+所以基本上，你会做一些超参数调整。
+So basically, you do some hyperbarn tuning.
+
+92
+00:08:16,820 --> 00:08:22,280
+你确定一个体积大小，这个大小基本上能给你带来很好的结果。
+You lock down a body size that essentially give you seems to give you very good results.
+
+93
+00:08:22,280 --> 00:08:28,059
+在这个例子里，我说，也许我们要用批量大小等于64来训练。
+So in this example, I said, maybe we are going to train with a bit size equal to, uh, 64.
+
+94
+00:08:28,059 --> 00:08:30,760
+这里，这就是全局批量大小，好吗？
+And here, this is the global biis, okay?
+
+95
+00:08:30,760 --> 00:08:37,520
+然后我们基本上就用批量大小等于64开始训练任务，并启动训练。
+And then we basically start the training job with bad size equal to 64, and we launched a training.
+
+96
+00:08:37,520 --> 00:08:40,394
+我们用批量大小等于64进行训练。
+We train with bedside equal to 64.
+
+97
+00:08:40,394 --> 00:08:43,429
+然后我们检查一下内存是否足够，对吧？
+And then we check if we are on memory, right?
+
+98
+00:08:43,429 --> 00:08:45,829
+如果没有超出内存，那就没问题。
+And if we don't go on memory, we are good.
+
+99
+00:08:45,829 --> 00:08:48,529
+我们就不需要做任何内存优化，对吧？
+We don't need to do any memory orenation, right?
+
+100
+00:08:48,529 --> 00:08:53,510
+但问题是，也许这个模型太大了，或者你的GPU显存非常有限。
+But the problem is maybe this model is too big or maybe your GPU has very limited GPU memory,
+
+101
+00:08:53,510 --> 00:08:56,290
+所以它会出现内存溢出的问题。
+so it will go out of memory.
+
+102
+00:08:56,290 --> 00:09:01,489
+然后你基本上就要开始选择你想要应用哪种内存管理方式了，对吧？
+Then you essentially start navigating this uh choosing which memory
+
+103
+00:09:01,489 --> 00:09:03,489
+你要决定采用哪种内存优化方法，对吗？
+orienting you want to apply, right?
+
+104
+00:09:03,489 --> 00:09:06,789
+我提到了三种方法，有交换、
+So there are three I mentioned, there's swapping,
+
+105
+00:09:06,789 --> 00:09:11,349
+有梯度累积，还有检查点。
+there's grading accumulation, there is checkpointing.
+
+106
+00:09:11,349 --> 00:09:14,169
+那么你首先应该考虑哪一种呢？
+So which one you should start thinking about first?
+
+107
+00:09:16,840 --> 00:09:21,340
+检查点。还有其他答案吗？
+Checkpoint. Any other answer?
+
+108
+00:09:21,340 --> 00:09:24,379
+其实你应该先从梯度累积开始。
+So you should start with grading accumulation.
+
+109
+00:09:24,379 --> 00:09:30,400
+为什么？因为交换非常慢，你希望尽可能快地完成你的任务。
+Why? Because swapping is super slow, you want to finish your job as much as possible.
+
+110
+00:09:30,400 --> 00:09:35,000
+而且交换的速度主要取决于内存层级的带宽。
+And swapping is kind of determined by the memory hierarchy bandwidth.
+
+111
+00:09:35,000 --> 00:09:38,640
+我已经跟你说过了，现在的计算机，CPU内存和芯片内存之间的带宽非常低，
+Which I already told you, today's computer, the bandwidth between CP memory and
+
+112
+00:09:38,640 --> 00:09:41,440
+所以速度非常慢。
+chipping memory is very low, so it's very slow.
+
+113
+00:09:41,440 --> 00:09:45,899
+你需要在最后考虑这一点，然后你基本上要在
+You want to consider that at the end, then you basically decide between
+
+114
+00:09:45,899 --> 00:09:48,900
+梯度累积和梯度检查点之间做选择。
+grading accumulation or grading checkpointing.
+
+115
+00:09:48,900 --> 00:09:51,800
+为什么我们一开始不选择梯度检查点呢？
+Why we don't start with grading checkpointing.
+
+116
+00:09:51,800 --> 00:09:56,959
+因为在梯度检查点中，你实际上是在用计算量来换取内存，对吧？
+Because in green chain pointing, you are essentially treating flops for your memory, right?
+
+117
+00:09:56,959 --> 00:10:01,560
+这意味着一旦你开启梯度检查点，接下来你的训练任务
+Which means that once you turn on green chain pointing, what happens is your training job is
+
+118
+00:10:01,560 --> 00:10:03,259
+就会变慢，对吧？
+going to be slower, right?
+
+119
+00:10:03,259 --> 00:10:04,700
+如果不用梯度检查点呢？
+Without green check pointing?
+
+120
+00:10:04,700 --> 00:10:08,359
+因为你用了一些计算量来换取内存。
+Because you are treating some flops, treating some compute for your memory.
+
+121
+00:10:08,359 --> 00:10:11,220
+你不想那样做，是因为你想尽快完成你的工作，对吧？
+And you don't want to do that because you want to finish your job as soon as possible,
+
+122
+00:10:11,220 --> 00:10:13,734
+对吧？所以你开始，嗯……
+right? So you start with, um
+
+123
+00:10:13,734 --> 00:10:16,889
+你尝试从梯度累积开始。
+You try to start with gradient accumulation.
+
+124
+00:10:16,889 --> 00:10:19,489
+梯度累积，我实际上是怎么操作的。
+Gradient of accumulation, how I actually navigate it.
+
+125
+00:10:19,489 --> 00:10:21,470
+那我应该累积多少步呢？
+So how many steps should I accumulate?
+
+126
+00:10:21,470 --> 00:10:25,690
+因为本质上，比如说，我想用全局batch size为64来训练。
+Because essentially say, I want to train with a global bites out of 64.
+
+127
+00:10:25,690 --> 00:10:27,209
+我有很多很多选择，
+I hold many many choices,
+
+128
+00:10:27,209 --> 00:10:31,709
+我可以用micro batch等于1，但循环64次，
+I can't use a microbtes equal to one, but I loop 64 times,
+
+129
+00:10:31,709 --> 00:10:33,850
+得到等效的结果。
+I get equivalent results.
+
+130
+00:10:33,850 --> 00:10:36,549
+或者我可以用micro batch等于32，
+Or I can use a microbte equal to 32,
+
+131
+00:10:36,549 --> 00:10:39,010
+我只需要看两次，对吧？我也能得到结果。
+I only look twice, right? I also get the results.
+
+132
+00:10:39,010 --> 00:10:47,740
+那我应该用哪一个？所以我应该总是尽量选择一个微体大小。
+So which one should I use? So I should always try to choose a microbody size
+
+133
+00:10:47,740 --> 00:10:51,580
+基本上就是最大的微体，为什么？
+that basically the largest microboy it Why?
+
+134
+00:10:51,580 --> 00:10:56,100
+因为如果我用更小的微体，是的，我可以解决我的内存问题。
+Because if I use a smaller microbic site, yes, I can solve my memory issue.
+
+135
+00:10:56,100 --> 00:10:59,299
+我会得到等效的结果，但问题是你还记得
+I will get the equivalent results, but the problem is you still remember
+
+136
+00:10:59,299 --> 00:11:01,619
+上周MCQ给你的那个例子吗？
+when MCQ gave it to you last week.
+
+137
+00:11:01,619 --> 00:11:07,699
+问题在于你的元模型和许多许多类似计算密集型的操作。
+The problem is your metamol and many many, kind of like computer intensive operations.
+
+138
+00:11:07,699 --> 00:11:11,339
+它们的维度会更小。我把它降到了一维。
+They will have a smaller dimension. I reduced to one.
+
+139
+00:11:11,339 --> 00:11:17,540
+就像我说的，在GPO中，如果你给一个很小的元模型或者一个很大的元模型，
+Like I said, in GPO, if you give a very small metamo or you give a big memo,
+
+140
+00:11:17,540 --> 00:11:19,205
+它们的计算速度是一样的。
+they will compute at the same speed.
+
+141
+00:11:19,205 --> 00:11:22,949
+对吧？这意味着如果你给一个某个维度等于一的小矩阵，
+Right? Which means that if you give a small mathema with some dimension equal to one,
+
+142
+00:11:22,949 --> 00:11:26,049
+GPO的利用率就会降低，对吗？
+the utilization of GPO will become lower, right?
+
+143
+00:11:26,049 --> 00:11:28,050
+这意味着你的训练任务会被延长。
+That means that your training job will be extended.
+
+144
+00:11:28,050 --> 00:11:31,190
+虽然你基本上会得到相同的结果。
+Although you basically get the same results.
+
+145
+00:11:31,190 --> 00:11:34,749
+所以基本上你想最大化你可以使用的位数，对吧？
+So basically you want to maximize the possible bist you can use, okay?
+
+146
+00:11:34,749 --> 00:11:36,210
+所以基本上，你开始搜索
+So basically, you start searching
+
+147
+00:11:36,210 --> 00:11:39,749
+32、16、8、4，对吧？
+32-16 to eight to four, right?
+
+148
+00:11:39,749 --> 00:11:42,010
+然后你基本上交替调整两个变量。
+And you basically alternate it two variables.
+
+149
+00:11:42,010 --> 00:11:43,550
+一个是有效的微批量大小。
+One is the effective microbess.
+
+150
+00:11:43,550 --> 00:11:46,129
+另一个是梯度累积步数。
+The other is lab gradient accumulating steps.
+
+151
+00:11:46,129 --> 00:11:50,670
+好吗？你要尽量找出在不超出内存的情况下能用的最大值。
+Okay? You try to figure out the one that is the biggest you can use without going out of memory.
+
+152
+00:11:50,670 --> 00:11:52,450
+明白了吗？这样说有道理吗？
+Okay? Does that make sense?
+
+153
+00:11:52,450 --> 00:11:54,899
+很好。好的。
+Cool. Okay.
+
+154
+00:11:54,899 --> 00:12:00,379
+如果你最终找到了合适的参数，那你就没问题了。
+Then if you end up with figuring out something, then you are good.
+
+155
+00:12:00,379 --> 00:12:02,795
+这样你就算是成功了。
+Okay, you have a success.
+
+156
+00:12:02,795 --> 00:12:06,730
+然后你会开始估算，比如用这些微生物，
+Then you'll start estimating, say, with this microbes,
+
+157
+00:12:06,730 --> 00:12:08,289
+我要用一分钟训练一次，
+I'm going to train one iteration with
+
+158
+00:12:08,289 --> 00:12:13,010
+然后我需要训练，比如说，一万次迭代，你想要算出
+1 minute and I need to train, say, uh, ten k iterations, and you want to figure
+
+159
+00:12:13,010 --> 00:12:16,510
+你的任务完成时间的估算值，也就是JCT。
+out an estimation of your job completion time, JCT.
+
+160
+00:12:16,510 --> 00:12:20,450
+你要判断这个JCT是否符合你的预期。
+You try to figure out, you try to determine if this GCT can meets your expectation.
+
+161
+00:12:20,450 --> 00:12:23,570
+比如说，你的经理可能会要求你在一周内给出结果。
+For example, your manager probably ask you to give that results in one week
+
+162
+00:12:23,570 --> 00:12:28,149
+如果这个速度太慢或者可以接受，对吧？
+and if this is too slow or it's okay, right?
+
+163
+00:12:28,149 --> 00:12:30,289
+如果你觉得可以接受，那就没问题了。
+And if you think it's okay, then you are good.
+
+164
+00:12:30,289 --> 00:12:32,069
+你可以在这里停下，对吧？
+You can stop here, right?
+
+165
+00:12:32,069 --> 00:12:35,889
+但如果不行，呃，你该怎么办？
+But if it's not, uh, what do you do?
+
+166
+00:12:39,200 --> 00:12:44,519
+好吧，这意味着你可能需要增加更多的计算资源，对吧？
+Okay. Which means that you probably need to add more compute, right?
+
+167
+00:12:44,640 --> 00:12:46,820
+你需要增加更多的GPU。
+You need to add more GPOs.
+
+168
+00:12:46,820 --> 00:12:48,439
+这个我们下周会讲。
+So we'll cover that next week.
+
+169
+00:12:48,439 --> 00:12:51,920
+我们将进入分布式计算和并行化的世界。
+We are going to enter the world with distributing machinery, paralyzation.
+
+170
+00:12:51,920 --> 00:12:54,100
+我们会用多个GPU来完成这个任务。
+We'll use multiple GP for this job.
+
+171
+00:12:54,100 --> 00:12:59,939
+好吗？所以我希望你和我在这个分支上达成共识，对吧？
+Okay? So I hope you and me are on the same page for this branch, right?
+
+172
+00:12:59,939 --> 00:13:05,060
+那如果此时你无法确定微批量
+So what if at this point you are not able to figure out microbasess
+
+173
+00:13:05,060 --> 00:13:06,839
+能够真正不超出内存怎么办？
+that can actually not go out of memory?
+
+174
+00:13:06,839 --> 00:13:11,660
+比如说，即使你把微批量设置为1，还是会超出内存。
+For example, even if you use a microbes, equal to one, you are still out of memory.
+
+175
+00:13:11,660 --> 00:13:16,029
+所以这种情况是有可能发生的。
+So what is this is possible.
+
+176
+00:13:16,029 --> 00:13:18,849
+比如说，模型实在太大了，
+For example, the model is just so huge that H
+
+177
+00:13:18,849 --> 00:13:22,409
+100卡只有80GB内存，你要在Nama模型上训练，对吧？
+100 only have 80 gigabyte you are going to train on Nama model, right?
+
+178
+00:13:22,409 --> 00:13:26,150
+就像我说的，Nama模型，七个模型你没法在
+And the Nama model, like I said, seven model you cannot train on
+
+179
+00:13:26,150 --> 00:13:27,610
+单个GPU上训练，哪怕微批量等于1。
+a single GP you basically equal one.
+
+180
+00:13:27,610 --> 00:13:33,469
+对，所以你要做的就是考虑第二个选择，也就是梯度检查点，好吗？
+Yeah. So what you do is basically you start considering the second choice, green check pointing, ok?
+
+181
+00:13:33,469 --> 00:13:39,209
+如果这一步失败了，你就要开启绿色检查点。
+You're going to turn on if this failed, you are going to turn on green check pointing.
+
+182
+00:13:39,209 --> 00:13:43,410
+所以你基本上就是开启绿色检查点，然后不断地重复这个过程。
+So you basically turn on green check pointing and you start looping this again and again.
+
+183
+00:13:43,410 --> 00:13:49,829
+你会尝试找出在开启绿色检查点的情况下，单个GPU上能训练的最大microbd。
+You try to figure out the largest microbd I can train on a single GPO with green check point turn
+
+184
+00:13:49,829 --> 00:13:52,105
+同时也要开启梯度通信。
+and also with gradient communication turno.
+
+185
+00:13:52,105 --> 00:13:55,639
+好的，在某个时刻，你会发现一件事。
+Okay. And at some point, you are going to figure out one thing.
+
+186
+00:13:55,639 --> 00:14:00,619
+也许你会找到一个能用的microbd，那你就没问题了，对吧？
+Maybe you are going to figure out microbes that is going to work, then you are good. Okay?
+
+187
+00:14:00,619 --> 00:14:02,759
+你基本上会回到这一步，对吗？
+You basically come back to this line, right?
+
+188
+00:14:02,759 --> 00:14:05,219
+你会尝试确定你的任务完成时间。
+You try to determine your job completion time.
+
+189
+00:14:05,219 --> 00:14:12,839
+好吗？但如果你还是失败了，你就用microbd等于1。
+Okay? But if you still fail what you do you basically use a microbe equal to one,
+
+190
+00:14:12,839 --> 00:14:17,379
+然后你开启梯度检查点，开启梯度累积。
+and you turn on gradient chat pointing, you turn on gradient accumulation,
+
+191
+00:14:17,379 --> 00:14:19,480
+你累积了64次，对吧？
+you accumulate 64 times, okay?
+
+192
+00:14:19,480 --> 00:14:21,775
+你还是会继续使用内存。
+You'll still go on the memory.
+
+193
+00:14:21,775 --> 00:14:26,269
+基本上，呃，最后就是用交换空间来解决。
+Then basically, uh, swapping is the last word work.
+
+194
+00:14:26,269 --> 00:14:31,790
+你开始把数据交换到CPU内存里，并尝试利用内存层级
+You start swapping was into CP memory and you try to use memory hierarchy
+
+195
+00:14:31,790 --> 00:14:34,509
+勉强让这个训练任务运行下去。
+to barely make this straining job work.
+
+196
+00:14:34,509 --> 00:14:38,949
+但一般来说，呃，这不是一个好选择，因为
+But in general, uh, this is a bad choice because it's going
+
+197
+00:14:38,949 --> 00:14:41,730
+这可能会让你的训练任务变慢十倍。
+to probably make your training job ten times slower.
+
+198
+00:14:41,730 --> 00:14:46,709
+如果你的任务对时间不是很敏感，那也没关系，你只是想尝试一些想法，对吧？
+If your job is not very time sensitive, you are good, you just want to try out ideas, right?
+
+199
+00:14:46,709 --> 00:14:49,649
+你可能会在实验室的GPU上启动这个任务，
+You probably launch the job on your labs GPU and
+
+200
+00:14:49,649 --> 00:14:52,849
+等两天后再来看结果，好吗？
+wait for two days and check the results later, okay?
+
+201
+00:14:52,849 --> 00:14:57,789
+但如果你真的要赶上截止日期，呃，你可能需要考虑，比如说，
+But if you really meeting deadline, uh, you probably need to consider, like,
+
+202
+00:14:57,789 --> 00:15:01,710
+优先级排序，你增加多个模型时，因为增加多个模型，你也会获得更多内存。
+prioritization, you add multiples because when you add multiples, you also get more memory.
+
+203
+00:15:01,710 --> 00:15:04,369
+当你获得更多内存时，你基本上可以回到
+When you get more memory, you can basically come back to
+
+204
+00:15:04,369 --> 00:15:09,630
+这种状态，你可以用更大的模型规模进行训练，最大化你的GPU利用率。
+this regime where you can train with a large body size, maximize your GPU addition.
+
+205
+00:15:09,630 --> 00:15:12,250
+你会获得更多的浮点运算能力和更多内存。
+You get more flops, more memory.
+
+206
+00:15:12,250 --> 00:15:18,209
+好的。所以基本上，这是一个关于如何优化内存并确保
+Okay. So basically, this is a practical guide for how to optimize memory and make sure
+
+207
+00:15:18,209 --> 00:15:20,470
+你理解它的工作流程的实用指南，因为这真的非常有用。
+you understand its workflow because it's super useful.
+
+208
+00:15:20,470 --> 00:15:21,709
+明白了吗？
+Okay?
+
+209
+00:15:22,830 --> 00:15:27,109
+很好。那今天我们将继续讨论，
+Cool. Okay. Today we are going to continue to talk about,
+
+210
+00:15:27,109 --> 00:15:30,030
+上周的话题。基本上是关于量化的。
+our topic last week. So basically quantization.
+
+211
+00:15:30,030 --> 00:15:36,029
+我记得上周我们讨论了数据的数字表示，对吧？
+I think last week, we talked lit digital representation of data, right?
+
+212
+00:15:36,029 --> 00:15:38,469
+所以还记得这个图吗，对吧？
+So still remember this figure, right?
+
+213
+00:15:38,469 --> 00:15:40,649
+上周我其实没有详细解释，
+I didn't explain pretty much last week, but,
+
+214
+00:15:40,649 --> 00:15:43,190
+我希望你们在周末稍微看了一下课件，
+I hope you basically look at the slides a little bit
+
+215
+00:15:43,190 --> 00:15:47,249
+并且你们明白了什么是指数，什么是小数部分，以及
+during the weekend and you understand what is exponent, what is fraction, and how
+
+216
+00:15:47,249 --> 00:15:50,289
+我们是如何在这里表示浮点数的。
+we represent floating point numbers here.
+
+217
+00:15:50,289 --> 00:15:53,230
+这是我们的标准LP32格式，好吗？
+This is our standard L P 32, okay?
+
+218
+00:15:53,230 --> 00:15:57,369
+那么浮点数背后的直觉是，
+So the intuition behind the floating point is that, uh,
+
+219
+00:15:57,369 --> 00:16:04,210
+我们基本上指定了一些位来表示指数，通过改变指数的值，
+we basically designate a few bits for represent the exponent and by varying the values of exponent,
+
+220
+00:16:04,210 --> 00:16:07,129
+我们可以让小数点在数值中左右移动。
+we can move the floating point from left to right.
+
+221
+00:16:07,129 --> 00:16:13,949
+因此，我们有一个相当动态的范围，我们还可以基本上指定几位用于
+Therefore, we have a pretty dynamic range, and we can also basically designate a few bits for
+
+222
+00:16:13,949 --> 00:16:18,165
+小数部分，这样我们就可以控制浮点数的精度。
+the fraction so we can control the precision of our floating point numbers.
+
+223
+00:16:18,165 --> 00:16:27,459
+好的。为了让浮点数能够移动，比如说大于一或者小于一，
+Okay. And in order to move the floating point, you know, about one also below one,
+
+224
+00:16:27,459 --> 00:16:29,239
+我们必须添加指数偏置。
+we have to add exponent bias.
+
+225
+00:16:29,239 --> 00:16:33,699
+指数偏置基本上是用八位可以表示的最大数的中位数，
+Exploding bias is basically the median number of the maximum number that can be
+
+226
+00:16:33,699 --> 00:16:36,379
+在这个例子中就是这样。
+represented using eight bits in this example.
+
+227
+00:16:36,379 --> 00:16:38,599
+也就是说，是指数部分的位数。
+So it's the number of bits in the exponent part.
+
+228
+00:16:38,599 --> 00:16:43,179
+好吗？对这部分有问题吗？
+Okay? Yeah. Any questions on this part?
+
+229
+00:16:43,700 --> 00:16:47,880
+很好。那么我们接下来要做一些更具体的练习。
+Cool. Then we are going to do something more excise.
+
+230
+00:16:47,880 --> 00:16:50,359
+好的，那么在这个图中，
+Okay. So in this figure,
+
+231
+00:16:50,359 --> 00:16:54,960
+我给你这个方程，教你如何读取32位的浮点数表示。
+I give you the equation, how to read this floating point representation in 32 bits.
+
+232
+00:16:54,960 --> 00:16:58,500
+我的疑问是，零要怎么表示。
+My question is, how to represent zero.
+
+233
+00:17:03,930 --> 00:17:09,129
+好的。但看着这个方程，你会发现它根本不可能表示零，对吧？
+Okay. But looking at this equation, you figure out that it's impossible to represent zero, right?
+
+234
+00:17:09,129 --> 00:17:15,269
+B在中间部分是一加分数，你可以看到，我们总是有一个偏置项，对吧？
+B in the middle part one plus fraction, you can see, we always have bias term one, right?
+
+235
+00:17:15,269 --> 00:17:17,690
+乘以一个不是零的东西。
+Way time something that is not zero.
+
+236
+00:17:17,690 --> 00:17:23,430
+所以基本上，这个方程没有像p值那样的零。
+So basically, this equation does not have zeros like p value, okay?
+
+237
+00:17:23,430 --> 00:17:28,010
+那么怎么表示零呢？基本上，我们需要做一些非常人为的处理。
+So how to read zero. So basically, we have to do some very artificial thing, okay?
+
+238
+00:17:28,010 --> 00:17:33,890
+所以为了表示零，我们基本上就是说，如果所有的指数都等于零，
+So in order to represent zero, we basically, uh, say that if all the explosion equals zero,
+
+239
+00:17:33,890 --> 00:17:38,769
+我们就要把浮点数的表示方式改成那个方程。
+we are going to change the floating point representation into that equation.
+
+240
+00:17:38,769 --> 00:17:42,509
+好的，如果你把那个方程和左边的方程比较一下，
+Okay, if you look at that equation compared to the left set equation,
+
+241
+00:17:42,509 --> 00:17:47,129
+你会发现第一个变化基本上是在中间部分。
+you'll find the first change is basically, um, in the middle part,
+
+242
+00:17:47,129 --> 00:17:49,049
+左边部分是“一加分数”，对吧？
+the left part is one plus fraction, right?
+
+243
+00:17:49,049 --> 00:17:50,669
+你知道，右边部分就是分数。
+You know, in the right part, is fraction.
+
+244
+00:17:50,669 --> 00:17:52,450
+没有“一加”，明白吗？
+There's no one plus, okay?
+
+245
+00:17:52,450 --> 00:17:55,269
+第二个变化是在指数的平方上。
+And the second change is on the power uh power two.
+
+246
+00:17:55,269 --> 00:17:58,329
+左边部分基本上是“指数减去偏置”。
+In the left part is basically exponent minus bias,
+
+247
+00:17:58,329 --> 00:18:01,909
+但右边部分基本上是“一减去偏置”。
+but in the right part is basically one minus the bias.
+
+248
+00:18:01,909 --> 00:18:06,489
+这有点人为，但这就是我们表示14位小数的方法。
+Okay? This is a little bit artificial, but this is how we represent 14 point numbers.
+
+249
+00:18:06,489 --> 00:18:09,440
+我们把这种数叫做lambers。
+Um, and we call this kind of lambers.
+
+250
+00:18:09,440 --> 00:18:14,479
+基本上，当所有指数位都在时，我们把这种数叫做sublomal lambers。
+So basically, when all the expolen bits are there, we call this kind of lambs sublomal lambers.
+
+251
+00:18:14,479 --> 00:18:19,080
+好的。当指数位不存在时，我们称之为次正规数。
+Okay. When the expoolen bits are not there, we call it mal lambers.
+
+252
+00:18:19,080 --> 00:18:22,740
+所以本质上，对于任何浮点数表示，我们有两个范围。
+So essentially, for any floating point retation we have two ranges.
+
+253
+00:18:22,740 --> 00:18:25,119
+一个是次正规数，另一个是正规数。
+One is sublomalumbers. The other is lomal lambers.
+
+254
+00:18:25,119 --> 00:18:29,054
+好的。这取决于指数位是否存在。
+Okay. And it's determined by if the expoolen bits are there or not.
+
+255
+00:18:29,054 --> 00:18:34,869
+好的，明白。那么回答我之前的问题，为了表示零，你需要
+Okay. Cool. So to answer my previous question, in order to represent zero, what do you
+
+256
+00:18:34,869 --> 00:18:41,270
+做的基本上是，你进入次正规范围，然后把指数位全部设为零，
+do is basically, uh, you go into the sublomer range, and you set or expollen bits into zero,
+
+257
+00:18:41,270 --> 00:18:44,670
+同时，你把尾数位也全部设为零，这样就是零了。
+meanwhile, you set or fraction bits into zero is basically zero.
+
+258
+00:18:44,670 --> 00:18:47,530
+好的，这里你去掉了那个一加的部分。
+Okay. Here, you get rid of the one plus.
+
+259
+00:18:47,530 --> 00:18:53,690
+好的，明白了正规数和次正规数的概念后，
+Okay. Cool. Then with this understanding of lomal and sublom values,
+
+260
+00:18:53,690 --> 00:18:57,110
+我们的问题是，最小的正数是多少？
+our question is, what is the minimum positive value?
+
+261
+00:18:57,860 --> 00:19:03,959
+好的。那么为了确定这个所表示的最小正值，
+Okay. So in order to determine the minimum positive value represented by this,
+
+262
+00:19:03,959 --> 00:19:06,899
+我们只讨论最小正值，是因为我们可以取负号，
+we only hear about minimum positive value because we can take the minus
+
+263
+00:19:06,899 --> 00:19:10,399
+这样我们就能得到最大的负值，对吧？
+and we get the mini maximum negative value, right?
+
+264
+00:19:10,399 --> 00:19:13,130
+那么最小正值是多少呢？
+So what is the minimum positive value?
+
+265
+00:19:13,130 --> 00:19:18,479
+这基本上可以让我们了解，用这种表示法我们能有多精确，对吧？
+So that can basically give us a sense like how precise we can be, right, using insenation.
+
+266
+00:19:18,479 --> 00:19:22,340
+好吗？所以我们只需要研究一下最小正值，
+Okay? So the minimum positive value we just need to basically investigate,
+
+267
+00:19:22,340 --> 00:19:25,779
+呃，左边和右边，最小值分别是多少，
+uh, the left hand side and the right hand, what is what is the minimum
+
+268
+00:19:25,779 --> 00:19:27,119
+然后我们取最小的正值，对吧？
+and we'll take a minimum oppose, right?
+
+269
+00:19:27,119 --> 00:19:30,580
+那么在左边，我们基本上用那个公式。
+So on the left hand side, we basically use that equation.
+
+270
+00:19:30,580 --> 00:19:35,240
+呃，我们要做的其实是，因为在左边，我们不能
+Uh, What do we do is basically, um, because in left hand side, we cannot
+
+271
+00:19:35,240 --> 00:19:37,019
+把所有的指数位都放到箭头里。
+side all the exponent bits into all the arrow.
+
+272
+00:19:37,019 --> 00:19:40,499
+所以我们能给指数位的最小值基本上就是一，对吧？
+So the minimum value we can do for exponent bits is basically one, right?
+
+273
+00:19:40,499 --> 00:19:44,949
+所以，呃，我们基本上就是把这个值设为一。
+So, uh, we just basically Assign this value into one.
+
+274
+00:19:44,949 --> 00:19:46,890
+这是我们能给指数的最小值。
+That's the minimum we can do for exponent.
+
+275
+00:19:46,890 --> 00:19:49,210
+当然，对于小数部分，我们可以设为零。
+And of course for the fraction, we can do a zero.
+
+276
+00:19:49,210 --> 00:19:50,770
+这样就会得到最小值。
+That will give the minimum value.
+
+277
+00:19:50,770 --> 00:19:53,729
+把这个代入这个公式，我们就得到这个结果。
+And we substitute this into this equation, we get this one.
+
+278
+00:19:53,729 --> 00:19:58,350
+基本上就是2的负126次方。
+It's basically two to two minus 126.
+
+279
+00:19:58,350 --> 00:20:00,744
+这是一个非常小的值，好吧。
+It's a very small value, okay.
+
+280
+00:20:00,744 --> 00:20:03,959
+右边我们只是用了一个不同的公式，对吧？
+And on the right hand side, we just use a different equation, right?
+
+281
+00:20:03,959 --> 00:20:09,300
+所以，因为在右边，它是次正规数，所以这部分必须为零。
+So, because on the right hand side, it is sublomal so this part must be zero.
+
+282
+00:20:09,300 --> 00:20:14,119
+我们可以做的是，对于这部分，我们要选择最小值，对吧？
+And what we can do is for this part, we are going to choose the minimum value, right?
+
+283
+00:20:14,119 --> 00:20:16,220
+最小的非零值，可以吗？
+Minimum long zero value, okay?
+
+284
+00:20:16,220 --> 00:20:20,700
+然后我们基本上得到了这个。这就是我们在次正规范围内能做到的最小值。
+And we basically get this one. And this is the minimum value we can do for the sublomer range.
+
+285
+00:20:20,700 --> 00:20:24,979
+如果你比较这两个，很明显，右边的更小，对吧。
+And if you compare this two, apparently, right hand side is even smaller, right.
+
+286
+00:20:24,979 --> 00:20:32,920
+所以这基本上就是我们用P 32能表示的最小正值，好吗？
+So that's basically the minimum positive value we can represent using P 32, okay?
+
+287
+00:20:34,140 --> 00:20:38,740
+好的。我们还有一些其他人为设定的东西，
+Okay. And we also have a few other artificial things,
+
+288
+00:20:38,740 --> 00:20:42,579
+我们为这个方向指定了一些特殊值。
+artificial values we designated into this orientation.
+
+289
+00:20:42,579 --> 00:20:49,359
+比如，在这个例子中，所有的指数位都是1。
+For example, in this example, all the exponent bits is one.
+
+290
+00:20:49,359 --> 00:20:55,980
+但在正常范围内，所有的指数位都是1，所有的尾数位都是0，
+But in the normal range, okay all the exponent bits are one and all the fraction bits are zero,
+
+291
+00:20:55,980 --> 00:20:59,220
+我们基本上把这个称为正无穷大。
+we basically call this, uh, positive infinity.
+
+292
+00:20:59,220 --> 00:21:01,239
+好吗？这个很容易理解，对吧。
+Okay? This is easy to understand, right.
+
+293
+00:21:01,239 --> 00:21:04,560
+所以基本上这个值被最大化，而这个是零。
+So basically this value is maximized, and this is zero.
+
+294
+00:21:04,560 --> 00:21:09,195
+我们基本上用这种表示法来表示正无穷大。
+And we basically use this resentation to represent positive infinity.
+
+295
+00:21:09,195 --> 00:21:13,069
+同样的方法，我们只需要稍微改变一下符号位，
+And the same thing, we just, um, change the sun beat a little bit,
+
+296
+00:21:13,069 --> 00:21:16,029
+我们就可以表示负无穷大，可以吗？
+we represent the negative infinity. Okay?
+
+297
+00:21:16,029 --> 00:21:22,230
+同时，在非正规范围内，我们要做的是，呃，不是非正规。
+And meanwhile, uh, in a subnormal range, what do we do is, um, not subnormal.
+
+298
+00:21:22,230 --> 00:21:25,729
+所以基本上，当所有这些值都是一时，呃，基本上，
+So basically, when all this value is one, uh, basically,
+
+299
+00:21:25,729 --> 00:21:31,270
+我们会用，当这个符号位没有被使用时，我们会用这个来表示，
+we will use and when this sunbat is not used, we are going to use this to represent,
+
+300
+00:21:31,270 --> 00:21:33,629
+呃，不是一个数字。
+um, not a amber.
+
+301
+00:21:33,629 --> 00:21:36,249
+好吗？而且我们并不关心这里面的任何数值。
+Okay? And we don't care about any values in this.
+
+302
+00:21:36,249 --> 00:21:41,000
+你可以看到这其实是很大的浪费，对吧，因为基本上我们浪费了，
+And you can see this is a big waste, right, because so basically we waste,
+
+303
+00:21:41,000 --> 00:21:43,239
+很多很多的可能性。
+many, many possibilities in this.
+
+304
+00:21:43,239 --> 00:21:49,819
+是的。我们用这个来表示没有木材，其实有很多浪费，对吧，
+And, yeah. And we use this to represent no lumber, and there are a lot of waste, right,
+
+305
+00:21:49,819 --> 00:21:54,280
+因为我们本来可以用这种方式来表示其他的数值，
+because we originally could use this kind of thing to represent the other values,
+
+306
+00:21:54,280 --> 00:21:58,074
+嗯，好，我们会在FVA中修正这个问题。
+um, Okay, and we will revise this in FVA.
+
+307
+00:21:58,074 --> 00:22:02,529
+好，总结一下，我觉得这张表给了你一个总结。
+Okay. To summarize, I think this table gives you a summarization.
+
+308
+00:22:02,529 --> 00:22:05,289
+所以我们有两个区间，对吧？
+So we have two ranges, right?
+
+309
+00:22:05,289 --> 00:22:07,070
+Loom区间和sublom区间。
+Loom range and the sublom range.
+
+310
+00:22:07,070 --> 00:22:13,650
+好吗？所以当你暴露为零时，我们基本上进入了sublom区间。
+Okay? So when you exposing to zero, we basically go into the sublom range.
+
+311
+00:22:13,650 --> 00:22:21,165
+在次正规范围内，我们用这个公式基本上是把二进制转换成十进制，明白吗？
+And in the sublomer range, we use this equation to basically convert the binary into decimal, okay?
+
+312
+00:22:21,165 --> 00:22:26,679
+当指数不为零时，我们进入正规范围，会用不同的公式。
+And when the exponent is not zero, we go into the normal range and we use different equation.
+
+313
+00:22:26,679 --> 00:22:30,260
+那就是大家都知道的公式，在正规范围内。
+And that's the equation that everybody knows, okay, in normal range.
+
+314
+00:22:30,260 --> 00:22:33,320
+好的，当指数全为1时。
+Okay. And when the exponent is full.
+
+315
+00:22:33,320 --> 00:22:35,239
+那么基本上每个重复码是什么？
+So basically every rabit is what?
+
+316
+00:22:35,239 --> 00:22:40,659
+然后我们保留所有这些其他的重复码，把它们用作
+Then we reserve all the other all these kind of, uh repents and we use that as
+
+317
+00:22:40,659 --> 00:22:45,300
+正无穷、负无穷或非数。
+either positive or negative infinity or not number.
+
+318
+00:22:45,300 --> 00:22:50,160
+尤其是在这个范围内，我们其实浪费了很多。
+Okay. And especially on this range, we basically waste a lot.
+
+319
+00:22:50,160 --> 00:22:53,060
+对这个表格有什么问题吗？
+Okay. Any question on this table?
+
+320
+00:22:53,740 --> 00:23:01,129
+那么你可能会逐渐明白一件事，你可以看到，
+Okay. Then one thing you probably will gradually understand is, you can see,
+
+321
+00:23:01,129 --> 00:23:06,349
+如果我们基本上把所有的数字画在x轴上，然后我们试图，呃，
+if we basically draw all the lumbers on the x axis, and we try to uh,
+
+322
+00:23:06,349 --> 00:23:11,690
+计算两个数字之间的距离，我们会发现这个浮点运算
+calculate the distance between two numbers, we find that this floating point operation
+
+323
+00:23:11,690 --> 00:23:14,769
+浮点数字和定点数字是非常不同的。
+flowing point lumber is quite different from fixed point numbers.
+
+324
+00:23:14,769 --> 00:23:18,289
+记住，在定点数中，我们基本上是在某个位置指定一个小数点，对吧。
+Remember in fixed point, we basically designate a decimal point at some place right.
+
+325
+00:23:18,289 --> 00:23:22,209
+所以基本上，不同数字之间的距离是相等的。
+So basically, we have equal distance between different umbers.
+
+326
+00:23:22,209 --> 00:23:25,429
+但是在浮点数中，如果我们把数值放在这条轴上，
+But in flowing point number, if we put the value on this axis,
+
+327
+00:23:25,429 --> 00:23:30,830
+你会发现当数值很小的时候，呃，我们实际上有很高的精度。
+you will figure out that when the value is small, uh, we actually have a lot of precision.
+
+328
+00:23:30,830 --> 00:23:35,290
+所以在这个区域内，任意两个数字之间的距离都非常小。
+So the distance between any two lambers in this area is very small.
+
+329
+00:23:35,290 --> 00:23:41,970
+好吗？但是当数值非常大时，你可以看到，呃，两个数字之间的距离非常大。
+Okay? But window value is pretty big, you can see Uh, the distance between two numbers are very big.
+
+330
+00:23:41,970 --> 00:23:46,129
+这意味着在这个区域精度更低。那么我们为什么要这样做呢？
+That is well less precision in this area. So why we do this?
+
+331
+00:23:46,340 --> 00:23:48,479
+所以基本上，这是一个权衡。
+So basically, it's a trade off.
+
+332
+00:23:48,479 --> 00:23:51,159
+我们想要表示很大的数字。
+So we want to represent large numbers.
+
+333
+00:23:51,159 --> 00:23:55,119
+但我们也想表示非常小的，比如浮点数。
+But we also want to represent very small like floating point numbers.
+
+334
+00:23:55,119 --> 00:23:56,620
+好的，我们需要做出权衡。
+Okay. We want to trade off.
+
+335
+00:23:56,620 --> 00:24:01,620
+基本上，爆炸位控制动态范围。
+So basically, um, the exploding best controls the dynamic range.
+
+336
+00:24:01,620 --> 00:24:05,539
+如果我们给它更多的爆炸位，我们就能表示越来越大的数字，对吧？
+If we give it more like exploding bees we are going to represent larger and larger numbers, right?
+
+337
+00:24:05,539 --> 00:24:08,900
+而尾数位基本上给你精度。
+And the fraction bias basically give you precision.
+
+338
+00:24:08,900 --> 00:24:11,360
+如果你给更多的尾数位，你就有更高的精度。
+If you give more fraction bias, you have more precision.
+
+339
+00:24:11,360 --> 00:24:15,460
+也就是说，任意两个较小数值之间的距离会更小。
+That is the distance between any smaller two small values is going to be smaller.
+
+340
+00:24:15,460 --> 00:24:16,800
+所以你可以表示更多的数值。
+So you can represent more values.
+
+341
+00:24:16,800 --> 00:24:18,639
+好吗？这是一个必要的权衡。
+Okay? It's essential trade off.
+
+342
+00:24:18,639 --> 00:24:22,980
+好吗？记住这一点，因为我们会一遍又一遍地回顾它，
+Okay? And remember this because we are going to revis this again and again,
+
+343
+00:24:22,980 --> 00:24:25,900
+在量子机器学习中。
+in quantison machine learning.
+
+344
+00:24:27,370 --> 00:24:34,649
+好的，有了这些，我认为我们可以更深入地探讨
+Okay, with that, I think we can basically dive deeper into the true floating point representations
+
+345
+00:24:34,649 --> 00:24:36,270
+我们在机器学习中使用的真实浮点表示法。
+we used in machine learning.
+
+346
+00:24:36,270 --> 00:24:38,849
+好的，这是LP 32，对吧？
+Okay. And this is LP 32, right?
+
+347
+00:24:38,849 --> 00:24:41,289
+我觉得我们已经深入探讨过这个了。
+And I think we dive pretty deep into that.
+
+348
+00:24:41,289 --> 00:24:43,590
+它有8位的阶码，
+It has eight bits of exposed,
+
+349
+00:24:43,590 --> 00:24:47,389
+23位的小数，对吧，总共32位。
+23 bits of fraction, right, total 32.
+
+350
+00:24:47,389 --> 00:24:51,289
+因为机器学习变得如此流行。
+And because machine learning becomes so popular.
+
+351
+00:24:51,289 --> 00:24:58,350
+所以这个法案的基本建立，我们也尝试借鉴了AE 75制定的另一个标准，
+So Act basically establish we also try to leverage another standard established from AE 75,
+
+352
+00:24:58,350 --> 00:25:01,589
+六，我基本上指的是LP 60或16。
+six, I basically LP 60 or 16.
+
+353
+00:25:01,589 --> 00:25:06,150
+所以，这个其实就是我们用来训练的那个。
+So, uh this one is basically the one that we use to train.
+
+354
+00:25:06,150 --> 00:25:08,529
+用来训练语言模型，训练很多模型。
+Language models to train a lot of models.
+
+355
+00:25:08,529 --> 00:25:10,329
+好的，呃，transformers。
+Okay, um, transformers.
+
+356
+00:25:10,329 --> 00:25:18,329
+在这个LP 16中，我们基本上是用五位指数和十位尾数。
+And in this LP uh 16, what we do is basically we use five bits of exponent and ten bits of fraction.
+
+357
+00:25:18,329 --> 00:25:20,489
+好的，就像我说的，
+Okay. And like I said,
+
+358
+00:25:20,489 --> 00:25:22,049
+在上一节课，我想
+I previous lecture, I think
+
+359
+00:25:22,049 --> 00:25:24,889
+Google提出了brain flow 16。
+Google it comes up of brain flow 16.
+
+360
+00:25:24,889 --> 00:25:30,569
+他们做的是和FP 16相比，稍微做了一些调整，
+Okay? And what they do is compared to FP 16, uh, they adjust a little bit,
+
+361
+00:25:30,569 --> 00:25:37,294
+所以他们把更多的位分配给了指数位，嗯，然后减少了分数位的位数。
+so they give more bits into, um, this exponent bits and they go last bits to fraction.
+
+362
+00:25:37,294 --> 00:25:44,160
+我还说过，有强有力的实证证据表明，BF16在训练神经网络时效果更好。
+And I also said that there's strength empirical evidence that this BF 16 is much
+
+363
+00:25:44,160 --> 00:25:46,840
+那为什么呢？
+better at training neural networks. So why?
+
+364
+00:25:46,840 --> 00:25:49,260
+有人能给点直观解释吗？
+Can anyone give intuition?
+
+365
+00:25:55,660 --> 00:25:58,240
+那我们可以在这里稍微推理一下，好吗？
+So we can reason a little bit here, okay?
+
+366
+00:25:58,240 --> 00:26:02,239
+那我们来比较一下FP16和BF16。
+So compare FP 16 and BF 16.
+
+367
+00:26:02,239 --> 00:26:03,939
+唯一的区别是BF
+The only difference is BF
+
+368
+00:26:03,939 --> 00:26:06,020
+16会有更高的动态范围。
+16 is going to have a higher dynamic range.
+
+369
+00:26:06,020 --> 00:26:09,860
+它可以表示更大的数值，但会损失一些精度。
+It can represent larger values, but it will lose some precision.
+
+370
+00:26:09,860 --> 00:26:12,700
+好，那为什么这对训练有好处呢？
+Okay? So why this is good for training?
+
+371
+00:26:12,700 --> 00:26:16,320
+因为在机器学习训练中，尤其是在训练的早期阶段，
+Because in machinery training, especially in the early phase of your training,
+
+372
+00:26:16,320 --> 00:26:21,600
+你会得到梯度，而你的梯度会不断波动，上下起伏，非常不稳定。
+you are going to derive gradits and your grading can go up and down. It's very turbulent.
+
+373
+00:26:21,600 --> 00:26:26,660
+明白吗？如果你的动态范围很小，那么在某一步，
+Okay? And if you have a very small dynamic range, what you do is at some step,
+
+374
+00:26:26,660 --> 00:26:34,599
+梯度可能会轻微爆炸，甚至超出P16的动态范围，
+the gradient slightly explode, okay and probably will explode beyond the dynamic range of P 16,
+
+375
+00:26:34,599 --> 00:26:38,919
+这样你就会得到无穷大的数值或者很多无效的数值，对吧？
+then you'll go into infinity value or a lot of lumber value, right?
+
+376
+00:26:38,919 --> 00:26:43,839
+如果你把这些数值应用到训练中，就会毁掉你的模型，对吧？
+And if you apply that value into your training, it's going to destroy your model, right?
+
+377
+00:26:43,839 --> 00:26:49,279
+这就是为什么，呃，谷歌发现了这个问题，然后他们提出了16位的解决方案。
+That's why, uh, Google basically found this and, uh, they figure out basically bit of 16.
+
+378
+00:26:49,279 --> 00:26:55,320
+他们给16位浮点数分配了更多的指数位，这样可以让训练过程更稳定，
+They give more exponent bits to the 16 bits of orientation, and it can stabilize the training
+
+379
+00:26:55,320 --> 00:26:59,039
+因为你可以表示更大的梯度，无论是正的还是负的。
+because you can represent the larger gradients, either positive or negative.
+
+380
+00:26:59,039 --> 00:27:00,920
+这就是直觉。
+Okay? That's intuition.
+
+381
+00:27:00,920 --> 00:27:06,360
+很酷。你在推理时会怎么做？哪种方式更好？
+Cool. Any inference what you do? Which one is better?
+
+382
+00:27:10,170 --> 00:27:12,749
+一般来说，我会说推理更好，
+In general, I would say inference,
+
+383
+00:27:12,749 --> 00:27:17,770
+P六更好，因为推理基本上是带有稳定器的。
+P six is better because inference basically with a stabilizer.
+
+384
+00:27:17,770 --> 00:27:22,209
+如果你用一些边际模型，你可能会发现大多数
+And if you invest some margining model, you probably figure out the most ways of
+
+385
+00:27:22,209 --> 00:27:25,370
+边际模型在收敛后数值都非常小。
+marginy model are very smaller values after convergence.
+
+386
+00:27:25,370 --> 00:27:25,610
+为什么呢？
+Why?
+
+387
+00:27:25,610 --> 00:27:28,010
+因为我们在训练过程中有很多正则化。
+Because we have a lot of regulations during training.
+
+388
+00:27:28,010 --> 00:27:30,390
+我们确保数值不会超过某些范围。
+We make sure the value will not go beyond some values.
+
+389
+00:27:30,390 --> 00:27:32,689
+我们会做类似裁剪之类的操作，对吧？
+We'll do greening called clipping or whatever, right?
+
+390
+00:27:32,689 --> 00:27:39,270
+在这个假设下，推理时我们可能更倾向于使用更多的小数位。
+And given this assumption, what happens is in inference, we probably prefer more fraction bits.
+
+391
+00:27:39,270 --> 00:27:41,929
+为什么？因为我们想要更精确的结果。
+Why? Because we want precise results.
+
+392
+00:27:41,929 --> 00:27:44,130
+是的，我们想要更高的精度。
+Yeah, we want more precision.
+
+393
+00:27:44,130 --> 00:27:49,310
+记住这个数字，我们希望它更精确，所以我们需要更多的小数位偏置。
+Remember this figure, we want this to be more precise, so we want more fraction bias.
+
+394
+00:27:49,310 --> 00:27:54,369
+好的。这基本上可以让你对我们一直在讨论的这些数字有一些直观的理解。
+Okay. This basically give you some intuition on these kind of lumbers we have been talking about.
+
+395
+00:27:54,369 --> 00:27:57,389
+明白了吗？明白。
+Okay? Okay.
+
+396
+00:27:57,389 --> 00:28:01,349
+总结一下，如果你有更大的指数位宽，
+To summarize, so if you have more exploded width,
+
+397
+00:28:01,349 --> 00:28:04,550
+你基本上就有了更大的动态范围，明白吗？
+you basically have a larger range, dynamic range, okay?
+
+398
+00:28:04,550 --> 00:28:08,150
+如果你有更多的小数位宽，你基本上就有了更高的精度。
+If you have more fraction width, you basically have more precision.
+
+399
+00:28:08,150 --> 00:28:11,130
+最终，你需要根据你的工作负载在这两者之间进行权衡。
+And eventually, you want to treat off between this depending on your workloads.
+
+400
+00:28:11,130 --> 00:28:16,689
+好的。好的。我希望这很清楚，对吧？
+Okay. Okay. I hope this is clear, right?
+
+401
+00:28:16,689 --> 00:28:18,210
+你明白浮点数了吗？
+You understand the floating point, okay?
+
+402
+00:28:18,210 --> 00:28:20,309
+我们要做练习了。
+We are going to do exercise.
+
+403
+00:28:20,309 --> 00:28:25,489
+好吗？那这个数字是什么？
+Okay? So what is this lumber?
+
+404
+00:28:25,489 --> 00:28:27,970
+我给你两分钟时间。
+I will give you 2 minutes.
+
+405
+00:28:35,000 --> 00:28:39,039
+也许我是这个意思，因为你拿着我的幻灯片。好吧。
+Maybe I mean it because you hold my slide. Okay.
+
+406
+00:29:32,160 --> 00:29:34,899
+好的，那我们来一起看看吧。
+Okay, yeah, let's go through it.
+
+407
+00:29:34,899 --> 00:29:37,900
+当你读到这种数字时，基本上要做两件事。
+So when you read this kind of number, you basically start with two things.
+
+408
+00:29:37,900 --> 00:29:41,040
+第一，你要判断这是正规范围还是非正规范围。
+One is you figure out if this is mal range or sub lomer range.
+
+409
+00:29:41,040 --> 00:29:48,420
+这个显然是正规数，因为你看指数位不是零，所以它是正规数。
+So this is apparently normal because you look at the expoen bits and it's not zero, so it's normal.
+
+410
+00:29:48,420 --> 00:29:53,399
+一旦你确定它是正规数，你基本上就知道第一个公式了，然后
+Once you figure out it's normal, you basically know the equation, the first equation, then
+
+411
+00:29:53,399 --> 00:29:55,240
+这个求和部分其实挺简单的吧？
+this sum bit is pretty easy?
+
+412
+00:29:55,240 --> 00:29:56,580
+我们稍后会讲到这个。
+We are going to talk about it later.
+
+413
+00:29:56,580 --> 00:30:00,520
+但你接下来要弄明白的第二件事是，关于这个浮点数，
+But the second thing you want to figure out is uh, for this floating point,
+
+414
+00:30:00,520 --> 00:30:02,979
+你需要搞清楚偏置值，就像我刚才说的，
+you want to figure out the bias value, like I said,
+
+415
+00:30:02,979 --> 00:30:09,179
+偏置值基本上就是这个指数位所能表示的最大值的中位数。
+The bias value is basically the median the median of the maximum value that are represented
+
+416
+00:30:09,179 --> 00:30:11,700
+就是说由这个指数位表示的最大值的中间值，对吧？
+by this exponent bis, okay?
+
+417
+00:30:11,700 --> 00:30:13,599
+所以前面是符号位减去，对吧？
+So sine minus, okay?
+
+418
+00:30:13,599 --> 00:30:15,659
+然后我们再来确定指数部分。
+Uh, then we figure out exponent.
+
+419
+00:30:15,659 --> 00:30:21,060
+那这个偏置值对于这个例子来说，这里是零，对吧，这里是一、二、三、四。
+So the bias value is for this one, this is zero right, this is the one, two, three, four.
+
+420
+00:30:21,060 --> 00:30:28,300
+所以最大值就是，偏置值基本上是50，对吧？明白了。
+So the maximum value is the bias is basically, uh, 50, okay? Okay, that makes sense.
+
+421
+00:30:28,300 --> 00:30:30,719
+因为实际上能取的最大值是，
+Because the largest value that can be really is,
+
+422
+00:30:30,719 --> 00:30:32,339
+我觉得，是31，对吧？
+I think, 31, right?
+
+423
+00:30:32,339 --> 00:30:37,759
+对。那你基本上会读取这个值，对吧？
+Yeah. Okay. So then you'll basically read this value, right?
+
+424
+00:30:37,759 --> 00:30:39,279
+这是你得到的值，对吗？
+This is the value you got, right?
+
+425
+00:30:39,279 --> 00:30:41,300
+然后你要减去偏置。
+And you want to minus the bios.
+
+426
+00:30:41,300 --> 00:30:44,719
+好吗？所以用十进制表示，这个值是17，对吧？
+Okay? And so in decimal, this value is 17, right?
+
+427
+00:30:44,719 --> 00:30:48,500
+然后减去15，得到的十进制是2。
+And in -15, okay, you get two in decimal.
+
+428
+00:30:48,500 --> 00:30:51,399
+好吗？指数基本上就是2。
+Okay? The exponent is basically two.
+
+429
+00:30:51,399 --> 00:30:55,539
+然后我们来算小数部分，小数部分其实很容易读出来，对吧？
+And then we figure out the fraction, the fraction is pretty easy to rate, right?
+
+430
+00:30:55,539 --> 00:30:58,640
+这是二分之一，对吧？这是二分之一。这是四分之一。
+This is half, right? This is half. This is a quarter.
+
+431
+00:30:58,640 --> 00:31:01,620
+好的。你基本上就是把它们全部加在一起。
+Okay. You basically add all them together.
+
+432
+00:31:02,130 --> 00:31:07,749
+因为只有这两个值是1，所以你得到的是0.75，对吧，用小数表示。
+Because only these two values are one, so you get 0.75, right, in decimal.
+
+433
+00:31:07,749 --> 00:31:10,509
+然后你知道这个方程，这个方程
+And then you know the equation the equation
+
+434
+00:31:10,509 --> 00:31:13,430
+我们要用的其实就是mal方程，明白吗？
+we're going to use is essentially the mal equation, okay?
+
+435
+00:31:13,430 --> 00:31:18,650
+所以基本上，就是负B，这其实是标准方程，对吧，所以我们有一个1加上，
+So basically, it's minus B it's normal equation right so we have a one plus,
+
+436
+00:31:18,650 --> 00:31:22,529
+再加上这个值，这个值是2，对吧？
+plus this value and this value is two, right?
+
+437
+00:31:22,529 --> 00:31:26,450
+所以这是一个小数，明白了吗？
+So this is a decimal, okay? Makes sense.
+
+438
+00:31:26,450 --> 00:31:29,370
+好的，明白。在考试中，
+Okay. Cool. In exam,
+
+439
+00:31:29,370 --> 00:31:31,190
+我会给你一个sub lomer值。
+I'm going to give you a sub lomer value.
+
+440
+00:31:31,190 --> 00:31:33,324
+好的，那你自己算出来。
+Okay. So you figure out.
+
+441
+00:31:33,324 --> 00:31:38,679
+好的。我们来做一个反向练习，因为这个很重要。
+Cool. Okay. Let's do a reverse exercise because it is so important.
+
+442
+00:31:38,679 --> 00:31:40,419
+我想确保你理解这一点。
+I want to make sure you understand this.
+
+443
+00:31:40,419 --> 00:31:43,200
+好吗？这是Google Brain的浮点数，
+Okay? So this is Google Brain float,
+
+444
+00:31:43,200 --> 00:31:46,480
+BF16，就是我们用来训练transformer的那种。
+BF 16, the one that we use to train transformers.
+
+445
+00:31:46,480 --> 00:31:52,779
+那么我的问题是，十进制的2.5在BF16中是什么？
+So my question is, what is the decimal 2.5 in B 16.
+
+446
+00:31:52,779 --> 00:31:55,719
+好吗？再给你一分钟。
+Okay? Again, 1 minute.
+
+447
+00:32:31,800 --> 00:32:33,839
+好的。
+Okay.
+
+448
+00:33:01,040 --> 00:33:04,040
+好的，我们一起来过一遍，好吗？
+Okay, let's go through it, okay?
+
+449
+00:33:04,040 --> 00:33:08,559
+嗯，当你解决这类问题时，直觉上你要做的是
+Um, so when you solve this kind of question, the intuition is basically you try
+
+450
+00:33:08,559 --> 00:33:15,160
+确保你能像这样写出一个方程，因为这是浮点数的表示方法。
+to make sure you compose a equation like this, because this is the representation for flame point.
+
+451
+00:33:15,160 --> 00:33:17,640
+然后你尝试把这个十进制数表示成某种形式
+And you try to represent this decimal number into something
+
+452
+00:33:17,640 --> 00:33:20,579
+就是1加上某个数乘以2的幂。
+that one plus something times the power of two.
+
+453
+00:33:20,579 --> 00:33:26,779
+明白吗？所以很明显，这是，嗯，因为这是1加上一个小数部分
+Okay? So apparently, this is, um, so because this is one plus fraction and
+
+454
+00:33:26,779 --> 00:33:29,399
+这个值大于1，对吧？它是2。
+this value is greater than one, right? It's two.
+
+455
+00:33:29,399 --> 00:33:31,039
+所以你至少要把它除以2。
+So you have to divide it by at least two.
+
+456
+00:33:31,039 --> 00:33:33,239
+明白吗？所以你基本上先把它除以2。
+Okay? So you basically divide it by two first.
+
+457
+00:33:33,239 --> 00:33:38,739
+对，你会得到1.25乘以2的一次方，对吧？
+Right, you get a 1.25 times two power one, okay?
+
+458
+00:33:38,739 --> 00:33:42,839
+然后你可以发现这个小数部分其实是四分之一，对吧？
+And then you can figure out this fraction is essentially a quarter, right?
+
+459
+00:33:42,839 --> 00:33:45,859
+这个指数应该是一，对吧？
+And this exponent should be one, right?
+
+460
+00:33:45,859 --> 00:33:51,540
+好的，然后你用这个1的值，基本上就得到了实际的指数值，
+Okay. So then you use this one value, you basically get the actual exponent value,
+
+461
+00:33:51,540 --> 00:33:57,459
+应该是这样的，所以偏置基本上就是这个，对吧？
+it should be, so basically bias is this, right?
+
+462
+00:33:57,459 --> 00:34:06,500
+X减去127等于1，而X实际上是128，你试着用二进制表示128。
+X minus 127 equal to one, and X is actually 128, you try to represent 128 in binary.
+
+463
+00:34:06,500 --> 00:34:13,740
+好的。我要提醒你，这里用的是B float 16，所以你有很多位用来表示指数。
+Okay. That I give you basically remember this is B flow 16, so you have the many bits for expolen.
+
+464
+00:34:13,740 --> 00:34:18,039
+这就是为什么你得到的这个值比之前的要长一些，明白吗？
+That's why you get this value pretty longer than the previous one, okay?
+
+465
+00:34:18,039 --> 00:34:20,440
+同时，你还有小数部分。
+Meanwhile, you have fraction.
+
+466
+00:34:20,440 --> 00:34:26,799
+你有七位的小数部分，这里你已经知道你的小数是四分之一。
+You have seven bits of fraction and here you already know your fraction is, um, a quarter.
+
+467
+00:34:26,799 --> 00:34:30,835
+所以基本上这里的第二个值其实就是这样。
+So basically the second value here is basically.
+
+468
+00:34:30,835 --> 00:34:35,369
+好的。是的。我把它们都放在一起，你也有相同的位数。
+Okay. Yeah. I put it all together, you also have the same bit.
+
+469
+00:34:35,369 --> 00:34:39,050
+这基本上就是B float 16中的这个数字。
+That's basically this number in B flow 60.
+
+470
+00:34:39,050 --> 00:34:50,109
+酷。挺有意思的。这样的话，显然我们要开始讨论更低位的LP8了。
+Cool. Okay. Interesting. With that, apparently, we start talking about even lower bits, LP eight.
+
+471
+00:34:50,109 --> 00:34:55,119
+LP八就是那个稍微改变了曲线的东西，因为
+LP eight is the one that, kind of shift the curve a little bit because
+
+472
+00:34:55,119 --> 00:35:00,079
+如果你听说过Deep sik with three和一个主要的主张，他们
+if you heard about Deep sik with three and a major claim they
+
+473
+00:35:00,079 --> 00:35:03,280
+说他们不用32位，也不用16位。
+use that they don't use 32, they don't use 16.
+
+474
+00:35:03,280 --> 00:35:05,779
+他们用FPA八来训练他们的模型，对吧？
+They use FPAight to train their model, right?
+
+475
+00:35:05,779 --> 00:35:10,019
+我想你能直觉地理解为什么FB八更好，因为只要你能用
+I think you have the intuition why FB eight is better because whenever you can use
+
+476
+00:35:10,019 --> 00:35:13,800
+更低的位数来训练模型，你就会有更多的缺陷。
+lower bits to train your model, you are going to have more flaws.
+
+477
+00:35:13,800 --> 00:35:15,980
+你的GP会更强大。
+Your GP will be more powerful.
+
+478
+00:35:15,980 --> 00:35:22,839
+好的。事实上，他们确实非常成功，因为他们能够用这么少的
+Okay. And indeed, they were very successful in the sense that they are able to use this number of
+
+479
+00:35:22,839 --> 00:35:26,260
+位数实现非常大的变换收敛。
+bits to very large transformative convergence.
+
+480
+00:35:26,260 --> 00:35:28,420
+这太厉害了。为什么说太厉害呢？
+That is amazing. Why is it amazing?
+
+481
+00:35:28,420 --> 00:35:33,639
+因为从视觉上你已经能感受到这一点，因为你可以看到这是30。
+Because, visually, you can already feel this because you can see this is 30.
+
+482
+00:35:33,639 --> 00:35:35,760
+它很长，对吧。它可以表示很多数字。
+It's so long, right. It can represent so many numbers.
+
+483
+00:35:35,760 --> 00:35:39,559
+好吗？这是16，虽然短了一点，但还是相当长的。
+Okay? This is 16 and it's a little bit shorter but still pretty long.
+
+484
+00:35:39,559 --> 00:35:44,380
+但是如果你再减半，基本上就只剩下八位了。
+But if you reduce this by another half, you basically only get eight bits.
+
+485
+00:35:44,380 --> 00:35:48,999
+好的。就像我说的，你需要保留第一位作为符号位，对吧？
+Okay. And like I said, you need to reserve the first bit as a sign bit, right?
+
+486
+00:35:48,999 --> 00:35:55,540
+所以实际上你有七位，需要在指数和小数之间分配。
+So essentially you have seven bits, that need to be allocated between expoden and fraction.
+
+487
+00:35:55,540 --> 00:35:57,280
+所以你能表示的数字不多。
+So you don't have many numbers.
+
+488
+00:35:57,280 --> 00:36:00,879
+好的。你大概可以把所有数字都写在白纸上。
+Okay. Probably you can just write all the numbers in white paper.
+
+489
+00:36:00,879 --> 00:36:03,940
+是的，这就是这个IP八能表示的所有数字。
+Yeah, that's all the numbers this IP eight can represent.
+
+490
+00:36:03,940 --> 00:36:05,889
+好的，你可以这样想。
+Okay. And you can think this.
+
+491
+00:36:05,889 --> 00:36:10,589
+这真的很神奇，因为本质上你只有这些数字，你可以拥有，
+This is pretty amazing because essentially you only have these numbers, you can you have,
+
+492
+00:36:10,589 --> 00:36:13,669
+比如说，70,700亿这个数字。
+say, 70,700 billion number.
+
+493
+00:36:13,669 --> 00:36:17,309
+你基本上需要从这个范围中选择每一个数字，对吧？
+You basically need to choose each lumber from this range, right?
+
+494
+00:36:17,309 --> 00:36:20,469
+给每个参数设计一个数值，然后你就会得到一个
+Design value to each parameter, and you will get a model that can
+
+495
+00:36:20,469 --> 00:36:21,869
+基本上能回答很多很多问题的模型。
+basically answer many many questions.
+
+496
+00:36:21,869 --> 00:36:24,405
+是的，是的，这真的很有趣。
+Yeah. Yeah, it's pretty interesting.
+
+497
+00:36:24,405 --> 00:36:29,359
+所以对于P八来说，这是一个重大的进展，
+So for P eight, this one is like a major development by
+
+498
+00:36:29,359 --> 00:36:33,679
+英伟达想推动更低精度，对吧？
+VDa B NVDA wants to push for lower precision, right?
+
+499
+00:36:33,679 --> 00:36:37,439
+他们这样做是因为想要保持摩尔定律，对吧？
+They have this drive because they want to maintain their more law, right?
+
+500
+00:36:37,439 --> 00:36:40,500
+你能保持这个定律的唯一方法基本上就是使用更低的精度。
+The only way that you can maintain this law is basically you use lower precision.
+
+501
+00:36:40,500 --> 00:36:42,500
+好吗？这里有两个标准。
+Okay? And there are two standards.
+
+502
+00:36:42,500 --> 00:36:44,760
+一个是e4m3。
+One is e4m3.
+
+503
+00:36:44,760 --> 00:36:46,899
+另一个是e5m2。
+The other is e5m2.
+
+504
+00:36:46,899 --> 00:36:51,939
+基本上，e43代表指数为四位，尾数为三位。
+So basically, e43 stands for exponen equals to four bits and the Mntisa equal to three.
+
+505
+00:36:51,939 --> 00:36:55,704
+而R基本上是指数五位，尾数两位，对吧？
+And the R is basically exponent five Mantisa two, okay?
+
+506
+00:36:55,704 --> 00:37:02,209
+很明显，你已经可以推理出这两者的优缺点了。
+And apparently not already you can already reason between the pros and cons between these two.
+
+507
+00:37:02,209 --> 00:37:04,789
+所以在这个e4m3中，呃，
+So in this e4m3, uh,
+
+508
+00:37:04,789 --> 00:37:08,390
+我有四位的指数和三位的小数部分。
+I have four bits of explon and three bits of fraction.
+
+509
+00:37:08,390 --> 00:37:13,225
+而在这个里面，我可以有五位的指数和两位的小数部分，对吧？
+And in this one, can I have five explot two of fraction, okay?
+
+510
+00:37:13,225 --> 00:37:18,139
+我们还有一些人为的定义，比如说在CLP八中，
+And we also have some artificial designations that is, for example, in CLP eight,
+
+511
+00:37:18,139 --> 00:37:20,340
+EM值，我们没有无穷大。
+EMs, we do not have infinity.
+
+512
+00:37:20,340 --> 00:37:26,680
+好吗？我们还保留了一些作为基本的批号。
+Okay? And we reserve some one as basically lot number.
+
+513
+00:37:26,680 --> 00:37:33,480
+好的。最大的EM正常值基本上是448。
+Okay. And the largest Em normal value is basically 448.
+
+514
+00:37:33,480 --> 00:37:35,219
+好吗？这是你能达到的最大值。
+Okay? That's the largest you can.
+
+515
+00:37:35,219 --> 00:37:41,060
+所以为了确保你的训练是成功的，也就是说在过程中，
+So in order to make sure your training is successful, which means that during the throat,
+
+516
+00:37:41,060 --> 00:37:44,319
+训练过程中，你不能产生比这个更大的分级。
+the training process, you cannot produce a grading that is bigger than this one.
+
+517
+00:37:44,319 --> 00:37:47,039
+否则会干扰你的机器学习训练，对吧？
+Otherwise, it will disrupt your marche learning training, right?
+
+518
+00:37:47,039 --> 00:37:54,869
+好的，我们也可以做e52，我们还有一些人工设定的东西。
+Okay. And we can also do, e52, and we have a few artificial things.
+
+519
+00:37:54,869 --> 00:37:57,789
+我会留给你自己去看幻灯片，好吗？
+I will leave to you to check the slides, okay?
+
+520
+00:37:57,789 --> 00:38:04,709
+最大的PightE二值基本上几乎是这个的100倍，对吧？
+And the largest PightE two value is basically like almost 100 times larger, right?
+
+521
+00:38:04,709 --> 00:38:06,129
+大于一百倍。
+More than 100 times larger.
+
+522
+00:38:06,129 --> 00:38:11,229
+基本上，就是五、七、三、四、四，对吧？然后我问你一个问题。
+So basically, uh, five, seven, three, four, four, okay? Then I ask you a question.
+
+523
+00:38:11,229 --> 00:38:16,070
+现在假设我只能用LP八，好吗？
+So now, assuming that I'm only allowed to use LP eight, okay?
+
+524
+00:38:16,070 --> 00:38:20,290
+那我应该用哪一个来训练，哪一个用来推理？
+So which one should I use for training and which one should I use for inference?
+
+525
+00:38:23,960 --> 00:38:28,859
+你知道答案，因为在训练时，我们需要更大的动态范围。
+You know answer because in training, we want more dynamic range.
+
+526
+00:38:28,859 --> 00:38:32,160
+所以我们会用e52来训练。
+So we would use e52 for training.
+
+527
+00:38:32,160 --> 00:38:34,640
+而在推理时，我们需要更高的精度。
+And in inference, we want more precision.
+
+528
+00:38:34,640 --> 00:38:37,900
+所以我们会用E43来推理。
+So we would use E for three for inference.
+
+529
+00:38:37,900 --> 00:38:44,809
+这基本上就是我们现在在LP八训练和推理时所做的事情。好的，明白了。
+That is basically what we are doing today for LP eight, training and inference. Okay, cool.
+
+530
+00:38:44,809 --> 00:38:51,110
+而对于更低精度数字的追求就此停止。
+And the quest for even lower precision number stops.
+
+531
+00:38:51,110 --> 00:38:55,849
+所以我认为Amdia正在推动整数四这个老东西。
+So I think Amdia is trying to push for Integer four is old thing.
+
+532
+00:38:55,849 --> 00:38:57,469
+整数四其实已经是去年的事情了，
+Integer four is already last year,
+
+533
+00:38:57,469 --> 00:38:59,230
+我觉得整数四非常成功。
+I think Ing four is very successful.
+
+534
+00:38:59,230 --> 00:39:04,829
+如果你曾经在你的iPhone上运行过任何模型，很可能就是用整数四运行的。
+If you ever run any model on your iPhone, it's likely being run in Integer four.
+
+535
+00:39:04,829 --> 00:39:07,670
+但是Amedia变得越来越激进了。
+But Amedia has been more and more aggressive.
+
+536
+00:39:07,670 --> 00:39:12,269
+在下一代GPU中，他们想推动LP四。好吧。
+In the next generation of GPUs they want to push for LP four. Okay.
+
+537
+00:39:12,269 --> 00:39:14,449
+而FP四甚至更厉害，对吧？
+And FP four is even great, right?
+
+538
+00:39:14,449 --> 00:39:18,129
+因为如果你看这条曲线，我们一步一步来，好吗。
+Because if you check this curve, let's go one by one, okay.
+
+539
+00:39:18,129 --> 00:39:20,370
+对于整数四来说，本质上，
+For integer four, essentially,
+
+540
+00:39:20,370 --> 00:39:23,189
+我可以把它的值写在右边。
+I can write down is value in the right hand side.
+
+541
+00:39:23,189 --> 00:39:28,269
+所以这里我用来补充，对吧，你们还记得补码表示整数的方法吧？
+So here I use to complement, right, you still remember to compliment the reentation integers, right?
+
+542
+00:39:28,269 --> 00:39:37,989
+那么，嗯，呃，我把这些值写下来，如果我把这些值放在X轴上，你们可以看到，呃，
+So, um, uh, I write down is values, and if I basically put these values X cess, you can see, uh,
+
+543
+00:39:37,989 --> 00:39:40,609
+任意两个值之间的距离是相等的。
+the distance between any two values is equal.
+
+544
+00:39:40,609 --> 00:39:43,859
+所以，呃，基本上就是整数，好吗？
+So, uh basically integers, okay?
+
+545
+00:39:43,859 --> 00:39:48,850
+而对于P4，媒体正在推动三种标准。
+And for P four, media is trying to push for three standards.
+
+546
+00:39:48,850 --> 00:39:55,749
+第一个标准基本上是EYM2，指数用一位，尾数用两位。
+The first standard is basically EY M two, one bit for exponent, two bits for Mantisa.
+
+547
+00:39:55,749 --> 00:39:59,989
+好吗？我也把数值写在这里，你们之后可以检查。
+Okay? I also write the value here, and you can check later.
+
+548
+00:39:59,989 --> 00:40:04,589
+但是如果我把所有这些由EIM2表示的值都列出来，
+But if I put all these values, that is represented by EIM two.
+
+549
+00:40:04,589 --> 00:40:06,889
+我基本上得到了这个范围。
+I basically get this range.
+
+550
+00:40:06,889 --> 00:40:15,509
+你们都会发现EIM2其实不是很有用，为什么呢？因为它本质上就是整数四。
+And you all find that EIM two is not very useful Y because it is essentially, Integer four.
+
+551
+00:40:15,509 --> 00:40:17,289
+因为我做的方法是，比如说，
+Because what I do is, for example,
+
+552
+00:40:17,289 --> 00:40:22,129
+我可以稍微调整一下技能，它基本上就会被调整到这个范围内。
+I can skill it a little bit and it will basically be skilled into this range.
+
+553
+00:40:22,129 --> 00:40:28,969
+基本上，LP四E二等同于整数四，但我们其实不怎么用它，
+Basically, LP four E two is equivalent to integer four, we don't use that very much
+
+554
+00:40:28,969 --> 00:40:32,949
+因为我们经常回退去用整数四。
+because we often roll back just to use integer four.
+
+555
+00:40:32,949 --> 00:40:35,190
+但我们还有其他几个选择。
+But we have a few other choices.
+
+556
+00:40:35,190 --> 00:40:36,729
+其中一个是e2m1。
+One is e2m1.
+
+557
+00:40:36,729 --> 00:40:41,210
+好吗？如果你用e2m1，并且把所有的值都放到excess里，
+Okay? If you do e2m1 and you put all the values in excess,
+
+558
+00:40:41,210 --> 00:40:44,549
+你会发现这有点不一样，对吧？
+you'll find that is slightly different, right?
+
+559
+00:40:44,549 --> 00:40:51,350
+因为这里我们的直径范围稍微大一点，因为我们给了Epoing更多的位数。
+Because here we have a slightly larger dameter range because we give more bits into Epoing.
+
+560
+00:40:51,350 --> 00:40:55,620
+好的，还有第三个标准。
+Okay. And there's a third standard.
+
+561
+00:40:55,620 --> 00:41:02,119
+基本上我们只做指数部分，不为Mantisa B指定任何bis，它只占用四位。
+Basically we only do exp we don't designate any bis for Mantisa B it only hold four bits.
+
+562
+00:41:02,119 --> 00:41:09,819
+Es 30。事实证明，e3m0基本上就是对数值，你可以看到，所有的值都是
+Es 30. And it turns out that e3m0 is basically the log values, you can see, all the values were
+
+563
+00:41:09,819 --> 00:41:12,739
+原因基本上就是2的幂。
+reason is basically the power of two.
+
+564
+00:41:12,940 --> 00:41:18,939
+这些就是可能的取值。很酷。有问题吗？
+And this is possible values. Cool. Any question?
+
+565
+00:41:19,860 --> 00:41:29,729
+到目前为止，还没有任何成功的工作是用P four训练出来的。
+Yeah, by far, there's no successful job that is trained using P four.
+
+566
+00:41:29,729 --> 00:41:32,020
+这是一个非常好的研究领域。
+This is a pretty good area of research.
+
+567
+00:41:32,020 --> 00:41:34,239
+所以如果你在这个领域做研究，
+So if you are doing research in this area,
+
+568
+00:41:34,239 --> 00:41:35,919
+我强烈建议你深入研究一下。
+I strongly recommend to look into this.
+
+569
+00:41:35,919 --> 00:41:39,820
+如果你能让它成功，我觉得你可以发表第一篇论文。
+I think you can publish the first paper, if you can make this successful.
+
+570
+00:41:39,820 --> 00:41:46,919
+很好，这基本上涵盖了数据的数字表示。
+Cool. That basically covers digital representation of data.
+
+571
+00:41:46,919 --> 00:41:51,300
+我认为你现在已经深入理解了我们在统一机器中如何表示数据。
+I think you now have a deep understanding of how we represent data in uni machinery.
+
+572
+00:41:51,300 --> 00:41:57,259
+接下来我们开始谈一点关于凝聚的话题。我会重复这张幻灯片。
+Then we start talking about a bit on condensation. I'm going to repeat this slide.
+
+573
+00:41:57,259 --> 00:42:02,139
+凝聚是一个将输入从连续或其他较大集合
+Condensation is a process of constraining an input from a continuous or otherwise large set
+
+574
+00:42:02,139 --> 00:42:03,844
+约束到离散集合的过程。
+of values to a discrete set.
+
+575
+00:42:03,844 --> 00:42:08,530
+左边基本上是在尝试用少数几种可能的选择
+And the left hand side basically trying to represent a continuous signal
+
+576
+00:42:08,530 --> 00:42:10,369
+来表示一个连续信号，对吧？
+using a few possible choices, right?
+
+577
+00:42:10,369 --> 00:42:14,509
+右边基本上就是苹果在他们的Apple Silicon中所做的事情。
+And the right hand side is basically what apples does in their Apposilicon.
+
+578
+00:42:14,509 --> 00:42:21,430
+他们有技术基本上可以对数值进行压缩，一旦你对图像进行压缩，
+So they have um technical basically contest the values, uh, and once you contact the images,
+
+579
+00:42:21,430 --> 00:42:23,990
+你就可以用更低的精度存储图像。
+you can store the image in lower precision.
+
+580
+00:42:23,990 --> 00:42:28,809
+你还可以用低精度的核心进行计算，这样你就能看到能耗的变化。
+You can also compute using lower precision cores, and you can see what energy.
+
+581
+00:42:28,809 --> 00:42:34,749
+你可以看到，对于人类来说，你基本上能判断出两张图片都被保留了，对吧？
+You can see, uh, for human, you can basically figure out both images are kept, right?
+
+582
+00:42:34,749 --> 00:42:41,270
+好的，所以在这节课里，我们要讲两个非常非常经典的内容。
+Okay. So in this lecture, we are going to talk about two very, very classic.
+
+583
+00:42:41,270 --> 00:42:45,530
+在这门课里，我们要讲两种经典的编码技术。
+In this class, we are going to talk about two classic coding technique.
+
+584
+00:42:45,530 --> 00:42:49,809
+第一种基本上是基于均值的条件，这种是最常用的，好吗？
+The first one is basically means based condition, and this one is the most adoptive, Okay.
+
+585
+00:42:49,809 --> 00:42:52,769
+很可能你们所有的手机都有这个功能，明白吗？
+Uh, so likely all your phones have this. Okay?
+
+586
+00:42:52,769 --> 00:42:57,269
+第二种基本上是线性条件，这种我认为是最强大的。
+The second one is basically linear condensation, and this one is the most powerful, I would say.
+
+587
+00:42:57,269 --> 00:43:02,570
+所以现在很多很多的语言模型，基本上都采用了线性条件机制。
+So many, many today's language model, uh, they basically follow a linear condition mechanism.
+
+588
+00:43:02,570 --> 00:43:05,849
+好的，我觉得我们需要注意的是，当
+Okay. I think the thing that we want to pay attention is when
+
+589
+00:43:05,849 --> 00:43:12,570
+我们在凝聚之后应用这个编码时，存储和计算会发生什么变化？
+we apply this codsation after the condensation, so what happens on storage and compute?
+
+590
+00:43:12,570 --> 00:43:17,929
+那么比如说，如果我们应用化学编码，存储会发生什么？我们如何存储数据？
+So say if we apply chemist coniation, what happens on storage? How we store data?
+
+591
+00:43:17,929 --> 00:43:23,950
+因为最初你是用高精度的浮点数存储数据，而我们的目标是
+Because originally you store the data in floating point in hyp precision and our goal of condiy
+
+592
+00:43:23,950 --> 00:43:27,119
+用现有的数据来表示高维数据。
+represent hypersen data using present data.
+
+593
+00:43:27,119 --> 00:43:29,470
+好的，第二个问题基本上是关于计算的。
+Okay. Second question is basically compute.
+
+594
+00:43:29,470 --> 00:43:32,769
+那么量化之后，我们调用的是什么类型的计算核心？
+So after quantization, what kind of course are we calling?
+
+595
+00:43:32,769 --> 00:43:37,210
+比如说，如果原始数据是FP32，你用FP32进行计算，
+Uh, say, if the original data is LP 32, when you compute FP 32,
+
+596
+00:43:37,210 --> 00:43:41,250
+你只能调用VDA的FP32核心，如果你还记得的话，
+you can only call epi 32 course VDA if you remember,
+
+597
+00:43:41,250 --> 00:43:44,910
+我们查过VDA的产品说明书。
+uh, I think we inspected the product sheet of VDA.
+
+598
+00:43:44,910 --> 00:43:49,589
+所以FP32的浮点运算能力，呃，比低精度的要低很多，比如说，
+So the flops for Epi 32, uh, is much lower than lower precision, for example,
+
+599
+00:43:49,589 --> 00:43:52,629
+张量核心的FP16或者张量核心的FP8。
+tensor core epis 16 or tensor core FP eight.
+
+600
+00:43:52,629 --> 00:43:57,310
+所以如果我们能把一些数值量化到更低的精度，
+So if we are able to quantize some values into lower precision,
+
+601
+00:43:57,310 --> 00:44:03,129
+这可以匹配VDIa上的高性能张量核心，我们可以计算得更快，对吧？
+that can match high flops tensor core on VDIa, we can compute much faster, right?
+
+602
+00:44:03,129 --> 00:44:06,735
+嗯，前提是我们能够保持机器学习的准确性和结果。
+Uh, given that we can preserve machine learning accuracy and results.
+
+603
+00:44:06,735 --> 00:44:11,359
+好的。所以将来每一次，嗯，我觉得每当你阅读
+Okay. So every time in the future, um, I think whenever you read
+
+604
+00:44:11,359 --> 00:44:13,380
+一篇量化的论文时，你都要问问自己。
+a quantity paper, you want to ask yourself.
+
+605
+00:44:13,380 --> 00:44:16,899
+那么在我应用了这个量化技术之后，我是如何存储我的数据的，
+So after I apply this quantity technique, how I store my data,
+
+606
+00:44:16,899 --> 00:44:21,589
+用什么样的精度，以及我是如何计算的，用什么样的核心，好吗？
+in what kind of precision and how I compute, in what kind of core, okay?
+
+607
+00:44:21,589 --> 00:44:24,560
+我们来看看最小条件。
+Let's look at the mins cosition.
+
+608
+00:44:24,560 --> 00:44:29,020
+当然，我们从这个四乘四的矩阵开始，好吗？
+Of course, we start with, say, this four by four matrix, okay?
+
+609
+00:44:29,020 --> 00:44:33,779
+在这里，我假设我们用32位来存储数据。
+And here, I assume that we store data in 32 bits.
+
+610
+00:44:33,779 --> 00:44:39,839
+好吗？那么Cemens条件的作用基本上是，嗯，我们要弄清楚，有哪些
+Okay? So what Cemens condition does is basically, um, so we figure out, there are
+
+611
+00:44:39,839 --> 00:44:43,920
+这个四乘四矩阵中的几个数值，它们非常接近。
+a few values from this four by four matrix, and they are very close.
+
+612
+00:44:43,920 --> 00:44:49,499
+明白吗？它们接近的意思是，我们大概可以把它们都简化成，
+Okay? They are close in the sense that probably we can just reduce we can represent them all in,
+
+613
+00:44:49,499 --> 00:44:53,059
+比如说一两个数字。它们都非常接近于2。
+say a lumber or two. They are pretty close to two.
+
+614
+00:44:53,059 --> 00:44:57,499
+我们基本上就是试图用一个单一的数值来表示这个单元，好吗？
+And we basically try to represent the unit just a single value, okay?
+
+615
+00:44:57,499 --> 00:45:03,139
+并且，假设我们可以容忍这种类型的简化误差，对吧？
+And, assuming that we can suffer this kind of condensation error, right?
+
+616
+00:45:03,139 --> 00:45:07,780
+所以在这种情况下，每个数值在简化后都会有一个小的简化误差。
+So in this case, each value has a small condension arrow, after condition.
+
+617
+00:45:07,780 --> 00:45:09,739
+好的。那么我们该怎么做呢？
+Okay. So how do we do this?
+
+618
+00:45:09,739 --> 00:45:14,920
+我们要做的基本上是，如果你们熟悉K均值算法的话，
+What do we do is basically, we use chemis if you guys are familiar with chemist,
+
+619
+00:45:14,920 --> 00:45:17,559
+你们可能已经猜到我们要做什么了。
+you probably already, figure out what we are going to do.
+
+620
+00:45:17,559 --> 00:45:25,650
+基本上，我们把这个四乘四矩阵作为输入，然后用K均值算法进行聚类。
+So basically, we take this fob formtris as a as input, and we just use K means to run clustering.
+
+621
+00:45:25,650 --> 00:45:29,210
+好吗？K的数量还没有确定。
+Okay? And the number of K is yet to be determined.
+
+622
+00:45:29,210 --> 00:45:31,429
+但在这里，我们假设K等于四。
+But here, let's assume that K equal to four.
+
+623
+00:45:31,429 --> 00:45:36,549
+好吗？也就是说我们想用四个码来表示这里所有的流值，
+Okay? That is we want to represent all the values all the flow values here,
+
+624
+00:45:36,549 --> 00:45:40,770
+四乘四，也就是16个值，只用四个码来表示。
+four by four or 16 values using just four codes.
+
+625
+00:45:40,770 --> 00:45:45,669
+好吗？我们基本上就是找到最接近该值的码，
+Okay? And we basically find the code at least clods to that value and we
+
+626
+00:45:45,669 --> 00:45:48,069
+然后把那个值换成那个码，对吧？
+change the value into that code, right?
+
+627
+00:45:48,069 --> 00:45:49,489
+为了得到那个码，
+In order to get that code,
+
+628
+00:45:49,489 --> 00:45:51,809
+我想我们要运行聚类，对吧？
+I think we run cluster right?
+
+629
+00:45:51,809 --> 00:45:53,689
+通过聚类我们基本上就得到了那个码本。
+Clustering we basically get that code book.
+
+630
+00:45:53,689 --> 00:45:58,719
+好的，在这里，聚类之后，我们得到了一个包含两个码的码本。
+Okay. And here, after clustering, C, we get a code book of two,
+
+631
+00:45:58,719 --> 00:46:01,119
+1.50 和负一。
+1.50 and minus one.
+
+632
+00:46:01,119 --> 00:46:04,040
+我们要做的基本上是对原始矩阵中的每个值，
+And what we do is basically for each value in the original matrix,
+
+633
+00:46:04,040 --> 00:46:08,699
+我们会找到它在码本中最接近的那个值，然后把这个值替换掉。
+we are going to find the one that is the Closs code on the code book and we change this value.
+
+634
+00:46:08,699 --> 00:46:10,940
+这基本上就是一个量化的过程。
+That is basically a process of condition.
+
+635
+00:46:10,940 --> 00:46:14,919
+我们想用有限的选择来表示更高维度的数据，而不是更高的处理。
+We want to represent a much higher dimensional data, not higher higher pressing
+
+636
+00:46:14,919 --> 00:46:17,839
+用有限的选择来表示数据。
+data using a limited number of choices.
+
+637
+00:46:17,839 --> 00:46:25,499
+好的，所以在这种情况下，经过量化后，我们基本上会做一些最近邻的操作，
+Okay. So in this case, after the classing and we basically do some nearest neighbor,
+
+638
+00:46:25,499 --> 00:46:29,724
+然后我们确定量化后的值应该是这样的。
+and we figure out the quantity should be like this.
+
+639
+00:46:29,724 --> 00:46:32,889
+好的，明白了吗？
+Okay. Makes sense, right?
+
+640
+00:46:32,889 --> 00:46:37,849
+很好，我们可以通过用原始值减去量化值来描述量化误差。
+Cool. And we can characterize the quantat arrow by basically minus value from the original value,
+
+641
+00:46:37,849 --> 00:46:39,309
+这是量化箭头。
+and this is the quantiting arrow.
+
+642
+00:46:39,309 --> 00:46:43,529
+显然，我们希望这个量化箭头越小越好，对吧？
+And apparently, we want this qding arrow to be as small as possible, right?
+
+643
+00:46:43,529 --> 00:46:48,970
+因为，呃，直观上它会影响你最终的机器结果。
+Because, uh, intuitively it will influence your eventual machinery results.
+
+644
+00:46:48,970 --> 00:46:53,989
+是的。好的。嗯，那我们来问个问题。
+Yeah. Okay. Um no, let's ask a question.
+
+645
+00:46:53,989 --> 00:46:58,709
+嗯，我们的存储情况怎么样？
+Uh how are we doing on storage?
+
+646
+00:46:58,709 --> 00:47:03,549
+如果我们做这种量化，我们真的能节省存储空间吗？可以吗？
+So if we do this kind of quantudon, uh, can we actually save the storage? Okay?
+
+647
+00:47:03,549 --> 00:47:09,129
+最初，我们有一个4乘4的矩阵，对吧？
+So originally, um, we have this four by four matrix, right?
+
+648
+00:47:09,129 --> 00:47:15,489
+这个矩阵里的每个元素都是用34位浮点数表示的，对吧？
+So each entry in this matrix is represented using 34 bits floating point, okay?
+
+649
+00:47:15,489 --> 00:47:22,869
+我们有16个值，所以加起来就是512位，也就是64字节。
+We have 16 values, so ten them together, we get 512 bit, which is equal to 64 bytes.
+
+650
+00:47:22,869 --> 00:47:26,149
+好的，那量化之后，我们的情况怎么样？
+Okay? And after condon, how we are doing?
+
+651
+00:47:26,149 --> 00:47:31,430
+好的。那么现在，因为我们有一个包含四个值的码本。
+Okay. So now, because we have a codebook, of four values.
+
+652
+00:47:31,430 --> 00:47:33,794
+那么为了表示四个值，我们需要多少位？
+So in order to represent four values, how many bits we need?
+
+653
+00:47:33,794 --> 00:47:36,339
+两位，对吧？
+Two bits, right?
+
+654
+00:47:36,339 --> 00:47:38,759
+这就是为什么每个条目我们只需要两位。
+That's why each entry we only need two bits.
+
+655
+00:47:38,759 --> 00:47:43,119
+我们有16个条目，所以总共是32位。
+And we have 16 entries, so we have 32 bits.
+
+656
+00:47:43,119 --> 00:47:45,379
+总的来说，我们只需要四个字节。
+In total, we only need four bytes.
+
+657
+00:47:45,379 --> 00:47:48,559
+你可以看到，这样做大大减少了存储空间。
+You can see this is a pretty aggressive reduction of stories.
+
+658
+00:47:48,559 --> 00:47:55,179
+同时，我们还需要表示我们的码本，因为我们的码本仍然是浮点数。
+Meanwhile, we also need to represent our code book because our codebook is still a flowing point.
+
+659
+00:47:55,179 --> 00:48:02,019
+在这个例子中，我们有四个码，基本上每个码仍然是32位的浮点数。
+So in this example, we have four codes, Basically each code is still 32 bits of flowing point.
+
+660
+00:48:02,019 --> 00:48:05,779
+所以为了存储码本，我们需要16个字节。
+So in order to store the codebook, we have 16 bytes.
+
+661
+00:48:05,779 --> 00:48:10,220
+每次我们尝试计算数值时，基本上都是在查找码本。
+Every time we try to figure out value, we basically index on the codebook.
+
+662
+00:48:10,619 --> 00:48:17,820
+所以如果我们做个对比，可以看到我们实现了3.2倍的存储压缩，这在存储上表现相当不错。
+So if we do a comparison, we can see that we get a 3.2 X reduction, which is pretty good on storage.
+
+663
+00:48:17,820 --> 00:48:20,879
+明白了吗？这就是压缩的强大之处，对吧？
+Okay? This is the power of condensation, right?
+
+664
+00:48:20,879 --> 00:48:24,999
+原本你无法在手机上存储这些矩阵，但现在你可以了。
+Originally, you cannot store matures on your phone, but now you can.
+
+665
+00:48:24,999 --> 00:48:30,129
+好的。那么我们来稍微泛化一下。
+Yeah. Okay. Then let's generalize a little bit.
+
+666
+00:48:30,129 --> 00:48:33,529
+假设我们要进行位量化。
+So assuming that we are going to do bed quantuation.
+
+667
+00:48:33,529 --> 00:48:37,169
+这个过程决定了你的码本中有多少个码。
+Okay? So this determines the number of codes in your codebook.
+
+668
+00:48:37,169 --> 00:48:41,749
+对，在我们之前的例子中，我们做了两位量化，现在我们做的是BD。
+Right. In our previous example, we do two bit qdon and now we do BD and.
+
+669
+00:48:41,749 --> 00:48:43,509
+这就是为什么我们会有更多的码。
+That is why we are going to have more code.
+
+670
+00:48:43,509 --> 00:48:46,169
+所以更多的码意味着更强的表达能力，对吧。
+So more Cos means more pending power, right.
+
+671
+00:48:46,169 --> 00:48:48,950
+因此，量化误差会更小。
+So therefore, there will be less quantitation error.
+
+672
+00:48:48,950 --> 00:48:53,969
+好的。但这也意味着你需要用更多的存储空间。
+Okay. But that intuitive also means that you are going to use more storage.
+
+673
+00:48:53,969 --> 00:48:58,649
+没错。所以我们还假设对于大矩阵来说，
+Right. So we are also going to assume that for big matrix,
+
+674
+00:48:58,649 --> 00:49:01,009
+我们有很多元素，而且这些元素数量很大。
+we have a lot of entries and we have entries.
+
+675
+00:49:01,009 --> 00:49:05,009
+我们还要假设，你要量化的矩阵中的元素数量，
+And we're going to assume that uh the number of entries in the matrix you
+
+676
+00:49:05,009 --> 00:49:11,169
+远大于二的幂，也就是码本的大小。
+are going to quantize is much greater than two power one, that is the size of the code book.
+
+677
+00:49:11,169 --> 00:49:15,869
+这是很合理的，因为在实际情况中确实如此。
+This is pretty reasonable because in reality, this case.
+
+678
+00:49:15,869 --> 00:49:23,489
+所以在左边的存储需求是32位乘以M，也就是32M位，对吧？
+So for storage on the left hand side, will be to get 32 bits times M equals to 32 bts, right?
+
+679
+00:49:23,489 --> 00:49:31,369
+右边的话，是B乘以M，也就是MMB位，对于码本来说，我们要
+On right hand side, will get the B times M equal to MMbts, for the codebook, we are going to
+
+680
+00:49:31,369 --> 00:49:36,669
+用32位乘以二的幂，也就是2的N次方加上5位。
+have 32 bits times two power one, which is two power N plus five bits.
+
+681
+00:49:36,669 --> 00:49:41,389
+但就像我说的，这远大于二的一次方，所以我们基本上
+But like I said, this is much greater than two power one, so we are going to basically
+
+682
+00:49:41,389 --> 00:49:45,389
+认为我们不会计算这个，因为这是一个很小的值。
+think we are going to not count this because this is a small value.
+
+683
+00:49:45,389 --> 00:49:50,720
+好的。那么压缩率基本上是32除以NM，
+Okay. Then the reduction rate is essentially 32 divided by NM,
+
+684
+00:49:50,720 --> 00:49:54,219
+也就是等于32除以N再乘以压缩率。
+which is equal to 32 divided by N times the reduction.
+
+685
+00:49:54,219 --> 00:49:59,380
+这基本上就是K均值压缩的效果。
+This is basically the power of KMs condensation effective.
+
+686
+00:49:59,380 --> 00:50:05,299
+我直接给你一个N倍的压缩，这个N基本上就是，嗯，
+I directly give you a reduction by factor of N, and this N is basically, um,
+
+687
+00:50:05,299 --> 00:50:10,039
+你想选择的码本。有什么问题吗？
+the code book that you want to choose. Any question?
+
+688
+00:50:10,559 --> 00:50:19,320
+好的，嗯，这基本上让你了解如何用K均值进行基本压缩。
+Okay. Um, uh, this basically give you a sense like how way to basic condition using Kemins.
+
+689
+00:50:19,320 --> 00:50:25,679
+但是你可能会问，如果我用这种压缩方法，那神经网络训练怎么办？
+Okay. But you probably ask if I do this kind of condition, what I do for neur network training?
+
+690
+00:50:25,679 --> 00:50:28,719
+因为在神经网络训练中，我们需要做前向和反向传播。
+Because in neuronal training, we are going to do forward and backward.
+
+691
+00:50:28,719 --> 00:50:36,019
+在反向传播过程中，比如说在met Mol上，我的metamol XM Y的值会发生什么呢？
+And during backward, what happens is, uh, my values on the met Mol, for example, for metamol XM Y,
+
+692
+00:50:36,019 --> 00:50:39,939
+我的X和Y的值会根据梯度距离进行更新。
+my values on X and Y is going to update it by the grading distance.
+
+693
+00:50:39,939 --> 00:50:42,994
+所以我做的就是这些。这其实很直接，对吧？
+So what I do. So this is pretty straightforward, right?
+
+694
+00:50:42,994 --> 00:50:47,669
+我们首先对权重进行量化。
+So what we do is, we first apply quantisation on the waves.
+
+695
+00:50:47,669 --> 00:50:53,069
+然后，对于权重，假设我们得到了梯度，这些梯度就在这里，
+And then, uh, for the was, assuming we are going to get the gradients and their gradients are here,
+
+696
+00:50:53,069 --> 00:50:58,729
+我们基本上会按照聚类的结果来处理这些权重，
+and we are going to basically follow in the um clustering results on the was,
+
+697
+00:50:58,729 --> 00:51:07,389
+我们会为每个参数的梯度指定相同的颜色，好吗？
+we are going to designate the same color, um, for each each each parameters we gradient, okay?
+
+698
+00:51:07,389 --> 00:51:10,049
+然后我们把它们分组在一起，好吗？
+And then we group them together, okay?
+
+699
+00:51:10,049 --> 00:51:15,049
+我们生成一个向量，用来更新码本。
+And we generate a vector that's trying to update the codebook.
+
+700
+00:51:15,049 --> 00:51:22,329
+好的，然后我们基本上会把每个条目上产生的这些小值都减少。
+Okay. And we basically reduce all these, um, small values, produced on each entry of
+
+701
+00:51:22,329 --> 00:51:25,790
+使用EMIS聚类结果得到原始权重。
+the original weight using the emis castering results.
+
+702
+00:51:25,790 --> 00:51:31,689
+嗯，这基本上就是我们要应用到代码本上的更新，其他也是一样的。
+And, uh, this is basically the update that we are going to apply to the codebook and same thing.
+
+703
+00:51:31,689 --> 00:51:35,949
+当我们更新参数时，我们会应用一个学习率，
+As as we update the parameters, what do we do is we are going to apply a learning rate and
+
+704
+00:51:35,949 --> 00:51:38,310
+我们用这个来更新代码本中的中心点。
+we use this to update our centro in the codebook.
+
+705
+00:51:38,310 --> 00:51:42,869
+这个中心点其实就是EMIS聚类的结果，基本上就是我们的编码。
+So this centre is basically the results of the emis clattering. Basically our codes.
+
+706
+00:51:42,869 --> 00:51:44,469
+我们会对编码做一些小的更新。
+We are going to update codes a little bit.
+
+707
+00:51:44,469 --> 00:51:48,110
+直观理解就是，随着参数的更新，
+So the how intuition is basically as our parameter being updated,
+
+708
+00:51:48,110 --> 00:51:50,414
+我们的聚类中心也会同步更新。
+we are also updating our cluster centros.
+
+709
+00:51:50,414 --> 00:51:56,679
+好的，总之，我们要确保我们的聚类结果依然合理。
+Okay. So basically, we'll make sure that our condensation still makes sense.
+
+710
+00:51:56,679 --> 00:51:59,439
+关键是K均值算法依然是有意义的。
+The key means we still makes sense.
+
+711
+00:51:59,659 --> 00:52:04,139
+好的。那么这在实际中是如何运作的呢？
+Okay. So how do this work in practice.
+
+712
+00:52:04,139 --> 00:52:09,659
+好的？人们已经把这个方法应用到了，比如卷积神经网络和各种神经网络中。
+Okay? And uh, people have been applying this into, say, conversion neural networks
+
+713
+00:52:09,659 --> 00:52:11,579
+各种类型的神经网络都可以应用这个方法。
+and all kinds of neural networks.
+
+714
+00:52:11,579 --> 00:52:18,559
+正如我们所看到的，我们可以有效地选择量化的比特数，这样就能
+And as we can see, uh, we can effectively choose a lumber bits to quantize and that will give
+
+715
+00:52:18,559 --> 00:52:20,699
+给模型权重带来压缩率。
+us a compression rate for model weights.
+
+716
+00:52:20,699 --> 00:52:23,779
+正如我们所看到的，这非常强大，对吧？
+And as we can see, this is pretty powerful, okay?
+
+717
+00:52:23,779 --> 00:52:29,319
+所以如果我们把权重的数量减少五倍，我们大致上
+So if we reduce the lumber weights by five times we roughly
+
+718
+00:52:29,319 --> 00:52:32,360
+在推理时不会损失任何准确率。
+we do not lose any accuracy at inference.
+
+719
+00:52:32,360 --> 00:52:38,619
+这非常不错。如果我们要减少码本中的比特数，
+Which is pretty good. And if we're going to reduce the lumber Bs in the code book,
+
+720
+00:52:38,619 --> 00:52:42,359
+我们的准确率在某个点上就会下降。
+our accuracy is going to decrease, at some point,
+
+721
+00:52:42,359 --> 00:52:46,619
+精度基本上会大幅下降。
+the accuracy will basically decrease, very drastically.
+
+722
+00:52:46,619 --> 00:52:49,819
+但我们并不希望这样，我们基本上想要保持在这个范围内。
+But we don't want to we want to basically touch this regime.
+
+723
+00:52:49,819 --> 00:52:53,659
+这实际上变成了另一个超参数调优的工作。
+This becomes another hyper primary tuning job, basically in practice,
+
+724
+00:52:53,659 --> 00:52:57,640
+你需要调整这个码本的数量，以确保你找到最大的，
+you want to tune this number of codebooks to make sure you find the largest,
+
+725
+00:52:57,640 --> 00:53:01,359
+呃，转换率，同时不会降低你的精度。
+uh, conversion rate, which does not decrease your accuracy.
+
+726
+00:53:01,359 --> 00:53:07,879
+这也意味着在今天的神经网络中，有很大的压缩空间。
+This also means that in today's neural networks, there are a lot of space for compression.
+
+727
+00:53:07,879 --> 00:53:10,639
+许多参数其实是相当重复的。
+Mony parameters are quite repetive.
+
+728
+00:53:10,639 --> 00:53:15,519
+所以这就是为什么量化效果相当不错。有问题吗？
+So that's why quantity works pretty well. Any question?
+
+729
+00:53:15,639 --> 00:53:24,299
+很好，我们还可以把权重值及其直方图可视化出来。
+Cool. We can also visualize basically weight values their histogram.
+
+730
+00:53:24,299 --> 00:53:27,879
+量化之前，你可以看到我们的权重值是这样的。
+Before qdenation you can see our weight value is looking like this.
+
+731
+00:53:27,879 --> 00:53:31,979
+Xs 是权重值以及折扣的方式。
+Xs is weight values and the way discount.
+
+732
+00:53:31,979 --> 00:53:34,419
+有几件事情你需要注意。
+There are a few things you want to notice.
+
+733
+00:53:34,419 --> 00:53:37,799
+首先，在量化之前，我们的数值是相当连续的。
+One is, before quantuation, our values are pretty continuous.
+
+734
+00:53:37,799 --> 00:53:42,179
+它基本上分布在一个连续的空间里。
+It's basically spread across continuous space.
+
+735
+00:53:42,179 --> 00:53:47,119
+第二点你要注意的是，几乎没有值是零。
+A second thing you want to notice that there are very few values as zero.
+
+736
+00:53:47,480 --> 00:53:51,159
+这基本上是在新的网络上。
+Uh, this is basically on new works.
+
+737
+00:53:51,159 --> 00:53:57,639
+量化之后，就像我刚才说的，还记得我的老师的图吗，我们做的事情其实是
+After condon, like I said, still remember my teacher figure, what we do is basically we represent
+
+738
+00:53:57,639 --> 00:54:01,379
+用离散值来表示所有的连续值。
+all the continuous values using the discrete values.
+
+739
+00:54:01,379 --> 00:54:07,439
+你可以看到，和之前相比，现在只用了很少的几个数值。
+You can see there are just a few values that is used, compared to a previous one.
+
+740
+00:54:08,520 --> 00:54:15,219
+如果我们用这种方法来训练，也就是稍微修改一下我们的代码，我们就可以看到。
+If we use this kind of trick to do training, that is we update our code a little bit, um we can see.
+
+741
+00:54:15,219 --> 00:54:18,559
+我会在这两个之间轮流，对吧？
+I'm going to rotate between these two, right?
+
+742
+00:54:18,559 --> 00:54:20,899
+你可以看到这些代码。
+You can see the codes.
+
+743
+00:54:20,899 --> 00:54:25,499
+所以基本上，每次更新迭代后中心都会稍微移动一下。
+So basically the central is slightly shift after every iteration of update.
+
+744
+00:54:25,499 --> 00:54:33,029
+好的，明白了。就像我说的，你用了多少位？
+Okay. Cool. Okay. And like I said, how many bits you use?
+
+745
+00:54:33,029 --> 00:54:35,029
+这是一个超参数调优的问题。
+This is a hypergrimary tuning, question.
+
+746
+00:54:35,029 --> 00:54:41,169
+所以你需要找到在压缩率和
+So you have to figure out the sweet spot that best trade off between, uh, compression rate and
+
+747
+00:54:41,169 --> 00:54:42,870
+你的机器学习模型准确率之间最佳的平衡点。
+your march learning model accuracy.
+
+748
+00:54:42,870 --> 00:54:47,129
+这基本上是出自一篇非常著名的论文的结果，
+So this basically is a result from a very famous paper,
+
+749
+00:54:47,129 --> 00:54:49,349
+深度压缩，我已经推荐你阅读了。
+deep compression, which I give to you as a reading.
+
+750
+00:54:49,349 --> 00:54:52,669
+好的，就是那篇开启了所有这些讨论的论文。
+Okay. That is the paper that starts all this denation.
+
+751
+00:54:52,669 --> 00:54:56,329
+好的。我记得这篇论文的作者基本上是麻省理工学院的教授。
+Okay. And I think the author of the paper is basically a professor at MIT.
+
+752
+00:54:56,329 --> 00:55:02,309
+他在做去噪方面非常有名，顺便说一下，他有一家公司被英伟达收购了。
+He's very famous in doing denation and he has a company being acquired by NVDA, by the way.
+
+753
+00:55:02,309 --> 00:55:03,729
+英伟达真的很喜欢他。
+NVDA really likes him.
+
+754
+00:55:03,729 --> 00:55:07,469
+是的，而且那笔交易也相当不错。
+Yeah. And that deal is pretty good, by the way.
+
+755
+00:55:07,469 --> 00:55:11,019
+还记得我跟你说过这件事吗？
+Remember I told you that Okay.
+
+756
+00:55:11,019 --> 00:55:15,979
+AutoML，基本上就是下周做嘉宾演讲的那家公司，专注于搜索领域。
+The AutoML, basically the guest speakers company next week in search area.
+
+757
+00:55:15,979 --> 00:55:17,679
+他们的公司叫AutoML。
+Their company is called AutoML.
+
+758
+00:55:17,679 --> 00:55:23,159
+他们也被Nvidia收购了，就是这个图的创造者，
+They were also acquired by N media, the creator of this graph,
+
+759
+00:55:23,159 --> 00:55:26,639
+condensation，他的公司也被Nvidia收购了。
+condensation, his company is also acquired by NMDia.
+
+760
+00:55:26,639 --> 00:55:31,419
+但是这个人的公司收购案比OctoMail的交易好得多。
+But this guy's company acquisition deal is much better than Octo Mails deal.
+
+761
+00:55:31,419 --> 00:55:33,359
+是的，你可以之后用谷歌搜索一下。
+Yeah, you can do some Google search later.
+
+762
+00:55:33,359 --> 00:55:40,060
+好的，明白了。这里的图基本上告诉你需要在
+Okay. Cool. The figure here basically tells you that you want to trade off between,
+
+763
+00:55:40,060 --> 00:55:42,379
+你使用的比特数和准确率之间做权衡。
+uh, number of bits you use and accuracy.
+
+764
+00:55:42,379 --> 00:55:44,619
+你需要对这个进行一些微调。
+You want to tune this a little bit.
+
+765
+00:55:44,619 --> 00:55:51,000
+那么在实际操作中，这个筛选条件在运行时是怎么工作的？
+Okay, so in practice, how does this screen condidon works, um in runtime?
+
+766
+00:55:51,000 --> 00:55:57,769
+我们的做法基本上是，从R码本开始。
+What do we do is basically, um, we start with tact with R code book.
+
+767
+00:55:57,769 --> 00:56:04,679
+每次我们进行计算时，我们仍然需要对宽度进行解码。
+And every time when we try to do computation, uh, we still need to decode the width.
+
+768
+00:56:04,679 --> 00:56:10,819
+用我们的码本和上下文，就像查找表一样，来获得真实的宽度。
+Using our code book and context like a lookup table to get the width, real width.
+
+769
+00:56:10,819 --> 00:56:15,699
+所以记住，这个宽度是码本中的一个值，是码本中的一个码，
+So remember this width is a value from the code book a code from the code book and the code
+
+770
+00:56:15,699 --> 00:56:17,719
+而且这个码仍然是浮点数。
+is still in flowing point.
+
+771
+00:56:17,719 --> 00:56:23,799
+这意味着我们必须在代码本中将索引解码为浮点值，
+Which means that we have to decode our uh index into flowing point values in the code book,
+
+772
+00:56:23,799 --> 00:56:29,139
+然后我们在浮点运算中执行算术运算。
+and then we perform arithmetics in floating point arithmetics.
+
+773
+00:56:29,139 --> 00:56:32,499
+这意味着即使你应用了这种化学凝聚方法，
+That means that even if you apply this kind of chemit condensation,
+
+774
+00:56:32,499 --> 00:56:35,234
+你仍然在使用你的浮点核心。
+you are still using your floating point core.
+
+775
+00:56:35,234 --> 00:56:42,189
+好的。是的，总结一下，基本上在存储方面，我们节省了很多。
+Okay. Yeah. So to summarize little bit, so basically for storage, we save a lot.
+
+776
+00:56:42,189 --> 00:56:47,269
+基本上我们不需要保存所有原始的浮点值。
+We basically we do not have to save all the original floating point values.
+
+777
+00:56:47,269 --> 00:56:51,989
+我们基本上只保存索引，索引。
+We basically save the index, the index.
+
+778
+00:56:51,989 --> 00:56:57,409
+但在计算时，我们仍然需要在运行时即时解码，并尝试调用我们的浮点
+But for computer, we still need to decode at runtime on the fly and we try to call our floting point
+
+779
+00:56:57,409 --> 00:57:00,330
+核心来计算结果，对吧？
+course to calculate results, okay?
+
+780
+00:57:01,010 --> 00:57:03,829
+好的，这基本上就回答了这个问题。
+Okay. That basically fills this question.
+
+781
+00:57:03,829 --> 00:57:11,189
+所以在存储方面，我们会使用整数，同时我们还有一个非常小的浮点码本。
+So for storage, we are going to do integer with also we have a very small floating point code book.
+
+782
+00:57:11,189 --> 00:57:15,029
+而在计算时，我们会回退到使用浮点运算。
+And for computer, we roll back to use floating point arithmetics.
+
+783
+00:57:15,029 --> 00:57:20,449
+好的，有什么问题吗？有。
+Okay. Any question? Yeah.
+
+784
+00:57:26,210 --> 00:57:28,849
+是的，非常好的问题。
+Yeah. Very good point.
+
+785
+00:57:28,849 --> 00:57:34,150
+所以在Kemin的讨论中，你面临的基本上是你的计算会变得更慢。
+So in Kemin conversation, what you face is basically your compute will be even slower.
+
+786
+00:57:34,150 --> 00:57:41,329
+为什么？因为与原始的计算方式相比，你增加了一个查找表，
+Why? Because compared to the original form of computer, you add a lookup table,
+
+787
+00:57:41,329 --> 00:57:44,310
+而查找表基本上会让你的计算变慢。
+and the lookup table will basically slow down your computer.
+
+788
+00:57:44,310 --> 00:57:49,290
+但这意味着，正如我刚才说的，存储压缩率非常激进。
+But the meaning is basically, like I said, the compression ratio for storage is very aggressive.
+
+789
+00:57:49,290 --> 00:57:54,690
+所以在很多很多设备中，如果你的存储有限，
+So in many many devices, if you have limited storage,
+
+790
+00:57:54,690 --> 00:57:58,349
+但你的计算能力还可以，你就会想要这样做。
+but you have okay compute, you want to do this.
+
+791
+00:57:58,349 --> 00:58:00,410
+一个例子就是在你的iPhone上。
+One example is on your iPhone.
+
+792
+00:58:00,410 --> 00:58:02,329
+你的iPhone内存非常有限。
+Your iPhone has very limited memory.
+
+793
+00:58:02,329 --> 00:58:05,529
+你想要编写你的模型，使用非常有限的内存，嗯，
+You want to write your model, use a very limited memory, um,
+
+794
+00:58:05,529 --> 00:58:10,109
+呃，但你可能在电力和计算能力上没什么问题。所以用这个方法。对。
+uh but you're probably okay with the power and compute. So use this one. Yeah.
+
+795
+00:58:10,109 --> 00:58:13,819
+你基本上就是要非常激进地把你的模型压缩成更小的模型。
+You basically try to compress your model very aggressively into smaller model.
+
+796
+00:58:13,819 --> 00:58:20,349
+好的，明白。这就是Kemi条件，而这个chems codon在
+Yeah. Okay. Okay, that is Kemi condition, and this chems codon is most powerful on
+
+797
+00:58:20,349 --> 00:58:24,229
+上一代神经网络中是最强大的。所以基本上是cob ont。
+the last generation of neural networks. So basically cob ont.
+
+798
+00:58:24,229 --> 00:58:30,510
+现在，人们在玩语言模型，这就把我们带入了这个线性codinon。
+And today, people play with language models, and that brings us into this linear codinon.
+
+799
+00:58:30,510 --> 00:58:33,469
+而这个near condition非常强大，因为有很多方式
+And this near condition is very powerful because there are many ways that
+
+800
+00:58:33,469 --> 00:58:34,770
+我们可以进行线性codiation。
+we can do linear codiation.
+
+801
+00:58:34,770 --> 00:58:37,589
+但我不会讲得太深入。
+But I'm not going to dew too deep.
+
+802
+00:58:37,589 --> 00:58:40,030
+我会给你一个关于这个原理的高层直觉。
+I'm going to give you a high le intuition how this works.
+
+803
+00:58:40,030 --> 00:58:41,710
+也许在下一节课，
+And maybe in the next lecture,
+
+804
+00:58:41,710 --> 00:58:46,589
+我会告诉你我们在语言模型中常用的条件度量方法。
+I'm going to tell you what are the common condition measures we use for language model.
+
+805
+00:58:46,589 --> 00:58:50,170
+但本质上，它们都属于线性量化。
+But essentially, they all fall into linear codation.
+
+806
+00:58:50,170 --> 00:58:59,109
+好的，所以我们再次从一个用32位表示的4x4矩阵开始。
+Okay. So again, um, we start with our four by four matrix, represented using 32 bits.
+
+807
+00:58:59,109 --> 00:59:03,489
+那么，我们需要条件的直觉是这样的。
+Okay. So the intuition we need condition is this.
+
+808
+00:59:03,489 --> 00:59:09,200
+在这里，我尝试应用线性量化，并尝试对
+So So here, I'm trying to apply linear quantitation, and I try to quantize
+
+809
+00:59:09,200 --> 00:59:11,779
+我原本用32位表示的权重进行量化为整数值。
+my original weights in 32 bits into integer values.
+
+810
+00:59:11,779 --> 00:59:15,380
+我的目标输出值是整数。
+My target output value is integers.
+
+811
+00:59:15,380 --> 00:59:17,759
+但就像我说的，量化数量其实是一个很宽泛的概念。
+But like I said, inar quantity is pretty general.
+
+812
+00:59:17,759 --> 00:59:19,519
+你也可以选择不同的目标值。
+You can also choose different target values.
+
+813
+00:59:19,519 --> 00:59:23,820
+比如说，你可以把32位量化成8位整数，
+For example, you can quantize from 32 bits to eight bits of integer,
+
+814
+00:59:23,820 --> 00:59:31,339
+4位整数，或者你也可以把它量化成，比如说，从LP32到LP16，或者P32到FV8。
+four bits of integer, or you can quantize it into, say, from LP 32 in LP 16 or P 32 into FV eight.
+
+815
+00:59:31,339 --> 00:59:33,080
+这取决于你选择的目标是什么。
+It depends on how you choose your target.
+
+816
+00:59:33,080 --> 00:59:37,820
+但在这里，我给你最激进的一个例子，就是我想把它量化成整数。
+But here, I give you the most aggressive one that is I want to quantize it into integers.
+
+817
+00:59:37,820 --> 00:59:42,859
+在这里，我想把它量化成，基本上，就是我这里表示的整数，
+And here, I want to quantize it into basically, uh the integer I represented here,
+
+818
+00:59:42,859 --> 00:59:45,319
+2位整数，也就是4个数值。
+two bit integers, four values.
+
+819
+00:59:45,319 --> 00:59:50,909
+好的，所以我做的基本上就是，嗯，嗯，我尝试
+Okay. So what I do is basically, um, um, I try to
+
+820
+00:59:50,909 --> 00:59:53,589
+把我原来的浮点数值缩放到一个新的范围里。
+scale my original floating point value into a new range.
+
+821
+00:59:53,589 --> 00:59:59,810
+这个新范围是由我选择的目标范围决定的，比如在这个例子里，
+And this new range is determined by my choose target range, for example, in this example,
+
+822
+00:59:59,810 --> 01:00:01,489
+我只有这些数值，
+I just have these many values,
+
+823
+01:00:01,489 --> 01:00:03,270
+2位整数。
+02 bits of integer.
+
+824
+01:00:03,270 --> 01:00:07,709
+为了进行缩放，我们要遵循的方程基本上是线性映射。
+And in order to scale it, the equation we try to follow is basically a linear mapping.
+
+825
+01:00:07,709 --> 01:00:13,549
+也就是说，我们基本上要减去某个值，我们把这个值叫做零点。
+That is, we try to basically minus it by some value, and we call this value zero point.
+
+826
+01:00:13,549 --> 01:00:17,329
+好的。然后我们用一个浮点值对其进行缩放。
+Okay. And then we scale it by a floating point value.
+
+827
+01:00:17,329 --> 01:00:21,789
+所以基本上，我们是把原始范围压缩到一个新范围里。
+Okay. So basically, we are skinning original range into a new range.
+
+828
+01:00:21,789 --> 01:00:24,370
+在新范围里，数字被重新表示。
+And in the new range, numbers are represented.
+
+829
+01:00:24,370 --> 01:00:26,290
+你需要的选择更少了。
+You need fewer choices.
+
+830
+01:00:26,290 --> 01:00:32,929
+好的，你可能想知道我们是如何确定这个零点和缩放值的，
+Okay. You are probably wondering how we determine, um, this zero point and also this scale,
+
+831
+01:00:32,929 --> 01:00:35,269
+我们很快就会弄明白了。
+we are going to figure out pretty soon.
+
+832
+01:00:35,269 --> 01:00:37,029
+但在我们计算质量之前，
+But before we figure out the mass,
+
+833
+01:00:37,029 --> 01:00:42,349
+我想先好好描述一下这个零点和刻度。
+I want to properly characterize this zero point and scale a little bit.
+
+834
+01:00:42,349 --> 01:00:50,130
+好的。那么在这里，我们其实可以用这个方程来表达这个量化过程。
+Okay. So here, we can actually express this skinning process as this equation.
+
+835
+01:00:50,130 --> 01:00:52,689
+嗯，我保留了我的原始值，也就是R，
+Um, I hold my original value which is R,
+
+836
+01:00:52,689 --> 01:00:54,390
+R具有很高的精度。
+R is at a high precision.
+
+837
+01:00:54,390 --> 01:00:59,580
+我保留了我的目标值，也就是量化值Q。Q代表量化值。
+I hold my target value which is quantat value, which is Q. Q stands for quantas.
+
+838
+01:00:59,580 --> 01:01:05,869
+所以我的直觉是，如果我把原始值映射到Q上，
+And so my intuition that, if I antact my original value into Q,
+
+839
+01:01:05,869 --> 01:01:10,910
+我仍然可以把量化值恢复成原始值，这样我就能保持精度。
+I can still recover the quantat value back into the original value so I can preserve the accuracy.
+
+840
+01:01:10,910 --> 01:01:13,649
+好的，接下来方法是
+Okay. And the way
+
+841
+01:01:13,649 --> 01:01:18,549
+我恢复的过程基本上是按照这个线性变换进行的，也就是我要
+I recover is basically following this uh, linear transformation that is I'm going to
+
+842
+01:01:18,549 --> 01:01:22,409
+首先减去u偏置项Z。
+first minus u bias term Z.
+
+843
+01:01:22,409 --> 01:01:26,069
+这基本上代表了新范围内的零点。
+And basically represents zero point in the new range.
+
+844
+01:01:26,069 --> 01:01:30,849
+好的，然后当我从Q中减去这个值后，
+Okay. And then once I basically minus the value from the Q,
+
+845
+01:01:30,849 --> 01:01:34,034
+我会把它缩放回我的原始范围。
+I'm going to scale it back to my original range.
+
+846
+01:01:34,034 --> 01:01:41,900
+好的，显然如果你想应用这个近似条件，
+Okay. Apparently, if you want to apply this near condition,
+
+847
+01:01:41,900 --> 01:01:46,339
+你需要确定两个关键参数，一个是Z，
+you have two critical parameters to determine one is Z,
+
+848
+01:01:46,339 --> 01:01:49,259
+也就是新目标范围内的零点是什么？
+or what is zero point in the new target range?
+
+849
+01:01:49,259 --> 01:01:51,360
+另一个是缩放因子，
+The other is the skinning factor,
+
+850
+01:01:51,360 --> 01:01:54,935
+S。这意味着对于近似条件，
+S. Which means that for near condition,
+
+851
+01:01:54,935 --> 01:01:58,190
+嗯，你总是需要携带两个参数。
+Uh, you always carry two parameters.
+
+852
+01:01:58,190 --> 01:02:04,589
+好吗？因为如果你想应用这种空气单位，你必须携带这两个数值。
+Okay? Because if you want to apply this kind of air unit, you have to carry these two values.
+
+853
+01:02:04,589 --> 01:02:08,269
+所以如果你进入Hugging阶段并检查这些，呃，
+So if you go into Hugging phase and you check those, uh,
+
+854
+01:02:08,269 --> 01:02:12,830
+看，语言模型，特别是上下文版本，你去检查它们的配置。
+see, language models, especially context version, and you check their config.
+
+855
+01:02:12,830 --> 01:02:18,929
+除了那些像lumber heads、隐藏维度等等，
+Uh, in addition to all those kind of, like, lumbar heads, uh, hidden dimensions, et cetera,
+
+856
+01:02:18,929 --> 01:02:22,709
+标准的语言模型配置，你很可能会看到这两个数值。
+standard language model configurations, you probably will observe these two values.
+
+857
+01:02:22,709 --> 01:02:27,429
+就是接触点和技能。
+So contact point and, um, and skill.
+
+858
+01:02:27,429 --> 01:02:31,509
+对于你自己，将来你想发布你的模型，在接触工作中，
+And for yourself, in the future, you want to release your model, in contact working,
+
+859
+01:02:31,509 --> 01:02:32,809
+你也需要发布这两个数值。
+you also need to release these two values.
+
+860
+01:02:32,809 --> 01:02:37,429
+否则，别人无法复现你的结果。好的，明白了。
+Otherwise, people cannot reproduce the results. Okay. Cool.
+
+861
+01:02:37,429 --> 01:02:39,570
+有两个关键参数。
+There are two critical parameters.
+
+862
+01:02:39,570 --> 01:02:41,669
+一个是零点？另一个是尺度。
+One is zero point? The other scale.
+
+863
+01:02:41,669 --> 01:02:45,709
+好的，就像我说的，
+Okay. Like I said,
+
+864
+01:02:45,709 --> 01:02:49,310
+Q 是整数，这里我选择我的目标值为整数。
+Q is integer here I choose my target value as integer.
+
+865
+01:02:49,310 --> 01:02:52,389
+我原始的点 R 是浮点数。
+My original point, R is floating point.
+
+866
+01:02:52,389 --> 01:02:58,469
+对于 Z，这基本上是一个数量参数，因为它是目标范围的零点，
+For the Z, this is basically one quantity parameter because it's a zero point of a target range,
+
+867
+01:02:58,469 --> 01:03:04,329
+所以它必须是整数，这个 Z 的意思基本上是我们允许实数 R，
+so it must be integer, the meaning of this Z is basically we allow real number R,
+
+868
+01:03:04,329 --> 01:03:08,909
+就是在左边等于零的数，被
+which is on the left hand side, which is equal to zero be represented
+
+869
+01:03:08,909 --> 01:03:11,989
+目标范围内的某个整数 Z 表示。
+by a antat integer Z in the target range.
+
+870
+01:03:11,989 --> 01:03:18,449
+好的，然后我们再把它转换回来，这样就得到了 S。S 是一个浮点数，
+Okay. And then we screw it back, and that gives us S. S is a flowing point,
+
+871
+01:03:18,449 --> 01:03:21,689
+这就是我们调整回去的量化参数。
+and that is the quantaing parameter that we screw the value back.
+
+872
+01:03:21,689 --> 01:03:25,209
+好的。从几何角度来看，基本上就是这样。
+Okay. And geometrically is basically this.
+
+873
+01:03:25,209 --> 01:03:28,930
+我让你看几秒钟这个图。
+I'll let you look at this for a few seconds.
+
+874
+01:03:37,920 --> 01:03:43,159
+所以一旦你看到这个图，你基本上就明白我们在做什么了，对吧？
+So once you see this figure, you will feel you basically understand what we are doing, right?
+
+875
+01:03:43,159 --> 01:03:45,759
+基本上，我们是在做某种归一化处理。
+So basically, we are doing some sort of normalization.
+
+876
+01:03:45,759 --> 01:03:50,499
+我们试图把原始范围内的数值归一化到一个更小的目标范围。
+We try to normalize value that is in original range into a smaller range target range.
+
+877
+01:03:50,499 --> 01:03:52,939
+是的，我们试图对齐一些内容。
+Yeah. We try to align a few things.
+
+878
+01:03:52,939 --> 01:03:56,319
+比如说，我们试图对齐原始范围内的均值，
+For example, we try to align the mean value in my original range,
+
+879
+01:03:56,319 --> 01:04:00,339
+原始范围内的最大值和目标范围内的最大值。
+the maximum value in my original range and the max in my target range.
+
+880
+01:04:00,339 --> 01:04:05,140
+我们还试图对齐一些内容，比如这两个范围之间的零点。
+We also try to align a few things, for example, zero point, between these two ranges.
+
+881
+01:04:05,140 --> 01:04:12,540
+好的。比如说，如果我们做整数压缩，嗯，如果我们选择不同位数的整数，
+Okay. And for example, if we do integer condensation, um and if we choose different bit of integers,
+
+882
+01:04:12,540 --> 01:04:15,659
+那么我们在目标范围内会有不同的Qmax，对吧？
+we will have different Qmax in the target range, right?
+
+883
+01:04:15,659 --> 01:04:18,080
+这是为了补充说明，明白吗？
+This is to complement, okay?
+
+884
+01:04:18,280 --> 01:04:20,680
+然后你可能就会开始有一些问题了。
+Then you probably start asking questions.
+
+885
+01:04:20,680 --> 01:04:24,959
+那如果我有一个张量，我的张量有多少不同的取值？
+So if I have a tensor, my tensor, how many many different values?
+
+886
+01:04:24,959 --> 01:04:28,800
+我该如何基本上确定参数，
+How can I basically figure out the parameters,
+
+887
+01:04:28,800 --> 01:04:32,479
+Z和S，这样我才能把它量化到这个目标范围里。
+Z and S so that I can quantize it into this target range.
+
+888
+01:04:32,479 --> 01:04:35,720
+比如说，如果你选择了四位整数。
+For example, if you choose probably four bit integer.
+
+889
+01:04:35,720 --> 01:04:37,959
+好的，我们来做一下这个例子。
+Okay. Let's do that. Okay.
+
+890
+01:04:37,959 --> 01:04:40,839
+那你怎么确定S和Z呢？
+So how do you determine S and Z?
+
+891
+01:04:40,960 --> 01:04:43,659
+所以这个很简单，对吧？
+So this is pretty simple, right?
+
+892
+01:04:43,659 --> 01:04:45,599
+我们只需要在数学上稍微操作一下。
+We just need to play a little bit in mathematics.
+
+893
+01:04:45,599 --> 01:04:51,700
+好的。那么我们有我们的原始值，也就是矩阵，
+Okay. So we have our original value, which is, matrix,
+
+894
+01:04:51,700 --> 01:04:56,294
+然后我们尝试找出矩阵中的最大值，比如说RMax和Rmin，对吧？
+and we try to figure out the maximum value in a matrix, for example, which is RMAx and Rmin, right?
+
+895
+01:04:56,294 --> 01:05:04,649
+然后我们按照这个线性变换，尝试把它映射到新的整数范围内，
+And we follow this linear transformation, we try to test it into the new integer range and we
+
+896
+01:05:04,649 --> 01:05:09,569
+然后我们尝试用新的数值，通过新的文本值，按照这个线性变换
+try to use the new value in the new text value to recover following this linear transformation
+
+897
+01:05:09,569 --> 01:05:10,889
+恢复回原始的数值。
+back into the original value.
+
+898
+01:05:10,889 --> 01:05:12,689
+这样就得到了两个方程，对吧？
+So that gives two equations, right?
+
+899
+01:05:12,689 --> 01:05:18,049
+所以原始范围内的RMAX等于S乘以Qx减去Z，对吧？
+So RMAX in the original range equals to S times Qx minus Z, right?
+
+900
+01:05:18,049 --> 01:05:20,649
+这样我们就可以对齐最大值，
+That we try to align the max value,
+
+901
+01:05:20,649 --> 01:05:23,349
+RM等于时间。
+RM equals to times
+
+902
+01:05:23,349 --> 01:05:27,674
+Q Man min Z，这就是我们试图对齐均值的方式。明白吗？
+Q Man min Z that is what we try to align the mean value. Okay.
+
+903
+01:05:27,674 --> 01:05:31,099
+这就像一个方程组，对吧？
+And this is like a system of equations, right?
+
+904
+01:05:31,099 --> 01:05:36,559
+你有两个未知数，也有两个方程，所以你可以解出来。
+You have two unknown and you also have two equations, so you can solve it.
+
+905
+01:05:36,559 --> 01:05:38,839
+我们只需要稍微操作一下。
+And we just play a little bit.
+
+906
+01:05:38,839 --> 01:05:42,220
+我们把这两个方程相减，然后做一些变换，
+We minus these two equations, and we do some transformation,
+
+907
+01:05:42,220 --> 01:05:45,040
+我们就能算出S。S基本上等于
+we'll figure out S. S is equal basically
+
+908
+01:05:45,040 --> 01:05:48,339
+RMAXRM除以QMS，M的Cmin。
+RMAXRM divided by QMS, M's Cmin.
+
+909
+01:05:48,339 --> 01:05:50,339
+基本上通过这个方程你就能得到它。
+Basically from this equation, you get it.
+
+910
+01:05:50,339 --> 01:05:52,280
+这就是man addi，有点像罗马式的加法。
+This is man addi, kind of roman addition.
+
+911
+01:05:52,280 --> 01:05:57,670
+好的。嗯，让我们来做个练习。
+Okay. Yeah. Let's do a practice.
+
+912
+01:05:57,670 --> 01:06:03,690
+我有一个4x4的矩阵，我的目标范围是两位整数。
+So, I have a matrix four by four and my target range is two bit integer.
+
+913
+01:06:03,690 --> 01:06:10,729
+在两位整数中，我只有四个值，我在这里表示，负二是最小值，
+In two bit integer, I only have four values, which I represent here, minus two is mean value
+
+914
+01:06:10,729 --> 01:06:13,849
+一是正数，一是最大值。
+and one is positive one is the max value.
+
+915
+01:06:13,849 --> 01:06:19,909
+我想用线性压缩把这个矩阵量化到这个范围，我该怎么做？
+I want to use linear condensation to quantize this matrix into this range, what I do?
+
+916
+01:06:21,410 --> 01:06:28,010
+所以我首先要找出这个矩阵的最大值和最小值，对吗？
+So I first figure out the R max and min, right? From this matrix.
+
+917
+01:06:28,010 --> 01:06:33,889
+好吗？这个矩阵，嗯，最大值是2.12，对吧？
+Okay? This matrix, um, the maximum value is 2.12, right?
+
+918
+01:06:33,889 --> 01:06:37,670
+平均值是-1.08。
+The mean value is -1.08.
+
+919
+01:06:37,670 --> 01:06:41,370
+好的。然后我基本上用这个公式。
+Okay. Then what I do is basically I use this equation.
+
+920
+01:06:41,370 --> 01:06:47,489
+好的。我代入这些数值，同时我也找出了这里的平均值，
+Okay. I substitute the values, and also I figure out and the mean value here,
+
+921
+01:06:47,489 --> 01:06:52,970
+然后我得到了我的S。我的蒙皮因子基本上是1.07。
+and I get my S. My skinning actor is essentially 1.07.
+
+922
+01:06:52,970 --> 01:07:03,019
+好的，非常简单。同样地，一旦我们有了这个值，我们就可以算出Z值，
+Okay. Pretty simple. And same thing, once we have this value, we can figure out the Z value,
+
+923
+01:07:03,019 --> 01:07:05,059
+也就是Z零点。
+which is Z zero point.
+
+924
+01:07:05,059 --> 01:07:07,999
+我们要做的基本上就是稍微调整一下这个方程，
+What do we do is basically we play around this equation a little
+
+925
+01:07:07,999 --> 01:07:11,999
+做一些变换，我们就能算出Z。
+bit and do some transformation and we can figure out Z.
+
+926
+01:07:11,999 --> 01:07:15,279
+因为就像我说的，Z是在目标范围内的零点。
+Because like I said, the Z is zero point in the target range.
+
+927
+01:07:15,279 --> 01:07:18,580
+在我的例子中，我选择了整数。
+And in my example, I I choose the integer.
+
+928
+01:07:18,580 --> 01:07:22,119
+在我的目标范围内，我只有整数，所以我必须在这里取整。
+In my target range, I only have integer, so I have to take around here.
+
+929
+01:07:22,119 --> 01:07:28,960
+好的，很棒。同样地，我们也可以用这个例子来做练习。
+Okay. Cool. Similarly, we can do exercise for this example.
+
+930
+01:07:28,960 --> 01:07:34,840
+嗯，我基本上用这个方程来求Q均值和I减去
+Um, I basically use this equation where I try to figure out Q mean and I minus
+
+931
+01:07:34,840 --> 01:07:37,079
+M除以S，然后我算错了。
+M divided by S from it and I take a wrong.
+
+932
+01:07:37,079 --> 01:07:40,439
+好的。所以cumin是负二，对吗？
+Okay. So cumin is minus two, right?
+
+933
+01:07:40,439 --> 01:07:44,079
+我已经知道我的army是那个值了。
+And I already know my army is that value.
+
+934
+01:07:44,079 --> 01:07:47,039
+在我之前的幻灯片中，我算出了
+In my previous slide, I figured out the value of
+
+935
+01:07:47,039 --> 01:07:52,419
+S的值。我基本上把它们代入，然后得到我的零点，也就是负一。好的。
+S. I basically substitute them and I get my zero point, which is minus one. Okay.
+
+936
+01:07:52,419 --> 01:07:58,760
+所以在这里，当我们尝试把这个给定的矩阵量化到目标范围并变成整数时，
+So therefore, here, when we try to quantize this given matrix into this target range to be integer,
+
+937
+01:07:58,760 --> 01:08:05,579
+我们基本上用的是S等于1.07，Z等于负一的数值。
+we basically use a value where S equals to 1.07 and Z equals to minus one.
+
+938
+01:08:05,579 --> 01:08:09,659
+好吗？如果你量化你的模型参数，你也需要算出这些数值，然后
+Okay? And if you quantize your model parameters, you also want to figure out the values and you
+
+939
+01:08:09,659 --> 01:08:11,899
+把这些数值写进你的模型里。
+write down these values into your model.
+
+940
+01:08:11,899 --> 01:08:15,239
+每次你都要从这些数值中恢复出来。
+Every time you recover that from those values.
+
+941
+01:08:16,060 --> 01:08:21,439
+好的。那么让我们进入本次讲座的最后部分。
+Okay. Then let's come to our last part of this lecture.
+
+942
+01:08:21,439 --> 01:08:27,379
+所以我们想把近似条件应用到matma上，请问可以吗？
+So we want to apply near condition to matma please.
+
+943
+01:08:29,380 --> 01:08:32,939
+如果可以的话，那当然没问题。
+If Yeah, that's possible.
+
+944
+01:08:32,939 --> 01:08:35,459
+是的，是的。
+Yeah. Yeah.
+
+945
+01:08:38,100 --> 01:08:43,599
+这是个很好的问题，这部分我们会在下节课中讲到。
+That's a really good question. So that is a part that we are going to cover in the next lecture.
+
+946
+01:08:43,599 --> 01:08:46,039
+这叫做训练后凝聚。
+So that is called posttraining condensation.
+
+947
+01:08:46,039 --> 01:08:47,399
+你有几种选择。
+You have a few choices.
+
+948
+01:08:47,399 --> 01:08:51,079
+你可以为每个张量选择不同的SNZ。
+Okay? You can choose a different SNZ for each tensor.
+
+949
+01:08:51,079 --> 01:08:56,979
+你也可以为整个模型选择一个常数SNZ。
+You can also choose a different you can just choose one constant SNZ for entire model.
+
+950
+01:08:56,979 --> 01:08:59,459
+这就叫做校准凝聚。
+So this is called calibration conation
+
+951
+01:08:59,459 --> 01:09:05,599
+你需要根据在精度上的损失来校准S和Z的值。
+You want to calibrate the values of S andZ depending on how much you lose on the codaon accuracy.
+
+952
+01:09:05,599 --> 01:09:10,979
+明白了吗？所以很明显，如果你进行预张量量化，
+Okay? So apparently, you can know that if you do pretensal condensation,
+
+953
+01:09:10,979 --> 01:09:12,899
+你的精度会更高，对吧？
+you are going to have a higher accuracy, right?
+
+954
+01:09:12,899 --> 01:09:18,619
+如果你对整个网络和所有输入数据只用一个SN Z，
+If you do one single SN Z for all the ways and activations for the entire network and
+
+955
+01:09:18,619 --> 01:09:21,279
+那么你的损失会更大，对吧？
+the entire input data, you are going to lose more, right?
+
+956
+01:09:21,279 --> 01:09:28,839
+所以这是一个权衡，所以人们可以使用预张量量化或者整个模型量化，
+So that is a trade off, so people can use pretensior conduon or entire model codenonO they
+
+957
+01:09:28,839 --> 01:09:30,459
+他们可以找一个校准数据集。
+can figure out a calibration dataset.
+
+958
+01:09:30,459 --> 01:09:33,819
+他们只是根据校准数据集来量化。
+They just quantize depending on the calibration data set.
+
+959
+01:09:33,819 --> 01:09:38,099
+或者他们也可以用一些更激进的方法，比如按通道量化。
+Or they can use, some aggressive ones, for example, per channel.
+
+960
+01:09:38,099 --> 01:09:41,539
+我有一个矩阵，当我遍历通道时，
+I have a matrix where when I'm meeting the channel,
+
+961
+01:09:41,539 --> 01:09:44,859
+我只是试图为每个通道找出S和Z。
+I just try to figure out S and Z for each channel.
+
+962
+01:09:44,859 --> 01:09:47,139
+我甚至可以按组进行条件处理。
+I can even use per group conidation.
+
+963
+01:09:47,139 --> 01:09:50,139
+这样，我就能发现，这组数值它们非常接近，
+That, I figure out, okay, this group of value they are pretty close,
+
+964
+01:09:50,139 --> 01:09:53,359
+所以我应该为这组指定SNZ。
+so I should designate SNZ for this group.
+
+965
+01:09:53,359 --> 01:09:55,579
+但对于那一组，它们差异很大。
+But for that group, they are quite different.
+
+966
+01:09:55,579 --> 01:09:59,519
+所以我为不同的组指定不同的SNZ。这样说有道理吗？
+So I disign different SNZ. Does that make sense?
+
+967
+01:09:59,519 --> 01:10:04,859
+显然，当你做更细粒度的条件处理时，复杂度会更高。
+Apparently, when you do more fine grain condation you are going to it's going to be more complex.
+
+968
+01:10:04,859 --> 01:10:11,149
+好的。我觉得我们会在下一节课简单讲一下这个内容。
+Yeah. Okay. I think that we'll cover that briefly in the next lecture.
+
+969
+01:10:11,149 --> 01:10:17,889
+我能告诉你的是，Fama模型，我们用很多流行的条件，基本上就是po tensor。
+The thing I can tell you is Fama models, what do we do with many popular condi basically po tensor.
+
+970
+01:10:17,889 --> 01:10:24,449
+好的，明白。在这里，我们做la X，这样也可以。
+Yeah. Okay. Cool. Here, we do la X that's okay.
+
+971
+01:10:24,449 --> 01:10:29,549
+我们有Y等于W和X，我们想要应用我们的凝聚方法。
+We have Y equals to W and X, and we want to apply our condensation.
+
+972
+01:10:29,549 --> 01:10:31,809
+记住，在压痕讲座的开始，
+Remember, at the beginning of denting lecture,
+
+973
+01:10:31,809 --> 01:10:33,689
+我说过，你需要弄清楚两件事，对吧？
+I said, you want to figure out two things, right?
+
+974
+01:10:33,689 --> 01:10:36,789
+一是你如何存储数据。这一点很清楚。
+One is how you store data. This one is pretty clear.
+
+975
+01:10:36,789 --> 01:10:43,389
+你存储数据的方式是存储目标区间的值，这些值应该是整数。
+The way you store data is you store the target range values, which is to be integer.
+
+976
+01:10:43,389 --> 01:10:48,164
+你还会根据所用方案存储SNZ。
+You also store off SNZ depending on which scheme you use.
+
+977
+01:10:48,164 --> 01:10:54,559
+问题是，凝聚后我们用什么样的算术运算来计算。
+The question is, what kind of arithmetic course we use to compute after conation.
+
+978
+01:10:54,559 --> 01:11:01,239
+那么我们做什么呢，呃，在原始的Y等于X中，我们用的是浮点数。
+So what do we do is, uh, in the original Y equals to X, we use floating point.
+
+979
+01:11:01,239 --> 01:11:03,799
+现在我们应用了凝聚方法。
+And now we apply condenation.
+
+980
+01:11:03,799 --> 01:11:07,859
+现在，假设我们做某种潜在的编码。
+Now, assuming we do some kind of a potential coddation
+
+981
+01:11:07,859 --> 01:11:12,879
+然后我们会得到SW、SX、w和ZX。
+and we are going to get SW and SX and w and ZX.
+
+982
+01:11:12,879 --> 01:11:15,129
+基本上我们对它们进行了归约。
+We basically subsue them.
+
+983
+01:11:15,129 --> 01:11:18,600
+好的，然后我们做一点变换。
+Okay. And we do a little bit transformation.
+
+984
+01:11:18,600 --> 01:11:22,219
+我们发现我们的计算基础变成了这样。
+We find that our computation based becomes this.
+
+985
+01:11:22,219 --> 01:11:30,459
+这里，QW和QX分别是量化后的权重和输入X，QY是量化后的输出。
+Here, QW and QX is the quantized weight and input X, and QY is the quantized output.
+
+986
+01:11:30,459 --> 01:11:33,039
+我们需要对输出进行量化的原因是因为这是神经网络的一层，
+The reason we need quantize output because this is the layer
+
+987
+01:11:33,039 --> 01:11:35,459
+并且它会传递到下一层。
+of neural work and that proceed to next layer.
+
+988
+01:11:35,459 --> 01:11:41,799
+好的？我们再做一些操作，就得到了这个方程。
+Okay? And we do a little bit like manipulation and we get this equation.
+
+989
+01:11:41,799 --> 01:11:46,859
+好的？我们来仔细分析一下这个方程。
+Okay? Let's try to inspect this equation a little bit. Okay.
+
+990
+01:11:46,859 --> 01:11:50,839
+首先我们注意到，这一部分我们可以提前计算。
+So the first part we notice that for this part, we can pre compute it because
+
+991
+01:11:50,839 --> 01:11:53,399
+权重是固定的，推理时不变。
+the weight is fixed, spit inference.
+
+992
+01:11:53,399 --> 01:11:56,679
+所以我们可以预先计算权重的处理方式。
+So we can pre compute how we tact the weight.
+
+993
+01:11:56,679 --> 01:12:01,839
+对于X来说，比如说，如果我们用校准数据集，我们可以选取一个数据集。
+And for X, we can also, for example, if we do calibration data set, we can take a dataset.
+
+994
+01:12:01,839 --> 01:12:08,199
+对，我们假设会对数据集里的所有数据使用相同的scale和zero point。
+Right. We assume we are going to use the same skill and zero point for all the data in the dataset.
+
+995
+01:12:08,199 --> 01:12:13,619
+好的，那么利用校准数据集，我们基本上可以确定一个数值。
+Okay. Then using calibration data set, we can basically figure out a value
+
+996
+01:12:13,619 --> 01:12:16,339
+或者说，基本上是ZX，对吧。
+or the basically ZX Right.
+
+997
+01:12:16,339 --> 01:12:21,379
+那么有了校准数据集和固定的权重，我们基本上就可以确定
+Then with calibrating data set and with fixed weights, we basically figure out that all
+
+998
+01:12:21,379 --> 01:12:25,559
+橙色框里的所有值，y是常数。
+the values in the orange box, y constant.
+
+999
+01:12:25,559 --> 01:12:28,739
+它们不依赖于输入。
+They are not dependent on the input.
+
+1000
+01:12:28,739 --> 01:12:31,119
+所以我们基本上可以预先计算它们。
+So we basically pre compute them.
+
+1001
+01:12:31,119 --> 01:12:34,479
+好的。所以这不是问题。
+Okay. So this is not trouble.
+
+1002
+01:12:34,479 --> 01:12:36,679
+好的，它们已经被计算出来了。
+Okay, they are pretty computed.
+
+1003
+01:12:36,679 --> 01:12:38,619
+然后我们提出了这个问题。
+And we ask the question.
+
+1004
+01:12:38,619 --> 01:12:42,979
+基本上，就是要计算这些数值需要什么。
+So basically, what it takes to compute these values.
+
+1005
+01:12:43,740 --> 01:12:49,439
+这里，si记住，它在目标范围内是一个零值，所以它是整数，
+So here, si remember, it is a zero value in the target range, so it's integer and
+
+1006
+01:12:49,439 --> 01:12:53,259
+QW是量化值，所以它也是整数。
+QW is the quantitive value, so it's also integer.
+
+1007
+01:12:53,259 --> 01:12:57,919
+为了在这里进行计算，我们只需要整数核。
+In order to perform the computing here, we only need integer course.
+
+1008
+01:12:57,919 --> 01:13:02,559
+这很好，因为就像我说的，整数核的浮点运算能力很高，
+Which is good because like I said, integer course are pretty high flops
+
+1009
+01:13:02,559 --> 01:13:04,779
+相比于浮点核来说，好吗？
+compared to floating point course, okay?
+
+1010
+01:13:04,779 --> 01:13:07,259
+同时，我们将累加这些数值。
+Meanwhile, we are going to accumulate these values.
+
+1011
+01:13:07,259 --> 01:13:09,379
+我们有加法和减法，对吧？
+We have addition subtraction, right?
+
+1012
+01:13:09,379 --> 01:13:13,459
+而且这些加法和减法也只在整数范围内进行。
+And this addition subtraction are also performed only integer range.
+
+1013
+01:13:13,459 --> 01:13:16,119
+所以我们仍然可以使用整数课程，这很好。
+So we can still use integer course, which is good.
+
+1014
+01:13:16,119 --> 01:13:22,559
+好的。实际上，通常我们在这里用一个位整数来表示这个值，
+Okay. And in practice, usually, uh, here, we use a bit integer to represent the value,
+
+1015
+01:13:22,559 --> 01:13:27,779
+但是当我们进行加法或减法时，我们会用32位来避免溢出。
+but when we do additional subtraction, what we do is we use 32 bit to avoid overflow.
+
+1016
+01:13:27,779 --> 01:13:35,739
+好的，有什么问题吗？对，QW是权重，对吧？
+Okay. Any question? Yeah, QW is the weight, right?
+
+1017
+01:13:35,739 --> 01:13:37,559
+这里我们讨论的是推理。
+Here we talk about inference.
+
+1018
+01:13:37,559 --> 01:13:42,399
+在推理过程中，我们不会改变权重，我们可以预先计算权重值，与值进行结合。
+In inference, we don't change the weights, we can pre compute the weight value. Contact with value.
+
+1019
+01:13:42,399 --> 01:13:47,139
+好的。那我们来看这个值，
+Okay. Okay. Then we look at this value,
+
+1020
+01:13:47,139 --> 01:13:49,599
+SW乘以X再除以Y。
+SW time X divided by Y.
+
+1021
+01:13:49,599 --> 01:13:53,779
+你还记得，这个值是一个浮点数，
+You still remember, this value is a floating point,
+
+1022
+01:13:53,779 --> 01:13:55,899
+它是在原始范围内的一个缩放比例。
+It's a scale in the original range.
+
+1023
+01:13:55,899 --> 01:14:01,979
+这很糟糕，因为如果我们直接计算这个值，
+And this is bad because if we directly computer this value,
+
+1024
+01:14:01,979 --> 01:14:03,639
+我们就需要用到浮点运算单元。
+we are going to call floating point course.
+
+1025
+01:14:03,639 --> 01:14:07,339
+这违背了去浮点化的初衷，因为在某些情况下，
+That defeats the purpose of denation because in some scenario,
+
+1026
+01:14:07,339 --> 01:14:10,159
+我的限制条件是没有浮点运算单元，
+my codiation is that I don't have floating point course,
+
+1027
+01:14:10,159 --> 01:14:12,559
+我只想用整数运算单元完成所有操作。
+I just want to do everything integal course.
+
+1028
+01:14:12,559 --> 01:14:20,659
+我该怎么做呢？实际上，很多神经网络中，这个值的范围在零到一之间，
+How I do this. Empirical many nerNtw this value is in a range of zero and one,
+
+1029
+01:14:20,659 --> 01:14:22,659
+因为它是一个缩放因子。
+because it's a skinning factor.
+
+1030
+01:14:22,659 --> 01:14:25,739
+人们通常采用一个非常“脏”的解决方案。
+What people do is a very dirty solution.
+
+1031
+01:14:25,739 --> 01:14:29,559
+所以他们并不是直接调用浮点运算单元来计算这个值，
+So instead of directly calling floating point course to calculate this value,
+
+1032
+01:14:29,559 --> 01:14:34,669
+他们基本上用的是一些定点乘法加上位移操作。
+what they do is basically uh, they use some fixed point multiplication plus bit shift.
+
+1033
+01:14:34,669 --> 01:14:39,149
+这个价格用的是以2为底的幂来表示数值。
+This price represents value using power two.
+
+1034
+01:14:39,149 --> 01:14:45,049
+当然，这个幂会是一个非常负的数值，再乘以另一个定点数，
+Of course, the power is going to be a super negative value times another fixed point,
+
+1035
+01:14:45,049 --> 01:14:49,309
+嗯，比如一个大约在0.5到1之间的小数。
+um, like a fraction, which is around you half and one.
+
+1036
+01:14:49,309 --> 01:14:52,309
+他们这样做的原因是因为定点运算
+And the reason they do this is because fixed point is
+
+1037
+01:14:52,309 --> 01:14:55,489
+计算成本比浮点运算便宜得多。
+computation is much much cheaper than floating point.
+
+1038
+01:14:55,489 --> 01:14:57,529
+你完全不用碰浮点运算单元。
+You don't have to touch floating point course.
+
+1039
+01:14:57,529 --> 01:15:00,749
+明白吗？而且位移操作也便宜得多，你只需要移动一下位就行了。
+Okay? And also bit shift is much cheaper, you just ship the bits.
+
+1040
+01:15:00,749 --> 01:15:04,489
+对，你在定点数里移动位，非常简单。
+Yeah. Uh, you ship the bits in fixed point, which is pretty easy.
+
+1041
+01:15:04,489 --> 01:15:08,584
+所以他们用这种类似于技巧的方法来近似这个值。
+So they use this kind of like a trick to approximate the value.
+
+1042
+01:15:08,584 --> 01:15:14,359
+好的。然后我们来看这个值，对吧。
+Okay. Then we look at this value, right.
+
+1043
+01:15:14,359 --> 01:15:20,459
+这个值是W乘以QX，而QX显然是依赖于输入X的，对吧？
+So this value is W times QX, and the QX is apparently dependent on input X, right?
+
+1044
+01:15:20,459 --> 01:15:24,799
+它必须要即时计算出来。
+It has to be computed, uh, just on a fly.
+
+1045
+01:15:24,799 --> 01:15:30,299
+W是权重的零点。
+W is the zero point of, uh, the weight.
+
+1046
+01:15:30,299 --> 01:15:36,834
+好吧？所以我们做的是，呃，呃，我们观察到很多很多神经网络，呃，呃，
+Okay? So what we do is, um, uh, we observe that many many neural networks, um, uh,
+
+1047
+01:15:36,834 --> 01:15:40,749
+它们的数值基本上是服从高斯分布的。
+they are basically their value are basically following Gaussian distribution.
+
+1048
+01:15:40,749 --> 01:15:46,489
+也就是说，它们的均值为零，特别是在训练和推理时。
+That is, they have a zero me, especially a training raw inference.
+
+1049
+01:15:46,489 --> 01:15:49,409
+所以与其去计算这个值，不如我们直接描述
+So instead of calculating this value, how about we just describe
+
+1050
+01:15:49,409 --> 01:15:53,729
+这个值，因为它们的均值为零，这意味着当我们尝试量化它时，
+this value because they have a zero me, which means that when we try to quantat it,
+
+1051
+01:15:53,729 --> 01:15:56,909
+我们也可以在一个范围内进行量化，并对齐零点。
+we can also quantat in a range where we align zero point.
+
+1052
+01:15:56,909 --> 01:16:01,809
+所以目标范围内的零点，在原始范围内也应该是零。
+So the zero point at the target range should also be zero in the original range.
+
+1053
+01:16:01,809 --> 01:16:03,769
+所以在这里我们可以假设
+So here we can assume that
+
+1054
+01:16:03,769 --> 01:16:07,269
+DW等于零，所以我们基本上可以这样做。
+DW equals to zero, so we can basically im.
+
+1055
+01:16:07,269 --> 01:16:12,309
+好的。我之所以这样，是因为零点，我们试图让它更简单一点。
+Okay. I per, is because of zero, we try to simplify it a little bit.
+
+1056
+01:16:12,309 --> 01:16:15,949
+当然，这其实并不准确，因为调整本来就不是很精确，对吧？
+Of course, this is not accurate, by the way, because tuning is between not accurate, right?
+
+1057
+01:16:15,949 --> 01:16:19,909
+你会损失一些精度，但只要损失不大就没关系。
+You're going to lose accuracy, but it's fine as long as you don't lose too much, yeah.
+
+1058
+01:16:19,909 --> 01:16:26,229
+是的。如果我们把EW等于零代入，就基本得到了这个方程，对吧。
+Yeah. And then if we substute this EW equal to zero, and we basically get this equation, right.
+
+1059
+01:16:26,229 --> 01:16:29,949
+所以你可以看到，其他部分都已经解决了。
+So you can see, all the other parts have been figured out.
+
+1060
+01:16:29,949 --> 01:16:34,049
+唯一需要重点处理的部分就是这一块，QW乘以QX。
+The only heavy lifting part is basically this part, QW times QX.
+
+1061
+01:16:34,049 --> 01:16:37,829
+这是什么呢？还记得Q和QX吗？
+So what is this? Remember Q and
+
+1062
+01:16:37,829 --> 01:16:42,249
+Q和QX基本上是在我的目标范围内对原始W和X进行的量化表示。
+QX are basically the repent of the original W and X at my target range.
+
+1063
+01:16:42,249 --> 01:16:44,089
+在我的例子中，它们是整数。
+And in my example is integers.
+
+1064
+01:16:44,089 --> 01:16:48,629
+所以基本上，这个QW和X是权重和X的整数量化表示。
+So basically this QW and X are the quantit integer reptation of the weight and X.
+
+1065
+01:16:48,629 --> 01:16:54,669
+如果我们把这两个合在一起，基本上就是在整数域上执行矩阵乘法。
+And if we tape these two together is basically performing met mol in integer course.
+
+1066
+01:16:54,669 --> 01:16:58,509
+所以这里我们用整数运算来完成主要的计算任务。
+So here we are using integer courts to do the highway lifting.
+
+1067
+01:16:58,509 --> 01:17:02,369
+这基本上达到了我们的目标。
+That basically satisfies our goal.
+
+1068
+01:17:02,369 --> 01:17:06,729
+我们的目标一方面是减少存储空间。
+Our goal is to reduce, on one hand, we try to reduce the storage.
+
+1069
+01:17:06,729 --> 01:17:10,389
+另一方面，我们试图把之前的浮点运算
+On the other hand, we try to reduce the previous floating point arithmetics
+
+1070
+01:17:10,389 --> 01:17:12,569
+转换为整数运算。
+into integer arithmetics.
+
+1071
+01:17:12,569 --> 01:17:17,089
+因为就像我说的，整数运算要快得多，成本也更低，还能节省大量能量。
+Because like I said, integer arithmetic is much faster, much cheaper, save a lot of energy.
+
+1072
+01:17:17,089 --> 01:17:22,439
+好的，明白。这基本上给你一个高层次的直观理解，
+Okay. Cool. That basically give you a high level intuition,
+
+1073
+01:17:22,439 --> 01:17:26,119
+这种近似量化基本上是做什么的。
+what basically this kind of near quarantine does.
+
+1074
+01:17:26,119 --> 01:17:29,879
+就像我一开始说的，你可以选择不同的目标范围。
+Like I said at the beginning, uh, you can choose different target ranges.
+
+1075
+01:17:29,879 --> 01:17:35,479
+所以在这里，如果你选择目标范围为LP8，你基本上就简化成了
+So here, if you chose target range as LP eight, you basically reduced to
+
+1076
+01:17:35,479 --> 01:17:38,499
+这个方程，其中QW和Qx都在LP8中。
+the equation where this QW and Qx are in LP eight.
+
+1077
+01:17:38,499 --> 01:17:44,519
+这意味着你可以把原来的LP16运算简化成LP8运算，
+Which means that you can reduce the original LP 16 arithmetics into LP eight arithmetics,
+
+1078
+01:17:44,519 --> 01:17:47,019
+这基本上就是DP sig所做的事情。
+and that is basically what DP sig does.
+
+1079
+01:17:47,019 --> 01:17:49,854
+目标范围是P8。
+Target range being P eight.
+
+1080
+01:17:49,854 --> 01:17:57,709
+好的，这一页幻灯片可以让你了解它在实际中的表现。
+Cool. Okay, this slides give you a sense how this performs in practice.
+
+1081
+01:17:57,709 --> 01:18:02,649
+的确，如果你使用这种近似条件，仍然可以保留很高的准确性。
+Indeed, if you do this kind of near condition, you can still preserve much accuracy and
+
+1082
+01:18:02,649 --> 01:18:09,829
+因为与Kems编码相比，记住在Kemi Cnation中你的计算速度会变慢，对吧？
+because compared to Kems codon, remember in Kemi Cnation you are slowing down the compute, right?
+
+1083
+01:18:09,829 --> 01:18:12,069
+但在近似连接中，不一定会这样。
+But in near connection, not necessarily.
+
+1084
+01:18:12,069 --> 01:18:17,059
+有时候你可以通过利用更低价格的课程来加速计算，好吗？
+Sometimes you can accelerate the computer by leveraging lower pricing course, okay?
+
+1085
+01:18:17,059 --> 01:18:20,949
+好的，这基本上就是本次讲座的结束。
+Okay, that basically comes to end of this lecture.
+
+1086
+01:18:20,949 --> 01:18:22,389
+我们来做一个快速总结。
+Let's do a quick summary.
+
+1087
+01:18:22,389 --> 01:18:27,969
+对于Nina条件，呃，呃，如果我们的目标范围是整数，我们基本上是用整数来表示
+For Nina condition, uh, uh, if our target range are integers, we are basically represent
+
+1088
+01:18:27,969 --> 01:18:29,989
+数据，对吧。
+the data using integers, right.
+
+1089
+01:18:29,989 --> 01:18:34,449
+我们尝试用我们的技巧和方法把整数恢复到目标范围。
+We try to use our skill and point to recover integer into the target range.
+
+1090
+01:18:34,449 --> 01:18:39,389
+对于算术运算，我们能够简化其中的一些步骤。
+And for the arithmetics, we are able to simplify the little
+
+1091
+01:18:39,389 --> 01:18:42,189
+一点一点地，最终我们就能上整数课程了，
+bit and eventually we'll be able to integer course,
+
+1092
+01:18:42,189 --> 01:18:44,789
+而整数课程比电话课程好多了。
+and integer course are much better than phone course.
+
+1093
+01:18:44,789 --> 01:18:46,589
+好的，明白，谢谢你。
+Okay. Cool. Thank you.
+
+1094
+01:18:46,589 --> 01:18:48,029
+我们周四在Zoom上见。
+I'll see you on hasday on Zoom.
+
+1095
+01:18:48,029 --> 01:18:50,229
+你不用来这里，去Zoom上就可以了，明白吗？
+You don't have to be here, go to Zoom, okay?
+
+1096
+01:18:50,229 --> 01:18:51,509
+好的。
+Yeah.
+
+1097
+01:21:14,939 --> 01:21:16,979
+嗯
+H
