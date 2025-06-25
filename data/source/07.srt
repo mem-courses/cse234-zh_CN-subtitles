@@ -1,0 +1,8182 @@
+1
+00:00:05,960 --> 00:00:13,039
+Okay. Yeah. Thanks for
+coming. Let's get started.
+
+2
+00:00:13,520 --> 00:00:21,360
+Okay. So just a recap
+of last lecture.
+
+3
+00:00:21,360 --> 00:00:23,080
+So in last lecture,
+
+4
+00:00:23,080 --> 00:00:25,859
+we did GPU memo, right?
+
+5
+00:00:25,859 --> 00:00:28,520
+I think we went through
+three versions,
+
+6
+00:00:28,520 --> 00:00:31,479
+a very straightforward version.
+
+7
+00:00:31,479 --> 00:00:35,600
+Um, we start doing some
+register level telling,
+
+8
+00:00:35,600 --> 00:00:37,899
+and then we do two
+level telling, right?
+
+9
+00:00:37,899 --> 00:00:40,270
+RM and register, okay?
+
+10
+00:00:40,270 --> 00:00:44,779
+And we also talk about a
+little bit of compiler
+
+11
+00:00:44,779 --> 00:00:46,299
+that is how we compile
+
+12
+00:00:46,299 --> 00:00:49,579
+a good implementation
+for an operator,
+
+13
+00:00:49,579 --> 00:00:51,760
+we have a pretty
+large search space.
+
+14
+00:00:51,760 --> 00:00:56,040
+We basically search the
+configurations for those loops,
+
+15
+00:00:56,040 --> 00:01:00,940
+then I think we touched
+a little bit on Triton,
+
+16
+00:01:00,940 --> 00:01:03,879
+before we started today lecture,
+
+17
+00:01:03,879 --> 00:01:10,620
+content let's do MCQ to basically
+verify we indeed learn.
+
+18
+00:01:11,020 --> 00:01:17,260
+The first one, what is a
+kernel in the context of GPS?
+
+19
+00:01:21,860 --> 00:01:24,980
+D, right? Yeah, this is obvious.
+
+20
+00:01:24,980 --> 00:01:28,059
+I try to remember
+this word, Kernel.
+
+21
+00:01:28,059 --> 00:01:30,780
+Yeah. Second one,
+
+22
+00:01:30,780 --> 00:01:32,899
+what is a function
+of shared memory
+
+23
+00:01:32,899 --> 00:01:35,379
+in the context of GPU execution?
+
+24
+00:01:37,780 --> 00:01:41,880
+C it's not HBM HBM
+means a global memory.
+
+25
+00:01:41,880 --> 00:01:45,660
+SRM means a layer higher, okay?
+
+26
+00:01:45,900 --> 00:01:48,139
+And it's not for compute,
+
+27
+00:01:48,139 --> 00:01:49,499
+it's for storing things,
+
+28
+00:01:49,499 --> 00:01:54,180
+it's C. What is
+
+29
+00:01:54,180 --> 00:01:58,180
+the significance of over
+subscribing the GPU?
+
+30
+00:02:01,300 --> 00:02:05,440
+Apparently, A and C and
+D are wrong, right?
+
+31
+00:02:05,440 --> 00:02:08,040
+So it's goes to B, yeah.
+
+32
+00:02:08,040 --> 00:02:10,260
+So we basically
+need to give many,
+
+33
+00:02:10,260 --> 00:02:12,579
+many jobs to our
+streaming multiprocessors
+
+34
+00:02:12,579 --> 00:02:13,860
+to make GPU busy.
+
+35
+00:02:13,860 --> 00:02:17,339
+That is what
+oversubscription means.
+
+36
+00:02:18,620 --> 00:02:22,780
+Which of the following is
+true about GPU memory?
+
+37
+00:02:36,170 --> 00:02:38,429
+B, yeah, of course.
+
+38
+00:02:38,429 --> 00:02:40,810
+All the rest are wrong, okay?
+
+39
+00:02:42,170 --> 00:02:45,849
+So which of the following
+operations is most
+
+40
+00:02:45,849 --> 00:02:47,509
+likely so most likely to
+
+41
+00:02:47,509 --> 00:02:50,570
+be limited by
+arithmetic operations.
+
+42
+00:02:58,410 --> 00:03:01,010
+So by looking at all
+the six options,
+
+43
+00:03:01,010 --> 00:03:03,489
+definitely, we can
+first eliminate A, C,
+
+44
+00:03:03,489 --> 00:03:05,169
+and D, and E, right,
+
+45
+00:03:05,169 --> 00:03:09,169
+because they are not
+arithmetic intensive.
+
+46
+00:03:09,169 --> 00:03:11,149
+So what we need to do is
+
+47
+00:03:11,149 --> 00:03:13,909
+basically compare
+B and F, right?
+
+48
+00:03:13,909 --> 00:03:17,490
+And the one that has
+more that requires
+
+49
+00:03:17,490 --> 00:03:19,030
+more flops are more likely to
+
+50
+00:03:19,030 --> 00:03:21,130
+be limited by
+arithmetic operations.
+
+51
+00:03:21,130 --> 00:03:23,389
+So I think I give you
+a equation right,
+
+52
+00:03:23,389 --> 00:03:25,569
+how to calculate the
+flops needed for matm and
+
+53
+00:03:25,569 --> 00:03:28,839
+the for the option B,
+
+54
+00:03:28,839 --> 00:03:31,340
+I think it is indeed a
+pretty big metamol already,
+
+55
+00:03:31,340 --> 00:03:34,879
+but it has one dimension
+that is equal to one.
+
+56
+00:03:34,879 --> 00:03:37,439
+But for the second one F, uh,
+
+57
+00:03:37,439 --> 00:03:39,720
+the first two dimensions
+are slightly smaller,
+
+58
+00:03:39,720 --> 00:03:41,679
+but the third dimension
+is pretty big.
+
+59
+00:03:41,679 --> 00:03:43,639
+And if you compare
+all the flops needed,
+
+60
+00:03:43,639 --> 00:03:47,000
+actually, I think F
+is very intensive.
+
+61
+00:03:47,000 --> 00:03:53,340
+Cool. So when picking
+
+62
+00:03:53,340 --> 00:03:56,360
+a tile size for GMM GMM
+
+63
+00:03:56,360 --> 00:03:59,260
+means basically stands
+for the metamol in GPUs,
+
+64
+00:03:59,260 --> 00:04:02,760
+why not always pick
+the biggest tile size?
+
+65
+00:04:06,790 --> 00:04:09,889
+B. Okay.
+
+66
+00:04:09,889 --> 00:04:12,770
+Let's look it one
+by one, the tile
+
+67
+00:04:12,770 --> 00:04:15,750
+might not fit on the
+GPHPM for some GMM sizes.
+
+68
+00:04:15,750 --> 00:04:17,990
+This one is wrong because
+HBM is pretty big,
+
+69
+00:04:17,990 --> 00:04:20,429
+and it's not
+contribute to tiling.
+
+70
+00:04:20,429 --> 00:04:23,650
+The bigger size could
+result in low parism for
+
+71
+00:04:23,650 --> 00:04:27,930
+some GMM sizes. This
+one is correct.
+
+72
+00:04:27,930 --> 00:04:31,609
+Yeah. If you allocate
+more larger tile,
+
+73
+00:04:31,609 --> 00:04:33,729
+that means you are going
+to have fewer threads.
+
+74
+00:04:33,729 --> 00:04:35,190
+So if you have fewer threads,
+
+75
+00:04:35,190 --> 00:04:37,489
+then your pism will be limited.
+
+76
+00:04:37,489 --> 00:04:40,469
+Larger tiles have
+lower data use,
+
+77
+00:04:40,469 --> 00:04:42,909
+it's wrong it has
+more data reuse.
+
+78
+00:04:42,909 --> 00:04:46,730
+Uh, larger tiles
+means M data is read.
+
+79
+00:04:46,730 --> 00:04:48,789
+No, this is wrong, okay?
+
+80
+00:04:48,789 --> 00:04:51,649
+Cool, we're good. Then let's
+
+81
+00:04:51,649 --> 00:04:53,369
+move on to the main
+content of today.
+
+82
+00:04:53,369 --> 00:04:54,850
+And today, we are
+going to talk about
+
+83
+00:04:54,850 --> 00:04:56,369
+we are going to finish treating,
+
+84
+00:04:56,369 --> 00:04:59,509
+and then we start
+looking at a second,
+
+85
+00:04:59,509 --> 00:05:01,329
+very important
+topic for compiler
+
+86
+00:05:01,329 --> 00:05:04,030
+that is basically
+graph optimiation.
+
+87
+00:05:04,030 --> 00:05:06,930
+Okay, still remember
+this slide, right?
+
+88
+00:05:06,930 --> 00:05:10,750
+So treating is a very good
+sweet spot between, um,
+
+89
+00:05:10,750 --> 00:05:14,529
+fully automatic compiler
+like TM and Koda,
+
+90
+00:05:14,529 --> 00:05:15,929
+which basically is manual.
+
+91
+00:05:15,929 --> 00:05:18,010
+Okay? Triton tries
+to strike a balance
+
+92
+00:05:18,010 --> 00:05:21,569
+between automation and
+also, um, performance.
+
+93
+00:05:21,569 --> 00:05:25,600
+Okay? And it achieves this by
+basically, uh, for example,
+
+94
+00:05:25,600 --> 00:05:28,520
+giving you Python from n. It
+
+95
+00:05:28,520 --> 00:05:31,659
+also allows you to manipulate
+or raise using pointers,
+
+96
+00:05:31,659 --> 00:05:35,840
+even in Python, but
+it also tries to,
+
+97
+00:05:35,840 --> 00:05:38,599
+uh, basically impose
+a few limitations.
+
+98
+00:05:38,599 --> 00:05:40,860
+So treatment can better handle
+
+99
+00:05:40,860 --> 00:05:42,499
+sort of like some degrees
+
+100
+00:05:42,499 --> 00:05:43,820
+of automation in the
+backend for you.
+
+101
+00:05:43,820 --> 00:05:45,884
+For example, met mootei
+
+102
+00:05:45,884 --> 00:05:48,410
+and I think we look at this
+program a little bit, right.
+
+103
+00:05:48,410 --> 00:05:51,250
+I think we go through
+this one. So um,
+
+104
+00:05:51,250 --> 00:05:53,549
+this is quite different
+from traditional Coda.
+
+105
+00:05:53,549 --> 00:05:55,929
+You know a few things.
+One is python based.
+
+106
+00:05:55,929 --> 00:05:57,890
+Second is, um, uh,
+
+107
+00:05:57,890 --> 00:06:00,049
+this code will only be
+mapped to one block.
+
+108
+00:06:00,049 --> 00:06:01,330
+It's for the user to decide
+
+109
+00:06:01,330 --> 00:06:03,930
+how many blocks they want to
+launch this code too, right?
+
+110
+00:06:03,930 --> 00:06:08,670
+And the way you decide
+is basically uh,
+
+111
+00:06:08,670 --> 00:06:10,850
+you declare the grid
+size here and you
+
+112
+00:06:10,850 --> 00:06:13,770
+launch this program to a
+grade of blocks, okay?
+
+113
+00:06:13,770 --> 00:06:15,630
+And it's also for the user to
+
+114
+00:06:15,630 --> 00:06:18,030
+be aware that they need to
+write the code in a way that,
+
+115
+00:06:18,030 --> 00:06:21,330
+um, so they manipulate
+array for each thread.
+
+116
+00:06:21,330 --> 00:06:22,870
+So each thread knows which area
+
+117
+00:06:22,870 --> 00:06:24,410
+to read from the inputs and
+
+118
+00:06:24,410 --> 00:06:28,609
+try to basically calculate
+its own part, its own person.
+
+119
+00:06:28,609 --> 00:06:31,729
+Okay, I think we stopped
+here last lecture,
+
+120
+00:06:31,729 --> 00:06:33,130
+and we'll continue from here.
+
+121
+00:06:33,130 --> 00:06:37,300
+So um in order to basically
+change this code,
+
+122
+00:06:37,300 --> 00:06:39,660
+you can see from this code,
+we are essentially launching
+
+123
+00:06:39,660 --> 00:06:41,079
+this function into one block
+
+124
+00:06:41,079 --> 00:06:42,880
+because the grid size is one.
+
+125
+00:06:42,880 --> 00:06:46,060
+We only have one block. So
+we want to change this into
+
+126
+00:06:46,060 --> 00:06:47,960
+multiple block version
+because we want to
+
+127
+00:06:47,960 --> 00:06:50,579
+use as many SMS as
+possible from the GPU.
+
+128
+00:06:50,579 --> 00:06:54,740
+So what do we do is basically
+we make these changes.
+
+129
+00:06:54,740 --> 00:06:57,780
+I think the first thing
+you want to note is here,
+
+130
+00:06:57,780 --> 00:06:59,539
+we slightly increased
+array size.
+
+131
+00:06:59,539 --> 00:07:01,279
+Yeah, because we
+have more blocks.
+
+132
+00:07:01,279 --> 00:07:03,499
+We want to calculate
+more elements.
+
+133
+00:07:03,499 --> 00:07:06,679
+And what we do is
+basically we still launch
+
+134
+00:07:06,679 --> 00:07:10,260
+like 1024 threads per block,
+
+135
+00:07:10,260 --> 00:07:12,540
+and we divided the array size
+
+136
+00:07:12,540 --> 00:07:15,335
+by 1024 and we request
+that many blocks.
+
+137
+00:07:15,335 --> 00:07:17,470
+Okay. So in this sense,
+
+138
+00:07:17,470 --> 00:07:19,430
+so we have these many blocks and
+
+139
+00:07:19,430 --> 00:07:22,830
+each block still has 24 threads,
+
+140
+00:07:22,830 --> 00:07:25,710
+and each thread will basically
+calculate one element.
+
+141
+00:07:25,710 --> 00:07:29,550
+And compared to the previous
+version of the program,
+
+142
+00:07:29,550 --> 00:07:33,630
+what we need to do is we
+need to now consider blocks,
+
+143
+00:07:33,630 --> 00:07:36,150
+and we need to make
+sure each thread in
+
+144
+00:07:36,150 --> 00:07:39,569
+each block actually index the
+right element of the array.
+
+145
+00:07:39,569 --> 00:07:42,330
+So when we play with this
+kind of pull inter semantics,
+
+146
+00:07:42,330 --> 00:07:46,210
+we need to introduce another
+offset that is basically
+
+147
+00:07:46,210 --> 00:07:48,690
+uh the number of
+threads per block
+
+148
+00:07:48,690 --> 00:07:51,480
+times the current
+index of this block.
+
+149
+00:07:51,480 --> 00:07:52,890
+Right so we can use
+
+150
+00:07:52,890 --> 00:07:57,590
+this EPI TD program to return
+the current block index.
+
+151
+00:07:57,590 --> 00:07:59,710
+Then we basically
+offset the array by,
+
+152
+00:07:59,710 --> 00:08:03,170
+for example, each block
+will offset by 1024, right?
+
+153
+00:08:03,170 --> 00:08:06,110
+And then we add this
+offset to the original,
+
+154
+00:08:06,110 --> 00:08:10,629
+offset array we created
+for index each thread,
+
+155
+00:08:10,629 --> 00:08:11,929
+right, each thread content,
+
+156
+00:08:11,929 --> 00:08:14,630
+and we can basically change
+this program in a way that
+
+157
+00:08:14,630 --> 00:08:15,910
+is it will operate on
+
+158
+00:08:15,910 --> 00:08:17,949
+many many blocks and
+many many threads.
+
+159
+00:08:17,949 --> 00:08:21,390
+Okay? And here, we add
+a little bit mask to
+
+160
+00:08:21,390 --> 00:08:25,490
+avoid that we read range, right?
+
+161
+00:08:25,490 --> 00:08:28,550
+So if our number of
+threas is greater than,
+
+162
+00:08:28,550 --> 00:08:31,930
+um, than the array size,
+
+163
+00:08:31,930 --> 00:08:35,370
+then we basically make sure
+we are not go out of range.
+
+164
+00:08:35,530 --> 00:08:38,970
+Any question for this program?
+
+165
+00:08:39,640 --> 00:08:43,619
+Cool. And like I said,
+
+166
+00:08:43,619 --> 00:08:45,559
+you just need to write
+this kind of program
+
+167
+00:08:45,559 --> 00:08:47,199
+and the treating is
+going to do many,
+
+168
+00:08:47,199 --> 00:08:49,040
+many things behind the scene.
+
+169
+00:08:49,040 --> 00:08:50,240
+For example, if you write
+
+170
+00:08:50,240 --> 00:08:52,559
+metamo treating is going
+to do telling for you.
+
+171
+00:08:52,559 --> 00:08:54,420
+You don't know how
+to tell by yourself.
+
+172
+00:08:54,420 --> 00:08:58,600
+And if you compare the treating
+performance to Petros,
+
+173
+00:08:58,600 --> 00:09:00,019
+you can see, it's pretty decent.
+
+174
+00:09:00,019 --> 00:09:03,980
+Remember, in Pyts this
+kind of code or this kind
+
+175
+00:09:03,980 --> 00:09:05,680
+of kernel or manually
+
+176
+00:09:05,680 --> 00:09:08,459
+crafted by petrod
+developers, right?
+
+177
+00:09:08,459 --> 00:09:11,080
+But in Cuda, in low
+level language,
+
+178
+00:09:11,080 --> 00:09:13,639
+okay, you need to take
+care of a lot of things.
+
+179
+00:09:13,639 --> 00:09:16,159
+But in treating, you just
+need to write Python and
+
+180
+00:09:16,159 --> 00:09:19,359
+you can see the performance
+is pretty close. Okay.
+
+181
+00:09:19,640 --> 00:09:22,539
+Another example, slightly
+more complicated.
+
+182
+00:09:22,539 --> 00:09:24,439
+I think you did this in
+homework one, right?
+
+183
+00:09:24,439 --> 00:09:26,040
+We ask you to do softmax.
+
+184
+00:09:26,040 --> 00:09:31,400
+Okay? So do you still remember
+how you implement softmax?
+
+185
+00:09:31,540 --> 00:09:35,080
+So I believe most of
+you probably just, uh,
+
+186
+00:09:35,080 --> 00:09:38,480
+use some primitives, from
+prior to compose softmax.
+
+187
+00:09:38,480 --> 00:09:40,500
+Okay. Uh, so basically,
+
+188
+00:09:40,500 --> 00:09:42,339
+you probably have
+expent function, right?
+
+189
+00:09:42,339 --> 00:09:43,999
+You have some
+mission and you have
+
+190
+00:09:43,999 --> 00:09:47,180
+divided something like that.
+You compose them together.
+
+191
+00:09:47,180 --> 00:09:49,540
+I think up to this
+point, you probably
+
+192
+00:09:49,540 --> 00:09:51,139
+already realize that this is
+
+193
+00:09:51,139 --> 00:09:52,559
+not going to be super efficient.
+
+194
+00:09:52,559 --> 00:09:55,180
+Why? Because you are composing
+
+195
+00:09:55,180 --> 00:09:57,199
+many many elementary primitives
+
+196
+00:09:57,199 --> 00:10:00,099
+and you are basically
+a better alternative,
+
+197
+00:10:00,099 --> 00:10:01,439
+you can fill them all together,
+
+198
+00:10:01,439 --> 00:10:05,259
+you just implement
+softmax and that can,
+
+199
+00:10:05,259 --> 00:10:08,184
+um substantially reduce the
+
+200
+00:10:08,184 --> 00:10:10,349
+Uh, IO, right?
+
+201
+00:10:10,349 --> 00:10:12,869
+Because you don't how
+to read per primitive.
+
+202
+00:10:12,869 --> 00:10:15,049
+You can read just at the
+beginning and do some
+
+203
+00:10:15,049 --> 00:10:19,330
+in memory using whatever
+telling or memory hierarchy.
+
+204
+00:10:19,330 --> 00:10:22,130
+Okay? One way people
+improve softmax
+
+205
+00:10:22,130 --> 00:10:25,130
+is basically they
+implement into softmax.
+
+206
+00:10:25,130 --> 00:10:27,889
+And that is basically
+what uh Petros
+
+207
+00:10:27,889 --> 00:10:32,509
+did for their softmax API
+kernel implement using Koda.
+
+208
+00:10:32,509 --> 00:10:35,234
+It's not composed by
+primitives, Okay?
+
+209
+00:10:35,234 --> 00:10:38,499
+And you can imagine how
+difficult this will be,
+
+210
+00:10:38,499 --> 00:10:41,560
+right, especially considering
+if X is multi dimensional,
+
+211
+00:10:41,560 --> 00:10:44,540
+you have to do some summation,
+
+212
+00:10:44,540 --> 00:10:47,300
+normalization and then
+do some division,
+
+213
+00:10:47,300 --> 00:10:49,159
+and that is going to be
+
+214
+00:10:49,159 --> 00:10:51,839
+rather complicated for
+multi dimensional array.
+
+215
+00:10:51,839 --> 00:10:55,279
+But the treating can makes
+this process really simple.
+
+216
+00:10:55,279 --> 00:10:56,899
+And here, I'm going to
+
+217
+00:10:56,899 --> 00:10:59,019
+show a second piece
+of treating program.
+
+218
+00:10:59,019 --> 00:11:01,479
+So here, basically what
+we want to do is we want
+
+219
+00:11:01,479 --> 00:11:03,860
+to do a software
+mass on this matrix,
+
+220
+00:11:03,860 --> 00:11:06,019
+and we want ECblock
+
+221
+00:11:06,019 --> 00:11:08,440
+to basically perform
+competition on each row.
+
+222
+00:11:08,440 --> 00:11:11,840
+Okay. And then we want
+each column to basically,
+
+223
+00:11:11,840 --> 00:11:13,599
+sorry, we want each
+threading a block to
+
+224
+00:11:13,599 --> 00:11:15,840
+take an element from this row.
+
+225
+00:11:15,840 --> 00:11:18,320
+Okay? And we can do softmax.
+
+226
+00:11:18,320 --> 00:11:20,119
+And our goal is we try to input
+
+227
+00:11:20,119 --> 00:11:22,020
+end to end kernel for softmax.
+
+228
+00:11:22,020 --> 00:11:24,919
+Okay? We don't compose
+from primitives.
+
+229
+00:11:24,919 --> 00:11:28,620
+Yeah. And I think with
+the previous experience,
+
+230
+00:11:28,620 --> 00:11:30,300
+this program is rather easy
+
+231
+00:11:30,300 --> 00:11:33,180
+to understand compared
+to Koda, okay?
+
+232
+00:11:33,180 --> 00:11:35,119
+So let's parse this one.
+
+233
+00:11:35,119 --> 00:11:37,480
+So of course, we start
+with a treating it,
+
+234
+00:11:37,480 --> 00:11:39,760
+right, and we define the
+signature of softmax.
+
+235
+00:11:39,760 --> 00:11:43,269
+And uh and with first
+index, like I said,
+
+236
+00:11:43,269 --> 00:11:45,250
+I want each block to
+take care of one row,
+
+237
+00:11:45,250 --> 00:11:47,690
+and each thread will
+take one column.
+
+238
+00:11:47,690 --> 00:11:50,769
+So I play some index
+here indexing here.
+
+239
+00:11:50,769 --> 00:11:53,929
+I index the block and
+the map to roll, right?
+
+240
+00:11:53,929 --> 00:11:57,509
+And I also create an offset so
+
+241
+00:11:57,509 --> 00:12:01,930
+that each thread knows where
+to read as a starting point.
+
+242
+00:12:01,930 --> 00:12:04,590
+And then I basically
+create a pointer,
+
+243
+00:12:04,590 --> 00:12:06,349
+which basically
+is a pointer that
+
+244
+00:12:06,349 --> 00:12:09,289
+is instructing the current
+thread to read from.
+
+245
+00:12:09,289 --> 00:12:12,250
+And this pointer is created
+in a way that offset
+
+246
+00:12:12,250 --> 00:12:16,710
+this number of blocks and
+then this number of columns.
+
+247
+00:12:17,650 --> 00:12:20,889
+I load this data. I
+ask each ready to
+
+248
+00:12:20,889 --> 00:12:21,969
+load this data and you still
+
+249
+00:12:21,969 --> 00:12:23,470
+remember what this
+load is doing?
+
+250
+00:12:23,470 --> 00:12:25,170
+It's called
+cooperative fetching,
+
+251
+00:12:25,170 --> 00:12:27,850
+each rater will do its own load.
+
+252
+00:12:27,860 --> 00:12:31,800
+And then I read all
+this kind of code here.
+
+253
+00:12:31,800 --> 00:12:35,399
+So why this kernel is faster?
+
+254
+00:12:35,399 --> 00:12:38,579
+Because triton basically
+play things in SRM, right?
+
+255
+00:12:38,579 --> 00:12:41,000
+If you still remember,
+it's not going to,
+
+256
+00:12:41,000 --> 00:12:43,819
+uh if you compose
+for many primitives,
+
+257
+00:12:43,819 --> 00:12:45,699
+every time you launch
+a new primitive,
+
+258
+00:12:45,699 --> 00:12:48,400
+for example, exponential
+function, or submisin function,
+
+259
+00:12:48,400 --> 00:12:50,960
+you are going to
+read things from HBM
+
+260
+00:12:50,960 --> 00:12:52,999
+all the way to SRM
+to catch, right?
+
+261
+00:12:52,999 --> 00:12:54,979
+And you do compution. But here,
+
+262
+00:12:54,979 --> 00:12:58,420
+Triton created all these
+temporary variables at SRM.
+
+263
+00:12:58,420 --> 00:13:01,320
+So you can avoid a lot of
+repeated reading or data
+
+264
+00:13:01,320 --> 00:13:04,790
+fetching from HBM all the way
+up to the memory hierarchy.
+
+265
+00:13:04,790 --> 00:13:07,600
+That's how fetching
+how fusion works.
+
+266
+00:13:07,600 --> 00:13:10,319
+And you can see, treating
+actually allows you to do
+
+267
+00:13:10,319 --> 00:13:13,959
+this kind of fusion very
+easily using Python semantics.
+
+268
+00:13:13,959 --> 00:13:17,159
+Okay? Any question?
+
+269
+00:13:18,610 --> 00:13:22,750
+Cool. This is our second
+piece of treating program.
+
+270
+00:13:22,750 --> 00:13:26,410
+Um, I think treating
+
+271
+00:13:26,410 --> 00:13:29,589
+indeed lowers the barrier
+or programming GPUs.
+
+272
+00:13:29,589 --> 00:13:31,209
+And if you compare
+
+273
+00:13:31,209 --> 00:13:34,430
+the performance between treating
+
+274
+00:13:34,430 --> 00:13:36,049
+and petrog you can see actually,
+
+275
+00:13:36,049 --> 00:13:38,890
+by the way, the access is
+basically the latency.
+
+276
+00:13:38,890 --> 00:13:41,810
+And you can see,
+um, at some point,
+
+277
+00:13:41,810 --> 00:13:43,190
+treating is already matching
+
+278
+00:13:43,190 --> 00:13:46,269
+the human graphi kernel
+using Coda in petrog.
+
+279
+00:13:46,269 --> 00:13:48,390
+But at some
+dimensions as growth,
+
+280
+00:13:48,390 --> 00:13:50,290
+we have Olympic gap,
+but that's fine.
+
+281
+00:13:50,290 --> 00:13:51,830
+The gap is not significant.
+
+282
+00:13:51,830 --> 00:13:53,929
+It's definitely better than, uh,
+
+283
+00:13:53,929 --> 00:13:58,330
+writing composing, for
+example, primitives, yeah.
+
+284
+00:13:58,890 --> 00:14:01,890
+Yeah, that's basically,
+all the contents
+
+285
+00:14:01,890 --> 00:14:02,970
+I want to cover for triton.
+
+286
+00:14:02,970 --> 00:14:04,530
+To summarize, I think triton,
+
+287
+00:14:04,530 --> 00:14:07,609
+uh, um, uh, this is,
+
+288
+00:14:07,609 --> 00:14:09,809
+I think treat market
+piece is pretty
+
+289
+00:14:09,809 --> 00:14:11,590
+successful in the sense
+
+290
+00:14:11,590 --> 00:14:14,389
+that which is shown
+in this curve, right?
+
+291
+00:14:14,389 --> 00:14:17,810
+So you can either
+choose to program Koda,
+
+292
+00:14:17,810 --> 00:14:19,770
+but you are going to invest
+a lot of time in order
+
+293
+00:14:19,770 --> 00:14:22,324
+to get a pretty
+decent performance.
+
+294
+00:14:22,324 --> 00:14:24,259
+Uh, if you want
+extreme performance,
+
+295
+00:14:24,259 --> 00:14:26,540
+you can program even lower
+language, for example,
+
+296
+00:14:26,540 --> 00:14:29,019
+the streaming
+assembly invented by,
+
+297
+00:14:29,019 --> 00:14:31,100
+uh, so basically is
+hardware language
+
+298
+00:14:31,100 --> 00:14:32,659
+associated with GPUs, right?
+
+299
+00:14:32,659 --> 00:14:35,940
+I think very few people in
+this world can actually uh,
+
+300
+00:14:35,940 --> 00:14:37,080
+using a programming language
+
+301
+00:14:37,080 --> 00:14:39,060
+except those in media company.
+
+302
+00:14:39,060 --> 00:14:41,740
+But yeah, indeed, if you
+want extreme performance,
+
+303
+00:14:41,740 --> 00:14:44,359
+you just need to invest
+more time learning SASS,
+
+304
+00:14:44,359 --> 00:14:46,240
+and eventually you want to
+get the highest performance.
+
+305
+00:14:46,240 --> 00:14:49,439
+But for treating, uh,
+for example, for us,
+
+306
+00:14:49,439 --> 00:14:51,439
+as a machine learning or
+system developer who are
+
+307
+00:14:51,439 --> 00:14:53,699
+not that into GPU or quota,
+
+308
+00:14:53,699 --> 00:14:55,760
+uh, it indeed provides
+pretty good value.
+
+309
+00:14:55,760 --> 00:14:58,840
+And this is basically the
+sweet spot of treating.
+
+310
+00:14:58,840 --> 00:15:00,319
+Yeah, you don't have to
+invest a lot of time,
+
+311
+00:15:00,319 --> 00:15:03,480
+but you still get disney
+performance. Yeah.
+
+312
+00:15:03,480 --> 00:15:07,119
+This is. Yeah, that's
+a good question.
+
+313
+00:15:07,119 --> 00:15:08,719
+So in my previous slide,
+
+314
+00:15:08,719 --> 00:15:10,900
+I said treating is a
+domain specific language
+
+315
+00:15:10,900 --> 00:15:12,980
+for Koda, and I was wrong.
+
+316
+00:15:12,980 --> 00:15:16,339
+Today I think treating is
+trying to expand their scope.
+
+317
+00:15:16,339 --> 00:15:18,060
+So basically, they keep
+
+318
+00:15:18,060 --> 00:15:20,420
+the fen language the same
+still writing Python,
+
+319
+00:15:20,420 --> 00:15:22,060
+but they can basically
+
+320
+00:15:22,060 --> 00:15:23,359
+compile the language down
+
+321
+00:15:23,359 --> 00:15:24,620
+all the way to
+different hardware,
+
+322
+00:15:24,620 --> 00:15:27,320
+for example, AMD, this
+kind of hardware.
+
+323
+00:15:27,320 --> 00:15:31,240
+Okay? Yeah, that actually give
+you another good argument.
+
+324
+00:15:31,240 --> 00:15:33,020
+Now, you just need to
+learn one language
+
+325
+00:15:33,020 --> 00:15:35,680
+and you can write code
+for different hardware.
+
+326
+00:15:35,770 --> 00:15:38,809
+Cool. Okay.
+
+327
+00:15:38,809 --> 00:15:40,330
+With that, I think, uh,
+
+328
+00:15:40,330 --> 00:15:41,670
+we have done pretty good here.
+
+329
+00:15:41,670 --> 00:15:45,069
+We can summarize the um,
+operative documentation.
+
+330
+00:15:45,069 --> 00:15:47,390
+Okay? So let's try
+
+331
+00:15:47,390 --> 00:15:49,690
+to bring us back to
+the big picture, okay?
+
+332
+00:15:49,690 --> 00:15:52,710
+So, we spent almost
+four lectures
+
+333
+00:15:52,710 --> 00:15:55,269
+on this, right,
+for optimization.
+
+334
+00:15:55,269 --> 00:15:57,529
+Our grand goal is we try to make
+
+335
+00:15:57,529 --> 00:16:00,750
+individual operator run
+fast on diverse devices.
+
+336
+00:16:00,750 --> 00:16:03,490
+Okay? And we start with
+some general ways,
+
+337
+00:16:03,490 --> 00:16:06,449
+for example, vectorization,
+data layout.
+
+338
+00:16:06,449 --> 00:16:09,870
+We dive deep into met
+M, right? The telling.
+
+339
+00:16:09,870 --> 00:16:14,309
+And then we start
+talking about how to
+
+340
+00:16:14,309 --> 00:16:19,290
+utilize accelerators and
+using SMD and paralization,
+
+341
+00:16:19,290 --> 00:16:22,414
+many, many, accelerator course.
+
+342
+00:16:22,414 --> 00:16:26,079
+And then we started craft
+our own kernel on Koda,
+
+343
+00:16:26,079 --> 00:16:28,060
+we learned a little bit Koda.
+
+344
+00:16:28,060 --> 00:16:30,399
+And then I said that this is
+
+345
+00:16:30,399 --> 00:16:32,079
+pretty hard because it's
+
+346
+00:16:32,079 --> 00:16:33,520
+very hard to program
+this kernel.
+
+347
+00:16:33,520 --> 00:16:35,040
+So people started inventing
+
+348
+00:16:35,040 --> 00:16:38,439
+operator compilers to automatic
+generate the code, okay?
+
+349
+00:16:38,439 --> 00:16:40,820
+And I also said
+automatic compiler
+
+350
+00:16:40,820 --> 00:16:42,819
+is still has its
+own problem, right.
+
+351
+00:16:42,819 --> 00:16:44,499
+Sometimes it miss
+some opportunities,
+
+352
+00:16:44,499 --> 00:16:46,020
+sometimes it's pretty
+hard, and it cannot
+
+353
+00:16:46,020 --> 00:16:48,019
+achieve the best
+performance for you.
+
+354
+00:16:48,019 --> 00:16:50,420
+So then we start
+about treating is
+
+355
+00:16:50,420 --> 00:16:53,019
+basically the sweet spot
+between Koda and compiler.
+
+356
+00:16:53,019 --> 00:16:54,779
+Yeah. That is basically what's
+
+357
+00:16:54,779 --> 00:16:56,739
+happening in the
+community that people how
+
+358
+00:16:56,739 --> 00:17:01,485
+people basically optimize
+individual operators.
+
+359
+00:17:01,485 --> 00:17:04,069
+We can wrap up this
+layer and we go
+
+360
+00:17:04,069 --> 00:17:06,489
+to another layer that
+is graph openation.
+
+361
+00:17:06,489 --> 00:17:08,389
+I hope you still remember
+
+362
+00:17:08,389 --> 00:17:11,709
+the goal of graph
+oglementation, right?
+
+363
+00:17:11,709 --> 00:17:13,450
+So we basically have a dataflow
+
+364
+00:17:13,450 --> 00:17:15,010
+graph on the left hand side.
+
+365
+00:17:15,010 --> 00:17:16,609
+We already know how to make
+
+366
+00:17:16,609 --> 00:17:19,050
+each individual
+operator fast enough,
+
+367
+00:17:19,050 --> 00:17:20,650
+using all the
+techniques we covered
+
+368
+00:17:20,650 --> 00:17:22,129
+in the previous four lectures.
+
+369
+00:17:22,129 --> 00:17:24,890
+And now we are going to launch
+
+370
+00:17:24,890 --> 00:17:27,249
+this entire graph to a GPO.
+
+371
+00:17:27,249 --> 00:17:28,809
+So how can we basically make
+
+372
+00:17:28,809 --> 00:17:31,050
+this entire graph
+composed of many,
+
+373
+00:17:31,050 --> 00:17:33,129
+many operators run
+as fast as possible?
+
+374
+00:17:33,129 --> 00:17:36,749
+Okay? That is basically the
+goal of graph openation.
+
+375
+00:17:36,770 --> 00:17:40,930
+Okay, to basically abstract
+a little bit, okay.
+
+376
+00:17:40,930 --> 00:17:42,790
+Our goal is rewrite
+
+377
+00:17:42,790 --> 00:17:47,169
+the original graph G data
+flow graph into G prime.
+
+378
+00:17:47,169 --> 00:17:49,430
+And we need to
+ensure two things.
+
+379
+00:17:49,430 --> 00:17:52,750
+One is the G prime needs to
+run faster than G. Right,
+
+380
+00:17:52,750 --> 00:17:54,129
+it's called optimization, right?
+
+381
+00:17:54,129 --> 00:17:57,250
+Second, is we need to ensure
+G prime basically outputs
+
+382
+00:17:57,250 --> 00:17:58,669
+equivalent results because we
+
+383
+00:17:58,669 --> 00:18:00,869
+shouldn't as a system developer,
+
+384
+00:18:00,869 --> 00:18:02,149
+we shouldn't alter the results
+
+385
+00:18:02,149 --> 00:18:03,914
+of the machine
+learning side, right?
+
+386
+00:18:03,914 --> 00:18:08,659
+Okay. Yeah, so one
+straightforward solution
+
+387
+00:18:08,659 --> 00:18:10,199
+for this problem is basically,
+
+388
+00:18:10,199 --> 00:18:12,660
+uh, we can create a
+lot of templates.
+
+389
+00:18:12,660 --> 00:18:14,919
+For example, we have
+so many templates and
+
+390
+00:18:14,919 --> 00:18:17,459
+this template is basically
+a pair of graphs.
+
+391
+00:18:17,459 --> 00:18:19,159
+X and Y. X is
+
+392
+00:18:19,159 --> 00:18:21,505
+the original graph and
+Y is the target graph.
+
+393
+00:18:21,505 --> 00:18:24,109
+And for any pair since template,
+
+394
+00:18:24,109 --> 00:18:25,449
+we know that X and Y is
+
+395
+00:18:25,449 --> 00:18:27,069
+going to produce
+the same results,
+
+396
+00:18:27,069 --> 00:18:29,589
+but Y is going to be
+faster than X, right?
+
+397
+00:18:29,589 --> 00:18:33,729
+So this freedom of um we
+can ask human experts
+
+398
+00:18:33,729 --> 00:18:37,929
+to write many many kind of
+graph or subgraph template,
+
+399
+00:18:37,929 --> 00:18:39,609
+transformation template,
+
+400
+00:18:39,609 --> 00:18:42,190
+that guarantees correctness
+and performance skin.
+
+401
+00:18:42,190 --> 00:18:44,949
+Remember, X equals Y
+and Y is faster than X.
+
+402
+00:18:44,949 --> 00:18:48,009
+And then what we do is we
+basically run pattern matching
+
+403
+00:18:48,009 --> 00:18:52,190
+over our entire data flow
+graph defined by the model.
+
+404
+00:18:52,190 --> 00:18:53,789
+And whenever we find a pattern
+
+405
+00:18:53,789 --> 00:18:55,229
+that basically matches template,
+
+406
+00:18:55,229 --> 00:18:57,029
+we replace the X with Y.
+
+407
+00:18:57,029 --> 00:18:59,050
+That is guaranteed to give
+
+408
+00:18:59,050 --> 00:19:01,064
+us performance and
+correct results.
+
+409
+00:19:01,064 --> 00:19:03,679
+Okay. And we will start by
+talking about this first.
+
+410
+00:19:03,679 --> 00:19:06,040
+Okay, how to run this
+kind of pattern matching.
+
+411
+00:19:06,040 --> 00:19:08,600
+So there are a few very well
+
+412
+00:19:08,600 --> 00:19:11,140
+known templates
+in the community.
+
+413
+00:19:11,140 --> 00:19:14,059
+And I think you
+probably also studied
+
+414
+00:19:14,059 --> 00:19:17,280
+this if you took a few
+courses in compiler, okay?
+
+415
+00:19:17,280 --> 00:19:19,979
+Because in compiler in traditional
+compiler, for example,
+
+416
+00:19:19,979 --> 00:19:21,760
+in compiling code for CIPs plus,
+
+417
+00:19:21,760 --> 00:19:24,200
+we also do this kind
+of pattern matching.
+
+418
+00:19:24,200 --> 00:19:25,779
+Okay? The first one,
+
+419
+00:19:25,779 --> 00:19:26,680
+of course, we have talking
+
+420
+00:19:26,680 --> 00:19:27,799
+about this so many times, right.
+
+421
+00:19:27,799 --> 00:19:30,839
+This is so important
+that is fusion, right?
+
+422
+00:19:30,839 --> 00:19:32,419
+Fusion is basically,
+when we have
+
+423
+00:19:32,419 --> 00:19:34,259
+a matmu when we have
+a layer nomination,
+
+424
+00:19:34,259 --> 00:19:35,920
+that is what I give
+it to you in homogom
+
+425
+00:19:35,920 --> 00:19:39,279
+right and if your opera library
+
+426
+00:19:39,279 --> 00:19:45,349
+happens to have another
+operator which is called N,
+
+427
+00:19:45,349 --> 00:19:46,809
+then you basically run pattern
+
+428
+00:19:46,809 --> 00:19:48,230
+matching over your entire graph.
+
+429
+00:19:48,230 --> 00:19:49,529
+You'll find all these kind of
+
+430
+00:19:49,529 --> 00:19:51,349
+patterns and you replace that
+
+431
+00:19:51,349 --> 00:19:53,550
+met mo then go to into
+
+432
+00:19:53,550 --> 00:19:55,869
+field operator fields
+the metamn, right?
+
+433
+00:19:55,869 --> 00:19:57,489
+This is guaranteed
+to give you a gain.
+
+434
+00:19:57,489 --> 00:20:00,090
+Okay? And I hope you still
+
+435
+00:20:00,090 --> 00:20:03,209
+remember why fusion can
+improve performance, right?
+
+436
+00:20:03,209 --> 00:20:06,989
+The first one is,
+um reduce IO right?
+
+437
+00:20:06,989 --> 00:20:08,389
+Because previously, I need to
+
+438
+00:20:08,389 --> 00:20:09,969
+read twice, now I
+only read once.
+
+439
+00:20:09,969 --> 00:20:13,050
+Okay? What is the second reason?
+
+440
+00:20:17,130 --> 00:20:20,730
+So imagine at the
+dataflow graph level,
+
+441
+00:20:20,730 --> 00:20:21,329
+you are going to have
+
+442
+00:20:21,329 --> 00:20:23,709
+so many operators,
+so many primitives.
+
+443
+00:20:23,709 --> 00:20:26,509
+Every time when you try
+to execute one operator,
+
+444
+00:20:26,509 --> 00:20:28,790
+essentially
+eventually boils down
+
+445
+00:20:28,790 --> 00:20:31,629
+into launching a
+GPU kernel, right?
+
+446
+00:20:31,629 --> 00:20:34,110
+And I think one thing
+that I need to point
+
+447
+00:20:34,110 --> 00:20:36,609
+out is every time when
+you launch a GPO kernel,
+
+448
+00:20:36,609 --> 00:20:40,194
+from CPU to GPU, you are
+suffering launching overhead.
+
+449
+00:20:40,194 --> 00:20:42,000
+Because you CP you need to send
+
+450
+00:20:42,000 --> 00:20:44,279
+instruction to GPS, and
+that has a latency.
+
+451
+00:20:44,279 --> 00:20:46,060
+And this is not obvious
+when your graph
+
+452
+00:20:46,060 --> 00:20:47,880
+is slow when your
+graph is small,
+
+453
+00:20:47,880 --> 00:20:49,480
+but this becomes very obvious
+
+454
+00:20:49,480 --> 00:20:51,159
+when you have thousands
+of operations,
+
+455
+00:20:51,159 --> 00:20:53,000
+every time you launch
+lunch, lunch, lunch,
+
+456
+00:20:53,000 --> 00:20:55,700
+and the accumulated latency
+is going to be big.
+
+457
+00:20:55,700 --> 00:20:59,039
+So another reason that
+fusion really works pretty
+
+458
+00:20:59,039 --> 00:21:00,479
+well is because if you
+
+459
+00:21:00,479 --> 00:21:02,479
+fuse as many operators
+as possible,
+
+460
+00:21:02,479 --> 00:21:04,179
+you are going to reduce
+the lunging overhead
+
+461
+00:21:04,179 --> 00:21:05,619
+from CPU to GPU.
+
+462
+00:21:05,619 --> 00:21:08,979
+Okay? And apparently the
+lunging overhead is a constant.
+
+463
+00:21:08,979 --> 00:21:10,680
+No matter what
+operators you launch,
+
+464
+00:21:10,680 --> 00:21:12,080
+you are going to
+suffer overhead.
+
+465
+00:21:12,080 --> 00:21:13,319
+So it what grows as
+
+466
+00:21:13,319 --> 00:21:16,180
+the lumber operators
+you launch, okay?
+
+467
+00:21:16,180 --> 00:21:20,379
+So what is the const
+of operator fusion?
+
+468
+00:21:25,520 --> 00:21:30,539
+One is you need to implement
+that fused up, right?
+
+469
+00:21:30,539 --> 00:21:32,599
+And we know that there are
+
+470
+00:21:32,599 --> 00:21:36,060
+so many operators and they can
+compose in arbitrary ways.
+
+471
+00:21:36,060 --> 00:21:38,899
+So as long as one operator in
+
+472
+00:21:38,899 --> 00:21:40,979
+graph cha your original
+
+473
+00:21:40,979 --> 00:21:42,359
+field operator is
+not going to work,
+
+474
+00:21:42,359 --> 00:21:43,719
+you need to implement that.
+
+475
+00:21:43,719 --> 00:21:46,400
+And if you continue doing
+this, at some point,
+
+476
+00:21:46,400 --> 00:21:47,699
+your code base is going to
+
+477
+00:21:47,699 --> 00:21:50,059
+become not able to
+be managed, right?
+
+478
+00:21:50,059 --> 00:21:54,040
+So many random operators
+lim for example,
+
+479
+00:21:54,040 --> 00:21:55,839
+filled the ABC up, right?
+
+480
+00:21:55,839 --> 00:21:58,039
+And that is indeed
+what happened in,
+
+481
+00:21:58,039 --> 00:22:00,360
+for example today
+Tender flow codebase.
+
+482
+00:22:00,360 --> 00:22:01,859
+If you go there, you
+check, they have
+
+483
+00:22:01,859 --> 00:22:03,780
+so many these kind of operators.
+
+484
+00:22:03,780 --> 00:22:07,460
+Okay. So um, yeah,
+
+485
+00:22:07,460 --> 00:22:09,379
+um, but if you don't
+care about this,
+
+486
+00:22:09,379 --> 00:22:10,679
+for example, you
+don't you just want
+
+487
+00:22:10,679 --> 00:22:12,000
+to ship a product and you don't
+
+488
+00:22:12,000 --> 00:22:13,299
+care about if this
+code is going to be
+
+489
+00:22:13,299 --> 00:22:14,979
+maintained in a longer
+term, you can do this.
+
+490
+00:22:14,979 --> 00:22:16,339
+This is the best way to
+
+491
+00:22:16,339 --> 00:22:19,280
+squeeze the last bit of
+performance. Yeah, please.
+
+492
+00:22:23,810 --> 00:22:30,090
+Some small graph. Yeah, yeah.
+
+493
+00:22:33,970 --> 00:22:38,249
+Yeah, that's a good
+question. So it depends on
+
+494
+00:22:38,249 --> 00:22:40,309
+the relative
+overhead opmentation
+
+495
+00:22:40,309 --> 00:22:43,110
+and the runtime
+latency of that graph.
+
+496
+00:22:43,110 --> 00:22:45,329
+If your optimization
+actually takes longer than
+
+497
+00:22:45,329 --> 00:22:48,430
+running graph on P then you
+don't have to optimize.
+
+498
+00:22:48,430 --> 00:22:50,950
+Another way of
+thinking this is, uh,
+
+499
+00:22:50,950 --> 00:22:52,449
+optimization, especially in
+
+500
+00:22:52,449 --> 00:22:54,509
+static graphs, is a
+one time overhead.
+
+501
+00:22:54,509 --> 00:22:56,549
+So you just put that
+overhead at once,
+
+502
+00:22:56,549 --> 00:22:59,550
+and then you can save the
+optimized graph on disc.
+
+503
+00:22:59,550 --> 00:23:01,410
+Next time we try to launch
+
+504
+00:23:01,410 --> 00:23:03,510
+a different data to that graph,
+you just load from disc.
+
+505
+00:23:03,510 --> 00:23:07,950
+Okay. Okay, back to this topic.
+
+506
+00:23:07,950 --> 00:23:11,769
+Okay. Like I said, fusion
+has its own pros and cons.
+
+507
+00:23:11,769 --> 00:23:14,730
+So how we can basically
+strike a balance.
+
+508
+00:23:14,730 --> 00:23:17,169
+So we still do decent
+amount of fusion,
+
+509
+00:23:17,169 --> 00:23:20,089
+but without making
+the dabs explode.
+
+510
+00:23:20,089 --> 00:23:23,389
+So that uh one thing
+that you need to
+
+511
+00:23:23,389 --> 00:23:25,009
+know from this course is
+
+512
+00:23:25,009 --> 00:23:27,245
+there's a very good
+library called Koda graph.
+
+513
+00:23:27,245 --> 00:23:31,780
+Okay. If you start doing
+m inference doing, um,
+
+514
+00:23:31,780 --> 00:23:34,200
+some sort of like basically
+inference survey,
+
+515
+00:23:34,200 --> 00:23:35,659
+you probably know
+this Kuta graph is
+
+516
+00:23:35,659 --> 00:23:37,759
+the technology
+invented by media,
+
+517
+00:23:37,759 --> 00:23:39,079
+and a lot of people
+are using that.
+
+518
+00:23:39,079 --> 00:23:41,060
+And it is well integrated
+into Priority.
+
+519
+00:23:41,060 --> 00:23:43,119
+Okay? So what this
+Kuta graph does is
+
+520
+00:23:43,119 --> 00:23:45,279
+basically uh Odia
+provides a library
+
+521
+00:23:45,279 --> 00:23:48,119
+that it allows the program
+
+522
+00:23:48,119 --> 00:23:50,239
+allows you to still
+program your,
+
+523
+00:23:50,239 --> 00:23:51,880
+for example, complex operators
+
+524
+00:23:51,880 --> 00:23:54,219
+or graphs using primitives like
+
+525
+00:23:54,219 --> 00:23:56,899
+exponential at
+multiply this kind
+
+526
+00:23:56,899 --> 00:24:00,124
+of primitives, from
+priority, see?
+
+527
+00:24:00,124 --> 00:24:02,969
+Um, but media is going to
+capture all these kind
+
+528
+00:24:02,969 --> 00:24:06,090
+of kernels at the DA
+level at the GPU level.
+
+529
+00:24:06,090 --> 00:24:09,289
+And it allow you to open API,
+
+530
+00:24:09,289 --> 00:24:10,630
+which is called the Koda graph.
+
+531
+00:24:10,630 --> 00:24:12,869
+And once you turn
+turn this API on,
+
+532
+00:24:12,869 --> 00:24:15,309
+it's going to basically fuse all
+
+533
+00:24:15,309 --> 00:24:18,710
+these um, kernel
+launches altogether.
+
+534
+00:24:18,710 --> 00:24:20,189
+Okay? So for example,
+
+535
+00:24:20,189 --> 00:24:24,409
+if you launch like ABCDE,
+five kernels, right?
+
+536
+00:24:24,409 --> 00:24:26,410
+And this is how the
+timeline looks.
+
+537
+00:24:26,410 --> 00:24:28,370
+Sometimes your CPU
+probably around
+
+538
+00:24:28,370 --> 00:24:30,409
+a little bit even
+slower than GPU.
+
+539
+00:24:30,409 --> 00:24:32,589
+That's why you start creating
+these kind of bubbles.
+
+540
+00:24:32,589 --> 00:24:34,389
+Like, you launch A from CPU
+
+541
+00:24:34,389 --> 00:24:36,389
+to GPU and you
+start launching B.
+
+542
+00:24:36,389 --> 00:24:38,530
+But launching B
+actually takes even
+
+543
+00:24:38,530 --> 00:24:41,630
+longer than executing A on GPUs,
+
+544
+00:24:41,630 --> 00:24:43,789
+you'll start seeing this
+kind of bubbles and
+
+545
+00:24:43,789 --> 00:24:46,050
+your execution is going
+to be slowed down.
+
+546
+00:24:46,050 --> 00:24:49,650
+And what media does
+is basically, uh, uh,
+
+547
+00:24:49,650 --> 00:24:51,690
+once you turn on this a graph,
+
+548
+00:24:51,690 --> 00:24:53,909
+it will basically capture
+
+549
+00:24:53,909 --> 00:24:56,770
+the entire graph of kernels
+you are going to launch.
+
+550
+00:24:56,770 --> 00:24:59,409
+And instead of launching
+them one by one,
+
+551
+00:24:59,409 --> 00:25:01,769
+they are going to basically
+put them all together,
+
+552
+00:25:01,769 --> 00:25:04,395
+fusing them together,
+and just launch once.
+
+553
+00:25:04,395 --> 00:25:06,879
+Okay, once it is
+launched, it will
+
+554
+00:25:06,879 --> 00:25:08,220
+create a sequential instruction
+
+555
+00:25:08,220 --> 00:25:09,539
+on GPUs that basically will
+
+556
+00:25:09,539 --> 00:25:14,860
+ask you the actual code or
+ABCDE following the order.
+
+557
+00:25:14,860 --> 00:25:16,579
+And the key difference here is
+
+558
+00:25:16,579 --> 00:25:18,779
+OD is not doing field fusion.
+
+559
+00:25:18,779 --> 00:25:21,260
+So it's not actually fielding
+the code into a new kernel.
+
+560
+00:25:21,260 --> 00:25:23,619
+It's basically only
+fielding the launching.
+
+561
+00:25:23,619 --> 00:25:25,640
+That's why this is pretty good
+
+562
+00:25:25,640 --> 00:25:27,460
+because from a user perspective,
+
+563
+00:25:27,460 --> 00:25:29,120
+you don't actually
+explore your code bis.
+
+564
+00:25:29,120 --> 00:25:31,159
+You just need to turn
+on this API and it will
+
+565
+00:25:31,159 --> 00:25:33,819
+reduce that constant
+kernel launching overhead.
+
+566
+00:25:33,819 --> 00:25:37,120
+Okay? And this is a
+pretty practical library,
+
+567
+00:25:37,120 --> 00:25:39,639
+and I hope in your own
+work in the future,
+
+568
+00:25:39,639 --> 00:25:42,879
+you can study this a little
+bit and try to leverage this.
+
+569
+00:25:42,879 --> 00:25:45,579
+This is indeed
+pretty good, okay.
+
+570
+00:25:46,710 --> 00:25:49,749
+Okay. Then the second
+template approach
+
+571
+00:25:49,749 --> 00:25:51,429
+is called constant folding,
+
+572
+00:25:51,429 --> 00:25:54,929
+and this is a very
+traditional approach that
+
+573
+00:25:54,929 --> 00:25:56,949
+our old compiler people
+
+574
+00:25:56,949 --> 00:25:59,670
+are doing in
+traditional compilers.
+
+575
+00:25:59,670 --> 00:26:02,009
+This is very easy to
+understand, right?
+
+576
+00:26:02,009 --> 00:26:03,589
+Sometimes you probably compose
+
+577
+00:26:03,589 --> 00:26:06,364
+a dataflow graph that happens
+to have this pattern.
+
+578
+00:26:06,364 --> 00:26:08,959
+Where you first add exam three,
+
+579
+00:26:08,959 --> 00:26:11,919
+and at some point, you
+add another four to it.
+
+580
+00:26:11,919 --> 00:26:14,579
+And this is not good because
+
+581
+00:26:14,579 --> 00:26:16,380
+essentially you are doing things
+
+582
+00:26:16,380 --> 00:26:18,140
+like this, you
+basically add seven.
+
+583
+00:26:18,140 --> 00:26:19,820
+So basically in
+graph organization,
+
+584
+00:26:19,820 --> 00:26:21,260
+we have a few passes,
+
+585
+00:26:21,260 --> 00:26:23,120
+and this passes
+basically, for example,
+
+586
+00:26:23,120 --> 00:26:25,620
+one pass could be called
+constant folding pass.
+
+587
+00:26:25,620 --> 00:26:27,059
+It will scan all your
+
+588
+00:26:27,059 --> 00:26:29,460
+current uh dataflow
+graph and try to find
+
+589
+00:26:29,460 --> 00:26:31,379
+all these kind of patterns
+and try to basically
+
+590
+00:26:31,379 --> 00:26:34,419
+feel that three and four
+and reduce to add into one.
+
+591
+00:26:34,419 --> 00:26:36,635
+This is called constant folding.
+
+592
+00:26:36,635 --> 00:26:38,789
+And there are a
+few other patterns
+
+593
+00:26:38,789 --> 00:26:39,790
+right where very obvious.
+
+594
+00:26:39,790 --> 00:26:40,969
+For example, sometimes you
+
+595
+00:26:40,969 --> 00:26:42,810
+write a code called
+X multiplier,
+
+596
+00:26:42,810 --> 00:26:47,250
+and I'm going to reduce it
+into a single X. X at zero,
+
+597
+00:26:47,250 --> 00:26:49,309
+I can fold it into a single X.
+
+598
+00:26:49,309 --> 00:26:50,909
+Okay? Makes sense, right?
+
+599
+00:26:50,909 --> 00:26:56,310
+Cool. Okay. The third template
+
+600
+00:26:56,310 --> 00:26:58,350
+we normally use in this graph
+
+601
+00:26:58,350 --> 00:27:01,970
+Logunation is called common
+sub expression elimination.
+
+602
+00:27:01,970 --> 00:27:04,349
+Okay. Let me go
+through this example.
+
+603
+00:27:04,349 --> 00:27:08,090
+And this is also a pretty
+traditional technique in, uh,
+
+604
+00:27:08,090 --> 00:27:09,470
+in traditional
+compiler, but it's
+
+605
+00:27:09,470 --> 00:27:12,334
+also adoptable in
+imaginary compiler.
+
+606
+00:27:12,334 --> 00:27:16,280
+So here, the user declare a
+sequence of equations, okay?
+
+607
+00:27:16,280 --> 00:27:18,379
+And, and we want to
+
+608
+00:27:18,379 --> 00:27:19,579
+optimize it a little
+bit because we
+
+609
+00:27:19,579 --> 00:27:20,800
+don't want to ask
+it line by line.
+
+610
+00:27:20,800 --> 00:27:22,080
+We believe there are some space.
+
+611
+00:27:22,080 --> 00:27:24,080
+So the way we do that
+we are going to add
+
+612
+00:27:24,080 --> 00:27:27,260
+a superscript for each
+variable we created, okay?
+
+613
+00:27:27,260 --> 00:27:30,439
+So, we are going to add
+we are going to notate
+
+614
+00:27:30,439 --> 00:27:35,379
+A with superscript one and
+B with the superscript two.
+
+615
+00:27:35,379 --> 00:27:37,559
+And of course, C
+at three, right?
+
+616
+00:27:37,559 --> 00:27:40,030
+And then we'll keep
+running this, okay?
+
+617
+00:27:40,030 --> 00:27:43,579
+And the second line D
+equals to A, basically,
+
+618
+00:27:43,579 --> 00:27:45,539
+font A is equal to one and D
+
+619
+00:27:45,539 --> 00:27:48,259
+is the value of D
+is assigned from A,
+
+620
+00:27:48,259 --> 00:27:50,279
+so we give the same superscript.
+
+621
+00:27:50,279 --> 00:27:52,919
+Okay. This means that D and
+
+622
+00:27:52,919 --> 00:27:56,819
+A is actually equivalent,
+we'll keep running this.
+
+623
+00:27:56,819 --> 00:27:59,399
+E two equals to B two.
+
+624
+00:27:59,620 --> 00:28:01,780
+And at this point,
+
+625
+00:28:01,780 --> 00:28:05,199
+we find that F three equals
+to D one plus E two,
+
+626
+00:28:05,199 --> 00:28:07,579
+and we find F has a
+superscript of three.
+
+627
+00:28:07,579 --> 00:28:11,379
+Right. So, which essentially
+means that this equation,
+
+628
+00:28:11,379 --> 00:28:14,299
+this line of code is
+not essential, right?
+
+629
+00:28:14,299 --> 00:28:16,819
+We can remove it. And we
+can simplify it a bit.
+
+630
+00:28:16,819 --> 00:28:18,499
+The way we simplify
+it basically,
+
+631
+00:28:18,499 --> 00:28:20,719
+we figure out that F
+has a superscript of
+
+632
+00:28:20,719 --> 00:28:23,139
+three and C also
+has the same three.
+
+633
+00:28:23,139 --> 00:28:25,639
+So we basically assign
+the value from C to
+
+634
+00:28:25,639 --> 00:28:28,490
+F. So we can remove
+add from the graph.
+
+635
+00:28:28,490 --> 00:28:31,639
+Right? And we'll
+keep running it.
+
+636
+00:28:31,639 --> 00:28:33,280
+So basically in this pass,
+
+637
+00:28:33,280 --> 00:28:36,719
+we basically find
+one CSE heat, right?
+
+638
+00:28:36,719 --> 00:28:38,219
+This is also CSE, by the way.
+
+639
+00:28:38,219 --> 00:28:42,580
+Yeah. Cool. Another trick
+
+640
+00:28:42,580 --> 00:28:45,140
+we can do is basically called
+data node examination.
+
+641
+00:28:45,140 --> 00:28:47,739
+That is, we try to find
+some data node that will
+
+642
+00:28:47,739 --> 00:28:49,019
+never be executed and we try
+
+643
+00:28:49,019 --> 00:28:50,719
+to remove that
+from graph, right?
+
+644
+00:28:50,719 --> 00:28:53,159
+So in this example, we
+can actually continue
+
+645
+00:28:53,159 --> 00:28:56,140
+at another pass, DCE pass.
+
+646
+00:28:56,140 --> 00:28:57,439
+In the DCE pass, we are going
+
+647
+00:28:57,439 --> 00:28:58,800
+to figure out some dan node.
+
+648
+00:28:58,800 --> 00:29:03,480
+And I think you can actually
+tell me which one is Dante.
+
+649
+00:29:04,200 --> 00:29:07,879
+Like, which variable
+is never used?
+
+650
+00:29:11,740 --> 00:29:14,719
+So this one, right? So we
+can directly remove it.
+
+651
+00:29:14,719 --> 00:29:18,199
+Yeah. And, uh, in that way,
+
+652
+00:29:18,199 --> 00:29:21,500
+the D is repeatedly assigned
+by two different lines,
+
+653
+00:29:21,500 --> 00:29:24,799
+and the first line is not
+going to be a skewed.
+
+654
+00:29:24,799 --> 00:29:27,459
+So we can directly
+remove this. Okay?
+
+655
+00:29:27,459 --> 00:29:28,860
+We can basically run this many,
+
+656
+00:29:28,860 --> 00:29:31,920
+many times and eventually
+we'll convert into
+
+657
+00:29:31,920 --> 00:29:33,819
+a pretty concise graph
+that remove a lot of
+
+658
+00:29:33,819 --> 00:29:36,700
+unnecessary nodes from the
+Uter code or Uer definition.
+
+659
+00:29:36,700 --> 00:29:38,599
+Okay. And this also
+
+660
+00:29:38,599 --> 00:29:41,000
+happens in some graphs
+with control flow,
+
+661
+00:29:41,000 --> 00:29:44,309
+for example, we have X and Y.
+
+662
+00:29:44,309 --> 00:29:46,729
+We go through a
+conditional operation if
+
+663
+00:29:46,729 --> 00:29:50,230
+and we have a true
+branch and force branch.
+
+664
+00:29:50,230 --> 00:29:51,830
+But at some point, we find
+
+665
+00:29:51,830 --> 00:29:54,469
+that the force branch
+will never be used.
+
+666
+00:29:54,469 --> 00:29:55,990
+So we can basically prune
+
+667
+00:29:55,990 --> 00:29:59,610
+this graph by completely remove
+the entire force branch.
+
+668
+00:29:59,610 --> 00:30:02,209
+We can propagate the unused
+node all the way back to
+
+669
+00:30:02,209 --> 00:30:03,770
+a point where this node
+
+670
+00:30:03,770 --> 00:30:05,614
+is not going to be used and
+we're going to remove it.
+
+671
+00:30:05,614 --> 00:30:07,299
+Okay. So basically, this
+
+672
+00:30:07,299 --> 00:30:09,560
+is a traditional
+graph organization.
+
+673
+00:30:09,560 --> 00:30:11,220
+We run our dataflow graphs,
+
+674
+00:30:11,220 --> 00:30:12,659
+and all these kind of
+
+675
+00:30:12,659 --> 00:30:14,840
+passes are actually
+implementing our compilers.
+
+676
+00:30:14,840 --> 00:30:17,679
+So if you go read those
+Storch compiled code and,
+
+677
+00:30:17,679 --> 00:30:20,300
+um, for example, SLE code,
+
+678
+00:30:20,300 --> 00:30:21,460
+you'll find a lot of files
+
+679
+00:30:21,460 --> 00:30:23,459
+essentially map into
+this kind of passes.
+
+680
+00:30:23,459 --> 00:30:24,919
+They are going to run
+many, many passes
+
+681
+00:30:24,919 --> 00:30:26,320
+over your graph to make sure
+
+682
+00:30:26,320 --> 00:30:30,179
+uh they will return more
+concent version of it.
+
+683
+00:30:30,179 --> 00:30:31,319
+And by doing this,
+
+684
+00:30:31,319 --> 00:30:33,419
+we can effectively
+remove the nodes, right,
+
+685
+00:30:33,419 --> 00:30:35,659
+remove the memory IO and
+
+686
+00:30:35,659 --> 00:30:38,419
+try to reduce the skill
+graph a little bit.
+
+687
+00:30:38,419 --> 00:30:42,559
+Okay. Cool. Any question? Yeah.
+
+688
+00:30:47,820 --> 00:30:50,699
+That's a good one. So for
+
+689
+00:30:50,699 --> 00:30:52,540
+Kodograph you're
+mentioning kotograph?
+
+690
+00:30:52,540 --> 00:30:54,679
+Kodograph requires stato graphs.
+
+691
+00:30:54,679 --> 00:30:56,619
+Yeah, that's a good thing.
+
+692
+00:30:57,180 --> 00:31:01,260
+Yeah, yeah, yeah, Kotograph
+requires graph never changes.
+
+693
+00:31:01,260 --> 00:31:04,239
+Okay. Yeah, it's very
+similar to Toti Compile.
+
+694
+00:31:04,239 --> 00:31:09,519
+Yeah. Okay. Okay, these are
+pretty easy things, right?
+
+695
+00:31:09,519 --> 00:31:11,020
+Then let's dive deeper
+
+696
+00:31:11,020 --> 00:31:13,100
+into something that
+is more complicated.
+
+697
+00:31:13,100 --> 00:31:17,319
+Okay. So one thing you
+
+698
+00:31:17,319 --> 00:31:19,099
+notice that when we
+run this kind of
+
+699
+00:31:19,099 --> 00:31:21,580
+graph or template matching
+pattern matching,
+
+700
+00:31:21,580 --> 00:31:24,099
+what do we do we do
+it in a greedy way.
+
+701
+00:31:24,099 --> 00:31:26,739
+So we find the pattern, we
+
+702
+00:31:26,739 --> 00:31:28,840
+replace it into a
+more efficient graph.
+
+703
+00:31:28,840 --> 00:31:30,880
+And then we go and find
+
+704
+00:31:30,880 --> 00:31:32,519
+the second pattern and remove
+
+705
+00:31:32,519 --> 00:31:35,000
+it replace it with a
+more efficient version.
+
+706
+00:31:35,000 --> 00:31:36,539
+And this has a problem, right.
+
+707
+00:31:36,539 --> 00:31:38,059
+I hope you still
+remember this one,
+
+708
+00:31:38,059 --> 00:31:39,779
+right? I mentioned as well.
+
+709
+00:31:39,779 --> 00:31:41,719
+So this one, eventually,
+
+710
+00:31:41,719 --> 00:31:43,500
+if you do this kind of
+graph organization,
+
+711
+00:31:43,500 --> 00:31:45,839
+you will get some
+performance again, right?
+
+712
+00:31:45,839 --> 00:31:48,320
+But I mentioned
+in the first step
+
+713
+00:31:48,320 --> 00:31:49,920
+where I basically change
+
+714
+00:31:49,920 --> 00:31:52,339
+the com one by one into
+com three by three.
+
+715
+00:31:52,339 --> 00:31:55,200
+When I apply this pattern
+matching template,
+
+716
+00:31:55,200 --> 00:31:58,039
+the graph actually
+becomes slower first.
+
+717
+00:31:58,039 --> 00:32:01,759
+I first becomes slower and
+then it becomes faster,
+
+718
+00:32:01,759 --> 00:32:03,470
+and eventually it
+becomes faster.
+
+719
+00:32:03,470 --> 00:32:06,519
+And if we do naive
+pattern machine,
+
+720
+00:32:06,519 --> 00:32:08,339
+we're never going to
+find this kind of
+
+721
+00:32:08,339 --> 00:32:10,940
+Oenation opportunity,
+right? That's a problem.
+
+722
+00:32:10,940 --> 00:32:12,740
+So how we can basically model
+
+723
+00:32:12,740 --> 00:32:15,859
+this kind of orenation
+that is we probably want
+
+724
+00:32:15,859 --> 00:32:18,340
+a bigger search space
+so we can basically
+
+725
+00:32:18,340 --> 00:32:21,884
+more effectively get more
+performance gains, okay?
+
+726
+00:32:21,884 --> 00:32:24,889
+Uh, that's one problem.
+Second problem of
+
+727
+00:32:24,889 --> 00:32:28,129
+doing aninau pattern
+matching is,
+
+728
+00:32:28,129 --> 00:32:32,930
+um, like we have so many
+machinery operators,
+
+729
+00:32:32,930 --> 00:32:35,509
+and we have so many model
+architectures, right?
+
+730
+00:32:35,509 --> 00:32:37,409
+Even if at the beginning
+of this course, I said,
+
+731
+00:32:37,409 --> 00:32:39,329
+we only have roughly
+five models,
+
+732
+00:32:39,329 --> 00:32:41,569
+but each model has
+its own variants.
+
+733
+00:32:41,569 --> 00:32:42,989
+Like people can define them in
+
+734
+00:32:42,989 --> 00:32:45,049
+various ways depending
+on their applications.
+
+735
+00:32:45,049 --> 00:32:49,870
+So that create variations
+on the uh graph definition.
+
+736
+00:32:49,870 --> 00:32:52,069
+And also, as I said,
+we eventually want
+
+737
+00:32:52,069 --> 00:32:54,189
+to launch this graph to
+many different hardware,
+
+738
+00:32:54,189 --> 00:32:58,079
+AMD, like Qualcomm,
+media, uh, Intel.
+
+739
+00:32:58,079 --> 00:33:00,110
+So basically, uh, each
+
+740
+00:33:00,110 --> 00:33:02,610
+hardware each operator and
+each operator combination,
+
+741
+00:33:02,610 --> 00:33:05,150
+they have slightly
+different performance,
+
+742
+00:33:05,150 --> 00:33:06,849
+uh, uh, when you
+
+743
+00:33:06,849 --> 00:33:08,810
+optimize against
+different hardware, okay?
+
+744
+00:33:08,810 --> 00:33:12,350
+So that means that each
+company basically need to form
+
+745
+00:33:12,350 --> 00:33:15,969
+a team to write templates
+for their own hardware.
+
+746
+00:33:15,969 --> 00:33:18,810
+And they need to do that
+repeatedly for every model,
+
+747
+00:33:18,810 --> 00:33:20,229
+every emerging model defined by
+
+748
+00:33:20,229 --> 00:33:21,950
+the marche in community, okay?
+
+749
+00:33:21,950 --> 00:33:23,929
+And that is a pretty
+high overhead,
+
+750
+00:33:23,929 --> 00:33:25,569
+right, human overhead.
+
+751
+00:33:25,569 --> 00:33:28,350
+So, give you a little bit sense.
+
+752
+00:33:28,350 --> 00:33:32,110
+So how many operators
+in the flow?
+
+753
+00:33:33,710 --> 00:33:37,030
+So up to today, there
+are roughly 300,
+
+754
+00:33:37,030 --> 00:33:39,009
+300 operators, primitives.
+
+755
+00:33:39,009 --> 00:33:41,669
+Yeah. That is a lot because you
+
+756
+00:33:41,669 --> 00:33:43,090
+can imagine how
+many combinations
+
+757
+00:33:43,090 --> 00:33:45,289
+you can result into, right?
+
+758
+00:33:45,289 --> 00:33:48,009
+So graph architectures, I
+
+759
+00:33:48,009 --> 00:33:49,650
+think you can just count
+
+760
+00:33:49,650 --> 00:33:51,769
+the number of papers published
+annual ribs and SML,
+
+761
+00:33:51,769 --> 00:33:53,050
+how many models people created.
+
+762
+00:33:53,050 --> 00:33:56,049
+Yeah. Maybe not every paper
+will be eventually utilized,
+
+763
+00:33:56,049 --> 00:33:57,939
+but still a lot, right?
+
+764
+00:33:57,939 --> 00:34:00,729
+And hardware back
+and we roughly have
+
+765
+00:34:00,729 --> 00:34:04,350
+a a scale tens today,
+uh, silicon companies.
+
+766
+00:34:04,350 --> 00:34:06,169
+Okay? So that means we
+
+767
+00:34:06,169 --> 00:34:08,509
+basically need to address
+all these combinations,
+
+768
+00:34:08,509 --> 00:34:10,649
+and this need to be done by
+
+769
+00:34:10,649 --> 00:34:13,629
+human experts writing templates
+doing pattern matching.
+
+770
+00:34:13,629 --> 00:34:16,370
+Okay. And this is
+apparently not scalable.
+
+771
+00:34:16,370 --> 00:34:20,630
+Okay. Uh, another problem
+I already mentioned,
+
+772
+00:34:20,630 --> 00:34:24,149
+so it's not robust and
+it's not scalable and
+
+773
+00:34:24,149 --> 00:34:25,609
+performance is not
+guaranteed because
+
+774
+00:34:25,609 --> 00:34:28,409
+sometimes you lose
+opportunities,
+
+775
+00:34:28,409 --> 00:34:30,650
+like the previous
+example showed.
+
+776
+00:34:30,650 --> 00:34:33,169
+Okay? So instead of
+
+777
+00:34:33,169 --> 00:34:35,769
+doing this kind of
+menu graph openation,
+
+778
+00:34:35,769 --> 00:34:38,269
+uh, we try to seek
+more automatic way.
+
+779
+00:34:38,269 --> 00:34:41,210
+So we start asking the
+question, can we actually,
+
+780
+00:34:41,210 --> 00:34:43,809
+figure out a pipeline that
+we can automatically,
+
+781
+00:34:43,809 --> 00:34:45,649
+optimize this kind of
+
+782
+00:34:45,649 --> 00:34:49,030
+graphs and guarantee performance
+gains and correctness.
+
+783
+00:34:49,030 --> 00:34:52,029
+Okay? So in the
+next few minutes,
+
+784
+00:34:52,029 --> 00:34:54,789
+I'm going to tell you
+two leading lines of
+
+785
+00:34:54,789 --> 00:34:58,509
+work that basically
+addresses in automatic way.
+
+786
+00:34:58,509 --> 00:35:02,290
+So the key idea here
+is we try to replace
+
+787
+00:35:02,290 --> 00:35:05,389
+manually designed graph
+oppmentations with
+
+788
+00:35:05,389 --> 00:35:07,909
+automatic generation
+and verification
+
+789
+00:35:07,909 --> 00:35:10,660
+of graph substitutions
+for central algebra.
+
+790
+00:35:10,660 --> 00:35:12,389
+Okay. So what does this mean?
+
+791
+00:35:12,389 --> 00:35:14,869
+That means, uh, uh, first,
+
+792
+00:35:14,869 --> 00:35:16,610
+we don't want to write
+our own templates
+
+793
+00:35:16,610 --> 00:35:18,370
+anymore because there
+are so many operators,
+
+794
+00:35:18,370 --> 00:35:19,290
+so we want to automatically
+
+795
+00:35:19,290 --> 00:35:20,849
+generate this templates, right?
+
+796
+00:35:20,849 --> 00:35:23,469
+And yes, we indeed can
+automatically generate,
+
+797
+00:35:23,469 --> 00:35:24,950
+but we need to
+guarantee correctness
+
+798
+00:35:24,950 --> 00:35:26,669
+and we need to guarantee
+performance gains.
+
+799
+00:35:26,669 --> 00:35:28,849
+So we need to invent
+some mechanism that
+
+800
+00:35:28,849 --> 00:35:31,909
+whenever we try to replace
+some graph with another one,
+
+801
+00:35:31,909 --> 00:35:33,209
+uh, we want to verify that
+
+802
+00:35:33,209 --> 00:35:34,889
+the replaced one
+is going to give
+
+803
+00:35:34,889 --> 00:35:37,870
+you correct results and indeed
+will improve performance.
+
+804
+00:35:37,870 --> 00:35:39,429
+Okay? And all this can
+
+805
+00:35:39,429 --> 00:35:41,600
+be automatically
+applied and discovered.
+
+806
+00:35:41,600 --> 00:35:44,030
+So, uh, this work is basically
+
+807
+00:35:44,030 --> 00:35:46,290
+called Teso and it is
+a very famous paper,
+
+808
+00:35:46,290 --> 00:35:48,390
+um, uh, in Graph organization.
+
+809
+00:35:48,390 --> 00:35:51,209
+I think it's well adopted
+in Patriot today, um,
+
+810
+00:35:51,209 --> 00:35:52,929
+and this graph is
+going to give you
+
+811
+00:35:52,929 --> 00:35:55,289
+a high level overview
+of how Teso um,
+
+812
+00:35:55,289 --> 00:35:59,760
+address this uh automatic
+graph orgenation so basically,
+
+813
+00:35:59,760 --> 00:36:02,359
+it basically start with some
+operator specification.
+
+814
+00:36:02,359 --> 00:36:03,979
+So for example, the user
+
+815
+00:36:03,979 --> 00:36:06,240
+provide a list of
+operators, for example,
+
+816
+00:36:06,240 --> 00:36:08,479
+all the 200 operators
+in tender flow
+
+817
+00:36:08,479 --> 00:36:11,239
+and write down in their
+specification in mathematical,
+
+818
+00:36:11,239 --> 00:36:12,619
+formal language, for example,
+
+819
+00:36:12,619 --> 00:36:13,979
+uh, this is column two D,
+
+820
+00:36:13,979 --> 00:36:16,539
+and it will take
+a shape of M by N
+
+821
+00:36:16,539 --> 00:36:19,880
+and being applied with a
+three by three operator,
+
+822
+00:36:19,880 --> 00:36:22,199
+sorry, three by three
+filter and then
+
+823
+00:36:22,199 --> 00:36:25,859
+produce another output ary
+with another certain shape.
+
+824
+00:36:25,859 --> 00:36:27,639
+So this is formally
+defined, okay?
+
+825
+00:36:27,639 --> 00:36:29,539
+And this is MathML, and I time
+
+826
+00:36:29,539 --> 00:36:32,039
+two matrix together
+A by B and B by C,
+
+827
+00:36:32,039 --> 00:36:33,740
+and I'm going to
+get A by C matrix,
+
+828
+00:36:33,740 --> 00:36:35,264
+something like that, okay.
+
+829
+00:36:35,264 --> 00:36:37,330
+This given set of operators,
+
+830
+00:36:37,330 --> 00:36:39,349
+what we do is
+basically we try to,
+
+831
+00:36:39,349 --> 00:36:42,909
+um, um, basically put
+this operator together.
+
+832
+00:36:42,909 --> 00:36:44,530
+We enumerate all possible
+
+833
+00:36:44,530 --> 00:36:46,410
+combinations of these operators.
+
+834
+00:36:46,410 --> 00:36:48,669
+We just enumerate all of them,
+
+835
+00:36:48,669 --> 00:36:50,889
+and we put them here.
+
+836
+00:36:50,889 --> 00:36:53,549
+For example, given four
+operators Mm come to
+
+837
+00:36:53,549 --> 00:36:56,629
+the pool and maybe romanization,
+
+838
+00:36:56,629 --> 00:36:57,969
+we can basically enumerate all
+
+839
+00:36:57,969 --> 00:36:59,950
+the possible dataflow graphs
+
+840
+00:36:59,950 --> 00:37:02,450
+that are composed from
+the four operators,
+
+841
+00:37:02,450 --> 00:37:07,144
+we try to find some equivalents
+from the entire site.
+
+842
+00:37:07,144 --> 00:37:10,240
+Right? And once we
+find the equivalent,
+
+843
+00:37:10,240 --> 00:37:13,420
+uh, we can generate so many
+graph substitution pairs.
+
+844
+00:37:13,420 --> 00:37:16,159
+That is, we have one subgraph A,
+
+845
+00:37:16,159 --> 00:37:18,280
+and we know that there
+are, for example,
+
+846
+00:37:18,280 --> 00:37:20,959
+at least 100 equivalents, right?
+
+847
+00:37:20,959 --> 00:37:23,679
+And we can basically replace
+the original graph A
+
+848
+00:37:23,679 --> 00:37:26,779
+with whatever in
+the equivalent set,
+
+849
+00:37:26,779 --> 00:37:29,379
+and we try to figure out those
+that basically will give
+
+850
+00:37:29,379 --> 00:37:32,260
+you performance gains while
+still guarantee correctness.
+
+851
+00:37:32,260 --> 00:37:35,299
+That's a how idea.
+Okay? Now, let's
+
+852
+00:37:35,299 --> 00:37:38,279
+dive deeper into how
+this works. Okay.
+
+853
+00:37:39,070 --> 00:37:42,289
+So here we start with
+
+854
+00:37:42,289 --> 00:37:44,249
+operators supported by
+
+855
+00:37:44,249 --> 00:37:46,489
+our framework and
+hardware back end.
+
+856
+00:37:46,489 --> 00:37:49,790
+Here, I give a simple example.
+
+857
+00:37:49,790 --> 00:37:53,489
+We have four operators.
+Our first step is
+
+858
+00:37:53,489 --> 00:37:54,909
+basically we enumerate all
+
+859
+00:37:54,909 --> 00:37:57,689
+possible graphs up
+to a fixed size.
+
+860
+00:37:57,689 --> 00:37:59,869
+For example, I want to, uh,
+
+861
+00:37:59,869 --> 00:38:04,689
+enumerate all the possible
+graph shapes with four notes.
+
+862
+00:38:04,689 --> 00:38:07,309
+They can be connected
+in whatever ways.
+
+863
+00:38:07,309 --> 00:38:12,129
+Okay. And it turns out that
+there are many subgraphs,
+
+864
+00:38:12,129 --> 00:38:14,709
+even only given four ups.
+
+865
+00:38:14,709 --> 00:38:20,990
+Basically, there are roughly
+66 million these graphs.
+
+866
+00:38:20,990 --> 00:38:22,299
+They can be combined
+in this way.
+
+867
+00:38:22,299 --> 00:38:26,689
+Oh what we try
+
+868
+00:38:26,689 --> 00:38:29,169
+to do next step is we try
+to find the substitutions.
+
+869
+00:38:29,169 --> 00:38:31,149
+So we define substitution as
+
+870
+00:38:31,149 --> 00:38:34,089
+a pair of equivalent
+graphs in this entire set.
+
+871
+00:38:34,089 --> 00:38:37,809
+Okay? So um the way
+
+872
+00:38:37,809 --> 00:38:39,769
+we find graph substitute
+is basically,
+
+873
+00:38:39,769 --> 00:38:42,870
+uh given this 66 million graphs,
+
+874
+00:38:42,870 --> 00:38:46,989
+we are going to compute
+the output fingerprints
+
+875
+00:38:46,989 --> 00:38:50,970
+with random input tensors
+with randomized inputs,
+
+876
+00:38:50,970 --> 00:38:52,950
+and we fit the inputs
+
+877
+00:38:52,950 --> 00:38:54,589
+into the graph and we
+check the outputs.
+
+878
+00:38:54,589 --> 00:38:57,049
+And if the outputs are
+basically the same,
+
+879
+00:38:57,049 --> 00:38:59,449
+we think they are
+basically substitutions.
+
+880
+00:38:59,449 --> 00:39:01,429
+Does that make sense?
+
+881
+00:39:01,429 --> 00:39:05,570
+Okay? Yeah. Um, so basically
+by running this process,
+
+882
+00:39:05,570 --> 00:39:06,549
+we can basically find a lot
+
+883
+00:39:06,549 --> 00:39:08,929
+of peers that are substitutions.
+
+884
+00:39:08,929 --> 00:39:13,549
+And if you do this, in my way.
+
+885
+00:39:13,549 --> 00:39:15,670
+So basically, you
+actually can generate
+
+886
+00:39:15,670 --> 00:39:19,089
+roughly 28744 substitutions by
+
+887
+00:39:19,089 --> 00:39:22,409
+enumerating graphs with up
+to four operators, okay?
+
+888
+00:39:22,409 --> 00:39:28,119
+Pairs. And this is
+
+889
+00:39:28,119 --> 00:39:30,259
+still a pretty large set
+because like I said,
+
+890
+00:39:30,259 --> 00:39:33,160
+uh, at this point, we
+get a lot of templates,
+
+891
+00:39:33,160 --> 00:39:34,559
+but it's automatically generated
+
+892
+00:39:34,559 --> 00:39:35,800
+instead of human written.
+
+893
+00:39:35,800 --> 00:39:38,039
+But this is too large a set that
+
+894
+00:39:38,039 --> 00:39:41,019
+if we run pattern matching
+using these substitutions,
+
+895
+00:39:41,019 --> 00:39:44,599
+um, it will not scales too slow.
+
+896
+00:39:44,599 --> 00:39:46,249
+Okay. And it's not
+
+897
+00:39:46,249 --> 00:39:47,989
+guaranteed to improve
+performance, of course.
+
+898
+00:39:47,989 --> 00:39:49,809
+I could slow down, right?
+
+899
+00:39:49,809 --> 00:39:53,049
+So what we do is we
+try to prune this set.
+
+900
+00:39:53,049 --> 00:39:55,430
+We try to prune this set
+as much as possible,
+
+901
+00:39:55,430 --> 00:39:59,349
+according to the if they
+are repetive if they
+
+902
+00:39:59,349 --> 00:40:00,709
+can basically give you
+
+903
+00:40:00,709 --> 00:40:02,249
+equivalent results or if they
+
+904
+00:40:02,249 --> 00:40:03,830
+are going to give you
+performance gains.
+
+905
+00:40:03,830 --> 00:40:06,169
+So the way we prune it is
+actually pretty simple.
+
+906
+00:40:06,169 --> 00:40:08,989
+This slide actually
+give you a few example.
+
+907
+00:40:08,989 --> 00:40:11,969
+For example, um, these two
+graph is essentially the same,
+
+908
+00:40:11,969 --> 00:40:13,209
+right basically the first one is
+
+909
+00:40:13,209 --> 00:40:14,729
+basically variable liming.
+
+910
+00:40:14,729 --> 00:40:16,949
+I switch the liming of A and B.
+
+911
+00:40:16,949 --> 00:40:18,710
+Uh, the second one is basically,
+
+912
+00:40:18,710 --> 00:40:20,169
+they have a common subgraph.
+
+913
+00:40:20,169 --> 00:40:21,589
+Uh, it's equivalent because I
+
+914
+00:40:21,589 --> 00:40:23,069
+basically switch
+the order where I
+
+915
+00:40:23,069 --> 00:40:26,209
+put the BT stay when
+I add A to them.
+
+916
+00:40:26,209 --> 00:40:29,009
+Okay. Uh, I can continue
+using this kind of
+
+917
+00:40:29,009 --> 00:40:33,909
+mathematical rules to keep
+pruning all the substitutions.
+
+918
+00:40:34,270 --> 00:40:38,909
+And my input is basically
+28744 substitutions,
+
+919
+00:40:38,909 --> 00:40:43,089
+and after pruning, I can
+actually get 734 substitutions.
+
+920
+00:40:43,089 --> 00:40:45,729
+Okay? Remember, uh,
+this is still a lot.
+
+921
+00:40:45,729 --> 00:40:46,869
+Okay.
+
+922
+00:40:48,980 --> 00:40:51,999
+The problem is now we ended up
+
+923
+00:40:51,999 --> 00:40:56,059
+with almost 700 equivalent
+graph substitutions.
+
+924
+00:40:56,059 --> 00:40:58,539
+Our goal is trying to run
+pattern matching all of them.
+
+925
+00:40:58,539 --> 00:41:01,019
+But we are fixing
+one problem because,
+
+926
+00:41:01,019 --> 00:41:04,199
+remember, when we try to
+generate substitutions,
+
+927
+00:41:04,199 --> 00:41:06,900
+what do we do is we use
+randomized tensors,
+
+928
+00:41:06,900 --> 00:41:09,439
+um basically we never
+
+929
+00:41:09,439 --> 00:41:11,839
+actually formally verified that
+
+930
+00:41:11,839 --> 00:41:13,359
+they are indeed equivalent.
+
+931
+00:41:13,359 --> 00:41:15,159
+The problem can be
+stated in this way.
+
+932
+00:41:15,159 --> 00:41:17,979
+So we randomize a field
+tensors, A and B,
+
+933
+00:41:17,979 --> 00:41:21,920
+and we have substitutions
+F and G. Basically,
+
+934
+00:41:21,920 --> 00:41:24,639
+our randomized
+tensors A and B, uh,
+
+935
+00:41:24,639 --> 00:41:27,579
+F A equals to GA and
+FB equals to GB.
+
+936
+00:41:27,579 --> 00:41:30,449
+And what do we what
+we try to state is we
+
+937
+00:41:30,449 --> 00:41:33,770
+try to state that for
+it arbitrary input,
+
+938
+00:41:33,770 --> 00:41:37,009
+we should make sure
+FX is equal to GX.
+
+939
+00:41:37,009 --> 00:41:39,089
+And this is not true because
+
+940
+00:41:39,089 --> 00:41:41,550
+what we observe is only
+the equivalent on ANB.
+
+941
+00:41:41,550 --> 00:41:44,469
+We cannot state
+basically FX equal to X.
+
+942
+00:41:44,469 --> 00:41:48,269
+Basically, that means that
+we are not finished yet.
+
+943
+00:41:48,269 --> 00:41:52,449
+Given this 734 subsivitions,
+
+944
+00:41:52,449 --> 00:41:54,169
+we also need to formally verify
+
+945
+00:41:54,169 --> 00:41:56,709
+that they are indeed
+equivalent mathematically.
+
+946
+00:41:56,709 --> 00:41:58,790
+The way we do that is basically,
+
+947
+00:41:58,790 --> 00:42:02,809
+um, uh, we have a few
+candidate substitutions.
+
+948
+00:42:02,809 --> 00:42:05,949
+We are going to run
+verification, um, uh,
+
+949
+00:42:05,949 --> 00:42:08,710
+process where we will leverage
+
+950
+00:42:08,710 --> 00:42:11,329
+the mathematical
+specifications written
+
+951
+00:42:11,329 --> 00:42:12,849
+for each operator
+at the beginning.
+
+952
+00:42:12,849 --> 00:42:15,169
+Okay. For example,
+in this example,
+
+953
+00:42:15,169 --> 00:42:17,730
+we ask the basically
+
+954
+00:42:17,730 --> 00:42:20,349
+the developers write this kind
+
+955
+00:42:20,349 --> 00:42:22,350
+of mathematical specifications
+for each operator.
+
+956
+00:42:22,350 --> 00:42:24,209
+For example, convolution is
+
+957
+00:42:24,209 --> 00:42:26,929
+distributive over
+concatenations,
+
+958
+00:42:26,929 --> 00:42:28,710
+and convolution is bilinear.
+
+959
+00:42:28,710 --> 00:42:31,429
+So basically try to state
+all the characteristics,
+
+960
+00:42:31,429 --> 00:42:33,630
+mathematical characteristics
+of a operation.
+
+961
+00:42:33,630 --> 00:42:36,489
+So once we have this
+kind of specification,
+
+962
+00:42:36,489 --> 00:42:38,629
+we can basically look
+at our substitutes
+
+963
+00:42:38,629 --> 00:42:41,089
+and we try to check against
+this specification.
+
+964
+00:42:41,089 --> 00:42:44,069
+For example, if two
+substitute appear to be
+
+965
+00:42:44,069 --> 00:42:45,449
+against this kind of
+
+966
+00:42:45,449 --> 00:42:46,889
+mathematical specific we are
+
+967
+00:42:46,889 --> 00:42:48,540
+pretty sure that they
+are not equivalent.
+
+968
+00:42:48,540 --> 00:42:50,590
+Right? So basically
+we can check against
+
+969
+00:42:50,590 --> 00:42:52,809
+these facts and make
+sure we indeed narrow
+
+970
+00:42:52,809 --> 00:42:55,669
+down those
+substitutions that will
+
+971
+00:42:55,669 --> 00:42:59,229
+basically conform to the
+specifications defining math.
+
+972
+00:42:59,229 --> 00:43:02,709
+Okay? And the idea here is, um,
+
+973
+00:43:02,709 --> 00:43:04,750
+writing specifications
+are easier
+
+974
+00:43:04,750 --> 00:43:07,329
+than actually conducting
+optimization, right?
+
+975
+00:43:07,329 --> 00:43:09,770
+Because you just need to
+do that for each operator.
+
+976
+00:43:09,770 --> 00:43:11,269
+You don't how to do it for
+
+977
+00:43:11,269 --> 00:43:13,009
+each graph because
+once you wrote it,
+
+978
+00:43:13,009 --> 00:43:13,789
+I can basically use
+
+979
+00:43:13,789 --> 00:43:15,449
+this specific to
+check for each graph,
+
+980
+00:43:15,449 --> 00:43:18,749
+okay? Any questions so far?
+
+981
+00:43:20,790 --> 00:43:23,029
+Cool.
+
+982
+00:43:23,270 --> 00:43:26,109
+Yeah. And with this kind of
+
+983
+00:43:26,109 --> 00:43:28,050
+specification and
+verification mechanism,
+
+984
+00:43:28,050 --> 00:43:29,369
+we can actually borrow a lot of
+
+985
+00:43:29,369 --> 00:43:31,029
+cool technologies from
+
+986
+00:43:31,029 --> 00:43:32,890
+compiler from
+programming language.
+
+987
+00:43:32,890 --> 00:43:35,089
+We can run some
+automatic therm prover
+
+988
+00:43:35,089 --> 00:43:36,830
+to prove that these two graphs,
+
+989
+00:43:36,830 --> 00:43:38,550
+given specifications
+are equivalent.
+
+990
+00:43:38,550 --> 00:43:40,830
+And this can give
+us some guarantee
+
+991
+00:43:40,830 --> 00:43:43,209
+that given to substitutions,
+
+992
+00:43:43,209 --> 00:43:45,210
+we check if they are
+mathematically equivalent.
+
+993
+00:43:45,210 --> 00:43:52,129
+Okay. To give you some
+sense how long this take.
+
+994
+00:43:52,129 --> 00:43:54,170
+So in order to enumerate
+
+995
+00:43:54,170 --> 00:43:56,889
+all the substitutions
+from four nodes,
+
+996
+00:43:56,889 --> 00:44:01,550
+four operators and
+generating some pruning,
+
+997
+00:44:01,550 --> 00:44:04,509
+it will roughly take only
+5 minutes. Yeah. Yeah.
+
+998
+00:44:04,509 --> 00:44:06,049
+It's much faster
+than human, right?
+
+999
+00:44:06,049 --> 00:44:08,309
+Yeah. Although Lumber
+is pretty big,
+
+1000
+00:44:08,309 --> 00:44:09,649
+but it's much faster than human
+
+1001
+00:44:09,649 --> 00:44:11,709
+because we can't the
+computer to automate that.
+
+1002
+00:44:11,709 --> 00:44:14,749
+Okay? And then once we
+have the specifications,
+
+1003
+00:44:14,749 --> 00:44:16,810
+we can verify them
+against the specs.
+
+1004
+00:44:16,810 --> 00:44:18,909
+We can write some
+automatic theorem prover,
+
+1005
+00:44:18,909 --> 00:44:20,935
+that only takes 10 minutes.
+
+1006
+00:44:20,935 --> 00:44:25,719
+Okay. Yeah. But you
+can have a basis,
+
+1007
+00:44:25,719 --> 00:44:29,359
+um, basically, if you
+want to do this kind
+
+1008
+00:44:29,359 --> 00:44:30,759
+of graph or position on
+
+1009
+00:44:30,759 --> 00:44:32,919
+inner photograph, it
+takes a lot of time.
+
+1010
+00:44:32,919 --> 00:44:34,199
+Like you don't need to run
+
+1011
+00:44:34,199 --> 00:44:35,919
+so many passes to do
+pattern matching.
+
+1012
+00:44:35,919 --> 00:44:38,720
+And they also need to start
+with writing templates,
+
+1013
+00:44:38,720 --> 00:44:39,899
+and that take even longer
+
+1014
+00:44:39,899 --> 00:44:41,579
+than running this
+pattern matching
+
+1015
+00:44:41,579 --> 00:44:45,180
+and running this substitution
+finder and verification.
+
+1016
+00:44:45,180 --> 00:44:49,009
+Okay. Yeah, once we have
+
+1017
+00:44:49,009 --> 00:44:52,949
+this set of available
+unverified substitutions,
+
+1018
+00:44:52,949 --> 00:44:54,929
+what we do is
+basically, we apply
+
+1019
+00:44:54,929 --> 00:44:58,649
+the verified substitutions
+to optimize the graph.
+
+1020
+00:44:58,649 --> 00:45:01,609
+But like I said, um, for now,
+
+1021
+00:45:01,609 --> 00:45:04,169
+we are not sure if after
+
+1022
+00:45:04,169 --> 00:45:06,049
+we apply the substitution
+
+1023
+00:45:06,049 --> 00:45:07,429
+whether our performance
+will gain, right?
+
+1024
+00:45:07,429 --> 00:45:08,929
+Because we can only prove
+
+1025
+00:45:08,929 --> 00:45:10,730
+that two substitutions
+are equivalent,
+
+1026
+00:45:10,730 --> 00:45:12,869
+but we haven't observed
+that indeed the
+
+1027
+00:45:12,869 --> 00:45:18,029
+second in one substitute X and
+why will be faster than X?
+
+1028
+00:45:18,029 --> 00:45:19,949
+We are facing another
+problem how to
+
+1029
+00:45:19,949 --> 00:45:22,089
+apply this kind of
+substitute to a graph.
+
+1030
+00:45:22,089 --> 00:45:24,009
+So this basically boils down
+
+1031
+00:45:24,009 --> 00:45:26,049
+into another optimizing
+problem, right?
+
+1032
+00:45:26,049 --> 00:45:27,790
+So we have a given graph,
+
+1033
+00:45:27,790 --> 00:45:29,169
+and we have a set of things
+
+1034
+00:45:29,169 --> 00:45:30,730
+that we try to do
+pattern matching,
+
+1035
+00:45:30,730 --> 00:45:32,490
+and we try to basically optimize
+
+1036
+00:45:32,490 --> 00:45:34,489
+the graph in a way that, uh,
+
+1037
+00:45:34,489 --> 00:45:36,729
+peak a set of substitutions,
+
+1038
+00:45:36,729 --> 00:45:40,129
+the eventual performance
+will be, uh, maximized.
+
+1039
+00:45:40,129 --> 00:45:42,489
+Okay? And the and
+
+1040
+00:45:42,489 --> 00:45:44,510
+this problem can be solved
+by using searching.
+
+1041
+00:45:44,510 --> 00:45:47,309
+For example, we just keep
+trying keep trial and error.
+
+1042
+00:45:47,309 --> 00:45:49,009
+We just keep picking up
+
+1043
+00:45:49,009 --> 00:45:53,170
+any possible substitutions
+and we do pattern matching,
+
+1044
+00:45:53,170 --> 00:45:54,829
+we get optimized graph.
+
+1045
+00:45:54,829 --> 00:45:59,310
+Then we run optimized graph
+on TPU and we get the lumber,
+
+1046
+00:45:59,310 --> 00:46:02,590
+we observe that if this lumber
+is improving performance,
+
+1047
+00:46:02,590 --> 00:46:05,590
+if not, we give it up
+and we keep trying.
+
+1048
+00:46:05,590 --> 00:46:08,259
+Okay uh, basically
+enumeration, okay?
+
+1049
+00:46:08,259 --> 00:46:11,400
+And we can be a little
+bit more like, creative.
+
+1050
+00:46:11,400 --> 00:46:13,179
+That is, every time we
+
+1051
+00:46:13,179 --> 00:46:16,599
+run a substitution and
+get a profile number, uh,
+
+1052
+00:46:16,599 --> 00:46:17,959
+we probably document it down
+
+1053
+00:46:17,959 --> 00:46:19,819
+and we try to train
+a cost model,
+
+1054
+00:46:19,819 --> 00:46:21,480
+and we try to predict
+
+1055
+00:46:21,480 --> 00:46:23,479
+if we apply this kind
+of substitution,
+
+1056
+00:46:23,479 --> 00:46:25,579
+whether we are going to get
+some performance scheme.
+
+1057
+00:46:25,579 --> 00:46:28,640
+And that can basically
+accelerate our search process.
+
+1058
+00:46:28,640 --> 00:46:31,319
+Okay. And eventually,
+we'll basically, uh,
+
+1059
+00:46:31,319 --> 00:46:34,739
+hopefully figure out, a
+
+1060
+00:46:34,739 --> 00:46:37,279
+perfect basically
+substitutes graph
+
+1061
+00:46:37,279 --> 00:46:39,099
+that is run faster
+than the original one.
+
+1062
+00:46:39,099 --> 00:46:41,839
+But I think the
+key the key point
+
+1063
+00:46:41,839 --> 00:46:43,960
+here is all this
+process is automated.
+
+1064
+00:46:43,960 --> 00:46:46,999
+You basically if you want
+to run optimize your graph,
+
+1065
+00:46:46,999 --> 00:46:49,499
+all you do is basically
+launch your program and wait,
+
+1066
+00:46:49,499 --> 00:46:53,459
+you don't have to think
+about uh templates,
+
+1067
+00:46:53,459 --> 00:46:54,999
+pattern matching and all this
+
+1068
+00:46:54,999 --> 00:46:56,939
+basically you just need to
+wait and eventually you
+
+1069
+00:46:56,939 --> 00:46:58,599
+are going to I would
+
+1070
+00:46:58,599 --> 00:47:00,559
+say you are guaranteed
+to get a faster graph.
+
+1071
+00:47:00,559 --> 00:47:04,399
+Yeah. Okay. Cool. And
+so how this works,
+
+1072
+00:47:04,399 --> 00:47:07,239
+and I think at some point,
+
+1073
+00:47:07,239 --> 00:47:09,159
+people apply this to some
+
+1074
+00:47:09,159 --> 00:47:12,059
+convolutional and smaller
+neural networks, for example,
+
+1075
+00:47:12,059 --> 00:47:16,939
+birth stNt and Nats net and
+they indeed observe that
+
+1076
+00:47:16,939 --> 00:47:22,000
+you can do much better than
+um human crafted competitors.
+
+1077
+00:47:22,000 --> 00:47:24,599
+Here the taso is basically
+the one I mentioned,
+
+1078
+00:47:24,599 --> 00:47:26,220
+you automatically optimize,
+
+1079
+00:47:26,220 --> 00:47:28,199
+you give it to Teso and weight.
+
+1080
+00:47:28,199 --> 00:47:31,180
+And you compare Tasso to
+a few other baselines,
+
+1081
+00:47:31,180 --> 00:47:33,379
+for example, tener flow
+SLA and tenser RT.
+
+1082
+00:47:33,379 --> 00:47:37,380
+SLA is Google's competor
+and tenser RT is basically,
+
+1083
+00:47:37,380 --> 00:47:40,290
+um, Uh, it's not a compiler.
+
+1084
+00:47:40,290 --> 00:47:43,489
+It's a quota runtime
+developed by Omdia.
+
+1085
+00:47:43,489 --> 00:47:45,410
+Yeah, basically, there
+are many many templates
+
+1086
+00:47:45,410 --> 00:47:47,130
+inside written by
+OmdiaEngineers.
+
+1087
+00:47:47,130 --> 00:47:49,109
+And indeed, you can find
+something that is even
+
+1088
+00:47:49,109 --> 00:47:51,429
+faster than expert design.
+
+1089
+00:47:51,429 --> 00:47:55,869
+Okay. Cool. That is
+
+1090
+00:47:55,869 --> 00:47:57,529
+basically one way that we can
+
+1091
+00:47:57,529 --> 00:48:00,229
+apply this kind of
+graph optimization.
+
+1092
+00:48:00,229 --> 00:48:02,469
+So to summarize the
+workflow, okay, um,
+
+1093
+00:48:02,469 --> 00:48:06,629
+the reason I want to summarize
+because this work was out,
+
+1094
+00:48:06,629 --> 00:48:08,190
+there are so many
+peoples proposing
+
+1095
+00:48:08,190 --> 00:48:09,889
+all kinds of different ways.
+
+1096
+00:48:09,889 --> 00:48:11,469
+You can imagine you can be
+
+1097
+00:48:11,469 --> 00:48:13,109
+more creative in how
+to search, right,
+
+1098
+00:48:13,109 --> 00:48:15,269
+how to create substitutions and
+
+1099
+00:48:15,269 --> 00:48:16,429
+how to apply subsidies to
+
+1100
+00:48:16,429 --> 00:48:17,929
+guarantee you how
+performance scheme.
+
+1101
+00:48:17,929 --> 00:48:20,150
+So since this work was proposed,
+
+1102
+00:48:20,150 --> 00:48:21,789
+there are I would say
+
+1103
+00:48:21,789 --> 00:48:23,289
+more than 200 papers public in
+
+1104
+00:48:23,289 --> 00:48:25,490
+this line discussing how
+to make this faster,
+
+1105
+00:48:25,490 --> 00:48:27,229
+but they basically fall into
+
+1106
+00:48:27,229 --> 00:48:30,284
+this workflow I'm going
+to describe next.
+
+1107
+00:48:30,284 --> 00:48:33,639
+So you start by constructing
+a search space.
+
+1108
+00:48:33,639 --> 00:48:35,360
+In the work I just described,
+
+1109
+00:48:35,360 --> 00:48:38,599
+you are basically enumrating
+every possibility,
+
+1110
+00:48:38,599 --> 00:48:41,119
+up to four nodes of the graph.
+
+1111
+00:48:41,119 --> 00:48:43,779
+And then you enumerate
+all possibilities,
+
+1112
+00:48:43,779 --> 00:48:47,479
+and you try to using
+some heuristics to
+
+1113
+00:48:47,479 --> 00:48:48,979
+prune all the candidates that
+
+1114
+00:48:48,979 --> 00:48:51,560
+is apparently wrong, incorrect.
+
+1115
+00:48:51,560 --> 00:48:54,720
+Okay? And then you try to select
+
+1116
+00:48:54,720 --> 00:48:56,299
+those top candidates based
+
+1117
+00:48:56,299 --> 00:48:59,119
+on profile or cost model, right?
+
+1118
+00:48:59,119 --> 00:49:02,499
+And you apply these
+transformations
+
+1119
+00:49:03,340 --> 00:49:06,159
+to transform the graph
+and eventually you will
+
+1120
+00:49:06,159 --> 00:49:09,190
+obtain a graph that is
+with higher performance.
+
+1121
+00:49:09,190 --> 00:49:16,319
+Okay. Yeah. And once you
+have the optimized graph,
+
+1122
+00:49:16,319 --> 00:49:18,579
+you get real data,
+you can come back and
+
+1123
+00:49:18,579 --> 00:49:19,839
+basically iterate your cost
+
+1124
+00:49:19,839 --> 00:49:21,080
+model to make it more accurate.
+
+1125
+00:49:21,080 --> 00:49:22,459
+Yeah. This is like a
+
+1126
+00:49:22,459 --> 00:49:24,819
+slightly involving
+something called
+
+1127
+00:49:24,819 --> 00:49:26,040
+machine learning for systems.
+
+1128
+00:49:26,040 --> 00:49:28,040
+That is, I try to use
+machine learning to improve
+
+1129
+00:49:28,040 --> 00:49:33,709
+my system performance. Okay.
+
+1130
+00:49:33,709 --> 00:49:36,090
+There are potential
+limitations for this approach.
+
+1131
+00:49:36,090 --> 00:49:39,309
+The first one is, maybe
+your search space is
+
+1132
+00:49:39,309 --> 00:49:42,870
+not defined as
+comprehensive as possible,
+
+1133
+00:49:42,870 --> 00:49:44,830
+so you will still miss
+some opportunity.
+
+1134
+00:49:44,830 --> 00:49:46,650
+Okay? So it's pretty
+
+1135
+00:49:46,650 --> 00:49:49,529
+critical that you define
+a large enough so space.
+
+1136
+00:49:49,529 --> 00:49:51,409
+But if you do so, you
+are going to have
+
+1137
+00:49:51,409 --> 00:49:53,269
+a super large space that will
+
+1138
+00:49:53,269 --> 00:49:55,610
+basically make
+searching impossible.
+
+1139
+00:49:55,610 --> 00:49:58,070
+So basically, this
+problem is a paradox.
+
+1140
+00:49:58,070 --> 00:50:00,229
+If you want to
+optimize more, uh,
+
+1141
+00:50:00,229 --> 00:50:02,750
+you're not going to converge
+in a timely manner.
+
+1142
+00:50:02,750 --> 00:50:04,649
+But if you want
+to optimize less,
+
+1143
+00:50:04,649 --> 00:50:06,875
+you are not going to
+get a good performance.
+
+1144
+00:50:06,875 --> 00:50:09,759
+Okay. Like I said,
+
+1145
+00:50:09,759 --> 00:50:11,379
+the search is going
+to be pretty slow,
+
+1146
+00:50:11,379 --> 00:50:12,660
+right, because you are basically
+
+1147
+00:50:12,660 --> 00:50:13,999
+trial on an arrow,
+trial on an arrow.
+
+1148
+00:50:13,999 --> 00:50:18,399
+Okay. And if you want to build
+this kind of cost model,
+
+1149
+00:50:18,399 --> 00:50:19,739
+you need some real profile data.
+
+1150
+00:50:19,739 --> 00:50:21,799
+And in order to get
+this real profile data,
+
+1151
+00:50:21,799 --> 00:50:23,299
+you have to launch your say
+
+1152
+00:50:23,299 --> 00:50:26,299
+automatically optimize
+the graph on GPO and run,
+
+1153
+00:50:26,299 --> 00:50:29,439
+say for ten iterations and
+get a real data, right?
+
+1154
+00:50:29,439 --> 00:50:30,819
+And that can take some time.
+
+1155
+00:50:30,819 --> 00:50:32,279
+Yeah. Because for example,
+
+1156
+00:50:32,279 --> 00:50:34,320
+when a neural network
+is pretty costly,
+
+1157
+00:50:34,320 --> 00:50:36,080
+it will take your GPO cycles.
+
+1158
+00:50:36,080 --> 00:50:36,959
+Yeah.
+
+1159
+00:50:36,959 --> 00:50:40,039
+Okay. Any questions on this?
+
+1160
+00:50:41,940 --> 00:50:46,519
+Cool. Okay, um,
+
+1161
+00:50:46,519 --> 00:50:48,939
+then I'm going to dive into
+
+1162
+00:50:48,939 --> 00:50:51,420
+another way of doing
+graph organization,
+
+1163
+00:50:51,420 --> 00:50:53,820
+and this is even more creative.
+
+1164
+00:50:53,820 --> 00:50:56,279
+Okay? So, I think in
+the previous work,
+
+1165
+00:50:56,279 --> 00:50:58,779
+we said that we can
+actually replace humans by
+
+1166
+00:50:58,779 --> 00:51:03,479
+automating this process
+using search and cost model.
+
+1167
+00:51:03,479 --> 00:51:05,259
+Um, I also said that
+
+1168
+00:51:05,259 --> 00:51:08,974
+a key step is you
+define search space.
+
+1169
+00:51:08,974 --> 00:51:11,489
+But here we start asking
+another question.
+
+1170
+00:51:11,489 --> 00:51:13,569
+In the previous work,
+we always try to
+
+1171
+00:51:13,569 --> 00:51:16,089
+find those equivalent
+substitutions.
+
+1172
+00:51:16,089 --> 00:51:18,249
+That is given graph X.
+
+1173
+00:51:18,249 --> 00:51:21,449
+We try to replace it
+into equivalent graph Y.
+
+1174
+00:51:21,449 --> 00:51:23,890
+By equivalent, I
+mean, Y is guaranteed
+
+1175
+00:51:23,890 --> 00:51:27,569
+to give you the
+same results as X.
+
+1176
+00:51:27,770 --> 00:51:31,389
+But sometimes, there are
+some other opportunities.
+
+1177
+00:51:31,389 --> 00:51:35,909
+For example, maybe I can
+find a pattern which is X,
+
+1178
+00:51:35,909 --> 00:51:38,329
+and then I replace X with Y,
+
+1179
+00:51:38,329 --> 00:51:39,709
+but Y is not guaranteed to
+
+1180
+00:51:39,709 --> 00:51:42,554
+give equivalent results with X.
+
+1181
+00:51:42,554 --> 00:51:45,719
+But why much faster than X.
+
+1182
+00:51:45,719 --> 00:51:48,780
+Maybe ten times faster
+or two times faster.
+
+1183
+00:51:48,780 --> 00:51:51,519
+And then I can compensate
+the results, right?
+
+1184
+00:51:51,519 --> 00:51:54,060
+Uh, S Y and X has a difference
+
+1185
+00:51:54,060 --> 00:51:57,440
+of add a few positions
+of the matrix,
+
+1186
+00:51:57,440 --> 00:51:58,760
+but I can add another operator
+
+1187
+00:51:58,760 --> 00:52:00,479
+that compens results
+to make sure,
+
+1188
+00:52:00,479 --> 00:52:03,300
+uh, after applying a
+compensation operator,
+
+1189
+00:52:03,300 --> 00:52:05,240
+the results will be equivalent.
+
+1190
+00:52:05,240 --> 00:52:07,559
+Right? And then I can
+
+1191
+00:52:07,559 --> 00:52:10,840
+basically in the previous
+30 space of tassel,
+
+1192
+00:52:10,840 --> 00:52:12,939
+we miss all these kind
+of opportunities.
+
+1193
+00:52:12,939 --> 00:52:15,699
+Okay. And in this work, I'm
+going to introduce this way.
+
+1194
+00:52:15,699 --> 00:52:19,560
+That is, uh, in this
+in this final example,
+
+1195
+00:52:19,560 --> 00:52:21,239
+uh, on the left hand side, we
+
+1196
+00:52:21,239 --> 00:52:23,419
+have the fully equivalent
+transformations.
+
+1197
+00:52:23,419 --> 00:52:24,919
+On the right hand side,
+
+1198
+00:52:24,919 --> 00:52:26,939
+we have the partially
+equivalent transformations.
+
+1199
+00:52:26,939 --> 00:52:29,820
+Uh, so basically for FET,
+
+1200
+00:52:29,820 --> 00:52:31,339
+uh, these two graphs is going
+
+1201
+00:52:31,339 --> 00:52:33,140
+to give you exactly
+the same results.
+
+1202
+00:52:33,140 --> 00:52:35,459
+But in this PT is not.
+
+1203
+00:52:35,459 --> 00:52:39,199
+But by enabling the PT 30 space,
+
+1204
+00:52:39,199 --> 00:52:43,554
+sometimes we can even get
+better performance, Okay?
+
+1205
+00:52:43,554 --> 00:52:53,409
+Yeah. They only
+
+1206
+00:52:53,409 --> 00:52:55,450
+generate a few operators.
+
+1207
+00:52:57,410 --> 00:52:59,850
+They don't generate
+field operators.
+
+1208
+00:52:59,850 --> 00:53:07,569
+No. Yeah, yeah.
+
+1209
+00:53:07,569 --> 00:53:09,609
+So at some point,
+still need to field by
+
+1210
+00:53:09,609 --> 00:53:11,910
+yourself and you need to write
+your own field operator.
+
+1211
+00:53:11,910 --> 00:53:13,270
+But like I said,
+the field operator
+
+1212
+00:53:13,270 --> 00:53:14,970
+can be done using
+operator compiler.
+
+1213
+00:53:14,970 --> 00:53:16,529
+Yeah. Yeah. You can ask
+
+1214
+00:53:16,529 --> 00:53:19,250
+operator compiler to generate
+code of field operator.
+
+1215
+00:53:19,250 --> 00:53:21,749
+Yeah. Okay? These are
+two different levels.
+
+1216
+00:53:21,749 --> 00:53:27,410
+Yeah. Cool. The
+idea is basically,
+
+1217
+00:53:27,410 --> 00:53:32,010
+um, uh, if we only limit
+our 30 space into FET,
+
+1218
+00:53:32,010 --> 00:53:33,849
+we are going to miss
+some opportunities.
+
+1219
+00:53:33,849 --> 00:53:37,010
+How about we just
+open space to PT,
+
+1220
+00:53:37,570 --> 00:53:40,530
+PT can give us
+better performance,
+
+1221
+00:53:40,530 --> 00:53:43,109
+but we need to find a
+way to correct it back,
+
+1222
+00:53:43,109 --> 00:53:44,890
+because the results
+is not equivalent,
+
+1223
+00:53:44,890 --> 00:53:46,110
+we need to complement results.
+
+1224
+00:53:46,110 --> 00:53:48,809
+Okay? So how to do that.
+
+1225
+00:53:49,180 --> 00:53:52,039
+So to give you a
+motivating example, okay,
+
+1226
+00:53:52,039 --> 00:53:54,679
+I want you to recall
+a little bit,
+
+1227
+00:53:54,679 --> 00:53:57,079
+um on convolution com two D.
+
+1228
+00:53:57,079 --> 00:54:00,219
+Okay? So in convolution, we
+have this example, right.
+
+1229
+00:54:00,219 --> 00:54:03,480
+So here in this pre, we have
+two inputs, uh, two images,
+
+1230
+00:54:03,480 --> 00:54:05,240
+for example, and
+I have a filter,
+
+1231
+00:54:05,240 --> 00:54:07,240
+which is the green
+one, small filter.
+
+1232
+00:54:07,240 --> 00:54:08,939
+Uh I column two D,
+I'm going to apply
+
+1233
+00:54:08,939 --> 00:54:12,400
+this small filter over these
+two images separately,
+
+1234
+00:54:12,400 --> 00:54:15,199
+and I get slightly, uh, uh,
+
+1235
+00:54:15,199 --> 00:54:16,659
+smaller like feature map,
+
+1236
+00:54:16,659 --> 00:54:19,120
+which is blue at the bottom.
+
+1237
+00:54:19,120 --> 00:54:20,979
+Okay. I hope you
+
+1238
+00:54:20,979 --> 00:54:23,639
+still remember how to
+apply this com two.
+
+1239
+00:54:23,639 --> 00:54:27,759
+So one way to do this
+is we notice that if we
+
+1240
+00:54:27,759 --> 00:54:32,240
+concatenate this one yellow
+orange maps together,
+
+1241
+00:54:32,240 --> 00:54:35,739
+and we apply the same operator,
+we can run much faster.
+
+1242
+00:54:35,739 --> 00:54:37,859
+Why? Because we reduce
+
+1243
+00:54:37,859 --> 00:54:42,820
+kernel launches and also a lot
+of memory IO, for example.
+
+1244
+00:54:42,820 --> 00:54:45,599
+But the problem is
+the two D run at
+
+1245
+00:54:45,599 --> 00:54:46,719
+a very weird way that
+
+1246
+00:54:46,719 --> 00:54:49,200
+is you need to handle
+boundary conditions.
+
+1247
+00:54:49,200 --> 00:54:51,019
+You know, original
+one, I just scan
+
+1248
+00:54:51,019 --> 00:54:53,640
+each feature map from lab
+right from top to bottom.
+
+1249
+00:54:53,640 --> 00:54:57,559
+But if I concatenate the
+input fissure map together,
+
+1250
+00:54:57,559 --> 00:54:59,280
+I will find that in a boundary,
+
+1251
+00:54:59,280 --> 00:55:01,399
+those two columns are going to
+
+1252
+00:55:01,399 --> 00:55:02,660
+give you slightly
+different results
+
+1253
+00:55:02,660 --> 00:55:04,459
+if you put them together.
+
+1254
+00:55:04,460 --> 00:55:07,449
+Okay. Like I said,
+
+1255
+00:55:07,449 --> 00:55:09,709
+the second column runs much
+faster than the first column.
+
+1256
+00:55:09,709 --> 00:55:12,569
+I still want to leverage
+the opportunity, how to do.
+
+1257
+00:55:12,569 --> 00:55:15,609
+So at some point,
+I still do this.
+
+1258
+00:55:15,609 --> 00:55:17,750
+But I can add some composition.
+
+1259
+00:55:17,750 --> 00:55:19,409
+I can manage some value,
+
+1260
+00:55:19,409 --> 00:55:22,289
+I calculated using
+the middle column
+
+1261
+00:55:22,289 --> 00:55:24,589
+and I try to correct
+the results back.
+
+1262
+00:55:24,589 --> 00:55:27,329
+Okay? And so this
+high level idea is
+
+1263
+00:55:27,329 --> 00:55:30,229
+basically like I try
+to redefine space
+
+1264
+00:55:30,229 --> 00:55:33,709
+that um I try
+
+1265
+00:55:33,709 --> 00:55:34,989
+to explore this kind of like
+
+1266
+00:55:34,989 --> 00:55:37,409
+a PT partially equivalent
+transformations,
+
+1267
+00:55:37,409 --> 00:55:39,490
+and then I add some results
+
+1268
+00:55:39,490 --> 00:55:42,029
+back to still guarantee
+the results are exact.
+
+1269
+00:55:42,029 --> 00:55:44,969
+But uh that allows me
+to explore all the kind
+
+1270
+00:55:44,969 --> 00:55:48,609
+of hidden opportunities.
+Makes sense, right?
+
+1271
+00:55:48,609 --> 00:55:50,629
+Okay. Cool. So I'm
+
+1272
+00:55:50,629 --> 00:55:52,550
+going to go through
+the entire process.
+
+1273
+00:55:52,550 --> 00:55:54,609
+This is another
+compiler developed by
+
+1274
+00:55:54,609 --> 00:55:56,489
+the TesoGroup and I
+think they are also
+
+1275
+00:55:56,489 --> 00:55:58,869
+applied in torch comple
+in some way, yeah.
+
+1276
+00:55:58,869 --> 00:56:03,810
+Um, so how we can basically
+automate this entire process.
+
+1277
+00:56:03,810 --> 00:56:08,820
+So So the idea,
+
+1278
+00:56:08,820 --> 00:56:12,119
+the workflow is basically
+illustrated on this slide.
+
+1279
+00:56:12,119 --> 00:56:14,220
+So what do we do is
+given input program,
+
+1280
+00:56:14,220 --> 00:56:15,960
+we are going to
+generate auto mutant.
+
+1281
+00:56:15,960 --> 00:56:17,600
+Uh, you can think of this mutant
+
+1282
+00:56:17,600 --> 00:56:20,079
+basically a u substitutions.
+
+1283
+00:56:20,079 --> 00:56:22,800
+I don't call it substituting
+because it's not equivalent.
+
+1284
+00:56:22,800 --> 00:56:24,300
+That's why I call it mutant.
+
+1285
+00:56:24,300 --> 00:56:27,440
+Okay? Uh, I'm going to
+generate auto mutant,
+
+1286
+00:56:27,440 --> 00:56:29,199
+and I'm going to apply
+
+1287
+00:56:29,199 --> 00:56:30,339
+this mutant to my
+
+1288
+00:56:30,339 --> 00:56:32,529
+original program to
+get a faster version.
+
+1289
+00:56:32,529 --> 00:56:35,220
+And then I check if
+the mutty program
+
+1290
+00:56:35,220 --> 00:56:37,280
+has an arrow from the
+previous program.
+
+1291
+00:56:37,280 --> 00:56:38,939
+And if yes, I'm going to add
+
+1292
+00:56:38,939 --> 00:56:41,399
+some mutant corrector
+to correct it back.
+
+1293
+00:56:41,399 --> 00:56:43,919
+Okay? And because I
+
+1294
+00:56:43,919 --> 00:56:45,739
+add some additional operators
+in the graph, right,
+
+1295
+00:56:45,739 --> 00:56:46,960
+in order to fix the results,
+
+1296
+00:56:46,960 --> 00:56:49,619
+so that basically enlarges
+the entire graph,
+
+1297
+00:56:49,619 --> 00:56:52,259
+uh, possibly enlarge
+the entire graph.
+
+1298
+00:56:52,259 --> 00:56:53,619
+So what I do is I'm going to
+
+1299
+00:56:53,619 --> 00:56:56,479
+manually fuse them
+together later. Okay?
+
+1300
+00:56:56,479 --> 00:56:58,480
+And by applying fusion,
+
+1301
+00:56:58,480 --> 00:57:01,279
+then I can basically,
+uh, make sure.
+
+1302
+00:57:01,279 --> 00:57:03,960
+So it's basically not
+guaranteed fusion,
+
+1303
+00:57:03,960 --> 00:57:06,179
+it's opportunistic
+fusion, so I can
+
+1304
+00:57:06,179 --> 00:57:07,700
+basically try to maximize
+
+1305
+00:57:07,700 --> 00:57:09,530
+the last speed of
+my performance.
+
+1306
+00:57:09,530 --> 00:57:13,200
+Okay, then it becomes it
+boils down to two questions?
+
+1307
+00:57:13,200 --> 00:57:14,760
+One is how to
+mutate the program,
+
+1308
+00:57:14,760 --> 00:57:16,400
+how to discover this
+kind of mutant.
+
+1309
+00:57:16,400 --> 00:57:19,080
+And second is how to correct,
+
+1310
+00:57:19,080 --> 00:57:20,700
+once I apply a mutant.
+
+1311
+00:57:20,700 --> 00:57:23,420
+Okay? So how to mutate?
+
+1312
+00:57:23,420 --> 00:57:27,470
+Um, it is very
+similar to basically,
+
+1313
+00:57:27,470 --> 00:57:29,790
+uh, you can basically
+connect this to previous.
+
+1314
+00:57:29,790 --> 00:57:33,210
+The way we mutate it we
+continue to enumerate.
+
+1315
+00:57:33,210 --> 00:57:34,949
+Enumerating is one of the best
+
+1316
+00:57:34,949 --> 00:57:36,549
+things you do in
+computer science.
+
+1317
+00:57:36,549 --> 00:57:39,510
+Yeah, it's skills. Okay?
+You try to enumerate
+
+1318
+00:57:39,510 --> 00:57:41,569
+all possible programs up to
+
+1319
+00:57:41,569 --> 00:57:44,670
+a fixed size using all
+available operators.
+
+1320
+00:57:44,670 --> 00:57:46,530
+But this time, instead
+of only finding
+
+1321
+00:57:46,530 --> 00:57:48,390
+those mathematically
+equivalent operations,
+
+1322
+00:57:48,390 --> 00:57:51,750
+you try to keep
+more of them, okay?
+
+1323
+00:57:54,230 --> 00:57:58,570
+Um, so instead of
+only finding aft,
+
+1324
+00:57:58,570 --> 00:58:01,869
+you are going to also preserve
+those that is PT, okay?
+
+1325
+00:58:01,869 --> 00:58:03,929
+But here, I want
+to still make sure
+
+1326
+00:58:03,929 --> 00:58:06,190
+that the search
+space is manageable.
+
+1327
+00:58:06,190 --> 00:58:09,910
+So instead of keeping all the
+different kind of mutants,
+
+1328
+00:58:09,910 --> 00:58:11,249
+still remember the
+base number right
+
+1329
+00:58:11,249 --> 00:58:13,529
+66 million. So that's too much.
+
+1330
+00:58:13,529 --> 00:58:16,589
+So instead of doing that,
+what I'm going to do is uh,
+
+1331
+00:58:16,589 --> 00:58:18,530
+I'm going to give
+it random input.
+
+1332
+00:58:18,530 --> 00:58:19,989
+And I don't check
+
+1333
+00:58:19,989 --> 00:58:21,890
+the value of the
+random, uh, the output.
+
+1334
+00:58:21,890 --> 00:58:25,069
+I only check the shapes
+because I can use shape as
+
+1335
+00:58:25,069 --> 00:58:26,769
+weak filter to make sure that
+
+1336
+00:58:26,769 --> 00:58:30,070
+these mutants roughly provide
+the same shape of outputs,
+
+1337
+00:58:30,070 --> 00:58:32,289
+but their results
+could differ, okay?
+
+1338
+00:58:32,289 --> 00:58:33,929
+So that can control
+my search space
+
+1339
+00:58:33,929 --> 00:58:36,029
+to not explode, right?
+
+1340
+00:58:37,900 --> 00:58:41,540
+And then once we apply
+this kind of mutant,
+
+1341
+00:58:41,540 --> 00:58:43,639
+we need to basically, uh,
+
+1342
+00:58:43,639 --> 00:58:46,460
+detect if these kind of
+results are correct.
+
+1343
+00:58:46,460 --> 00:58:48,520
+I basically they are equivalent,
+
+1344
+00:58:48,520 --> 00:58:51,799
+they turn out to be fully
+equipment transform machine,
+
+1345
+00:58:51,799 --> 00:58:53,699
+then we don't have a
+problem. We are good.
+
+1346
+00:58:53,699 --> 00:58:55,739
+But if that's not the case,
+
+1347
+00:58:55,739 --> 00:58:57,379
+we need to consider
+the second step
+
+1348
+00:58:57,379 --> 00:58:59,199
+that is we need to
+correct the results back.
+
+1349
+00:58:59,199 --> 00:59:01,820
+Okay? So then we are figuring,
+
+1350
+00:59:01,820 --> 00:59:03,499
+we are facing
+another problem that
+
+1351
+00:59:03,499 --> 00:59:05,499
+is how we can
+verify, for example,
+
+1352
+00:59:05,499 --> 00:59:08,379
+in this example, program
+F equals to prime G,
+
+1353
+00:59:08,379 --> 00:59:10,979
+considering G is a
+mutant of F, right?
+
+1354
+00:59:10,979 --> 00:59:14,719
+So One way to
+
+1355
+00:59:14,719 --> 00:59:19,119
+basically verify we check
+position map position, right?
+
+1356
+00:59:19,119 --> 00:59:20,700
+We just give the random inputs
+
+1357
+00:59:20,700 --> 00:59:22,319
+and we check position
+me position in
+
+1358
+00:59:22,319 --> 00:59:24,079
+output space and if
+
+1359
+00:59:24,079 --> 00:59:26,019
+all the position
+matches, then we good.
+
+1360
+00:59:26,019 --> 00:59:28,519
+But this is apparently
+quite slow,
+
+1361
+00:59:28,519 --> 00:59:31,319
+what we do is, uh,
+
+1362
+00:59:31,319 --> 00:59:33,600
+instead we check
+positive M position,
+
+1363
+00:59:33,600 --> 00:59:35,499
+we can do some optimization.
+
+1364
+00:59:35,499 --> 00:59:37,080
+But before we
+introduce openation,
+
+1365
+00:59:37,080 --> 00:59:39,679
+let's try to see how
+slow this is, okay?
+
+1366
+00:59:39,679 --> 00:59:42,659
+So the complexity is
+roughly written as
+
+1367
+00:59:42,659 --> 00:59:46,419
+M times N where M is all
+the possible inputs, right?
+
+1368
+00:59:46,419 --> 00:59:48,920
+And N is all the
+output positions.
+
+1369
+00:59:48,920 --> 00:59:51,019
+So basically, if we want
+
+1370
+00:59:51,019 --> 00:59:53,980
+to really verify if
+this are correct,
+
+1371
+00:59:53,980 --> 00:59:56,140
+we basically need to enumerate
+
+1372
+00:59:56,140 --> 00:59:57,759
+all the input M inputs and
+
+1373
+00:59:57,759 --> 01:00:00,560
+check on all the
+positions for each input.
+
+1374
+01:00:00,560 --> 01:00:02,599
+So the complexity is bien.
+
+1375
+01:00:02,599 --> 01:00:06,159
+Okay. And in order
+to make this factor,
+
+1376
+01:00:06,159 --> 01:00:07,559
+I think our goal is
+basically trying
+
+1377
+01:00:07,559 --> 01:00:09,699
+to reduce both M and N,
+
+1378
+01:00:09,699 --> 01:00:12,839
+to figure out how to verify.
+
+1379
+01:00:12,839 --> 01:00:15,559
+Okay? Let's talk
+about one by one.
+
+1380
+01:00:15,559 --> 01:00:18,439
+So we'll first talk
+about how to reduce N.
+
+1381
+01:00:18,439 --> 01:00:20,460
+N is basically the
+output position
+
+1382
+01:00:20,460 --> 01:00:22,359
+of the feature map, for
+example, in column two.
+
+1383
+01:00:22,359 --> 01:00:24,580
+So how to basically
+make this factor.
+
+1384
+01:00:24,580 --> 01:00:26,859
+And it turns out this one is
+
+1385
+01:00:26,859 --> 01:00:29,780
+pretty straightforward and
+very easy big machinery.
+
+1386
+01:00:29,780 --> 01:00:34,519
+Okay? So, our high level idea
+is can we just check out
+
+1387
+01:00:34,519 --> 01:00:37,019
+a few or even just one
+position instead of
+
+1388
+01:00:37,019 --> 01:00:38,599
+every output position to
+
+1389
+01:00:38,599 --> 01:00:41,879
+assert the correctness
+or incorrectness, right?
+
+1390
+01:00:41,879 --> 01:00:43,439
+And it turns out that
+we can't do that.
+
+1391
+01:00:43,439 --> 01:00:46,299
+Why? Because, um, for
+
+1392
+01:00:46,299 --> 01:00:48,099
+majority of competition
+in machine learning,
+
+1393
+01:00:48,099 --> 01:00:51,579
+they have a very nice
+mathematical property that is,
+
+1394
+01:00:51,579 --> 01:00:55,600
+uh, it's called multilinear.
+So what is multilinear?
+
+1395
+01:00:55,600 --> 01:00:58,059
+Multinear is basically
+a function F is
+
+1396
+01:00:58,059 --> 01:01:01,799
+multilinear if the output
+is linear to all inputs.
+
+1397
+01:01:01,799 --> 01:01:04,159
+And I can actually illustrate
+
+1398
+01:01:04,159 --> 01:01:06,179
+this property in
+the equation below.
+
+1399
+01:01:06,179 --> 01:01:08,160
+That is, for any
+input, I can basically
+
+1400
+01:01:08,160 --> 01:01:10,100
+linearly transform
+it and the results
+
+1401
+01:01:10,100 --> 01:01:12,480
+can be corresponding
+linearly transform.
+
+1402
+01:01:12,480 --> 01:01:14,140
+For example, adding a scholar,
+
+1403
+01:01:14,140 --> 01:01:16,599
+time scholar or whatever, okay?
+
+1404
+01:01:16,599 --> 01:01:18,839
+And it turns out that for many,
+
+1405
+01:01:18,839 --> 01:01:22,559
+many machinery operators,
+like, 80% of them.
+
+1406
+01:01:22,559 --> 01:01:24,119
+So basically they
+are multi linear.
+
+1407
+01:01:24,119 --> 01:01:26,339
+And this table basically
+give you a sense.
+
+1408
+01:01:26,339 --> 01:01:29,279
+Okay, I want you to
+look at this table.
+
+1409
+01:01:33,460 --> 01:01:36,019
+Some very important
+operators, for example,
+
+1410
+01:01:36,019 --> 01:01:38,540
+come, met mo, they
+are multilinear.
+
+1411
+01:01:38,540 --> 01:01:40,739
+So you can linearly
+transform the input and
+
+1412
+01:01:40,739 --> 01:01:43,980
+the output will be
+correspondingly transform.
+
+1413
+01:01:43,980 --> 01:01:47,560
+Why we care about this
+multinear characteristic.
+
+1414
+01:01:47,560 --> 01:01:48,919
+The reason we care about it is
+
+1415
+01:01:48,919 --> 01:01:51,680
+because we have this serum.
+
+1416
+01:01:51,680 --> 01:01:54,979
+So for two multinear
+function F and G, uh,
+
+1417
+01:01:54,979 --> 01:02:01,779
+if F equals to G for region
+01 position in upper region,
+
+1418
+01:02:01,779 --> 01:02:05,600
+then we can observe that
+fix to G for all positions.
+
+1419
+01:02:05,600 --> 01:02:09,240
+Okay? So why is this important?
+
+1420
+01:02:09,240 --> 01:02:11,119
+Because, originally,
+
+1421
+01:02:11,119 --> 01:02:13,139
+we need to check all the
+output positions, right.
+
+1422
+01:02:13,139 --> 01:02:14,219
+And now, if we know that
+
+1423
+01:02:14,219 --> 01:02:15,880
+this operator is going
+to be multilinear,
+
+1424
+01:02:15,880 --> 01:02:17,759
+we just need to check a
+few positions and we can
+
+1425
+01:02:17,759 --> 01:02:20,719
+assert their their
+equivalent, right?
+
+1426
+01:02:20,719 --> 01:02:23,499
+So one example is,
+uh, in column two.
+
+1427
+01:02:23,499 --> 01:02:25,439
+Every time we apply
+a filter, right,
+
+1428
+01:02:25,439 --> 01:02:27,439
+we all result into
+a region that is,
+
+1429
+01:02:27,439 --> 01:02:29,959
+say, three by three
+or four by four.
+
+1430
+01:02:29,959 --> 01:02:31,599
+And in that region,
+we don't need
+
+1431
+01:02:31,599 --> 01:02:33,160
+to check all four
+by four regions.
+
+1432
+01:02:33,160 --> 01:02:34,999
+We just need to
+check one. And if
+
+1433
+01:02:34,999 --> 01:02:36,240
+their results are equivalent,
+
+1434
+01:02:36,240 --> 01:02:38,439
+we know the upper region
+are actually equivalent.
+
+1435
+01:02:38,439 --> 01:02:42,079
+Okay. And this can effectively
+reduce our three space,
+
+1436
+01:02:42,079 --> 01:02:43,959
+the index machine from
+
+1437
+01:02:43,959 --> 01:02:45,659
+lumber output positions into
+
+1438
+01:02:45,659 --> 01:02:47,579
+lumber regions,
+we need to check.
+
+1439
+01:02:47,579 --> 01:02:51,519
+Does that make sense?
+Yeah. Okay. Any question?
+
+1440
+01:02:51,519 --> 01:02:56,639
+Yeah. Uh huh.
+
+1441
+01:02:58,360 --> 01:03:00,840
+What do you mean by activation?
+
+1442
+01:03:00,840 --> 01:03:03,579
+No, no, that's nonlinear.
+Yeah. Yeah, yeah.
+
+1443
+01:03:03,579 --> 01:03:06,779
+But you need to
+think in this way.
+
+1444
+01:03:06,779 --> 01:03:10,279
+So remember the MS que we
+did at the beginning, right?
+
+1445
+01:03:10,279 --> 01:03:12,780
+The one that is your most flops
+
+1446
+01:03:12,780 --> 01:03:15,499
+is linear functions, right?
+
+1447
+01:03:15,499 --> 01:03:17,779
+Because we can't give up
+
+1448
+01:03:17,779 --> 01:03:20,479
+optimizing Lu because
+it's going to be slow.
+
+1449
+01:03:20,479 --> 01:03:21,919
+We know it's going
+to be slow, right?
+
+1450
+01:03:21,919 --> 01:03:26,689
+Yeah. Okay. This one is
+pretty clever, right.
+
+1451
+01:03:26,689 --> 01:03:27,989
+So basically, you try to
+
+1452
+01:03:27,989 --> 01:03:30,669
+leverage this kind of
+multineity and try to
+
+1453
+01:03:30,669 --> 01:03:36,729
+reduce the dimension of
+N from N to R. Okay.
+
+1454
+01:03:36,729 --> 01:03:38,749
+And now we are trying
+to figure out how to
+
+1455
+01:03:38,749 --> 01:03:40,849
+reduce M. You still
+remember, right.
+
+1456
+01:03:40,849 --> 01:03:43,070
+So we need to check for
+each possible input.
+
+1457
+01:03:43,070 --> 01:03:46,230
+And as long as if
+each possible input,
+
+1458
+01:03:46,230 --> 01:03:47,909
+they are equivalent or
+they are not equivalent,
+
+1459
+01:03:47,909 --> 01:03:50,209
+then we can figure out
+how to correct later,
+
+1460
+01:03:50,209 --> 01:03:52,769
+right directly applying
+this transformation.
+
+1461
+01:03:52,769 --> 01:03:55,169
+Okay? How to check M?
+
+1462
+01:03:55,169 --> 01:03:58,029
+Okay. The way we
+check them is still,
+
+1463
+01:03:58,029 --> 01:04:00,490
+we are going to
+place on math, okay?
+
+1464
+01:04:00,490 --> 01:04:02,590
+And we have this theorem.
+
+1465
+01:04:02,590 --> 01:04:05,170
+Okay? So if there exists input
+
+1466
+01:04:05,170 --> 01:04:09,269
+I uh two transformation F and G,
+
+1467
+01:04:09,269 --> 01:04:12,009
+at several position,
+there exists
+
+1468
+01:04:12,009 --> 01:04:17,230
+input at the position P,
+their value are different.
+
+1469
+01:04:17,230 --> 01:04:19,649
+Then the probability
+that F and G,
+
+1470
+01:04:19,649 --> 01:04:22,189
+given identical results on
+
+1471
+01:04:22,189 --> 01:04:26,309
+T random inputs is very
+small, explly small.
+
+1472
+01:04:26,430 --> 01:04:28,249
+Okay, I would like to
+
+1473
+01:04:28,249 --> 01:04:30,509
+appreciate this
+theorem a little bit.
+
+1474
+01:04:38,500 --> 01:04:41,839
+Why is this therm
+help us reduce?
+
+1475
+01:04:41,839 --> 01:04:44,139
+The reason because
+what this theorem,
+
+1476
+01:04:44,139 --> 01:04:46,780
+what we can do is
+basically, instead
+
+1477
+01:04:46,780 --> 01:04:48,220
+of running all the
+possible inputs,
+
+1478
+01:04:48,220 --> 01:04:51,839
+we can run T random tests
+where T is a small number,
+
+1479
+01:04:51,839 --> 01:04:55,060
+and we know that if AT passed,
+
+1480
+01:04:55,060 --> 01:04:57,279
+if AT passed, it's very
+
+1481
+01:04:57,279 --> 01:05:00,909
+unlikely that this F
+and G are equivalent.
+
+1482
+01:05:00,909 --> 01:05:02,999
+The probability is very small.
+
+1483
+01:05:02,999 --> 01:05:06,919
+So what we can do is
+maybe instead of small t,
+
+1484
+01:05:06,919 --> 01:05:09,479
+we can use relative largity
+and we can basically see
+
+1485
+01:05:09,479 --> 01:05:11,200
+the probability that
+they are equivalent
+
+1486
+01:05:11,200 --> 01:05:12,940
+in equivalent is
+going to diminish.
+
+1487
+01:05:12,940 --> 01:05:16,859
+At some point, if one random
+input is going to be um,
+
+1488
+01:05:16,859 --> 01:05:18,159
+produce different results,
+
+1489
+01:05:18,159 --> 01:05:19,500
+we know that they
+are not equivalent,
+
+1490
+01:05:19,500 --> 01:05:21,039
+but if all pass,
+
+1491
+01:05:21,039 --> 01:05:22,605
+likely they are equivalent.
+
+1492
+01:05:22,605 --> 01:05:26,170
+Okay. This is a pretty nice
+theorem, random testing.
+
+1493
+01:05:26,170 --> 01:05:28,690
+Okay. Yeah. With this theorem,
+
+1494
+01:05:28,690 --> 01:05:30,430
+what we can do is
+we can continue,
+
+1495
+01:05:30,430 --> 01:05:33,010
+reduce the search dimensing
+
+1496
+01:05:33,010 --> 01:05:36,329
+M u from M all the
+way to T, right?
+
+1497
+01:05:36,329 --> 01:05:40,209
+Here, we notice that T is
+greatly smaller than M,
+
+1498
+01:05:40,209 --> 01:05:42,949
+and is much smaller than than N.
+
+1499
+01:05:42,949 --> 01:05:45,449
+Then we can use this
+kind of tricks to
+
+1500
+01:05:45,449 --> 01:05:48,405
+basically uh accelerate
+verification.
+
+1501
+01:05:48,405 --> 01:05:52,279
+Okay. Yeah. With that, I think,
+
+1502
+01:05:52,279 --> 01:05:54,440
+uh, we figure out
+how to basically,
+
+1503
+01:05:54,440 --> 01:05:56,999
+uh, uh, we know how to
+generate mutant, right.
+
+1504
+01:05:56,999 --> 01:05:58,400
+We also know how
+to verify results.
+
+1505
+01:05:58,400 --> 01:06:00,500
+Then what we do is basically
+we follow this workflow.
+
+1506
+01:06:00,500 --> 01:06:02,000
+We generate a lot of mutants,
+
+1507
+01:06:02,000 --> 01:06:05,200
+we try to verify if these
+two mutants are equivalent.
+
+1508
+01:06:05,200 --> 01:06:06,899
+If they are equivalent,
+we are good.
+
+1509
+01:06:06,899 --> 01:06:08,979
+It's basically reduced
+to the problem of,
+
+1510
+01:06:08,979 --> 01:06:11,919
+uh, uh, fully equivalent
+transformations.
+
+1511
+01:06:11,919 --> 01:06:13,260
+If they are not equivalent,
+
+1512
+01:06:13,260 --> 01:06:15,419
+then it's PT Pat.
+
+1513
+01:06:15,419 --> 01:06:18,430
+And if it's pat, what we
+do is we add some mutant.
+
+1514
+01:06:18,430 --> 01:06:20,359
+So in this example, sorry,
+
+1515
+01:06:20,359 --> 01:06:21,580
+add some multan correction.
+
+1516
+01:06:21,580 --> 01:06:23,139
+So in this example,
+we first apply
+
+1517
+01:06:23,139 --> 01:06:25,179
+mutant and then we figure out,
+
+1518
+01:06:25,179 --> 01:06:27,920
+okay, they have some regions
+that are not equivalent.
+
+1519
+01:06:27,920 --> 01:06:29,680
+So we try to add
+another operator
+
+1520
+01:06:29,680 --> 01:06:31,079
+that basically
+perform another very,
+
+1521
+01:06:31,079 --> 01:06:32,439
+very thin, uh,
+
+1522
+01:06:32,439 --> 01:06:34,799
+convolution and try to
+correct results back.
+
+1523
+01:06:34,799 --> 01:06:37,400
+And like I said, because
+of this operation,
+
+1524
+01:06:37,400 --> 01:06:38,939
+you introduce another
+additional com
+
+1525
+01:06:38,939 --> 01:06:40,920
+and this potentially can
+harm the performance.
+
+1526
+01:06:40,920 --> 01:06:44,440
+So what do we do is we
+try to handle manually
+
+1527
+01:06:44,440 --> 01:06:49,620
+uh field them all together
+into one field operator, okay?
+
+1528
+01:06:49,790 --> 01:06:52,469
+Cool. Uh, to do a recap, okay?
+
+1529
+01:06:52,469 --> 01:06:53,689
+So we talk about works, right?
+
+1530
+01:06:53,689 --> 01:06:57,490
+One is um fully equipment
+transformation.
+
+1531
+01:06:57,490 --> 01:07:00,190
+The other is p partially
+equipment transformation,
+
+1532
+01:07:00,190 --> 01:07:03,250
+and they are basically
+fall into the workflow
+
+1533
+01:07:03,250 --> 01:07:07,189
+actually in the middle that
+is defined search space, um,
+
+1534
+01:07:07,189 --> 01:07:10,049
+try to figure out the
+equivalent graphs, uh,
+
+1535
+01:07:10,049 --> 01:07:12,949
+build a cost model and then
+try to apply this subject in
+
+1536
+01:07:12,949 --> 01:07:14,169
+the graph and figure out the one
+
+1537
+01:07:14,169 --> 01:07:15,930
+that basically give you
+the best performance.
+
+1538
+01:07:15,930 --> 01:07:18,449
+Yeah. And the reason
+they are very,
+
+1539
+01:07:18,449 --> 01:07:20,169
+um, very good is
+
+1540
+01:07:20,169 --> 01:07:22,070
+because they automate
+the entire process.
+
+1541
+01:07:22,070 --> 01:07:23,869
+And so the developer
+does not know how
+
+1542
+01:07:23,869 --> 01:07:25,729
+to write so many
+passes manually and
+
+1543
+01:07:25,729 --> 01:07:27,809
+does not know how to do
+that again and again
+
+1544
+01:07:27,809 --> 01:07:30,750
+for each graph, each
+model, whatever.
+
+1545
+01:07:30,750 --> 01:07:37,309
+Okay. Any question? Cool, cool.
+
+1546
+01:07:37,309 --> 01:07:39,430
+Okay, I think I
+already summarized
+
+1547
+01:07:39,430 --> 01:07:42,289
+this slide and I'm
+going to skip this one.
+
+1548
+01:07:42,290 --> 01:07:45,649
+Then let's do something
+that's really fun, okay?
+
+1549
+01:07:45,649 --> 01:07:48,289
+I think that's all
+the compiler stuff I
+
+1550
+01:07:48,289 --> 01:07:50,590
+want to cover in this lecture
+in this course, actually.
+
+1551
+01:07:50,590 --> 01:07:51,869
+I'm not going to I'm
+
+1552
+01:07:51,869 --> 01:07:53,249
+not going to talk about
+compiler anymore.
+
+1553
+01:07:53,249 --> 01:07:54,869
+Yeah, this is all
+the compiler talk.
+
+1554
+01:07:54,869 --> 01:07:57,150
+But later I'm going
+to have a invite
+
+1555
+01:07:57,150 --> 01:08:00,309
+invite speaker to talk about
+later in a deeper way.
+
+1556
+01:08:00,309 --> 01:08:04,209
+But I want to do a
+retrospective on what people on
+
+1557
+01:08:04,209 --> 01:08:06,270
+this community have done
+in compiler research
+
+1558
+01:08:06,270 --> 01:08:08,670
+and where we achieved.
+
+1559
+01:08:08,670 --> 01:08:10,929
+Okay? So to begin that,
+
+1560
+01:08:10,929 --> 01:08:13,630
+I'm going to give you a
+history, okay, revisit.
+
+1561
+01:08:13,630 --> 01:08:18,510
+So roughly our compiler
+research start from 2013.
+
+1562
+01:08:18,510 --> 01:08:20,489
+Okay? At that point,
+
+1563
+01:08:20,489 --> 01:08:22,049
+we are not doing
+machine aring compiler.
+
+1564
+01:08:22,049 --> 01:08:24,069
+It's not at least we
+
+1565
+01:08:24,069 --> 01:08:26,389
+don't give it name called
+machining compiler, okay?
+
+1566
+01:08:26,389 --> 01:08:28,309
+The first thing we call
+is called highlight.
+
+1567
+01:08:28,309 --> 01:08:31,209
+This highlight was developed
+by MIT PD student,
+
+1568
+01:08:31,209 --> 01:08:33,129
+and that guy is not
+doing machine learning.
+
+1569
+01:08:33,129 --> 01:08:35,024
+He was doing like graphics.
+
+1570
+01:08:35,024 --> 01:08:39,039
+So he basically developed a
+compiler that help people to
+
+1571
+01:08:39,039 --> 01:08:40,920
+more convenient conveniently
+
+1572
+01:08:40,920 --> 01:08:43,339
+write graphics rendering code.
+
+1573
+01:08:43,339 --> 01:08:45,219
+Okay? Why why I
+
+1574
+01:08:45,219 --> 01:08:46,839
+mentioned this because you
+probably know a lot of
+
+1575
+01:08:46,839 --> 01:08:49,599
+operations in rendering
+is also metmo
+
+1576
+01:08:49,599 --> 01:08:53,279
+something related with Mtmo
+So they do a lot of telling.
+
+1577
+01:08:53,279 --> 01:08:54,919
+They do a lot of
+operator compilation.
+
+1578
+01:08:54,919 --> 01:08:56,699
+And this highlight actually was
+
+1579
+01:08:56,699 --> 01:08:59,759
+very famous in the
+graphics community.
+
+1580
+01:08:59,759 --> 01:09:00,859
+But at some point,
+
+1581
+01:09:00,859 --> 01:09:03,199
+I think, when Machine
+learning took off,
+
+1582
+01:09:03,199 --> 01:09:04,859
+people started realizing
+that we should
+
+1583
+01:09:04,859 --> 01:09:05,919
+probably double down on
+
+1584
+01:09:05,919 --> 01:09:07,559
+augmenting Machin
+learning workload.
+
+1585
+01:09:07,559 --> 01:09:09,779
+That's the first compiler
+come out, right, LA.
+
+1586
+01:09:09,779 --> 01:09:12,599
+I mentioned this in L
+lecture, okay? Google stuff.
+
+1587
+01:09:12,599 --> 01:09:17,490
+Okay. Uh, it basically
+come out at 20:16 to 2017.
+
+1588
+01:09:17,490 --> 01:09:21,029
+Okay. But the problem
+with XLA is first,
+
+1589
+01:09:21,029 --> 01:09:22,689
+is a very closed community.
+
+1590
+01:09:22,689 --> 01:09:25,109
+Uh, Google don't talk
+about a lot on this.
+
+1591
+01:09:25,109 --> 01:09:27,609
+They try to sell
+tenterflow inside XO.
+
+1592
+01:09:27,609 --> 01:09:30,129
+XOE is only a bacon layer.
+
+1593
+01:09:30,129 --> 01:09:31,729
+And I'm not sure if
+
+1594
+01:09:31,729 --> 01:09:33,409
+you guys have experience
+working on XOI,
+
+1595
+01:09:33,409 --> 01:09:37,509
+but uh, XOI code is very
+hard to understand.
+
+1596
+01:09:37,509 --> 01:09:38,909
+It's very very low level.
+
+1597
+01:09:38,909 --> 01:09:41,849
+It has many many very
+deep competitive stuff
+
+1598
+01:09:41,849 --> 01:09:44,029
+where I don't think,
+
+1599
+01:09:44,029 --> 01:09:48,069
+machine learning researcher
+can easily, grasp, okay?
+
+1600
+01:09:48,069 --> 01:09:50,929
+So then, um, uh, meanwhile,
+
+1601
+01:09:50,929 --> 01:09:53,929
+Google is pushing a
+direction of compilation
+
+1602
+01:09:53,929 --> 01:09:57,050
+for machinery and some
+other communities,
+
+1603
+01:09:57,050 --> 01:09:58,589
+they are pushing a
+different direction.
+
+1604
+01:09:58,589 --> 01:10:00,769
+So they are saying, I'm not
+going to do compilation.
+
+1605
+01:10:00,769 --> 01:10:02,689
+I'm not going to
+automate this process.
+
+1606
+01:10:02,689 --> 01:10:05,249
+I'm going to give you a
+handcraft free library
+
+1607
+01:10:05,249 --> 01:10:08,489
+where I hand craftly I
+manually write many,
+
+1608
+01:10:08,489 --> 01:10:10,629
+many templates and
+field operations
+
+1609
+01:10:10,629 --> 01:10:13,069
+I give it to you and you
+figure out by yourself, okay?
+
+1610
+01:10:13,069 --> 01:10:15,249
+No automated pure hand graphy.
+
+1611
+01:10:15,249 --> 01:10:18,489
+And some very famous
+library tension RT, right?
+
+1612
+01:10:18,489 --> 01:10:22,179
+You probably heard about
+this one from media.
+
+1613
+01:10:22,179 --> 01:10:27,409
+And Codon is the one that
+still used widely today.
+
+1614
+01:10:27,409 --> 01:10:30,689
+The way that media
+ships Codon is they
+
+1615
+01:10:30,689 --> 01:10:34,289
+ask their developers to write
+a binary code for a kernel.
+
+1616
+01:10:34,289 --> 01:10:36,389
+And they compare the
+binary code into
+
+1617
+01:10:36,389 --> 01:10:38,829
+a very fast kernel
+and give it to you.
+
+1618
+01:10:38,829 --> 01:10:40,409
+No one can understand
+what's going
+
+1619
+01:10:40,409 --> 01:10:42,199
+on there, but it's just fast.
+
+1620
+01:10:42,199 --> 01:10:44,629
+Yeah. Okay. And also onyx,
+
+1621
+01:10:44,629 --> 01:10:46,909
+OI is another um kind of
+
+1622
+01:10:46,909 --> 01:10:48,729
+mid layer language for you
+
+1623
+01:10:48,729 --> 01:10:51,749
+to exchange models between
+different frameworks.
+
+1624
+01:10:51,749 --> 01:10:53,889
+And you can think it does
+a semi compiler thing.
+
+1625
+01:10:53,889 --> 01:10:58,409
+Okay? It is basically
+intermediarenton for,
+
+1626
+01:10:58,409 --> 01:11:00,469
+uh, for models, and it can
+
+1627
+01:11:00,469 --> 01:11:02,829
+be used across
+different frameworks.
+
+1628
+01:11:02,829 --> 01:11:05,469
+For example, you can define a
+model in Onyx and it can be
+
+1629
+01:11:05,469 --> 01:11:09,669
+read or understood by both pity.
+
+1630
+01:11:09,669 --> 01:11:14,169
+And then in 2018, we know
+TVM TM is open source, uh,
+
+1631
+01:11:14,169 --> 01:11:16,489
+uh, compiler that basically,
+
+1632
+01:11:16,489 --> 01:11:19,509
+uh very famous, okay.
+
+1633
+01:11:19,820 --> 01:11:23,459
+And in 2019 and 2020,
+
+1634
+01:11:23,459 --> 01:11:26,660
+we have a very famous
+language called MIR.
+
+1635
+01:11:26,660 --> 01:11:28,579
+Apparently, MIR is
+not a compiler,
+
+1636
+01:11:28,579 --> 01:11:30,084
+it's just a layering compiler.
+
+1637
+01:11:30,084 --> 01:11:31,969
+So ML stands for
+machine learning and
+
+1638
+01:11:31,969 --> 01:11:34,529
+R stands for
+intermediate repton.
+
+1639
+01:11:34,529 --> 01:11:36,489
+That means that
+they want to build
+
+1640
+01:11:36,489 --> 01:11:39,529
+machine intermediate repreention
+in the compile layer.
+
+1641
+01:11:39,529 --> 01:11:41,769
+So, uh, upper to this layer,
+
+1642
+01:11:41,769 --> 01:11:42,889
+you can define your machinering
+
+1643
+01:11:42,889 --> 01:11:44,329
+model in whatever language.
+
+1644
+01:11:44,329 --> 01:11:46,409
+And it can be lowered into this,
+
+1645
+01:11:46,409 --> 01:11:49,189
+uh IR and lower to this layer,
+
+1646
+01:11:49,189 --> 01:11:50,469
+you can basically, uh,
+
+1647
+01:11:50,469 --> 01:11:51,669
+try to optimize this R,
+
+1648
+01:11:51,669 --> 01:11:54,249
+for example, you can
+extract a graph definition.
+
+1649
+01:11:54,249 --> 01:11:56,929
+You can extract operator
+definition from this R,
+
+1650
+01:11:56,929 --> 01:11:58,709
+you can optimize operator,
+
+1651
+01:11:58,709 --> 01:12:00,389
+you can optimize graphs, right
+
+1652
+01:12:00,389 --> 01:12:02,489
+across different frameworks.
+
+1653
+01:12:02,489 --> 01:12:06,629
+This one was driven
+by Google, okay?
+
+1654
+01:12:07,410 --> 01:12:09,789
+And there are also flex flow,
+
+1655
+01:12:09,789 --> 01:12:11,189
+which basically are works.
+
+1656
+01:12:11,189 --> 01:12:13,309
+I just introduced tassel
+
+1657
+01:12:13,309 --> 01:12:18,269
+and PT and FET, graph
+transformation.
+
+1658
+01:12:18,269 --> 01:12:20,029
+And then up to today, I think
+
+1659
+01:12:20,029 --> 01:12:21,529
+the one that is pretty famous is
+
+1660
+01:12:21,529 --> 01:12:26,489
+basically torch touch
+compel touch dynamo.
+
+1661
+01:12:26,489 --> 01:12:29,089
+Ti Dynamo is basically,
+
+1662
+01:12:29,089 --> 01:12:30,329
+you can understand it
+
+1663
+01:12:30,329 --> 01:12:33,169
+as intermediate
+representation for torch.
+
+1664
+01:12:33,169 --> 01:12:36,549
+Okay. And between
+these four years,
+
+1665
+01:12:36,549 --> 01:12:40,229
+I think there are more than
+500 compiler papers written,
+
+1666
+01:12:40,229 --> 01:12:42,889
+people are basically
+all the researchers
+
+1667
+01:12:42,889 --> 01:12:44,049
+in machine learning and systems,
+
+1668
+01:12:44,049 --> 01:12:45,149
+they are all in this field and
+
+1669
+01:12:45,149 --> 01:12:46,809
+you try to develop
+a better compiler.
+
+1670
+01:12:46,809 --> 01:12:50,529
+Okay. Then I have
+ultimate question.
+
+1671
+01:12:50,529 --> 01:12:55,969
+So why the community is shifting
+away from compeer today.
+
+1672
+01:12:56,970 --> 01:12:59,549
+The reason I ask this
+question because in
+
+1673
+01:12:59,549 --> 01:13:01,509
+this course, one of my goal is,
+
+1674
+01:13:01,509 --> 01:13:03,489
+I try to help you
+
+1675
+01:13:03,489 --> 01:13:06,829
+acquire the ability of
+predicting the future.
+
+1676
+01:13:06,829 --> 01:13:09,109
+Okay? Because if you look back,
+
+1677
+01:13:09,109 --> 01:13:11,969
+people are not doing
+compari anymore, why?
+
+1678
+01:13:26,440 --> 01:13:28,659
+Yeah, that's one partial reason,
+
+1679
+01:13:28,659 --> 01:13:30,599
+but not the primary reason.
+
+1680
+01:13:31,360 --> 01:13:34,259
+Yeah, I feel so.
+
+1681
+01:13:34,259 --> 01:13:35,779
+Yes, it doesn't make money,
+
+1682
+01:13:35,779 --> 01:13:36,999
+but I feel researchers
+
+1683
+01:13:36,999 --> 01:13:39,239
+probably don't have to
+go making money, right?
+
+1684
+01:13:39,239 --> 01:13:42,659
+Like for example, PD students,
+
+1685
+01:13:42,659 --> 01:13:45,660
+they also don't
+work on computers.
+
+1686
+01:13:45,660 --> 01:13:48,859
+So I'm going to
+offer my argument,
+
+1687
+01:13:48,859 --> 01:13:51,259
+but you guys should figure
+out this by yourself.
+
+1688
+01:13:51,259 --> 01:13:56,279
+Sorry. So you guys still
+remember throughout this course,
+
+1689
+01:13:56,279 --> 01:13:57,739
+throughout the
+past few lectures,
+
+1690
+01:13:57,739 --> 01:14:00,399
+I'm keeping saying that the
+main argument of compiler
+
+1691
+01:14:00,399 --> 01:14:01,939
+is you are going to
+
+1692
+01:14:01,939 --> 01:14:03,659
+have so many models,
+so many operators,
+
+1693
+01:14:03,659 --> 01:14:06,419
+and so many hardwares, and
+you are not going to hire
+
+1694
+01:14:06,419 --> 01:14:08,559
+enough people to develop
+
+1695
+01:14:08,559 --> 01:14:11,699
+operators and op ditions
+for them, right?
+
+1696
+01:14:11,699 --> 01:14:13,739
+So basically assume that
+
+1697
+01:14:13,739 --> 01:14:16,879
+your machinery model is
+going to still diverge.
+
+1698
+01:14:16,879 --> 01:14:18,299
+So most people is going to
+
+1699
+01:14:18,299 --> 01:14:20,019
+develop new architectures
+and new hardware
+
+1700
+01:14:20,019 --> 01:14:23,779
+to support this kind of,
+like, workloads, right?
+
+1701
+01:14:23,779 --> 01:14:27,839
+Only with a divers enough
+machinery architectures
+
+1702
+01:14:27,839 --> 01:14:29,659
+and hardware and operators,
+
+1703
+01:14:29,659 --> 01:14:31,359
+we can see the value of compiler
+
+1704
+01:14:31,359 --> 01:14:33,179
+because it saves humans time.
+
+1705
+01:14:33,179 --> 01:14:36,159
+But what happens today
+especially after 2020
+
+1706
+01:14:36,159 --> 01:14:38,520
+is there's one architecture
+
+1707
+01:14:38,520 --> 01:14:40,839
+that dominates all
+machinery architecture.
+
+1708
+01:14:40,839 --> 01:14:43,819
+That is transformer
+on ARM there's
+
+1709
+01:14:43,819 --> 01:14:45,179
+one hardware that dominates
+
+1710
+01:14:45,179 --> 01:14:48,059
+all the hardware
+that is medius GPU,
+
+1711
+01:14:48,059 --> 01:14:51,599
+people have been spending
+years optioning compilers.
+
+1712
+01:14:51,599 --> 01:14:53,959
+But at some point, when the
+GPD is three paper out,
+
+1713
+01:14:53,959 --> 01:14:57,439
+everyone start working only
+on transformers on DPU.
+
+1714
+01:14:57,439 --> 01:14:59,639
+If you simplify this problem,
+
+1715
+01:14:59,639 --> 01:15:03,079
+my mission is I just
+make sure I'm going
+
+1716
+01:15:03,079 --> 01:15:04,779
+to maximize the
+performance of transformer
+
+1717
+01:15:04,779 --> 01:15:07,219
+on GPU. Do I need a compiler?
+
+1718
+01:15:07,219 --> 01:15:09,759
+No, right? I basically
+just need to hire
+
+1719
+01:15:09,759 --> 01:15:12,379
+a few Koula engineers
+
+1720
+01:15:12,379 --> 01:15:14,499
+and who are really
+good at transformers,
+
+1721
+01:15:14,499 --> 01:15:16,579
+I just field everything
+together, right?
+
+1722
+01:15:16,579 --> 01:15:18,819
+For transformers. That's
+all I need to do.
+
+1723
+01:15:18,819 --> 01:15:21,039
+Okay? That's really
+what happened.
+
+1724
+01:15:21,039 --> 01:15:22,619
+So you need to see
+this kind of trends to
+
+1725
+01:15:22,619 --> 01:15:25,079
+understand how the
+technology will evolve.
+
+1726
+01:15:25,079 --> 01:15:27,859
+Oh that's also why
+flash attention succeed
+
+1727
+01:15:27,859 --> 01:15:30,079
+at the end because
+at some point,
+
+1728
+01:15:30,079 --> 01:15:32,639
+there's a guy who invented
+this algorithm and it
+
+1729
+01:15:32,639 --> 01:15:35,579
+rate pretty sophisticated
+kernel just for attention,
+
+1730
+01:15:35,579 --> 01:15:36,919
+other attention so fast
+
+1731
+01:15:36,919 --> 01:15:39,079
+that every compeller
+cannot compete.
+
+1732
+01:15:39,079 --> 01:15:41,759
+Indeed, a compiler can provide
+
+1733
+01:15:41,759 --> 01:15:43,639
+values for different
+operator, but I don't care.
+
+1734
+01:15:43,639 --> 01:15:45,539
+I only hear about flashing
+teaching today, right?
+
+1735
+01:15:45,539 --> 01:15:47,679
+Yeah. That's why.
+That's my argument.
+
+1736
+01:15:47,679 --> 01:15:49,419
+But you can figure out
+about yourself, okay?
+
+1737
+01:15:49,419 --> 01:15:51,959
+Uh, I want to foster this
+discussion between you guys.
+
+1738
+01:15:51,959 --> 01:15:54,259
+So maybe you can
+predict next thing.
+
+1739
+01:15:54,259 --> 01:15:55,979
+For example, for
+me, as a faculty,
+
+1740
+01:15:55,979 --> 01:15:57,659
+I'm trying to figure out what is
+
+1741
+01:15:57,659 --> 01:15:58,539
+the next thing I should work
+
+1742
+01:15:58,539 --> 01:15:59,679
+on because if I work on that,
+
+1743
+01:15:59,679 --> 01:16:02,059
+if I buy the right thing, maybe
+I can even something like
+
+1744
+01:16:02,059 --> 01:16:06,219
+a flash and people will
+basically, uh maximizes usage.
+
+1745
+01:16:06,219 --> 01:16:09,499
+Okay? Cool. Uh lastly,
+
+1746
+01:16:09,499 --> 01:16:12,659
+we have this guest speaker
+who is coming next Thursday.
+
+1747
+01:16:12,659 --> 01:16:14,839
+Uh, If you slightly
+
+1748
+01:16:14,839 --> 01:16:16,119
+into machinery system,
+
+1749
+01:16:16,119 --> 01:16:17,579
+you probably see
+this phase, right.
+
+1750
+01:16:17,579 --> 01:16:19,539
+His name is Chen Chen
+
+1751
+01:16:19,539 --> 01:16:22,579
+and I call him the
+GOAT marcheing system.
+
+1752
+01:16:22,579 --> 01:16:24,479
+The best one, yeah,
+the only best one.
+
+1753
+01:16:24,479 --> 01:16:29,139
+Okay. And he invented
+this three frameworks,
+
+1754
+01:16:29,139 --> 01:16:30,879
+probably many of you
+have used, right?
+
+1755
+01:16:30,879 --> 01:16:32,679
+X Boost TAM.
+
+1756
+01:16:32,679 --> 01:16:35,399
+And today he's
+working on MLC IM.
+
+1757
+01:16:35,399 --> 01:16:37,579
+MLC stands for
+marchearing compilation.
+
+1758
+01:16:37,579 --> 01:16:41,959
+Okay. And the date
+is February 6.
+
+1759
+01:16:41,959 --> 01:16:44,559
+Okay, cool. That's
+all I have today.
+
+1760
+01:16:44,559 --> 01:16:48,699
+And next lecture, we are
+going to touch runtime. Okay.

@@ -1,0 +1,7631 @@
+1
+00:00:41,850 --> 00:00:44,710
+Okay. Thanks for coming.
+
+2
+00:00:44,710 --> 00:00:48,570
+Yeah, let's resume.
+Logistic update.
+
+3
+00:00:48,570 --> 00:00:51,710
+Next lecture, Thursday, we'll
+have our guest speaker,
+
+4
+00:00:51,710 --> 00:00:55,310
+you don't have to be here,
+just go attend on Zoom,
+
+5
+00:00:55,310 --> 00:00:58,889
+our speaker was, in my opinion,
+
+6
+00:00:58,889 --> 00:01:03,810
+the only guy that is truly
+doing open language models.
+
+7
+00:01:03,810 --> 00:01:05,229
+Because you know, there's
+
+8
+00:01:05,229 --> 00:01:08,269
+a strong debate in the
+language model community.
+
+9
+00:01:08,269 --> 00:01:10,570
+What do you define by open?
+
+10
+00:01:10,570 --> 00:01:13,790
+What do you mean
+by open? Like if
+
+11
+00:01:13,790 --> 00:01:15,969
+you release language
+model weights,
+
+12
+00:01:15,969 --> 00:01:17,549
+you can call it open Ws,
+
+13
+00:01:17,549 --> 00:01:18,989
+but you cannot call
+it open source. Why?
+
+14
+00:01:18,989 --> 00:01:22,995
+Because people cannot
+reproduce with with compute.
+
+15
+00:01:22,995 --> 00:01:27,019
+You how to release your data,
+your infrastructure, uh,
+
+16
+00:01:27,019 --> 00:01:28,480
+your training recipe, and
+
+17
+00:01:28,480 --> 00:01:32,199
+your weights so
+people can reproduce.
+
+18
+00:01:32,199 --> 00:01:34,499
+So on Thursday, our speaker
+
+19
+00:01:34,499 --> 00:01:37,799
+is a guy who basically
+release everything, okay?
+
+20
+00:01:37,799 --> 00:01:42,079
+Weights, data, um,
+infrastructure,
+
+21
+00:01:42,079 --> 00:01:45,459
+code checkpoints,
+every checkpoint.
+
+22
+00:01:45,459 --> 00:01:47,660
+That's why the project
+is called RM 360,
+
+23
+00:01:47,660 --> 00:01:50,620
+because they release
+60 checkpoints
+
+24
+00:01:50,620 --> 00:01:52,539
+for you to reproduce, okay?
+
+25
+00:01:52,539 --> 00:01:55,780
+And you guys after
+listening to his talk,
+
+26
+00:01:55,780 --> 00:01:59,060
+you can think about
+what is so what
+
+27
+00:01:59,060 --> 00:02:03,479
+is basically RM thing is
+going in open source.
+
+28
+00:02:03,479 --> 00:02:06,459
+So should we embrace
+close models
+
+29
+00:02:06,459 --> 00:02:10,040
+like open eyes or should
+we embrace open model?
+
+30
+00:02:10,040 --> 00:02:15,589
+Yeah, think about that.
+Okay. Um, let's come back.
+
+31
+00:02:15,589 --> 00:02:18,350
+I think, last Thursday,
+
+32
+00:02:18,350 --> 00:02:21,049
+we talked about connective
+communication, right?
+
+33
+00:02:21,049 --> 00:02:24,969
+And I think we somehow
+arrive here, right?
+
+34
+00:02:24,969 --> 00:02:27,629
+So we connect connective
+communication
+
+35
+00:02:27,629 --> 00:02:29,910
+with our machine
+learning parallelisms,
+
+36
+00:02:29,910 --> 00:02:31,789
+right, especially intra parism.
+
+37
+00:02:31,789 --> 00:02:36,070
+And we find that in machine
+learning parallelism,
+
+38
+00:02:36,070 --> 00:02:37,969
+we have to do this
+kind of recharting
+
+39
+00:02:37,969 --> 00:02:41,370
+and the cost of recharging
+is essentially connective.
+
+40
+00:02:41,370 --> 00:02:42,889
+And depending on how you do
+
+41
+00:02:42,889 --> 00:02:45,590
+recharting you switch from role
+
+42
+00:02:45,590 --> 00:02:47,469
+pating common parting
+or you switch
+
+43
+00:02:47,469 --> 00:02:49,850
+from replicated to row patting,
+
+44
+00:02:49,850 --> 00:02:51,089
+you are going to have
+
+45
+00:02:51,089 --> 00:02:53,389
+different sorts of
+connective, right?
+
+46
+00:02:53,389 --> 00:02:58,430
+So here, if you
+switch from sorry.
+
+47
+00:02:59,240 --> 00:03:02,499
+If you switch from
+parts to replicate it,
+
+48
+00:03:02,499 --> 00:03:05,360
+you have to do or gather
+right across two devices.
+
+49
+00:03:05,360 --> 00:03:06,799
+And this is a partial sum.
+
+50
+00:03:06,799 --> 00:03:09,079
+I think in last week,
+I missed this part,
+
+51
+00:03:09,079 --> 00:03:11,019
+but I added here.
+
+52
+00:03:11,019 --> 00:03:12,719
+So if you want to switch it from
+
+53
+00:03:12,719 --> 00:03:14,519
+partial sum to replicated,
+
+54
+00:03:14,519 --> 00:03:16,159
+you have to do or reduce, right?
+
+55
+00:03:16,159 --> 00:03:18,399
+Okay. So basically,
+
+56
+00:03:18,399 --> 00:03:19,940
+we connect connective
+communication
+
+57
+00:03:19,940 --> 00:03:21,379
+with machinery partisms.
+
+58
+00:03:21,379 --> 00:03:24,719
+Okay. Next, I'm
+going to so we are
+
+59
+00:03:24,719 --> 00:03:27,939
+going to talk about all
+sorts of pisms and we
+
+60
+00:03:27,939 --> 00:03:29,919
+are going to put this in
+practice because I think I have
+
+61
+00:03:29,919 --> 00:03:32,319
+spent enough time to give
+
+62
+00:03:32,319 --> 00:03:34,279
+you to give you
+
+63
+00:03:34,279 --> 00:03:37,339
+an understanding of pism
+at a very abstract level,
+
+64
+00:03:37,339 --> 00:03:39,700
+and now I'm going to
+put it into practice.
+
+65
+00:03:39,700 --> 00:03:42,159
+Okay? I'm going to
+ground this with
+
+66
+00:03:42,159 --> 00:03:43,479
+all different papers like people
+
+67
+00:03:43,479 --> 00:03:45,540
+publish and people
+use tree models.
+
+68
+00:03:45,540 --> 00:03:47,860
+Okay, we are going to
+start with data parism.
+
+69
+00:03:47,860 --> 00:03:50,159
+Why? You're probably
+wondering why because,
+
+70
+00:03:50,159 --> 00:03:51,899
+like I said, data partism is
+
+71
+00:03:51,899 --> 00:03:54,579
+just a special case of
+intra partism, right?
+
+72
+00:03:54,579 --> 00:03:56,099
+But I still want to spend
+
+73
+00:03:56,099 --> 00:03:58,289
+some dedicate time on
+data pism because,
+
+74
+00:03:58,289 --> 00:04:01,119
+first, it is one of the
+most adopted one, right?
+
+75
+00:04:01,119 --> 00:04:04,460
+Because no matter what kind
+of pism you are going to use,
+
+76
+00:04:04,460 --> 00:04:06,280
+you always have data parism.
+
+77
+00:04:06,280 --> 00:04:08,479
+Second, as you know,
+
+78
+00:04:08,479 --> 00:04:10,539
+big model is just
+a recent thing.
+
+79
+00:04:10,539 --> 00:04:14,059
+Before 2020, I don't think
+the models are that big,
+
+80
+00:04:14,900 --> 00:04:17,239
+the motivation for motoparism
+
+81
+00:04:17,239 --> 00:04:18,679
+is because we want
+to train big models.
+
+82
+00:04:18,679 --> 00:04:20,740
+Our memory is insufficient.
+
+83
+00:04:20,740 --> 00:04:23,280
+But you need to
+remember in many cases,
+
+84
+00:04:23,280 --> 00:04:24,859
+we have a small enough model
+
+85
+00:04:24,859 --> 00:04:26,580
+that we can fit into one TPU.
+
+86
+00:04:26,580 --> 00:04:28,679
+In that case, we
+probably don't pursue
+
+87
+00:04:28,679 --> 00:04:31,019
+any sort of motparism because
+it's too complicated.
+
+88
+00:04:31,019 --> 00:04:32,560
+We want something as simple,
+
+89
+00:04:32,560 --> 00:04:34,480
+datapoism is really simple,
+
+90
+00:04:34,480 --> 00:04:36,140
+it can guarantee to give you
+
+91
+00:04:36,140 --> 00:04:38,990
+pretty good performance
+on scaling up.
+
+92
+00:04:38,990 --> 00:04:42,459
+Okay, to review a
+little bit on history.
+
+93
+00:04:42,459 --> 00:04:44,980
+So basically 2012-2016, that's
+
+94
+00:04:44,980 --> 00:04:48,940
+when Diplnary networks become
+very, um, popular, right?
+
+95
+00:04:48,940 --> 00:04:51,499
+And we actually, in this paper,
+
+96
+00:04:51,499 --> 00:04:55,119
+which is published by
+Jeff Dino, from Google.
+
+97
+00:04:55,119 --> 00:04:57,020
+And they basically build this,
+
+98
+00:04:57,020 --> 00:05:00,779
+um, um, framework
+called disbelief.
+
+99
+00:05:00,779 --> 00:05:02,720
+That is the first kind of,
+
+100
+00:05:02,720 --> 00:05:05,700
+um, distributed system for
+
+101
+00:05:05,700 --> 00:05:07,419
+training neural networks, okay?
+
+102
+00:05:07,419 --> 00:05:10,279
+And the palism that is adopted
+
+103
+00:05:10,279 --> 00:05:12,379
+the primary palism
+that is adopted in
+
+104
+00:05:12,379 --> 00:05:14,580
+the system is basically
+data pism, okay?
+
+105
+00:05:14,580 --> 00:05:17,755
+It's very early, like
+more than 15 years.
+
+106
+00:05:17,755 --> 00:05:22,550
+Okay. And since that paper,
+
+107
+00:05:22,550 --> 00:05:23,410
+I think a lot of people
+
+108
+00:05:23,410 --> 00:05:25,069
+basically in the
+margining community,
+
+109
+00:05:25,069 --> 00:05:26,829
+Machine learning
+plus Pism community,
+
+110
+00:05:26,829 --> 00:05:28,190
+they are basically just
+
+111
+00:05:28,190 --> 00:05:30,050
+studying datapoism
+because like I said,
+
+112
+00:05:30,050 --> 00:05:32,310
+the multipoism is not necessary
+at that moment, okay?
+
+113
+00:05:32,310 --> 00:05:33,829
+So people have invented a lot of
+
+114
+00:05:33,829 --> 00:05:35,790
+techniques to make data
+parison better, okay?
+
+115
+00:05:35,790 --> 00:05:37,910
+And we are going to
+talk about that.
+
+116
+00:05:38,630 --> 00:05:41,010
+And then you probably know
+
+117
+00:05:41,010 --> 00:05:42,750
+in 2016, Petrog was out, right?
+
+118
+00:05:42,750 --> 00:05:45,249
+And the first partism
+that is added into Petrot
+
+119
+00:05:45,249 --> 00:05:46,430
+is also data partism
+
+120
+00:05:46,430 --> 00:05:48,350
+because that has the
+most user, okay?
+
+121
+00:05:48,350 --> 00:05:51,010
+And if you look at
+this piece of code,
+
+122
+00:05:51,010 --> 00:05:52,489
+um, you'll probably notice
+
+123
+00:05:52,489 --> 00:05:54,449
+this interface which
+is super familiar,
+
+124
+00:05:54,449 --> 00:05:57,449
+DDP distributed data
+parlo It is basically
+
+125
+00:05:57,449 --> 00:06:01,009
+data per data pismimplementation
+in, uh, in Petrich.
+
+126
+00:06:01,009 --> 00:06:03,470
+And, I already told you
+in my previous lecture,
+
+127
+00:06:03,470 --> 00:06:05,770
+this DDP behind the scene
+is basically or use.
+
+128
+00:06:05,770 --> 00:06:08,590
+I performs on use, okay?
+
+129
+00:06:10,820 --> 00:06:14,120
+Yeah, this interface
+is pretty good right.
+
+130
+00:06:14,120 --> 00:06:17,160
+That is, I think what Piper
+team did pretty well.
+
+131
+00:06:17,160 --> 00:06:18,839
+So what you need to
+do is essentially
+
+132
+00:06:18,839 --> 00:06:20,319
+you just wrap your
+model with GDP
+
+133
+00:06:20,319 --> 00:06:24,700
+and it automatically
+becomes data Parod, okay?
+
+134
+00:06:25,570 --> 00:06:28,430
+And at some point, I think,
+
+135
+00:06:28,430 --> 00:06:31,289
+we also have a lot of
+open source frameworks
+
+136
+00:06:31,289 --> 00:06:32,450
+that is trying to
+
+137
+00:06:32,450 --> 00:06:34,150
+optimize the
+communication and in
+
+138
+00:06:34,150 --> 00:06:36,190
+data partism
+essentially optimizing,
+
+139
+00:06:36,190 --> 00:06:39,530
+um, uh, D make allds fast.
+
+140
+00:06:39,530 --> 00:06:41,690
+I think that's part of
+your homework, okay?
+
+141
+00:06:41,690 --> 00:06:45,070
+And you've probably
+already known this right.
+
+142
+00:06:45,070 --> 00:06:47,530
+This is early interpretation
+of data partism
+
+143
+00:06:47,530 --> 00:06:48,770
+where we have four ranks and
+
+144
+00:06:48,770 --> 00:06:50,349
+we basically reduce
+their results,
+
+145
+00:06:50,349 --> 00:06:51,889
+reduce their gradients, okay?
+
+146
+00:06:51,889 --> 00:06:53,230
+Now, if you look at this, it's
+
+147
+00:06:53,230 --> 00:06:54,750
+pretty simple because I'll give
+
+148
+00:06:54,750 --> 00:06:55,989
+you a deeper interpretation of
+
+149
+00:06:55,989 --> 00:06:57,809
+partism which is
+intra and inter.
+
+150
+00:06:57,809 --> 00:07:01,729
+Okay. Um to put this
+into context, okay?
+
+151
+00:07:01,729 --> 00:07:03,195
+So what is data partism?
+
+152
+00:07:03,195 --> 00:07:04,800
+Like I said, data partism is
+
+153
+00:07:04,800 --> 00:07:06,580
+essentially a special case of
+
+154
+00:07:06,580 --> 00:07:08,259
+opt partism let's use
+
+155
+00:07:08,259 --> 00:07:11,180
+our interpretation to
+interpret data partism.
+
+156
+00:07:11,180 --> 00:07:12,640
+So this is data partism.
+
+157
+00:07:12,640 --> 00:07:18,259
+I will let you look at this
+for maybe 20 seconds, okay?
+
+158
+00:07:34,020 --> 00:07:37,660
+Okay. Yeah. I think if you
+just look at this part,
+
+159
+00:07:37,660 --> 00:07:39,120
+it's very easy, right?
+
+160
+00:07:39,120 --> 00:07:42,540
+And we have been going through
+this many, many times.
+
+161
+00:07:42,540 --> 00:07:44,120
+So this is the forward part of
+
+162
+00:07:44,120 --> 00:07:45,919
+this graph, single layer MLP.
+
+163
+00:07:45,919 --> 00:07:47,359
+Sorry, two layers MLP.
+
+164
+00:07:47,359 --> 00:07:49,740
+Okay. And this part
+
+165
+00:07:49,740 --> 00:07:51,760
+is this data part, how
+we explain many times.
+
+166
+00:07:51,760 --> 00:07:53,919
+What do we do is basically
+we do parti in the data.
+
+167
+00:07:53,919 --> 00:07:56,380
+Right. We parting the
+batch di machine.
+
+168
+00:07:56,380 --> 00:07:59,479
+We replicate it to
+with trainable width,
+
+169
+00:07:59,479 --> 00:08:00,659
+and then we just forward
+
+170
+00:08:00,659 --> 00:08:02,099
+all the way through
+the new network.
+
+171
+00:08:02,099 --> 00:08:04,900
+So there's no communication
+in any of this arrow.
+
+172
+00:08:04,900 --> 00:08:07,120
+Why? Because there's
+no resharing, right?
+
+173
+00:08:07,120 --> 00:08:10,839
+Every time when we compute
+the sharing mechanism agree,
+
+174
+00:08:10,839 --> 00:08:13,559
+okay, between two devices,
+between two operators.
+
+175
+00:08:13,559 --> 00:08:16,699
+Um, but I add a little
+bit more complexity.
+
+176
+00:08:16,699 --> 00:08:19,120
+That is, I also draw
+the Bro graph, okay?
+
+177
+00:08:19,120 --> 00:08:20,899
+The problem happens
+at the back graph.
+
+178
+00:08:20,899 --> 00:08:22,999
+So if we start developing
+the Bro graph,
+
+179
+00:08:22,999 --> 00:08:24,440
+this part is still good, right?
+
+180
+00:08:24,440 --> 00:08:25,819
+We still do partition.
+
+181
+00:08:25,819 --> 00:08:28,180
+That is once we have the loss,
+
+182
+00:08:28,180 --> 00:08:30,959
+wegate the loss through
+the neural network.
+
+183
+00:08:30,959 --> 00:08:32,819
+So we still like
+
+184
+00:08:32,819 --> 00:08:36,300
+compute only on that
+designated batch device, okay?
+
+185
+00:08:36,300 --> 00:08:37,780
+But the problem is when we start
+
+186
+00:08:37,780 --> 00:08:39,560
+aggregating the gradients,
+
+187
+00:08:39,560 --> 00:08:43,759
+we find that there is a
+problem that is this part,
+
+188
+00:08:43,759 --> 00:08:45,369
+right, and this part.
+
+189
+00:08:45,369 --> 00:08:47,980
+Okay. So when we
+start aggregating
+
+190
+00:08:47,980 --> 00:08:49,480
+gradits we find that E device
+
+191
+00:08:49,480 --> 00:08:51,839
+only have a partial
+gradient, right?
+
+192
+00:08:51,880 --> 00:08:56,380
+But what we need is
+we need each device
+
+193
+00:08:56,380 --> 00:08:58,219
+to have a replica gradient so we
+
+194
+00:08:58,219 --> 00:09:00,659
+can apply the gradients
+to the parameters.
+
+195
+00:09:00,659 --> 00:09:03,699
+So you already know what
+happens here, right?
+
+196
+00:09:03,699 --> 00:09:05,859
+Or reduce Okay?
+
+197
+00:09:05,859 --> 00:09:07,759
+Yeah. I hope this interpretation
+
+198
+00:09:07,759 --> 00:09:09,180
+makes this super
+easy to understand.
+
+199
+00:09:09,180 --> 00:09:11,980
+Okay. And after you
+apply the gradings,
+
+200
+00:09:11,980 --> 00:09:14,720
+you basically have a
+new copy of weights,
+
+201
+00:09:14,720 --> 00:09:16,460
+which are replicated
+across two devices,
+
+202
+00:09:16,460 --> 00:09:17,680
+and you basically substite here,
+
+203
+00:09:17,680 --> 00:09:19,399
+you assign to here,
+and you are good.
+
+204
+00:09:19,399 --> 00:09:21,180
+You start next generation.
+
+205
+00:09:21,180 --> 00:09:24,140
+Okay. Any questions
+about this graph?
+
+206
+00:09:24,140 --> 00:09:26,819
+Cool, very good. And
+we're going to do this a
+
+207
+00:09:26,819 --> 00:09:29,019
+lot in following
+Multi pari section.
+
+208
+00:09:29,019 --> 00:09:31,579
+Okay? So then you
+
+209
+00:09:31,579 --> 00:09:34,539
+can actually spot that
+the key change here,
+
+210
+00:09:34,539 --> 00:09:37,100
+compared to without pitism,
+
+211
+00:09:37,100 --> 00:09:38,360
+the key change of data parism
+
+212
+00:09:38,360 --> 00:09:40,320
+basically how we
+implement this prior,
+
+213
+00:09:40,320 --> 00:09:41,780
+how we implement this dice,
+
+214
+00:09:41,780 --> 00:09:44,119
+how we implement a
+very efficient way.
+
+215
+00:09:44,119 --> 00:09:46,400
+Because otherwise, all
+the rest is basically
+
+216
+00:09:46,400 --> 00:09:49,179
+data flow graph execution,
+nothing changes, right?
+
+217
+00:09:49,179 --> 00:09:51,709
+Okay. So how do we
+implement this?
+
+218
+00:09:51,709 --> 00:09:53,779
+Like I said, it's
+all reduced, but d
+
+219
+00:09:53,779 --> 00:09:56,460
+has um many ways
+to make it fast.
+
+220
+00:09:56,460 --> 00:09:58,719
+Okay? So in history,
+
+221
+00:09:58,719 --> 00:10:00,359
+there are two ways
+to implement this.
+
+222
+00:10:00,359 --> 00:10:02,260
+The first is a
+very famous paper.
+
+223
+00:10:02,260 --> 00:10:03,659
+I would say the first,
+
+224
+00:10:03,659 --> 00:10:06,640
+like a famous machine paper
+is called primary server.
+
+225
+00:10:06,640 --> 00:10:09,219
+Okay? The second way
+essentially all reduced.
+
+226
+00:10:09,219 --> 00:10:13,219
+Okay? Let's talk about
+primary server first. Okay?
+
+227
+00:10:13,219 --> 00:10:15,740
+So in primary server, um,
+
+228
+00:10:15,740 --> 00:10:17,160
+but for both implementation,
+
+229
+00:10:17,160 --> 00:10:21,279
+I think they how to respect
+um the key assumption of
+
+230
+00:10:21,279 --> 00:10:23,560
+data parism that is the
+model parameters can't fit
+
+231
+00:10:23,560 --> 00:10:27,329
+into EDS, you can
+do that replica.
+
+232
+00:10:27,329 --> 00:10:30,859
+Okay, so for primary
+server, um, actually,
+
+233
+00:10:30,859 --> 00:10:32,439
+the primary server
+comes much earlier
+
+234
+00:10:32,439 --> 00:10:35,260
+than like any parallelism.
+
+235
+00:10:35,260 --> 00:10:39,179
+Why? Because it comes even
+earlier than neur networks.
+
+236
+00:10:39,179 --> 00:10:41,259
+Why? Because primary server was
+
+237
+00:10:41,259 --> 00:10:44,000
+invented for doing
+distributed grading descent.
+
+238
+00:10:44,000 --> 00:10:46,360
+Okay. But, you know,
+before neural network,
+
+239
+00:10:46,360 --> 00:10:48,039
+we already have grading descent.
+
+240
+00:10:48,039 --> 00:10:49,519
+We can use grading
+descent to optimize
+
+241
+00:10:49,519 --> 00:10:51,519
+many other kinds
+of models, right?
+
+242
+00:10:51,519 --> 00:10:53,480
+So I want to basically um
+
+243
+00:10:53,480 --> 00:10:54,900
+change your mindset
+a little bit.
+
+244
+00:10:54,900 --> 00:10:57,099
+Now, let's look at grading
+descent instead neuralnetwork.
+
+245
+00:10:57,099 --> 00:10:59,500
+Okay. Now, this model
+can be anything.
+
+246
+00:10:59,500 --> 00:11:01,479
+And if you look at
+grading descent,
+
+247
+00:11:01,479 --> 00:11:03,360
+right, this is the equation.
+
+248
+00:11:03,360 --> 00:11:04,740
+I said it's master equation.
+
+249
+00:11:04,740 --> 00:11:08,299
+And here, compared to the
+previous master equation,
+
+250
+00:11:08,299 --> 00:11:11,884
+what I did is I basically
+add add this sum, right.
+
+251
+00:11:11,884 --> 00:11:13,870
+Okay. So what's the difference?
+
+252
+00:11:13,870 --> 00:11:15,189
+So in my previous writing,
+
+253
+00:11:15,189 --> 00:11:17,270
+I don't have the sum, so
+I only have one worker.
+
+254
+00:11:17,270 --> 00:11:19,510
+So here P is a worker index.
+
+255
+00:11:19,510 --> 00:11:22,010
+Okay, I have capital P workers.
+
+256
+00:11:22,010 --> 00:11:24,990
+So in my previous so
+called mass equation,
+
+257
+00:11:24,990 --> 00:11:26,889
+I just have one worker to
+
+258
+00:11:26,889 --> 00:11:29,230
+work on that batch data
+and derived gradients.
+
+259
+00:11:29,230 --> 00:11:31,209
+But now what I do
+is I add a sum.
+
+260
+00:11:31,209 --> 00:11:32,909
+That is, I have multiple
+workers to work on
+
+261
+00:11:32,909 --> 00:11:34,529
+different batiel data to
+
+262
+00:11:34,529 --> 00:11:36,470
+perform other
+gradients in parallel.
+
+263
+00:11:36,470 --> 00:11:37,690
+And at some point,
+
+264
+00:11:37,690 --> 00:11:39,390
+I'm going to aggregate
+their gradients,
+
+265
+00:11:39,390 --> 00:11:41,069
+and then I apply the update.
+
+266
+00:11:41,069 --> 00:11:43,149
+Okay? This is the
+primary server.
+
+267
+00:11:43,149 --> 00:11:44,349
+Uh, the reason is called
+
+268
+00:11:44,349 --> 00:11:45,809
+primary server
+because you can see,
+
+269
+00:11:45,809 --> 00:11:48,150
+this is a parameter, and
+this is a gradients.
+
+270
+00:11:48,150 --> 00:11:49,909
+So you can basically invent
+
+271
+00:11:49,909 --> 00:11:51,269
+a distributed system
+where you put
+
+272
+00:11:51,269 --> 00:11:53,090
+the parameters at some server.
+
+273
+00:11:53,090 --> 00:11:56,230
+You have a lot of workers
+to perform this update.
+
+274
+00:11:56,230 --> 00:11:57,969
+And once they have
+the gradients,
+
+275
+00:11:57,969 --> 00:11:59,450
+those worker is going to send
+
+276
+00:11:59,450 --> 00:12:01,029
+the gradients to the server.
+
+277
+00:12:01,029 --> 00:12:02,750
+And the server will aggregate
+
+278
+00:12:02,750 --> 00:12:04,990
+gradients and then
+apply updates,
+
+279
+00:12:04,990 --> 00:12:07,109
+get a new version of
+parameter and send it back.
+
+280
+00:12:07,109 --> 00:12:10,810
+It's like doing a traditional
+distribute system,
+
+281
+00:12:10,810 --> 00:12:13,430
+right, a server work archicture
+call server archiecture.
+
+282
+00:12:13,430 --> 00:12:15,509
+Okay. Itis is pretty
+natural, right,
+
+283
+00:12:15,509 --> 00:12:17,230
+because if you look
+at this equation,
+
+284
+00:12:17,230 --> 00:12:18,849
+you just want to
+build that system.
+
+285
+00:12:18,849 --> 00:12:21,365
+You think that system
+is pretty good, okay?
+
+286
+00:12:21,365 --> 00:12:24,539
+Um, and there are two key,
+
+287
+00:12:24,539 --> 00:12:26,800
+um, assumptions about
+primary server.
+
+288
+00:12:26,800 --> 00:12:29,419
+That is, it assumes that
+the communication is very
+
+289
+00:12:29,419 --> 00:12:33,239
+heavy and the compute to
+communication ratio is 1210.
+
+290
+00:12:33,239 --> 00:12:34,579
+So I will explain this later.
+
+291
+00:12:34,579 --> 00:12:40,030
+Okay but remember this. And
+to put this illustration,
+
+292
+00:12:40,030 --> 00:12:41,570
+so basically, this is
+the primary server.
+
+293
+00:12:41,570 --> 00:12:43,230
+Okay? You can see there's a PS
+
+294
+00:12:43,230 --> 00:12:44,630
+which is the parameter server,
+
+295
+00:12:44,630 --> 00:12:47,410
+centralized server, where
+you home manual workers.
+
+296
+00:12:47,410 --> 00:12:49,330
+And each worker basically
+take a batch of data
+
+297
+00:12:49,330 --> 00:12:51,810
+and compute the gradient.
+
+298
+00:12:51,810 --> 00:12:54,669
+And then once the gradient
+is ready here, right,
+
+299
+00:12:54,669 --> 00:12:58,049
+each worker is going to send
+the gradient to server.
+
+300
+00:12:58,049 --> 00:13:00,570
+Okay, server aggregate
+updated parameter and then
+
+301
+00:13:00,570 --> 00:13:01,650
+send this new parameter
+
+302
+00:13:01,650 --> 00:13:03,570
+back and then start
+next iteration.
+
+303
+00:13:03,570 --> 00:13:06,170
+Okay? This is pretty easy.
+
+304
+00:13:06,170 --> 00:13:09,090
+So what's the problem
+with this architecture?
+
+305
+00:13:14,450 --> 00:13:20,630
+Anyone want to answer? Yeah.
+
+306
+00:13:20,630 --> 00:13:23,970
+I guess there's
+one. Yeah, exactly.
+
+307
+00:13:23,970 --> 00:13:26,929
+So you can see the
+primary server becomes
+
+308
+00:13:26,929 --> 00:13:29,710
+a centralized server
+where it needs
+
+309
+00:13:29,710 --> 00:13:32,430
+to receive all the
+kind of parameters,
+
+310
+00:13:32,430 --> 00:13:34,109
+which means that
+you have to have
+
+311
+00:13:34,109 --> 00:13:36,810
+a very strong server to
+receive for many workers.
+
+312
+00:13:36,810 --> 00:13:38,709
+Is communication
+is four times with
+
+313
+00:13:38,709 --> 00:13:41,050
+other workers, in this
+figure four times.
+
+314
+00:13:41,050 --> 00:13:43,529
+But you can imagine, there
+are many many workers.
+
+315
+00:13:43,529 --> 00:13:46,949
+Then, this primary
+server becomes,
+
+316
+00:13:46,949 --> 00:13:49,530
+bottleneck. It
+will be very slow.
+
+317
+00:13:49,530 --> 00:13:51,450
+Second, this primary server
+
+318
+00:13:51,450 --> 00:13:53,269
+can be a single point failure.
+
+319
+00:13:53,269 --> 00:13:55,309
+Like if this primary
+server failed,
+
+320
+00:13:55,309 --> 00:13:57,669
+then we lose our parameters,
+
+321
+00:13:57,669 --> 00:14:00,129
+lose our gradients, we
+need to restart. Okay.
+
+322
+00:14:00,129 --> 00:14:01,790
+This is apparently not syllable.
+
+323
+00:14:01,790 --> 00:14:03,469
+But before I present to you,
+
+324
+00:14:03,469 --> 00:14:05,689
+better architectural
+primary serve,
+
+325
+00:14:05,689 --> 00:14:08,310
+uh, I want to basically
+connect this with connective.
+
+326
+00:14:08,310 --> 00:14:09,829
+So if you look at this one,
+
+327
+00:14:09,829 --> 00:14:11,550
+uh, you just think
+about communication.
+
+328
+00:14:11,550 --> 00:14:13,089
+So what is the
+communication? Like I said,
+
+329
+00:14:13,089 --> 00:14:15,029
+essentially they are
+doing or reduce, right?
+
+330
+00:14:15,029 --> 00:14:17,489
+But how this
+archiecture reduce or
+
+331
+00:14:17,489 --> 00:14:21,289
+reduce into different
+connectives.
+
+332
+00:14:27,530 --> 00:14:30,589
+So basically in question, we
+
+333
+00:14:30,589 --> 00:14:32,609
+basically decompose
+or reduce into two.
+
+334
+00:14:32,609 --> 00:14:34,669
+One is reduced to one.
+
+335
+00:14:34,669 --> 00:14:36,469
+That is, we reduce from workers
+
+336
+00:14:36,469 --> 00:14:39,230
+to server, and
+then we broadcast.
+
+337
+00:14:39,230 --> 00:14:40,850
+So like I said, in Max lecture,
+
+338
+00:14:40,850 --> 00:14:44,670
+all reduce equals to
+reduce plus broadcast.
+
+339
+00:14:44,670 --> 00:14:46,629
+Okay. Good, right?
+
+340
+00:14:46,629 --> 00:14:50,229
+So yeah, and this is the idea.
+
+341
+00:14:50,229 --> 00:14:53,110
+Okay. I try to connect primary
+server with connectives.
+
+342
+00:14:53,110 --> 00:14:55,069
+But like I said, primary S is
+
+343
+00:14:55,069 --> 00:14:56,509
+not scalable for a few reasons.
+
+344
+00:14:56,509 --> 00:14:59,289
+One is the primary server
+is a single point failure.
+
+345
+00:14:59,289 --> 00:15:00,509
+Secondly, the primary S is going
+
+346
+00:15:00,509 --> 00:15:02,190
+to become communication
+bottleneck.
+
+347
+00:15:02,190 --> 00:15:04,890
+So how we can do better?
+
+348
+00:15:07,730 --> 00:15:12,150
+So basically, we don't have
+to have a centralized server.
+
+349
+00:15:12,150 --> 00:15:13,710
+We can do a distributed server.
+
+350
+00:15:13,710 --> 00:15:16,269
+But we can further sharp
+the primary server into
+
+351
+00:15:16,269 --> 00:15:18,990
+different workers and each
+worker become a server,
+
+352
+00:15:18,990 --> 00:15:20,430
+but a share of the server.
+
+353
+00:15:20,430 --> 00:15:22,990
+Okay? So basically in reality,
+
+354
+00:15:22,990 --> 00:15:26,070
+what do we do is we do this
+kind of primary server.
+
+355
+00:15:26,070 --> 00:15:28,090
+Many we have many many nodes,
+
+356
+00:15:28,090 --> 00:15:29,710
+and some nodes are just servers
+
+357
+00:15:29,710 --> 00:15:31,390
+and some nodes are workers.
+
+358
+00:15:31,390 --> 00:15:34,590
+And in a more and more
+adopted case, more real case,
+
+359
+00:15:34,590 --> 00:15:35,550
+what do we do is basically we
+
+360
+00:15:35,550 --> 00:15:36,709
+let each node to be a server and
+
+361
+00:15:36,709 --> 00:15:39,290
+a worker. Does that make sense?
+
+362
+00:15:39,290 --> 00:15:42,850
+Okay. That each node is a
+server and the worker itself.
+
+363
+00:15:42,850 --> 00:15:45,810
+It will basically compute
+its own copy of ingredients,
+
+364
+00:15:45,810 --> 00:15:47,310
+but it will also store
+
+365
+00:15:47,310 --> 00:15:51,099
+the centralized shard of
+part of the parameter.
+
+366
+00:15:51,099 --> 00:15:53,990
+Okay. In that way,
+we basically address
+
+367
+00:15:53,990 --> 00:15:57,489
+that centralized
+failure problem, right?
+
+368
+00:15:57,489 --> 00:15:59,510
+Because now each
+node, each worker,
+
+369
+00:15:59,510 --> 00:16:02,550
+each GPO has a share
+of parameters,
+
+370
+00:16:02,550 --> 00:16:05,869
+and they need to basically
+play a role as a server.
+
+371
+00:16:05,869 --> 00:16:08,029
+They need to connect they
+need to reduce gradients
+
+372
+00:16:08,029 --> 00:16:10,510
+and and then
+broadcast gradients.
+
+373
+00:16:10,510 --> 00:16:12,810
+So all the bondaries all GPOs
+
+374
+00:16:12,810 --> 00:16:14,489
+and devices will be
+utilized, right?
+
+375
+00:16:14,489 --> 00:16:15,949
+So basically, we kind of, like,
+
+376
+00:16:15,949 --> 00:16:18,710
+distribute the server's job into
+
+377
+00:16:18,710 --> 00:16:24,189
+many many different devices
+like interconnect networks.
+
+378
+00:16:24,189 --> 00:16:27,489
+Okay. And if I do this,
+
+379
+00:16:27,489 --> 00:16:29,210
+think about in extreme case,
+
+380
+00:16:29,210 --> 00:16:31,469
+if basically the red nodes and
+
+381
+00:16:31,469 --> 00:16:34,229
+the pink blue nodes and
+
+382
+00:16:34,229 --> 00:16:36,450
+blue devices and
+the pink devices
+
+383
+00:16:36,450 --> 00:16:37,830
+are basically the same devices.
+
+384
+00:16:37,830 --> 00:16:41,509
+So each device is basically
+a server work itself,
+
+385
+00:16:41,509 --> 00:16:44,549
+then could you connect
+this to the connective?
+
+386
+00:16:44,549 --> 00:16:46,089
+So we are still doing,
+
+387
+00:16:46,089 --> 00:16:48,189
+but now we change a
+little bit, right?
+
+388
+00:16:48,189 --> 00:16:49,749
+So basically, it
+becomes we first
+
+389
+00:16:49,749 --> 00:16:51,990
+perform a reduced scatter
+across all nodes.
+
+390
+00:16:51,990 --> 00:16:53,970
+Because now each node
+
+391
+00:16:53,970 --> 00:16:55,960
+will hold one share
+of the parameters.
+
+392
+00:16:55,960 --> 00:16:57,649
+So each worker will hold
+
+393
+00:16:57,649 --> 00:16:59,370
+a whole copy of
+its own gradient,
+
+394
+00:16:59,370 --> 00:17:01,309
+which means that we have to let
+
+395
+00:17:01,309 --> 00:17:04,110
+each worker to send
+that shard of um,
+
+396
+00:17:04,110 --> 00:17:07,210
+gradients to server
+which holds that shard.
+
+397
+00:17:07,210 --> 00:17:09,609
+This is a reduced scatter.
+
+398
+00:17:09,609 --> 00:17:11,069
+And then after reduced scatter,
+
+399
+00:17:11,069 --> 00:17:13,310
+we have to get a new copy
+of the new parameter,
+
+400
+00:17:13,310 --> 00:17:15,269
+which is another gather.
+
+401
+00:17:15,269 --> 00:17:18,229
+Okay? So this interpretation
+
+402
+00:17:18,229 --> 00:17:19,989
+basically decompose or reduce
+
+403
+00:17:19,989 --> 00:17:22,329
+from the previous one that
+
+404
+00:17:22,329 --> 00:17:25,929
+is reduced broadcast into
+reduced scatter and orgater.
+
+405
+00:17:25,929 --> 00:17:27,909
+And you can see this one
+is much better because
+
+406
+00:17:27,909 --> 00:17:31,090
+it elevates the
+server bottleneck.
+
+407
+00:17:31,090 --> 00:17:34,189
+Okay. Any question
+about this one?
+
+408
+00:17:34,300 --> 00:17:37,039
+Each worker is a server,
+
+409
+00:17:37,039 --> 00:17:39,679
+doesn't that still mean
+that one worker fails?
+
+410
+00:17:39,679 --> 00:17:41,359
+Like partnership, right?
+
+411
+00:17:41,359 --> 00:17:42,779
+Yeah. Very good question.
+
+412
+00:17:42,779 --> 00:17:45,180
+Yeah. So each worker
+is still a server,
+
+413
+00:17:45,180 --> 00:17:46,859
+and if that worker failed,
+
+414
+00:17:46,859 --> 00:17:49,639
+then that shared parameter
+is going to be lost, right?
+
+415
+00:17:49,639 --> 00:17:52,319
+So what do we do is we a each
+worker to hold two shards,
+
+416
+00:17:52,319 --> 00:17:55,160
+a backup. In reality, yeah.
+
+417
+00:17:55,160 --> 00:17:57,239
+So you can reduce
+the probity that
+
+418
+00:17:57,239 --> 00:18:01,959
+like a shard basically completely
+get lost, right? Yeah.
+
+419
+00:18:01,959 --> 00:18:04,360
+Okay. Does that make sense?
+
+420
+00:18:04,360 --> 00:18:07,720
+Cool. Um, okay.
+
+421
+00:18:07,720 --> 00:18:09,380
+And then I'm going to
+tell you something
+
+422
+00:18:09,380 --> 00:18:11,119
+that is even deeper.
+
+423
+00:18:11,119 --> 00:18:13,439
+Okay. So if you
+look at this one,
+
+424
+00:18:13,439 --> 00:18:17,139
+right, from this
+speaker you can see,
+
+425
+00:18:17,139 --> 00:18:18,839
+no, we have a few workers,
+
+426
+00:18:18,839 --> 00:18:20,400
+and we have a primary server.
+
+427
+00:18:20,400 --> 00:18:22,639
+And what do we do is we
+
+428
+00:18:22,639 --> 00:18:24,639
+need to do a
+synchronization operation.
+
+429
+00:18:24,639 --> 00:18:26,439
+That is every time we
+
+430
+00:18:26,439 --> 00:18:29,100
+each worker finish the
+gradient calculation,
+
+431
+00:18:29,100 --> 00:18:30,899
+it has to send the gradient to
+
+432
+00:18:30,899 --> 00:18:33,839
+the server server aggregate
+that and send it back.
+
+433
+00:18:33,839 --> 00:18:35,639
+But in reality, this is not
+
+434
+00:18:35,639 --> 00:18:37,499
+always the case
+because you can have
+
+435
+00:18:37,499 --> 00:18:39,719
+different workers that probably
+
+436
+00:18:39,719 --> 00:18:41,680
+some worker will be slower
+than other workers.
+
+437
+00:18:41,680 --> 00:18:44,199
+You have stragglers
+in reality, right?
+
+438
+00:18:44,199 --> 00:18:47,199
+It could be due to power
+issue could be due to,
+
+439
+00:18:47,199 --> 00:18:49,159
+you have different
+kinds of GPUs or
+
+440
+00:18:49,159 --> 00:18:50,799
+just that program runs slower
+
+441
+00:18:50,799 --> 00:18:52,999
+than another program, right?
+
+442
+00:18:52,999 --> 00:18:54,839
+So in this case, you can see
+
+443
+00:18:54,839 --> 00:18:57,579
+this distribute system will
+become extremely slow, right,
+
+444
+00:18:57,579 --> 00:18:59,060
+because you have to synchronize
+
+445
+00:18:59,060 --> 00:19:00,739
+the gradients from all workers,
+
+446
+00:19:00,739 --> 00:19:03,219
+and the speed of iteration is
+
+447
+00:19:03,219 --> 00:19:06,325
+basically determined by the
+slowest worker in this group.
+
+448
+00:19:06,325 --> 00:19:09,130
+Okay. That's a big problem.
+
+449
+00:19:09,130 --> 00:19:12,050
+This will bring us into another,
+
+450
+00:19:12,050 --> 00:19:15,229
+I would say, very very
+active area of research.
+
+451
+00:19:15,229 --> 00:19:16,809
+That is people also study
+
+452
+00:19:16,809 --> 00:19:21,109
+consistency model for
+um primary servers.
+
+453
+00:19:21,109 --> 00:19:25,789
+How many of you know
+consistency model dist systems?
+
+454
+00:19:25,950 --> 00:19:29,130
+No. Basically, that
+is a consist model,
+
+455
+00:19:29,130 --> 00:19:30,610
+basic characterize
+when you should
+
+456
+00:19:30,610 --> 00:19:33,330
+synchronize your copy
+gradients in machinearn.
+
+457
+00:19:33,330 --> 00:19:35,569
+This figure give you an example.
+
+458
+00:19:35,569 --> 00:19:39,469
+You can see, I have three
+devices device A, B, and C,
+
+459
+00:19:39,469 --> 00:19:41,950
+EC device is a worker,
+
+460
+00:19:41,950 --> 00:19:43,910
+at some point, they
+need to communicate,
+
+461
+00:19:43,910 --> 00:19:45,830
+like I said, at the
+end of competition.
+
+462
+00:19:45,830 --> 00:19:48,629
+So here, I make a
+simplified assumption that
+
+463
+00:19:48,629 --> 00:19:52,230
+is every worker will
+basically never have a fault.
+
+464
+00:19:52,230 --> 00:19:53,790
+They will never make any error.
+
+465
+00:19:53,790 --> 00:19:55,469
+The program will run perfect on
+
+466
+00:19:55,469 --> 00:19:57,850
+every worker and everyone
+will run in the same pace.
+
+467
+00:19:57,850 --> 00:20:00,789
+Okay? So basically
+following above equation,
+
+468
+00:20:00,789 --> 00:20:02,409
+what do we do is every time
+
+469
+00:20:02,409 --> 00:20:04,809
+each worker will calculate
+the copy of gradients, right?
+
+470
+00:20:04,809 --> 00:20:06,430
+And then they will send
+
+471
+00:20:06,430 --> 00:20:07,590
+the gradits to the
+primary server,
+
+472
+00:20:07,590 --> 00:20:09,069
+and they will wait, right?
+
+473
+00:20:09,069 --> 00:20:10,550
+They will wait because
+they have to wait
+
+474
+00:20:10,550 --> 00:20:12,149
+for the next version of
+
+475
+00:20:12,149 --> 00:20:13,769
+parameter to be sent back to be
+
+476
+00:20:13,769 --> 00:20:16,110
+broadcast back from that
+server. So they will wait.
+
+477
+00:20:16,110 --> 00:20:19,630
+And this black bars
+basically wait.
+
+478
+00:20:19,630 --> 00:20:21,609
+It's called a global barrier.
+
+479
+00:20:21,609 --> 00:20:26,329
+Okay. And once all
+the workers finish,
+
+480
+00:20:26,329 --> 00:20:28,089
+receive the new
+copy of parameter,
+
+481
+00:20:28,089 --> 00:20:30,649
+they will basically commence
+the next iteration of
+
+482
+00:20:30,649 --> 00:20:33,530
+computer and they
+repeat, they will wait.
+
+483
+00:20:33,530 --> 00:20:36,450
+Okay? And this timeline
+looks pretty cool,
+
+484
+00:20:36,450 --> 00:20:39,009
+assuming that your
+class is perfect.
+
+485
+00:20:39,009 --> 00:20:41,030
+But in reality,
+that's not the case
+
+486
+00:20:41,030 --> 00:20:43,559
+because in you will see this.
+
+487
+00:20:43,559 --> 00:20:47,649
+Right? So device A is
+just slower than DSB.
+
+488
+00:20:47,649 --> 00:20:50,789
+USB is the fastest, but DVI
+A is a little bit faster.
+
+489
+00:20:50,789 --> 00:20:52,369
+And what you do is if you do
+
+490
+00:20:52,369 --> 00:20:54,249
+this kind of like
+a global barrier,
+
+491
+00:20:54,249 --> 00:20:56,509
+um, Device B,
+
+492
+00:20:56,509 --> 00:20:59,709
+finish basically using
+half of the time, right?
+
+493
+00:20:59,709 --> 00:21:02,809
+But device A, like I
+said, is super slow.
+
+494
+00:21:02,809 --> 00:21:05,669
+So basically, B and C how
+to wait for A, right?
+
+495
+00:21:05,669 --> 00:21:07,489
+Because they have to wait for
+
+496
+00:21:07,489 --> 00:21:09,249
+the server to aggregate
+
+497
+00:21:09,249 --> 00:21:11,869
+gradients and send the
+new parameter back.
+
+498
+00:21:11,869 --> 00:21:16,449
+Okay, you can see this is
+called it's called bubbles.
+
+499
+00:21:16,449 --> 00:21:17,729
+Like I said, it's bubbles.
+
+500
+00:21:17,729 --> 00:21:19,569
+It's bubbles in the
+tribute system.
+
+501
+00:21:19,569 --> 00:21:21,549
+And, so basically USB and
+
+502
+00:21:21,549 --> 00:21:24,289
+are wasting money, at this time.
+
+503
+00:21:24,289 --> 00:21:27,249
+Okay? And people have
+
+504
+00:21:27,249 --> 00:21:29,610
+this actually was pretty
+common before Neural Networks,
+
+505
+00:21:29,610 --> 00:21:30,809
+because before New Networks,
+
+506
+00:21:30,809 --> 00:21:33,790
+I think a lot of models they
+have so many parameters,
+
+507
+00:21:33,790 --> 00:21:35,589
+but they don't have a
+lot of communication
+
+508
+00:21:35,589 --> 00:21:38,389
+bandwidth you know,
+
+509
+00:21:38,389 --> 00:21:42,569
+back then in the area
+of Spark Maple produce,
+
+510
+00:21:42,569 --> 00:21:46,230
+people build clusters with a
+lot of heterogeneous nodes.
+
+511
+00:21:46,230 --> 00:21:48,090
+But heterogeneous,
+I mean, each node
+
+512
+00:21:48,090 --> 00:21:50,169
+has different kinds of
+CPU and GPU, right?
+
+513
+00:21:50,169 --> 00:21:52,349
+It's basically connection or
+
+514
+00:21:52,349 --> 00:21:54,989
+very diverse hardware setups
+
+515
+00:21:54,989 --> 00:21:58,969
+and each device can actually
+work with a different pace.
+
+516
+00:21:58,969 --> 00:22:00,450
+But today is different
+because today
+
+517
+00:22:00,450 --> 00:22:02,229
+now people are building kind of
+
+518
+00:22:02,229 --> 00:22:04,209
+supercomputing center where you
+
+519
+00:22:04,209 --> 00:22:06,709
+basically have the
+same type of GPU,
+
+520
+00:22:06,709 --> 00:22:08,670
+this problem is
+kind of elevated.
+
+521
+00:22:08,670 --> 00:22:11,765
+But back then, this
+is true, okay?
+
+522
+00:22:11,765 --> 00:22:13,999
+So what those people
+are thinking about
+
+523
+00:22:13,999 --> 00:22:16,500
+is how to basically reduce
+these kind of bubbles, okay?
+
+524
+00:22:16,500 --> 00:22:18,339
+How to reduce the
+bubbles. So basically,
+
+525
+00:22:18,339 --> 00:22:19,959
+you can see, this is
+the consistency, right?
+
+526
+00:22:19,959 --> 00:22:24,920
+This is called a strong
+consistency, like, BSP.
+
+527
+00:22:24,920 --> 00:22:30,139
+Okay? I think it's called a
+box synchronous consistency,
+
+528
+00:22:30,139 --> 00:22:32,019
+Which means that
+all workers have to
+
+529
+00:22:32,019 --> 00:22:35,020
+wait and how to be synchronized
+with the same pace.
+
+530
+00:22:35,020 --> 00:22:37,419
+But we can find something
+that's better, right.
+
+531
+00:22:37,419 --> 00:22:39,759
+Red we can relax this
+consistency a little bit.
+
+532
+00:22:39,759 --> 00:22:43,470
+So how to relax. Um,
+so why we can't relax?
+
+533
+00:22:43,470 --> 00:22:46,250
+Because think about
+what we are doing here.
+
+534
+00:22:46,250 --> 00:22:48,310
+So basically, every
+worker is computed copy
+
+535
+00:22:48,310 --> 00:22:50,429
+gradients and the serve is
+
+536
+00:22:50,429 --> 00:22:51,469
+trying to grade the gradients
+
+537
+00:22:51,469 --> 00:22:52,949
+and then perform a
+grading descent.
+
+538
+00:22:52,949 --> 00:22:54,910
+And we probably know
+that marcheering
+
+539
+00:22:54,910 --> 00:22:57,310
+programs they have a very
+nice characteristic.
+
+540
+00:22:57,310 --> 00:22:59,349
+That is it is very
+error tolerant.
+
+541
+00:22:59,349 --> 00:23:01,289
+So what do I mean
+by error tolerant?
+
+542
+00:23:01,289 --> 00:23:02,850
+So I think you
+already experienced
+
+543
+00:23:02,850 --> 00:23:05,129
+one part of error tolerance
+is in quantition.
+
+544
+00:23:05,129 --> 00:23:06,589
+You introduced some errors, but
+
+545
+00:23:06,589 --> 00:23:08,849
+the model can still work, right?
+
+546
+00:23:08,849 --> 00:23:11,749
+Uh, so as long as you
+don't deviate too far,
+
+547
+00:23:11,749 --> 00:23:13,009
+I think the model will converge
+
+548
+00:23:13,009 --> 00:23:14,350
+in some way. Okay,
+that's the idea.
+
+549
+00:23:14,350 --> 00:23:16,030
+So in grading design,
+that's the same case.
+
+550
+00:23:16,030 --> 00:23:17,669
+So basically, you can think
+about grading design.
+
+551
+00:23:17,669 --> 00:23:18,969
+Here, I'm doing green accent,
+
+552
+00:23:18,969 --> 00:23:21,150
+okay? You are climbing a hill.
+
+553
+00:23:21,150 --> 00:23:21,689
+Right?
+
+554
+00:23:21,689 --> 00:23:23,969
+You can collab this hill
+using different paths, right.
+
+555
+00:23:23,969 --> 00:23:26,449
+So assuming like you
+have a perfect grading,
+
+556
+00:23:26,449 --> 00:23:27,889
+then you basically
+collab all the
+
+557
+00:23:27,889 --> 00:23:29,689
+way up, right, like this.
+
+558
+00:23:29,689 --> 00:23:31,149
+Okay? And you all take
+
+559
+00:23:31,149 --> 00:23:33,729
+the least time to reach
+reach the top, right?
+
+560
+00:23:33,729 --> 00:23:35,889
+But like I said, machine
+learning program is
+
+561
+00:23:35,889 --> 00:23:39,409
+pretty error tolerant
+green isn't is the same.
+
+562
+00:23:39,409 --> 00:23:42,089
+So you can collab with different
+paths like this, right?
+
+563
+00:23:42,089 --> 00:23:44,190
+You can deviate a little
+bit like this, okay?
+
+564
+00:23:44,190 --> 00:23:47,589
+Like this, like this,
+like this, like this.
+
+565
+00:23:47,589 --> 00:23:49,669
+Okay, you all take a
+little bit more steps,
+
+566
+00:23:49,669 --> 00:23:52,050
+but eventually because of
+the nature of green isn't,
+
+567
+00:23:52,050 --> 00:23:54,444
+you are going to reach
+the top of the hill.
+
+568
+00:23:54,444 --> 00:23:57,619
+Okay. Which means
+that you don't how to
+
+569
+00:23:57,619 --> 00:23:59,340
+exactly use the precise version
+
+570
+00:23:59,340 --> 00:24:01,040
+of the gradient derived
+at the current state.
+
+571
+00:24:01,040 --> 00:24:03,639
+You can use probably slightly
+wrong version of it.
+
+572
+00:24:03,639 --> 00:24:05,179
+But as long as you
+
+573
+00:24:05,179 --> 00:24:07,299
+follow some conditions,
+you can still get there.
+
+574
+00:24:07,299 --> 00:24:09,420
+Okay. And with this situation,
+
+575
+00:24:09,420 --> 00:24:11,039
+what people does is basically,
+
+576
+00:24:11,039 --> 00:24:13,359
+uh, I think this basically
+explain what I said, right?
+
+577
+00:24:13,359 --> 00:24:15,640
+So you don't how to
+follow the grading line.
+
+578
+00:24:15,640 --> 00:24:18,360
+And you can slightly debate,
+you still get the top.
+
+579
+00:24:18,360 --> 00:24:20,079
+And with this one,
+
+580
+00:24:20,079 --> 00:24:24,920
+people want to basically relax
+the um consistency model.
+
+581
+00:24:24,920 --> 00:24:26,780
+One way to relax the consistency
+
+582
+00:24:26,780 --> 00:24:28,330
+is I don't how a consistency.
+
+583
+00:24:28,330 --> 00:24:31,300
+So every worker will basically
+compute at their own pace.
+
+584
+00:24:31,300 --> 00:24:34,499
+I don't bother to know other
+parameters or gradients.
+
+585
+00:24:34,499 --> 00:24:36,879
+I just compute at their
+own pace. I don't update.
+
+586
+00:24:36,879 --> 00:24:38,239
+I only update at, say,
+
+587
+00:24:38,239 --> 00:24:41,140
+100 ingredients or
+200 ingredients.
+
+588
+00:24:41,140 --> 00:24:43,420
+In that way, you are
+doing much better
+
+589
+00:24:43,420 --> 00:24:45,899
+because you don't
+how to compute,
+
+590
+00:24:45,899 --> 00:24:46,940
+you don't have to synchronize
+
+591
+00:24:46,940 --> 00:24:48,930
+at every iteration gradients.
+
+592
+00:24:48,930 --> 00:24:51,839
+Okay. But the problem is then
+
+593
+00:24:51,839 --> 00:24:53,059
+every worker will basically take
+
+594
+00:24:53,059 --> 00:24:54,759
+their own pass to
+update the parameters.
+
+595
+00:24:54,759 --> 00:24:57,080
+At some point, you just
+average the parameters,
+
+596
+00:24:57,080 --> 00:25:01,439
+and it's likely that all
+workers are divided, okay?
+
+597
+00:25:01,439 --> 00:25:04,719
+So this is basically,
+
+598
+00:25:04,719 --> 00:25:06,719
+uh, the case I explained.
+
+599
+00:25:06,719 --> 00:25:08,660
+So here, device one
+is the slowest.
+
+600
+00:25:08,660 --> 00:25:10,759
+So in this window time,
+
+601
+00:25:10,759 --> 00:25:12,880
+device one only
+perform one iteration.
+
+602
+00:25:12,880 --> 00:25:15,279
+But in this window time,
+Device two and three, four,
+
+603
+00:25:15,279 --> 00:25:17,219
+they basically perform
+many many interes,
+
+604
+00:25:17,219 --> 00:25:18,719
+and there's no
+barrier between them.
+
+605
+00:25:18,719 --> 00:25:20,445
+Okay, you just do your own job.
+
+606
+00:25:20,445 --> 00:25:22,289
+And this apparently
+doesn't work because
+
+607
+00:25:22,289 --> 00:25:24,329
+it defeat the purpose
+of data parism.
+
+608
+00:25:24,329 --> 00:25:26,669
+You are not aggregate
+ingredits at all.
+
+609
+00:25:26,669 --> 00:25:29,830
+Okay? So what we ended
+up with is we find
+
+610
+00:25:29,830 --> 00:25:31,230
+the middle ground between
+
+611
+00:25:31,230 --> 00:25:33,780
+strong consistency
+and no consistency.
+
+612
+00:25:33,780 --> 00:25:35,829
+Okay. And this is called SSP.
+
+613
+00:25:35,829 --> 00:25:37,509
+It's called steel consistency.
+
+614
+00:25:37,509 --> 00:25:39,110
+What do I mean by
+steel consistency?
+
+615
+00:25:39,110 --> 00:25:40,669
+That is here, I introduce
+
+616
+00:25:40,669 --> 00:25:43,070
+additional variable,
+which is stillness.
+
+617
+00:25:43,070 --> 00:25:45,849
+And this stillness
+specifically characterize how
+
+618
+00:25:45,849 --> 00:25:49,049
+steel the copied gradients
+is or the parameters.
+
+619
+00:25:49,049 --> 00:25:50,769
+So I'm going to give
+you an example.
+
+620
+00:25:50,769 --> 00:25:52,689
+So here, device A and B,
+
+621
+00:25:52,689 --> 00:25:55,170
+they all proceed
+with the same pace,
+
+622
+00:25:55,170 --> 00:25:56,990
+and we'll finish intercon.
+
+623
+00:25:56,990 --> 00:25:59,709
+And then because
+device B a bit faster,
+
+624
+00:25:59,709 --> 00:26:02,035
+it goes interon more, okay?
+
+625
+00:26:02,035 --> 00:26:04,500
+And do another fast device.
+
+626
+00:26:04,500 --> 00:26:07,519
+I got more and B,
+even faster, right?
+
+627
+00:26:07,519 --> 00:26:10,080
+And you can see during this
+process, I don't synchronize.
+
+628
+00:26:10,080 --> 00:26:11,979
+I just like the US ABC to
+
+629
+00:26:11,979 --> 00:26:14,720
+proceed the pace,
+procedure competition.
+
+630
+00:26:14,720 --> 00:26:16,440
+But at some point,
+
+631
+00:26:16,440 --> 00:26:18,320
+device B is too fast.
+
+632
+00:26:18,320 --> 00:26:20,559
+I find that the slowest worker,
+
+633
+00:26:20,559 --> 00:26:23,779
+which is USA and the
+fastest work which is USB,
+
+634
+00:26:23,779 --> 00:26:26,699
+they already have
+three steps apart.
+
+635
+00:26:26,699 --> 00:26:29,279
+And when the three steps
+
+636
+00:26:29,279 --> 00:26:32,480
+apart is basically exceeding
+my stills threshold,
+
+637
+00:26:32,480 --> 00:26:34,299
+I'm going to tell
+them, you should
+
+638
+00:26:34,299 --> 00:26:36,569
+stop and you guys should
+synchronize little.
+
+639
+00:26:36,569 --> 00:26:40,019
+Okay. Does that make
+sense? Cool. As long as we
+
+640
+00:26:40,019 --> 00:26:43,579
+maintain this relaxation window,
+
+641
+00:26:43,579 --> 00:26:46,959
+uh, we can basically,
+greatly reduce the lumber,
+
+642
+00:26:46,959 --> 00:26:49,580
+like global synchronization
+across the entire classroom.
+
+643
+00:26:49,580 --> 00:26:51,479
+So we just let them go and go,
+
+644
+00:26:51,479 --> 00:26:54,119
+you know, uh this
+web block, right?
+
+645
+00:26:54,119 --> 00:26:55,479
+And we just let it go.
+
+646
+00:26:55,479 --> 00:26:57,399
+And we can effectively
+reduce the,
+
+647
+00:26:57,399 --> 00:27:00,220
+um, lumber communication.
+
+648
+00:27:00,220 --> 00:27:02,720
+Therefore, uh, but we still
+
+649
+00:27:02,720 --> 00:27:04,499
+preserve some sort of like club
+
+650
+00:27:04,499 --> 00:27:06,339
+in the hell right, green accent.
+
+651
+00:27:06,339 --> 00:27:08,020
+Okay. And indeed,
+
+652
+00:27:08,020 --> 00:27:09,900
+I think back then
+before neuro networks,
+
+653
+00:27:09,900 --> 00:27:11,180
+uh, people do this a lot,
+
+654
+00:27:11,180 --> 00:27:13,219
+okay to accelerate the
+distribute training and,
+
+655
+00:27:13,219 --> 00:27:16,129
+um, and it can prove
+that basically,
+
+656
+00:27:16,129 --> 00:27:17,590
+if your model converges,
+
+657
+00:27:17,590 --> 00:27:20,030
+it really depends on
+the value of stillness.
+
+658
+00:27:20,030 --> 00:27:22,150
+So basically, when
+steels is equal
+
+659
+00:27:22,150 --> 00:27:24,349
+to the zero you are doing
+strong consistency, right.
+
+660
+00:27:24,349 --> 00:27:27,850
+When stillness is infinity,
+you have no consistency.
+
+661
+00:27:27,850 --> 00:27:30,369
+So it's actually a
+continuous spectrum.
+
+662
+00:27:30,369 --> 00:27:32,149
+So people do a lot
+of this kind of
+
+663
+00:27:32,149 --> 00:27:34,129
+experience by experimenting in
+
+664
+00:27:34,129 --> 00:27:36,129
+different stis against
+different models,
+
+665
+00:27:36,129 --> 00:27:38,309
+and they find that basically
+
+666
+00:27:38,309 --> 00:27:41,130
+this region of Stines is okay.
+
+667
+00:27:41,130 --> 00:27:43,089
+But if you go beyond
+this, you know,
+
+668
+00:27:43,089 --> 00:27:46,269
+your model is going
+to break. Okay.
+
+669
+00:27:46,269 --> 00:27:47,969
+And people also prove a lot
+
+670
+00:27:47,969 --> 00:27:49,889
+of despite the open by people,
+
+671
+00:27:49,889 --> 00:27:52,709
+they become very fascinated
+about this because this is,
+
+672
+00:27:52,709 --> 00:27:54,809
+there are a lot of beautiful
+theory behind all that.
+
+673
+00:27:54,809 --> 00:27:57,109
+Okay, they want to prove
+and they want to publish.
+
+674
+00:27:57,109 --> 00:27:59,750
+And this is one equation
+I quoted, okay?
+
+675
+00:27:59,750 --> 00:28:01,569
+And I think the way to interpret
+
+676
+00:28:01,569 --> 00:28:02,770
+this equation is pretty simple.
+
+677
+00:28:02,770 --> 00:28:03,909
+You can ignore all the symbols.
+
+678
+00:28:03,909 --> 00:28:05,450
+Okay, I'm going to tell
+you what it means.
+
+679
+00:28:05,450 --> 00:28:08,329
+It means that the
+difference between
+
+680
+00:28:08,329 --> 00:28:10,329
+a stillist estimate and
+
+681
+00:28:10,329 --> 00:28:13,509
+the true estimate can
+be bounded by a term.
+
+682
+00:28:13,509 --> 00:28:16,775
+And this term is basically a
+function of the stillness.
+
+683
+00:28:16,775 --> 00:28:19,139
+Okay. That means that as long as
+
+684
+00:28:19,139 --> 00:28:22,260
+your stillness is not too large,
+
+685
+00:28:22,260 --> 00:28:25,659
+I think you are going
+to achieve the optimal.
+
+686
+00:28:25,659 --> 00:28:27,599
+Yeah. Okay. Like I said,
+
+687
+00:28:27,599 --> 00:28:29,979
+this is a very active
+area of research and
+
+688
+00:28:29,979 --> 00:28:32,420
+people are still
+doing this today.
+
+689
+00:28:32,420 --> 00:28:34,879
+Okay. If you check slightly
+more theoretical work
+
+690
+00:28:34,879 --> 00:28:36,899
+in distribute machining,
+people are doing this.
+
+691
+00:28:36,899 --> 00:28:40,229
+But the problem is, this
+
+692
+00:28:40,229 --> 00:28:42,209
+does not work well
+in your networks.
+
+693
+00:28:42,209 --> 00:28:45,049
+Uh, because like I said, if
+you look at this equation,
+
+694
+00:28:45,049 --> 00:28:46,729
+in order to get here,
+you have to make
+
+695
+00:28:46,729 --> 00:28:48,910
+a lot of assumptions
+about your objective.
+
+696
+00:28:48,910 --> 00:28:51,929
+For example, it
+has to be certain,
+
+697
+00:28:51,929 --> 00:28:54,409
+there are some convex
+
+698
+00:28:54,409 --> 00:28:56,389
+characteristics
+about the objective,
+
+699
+00:28:56,389 --> 00:28:59,190
+and you have to perform grade
+always given learning rate.
+
+700
+00:28:59,190 --> 00:29:01,409
+But you probably know
+that in deepen network,
+
+701
+00:29:01,409 --> 00:29:03,009
+a lot of things cannot
+be proved, right?
+
+702
+00:29:03,009 --> 00:29:04,809
+And, um, people are
+
+703
+00:29:04,809 --> 00:29:07,129
+not able to make any
+theoretical progress on this.
+
+704
+00:29:07,129 --> 00:29:10,390
+And empirical, when you
+apply this units into,
+
+705
+00:29:10,390 --> 00:29:13,609
+uh internar networks, I don't
+think it works pretty well.
+
+706
+00:29:13,609 --> 00:29:18,269
+Yeah. Okay? Any question
+about this part?
+
+707
+00:29:19,500 --> 00:29:23,520
+Cool. That is basically
+primary server.
+
+708
+00:29:23,520 --> 00:29:24,840
+I think there are a
+lot of other issues
+
+709
+00:29:24,840 --> 00:29:26,300
+about prime server like
+you already mentioned,
+
+710
+00:29:26,300 --> 00:29:27,980
+there are some for issues
+
+711
+00:29:27,980 --> 00:29:30,820
+but I think I give
+you a reading,
+
+712
+00:29:30,820 --> 00:29:32,500
+and you can check on that paper.
+
+713
+00:29:32,500 --> 00:29:34,759
+So another way of implementing,
+
+714
+00:29:34,759 --> 00:29:38,199
+um, data parism is basically
+like this or reduced, right?
+
+715
+00:29:38,199 --> 00:29:39,439
+You basically perform a ring
+
+716
+00:29:39,439 --> 00:29:40,899
+or reduce across all workers.
+
+717
+00:29:40,899 --> 00:29:44,180
+And this due is basically
+what we have today.
+
+718
+00:29:44,180 --> 00:29:46,479
+This is the most commonly used,
+
+719
+00:29:46,479 --> 00:29:49,319
+um, scheme for
+performing or reduce.
+
+720
+00:29:49,319 --> 00:29:52,339
+Okay, providing the
+system support.
+
+721
+00:29:53,890 --> 00:29:56,189
+Like I said, this is one of
+
+722
+00:29:56,189 --> 00:29:59,110
+the most popular
+reduce interface.
+
+723
+00:29:59,110 --> 00:30:01,509
+And what you do is
+basically you import
+
+724
+00:30:01,509 --> 00:30:04,629
+this torch the disc,
+you import DDP.
+
+725
+00:30:04,629 --> 00:30:07,630
+And then you initiate
+a process group.
+
+726
+00:30:07,630 --> 00:30:10,649
+You have this in your homework,
+you're going to do this.
+
+727
+00:30:10,649 --> 00:30:12,930
+You basically declare the ranks
+
+728
+00:30:12,930 --> 00:30:15,210
+between all the
+processes all threats.
+
+729
+00:30:15,210 --> 00:30:19,650
+And then for each rank, you
+are going to declare a model,
+
+730
+00:30:19,650 --> 00:30:20,949
+right, because you are
+going to replicate
+
+731
+00:30:20,949 --> 00:30:22,729
+the model for each
+rank for each thread.
+
+732
+00:30:22,729 --> 00:30:25,390
+And what you do is basically
+you perform the training,
+
+733
+00:30:25,390 --> 00:30:30,089
+and I think behind the strain
+step is going to basically,
+
+734
+00:30:30,089 --> 00:30:32,729
+they will perform reds for you.
+
+735
+00:30:37,330 --> 00:30:40,169
+A little bit more
+history about reduce?
+
+736
+00:30:40,169 --> 00:30:41,870
+It was initially implemented
+
+737
+00:30:41,870 --> 00:30:43,449
+in a framework called Harwood,
+
+738
+00:30:43,449 --> 00:30:45,175
+and this one is by Uber.
+
+739
+00:30:45,175 --> 00:30:46,879
+Okay. Uber was pretty good
+
+740
+00:30:46,879 --> 00:30:49,859
+at sometime
+imagyemergen systems.
+
+741
+00:30:49,859 --> 00:30:52,599
+And roughly in 2015.
+
+742
+00:30:52,599 --> 00:30:54,980
+Okay. And this Hord,
+if you still check,
+
+743
+00:30:54,980 --> 00:30:58,200
+it has more than ten k
+starts on Github today,
+
+744
+00:30:58,200 --> 00:31:02,520
+later, I think, at
+the time of HR Word,
+
+745
+00:31:02,520 --> 00:31:04,660
+you don't have abraries
+like Nick and CCO.
+
+746
+00:31:04,660 --> 00:31:06,259
+You only have library like MPI.
+
+747
+00:31:06,259 --> 00:31:07,779
+That's why you use
+in your homework.
+
+748
+00:31:07,779 --> 00:31:09,639
+Okay. But like I
+said, MPI is for
+
+749
+00:31:09,639 --> 00:31:12,539
+CPU and Niko is for DPU. Okay?
+
+750
+00:31:12,539 --> 00:31:14,600
+And later, I think media start
+
+751
+00:31:14,600 --> 00:31:16,679
+realizing that this connect
+is going to take off,
+
+752
+00:31:16,679 --> 00:31:18,989
+and uh, uh, they basically have
+
+753
+00:31:18,989 --> 00:31:22,469
+a very strong team of Koda
+engineers implement NCL.
+
+754
+00:31:22,469 --> 00:31:26,889
+Uh, I think this NCL no
+essentially become the default
+
+755
+00:31:26,889 --> 00:31:29,150
+back for performing any type
+
+756
+00:31:29,150 --> 00:31:31,710
+of connective communication
+between GPUs.
+
+757
+00:31:31,710 --> 00:31:34,330
+Okay? It's highly
+optimized by ODM.
+
+758
+00:31:34,330 --> 00:31:36,470
+And this is one
+of the ODS modes.
+
+759
+00:31:36,470 --> 00:31:39,189
+This justifies the ODS
+stock, by the way.
+
+760
+00:31:39,189 --> 00:31:42,229
+And later when Niko takes off,
+
+761
+00:31:42,229 --> 00:31:44,549
+I think Petrog start to adopt
+
+762
+00:31:44,549 --> 00:31:48,029
+this Nichols and
+they build this GDP.
+
+763
+00:31:48,029 --> 00:31:50,629
+Due to the popularity of petrog
+
+764
+00:31:50,629 --> 00:31:51,789
+I think people basically move
+
+765
+00:31:51,789 --> 00:31:55,369
+away from Word to use Petros
+native DDP interface.
+
+766
+00:31:55,369 --> 00:31:58,739
+Okay? And one more thing
+
+767
+00:31:58,739 --> 00:32:01,179
+I want to mention
+about datapoism is
+
+768
+00:32:01,180 --> 00:32:04,019
+because now all the data
+parts are implemented using
+
+769
+00:32:04,019 --> 00:32:07,399
+ORD AD has a very bad thing
+
+770
+00:32:07,399 --> 00:32:08,959
+that's not fault
+tolerant, right?
+
+771
+00:32:08,959 --> 00:32:10,199
+Because when you perform ORD,
+
+772
+00:32:10,199 --> 00:32:11,919
+you have to mobilize
+all the workers to
+
+773
+00:32:11,919 --> 00:32:13,860
+perform that ring
+in communication.
+
+774
+00:32:13,860 --> 00:32:15,899
+And if one worker failed,
+
+775
+00:32:15,899 --> 00:32:17,620
+then this De will fail.
+
+776
+00:32:17,620 --> 00:32:19,899
+Which means that due is
+not a fault tolerant.
+
+777
+00:32:19,899 --> 00:32:21,399
+And if you compare Ds to
+
+778
+00:32:21,399 --> 00:32:22,779
+primary sur you'll
+find that primary
+
+779
+00:32:22,779 --> 00:32:24,199
+SR is more fault
+tolerant, right?
+
+780
+00:32:24,199 --> 00:32:26,380
+Because you can have
+different shares,
+
+781
+00:32:26,380 --> 00:32:27,679
+you have different workers.
+
+782
+00:32:27,679 --> 00:32:28,959
+So I one worker field,
+
+783
+00:32:28,959 --> 00:32:30,839
+you're still good,
+you probably have
+
+784
+00:32:30,839 --> 00:32:32,999
+some way to remedy,
+but in dus, no.
+
+785
+00:32:32,999 --> 00:32:35,899
+Okay? But it seems that
+image learning system,
+
+786
+00:32:35,899 --> 00:32:38,929
+people don't care about
+fault tolerance. Okay. Yeah.
+
+787
+00:32:38,929 --> 00:32:40,709
+That's what I at least in
+
+788
+00:32:40,709 --> 00:32:42,690
+my past five years
+of experience, yes.
+
+789
+00:32:42,690 --> 00:32:44,789
+Yeah. But if you talk
+
+790
+00:32:44,789 --> 00:32:47,170
+about big data processing
+you talk about database,
+
+791
+00:32:47,170 --> 00:32:48,849
+I think for tolerance
+is a pretty big issue.
+
+792
+00:32:48,849 --> 00:32:50,089
+Yeah, everybody
+talks about that.
+
+793
+00:32:50,089 --> 00:32:54,609
+Yeah. Okay. Okay,
+one discussion is,
+
+794
+00:32:54,609 --> 00:32:56,090
+as you can see, uh,
+
+795
+00:32:56,090 --> 00:32:58,129
+one thing I want to
+point out is actually,
+
+796
+00:32:58,129 --> 00:33:02,029
+2010-2020, I think people
+publish, like I said,
+
+797
+00:33:02,029 --> 00:33:03,969
+people also published
+more than 1,000 papers on
+
+798
+00:33:03,969 --> 00:33:06,409
+primary server on
+distributed green descent,
+
+799
+00:33:06,409 --> 00:33:07,829
+right on that studs thing.
+
+800
+00:33:07,829 --> 00:33:11,349
+But at some point,
+Ad just takeover.
+
+801
+00:33:11,349 --> 00:33:13,049
+Or du very simple thing,
+
+802
+00:33:13,049 --> 00:33:15,729
+no fault tolerance,
+no consistency.
+
+803
+00:33:15,729 --> 00:33:17,910
+So basically, just implementing
+
+804
+00:33:17,910 --> 00:33:20,350
+just coding, strong
+kernels, okay?
+
+805
+00:33:20,350 --> 00:33:22,050
+So I want to ask you why.
+
+806
+00:33:22,050 --> 00:33:24,490
+Think about this, why? Like why?
+
+807
+00:33:24,490 --> 00:33:26,789
+Like Academia always do this,
+
+808
+00:33:26,789 --> 00:33:28,650
+they grand something so hard
+
+809
+00:33:28,650 --> 00:33:31,189
+and something simpler
+takeover, right?
+
+810
+00:33:31,189 --> 00:33:35,150
+I think one reason is like
+I said, or du is simple.
+
+811
+00:33:35,150 --> 00:33:37,230
+I think industry really
+like simple things.
+
+812
+00:33:37,230 --> 00:33:41,509
+Okay. Second, it's really
+because of hardware.
+
+813
+00:33:41,509 --> 00:33:44,189
+So like I said, at
+the beginning, uh,
+
+814
+00:33:44,189 --> 00:33:46,649
+the reason people introduce
+this consistency on
+
+815
+00:33:46,649 --> 00:33:49,389
+this primary server client
+architecture is because they
+
+816
+00:33:49,389 --> 00:33:50,869
+assume the communication
+is going to
+
+817
+00:33:50,869 --> 00:33:52,849
+be a bottleneck, right?
+
+818
+00:33:52,849 --> 00:33:54,649
+And, they
+
+819
+00:33:54,649 --> 00:33:56,270
+introduce consistency
+because they want to reduce
+
+820
+00:33:56,270 --> 00:33:58,049
+lumber synchronization
+and reducing
+
+821
+00:33:58,049 --> 00:34:00,569
+lumber synchronizing equals
+to reducing communication.
+
+822
+00:34:00,569 --> 00:34:03,369
+But at some point, AD
+
+823
+00:34:03,369 --> 00:34:06,329
+just shape a new hardware
+technology called unveilink.
+
+824
+00:34:06,329 --> 00:34:08,389
+Unwilink is basically as
+
+825
+00:34:08,389 --> 00:34:10,029
+long as you train
+a model inside of
+
+826
+00:34:10,029 --> 00:34:11,749
+one box with GPS you
+
+827
+00:34:11,749 --> 00:34:14,130
+basically have almost
+infinent bandwidths.
+
+828
+00:34:14,130 --> 00:34:16,269
+And once this becomes a fact,
+
+829
+00:34:16,269 --> 00:34:18,509
+then the value of prime
+error basically get
+
+830
+00:34:18,509 --> 00:34:21,589
+lost because communication
+is not about neck.
+
+831
+00:34:21,589 --> 00:34:23,429
+Wing basically save
+
+832
+00:34:23,429 --> 00:34:25,389
+the communication address
+the communicing problem.
+
+833
+00:34:25,389 --> 00:34:27,649
+And you can just basically use
+
+834
+00:34:27,649 --> 00:34:29,489
+fact whatever is the
+
+835
+00:34:29,489 --> 00:34:32,989
+simplest to perform that
+communication, which is orgs.
+
+836
+00:34:32,989 --> 00:34:35,349
+But like I said,
+when we move on to
+
+837
+00:34:35,349 --> 00:34:36,670
+Multipoism then communication
+
+838
+00:34:36,670 --> 00:34:37,809
+will become another
+problem, why?
+
+839
+00:34:37,809 --> 00:34:40,619
+Because previously
+when we do data parism
+
+840
+00:34:40,619 --> 00:34:43,820
+we just scaled to GPS inside
+one box where we have wink.
+
+841
+00:34:43,820 --> 00:34:46,479
+But now model size
+explode again,
+
+842
+00:34:46,479 --> 00:34:49,499
+Model size becomes
+like 175 billion.
+
+843
+00:34:49,499 --> 00:34:52,439
+Then you have to scale
+beyond one node, right?
+
+844
+00:34:52,439 --> 00:34:54,559
+Beyond between two
+different nodes,
+
+845
+00:34:54,559 --> 00:34:55,999
+you don't have a meink anymore.
+
+846
+00:34:55,999 --> 00:34:58,459
+Then communication
+becomes another problem.
+
+847
+00:34:58,459 --> 00:35:02,159
+That basically brings us
+to the next topic, Mdpism.
+
+848
+00:35:02,159 --> 00:35:04,859
+I have to switch slide.
+Give me 1 minute.
+
+849
+00:35:22,880 --> 00:35:28,000
+Okay. Um, yeah, we
+finish data partism.
+
+850
+00:35:28,360 --> 00:35:31,799
+But still, data paris is a
+very commonly adopted thing.
+
+851
+00:35:31,799 --> 00:35:33,380
+I'm not saying it's
+being duplicated.
+
+852
+00:35:33,380 --> 00:35:35,320
+I'm just saying primary
+sur is being duplicated.
+
+853
+00:35:35,320 --> 00:35:37,500
+But in reality, you
+have to combine
+
+854
+00:35:37,500 --> 00:35:40,059
+data pism with other
+sort of multiparism.
+
+855
+00:35:40,059 --> 00:35:41,899
+And now let's talk
+about Multipism.
+
+856
+00:35:41,899 --> 00:35:43,239
+Okay? And the way we talk
+
+857
+00:35:43,239 --> 00:35:45,179
+about Muliparism
+basically we start with
+
+858
+00:35:45,179 --> 00:35:49,179
+interop partism and we try to
+
+859
+00:35:49,179 --> 00:35:51,079
+derive some mathematical
+understanding of
+
+860
+00:35:51,079 --> 00:35:53,300
+how to optimize inter partism.
+
+861
+00:35:53,300 --> 00:35:54,639
+And then we try to map
+
+862
+00:35:54,639 --> 00:35:56,479
+this understanding
+with all sorts of,
+
+863
+00:35:56,479 --> 00:35:59,119
+uh, system artifacts
+people build for this.
+
+864
+00:35:59,119 --> 00:36:02,539
+Hopefully, we finish Intern
+next week we'll do intra.
+
+865
+00:36:02,539 --> 00:36:06,659
+Okay. So I hope
+
+866
+00:36:06,659 --> 00:36:09,659
+everyone still remember the goal
+
+867
+00:36:09,659 --> 00:36:12,100
+or the definition
+of intero partism.
+
+868
+00:36:12,100 --> 00:36:14,119
+So if I give you a
+neural network as
+
+869
+00:36:14,119 --> 00:36:15,959
+this computer graph on
+
+870
+00:36:15,959 --> 00:36:17,800
+this slide and also
+a set of devices,
+
+871
+00:36:17,800 --> 00:36:20,259
+device one, two,
+three, four, uh,
+
+872
+00:36:20,259 --> 00:36:24,159
+for example, GPUs, and I
+ask you to partition, uh,
+
+873
+00:36:24,159 --> 00:36:26,159
+this computing graph
+onto these devices and
+
+874
+00:36:26,159 --> 00:36:29,879
+then what's the most
+straightforward way?
+
+875
+00:36:30,070 --> 00:36:32,150
+Yeah, I can just partition,
+
+876
+00:36:32,150 --> 00:36:33,949
+right, like this. Okay?
+
+877
+00:36:33,949 --> 00:36:36,609
+I just partition. Yeah, I
+just count number nose.
+
+878
+00:36:36,609 --> 00:36:38,329
+I try to make sure
+each note each device
+
+879
+00:36:38,329 --> 00:36:40,489
+has almost equal
+number of node, right?
+
+880
+00:36:40,489 --> 00:36:45,209
+And this is one way of
+partition, um, um, um,
+
+881
+00:36:45,209 --> 00:36:46,690
+and here, I'm going to introduce
+
+882
+00:36:46,690 --> 00:36:50,309
+one new concept in inter
+partismo? It's called stage.
+
+883
+00:36:50,309 --> 00:36:53,369
+So basically here, I partition
+this original como graph
+
+884
+00:36:53,369 --> 00:36:54,709
+into four stages and I like
+
+885
+00:36:54,709 --> 00:36:56,749
+each device to hold one stage.
+
+886
+00:36:56,749 --> 00:36:58,829
+And one stage is
+basically a part
+
+887
+00:36:58,829 --> 00:37:02,029
+of a subgraph of the
+original graph, okay?
+
+888
+00:37:02,029 --> 00:37:07,099
+It's a stage. Okay. Once I
+
+889
+00:37:07,099 --> 00:37:09,239
+finish this partition, I can
+start asking you, right?
+
+890
+00:37:09,239 --> 00:37:12,880
+So how to ask you. So I can
+ask you in this way, okay?
+
+891
+00:37:12,880 --> 00:37:16,180
+So to actually basically ask
+you this pion near network,
+
+892
+00:37:16,180 --> 00:37:17,999
+what do we do, Because we
+
+893
+00:37:17,999 --> 00:37:20,199
+put the first stage
+on Device one, right?
+
+894
+00:37:20,199 --> 00:37:23,519
+So we also give
+
+895
+00:37:23,519 --> 00:37:26,099
+the input to the device one.
+We start from device one.
+
+896
+00:37:26,099 --> 00:37:28,379
+Okay? We ask you device one,
+
+897
+00:37:28,379 --> 00:37:31,759
+to get the output of
+stage one, right?
+
+898
+00:37:31,759 --> 00:37:34,339
+And then we forward
+device one to forward
+
+899
+00:37:34,339 --> 00:37:37,059
+this output one to
+Device two, right?
+
+900
+00:37:37,059 --> 00:37:39,560
+And here, if you still remember,
+
+901
+00:37:39,560 --> 00:37:42,620
+we have to do a sens we
+have to communicate,
+
+902
+00:37:42,620 --> 00:37:47,119
+but it's B to B
+communication. Okay.
+
+903
+00:37:48,100 --> 00:37:50,840
+Uh, like I said,
+the output tensor
+
+904
+00:37:50,840 --> 00:37:53,219
+of stage one will be
+transferred to device two as
+
+905
+00:37:53,219 --> 00:37:58,560
+the input of stage two
+requires the output.
+
+906
+00:37:58,560 --> 00:38:00,499
+Now that the time spent on
+
+907
+00:38:00,499 --> 00:38:02,799
+the data transfer
+is typically small
+
+908
+00:38:02,799 --> 00:38:04,480
+because we only communicate
+
+909
+00:38:04,480 --> 00:38:08,120
+stage outputs at the stage
+boundaries between two stages.
+
+910
+00:38:08,120 --> 00:38:10,839
+And then what we do is
+basically we continue this.
+
+911
+00:38:10,839 --> 00:38:12,879
+We let Stage two
+to execute and get
+
+912
+00:38:12,879 --> 00:38:16,619
+the output and we
+forward forward.
+
+913
+00:38:16,619 --> 00:38:20,740
+Okay? This is pretty
+clear, simple.
+
+914
+00:38:20,740 --> 00:38:23,799
+And finally, we run Stage
+four on device four
+
+915
+00:38:23,799 --> 00:38:26,899
+and we get the
+output of the loss,
+
+916
+00:38:26,899 --> 00:38:29,700
+for example, the
+whole new network.
+
+917
+00:38:30,550 --> 00:38:34,110
+Okay. So in the literature
+
+918
+00:38:34,110 --> 00:38:36,550
+about intero partism
+the execution,
+
+919
+00:38:36,550 --> 00:38:38,189
+we described just now is
+
+920
+00:38:38,189 --> 00:38:40,689
+basically often visualized
+as this timeline. Okay?
+
+921
+00:38:40,689 --> 00:38:44,050
+So here, uh, this Y access
+is basically the devices.
+
+922
+00:38:44,050 --> 00:38:46,529
+Okay? This access is time.
+
+923
+00:38:46,529 --> 00:38:48,730
+Okay? So we can
+visualize the execution.
+
+924
+00:38:48,730 --> 00:38:51,890
+The schedule I just
+described on this figure.
+
+925
+00:38:51,890 --> 00:38:54,470
+Okay? So, uh the execution
+
+926
+00:38:54,470 --> 00:38:56,149
+on the previous slide is
+looking like this, right?
+
+927
+00:38:56,149 --> 00:38:58,749
+So device one ask
+device device device
+
+928
+00:38:58,749 --> 00:39:01,429
+four. So what's the problem?
+
+929
+00:39:01,900 --> 00:39:05,519
+You see, there's a bubble
+bubble again, right?
+
+930
+00:39:05,519 --> 00:39:06,939
+Basically, think about it.
+
+931
+00:39:06,939 --> 00:39:08,700
+I paran, we are always
+fighting bubble.
+
+932
+00:39:08,700 --> 00:39:11,660
+Okay? So the remaining
+gray area indicates
+
+933
+00:39:11,660 --> 00:39:14,800
+the device being idle and we
+typically call them bubbles.
+
+934
+00:39:14,800 --> 00:39:17,299
+Okay. This bubble
+exists because of
+
+935
+00:39:17,299 --> 00:39:18,900
+the data dependency between
+
+936
+00:39:18,900 --> 00:39:20,720
+different stages on
+different devices.
+
+937
+00:39:20,720 --> 00:39:22,739
+Like device two
+requires the input of,
+
+938
+00:39:22,739 --> 00:39:25,939
+uh, the output of device one
+and et cetera, you know,
+
+939
+00:39:25,939 --> 00:39:28,379
+and as we can see,
+
+940
+00:39:28,379 --> 00:39:29,819
+at any given moment,
+
+941
+00:39:29,819 --> 00:39:31,659
+in this case, at
+any given moment,
+
+942
+00:39:31,659 --> 00:39:34,639
+there's only one
+device running, right?
+
+943
+00:39:34,639 --> 00:39:36,740
+And this means that
+the device utilization
+
+944
+00:39:36,740 --> 00:39:39,119
+is super low, super low.
+
+945
+00:39:39,119 --> 00:39:41,900
+Uh, to quantify this
+device utilization,
+
+946
+00:39:41,900 --> 00:39:44,819
+uh, we measure how
+much gray area.
+
+947
+00:39:44,819 --> 00:39:47,319
+Um we measure how much or
+
+948
+00:39:47,319 --> 00:39:50,000
+the pipeline bubble will take
+on the uh whole timeline.
+
+949
+00:39:50,000 --> 00:39:53,339
+And for example, uh with
+this acuton schedule here,
+
+950
+00:39:53,339 --> 00:39:56,705
+the pipeline bubble percentage
+will be this number.
+
+951
+00:39:56,705 --> 00:39:59,349
+Okay? This is pretty easy
+to understand, right?
+
+952
+00:39:59,349 --> 00:40:00,749
+So basically, you just look at
+
+953
+00:40:00,749 --> 00:40:03,889
+this column and there's
+only one device running.
+
+954
+00:40:03,889 --> 00:40:05,769
+So basically the bubble
+is D minus one device
+
+955
+00:40:05,769 --> 00:40:07,989
+by D. Very bad.
+
+956
+00:40:07,989 --> 00:40:10,849
+All right. Your MF is going
+to be terrible. Okay?
+
+957
+00:40:10,849 --> 00:40:15,050
+If you do this, you
+know, very dangerous.
+
+958
+00:40:15,050 --> 00:40:18,954
+Okay. Cool. I think
+you got my point.
+
+959
+00:40:18,954 --> 00:40:20,699
+So the main way to
+
+960
+00:40:20,699 --> 00:40:22,339
+improve so we want to
+improve this, right?
+
+961
+00:40:22,339 --> 00:40:23,540
+So the main way to improve
+
+962
+00:40:23,540 --> 00:40:26,140
+the ascen efficiency
+for inter partism
+
+963
+00:40:26,140 --> 00:40:30,020
+is basically through pipeline
+ASQonu different inputs.
+
+964
+00:40:30,020 --> 00:40:31,739
+So let's see right now,
+
+965
+00:40:31,739 --> 00:40:36,419
+the input, A is basically
+asq on stage one, right?
+
+966
+00:40:36,419 --> 00:40:38,300
+So after input A finishes
+
+967
+00:40:38,300 --> 00:40:42,249
+Asking on stage one and
+start Sceving on stage two.
+
+968
+00:40:42,249 --> 00:40:46,179
+What do we do is, at the
+same time because stage one,
+
+969
+00:40:46,179 --> 00:40:48,400
+uh, is idle, we can basically
+
+970
+00:40:48,400 --> 00:40:51,319
+fit another input B
+like this, right?
+
+971
+00:40:51,319 --> 00:40:52,939
+So here, stage two,
+
+972
+00:40:52,939 --> 00:40:54,859
+askeed input A and stage one can
+
+973
+00:40:54,859 --> 00:40:57,139
+take another input
+and askew on it.
+
+974
+00:40:57,139 --> 00:41:00,019
+Okay? And we can fit another
+input B into stage one
+
+975
+00:41:00,019 --> 00:41:01,419
+and as skewed at the same time
+
+976
+00:41:01,419 --> 00:41:03,459
+as input A skewed on stage two.
+
+977
+00:41:03,459 --> 00:41:04,899
+And again, next time,
+
+978
+00:41:04,899 --> 00:41:07,039
+okay, input equals
+to stage three,
+
+979
+00:41:07,039 --> 00:41:09,559
+then we can give B
+for B to stage two,
+
+980
+00:41:09,559 --> 00:41:12,339
+and we can at stage one to
+take another new input input
+
+981
+00:41:12,339 --> 00:41:15,589
+C. This is called
+pipe planning. Okay?
+
+982
+00:41:15,589 --> 00:41:19,780
+Um, yeah, we just repeat
+
+983
+00:41:19,780 --> 00:41:21,739
+doing this and we basically form
+
+984
+00:41:21,739 --> 00:41:24,379
+a pipeline and this pipeline
+ask you what goes on, right?
+
+985
+00:41:24,379 --> 00:41:28,360
+We'll go on. With pipeline
+in multiple inputs,
+
+986
+00:41:28,360 --> 00:41:30,339
+then the pipeline bubble it
+
+987
+00:41:30,339 --> 00:41:32,900
+can be reduced to
+basically that figure.
+
+988
+00:41:32,900 --> 00:41:35,199
+Only the first step we
+only have one device.
+
+989
+00:41:35,199 --> 00:41:38,479
+But once the pipeline starts
+and start rolling out,
+
+990
+00:41:38,479 --> 00:41:42,999
+you can see the utility
+is going to grow.
+
+991
+00:41:43,120 --> 00:41:47,399
+Can anyone tell me
+what's the utility here?
+
+992
+00:41:48,440 --> 00:41:54,119
+Equation. I'm going to
+give you the answer.
+
+993
+00:41:54,119 --> 00:41:57,099
+Think about that.
+Essentially, like this,
+
+994
+00:41:57,099 --> 00:41:59,320
+you keep rolling the pipeline.
+
+995
+00:41:59,320 --> 00:42:01,579
+The percentage bubble is
+
+996
+00:42:01,579 --> 00:42:03,259
+basically D minus
+one divided by D,
+
+997
+00:42:03,259 --> 00:42:07,200
+minus one plus N
+where N is the input.
+
+998
+00:42:07,200 --> 00:42:12,339
+Okay. Does that make sense?
+
+999
+00:42:12,820 --> 00:42:16,499
+Cool. Think about
+that, after we talk.
+
+1000
+00:42:16,499 --> 00:42:18,920
+So here, if you look
+at this equation,
+
+1001
+00:42:18,920 --> 00:42:21,959
+you will find a very
+interesting phloma that is
+
+1002
+00:42:21,959 --> 00:42:26,340
+N is lumber batches,
+you're going to pipeline.
+
+1003
+00:42:26,340 --> 00:42:29,640
+Emotionally we have
+infinite batches.
+
+1004
+00:42:29,640 --> 00:42:31,459
+You can assume we
+have inflint batches,
+
+1005
+00:42:31,459 --> 00:42:34,380
+which means that when
+N goes to infinity,
+
+1006
+00:42:34,380 --> 00:42:35,780
+this bubble is going to diminish
+
+1007
+00:42:35,780 --> 00:42:37,979
+and we are good again, right?
+
+1008
+00:42:39,060 --> 00:42:43,020
+Agree? Anyone disagree.
+
+1009
+00:42:43,820 --> 00:42:46,539
+I disagree. Okay, we
+
+1010
+00:42:46,539 --> 00:42:47,759
+are not going to be
+good again, okay?
+
+1011
+00:42:47,759 --> 00:42:49,959
+I assure you, okay?
+So it seems that
+
+1012
+00:42:49,959 --> 00:42:52,499
+if you have infinite batches,
+um, we are good again.
+
+1013
+00:42:52,499 --> 00:42:55,439
+But this is only for
+inference, right?
+
+1014
+00:42:55,439 --> 00:42:56,259
+Because in inference of
+
+1015
+00:42:56,259 --> 00:42:57,499
+assuming you have
+infinite batches,
+
+1016
+00:42:57,499 --> 00:42:59,239
+you basically perform
+forward, right?
+
+1017
+00:42:59,239 --> 00:43:01,019
+And you are good again, yes.
+
+1018
+00:43:01,019 --> 00:43:04,380
+That's why PublmPis pretty
+good for inference.
+
+1019
+00:43:04,380 --> 00:43:05,100
+If you do inference,
+
+1020
+00:43:05,100 --> 00:43:06,899
+you can do this publi
+paris, there's no issue.
+
+1021
+00:43:06,899 --> 00:43:08,519
+You only suffer a
+little bit bubble,
+
+1022
+00:43:08,519 --> 00:43:11,260
+but that bubble is
+basically what diminished.
+
+1023
+00:43:11,260 --> 00:43:13,539
+But like I said,
+
+1024
+00:43:13,539 --> 00:43:16,440
+the fundamental problem is we
+need to do training, okay?
+
+1025
+00:43:16,440 --> 00:43:18,959
+And so what happened here?
+
+1026
+00:43:18,959 --> 00:43:24,219
+So Okay,
+
+1027
+00:43:24,219 --> 00:43:26,500
+um, Pipeline different
+input batches
+
+1028
+00:43:26,500 --> 00:43:28,180
+doesn't simply
+work for training.
+
+1029
+00:43:28,180 --> 00:43:30,820
+The reason is that for
+new network training
+
+1030
+00:43:30,820 --> 00:43:32,420
+after the forward pass,
+
+1031
+00:43:32,420 --> 00:43:35,039
+um and then um,
+
+1032
+00:43:35,039 --> 00:43:36,519
+and basically after we
+
+1033
+00:43:36,519 --> 00:43:39,060
+getting the loss on
+the specific input,
+
+1034
+00:43:39,060 --> 00:43:41,199
+we need to perform a
+backward pass, right?
+
+1035
+00:43:41,199 --> 00:43:43,839
+And so what do we do is, um,
+
+1036
+00:43:43,839 --> 00:43:45,220
+we need to perform the backward
+
+1037
+00:43:45,220 --> 00:43:46,380
+pass to calculate the gradient
+
+1038
+00:43:46,380 --> 00:43:48,940
+and the data dependency in the
+backward pass is reversed.
+
+1039
+00:43:48,940 --> 00:43:51,579
+Okay? So for example,
+for stage two,
+
+1040
+00:43:51,579 --> 00:43:54,140
+it requires stage
+one's um output
+
+1041
+00:43:54,140 --> 00:43:55,679
+to run the forward pass, right?
+
+1042
+00:43:55,679 --> 00:43:57,199
+But in the backward
+pass, stage one
+
+1043
+00:43:57,199 --> 00:43:58,919
+requires Stage two uh,
+
+1044
+00:43:58,919 --> 00:44:00,500
+grading information to calculate
+
+1045
+00:44:00,500 --> 00:44:02,819
+its own gradient on
+the current stage.
+
+1046
+00:44:02,819 --> 00:44:05,560
+And in addition, after we
+calculate the gradient,
+
+1047
+00:44:05,560 --> 00:44:07,459
+we need to update the
+neural network with
+
+1048
+00:44:07,459 --> 00:44:09,479
+the gradient and then start
+
+1049
+00:44:09,479 --> 00:44:12,679
+the forward and backward pass
+of the next input. Okay.
+
+1050
+00:44:12,679 --> 00:44:17,439
+So in that case, we all
+get this timeline, right?
+
+1051
+00:44:17,439 --> 00:44:18,679
+This is a backward pass.
+
+1052
+00:44:18,679 --> 00:44:20,359
+Here, I only have
+one batch, okay?
+
+1053
+00:44:20,359 --> 00:44:21,940
+And this is pretty
+easy to understand.
+
+1054
+00:44:21,940 --> 00:44:24,219
+I just do this exact the exact.
+
+1055
+00:44:24,219 --> 00:44:26,999
+And you can see there's a
+middle point where I have to
+
+1056
+00:44:26,999 --> 00:44:29,139
+update perform an
+oppment update.
+
+1057
+00:44:29,139 --> 00:44:30,880
+That is why I have update.
+
+1058
+00:44:30,880 --> 00:44:33,749
+Okay, we are good
+with this one, right?
+
+1059
+00:44:33,749 --> 00:44:36,519
+Um, so in this case,
+
+1060
+00:44:36,519 --> 00:44:37,779
+screening timeline
+will be like in
+
+1061
+00:44:37,779 --> 00:44:39,700
+figure because of the forward
+and backward dependency,
+
+1062
+00:44:39,700 --> 00:44:41,979
+the execution will be
+from device one to
+
+1063
+00:44:41,979 --> 00:44:44,739
+device four and then
+from four to device one,
+
+1064
+00:44:44,739 --> 00:44:46,619
+um, you know, and
+then we perform
+
+1065
+00:44:46,619 --> 00:44:49,240
+a green update and continue
+on the next input.
+
+1066
+00:44:49,240 --> 00:44:50,039
+As you can see,
+
+1067
+00:44:50,039 --> 00:44:51,839
+the pipeline efficiency
+here is still very
+
+1068
+00:44:51,839 --> 00:44:54,859
+low and device are being
+idle, most of the time.
+
+1069
+00:44:54,859 --> 00:44:57,329
+And, Okay.
+
+1070
+00:44:57,329 --> 00:44:59,649
+And we are going to have
+a solution for this.
+
+1071
+00:44:59,649 --> 00:45:01,630
+But before that, I
+want to probably,
+
+1072
+00:45:01,630 --> 00:45:03,229
+this is a theory part,
+
+1073
+00:45:03,229 --> 00:45:04,829
+okay, for papel empaism.
+
+1074
+00:45:04,829 --> 00:45:07,109
+But I want to ground
+this on some real works
+
+1075
+00:45:07,109 --> 00:45:09,570
+that people doing in
+training their models.
+
+1076
+00:45:09,570 --> 00:45:10,950
+Okay. And we gradually,
+
+1077
+00:45:10,950 --> 00:45:12,510
+like reveal more
+and more solutions
+
+1078
+00:45:12,510 --> 00:45:14,290
+to how to fill those bubbles.
+
+1079
+00:45:14,290 --> 00:45:15,389
+Okay.
+
+1080
+00:45:15,700 --> 00:45:18,640
+So there's quite a few previous
+
+1081
+00:45:18,640 --> 00:45:20,880
+works focus on reducing
+the pipeline bubbles,
+
+1082
+00:45:20,880 --> 00:45:23,500
+and, uh, therefore,
+by reducing bubble,
+
+1083
+00:45:23,500 --> 00:45:25,279
+they can increase the
+device addition, right.
+
+1084
+00:45:25,279 --> 00:45:28,199
+And we generally categorize
+
+1085
+00:45:28,199 --> 00:45:31,320
+the previous work into
+three categories.
+
+1086
+00:45:31,320 --> 00:45:33,580
+The first one is called
+device placement.
+
+1087
+00:45:33,580 --> 00:45:35,479
+Okay? You probably
+read this paper.
+
+1088
+00:45:35,479 --> 00:45:37,679
+It's a very famous paper
+from machining commitee,
+
+1089
+00:45:37,679 --> 00:45:40,820
+again, published by
+JFD, okay, from Google.
+
+1090
+00:45:40,820 --> 00:45:43,499
+And, um Uh, and
+
+1091
+00:45:43,499 --> 00:45:45,060
+the second category is
+called synchronous,
+
+1092
+00:45:45,060 --> 00:45:46,320
+the pipeline algorithm.
+
+1093
+00:45:46,320 --> 00:45:49,000
+And the third category
+is a synchronous.
+
+1094
+00:45:49,000 --> 00:45:50,540
+And here synchronous
+or synchronous,
+
+1095
+00:45:50,540 --> 00:45:52,499
+I think you already get an
+understanding because I talk
+
+1096
+00:45:52,499 --> 00:45:54,759
+about that in data parism right?
+
+1097
+00:45:54,759 --> 00:45:57,519
+So synchronous means you
+have a strong consistency.
+
+1098
+00:45:57,519 --> 00:45:59,419
+And asynchronous means that you
+
+1099
+00:45:59,419 --> 00:46:01,579
+try to relax my consistency
+a little bit, okay?
+
+1100
+00:46:01,579 --> 00:46:05,159
+And we all reveal. Okay.
+
+1101
+00:46:05,159 --> 00:46:08,620
+First, let's take a look
+at this device placement.
+
+1102
+00:46:08,620 --> 00:46:11,779
+The goal here is basically
+slice the branches of
+
+1103
+00:46:11,779 --> 00:46:14,160
+neural network into
+multiple stages
+
+1104
+00:46:14,160 --> 00:46:16,739
+so they can be
+calculated concurrently.
+
+1105
+00:46:16,739 --> 00:46:18,399
+So for example, if
+
+1106
+00:46:18,399 --> 00:46:20,519
+the new network can be
+
+1107
+00:46:20,519 --> 00:46:23,479
+decomposed into these
+four stages, right?
+
+1108
+00:46:23,479 --> 00:46:25,839
+If there's a new
+looking on this, okay?
+
+1109
+00:46:25,839 --> 00:46:27,899
+Here Sg two and Std three
+
+1110
+00:46:27,899 --> 00:46:30,879
+are two branches that do
+not depend on each other.
+
+1111
+00:46:30,879 --> 00:46:33,239
+They are parallel
+branches. Okay. And we can
+
+1112
+00:46:33,239 --> 00:46:34,459
+basically ask you to Std two
+
+1113
+00:46:34,459 --> 00:46:35,919
+and three in parallel, right?
+
+1114
+00:46:35,919 --> 00:46:39,820
+And if we wish you a the
+timeline of these approaches,
+
+1115
+00:46:39,820 --> 00:46:42,679
+um, we basically get
+this one, right.
+
+1116
+00:46:43,140 --> 00:46:47,839
+So basically, um, you can
+say at this time points, uh,
+
+1117
+00:46:47,839 --> 00:46:50,000
+device two and three are
+executed concurrently,
+
+1118
+00:46:50,000 --> 00:46:52,720
+so we effectively
+reduce bubbles.
+
+1119
+00:46:52,720 --> 00:46:56,819
+Does it make sense? Cool.
+
+1120
+00:46:58,580 --> 00:47:02,139
+The biggest limitation of
+this device placement is
+
+1121
+00:47:02,139 --> 00:47:04,940
+that it only works for
+specific new networks.
+
+1122
+00:47:04,940 --> 00:47:06,959
+Like I said, you have
+to have this kind
+
+1123
+00:47:06,959 --> 00:47:09,460
+of branching out
+data photograph.
+
+1124
+00:47:09,460 --> 00:47:12,999
+For example, it can work
+for this inception model,
+
+1125
+00:47:12,999 --> 00:47:14,919
+which includes branches of
+
+1126
+00:47:14,919 --> 00:47:16,480
+different sizes of convolution.
+
+1127
+00:47:16,480 --> 00:47:17,639
+This inception wiser is
+
+1128
+00:47:17,639 --> 00:47:20,854
+a very famous new network
+invented at Google, okay?
+
+1129
+00:47:20,854 --> 00:47:24,890
+Um, and it can also work
+with contrastive models,
+
+1130
+00:47:24,890 --> 00:47:26,549
+which basically, uh,
+
+1131
+00:47:26,549 --> 00:47:28,370
+includes two branches
+for two inputs.
+
+1132
+00:47:28,370 --> 00:47:30,049
+And this contrastive model
+
+1133
+00:47:30,049 --> 00:47:31,889
+at some point is very
+popular in coervon.
+
+1134
+00:47:31,889 --> 00:47:35,169
+Okay. However, it
+cannot be used to
+
+1135
+00:47:35,169 --> 00:47:38,369
+accelerate model like other sort
+
+1136
+00:47:38,369 --> 00:47:40,350
+of conal works and
+also transformers.
+
+1137
+00:47:40,350 --> 00:47:43,179
+This is bird. Okay,
+no such case.
+
+1138
+00:47:43,179 --> 00:47:46,429
+And in addition,
+uh, as you can see,
+
+1139
+00:47:46,429 --> 00:47:47,169
+you and I do this,
+
+1140
+00:47:47,169 --> 00:47:49,529
+the device utilon is
+still quite low, right?
+
+1141
+00:47:49,529 --> 00:47:51,329
+For example, when the first and
+
+1142
+00:47:51,329 --> 00:47:53,489
+the last device is running,
+
+1143
+00:47:53,489 --> 00:47:56,549
+all other devices become,
+um, basically idle.
+
+1144
+00:47:56,549 --> 00:47:58,570
+Okay? So device placement
+
+1145
+00:47:58,570 --> 00:48:00,149
+basically need to
+be combined with,
+
+1146
+00:48:00,149 --> 00:48:02,390
+um, um, other
+pipeline schedules,
+
+1147
+00:48:02,390 --> 00:48:04,669
+which we'll discuss next.
+
+1148
+00:48:07,140 --> 00:48:10,880
+Okay, another type of methods
+to improve efficiency
+
+1149
+00:48:10,880 --> 00:48:14,560
+is what we call synchronous
+pipeline parallel.
+
+1150
+00:48:14,560 --> 00:48:17,120
+Okay? The idea
+here is basically,
+
+1151
+00:48:17,120 --> 00:48:20,720
+we modify the pipeline schedule
+to improve efficiency,
+
+1152
+00:48:20,720 --> 00:48:22,679
+but keep the computation
+
+1153
+00:48:22,679 --> 00:48:25,779
+on the convergence
+semantically the same,
+
+1154
+00:48:25,779 --> 00:48:27,339
+exactly the same as if you
+
+1155
+00:48:27,339 --> 00:48:28,859
+are training on a single device.
+
+1156
+00:48:28,859 --> 00:48:31,319
+So the very first work, okay,
+
+1157
+00:48:31,319 --> 00:48:33,359
+the very famous work
+which I gave you at
+
+1158
+00:48:33,359 --> 00:48:35,739
+reading is basically GPipe.
+
+1159
+00:48:35,739 --> 00:48:38,320
+Okay? G stands for Google,
+
+1160
+00:48:38,320 --> 00:48:39,420
+again, invented by Google.
+
+1161
+00:48:39,420 --> 00:48:42,680
+Okay? So the first work was
+pipeline parison is GPipe.
+
+1162
+00:48:42,680 --> 00:48:45,839
+The main idea here is to
+split the input batch.
+
+1163
+00:48:45,839 --> 00:48:49,079
+Here I'm going to use the
+one I introduced, okay?
+
+1164
+00:48:49,079 --> 00:48:52,300
+I'm going to split the input
+batch into micro baatches.
+
+1165
+00:48:52,300 --> 00:48:55,079
+Here I use my
+definition microbtch.
+
+1166
+00:48:55,079 --> 00:48:56,800
+I hope you don't get confused.
+
+1167
+00:48:56,800 --> 00:48:58,979
+I'm going to split
+my input batch into
+
+1168
+00:48:58,979 --> 00:49:01,420
+many micro baatches
+then we perform
+
+1169
+00:49:01,420 --> 00:49:04,140
+the pipeline as tuition
+for these micro baatches.
+
+1170
+00:49:04,140 --> 00:49:06,499
+It's very similar to
+the green accumulation.
+
+1171
+00:49:06,499 --> 00:49:08,439
+But it's a distributed
+orchestration.
+
+1172
+00:49:08,439 --> 00:49:12,539
+Let me show you.
+Basically, since
+
+1173
+00:49:12,539 --> 00:49:15,679
+the gradient of the
+whole input batch can be
+
+1174
+00:49:15,679 --> 00:49:17,139
+decomposed into the main of
+
+1175
+00:49:17,139 --> 00:49:19,039
+the gradients of microbatches,
+
+1176
+00:49:19,039 --> 00:49:20,479
+I gradient accumulation,
+
+1177
+00:49:20,479 --> 00:49:22,440
+and we can basically
+accumulate gradients
+
+1178
+00:49:22,440 --> 00:49:24,840
+into different microbatches
+and updated with altogether
+
+1179
+00:49:24,840 --> 00:49:27,660
+later once we finish
+a micro batches.
+
+1180
+00:49:27,660 --> 00:49:29,339
+So let's say this.
+So for example,
+
+1181
+00:49:29,339 --> 00:49:33,699
+let's say we split our input
+into six microbatches,
+
+1182
+00:49:33,699 --> 00:49:38,119
+then we can basically run
+the forward pass like this.
+
+1183
+00:49:38,119 --> 00:49:43,740
+No problem about 44 devices,
+six micro baatches.
+
+1184
+00:49:46,180 --> 00:49:48,479
+The problem here is when we
+
+1185
+00:49:48,479 --> 00:49:50,420
+run the four pass in
+pipeline fashion,
+
+1186
+00:49:50,420 --> 00:49:51,659
+for all inputs, we have to
+
+1187
+00:49:51,659 --> 00:49:53,539
+keep all the intermediate
+activations.
+
+1188
+00:49:53,539 --> 00:49:57,399
+We cannot through them
+right. Why? Because we
+
+1189
+00:49:57,399 --> 00:49:58,599
+need to perform backward, right?
+
+1190
+00:49:58,599 --> 00:50:00,659
+We have to preserve them.
+
+1191
+00:50:00,659 --> 00:50:03,219
+Okay? And then we
+perform a backward pass
+
+1192
+00:50:03,219 --> 00:50:06,739
+for all micro baatches
+like this, right?
+
+1193
+00:50:06,739 --> 00:50:10,019
+So here I hold the microbtg
+five ready, right?
+
+1194
+00:50:10,019 --> 00:50:11,380
+A activation computed.
+
+1195
+00:50:11,380 --> 00:50:13,180
+And then I schedule
+
+1196
+00:50:13,180 --> 00:50:16,819
+the backward or micro baat
+five on the device four.
+
+1197
+00:50:16,819 --> 00:50:19,720
+And then I basically start
+pipelining the backward.
+
+1198
+00:50:19,720 --> 00:50:22,740
+It's a kind of reverse figure.
+
+1199
+00:50:22,740 --> 00:50:24,600
+And finally, we update
+
+1200
+00:50:24,600 --> 00:50:27,340
+the model with the
+accumulated reading,
+
+1201
+00:50:27,340 --> 00:50:30,079
+and we get the new
+version model with,
+
+1202
+00:50:30,079 --> 00:50:32,419
+and we continue with
+the next batch.
+
+1203
+00:50:32,419 --> 00:50:34,100
+Obviously repeat this pattern.
+
+1204
+00:50:34,100 --> 00:50:37,359
+Okay. Any problem?
+
+1205
+00:50:37,359 --> 00:50:39,499
+Yeah.
+
+1206
+00:50:44,020 --> 00:50:47,420
+What do you mean by overhead?
+
+1207
+00:50:56,180 --> 00:50:59,559
+Yeah, that can be done
+before I launch a job.
+
+1208
+00:50:59,559 --> 00:51:01,805
+Yeah. It's something
+before runtime.
+
+1209
+00:51:01,805 --> 00:51:03,229
+Yeah.
+
+1210
+00:51:03,910 --> 00:51:07,509
+Does that make sense?
+Yeah. I can prepare that.
+
+1211
+00:51:07,509 --> 00:51:13,169
+I can do pre compute pre
+processing, Okay? Okay.
+
+1212
+00:51:13,169 --> 00:51:14,469
+Here I'm going to ask
+
+1213
+00:51:14,469 --> 00:51:16,010
+another question
+and very important.
+
+1214
+00:51:16,010 --> 00:51:17,149
+So in this case, what's
+
+1215
+00:51:17,149 --> 00:51:20,549
+the pipeline bubble percentage
+in mathematical form?
+
+1216
+00:51:21,230 --> 00:51:23,630
+Okay, I'm going to
+give you equation.
+
+1217
+00:51:23,630 --> 00:51:26,450
+You should internalize a
+little bit. Let me finish.
+
+1218
+00:51:26,450 --> 00:51:28,629
+Okay. So this is the
+same thing, right?
+
+1219
+00:51:28,629 --> 00:51:31,869
+Forward backward is reverse,
+bubble is exactly the same.
+
+1220
+00:51:31,869 --> 00:51:35,049
+Dmus one device by
+Dmus one plus, please.
+
+1221
+00:51:35,049 --> 00:51:41,469
+For you combine
+everything into one thing
+
+1222
+00:51:41,690 --> 00:51:43,950
+You don't have enough memory.
+
+1223
+00:51:43,950 --> 00:51:45,910
+Yeah. You don't
+have enough memory.
+
+1224
+00:51:45,910 --> 00:51:47,330
+Even if you have enough memory,
+
+1225
+00:51:47,330 --> 00:51:49,609
+you are going to if you look
+
+1226
+00:51:49,609 --> 00:51:52,529
+at this equation,
+assume you can.
+
+1227
+00:51:52,529 --> 00:51:54,609
+Assume you can.
+What's the problem.
+
+1228
+00:51:54,609 --> 00:52:00,190
+The problem is you really
+want to reduce your bubbles.
+
+1229
+00:52:00,190 --> 00:52:02,569
+And if you combine
+your microbatches
+
+1230
+00:52:02,569 --> 00:52:04,389
+into a bigger battery,
+
+1231
+00:52:04,389 --> 00:52:07,330
+the problem is is
+going to decrease.
+
+1232
+00:52:07,330 --> 00:52:10,349
+Previously, have a lumber
+microbaty equal to six.
+
+1233
+00:52:10,349 --> 00:52:12,729
+So if you consolidate
+the microbatch into one,
+
+1234
+00:52:12,729 --> 00:52:14,789
+you reduce it to three.
+
+1235
+00:52:14,789 --> 00:52:18,169
+And once you reduce it to
+three what's the problem.
+
+1236
+00:52:18,219 --> 00:52:20,519
+Your bubble is going
+to increase, right,
+
+1237
+00:52:20,519 --> 00:52:22,200
+because this number
+is decreased.
+
+1238
+00:52:22,200 --> 00:52:23,599
+So the bubble is
+going to increase.
+
+1239
+00:52:23,599 --> 00:52:25,579
+Your device will
+have more atle time.
+
+1240
+00:52:25,579 --> 00:52:34,379
+Sure. So the sooner What do
+you mean by update sooner?
+
+1241
+00:52:35,100 --> 00:52:38,119
+Yeah, you are going
+to update sooner.
+
+1242
+00:52:38,119 --> 00:52:41,140
+Yeah, the cycle is
+going to be shorter,
+
+1243
+00:52:41,540 --> 00:52:44,560
+the percentage of these
+bubbles is going to increase.
+
+1244
+00:52:44,560 --> 00:52:48,859
+Yeah. Any other question?
+
+1245
+00:52:48,859 --> 00:52:50,059
+Yeah.
+
+1246
+00:52:53,420 --> 00:52:59,339
+Yeah. Yeah. Very good question.
+
+1247
+00:52:59,339 --> 00:53:01,099
+I can tell you there's a limit.
+
+1248
+00:53:01,099 --> 00:53:03,379
+Okay. And actually,
+I talked about
+
+1249
+00:53:03,379 --> 00:53:06,440
+this somewhere during
+the memory section.
+
+1250
+00:53:06,440 --> 00:53:07,879
+So think about this, okay?
+
+1251
+00:53:07,879 --> 00:53:09,919
+You are locked to
+train a model with
+
+1252
+00:53:09,919 --> 00:53:12,779
+a badge size equal
+to one K. Okay.
+
+1253
+00:53:12,779 --> 00:53:16,279
+So basically, that's a result
+from hyperprimy tuning.
+
+1254
+00:53:16,279 --> 00:53:18,079
+That is training with
+the basis equal to
+
+1255
+00:53:18,079 --> 00:53:20,040
+one K will give you
+the best convergence.
+
+1256
+00:53:20,040 --> 00:53:22,620
+Assuming that that's
+not available.
+
+1257
+00:53:22,620 --> 00:53:24,179
+That's a constant,
+you have to do that.
+
+1258
+00:53:24,179 --> 00:53:27,419
+And then if you do Pip
+parism the best you
+
+1259
+00:53:27,419 --> 00:53:28,659
+can do is basically you
+
+1260
+00:53:28,659 --> 00:53:30,919
+train with 1,000
+microbatches, right?
+
+1261
+00:53:30,919 --> 00:53:33,500
+You use the basis equal to
+one to train with 1,000
+
+1262
+00:53:33,500 --> 00:53:35,300
+microbates and this bubble
+
+1263
+00:53:35,300 --> 00:53:36,759
+is going to be minimized, right?
+
+1264
+00:53:36,759 --> 00:53:38,199
+Because this one is here.
+
+1265
+00:53:38,199 --> 00:53:41,039
+But what's the problem?
+Can anyone tell?
+
+1266
+00:53:43,760 --> 00:53:45,079
+Yeah.
+
+1267
+00:53:45,079 --> 00:53:49,679
+Exactly.
+
+1268
+00:53:49,679 --> 00:53:52,439
+Because every time you
+increase microbaties,
+
+1269
+00:53:52,439 --> 00:53:54,399
+you are going to decrease
+the effective body size.
+
+1270
+00:53:54,399 --> 00:53:57,119
+So what's the effect of
+decreasing effective body size?
+
+1271
+00:53:57,119 --> 00:53:59,919
+You are going to reduce
+your matamo size, right?
+
+1272
+00:53:59,919 --> 00:54:01,379
+Once you reduce the mamosize,
+
+1273
+00:54:01,379 --> 00:54:03,279
+your GPO is going to be the
+
+1274
+00:54:03,279 --> 00:54:05,280
+original intensity is
+going to decrease.
+
+1275
+00:54:05,280 --> 00:54:07,440
+So you decrease lamer bubbles,
+
+1276
+00:54:07,440 --> 00:54:09,819
+but you also decrease the AI.
+
+1277
+00:54:09,819 --> 00:54:12,360
+Eventually, when you train
+arg models in company
+
+1278
+00:54:12,360 --> 00:54:14,759
+like Open At this is a
+pretty hard decision that
+
+1279
+00:54:14,759 --> 00:54:16,839
+they have to figure
+out the microbdy sizes
+
+1280
+00:54:16,839 --> 00:54:20,299
+and effective body size.
+
+1281
+00:54:20,299 --> 00:54:21,959
+Number microbachies. They have
+
+1282
+00:54:21,959 --> 00:54:23,399
+to strike a balance between
+
+1283
+00:54:23,399 --> 00:54:27,259
+AI and deviszon. Okay,
+does that make sense.
+
+1284
+00:54:27,259 --> 00:54:30,219
+I'm glad you ask because I'm
+going to cover that anyway.
+
+1285
+00:54:30,219 --> 00:54:33,700
+Yeah. Okay? Cool. This
+equation is pretty important.
+
+1286
+00:54:33,700 --> 00:54:36,020
+You need to remember, if
+you do pipeline partism,
+
+1287
+00:54:36,020 --> 00:54:37,319
+your device utilization is
+
+1288
+00:54:37,319 --> 00:54:38,879
+a function of lumber microbches.
+
+1289
+00:54:38,879 --> 00:54:40,999
+Okay? You want to increase that,
+
+1290
+00:54:40,999 --> 00:54:42,639
+but you cannot
+increase too much.
+
+1291
+00:54:42,639 --> 00:54:46,039
+Okay. Okay, so in this case,
+
+1292
+00:54:46,039 --> 00:54:49,280
+the pop bubble percentage
+is this equation.
+
+1293
+00:54:49,400 --> 00:54:52,140
+And from the experiment results
+
+1294
+00:54:52,140 --> 00:54:53,679
+of the original Pip paper,
+
+1295
+00:54:53,679 --> 00:54:56,920
+we can see that with only
+this depip schedule,
+
+1296
+00:54:56,920 --> 00:55:00,139
+uh, the parallel efficiency
+is actually pretty good.
+
+1297
+00:55:00,139 --> 00:55:01,700
+Okay? And we can achieve
+
+1298
+00:55:01,700 --> 00:55:02,959
+almost linear speed up when
+
+1299
+00:55:02,959 --> 00:55:04,779
+the lumber microbt is uh large,
+
+1300
+00:55:04,779 --> 00:55:07,579
+like I said, because when
+lumber microbt is large,
+
+1301
+00:55:07,579 --> 00:55:09,799
+your ti is high.
+
+1302
+00:55:09,799 --> 00:55:11,479
+Okay?
+
+1303
+00:55:11,479 --> 00:55:13,999
+Now, I'm going to
+tell you even more
+
+1304
+00:55:13,999 --> 00:55:16,080
+complicated problem
+about Poplin prison.
+
+1305
+00:55:16,080 --> 00:55:21,919
+Okay? So but one important
+issue of GPipes memory usage.
+
+1306
+00:55:21,919 --> 00:55:24,979
+Remember, every time when
+you perform the commutation,
+
+1307
+00:55:24,979 --> 00:55:26,499
+it's better on the forward pass.
+
+1308
+00:55:26,499 --> 00:55:29,379
+For a microba you have to
+preserve its activations.
+
+1309
+00:55:29,379 --> 00:55:31,539
+Okay? So the per device of
+
+1310
+00:55:31,539 --> 00:55:35,440
+the GPip schedule can be
+visualized in this plot.
+
+1311
+00:55:35,440 --> 00:55:40,339
+Okay? And this part
+is a memory that is
+
+1312
+00:55:40,339 --> 00:55:42,699
+basically this part
+is a memory that
+
+1313
+00:55:42,699 --> 00:55:43,919
+is basically used to store
+
+1314
+00:55:43,919 --> 00:55:45,300
+the motor parameters.
+It's a constant.
+
+1315
+00:55:45,300 --> 00:55:47,059
+Like I said, basically it's
+
+1316
+00:55:47,059 --> 00:55:50,179
+active during the entire
+forward backward pass, right?
+
+1317
+00:55:50,179 --> 00:55:52,279
+And there's a fixed.
+
+1318
+00:55:52,279 --> 00:55:54,599
+This is a fixed cost, and
+we cannot do much about it.
+
+1319
+00:55:54,599 --> 00:55:58,519
+Okay? However, this part,
+
+1320
+00:55:58,519 --> 00:56:00,819
+this part is
+basically occupied by
+
+1321
+00:56:00,819 --> 00:56:02,959
+the intermediate
+activations, right?
+
+1322
+00:56:02,959 --> 00:56:06,879
+Because whenever you
+introduce more microbatch,
+
+1323
+00:56:06,879 --> 00:56:08,379
+you are going to
+save one copy of
+
+1324
+00:56:08,379 --> 00:56:10,899
+the activations for
+that microbatch.
+
+1325
+00:56:10,899 --> 00:56:13,479
+So at some point, at some point,
+
+1326
+00:56:13,479 --> 00:56:15,680
+especially at the last
+microbat forward.
+
+1327
+00:56:15,680 --> 00:56:17,999
+This one, basically
+achieve peak, right?
+
+1328
+00:56:17,999 --> 00:56:22,419
+And then you start doing
+backward on this microbatg file.
+
+1329
+00:56:22,419 --> 00:56:23,800
+And because you do backward,
+
+1330
+00:56:23,800 --> 00:56:25,199
+you get the gradits
+so you can release
+
+1331
+00:56:25,199 --> 00:56:26,900
+the memory for the activations.
+
+1332
+00:56:26,900 --> 00:56:28,720
+So at some point, you're
+going to decrease.
+
+1333
+00:56:28,720 --> 00:56:31,820
+That's why it is
+like this, okay?
+
+1334
+00:56:33,300 --> 00:56:39,060
+Does anyone basically spot
+this fundamental conflict?
+
+1335
+00:56:40,380 --> 00:56:42,640
+I said, in that equation,
+
+1336
+00:56:42,640 --> 00:56:43,819
+I showed in my previous slide,
+
+1337
+00:56:43,819 --> 00:56:46,079
+you want the lumbomcrobtches
+to be as large as
+
+1338
+00:56:46,079 --> 00:56:49,079
+possible to minimize
+the device Id.
+
+1339
+00:56:49,079 --> 00:56:51,339
+But from this
+figure you can see,
+
+1340
+00:56:51,339 --> 00:56:53,800
+if I increase lambermcrobatches,
+
+1341
+00:56:53,800 --> 00:56:56,099
+this is like this.
+
+1342
+00:56:56,099 --> 00:56:58,659
+It's going to always
+grow to some point
+
+1343
+00:56:58,659 --> 00:57:01,300
+where my GPU memory
+is going to explode.
+
+1344
+00:57:01,300 --> 00:57:03,599
+Which means that this
+schedule doesn't work.
+
+1345
+00:57:03,599 --> 00:57:06,479
+It looks pretty beautiful
+but it doesn't work at all.
+
+1346
+00:57:06,479 --> 00:57:08,359
+Basically, at the peak, we have
+
+1347
+00:57:08,359 --> 00:57:09,719
+to store the
+parameter as well as
+
+1348
+00:57:09,719 --> 00:57:13,499
+the intermediate activities
+for all input microbatches.
+
+1349
+00:57:14,180 --> 00:57:15,539
+Okay.
+
+1350
+00:57:15,539 --> 00:57:16,959
+So memory equals to
+
+1351
+00:57:16,959 --> 00:57:19,779
+perimeter plus activation
+times number of microbages.
+
+1352
+00:57:19,779 --> 00:57:22,920
+I want this to be large
+to minimize bubble.
+
+1353
+00:57:22,920 --> 00:57:25,179
+But I also want
+
+1354
+00:57:25,179 --> 00:57:27,519
+this to be small to
+minimize the peak memory.
+
+1355
+00:57:27,519 --> 00:57:29,739
+Basically fundamentally
+contradictory.
+
+1356
+00:57:29,739 --> 00:57:34,060
+Okay. Cool, what's the solution?
+
+1357
+00:57:34,980 --> 00:57:37,420
+The indeed is a solution.
+
+1358
+00:57:37,420 --> 00:57:38,779
+That's why we still cover
+
+1359
+00:57:38,779 --> 00:57:40,800
+problem meorith If
+there's no solution,
+
+1360
+00:57:40,800 --> 00:57:43,580
+this is not going to
+be covered in course.
+
+1361
+00:57:43,580 --> 00:57:46,659
+One optimization of
+GPipe schedule is
+
+1362
+00:57:46,659 --> 00:57:49,379
+a so called 1f1b
+schedule, one forward,
+
+1363
+00:57:49,379 --> 00:57:51,979
+one backward schedule, and it is
+
+1364
+00:57:51,979 --> 00:57:55,400
+a re order of the
+original GPipe schedule.
+
+1365
+00:57:55,400 --> 00:57:57,320
+And as shown in this figure,
+
+1366
+00:57:57,320 --> 00:57:59,369
+you can see, uh,
+
+1367
+00:57:59,369 --> 00:58:02,289
+if you go okay, I highly
+recommend you go back,
+
+1368
+00:58:02,289 --> 00:58:03,969
+look at this, and you try
+
+1369
+00:58:03,969 --> 00:58:05,849
+to basically play this
+game by yourself.
+
+1370
+00:58:05,849 --> 00:58:07,849
+You try to play how to place
+
+1371
+00:58:07,849 --> 00:58:11,489
+a bubble each block on this
+timeline, play by yourself.
+
+1372
+00:58:11,489 --> 00:58:13,130
+And, as long as you assume
+
+1373
+00:58:13,130 --> 00:58:15,149
+the forward and bawd is
+exactly the same time,
+
+1374
+00:58:15,149 --> 00:58:19,050
+you want to figure out this
+11b under the GPP schedule,
+
+1375
+00:58:19,050 --> 00:58:21,755
+they have exactly the same
+latency for interact.
+
+1376
+00:58:21,755 --> 00:58:24,679
+The only difference is I
+basically play this game.
+
+1377
+00:58:24,679 --> 00:58:26,199
+I try to reorder this one, two,
+
+1378
+00:58:26,199 --> 00:58:28,239
+three, four, different
+colors 1234.
+
+1379
+00:58:28,239 --> 00:58:31,119
+So, you know, uh,
+
+1380
+00:58:31,119 --> 00:58:33,300
+the above and the
+bottom are different.
+
+1381
+00:58:33,300 --> 00:58:34,680
+But this creates
+
+1382
+00:58:34,680 --> 00:58:36,180
+a huge difference.
+What's the difference?
+
+1383
+00:58:36,180 --> 00:58:39,860
+So main difference
+between 11b and G pipe
+
+1384
+00:58:39,860 --> 00:58:41,299
+is that 11b will
+
+1385
+00:58:41,299 --> 00:58:44,699
+prioritize the execution
+of the backwards.
+
+1386
+00:58:44,699 --> 00:58:48,719
+Okay. Remember, in
+my previous, um,
+
+1387
+00:58:48,719 --> 00:58:51,540
+if you look at this schedule,
+I'm going to schedule
+
+1388
+00:58:51,540 --> 00:58:54,439
+this pipeline execution all
+the way to finish of forward.
+
+1389
+00:58:54,439 --> 00:58:57,200
+And then I start backward.
+
+1390
+00:58:57,200 --> 00:59:00,499
+But like I said, you have
+to suffer that memory peak.
+
+1391
+00:59:00,499 --> 00:59:02,840
+But here, as long
+as I have batch
+
+1392
+00:59:02,840 --> 00:59:05,640
+one microbtch that is
+ready to perform backward,
+
+1393
+00:59:05,640 --> 00:59:07,980
+I'm going to schedule
+the backward.
+
+1394
+00:59:07,980 --> 00:59:11,619
+I'm going to interwind forward
+and backward in some ways,
+
+1395
+00:59:11,619 --> 00:59:13,800
+so this backward
+can be prioritized.
+
+1396
+00:59:13,800 --> 00:59:16,879
+So why prioritizing
+backward could be better?
+
+1397
+00:59:17,550 --> 00:59:20,109
+Because if you look
+at this if you just
+
+1398
+00:59:20,109 --> 00:59:21,949
+track this microbt zero,
+
+1399
+00:59:21,949 --> 00:59:25,330
+right, at this point, the
+memory can be released.
+
+1400
+00:59:25,330 --> 00:59:27,249
+Okay. Pretty nice, right?
+
+1401
+00:59:27,249 --> 00:59:29,849
+Yeah. And if you look
+at microbay one,
+
+1402
+00:59:29,849 --> 00:59:31,689
+in the PIP schedule, the one,
+
+1403
+00:59:31,689 --> 00:59:33,009
+the last microbg will
+
+1404
+00:59:33,009 --> 00:59:34,589
+be the one will be
+asked here, right?
+
+1405
+00:59:34,589 --> 00:59:36,949
+But I reorder it. I'm
+going to ask you here.
+
+1406
+00:59:36,949 --> 00:59:39,129
+But if you check this
+one, at this point,
+
+1407
+00:59:39,129 --> 00:59:40,889
+the memory for microbg
+one is going to
+
+1408
+00:59:40,889 --> 00:59:42,749
+be released. Okay?
+Pretty nice, right?
+
+1409
+00:59:42,749 --> 00:59:44,430
+Okay, you'll spoil
+the difference.
+
+1410
+00:59:44,430 --> 00:59:47,030
+So, uh so basically,
+
+1411
+00:59:47,030 --> 00:59:48,709
+um I don't know how
+to repeat, right?
+
+1412
+00:59:48,709 --> 00:59:52,310
+So we just need to perform
+backward as early as possible.
+
+1413
+00:59:54,270 --> 00:59:58,130
+But just redo this, we have
+the same iterating latency,
+
+1414
+00:59:58,130 --> 01:00:00,309
+but our memory is much better,
+
+1415
+01:00:00,309 --> 01:00:02,830
+if we visualize the memory
+
+1416
+01:00:02,830 --> 01:00:05,190
+specifically with
+this one B schedule,
+
+1417
+01:00:05,190 --> 01:00:06,749
+the memory will no longer
+
+1418
+01:00:06,749 --> 01:00:09,970
+grow once we start
+performing backward.
+
+1419
+01:00:09,970 --> 01:00:11,909
+Whenever we perform
+a forward pass,
+
+1420
+01:00:11,909 --> 01:00:15,449
+we will immediately follow
+with a backward pass that
+
+1421
+01:00:15,449 --> 01:00:17,330
+can free the amount
+of memory occupied
+
+1422
+01:00:17,330 --> 01:00:19,630
+by the forward
+intermediate activions.
+
+1423
+01:00:19,630 --> 01:00:21,809
+Therefore, the memory usage will
+
+1424
+01:00:21,809 --> 01:00:25,349
+plate somehow in the
+middle, like this.
+
+1425
+01:00:25,349 --> 01:00:26,709
+It will just grow here and then
+
+1426
+01:00:26,709 --> 01:00:29,145
+plateau and then decrease.
+
+1427
+01:00:29,145 --> 01:00:31,760
+And with this f1b schedule,
+
+1428
+01:00:31,760 --> 01:00:33,780
+we will only need to straw
+
+1429
+01:00:33,780 --> 01:00:37,879
+amber devices shares
+of activations,
+
+1430
+01:00:37,879 --> 01:00:40,400
+instead of amber
+microbatches, copies.
+
+1431
+01:00:40,400 --> 01:00:42,139
+So basically reduce
+this factor from
+
+1432
+01:00:42,139 --> 01:00:44,120
+amber microbatches
+to lumber devices.
+
+1433
+01:00:44,120 --> 01:00:45,779
+Think about this
+by yourself, okay.
+
+1434
+01:00:45,779 --> 01:00:47,360
+You should be able to
+dive this equation
+
+1435
+01:00:47,360 --> 01:00:49,579
+because I'm going to ask
+you exam about this.
+
+1436
+01:00:49,579 --> 01:00:52,180
+Okay. Please.
+
+1437
+01:00:58,590 --> 01:01:05,689
+Uh huh. In most cases, yes.
+
+1438
+01:01:05,689 --> 01:01:08,029
+Yeah. Okay. Especially when
+
+1439
+01:01:08,029 --> 01:01:09,950
+you want to minimize
+your bubble.
+
+1440
+01:01:09,950 --> 01:01:12,110
+Yeah, you have to use a
+pretty large micro badges,
+
+1441
+01:01:12,110 --> 01:01:13,529
+lumber microbges. Yeah.
+
+1442
+01:01:13,529 --> 01:01:14,889
+Okay.
+
+1443
+01:01:14,889 --> 01:01:17,669
+So like I said, If B,
+
+1444
+01:01:17,669 --> 01:01:19,330
+the WiFi schedule
+allows us to perform
+
+1445
+01:01:19,330 --> 01:01:22,009
+pipeline parison with infinite
+number of microbtes now.
+
+1446
+01:01:22,009 --> 01:01:23,889
+Okay? Now, I can
+basically, like you said,
+
+1447
+01:01:23,889 --> 01:01:26,269
+I use just super
+large microbates
+
+1448
+01:01:26,269 --> 01:01:28,590
+to diminish the device bubble,
+
+1449
+01:01:28,590 --> 01:01:32,329
+but I won't suffer from a
+super high peak memory.
+
+1450
+01:01:32,329 --> 01:01:33,389
+Okay?
+
+1451
+01:01:33,389 --> 01:01:34,909
+I think this is
+basically the most
+
+1452
+01:01:34,909 --> 01:01:36,289
+important part of this lecture.
+
+1453
+01:01:36,289 --> 01:01:38,049
+And like I said, this and B
+
+1454
+01:01:38,049 --> 01:01:41,610
+is the one adopted
+today for twin GBT.
+
+1455
+01:01:41,610 --> 01:01:46,709
+Okay. Uh, I think also
+for t A language model.
+
+1456
+01:01:47,580 --> 01:01:49,299
+Okay.
+
+1457
+01:01:49,299 --> 01:01:51,879
+Actually, we can still
+grand it a little bit more.
+
+1458
+01:01:51,879 --> 01:01:53,940
+This is going to be a little
+bit more complicated.
+
+1459
+01:01:53,940 --> 01:01:55,179
+I'm not going to dive deeper,
+
+1460
+01:01:55,179 --> 01:01:56,400
+but if you are interested,
+
+1461
+01:01:56,400 --> 01:01:57,579
+you can dive deeper on this, but
+
+1462
+01:01:57,579 --> 01:01:59,220
+I'm going to give you pointers.
+
+1463
+01:01:59,220 --> 01:02:01,479
+A further optimentation, of
+
+1464
+01:02:01,479 --> 01:02:04,580
+the f1b schedule is
+basically to slice
+
+1465
+01:02:04,580 --> 01:02:08,540
+the neural network into more
+fine grained pipeline stages
+
+1466
+01:02:08,540 --> 01:02:10,340
+to reduce pipeline bubble.
+
+1467
+01:02:10,340 --> 01:02:11,800
+Let's say we are training
+
+1468
+01:02:11,800 --> 01:02:14,920
+a new network with eight
+layers on four devices.
+
+1469
+01:02:14,920 --> 01:02:19,500
+Previously, we cluster
+contiguous layers
+
+1470
+01:02:19,500 --> 01:02:21,700
+to form four stages,
+
+1471
+01:02:21,700 --> 01:02:25,534
+and each device will basically
+responsible for one stage.
+
+1472
+01:02:25,534 --> 01:02:29,189
+So we have a new schedule
+called interwine 11b.
+
+1473
+01:02:29,189 --> 01:02:32,090
+And in the interwineO
+B schedule,
+
+1474
+01:02:32,090 --> 01:02:34,849
+we put more than one stage
+onto a single device.
+
+1475
+01:02:34,849 --> 01:02:37,329
+Specifically, we can
+let each layer be
+
+1476
+01:02:37,329 --> 01:02:39,149
+a stage and then put
+
+1477
+01:02:39,149 --> 01:02:41,249
+stage one and stage
+five on device one,
+
+1478
+01:02:41,249 --> 01:02:45,169
+and stage two, and stage
+six on device two,
+
+1479
+01:02:45,169 --> 01:02:48,410
+and so on. Like
+this figure shoot.
+
+1480
+01:02:48,410 --> 01:02:52,630
+The main benefit of this
+method is that the latency,
+
+1481
+01:02:52,630 --> 01:02:54,930
+a single stage, the latency
+
+1482
+01:02:54,930 --> 01:02:56,530
+of a single stage
+becomes shorter.
+
+1483
+01:02:56,530 --> 01:02:59,949
+Therefore, for example, device
+two only need to wait half
+
+1484
+01:02:59,949 --> 01:03:01,290
+of the time to start excusing
+
+1485
+01:03:01,290 --> 01:03:04,449
+instead of waiting for
+the entire two layers.
+
+1486
+01:03:04,540 --> 01:03:06,459
+Okay.
+
+1487
+01:03:06,459 --> 01:03:10,160
+If we further visualize the
+execution, in a timeline,
+
+1488
+01:03:10,160 --> 01:03:13,100
+we can see that the new schedule
+
+1489
+01:03:13,100 --> 01:03:14,840
+further reduce the
+pipeline bubble.
+
+1490
+01:03:14,840 --> 01:03:16,439
+You just need to compare this.
+
+1491
+01:03:16,439 --> 01:03:18,759
+Okay. And this one, like I said,
+
+1492
+01:03:18,759 --> 01:03:21,520
+GPip has latency,
+
+1493
+01:03:21,520 --> 01:03:25,100
+and WiFi B has the same
+inter latency with GPip.
+
+1494
+01:03:25,100 --> 01:03:28,619
+But if you do this
+interleave WIF and B,
+
+1495
+01:03:28,619 --> 01:03:31,920
+you are going to reduce this
+latency. You become faster.
+
+1496
+01:03:31,920 --> 01:03:32,899
+Okay.
+
+1497
+01:03:32,899 --> 01:03:36,959
+And, and the downside
+of this method is,
+
+1498
+01:03:36,959 --> 01:03:39,079
+since we have more
+stages, right,
+
+1499
+01:03:39,079 --> 01:03:42,540
+so we need to communicate
+more often between devices.
+
+1500
+01:03:42,540 --> 01:03:45,139
+Okay. So basically, you
+pay a communicating cost.
+
+1501
+01:03:45,139 --> 01:03:48,459
+And since the communicating
+cost is typically small for
+
+1502
+01:03:48,459 --> 01:03:50,279
+interoperor partism and we can
+
+1503
+01:03:50,279 --> 01:03:52,659
+basically get speed
+up, yeah, it's fine.
+
+1504
+01:03:52,659 --> 01:03:56,179
+Okay. And if you want to
+it's not required, okay?
+
+1505
+01:03:56,179 --> 01:03:57,759
+I'm not going to
+do this in exam,
+
+1506
+01:03:57,759 --> 01:03:59,959
+but if you want to grant this,
+you can try to pass that.
+
+1507
+01:03:59,959 --> 01:04:01,360
+Yeah, it's very complicated.
+
+1508
+01:04:01,360 --> 01:04:04,679
+Um, yeah, another complexity I
+
+1509
+01:04:04,679 --> 01:04:08,480
+didn't mention is this is
+very difficult to implement.
+
+1510
+01:04:08,480 --> 01:04:11,380
+One key this ti problem parism
+
+1511
+01:04:11,380 --> 01:04:14,239
+is very hard to provide a very
+efficient implementation.
+
+1512
+01:04:14,239 --> 01:04:16,739
+It's very hard to
+debug. Especially when
+
+1513
+01:04:16,739 --> 01:04:17,760
+you launch this kind of problem
+
+1514
+01:04:17,760 --> 01:04:19,080
+parism across many devices.
+
+1515
+01:04:19,080 --> 01:04:21,520
+And if there's an error, you
+don't know where it happens.
+
+1516
+01:04:21,520 --> 01:04:25,839
+Okay. Okay. Any question?
+
+1517
+01:04:26,160 --> 01:04:28,599
+If you basically
+try to grind this,
+
+1518
+01:04:28,599 --> 01:04:30,100
+I can tell you the
+bubble is basically
+
+1519
+01:04:30,100 --> 01:04:33,149
+this lumber and you can see,
+where are the factor end.
+
+1520
+01:04:33,149 --> 01:04:36,939
+Okay. And there are more.
+
+1521
+01:04:36,939 --> 01:04:38,619
+I'm not going to cover. I think
+
+1522
+01:04:38,619 --> 01:04:40,939
+people are grading
+this pretty hard.
+
+1523
+01:04:41,140 --> 01:04:42,599
+Okay.
+
+1524
+01:04:42,599 --> 01:04:44,459
+Then let's move on to next word.
+
+1525
+01:04:44,459 --> 01:04:46,219
+So next word, TerraPp.
+
+1526
+01:04:46,219 --> 01:04:48,199
+Tara pup is basically
+a pipeline parts
+
+1527
+01:04:48,199 --> 01:04:50,240
+work to aggressive models,
+
+1528
+01:04:50,240 --> 01:04:52,579
+for example, TPT
+language models.
+
+1529
+01:04:52,579 --> 01:04:55,559
+And, like I said,
+
+1530
+01:04:55,559 --> 01:04:57,219
+most stable art
+language models are
+
+1531
+01:04:57,219 --> 01:04:59,460
+basically, uh,
+transformer architecture.
+
+1532
+01:04:59,460 --> 01:05:00,899
+And if we use the transformer to
+
+1533
+01:05:00,899 --> 01:05:02,999
+evaluate probative
+of syndem like this,
+
+1534
+01:05:02,999 --> 01:05:05,729
+um, basically cats are the best,
+
+1535
+01:05:05,729 --> 01:05:08,770
+and we will first mod
+probability of cats
+
+1536
+01:05:08,770 --> 01:05:12,470
+conditional on a special
+token, start off sequence,
+
+1537
+01:05:12,470 --> 01:05:14,389
+which is this okay
+
+1538
+01:05:14,389 --> 01:05:18,789
+then mod probability of cat
+and then R and then the best,
+
+1539
+01:05:18,789 --> 01:05:20,849
+and then we stop with the US.
+
+1540
+01:05:20,849 --> 01:05:23,929
+This is autoregressive model.
+
+1541
+01:05:24,120 --> 01:05:28,439
+Um, so here, one key
+observation we have is, uh,
+
+1542
+01:05:28,439 --> 01:05:30,259
+the computation of
+one input token,
+
+1543
+01:05:30,259 --> 01:05:32,419
+only depends on the
+previous token,
+
+1544
+01:05:32,419 --> 01:05:33,540
+but not the future tokens.
+
+1545
+01:05:33,540 --> 01:05:36,040
+This is what we mean
+by auto regressive.
+
+1546
+01:05:36,040 --> 01:05:38,020
+Okay? For example,
+when we calculate
+
+1547
+01:05:38,020 --> 01:05:40,959
+the probability of
+the word there, uh,
+
+1548
+01:05:40,959 --> 01:05:43,339
+the model only looks at
+cats R, these two words,
+
+1549
+01:05:43,339 --> 01:05:44,859
+but there's no dependency on
+
+1550
+01:05:44,859 --> 01:05:46,739
+the best, the following words.
+
+1551
+01:05:46,739 --> 01:05:49,280
+So why is it important?
+
+1552
+01:05:49,280 --> 01:05:53,260
+So basically in this
+trap pilin parison,
+
+1553
+01:05:53,260 --> 01:05:55,719
+the way we do is we use
+
+1554
+01:05:55,719 --> 01:05:59,560
+this property to perform pipe
+laning within a sequence.
+
+1555
+01:05:59,560 --> 01:06:01,319
+So what do we do is
+for example here,
+
+1556
+01:06:01,319 --> 01:06:04,579
+we can not the first
+token run on device one.
+
+1557
+01:06:04,579 --> 01:06:08,639
+Okay. Run it first,
+
+1558
+01:06:08,639 --> 01:06:11,239
+and then we send the
+results to device two.
+
+1559
+01:06:11,239 --> 01:06:15,139
+Meanwhile, well the first
+layer to run a second token.
+
+1560
+01:06:15,139 --> 01:06:17,340
+Remember, look at
+this difference.
+
+1561
+01:06:17,340 --> 01:06:21,700
+Here I this layer stage
+to take one token,
+
+1562
+01:06:21,700 --> 01:06:23,319
+once I finish it, I'm going to
+
+1563
+01:06:23,319 --> 01:06:25,019
+forward this activity
+to this layer.
+
+1564
+01:06:25,019 --> 01:06:26,799
+Meanwhile, I'm going to
+
+1565
+01:06:26,799 --> 01:06:28,819
+this transform layer
+to take another token.
+
+1566
+01:06:28,819 --> 01:06:30,339
+The reason we can't do this is
+
+1567
+01:06:30,339 --> 01:06:31,799
+because now we are
+doing language models.
+
+1568
+01:06:31,799 --> 01:06:34,719
+We have a sequence
+input. Like this.
+
+1569
+01:06:34,719 --> 01:06:36,440
+Once you see it two steps,
+
+1570
+01:06:36,440 --> 01:06:37,599
+you know what I'm
+going to do next?
+
+1571
+01:06:37,599 --> 01:06:39,259
+I'm going to
+continue to do this.
+
+1572
+01:06:39,259 --> 01:06:47,189
+Wall form partsme
+this, like this. Okay.
+
+1573
+01:06:47,189 --> 01:06:49,690
+This is basically
+the idea of Trapap.
+
+1574
+01:06:49,690 --> 01:06:52,409
+We can do this kind
+of parts but this is
+
+1575
+01:06:52,409 --> 01:06:56,910
+only special to language models.
+
+1576
+01:06:56,910 --> 01:06:57,449
+Yeah.
+
+1577
+01:06:57,449 --> 01:06:59,489
+Another key this advantage of
+
+1578
+01:06:59,489 --> 01:07:01,949
+this work is you can only
+do bicycle equal to one,
+
+1579
+01:07:01,949 --> 01:07:05,770
+which is not super
+good for small models.
+
+1580
+01:07:07,450 --> 01:07:08,989
+Okay.
+
+1581
+01:07:08,989 --> 01:07:11,449
+Then I'm going to tell
+you another work.
+
+1582
+01:07:11,449 --> 01:07:13,490
+Okay. It's called Chimera.
+
+1583
+01:07:13,490 --> 01:07:17,410
+Okay. And in my previous
+offering with lecture,
+
+1584
+01:07:17,410 --> 01:07:19,530
+I don't cover this work because
+this is very complicated.
+
+1585
+01:07:19,530 --> 01:07:21,949
+But today, I have to cover it.
+
+1586
+01:07:21,949 --> 01:07:25,390
+You know why? This is the
+one that is used in TipsIk.
+
+1587
+01:07:25,390 --> 01:07:28,930
+Okay. Deep six basically
+uses PipelHizon.
+
+1588
+01:07:28,930 --> 01:07:31,869
+Okay? So do spend some
+time grading this because
+
+1589
+01:07:31,869 --> 01:07:33,509
+I'm I'm going to come back to
+
+1590
+01:07:33,509 --> 01:07:35,249
+this when we start talking
+about language models.
+
+1591
+01:07:35,249 --> 01:07:35,749
+Okay?
+
+1592
+01:07:35,749 --> 01:07:39,269
+So Chimera is another
+work that try
+
+1593
+01:07:39,269 --> 01:07:43,010
+to further optimize
+the one B schedule,
+
+1594
+01:07:43,010 --> 01:07:45,609
+let's say we have four
+steady pipeline and
+
+1595
+01:07:45,609 --> 01:07:49,229
+two input micro baatches
+if we ask them with 11b,
+
+1596
+01:07:49,229 --> 01:07:51,569
+we basically get
+this schedule, 11b.
+
+1597
+01:07:51,569 --> 01:07:55,369
+Okay. And we can
+find it out here.
+
+1598
+01:07:55,440 --> 01:07:57,979
+If you just look at
+this figure, okay?
+
+1599
+01:07:57,979 --> 01:07:59,779
+This figure does not
+have many microbges,
+
+1600
+01:07:59,779 --> 01:08:01,620
+but let's use as an example.
+
+1601
+01:08:01,620 --> 01:08:02,699
+If you look at this figure,
+
+1602
+01:08:02,699 --> 01:08:04,219
+you can see, there are
+some bubbles, right?
+
+1603
+01:08:04,219 --> 01:08:08,139
+Here, here, here,
+here, here. Okay.
+
+1604
+01:08:08,139 --> 01:08:09,939
+And these bubbles looks
+
+1605
+01:08:09,939 --> 01:08:11,940
+like we can insert
+another pipeline.
+
+1606
+01:08:11,940 --> 01:08:14,380
+Right? We just do a
+reverse pipeline,
+
+1607
+01:08:14,380 --> 01:08:17,299
+and we insert asc
+into these bubbles.
+
+1608
+01:08:17,299 --> 01:08:20,659
+Okay? So so look at this fire,
+
+1609
+01:08:20,659 --> 01:08:22,459
+we can see that we
+find out we can enter
+
+1610
+01:08:22,459 --> 01:08:25,280
+another 11b pipeline
+or reverse 11b.
+
+1611
+01:08:25,280 --> 01:08:27,439
+So more specifically, um,
+
+1612
+01:08:27,439 --> 01:08:30,079
+if we also maintain
+a reverse pipeline,
+
+1613
+01:08:30,079 --> 01:08:31,699
+in other words, we
+start the pipeline on
+
+1614
+01:08:31,699 --> 01:08:33,699
+Device four and then
+finish it on device one.
+
+1615
+01:08:33,699 --> 01:08:35,099
+Basically, we put
+
+1616
+01:08:35,099 --> 01:08:36,679
+two copies of the model
+parameters, right?
+
+1617
+01:08:36,679 --> 01:08:38,459
+One is from device one
+all the way to four.
+
+1618
+01:08:38,459 --> 01:08:40,679
+The other is Device
+four all to one, okay?
+
+1619
+01:08:40,679 --> 01:08:43,079
+And we can basically get
+another pipeline with
+
+1620
+01:08:43,079 --> 01:08:45,879
+two micro baatches one from
+here, the other from here.
+
+1621
+01:08:45,879 --> 01:08:48,059
+Okay? And if we
+merge this pipeline,
+
+1622
+01:08:48,059 --> 01:08:51,934
+basically get this kind of
+schedule, okay on this slide.
+
+1623
+01:08:51,934 --> 01:08:53,729
+Oh, sorry, this is
+the second bubble.
+
+1624
+01:08:53,729 --> 01:08:55,309
+If we merge them together,
+we get this one.
+
+1625
+01:08:55,309 --> 01:08:57,209
+Okay, you can see this
+is pretty smart, right?
+
+1626
+01:08:57,209 --> 01:08:59,729
+We basically do a
+forward and backward,
+
+1627
+01:08:59,729 --> 01:09:01,369
+but using a rewards all over
+
+1628
+01:09:01,369 --> 01:09:03,389
+the devices and we
+put allom together,
+
+1629
+01:09:03,389 --> 01:09:05,049
+you can see atom
+bubble diminish.
+
+1630
+01:09:05,049 --> 01:09:07,309
+We can maximize our utilization.
+
+1631
+01:09:07,309 --> 01:09:09,949
+Okay? What's the problem?
+
+1632
+01:09:11,120 --> 01:09:15,139
+You have two copies already
+parameters, not activations.
+
+1633
+01:09:15,139 --> 01:09:16,439
+Basically, which
+means that you have
+
+1634
+01:09:16,439 --> 01:09:20,119
+to waste some memory to store
+two copies of parameters.
+
+1635
+01:09:20,119 --> 01:09:22,279
+Um, before Deep sick,
+
+1636
+01:09:22,279 --> 01:09:23,759
+before the big models,
+
+1637
+01:09:23,759 --> 01:09:26,019
+I think this is a problem
+that people do not accept.
+
+1638
+01:09:26,019 --> 01:09:28,479
+But at some point, people
+continue to skill and skill
+
+1639
+01:09:28,479 --> 01:09:31,440
+to skill and skill
+training to like two KTPs.
+
+1640
+01:09:31,440 --> 01:09:34,099
+At that point, you find that
+you have many many memory.
+
+1641
+01:09:34,099 --> 01:09:36,199
+You have so many memory
+that you are able to
+
+1642
+01:09:36,199 --> 01:09:39,794
+afford two copy of parameters.
+
+1643
+01:09:39,794 --> 01:09:42,229
+That's why Tip stake
+is a win, right?
+
+1644
+01:09:42,229 --> 01:09:44,889
+Deep uses one to minimize
+the dias bubble.
+
+1645
+01:09:44,889 --> 01:09:47,069
+Okay. Today, I'm
+going to stop here.
+
+1646
+01:09:47,069 --> 01:09:48,429
+I think there are
+so many contents
+
+1647
+01:09:48,429 --> 01:09:49,709
+that you have to
+digest a little bit,
+
+1648
+01:09:49,709 --> 01:09:52,269
+and we are going to deeper
+and deeper next week.
+
+1649
+01:09:52,269 --> 01:09:55,029
+Okay. Cool. Thank you.

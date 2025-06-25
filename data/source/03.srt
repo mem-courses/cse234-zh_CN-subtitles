@@ -1,0 +1,7508 @@
+1
+00:00:05,800 --> 00:00:09,979
+Okay, yeah. Let's get started.
+
+2
+00:00:09,979 --> 00:00:12,000
+Cool, cool. Thanks for coming.
+
+3
+00:00:12,000 --> 00:00:17,839
+And we are going to continue
+to talk about some basics.
+
+4
+00:00:20,780 --> 00:00:23,319
+Okay. Before that, I want to
+
+5
+00:00:23,319 --> 00:00:25,159
+give some update on enrollment.
+
+6
+00:00:25,159 --> 00:00:27,879
+So I think a few students drop.
+
+7
+00:00:27,879 --> 00:00:30,300
+So we have 60 more seats.
+
+8
+00:00:30,300 --> 00:00:33,519
+I'm going to work with CSE
+
+9
+00:00:33,519 --> 00:00:36,619
+to enroll the next
+bachelor students.
+
+10
+00:00:37,900 --> 00:00:40,780
+Then on Thursday,
+probably after lecture,
+
+11
+00:00:40,780 --> 00:00:42,560
+I'm going to work
+with CSE again.
+
+12
+00:00:42,560 --> 00:00:45,140
+I believe at that time after
+some students homework,
+
+13
+00:00:45,140 --> 00:00:46,420
+they are going to
+drop the scores,
+
+14
+00:00:46,420 --> 00:00:48,540
+so there will be more seats.
+
+15
+00:00:49,900 --> 00:00:52,460
+Which also means that Thursday
+
+16
+00:00:52,460 --> 00:00:54,920
+likely we'll have our
+homework one ready.
+
+17
+00:00:54,920 --> 00:01:00,340
+Yeah. Okay, let's get started
+with the content today.
+
+18
+00:01:00,340 --> 00:01:02,959
+So so still remember what
+we learned last week,
+
+19
+00:01:02,959 --> 00:01:05,140
+right? Three things, right?
+
+20
+00:01:05,140 --> 00:01:07,880
+The first one is we took a very,
+
+21
+00:01:07,880 --> 00:01:11,800
+very fast review of
+machine learning,
+
+22
+00:01:11,800 --> 00:01:13,919
+especially today's
+machine learning.
+
+23
+00:01:13,919 --> 00:01:16,139
+We summarize our workload as
+
+24
+00:01:16,139 --> 00:01:20,240
+Metham plus softmax plus
+a few other operators,
+
+25
+00:01:20,240 --> 00:01:24,160
+right, from the computational
+perspective, okay?
+
+26
+00:01:24,160 --> 00:01:27,639
+And we start defining the
+computational graphs,
+
+27
+00:01:27,639 --> 00:01:29,479
+um, still remember
+
+28
+00:01:29,479 --> 00:01:31,440
+the definitions of
+nodes and edges, right?
+
+29
+00:01:31,440 --> 00:01:34,560
+So nodes represent the
+computational operators
+
+30
+00:01:34,560 --> 00:01:36,340
+and its a potential,
+
+31
+00:01:36,340 --> 00:01:38,419
+and edges are basically
+
+32
+00:01:38,419 --> 00:01:41,709
+the data flowing
+directions and dependency.
+
+33
+00:01:41,709 --> 00:01:43,900
+And then we start talking about
+
+34
+00:01:43,900 --> 00:01:47,399
+the programming flavors of
+especially TenerfornPatrig,
+
+35
+00:01:47,399 --> 00:01:50,319
+and we find that they
+are quite different.
+
+36
+00:01:50,319 --> 00:01:53,879
+One is symbolic, the
+other is imperative.
+
+37
+00:01:53,879 --> 00:01:56,779
+We start talking about
+static and dynamic, right?
+
+38
+00:01:56,779 --> 00:01:58,880
+And we also talk
+
+39
+00:01:58,880 --> 00:02:00,660
+about the latest
+technique which is called
+
+40
+00:02:00,660 --> 00:02:02,780
+JIT just in time
+compilation and how
+
+41
+00:02:02,780 --> 00:02:05,740
+they can basically solve
+this problem a little bit.
+
+42
+00:02:05,740 --> 00:02:10,560
+Okay. Let's do some
+MCQ. Very easy.
+
+43
+00:02:12,030 --> 00:02:15,250
+So you are machine
+learning engineer at
+
+44
+00:02:15,250 --> 00:02:18,670
+a company that is
+providing points to users,
+
+45
+00:02:18,670 --> 00:02:21,070
+your goal is running
+efficient inference
+
+46
+00:02:21,070 --> 00:02:22,330
+for these Ms. For example,
+
+47
+00:02:22,330 --> 00:02:25,530
+you are open A and you are given
+
+48
+00:02:25,530 --> 00:02:28,790
+a framework which has both
+symbolic and impervid API,
+
+49
+00:02:28,790 --> 00:02:31,930
+which is true for both
+Interf and Petrox today.
+
+50
+00:02:31,930 --> 00:02:34,950
+While designing your system,
+
+51
+00:02:35,270 --> 00:02:37,530
+I'm going to give
+you four options.
+
+52
+00:02:37,530 --> 00:02:39,709
+Take a look at that. Which one?
+
+53
+00:02:50,480 --> 00:02:53,119
+Which one? B, right?
+
+54
+00:02:53,119 --> 00:02:54,979
+Pretty simple, yeah,
+because you want something
+
+55
+00:02:54,979 --> 00:02:56,980
+that's easier to
+debug at development.
+
+56
+00:02:56,980 --> 00:02:58,859
+And once you figure
+out your program,
+
+57
+00:02:58,859 --> 00:03:00,240
+you basically deploy it using
+
+58
+00:03:00,240 --> 00:03:01,699
+the most high performance one.
+
+59
+00:03:01,699 --> 00:03:07,499
+Okay? Second one.
+
+60
+00:03:07,499 --> 00:03:10,580
+Which of the following is not
+true about dataflow graphs,
+
+61
+00:03:10,580 --> 00:03:12,279
+take a look at AB and C
+
+62
+00:03:12,279 --> 00:03:13,679
+and D.
+
+63
+00:03:24,360 --> 00:03:26,539
+Which one?
+
+64
+00:03:26,539 --> 00:03:29,480
+C, right? So static data.
+
+65
+00:03:29,480 --> 00:03:31,520
+Data flow graph means
+that it's static.
+
+66
+00:03:31,520 --> 00:03:33,299
+So you just define
+once and it will
+
+67
+00:03:33,299 --> 00:03:36,100
+run forever for bitter data.
+
+68
+00:03:36,100 --> 00:03:38,960
+And given static data graph,
+
+69
+00:03:38,960 --> 00:03:40,559
+batching is natural, you
+
+70
+00:03:40,559 --> 00:03:43,619
+just throw batches into
+the graph and it will run.
+
+71
+00:03:43,619 --> 00:03:45,660
+Because the shape is static.
+
+72
+00:03:45,660 --> 00:03:47,940
+For D is obvious.
+
+73
+00:03:47,940 --> 00:03:49,699
+Define run is a possible way
+
+74
+00:03:49,699 --> 00:03:51,360
+to handle dynamic
+data for graphs,
+
+75
+00:03:51,360 --> 00:03:53,060
+because you don't care
+about performance.
+
+76
+00:03:53,060 --> 00:03:55,299
+So let's see. Okay.
+
+77
+00:03:55,299 --> 00:03:57,559
+Pretty easy, right?
+This is basically
+
+78
+00:03:57,559 --> 00:04:00,219
+the level of difficulty
+in final exam.
+
+79
+00:04:00,219 --> 00:04:05,200
+Okay. Yeah, let's go back
+to the main contents today.
+
+80
+00:04:05,200 --> 00:04:07,419
+So I think last lecture,
+
+81
+00:04:07,419 --> 00:04:09,179
+we talk about representation
+
+82
+00:04:09,179 --> 00:04:11,699
+that express the computation
+using primitives,
+
+83
+00:04:11,699 --> 00:04:13,839
+and that repent is
+basically data flow graph.
+
+84
+00:04:13,839 --> 00:04:16,340
+And we also talk
+
+85
+00:04:16,340 --> 00:04:17,579
+about how to define dataflow
+
+86
+00:04:17,579 --> 00:04:19,240
+graph at the forward
+path, right?
+
+87
+00:04:19,240 --> 00:04:21,240
+But we are doing
+deep learning, we
+
+88
+00:04:21,240 --> 00:04:22,440
+are not going to be ending there
+
+89
+00:04:22,440 --> 00:04:24,400
+because we care about backward
+
+90
+00:04:24,400 --> 00:04:25,640
+graph back propagation, right?
+
+91
+00:04:25,640 --> 00:04:28,560
+We want to optimize
+the model weights.
+
+92
+00:04:28,560 --> 00:04:30,300
+So in this talk, we are going to
+
+93
+00:04:30,300 --> 00:04:31,859
+talk about we're going to start
+
+94
+00:04:31,859 --> 00:04:33,320
+with how to basically define
+
+95
+00:04:33,320 --> 00:04:35,994
+the backward competition
+using data flow graphs.
+
+96
+00:04:35,994 --> 00:04:37,890
+And this learning goal, we
+
+97
+00:04:37,890 --> 00:04:40,210
+first talk about auto
+differentiation.
+
+98
+00:04:40,210 --> 00:04:41,989
+And once you understand that,
+
+99
+00:04:41,989 --> 00:04:43,490
+I can start presenting you
+
+100
+00:04:43,490 --> 00:04:46,089
+basically the grand problem
+of machine learning systems.
+
+101
+00:04:46,089 --> 00:04:47,849
+What do we try to optimize?
+
+102
+00:04:47,849 --> 00:04:49,510
+And if time permits,
+
+103
+00:04:49,510 --> 00:04:50,670
+we're going to talk
+about a little
+
+104
+00:04:50,670 --> 00:04:52,950
+bit lower level things, okay?
+
+105
+00:04:53,150 --> 00:04:56,690
+So, auto differentiation, right?
+
+106
+00:04:56,690 --> 00:04:58,709
+So what do we do when we do auto
+
+107
+00:04:58,709 --> 00:05:01,270
+We basically take
+graditsT derivatives.
+
+108
+00:05:01,270 --> 00:05:05,030
+Okay? So I hope you still
+remember your undergrad course,
+
+109
+00:05:05,030 --> 00:05:06,790
+how to take derivatives.
+
+110
+00:05:06,790 --> 00:05:08,509
+So given F Theta,
+
+111
+00:05:08,509 --> 00:05:11,469
+what is partial F by Pi Theta?
+
+112
+00:05:11,469 --> 00:05:14,049
+So we can take it by definition,
+
+113
+00:05:14,049 --> 00:05:16,470
+which is basically
+this limit, right?
+
+114
+00:05:16,470 --> 00:05:18,349
+So we find a very small epson
+
+115
+00:05:18,349 --> 00:05:20,610
+and we try to derive the limit.
+
+116
+00:05:20,610 --> 00:05:23,470
+And this is doable
+in computer program.
+
+117
+00:05:23,470 --> 00:05:25,230
+What do we do is
+basically we evaluate
+
+118
+00:05:25,230 --> 00:05:28,249
+the function value F at
+Theta and Theta plus Epson,
+
+119
+00:05:28,249 --> 00:05:30,150
+and then we just
+follow this right.
+
+120
+00:05:30,150 --> 00:05:32,009
+As long as apsnon is very small,
+
+121
+00:05:32,009 --> 00:05:34,049
+we can actually
+approximate the grading,
+
+122
+00:05:34,049 --> 00:05:36,069
+right, the partial derivative.
+
+123
+00:05:36,069 --> 00:05:37,770
+But what is the problem here?
+
+124
+00:05:37,770 --> 00:05:40,750
+Why DplingFramwork
+does not use this one?
+
+125
+00:05:41,330 --> 00:05:45,730
+Okay, the first problem
+is, it's very slow, right?
+
+126
+00:05:45,730 --> 00:05:48,090
+Because every time we need
+to evaluate two values to
+
+127
+00:05:48,090 --> 00:05:50,950
+get one gradient, one
+derivative, okay?
+
+128
+00:05:50,950 --> 00:05:55,090
+Second problem is, this one
+is not accurate because
+
+129
+00:05:55,090 --> 00:05:58,720
+it's it's basically we
+
+130
+00:05:58,720 --> 00:06:00,760
+are approximating the
+grading values, right?
+
+131
+00:06:00,760 --> 00:06:02,240
+And we are basically take
+
+132
+00:06:02,240 --> 00:06:04,320
+small enough apsion
+to approximate that.
+
+133
+00:06:04,320 --> 00:06:05,860
+You know, computer has a lot of
+
+134
+00:06:05,860 --> 00:06:07,700
+floating point arrows,
+and if you do this way,
+
+135
+00:06:07,700 --> 00:06:09,680
+that floting point arrow
+will propagate all the way
+
+136
+00:06:09,680 --> 00:06:10,899
+through neural
+network and we are
+
+137
+00:06:10,899 --> 00:06:12,639
+not going to get
+accurate gradient.
+
+138
+00:06:12,639 --> 00:06:15,320
+So in reality, we don't do this.
+
+139
+00:06:15,320 --> 00:06:18,400
+What we do is basically we
+do symbolic differentiation,
+
+140
+00:06:18,400 --> 00:06:20,760
+and we basically applied
+
+141
+00:06:20,760 --> 00:06:23,380
+what we learned from
+the calculus class and
+
+142
+00:06:23,380 --> 00:06:25,699
+we try to derive
+
+143
+00:06:25,699 --> 00:06:27,539
+the gradient or
+partial derivative
+
+144
+00:06:27,539 --> 00:06:29,820
+using these derivative
+rules, right?
+
+145
+00:06:29,820 --> 00:06:32,080
+I hope you still remember.
+If you don't take a look,
+
+146
+00:06:32,080 --> 00:06:34,655
+okay, try to remind
+yourself, okay.
+
+147
+00:06:34,655 --> 00:06:39,549
+And we are going to walk
+through a very simple example.
+
+148
+00:06:39,549 --> 00:06:43,270
+So here we have a very
+small commutation,
+
+149
+00:06:43,270 --> 00:06:46,350
+or you can also think this
+as neural network, right?
+
+150
+00:06:46,350 --> 00:06:49,290
+Were we have two
+inputs X one, X two,
+
+151
+00:06:49,290 --> 00:06:51,609
+and going through
+some computation
+
+152
+00:06:51,609 --> 00:06:53,650
+which I defined
+here, pretty simple.
+
+153
+00:06:53,650 --> 00:06:55,869
+And following what we
+taught in the last lecture,
+
+154
+00:06:55,869 --> 00:06:59,089
+we basically write visualize
+it as commutation graph.
+
+155
+00:06:59,089 --> 00:07:02,790
+And we also instantiate
+the values for x1x2.
+
+156
+00:07:02,790 --> 00:07:04,889
+So you can see, following
+
+157
+00:07:04,889 --> 00:07:06,229
+the competon we can
+actually derive
+
+158
+00:07:06,229 --> 00:07:08,825
+the value of the
+outcome, which is Y.
+
+159
+00:07:08,825 --> 00:07:11,940
+And our goal is we try to
+
+160
+00:07:11,940 --> 00:07:14,900
+calculate the value of
+partial Y by partial X one.
+
+161
+00:07:14,900 --> 00:07:16,539
+For example, we want
+to take the derivative
+
+162
+00:07:16,539 --> 00:07:17,860
+against X one.
+
+163
+00:07:17,860 --> 00:07:20,959
+That's what we normally do
+in neur twork training.
+
+164
+00:07:21,360 --> 00:07:25,299
+So we basically follow
+partial derivative rules,
+
+165
+00:07:25,299 --> 00:07:29,100
+and also chain rules and
+um and in this regard,
+
+166
+00:07:29,100 --> 00:07:30,580
+we actually have two ways.
+
+167
+00:07:30,580 --> 00:07:32,160
+So which I list here, one
+
+168
+00:07:32,160 --> 00:07:34,040
+is the forward way
+that is we can,
+
+169
+00:07:34,040 --> 00:07:36,400
+if you look at the
+function on the left side,
+
+170
+00:07:36,400 --> 00:07:41,000
+so you can take the derivative
+from left to right, right?
+
+171
+00:07:41,000 --> 00:07:42,839
+And you can calculate step
+
+172
+00:07:42,839 --> 00:07:44,760
+by step from X,
+all the way to Y,
+
+173
+00:07:44,760 --> 00:07:46,520
+that is from the inner of
+
+174
+00:07:46,520 --> 00:07:48,899
+the function to the outer
+part of the function.
+
+175
+00:07:48,899 --> 00:07:50,640
+Or you can do something that is
+
+176
+00:07:50,640 --> 00:07:51,879
+taught in machine learning class
+
+177
+00:07:51,879 --> 00:07:53,099
+that is back propagation.
+
+178
+00:07:53,099 --> 00:07:55,620
+You do from right
+to left, right?
+
+179
+00:07:55,620 --> 00:07:58,860
+You take the derivative
+Y against the
+
+180
+00:07:58,860 --> 00:08:00,339
+V six and the V five and
+
+181
+00:08:00,339 --> 00:08:02,060
+then all the way back
+propagate through,
+
+182
+00:08:02,060 --> 00:08:04,310
+um, X one and X two.
+
+183
+00:08:04,310 --> 00:08:06,029
+You can always get a results.
+
+184
+00:08:06,029 --> 00:08:07,370
+We are going to reason a little
+
+185
+00:08:07,370 --> 00:08:08,630
+bit on these two modes, okay,
+
+186
+00:08:08,630 --> 00:08:11,129
+because there are a lot
+of softwares basically
+
+187
+00:08:11,129 --> 00:08:13,930
+implementing two
+different kinds of modes.
+
+188
+00:08:13,930 --> 00:08:15,250
+Okay, we call the first mode,
+
+189
+00:08:15,250 --> 00:08:18,050
+forward mode, auto
+differentiation or forward ED.
+
+190
+00:08:18,050 --> 00:08:21,210
+The second mode,
+backward ED, okay?
+
+191
+00:08:22,320 --> 00:08:25,999
+So let's first run
+through forward mode.
+
+192
+00:08:25,999 --> 00:08:28,859
+Okay. The way we do
+forward mode is basically,
+
+193
+00:08:28,859 --> 00:08:31,980
+we are going to
+define this VI dot.
+
+194
+00:08:31,980 --> 00:08:34,159
+The dot is basically defined as
+
+195
+00:08:34,159 --> 00:08:39,000
+the partial derivative
+of VI against XI.
+
+196
+00:08:39,000 --> 00:08:43,460
+So that is the IS node in
+the graph against the input.
+
+197
+00:08:43,460 --> 00:08:46,729
+Okay? So what do
+
+198
+00:08:46,729 --> 00:08:48,589
+we do is we are going
+to our goal is try to
+
+199
+00:08:48,589 --> 00:08:53,749
+derive the value of partial
+Yi partial X one, right?
+
+200
+00:08:53,749 --> 00:08:55,269
+So what do we do
+is we are going to
+
+201
+00:08:55,269 --> 00:08:57,109
+start with from X
+one all the way
+
+202
+00:08:57,109 --> 00:09:01,150
+to Y and we try to figure out
+how we can get that value.
+
+203
+00:09:01,150 --> 00:09:03,629
+So it's pretty simple, right?
+
+204
+00:09:03,629 --> 00:09:05,630
+So by definition, uh,
+
+205
+00:09:05,630 --> 00:09:06,889
+we one dot is basically one,
+
+206
+00:09:06,889 --> 00:09:09,839
+right, because we one
+is equal to X one.
+
+207
+00:09:09,839 --> 00:09:13,689
+Right, so the dervative
+is basically one.
+
+208
+00:09:13,689 --> 00:09:15,710
+And we just do it all the way,
+
+209
+00:09:15,710 --> 00:09:18,689
+following the graph
+from left to right,
+
+210
+00:09:18,689 --> 00:09:21,450
+and eventually we are going
+to reach we seven dot,
+
+211
+00:09:21,450 --> 00:09:25,109
+which is basically, uh, 5.5.
+
+212
+00:09:25,109 --> 00:09:28,889
+Okay? I'm not going to dive
+deep into the calculation,
+
+213
+00:09:28,889 --> 00:09:31,110
+but I think this one is
+very straightforward.
+
+214
+00:09:31,110 --> 00:09:32,530
+You just do it step by step.
+
+215
+00:09:32,530 --> 00:09:34,809
+Okay, function my faction. Okay.
+
+216
+00:09:34,809 --> 00:09:39,810
+Any question? Cool. And finally,
+
+217
+00:09:39,810 --> 00:09:41,289
+we can write the answer,
+
+218
+00:09:41,289 --> 00:09:44,250
+which is a partial Y by
+partial X one is equal to 5.5,
+
+219
+00:09:44,250 --> 00:09:48,190
+which is equal to the
+value of V seven dot.
+
+220
+00:09:49,150 --> 00:09:51,869
+Okay. And from this process,
+
+221
+00:09:51,869 --> 00:09:54,370
+you can see, um, uh,
+
+222
+00:09:54,370 --> 00:09:57,530
+the characteristics of
+forward forward mode 80,
+
+223
+00:09:57,530 --> 00:09:59,709
+basically, we start
+from the input node
+
+224
+00:09:59,709 --> 00:10:01,729
+right here is X one or X two.
+
+225
+00:10:01,729 --> 00:10:03,829
+And we derive the
+gradient all the
+
+226
+00:10:03,829 --> 00:10:06,769
+way to the opt nodes, here is Y.
+
+227
+00:10:06,769 --> 00:10:11,110
+So what is the pros and
+cons of forward auto diff?
+
+228
+00:10:13,400 --> 00:10:15,640
+Maybe let me ask you a question.
+
+229
+00:10:15,640 --> 00:10:18,160
+So does petrous use this one?
+
+230
+00:10:18,160 --> 00:10:20,299
+No, right? Yeah, there
+
+231
+00:10:20,299 --> 00:10:21,859
+must be something
+that happening that,
+
+232
+00:10:21,859 --> 00:10:24,399
+you know, prevent
+Petro from using that.
+
+233
+00:10:24,399 --> 00:10:25,840
+So let's read it a little bit.
+
+234
+00:10:25,840 --> 00:10:27,799
+So in for more alternative,
+
+235
+00:10:27,799 --> 00:10:30,959
+the problem is we are usually
+solving this function F,
+
+236
+00:10:30,959 --> 00:10:33,480
+from N dimensional space input
+
+237
+00:10:33,480 --> 00:10:35,919
+to a k dimensional space output.
+
+238
+00:10:35,919 --> 00:10:39,039
+And in order to
+derive the partial Y
+
+239
+00:10:39,039 --> 00:10:42,480
+against input X or X or X N,
+
+240
+00:10:42,480 --> 00:10:45,359
+we basically need to run
+one forward pass to get
+
+241
+00:10:45,359 --> 00:10:48,379
+the gradient with respect
+to one input, right?
+
+242
+00:10:48,379 --> 00:10:50,739
+So if we have many many
+inputs, then we need to.
+
+243
+00:10:50,739 --> 00:10:53,559
+So for example, here,
+if N is pretty large,
+
+244
+00:10:53,559 --> 00:10:55,660
+then we need to run
+in forward pass
+
+245
+00:10:55,660 --> 00:10:56,879
+to get the gradients against
+
+246
+00:10:56,879 --> 00:11:01,460
+every X I from one to
+n. In deep learning,
+
+247
+00:11:01,460 --> 00:11:02,920
+uh, this is the case.
+
+248
+00:11:02,920 --> 00:11:07,219
+Basically in deep learning,
+in many mansing problems,
+
+249
+00:11:07,219 --> 00:11:11,040
+we have a high dimensional
+input, For example,
+
+250
+00:11:11,040 --> 00:11:12,460
+we have a lot of parameters,
+
+251
+00:11:12,460 --> 00:11:15,040
+we want to derive the gradient
+against each parameter.
+
+252
+00:11:15,040 --> 00:11:17,720
+Like in GB three is 175 billion.
+
+253
+00:11:17,720 --> 00:11:20,620
+But we only had one output
+that loss loss value.
+
+254
+00:11:20,620 --> 00:11:22,120
+For example, next token
+
+255
+00:11:22,120 --> 00:11:24,770
+predicting loss or
+classification loss.
+
+256
+00:11:24,770 --> 00:11:27,400
+So if we apply
+this forward mode,
+
+257
+00:11:27,400 --> 00:11:29,339
+80 into deplening
+then it's very,
+
+258
+00:11:29,339 --> 00:11:31,279
+very inefficient
+because we need to dp
+
+259
+00:11:31,279 --> 00:11:34,139
+gradients for each input
+that is a parameter,
+
+260
+00:11:34,139 --> 00:11:35,320
+and we need to run as
+
+261
+00:11:35,320 --> 00:11:37,160
+many times as the
+number of parameters.
+
+262
+00:11:37,160 --> 00:11:39,119
+Okay? That's why forward 80 is
+
+263
+00:11:39,119 --> 00:11:41,560
+actually not very
+useful for deperning.
+
+264
+00:11:41,560 --> 00:11:44,039
+Okay. But it's very
+easy to think about,
+
+265
+00:11:44,039 --> 00:11:45,600
+yeah, because you
+just go through
+
+266
+00:11:45,600 --> 00:11:47,259
+the computing graph
+from left to right.
+
+267
+00:11:47,259 --> 00:11:48,930
+You don't need a backward pass.
+
+268
+00:11:48,930 --> 00:11:52,119
+Okay. So that
+basically brings us
+
+269
+00:11:52,119 --> 00:11:56,179
+to the reverse mode 80 or
+backward mode 80, okay?
+
+270
+00:11:56,179 --> 00:11:58,159
+Here, I'm going to, uh,
+
+271
+00:11:58,159 --> 00:12:00,960
+spend some time to run
+through this graph again,
+
+272
+00:12:00,960 --> 00:12:04,460
+but we are going to apply
+the reverse mode ED, okay?
+
+273
+00:12:04,460 --> 00:12:06,979
+So in order to run
+this real mode ED, uh,
+
+274
+00:12:06,979 --> 00:12:08,880
+apparently different
+from the foreign mode,
+
+275
+00:12:08,880 --> 00:12:12,419
+we are going to run from Y
+all the way back to XR x two.
+
+276
+00:12:12,419 --> 00:12:15,079
+Okay? And in order to run that,
+
+277
+00:12:15,079 --> 00:12:19,200
+we are going to bring a new
+definition that is joint.
+
+278
+00:12:19,200 --> 00:12:25,174
+Okay? Here I define the V
+bar equals to partial Y.
+
+279
+00:12:25,174 --> 00:12:28,209
+By partial I, that is
+
+280
+00:12:28,209 --> 00:12:31,469
+the partial derivative
+of the output
+
+281
+00:12:31,469 --> 00:12:34,909
+Y against the current
+node I. Yeah,
+
+282
+00:12:34,909 --> 00:12:37,530
+I is basically the index node.
+
+283
+00:12:37,530 --> 00:12:40,769
+We are going to
+basically compute
+
+284
+00:12:40,769 --> 00:12:42,929
+each I bar in the reverse,
+
+285
+00:12:42,929 --> 00:12:44,929
+sorry, reverse not reverse
+
+286
+00:12:44,929 --> 00:12:46,249
+reverse topological order of
+
+287
+00:12:46,249 --> 00:12:49,054
+the graph, from Y
+all the way back.
+
+288
+00:12:49,054 --> 00:12:51,080
+So here's the commutation.
+
+289
+00:12:51,080 --> 00:12:53,220
+We are going to run a
+few equations, and then,
+
+290
+00:12:53,220 --> 00:12:54,639
+um, probably you can take
+
+291
+00:12:54,639 --> 00:12:56,340
+more time to
+understand the rest.
+
+292
+00:12:56,340 --> 00:12:58,720
+So for the first one, uh,
+
+293
+00:12:58,720 --> 00:13:00,560
+seven bar is basically
+
+294
+00:13:00,560 --> 00:13:02,479
+like we are teaching partial
+derivative of we are
+
+295
+00:13:02,479 --> 00:13:03,819
+taking partial derivative of
+
+296
+00:13:03,819 --> 00:13:06,659
+partial Y against
+partial seven, right?
+
+297
+00:13:06,659 --> 00:13:08,860
+Because Y basically
+equals to with seven,
+
+298
+00:13:08,860 --> 00:13:11,900
+so the value is one,
+right, identity function.
+
+299
+00:13:11,900 --> 00:13:14,729
+And then we run to the
+second equation, which is,
+
+300
+00:13:14,729 --> 00:13:19,359
+partial, sorry, with six bar.
+
+301
+00:13:19,359 --> 00:13:22,399
+And I hope you still
+remember chain rule, right?
+
+302
+00:13:22,399 --> 00:13:27,700
+So when we take the partial
+partial Y against with six,
+
+303
+00:13:27,700 --> 00:13:32,800
+we basically change the
+gradient of partial Y
+
+304
+00:13:32,800 --> 00:13:36,879
+against seven and the
+partial derivative
+
+305
+00:13:36,879 --> 00:13:39,359
+of V seven against six, right?
+
+306
+00:13:39,359 --> 00:13:40,880
+We tie them together, yeah.
+
+307
+00:13:40,880 --> 00:13:43,440
+And we basically get six bar.
+
+308
+00:13:43,440 --> 00:13:46,320
+And we do this one by one
+using the chain room,
+
+309
+00:13:46,320 --> 00:13:48,840
+which you learned in the
+neuralnetwork class,
+
+310
+00:13:48,840 --> 00:13:53,419
+and we can basically run
+all the way back to X one,
+
+311
+00:13:53,419 --> 00:13:58,000
+and we basically can get the
+value of 1 bar and two bar,
+
+312
+00:13:58,000 --> 00:14:01,179
+which is there, and you can
+see the value is also 5.5,
+
+313
+00:14:01,179 --> 00:14:03,050
+which is equal to the form.
+
+314
+00:14:03,050 --> 00:14:06,360
+Okay. Um, here, there's
+
+315
+00:14:06,360 --> 00:14:09,279
+a little bit one more thing
+I need to mention that is,
+
+316
+00:14:09,279 --> 00:14:11,939
+you can see for week
+three and we two,
+
+317
+00:14:11,939 --> 00:14:15,220
+when we take the when we
+calculate the value of
+
+318
+00:14:15,220 --> 00:14:16,539
+W three by and we 2 bars
+
+319
+00:14:16,539 --> 00:14:18,760
+a little bit more difficult
+complicated here.
+
+320
+00:14:18,760 --> 00:14:20,319
+That is, we have
+this kind of like
+
+321
+00:14:20,319 --> 00:14:22,139
+a graph structure, right?
+
+322
+00:14:22,139 --> 00:14:23,700
+Here, we one basically
+
+323
+00:14:23,700 --> 00:14:26,559
+contributes to both
+we two and with.
+
+324
+00:14:26,559 --> 00:14:28,500
+And we four has two inputs.
+
+325
+00:14:28,500 --> 00:14:31,779
+That is wet and W. So do you
+
+326
+00:14:31,779 --> 00:14:32,939
+still remember how to derive
+
+327
+00:14:32,939 --> 00:14:36,139
+the gradients of this
+kind of like structure?
+
+328
+00:14:37,260 --> 00:14:41,459
+So it takes we want two paths
+to reach the outcome of Y.
+
+329
+00:14:41,459 --> 00:14:43,280
+So how do take the grading.
+
+330
+00:14:43,280 --> 00:14:46,399
+It's pretty simple, right? So
+basically t is done, right?
+
+331
+00:14:46,399 --> 00:14:48,220
+So we want byte basically equal
+
+332
+00:14:48,220 --> 00:14:51,299
+to partial Y by partial V one,
+
+333
+00:14:51,299 --> 00:14:54,060
+and we basically
+enroll the function
+
+334
+00:14:54,060 --> 00:14:57,899
+Y. Enroll Y as a function
+of we two and we.
+
+335
+00:14:57,899 --> 00:15:01,139
+And we also find we we
+are function over W one.
+
+336
+00:15:01,139 --> 00:15:03,560
+So we just use partial
+derivative rules
+
+337
+00:15:03,560 --> 00:15:05,260
+and write it all the way.
+
+338
+00:15:05,260 --> 00:15:08,820
+So we basically get the
+equation that is throw bar
+
+339
+00:15:08,820 --> 00:15:10,699
+times the partial derivative we
+
+340
+00:15:10,699 --> 00:15:13,020
+two against and the second term.
+
+341
+00:15:13,020 --> 00:15:16,060
+Okay? That's what happened here.
+
+342
+00:15:16,060 --> 00:15:20,239
+What happened here in
+these two equations.
+
+343
+00:15:20,239 --> 00:15:23,960
+Okay. Okay. This is
+just a warm up, okay?
+
+344
+00:15:23,960 --> 00:15:25,679
+I hope you'll still
+remember all this.
+
+345
+00:15:25,679 --> 00:15:29,139
+Okay? This is basically
+basic calculus, right?
+
+346
+00:15:30,490 --> 00:15:33,050
+So if we generalize
+a little bit,
+
+347
+00:15:33,050 --> 00:15:34,429
+we can basically derive
+
+348
+00:15:34,429 --> 00:15:38,370
+this statement that is for
+node in the data flow graph,
+
+349
+00:15:38,370 --> 00:15:41,110
+right for we one used
+by multiple consumers,
+
+350
+00:15:41,110 --> 00:15:46,009
+we can basically calculate
+this at joint Wi bar equals to
+
+351
+00:15:46,009 --> 00:15:51,369
+so basically the sum of all
+the all its consumers, right?
+
+352
+00:15:51,369 --> 00:15:54,610
+And here, we define another term
+
+353
+00:15:54,610 --> 00:15:57,189
+which is Wii two J bar, okay?
+
+354
+00:15:57,189 --> 00:16:00,930
+Where I two G bar
+is basically WJ bar
+
+355
+00:16:00,930 --> 00:16:05,130
+times the partial derivative
+Wig against one. Okay?
+
+356
+00:16:05,130 --> 00:16:08,129
+This is like,
+basically bifurcation.
+
+357
+00:16:08,129 --> 00:16:12,530
+Any question? Cool. We are good,
+
+358
+00:16:12,530 --> 00:16:14,729
+right? Pretty simple math.
+
+359
+00:16:15,530 --> 00:16:18,810
+Okay. Then now, you basically,
+
+360
+00:16:18,810 --> 00:16:22,049
+understand both forward mode
+80 and backward mode 80.
+
+361
+00:16:22,049 --> 00:16:23,729
+And we are going to summarize
+
+362
+00:16:23,729 --> 00:16:26,830
+a little bit about
+backward mode 80, okay?
+
+363
+00:16:26,830 --> 00:16:28,670
+So in backward mode 80,
+
+364
+00:16:28,670 --> 00:16:30,250
+compensation workflow
+is basically
+
+365
+00:16:30,250 --> 00:16:31,769
+start from output nodes, right?
+
+366
+00:16:31,769 --> 00:16:33,169
+And we derive the grading
+
+367
+00:16:33,169 --> 00:16:35,229
+all the way back to
+the input nodes,
+
+368
+00:16:35,229 --> 00:16:38,470
+which is a reverse
+order or for mode 80.
+
+369
+00:16:38,470 --> 00:16:43,050
+So what is the pros and
+cons of backward mode 80,
+
+370
+00:16:43,050 --> 00:16:45,165
+sorry, this is backward mode.
+
+371
+00:16:45,165 --> 00:16:48,620
+So basically the pros of, uh,
+
+372
+00:16:48,620 --> 00:16:50,600
+forward mode, it is the cons
+
+373
+00:16:50,600 --> 00:16:51,959
+of the backward mode 80, right?
+
+374
+00:16:51,959 --> 00:16:55,540
+Because here, still,
+we have a function
+
+375
+00:16:55,540 --> 00:16:58,060
+of wishing maps from
+N dimensional space
+
+376
+00:16:58,060 --> 00:16:59,560
+to a key dimensional space.
+
+377
+00:16:59,560 --> 00:17:01,680
+And if we want to
+take gradients,
+
+378
+00:17:01,680 --> 00:17:03,040
+uh, using the backward mode,
+
+379
+00:17:03,040 --> 00:17:04,979
+we basically need
+the backward pass to
+
+380
+00:17:04,979 --> 00:17:07,679
+get gradient with respect
+to all the inputs.
+
+381
+00:17:07,679 --> 00:17:09,739
+Okay. But like I said,
+
+382
+00:17:09,739 --> 00:17:11,740
+why this one is
+adopted in deploying?
+
+383
+00:17:11,740 --> 00:17:13,700
+Because in deploying
+K is pretty small.
+
+384
+00:17:13,700 --> 00:17:16,399
+N is pretty high, right?
+Pretty large. Okay.
+
+385
+00:17:16,399 --> 00:17:18,219
+That's why backward mode, AD is,
+
+386
+00:17:18,219 --> 00:17:20,280
+um, uh, basically the default,
+
+387
+00:17:20,280 --> 00:17:22,199
+uh, a differentiate rules that
+
+388
+00:17:22,199 --> 00:17:25,319
+we use in deploying libraries
+in merging systems.
+
+389
+00:17:25,319 --> 00:17:30,219
+Okay. But remember that
+
+390
+00:17:30,219 --> 00:17:34,979
+in other areas where we
+have a pretty large K,
+
+391
+00:17:34,979 --> 00:17:37,920
+but a small, we can still
+go back to use four mode.
+
+392
+00:17:37,920 --> 00:17:38,360
+For example,
+
+393
+00:17:38,360 --> 00:17:41,220
+in many many scientific
+computing scenarios, yeah,
+
+394
+00:17:41,220 --> 00:17:43,059
+where we don't we have
+
+395
+00:17:43,059 --> 00:17:45,559
+low dimensional input,
+but high dimis output.
+
+396
+00:17:45,559 --> 00:17:48,859
+Yeah. Okay. Then back
+to our question.
+
+397
+00:17:48,859 --> 00:17:52,820
+Now, you understand the
+underlying mechanisms of ED.
+
+398
+00:17:52,820 --> 00:17:56,239
+But remember, our mission
+is we try to use ED to
+
+399
+00:17:56,239 --> 00:17:58,039
+derive dataflow
+graphs because we
+
+400
+00:17:58,039 --> 00:18:00,439
+want something that can represent
+the competition, right?
+
+401
+00:18:00,439 --> 00:18:02,439
+ED helps us to get
+the gradients,
+
+402
+00:18:02,439 --> 00:18:04,319
+but we want to write
+ED into the graph.
+
+403
+00:18:04,319 --> 00:18:07,440
+Okay. So how can we construct
+
+404
+00:18:07,440 --> 00:18:11,120
+a competition graph that
+calculates the gradients?
+
+405
+00:18:11,120 --> 00:18:13,240
+We know that gradients
+can be calculated
+
+406
+00:18:13,240 --> 00:18:14,699
+from the adjoint values.
+
+407
+00:18:14,699 --> 00:18:16,159
+So essentially how we can,
+
+408
+00:18:16,159 --> 00:18:17,640
+uh define computer graph
+
+409
+00:18:17,640 --> 00:18:19,579
+that calculate the
+adjoin values, right?
+
+410
+00:18:19,579 --> 00:18:23,649
+Okay? I'm going to
+give you the answer.
+
+411
+00:18:23,649 --> 00:18:25,450
+I'm going to run
+through this algorithm.
+
+412
+00:18:25,450 --> 00:18:26,769
+Basically, all the different
+
+413
+00:18:26,769 --> 00:18:28,630
+libraries they basically
+use this algorithm.
+
+414
+00:18:28,630 --> 00:18:30,929
+This is algorithm that
+basically calculate
+
+415
+00:18:30,929 --> 00:18:33,350
+the gradients using
+backward mode 80.
+
+416
+00:18:33,350 --> 00:18:34,310
+I'm going to run through
+
+417
+00:18:34,310 --> 00:18:36,245
+this algorithm a
+little bit okay?
+
+418
+00:18:36,245 --> 00:18:38,419
+The way I rest, I'm going
+
+419
+00:18:38,419 --> 00:18:40,599
+to give you an
+example commutation,
+
+420
+00:18:40,599 --> 00:18:42,280
+um and the commutation
+
+421
+00:18:42,280 --> 00:18:44,019
+is basically very
+simple function F,
+
+422
+00:18:44,019 --> 00:18:45,840
+which will take one input,
+
+423
+00:18:45,840 --> 00:18:48,399
+take exponential plus one as in
+
+424
+00:18:48,399 --> 00:18:52,139
+times u itself and
+get the output.
+
+425
+00:18:52,139 --> 00:18:54,120
+But before we run
+
+426
+00:18:54,120 --> 00:18:57,140
+the uh algorithm on
+this dataflow graph,
+
+427
+00:18:57,140 --> 00:18:58,799
+what do we do I try to give you
+
+428
+00:18:58,799 --> 00:18:59,599
+a high level picture of
+
+429
+00:18:59,599 --> 00:19:00,800
+what's going on in
+that algorithm.
+
+430
+00:19:00,800 --> 00:19:02,840
+Okay. Let's read
+it line by line.
+
+431
+00:19:02,840 --> 00:19:04,519
+So basically, we
+want to take the
+
+432
+00:19:04,519 --> 00:19:08,699
+gradients of a
+specific node, right?
+
+433
+00:19:08,699 --> 00:19:13,895
+So we are going to maintain
+all partial joints of a node.
+
+434
+00:19:13,895 --> 00:19:16,229
+Because once we have a list of
+
+435
+00:19:16,229 --> 00:19:18,550
+partial aljoints can
+sum them together,
+
+436
+00:19:18,550 --> 00:19:20,269
+we get the gradient
+value, right?
+
+437
+00:19:20,269 --> 00:19:23,290
+That's what I defined
+in my previous slide.
+
+438
+00:19:23,290 --> 00:19:26,729
+So this organ will basically
+try to opt the values
+
+439
+00:19:26,729 --> 00:19:30,470
+for all the partial
+adjoints for each node.
+
+440
+00:19:30,470 --> 00:19:32,889
+The way you get the
+values basically first,
+
+441
+00:19:32,889 --> 00:19:34,509
+it traverse the graph
+
+442
+00:19:34,509 --> 00:19:36,350
+following a reverse
+topological order
+
+443
+00:19:36,350 --> 00:19:38,350
+that is defined by backward mode
+
+444
+00:19:38,350 --> 00:19:40,549
+80 right because we have
+to traverse in that way.
+
+445
+00:19:40,549 --> 00:19:43,489
+And what we do is, uh, we first,
+
+446
+00:19:43,489 --> 00:19:46,690
+sum all the partial
+algoin of that node
+
+447
+00:19:46,690 --> 00:19:50,395
+together in order to get
+its partial duptive.
+
+448
+00:19:50,395 --> 00:19:53,520
+Does that make sense? That
+is by definition, okay?
+
+449
+00:19:53,520 --> 00:19:55,839
+And then once we have the
+
+450
+00:19:55,839 --> 00:19:57,980
+partial derivative of this node,
+
+451
+00:19:57,980 --> 00:20:01,240
+what do we do is we are going
+to look at is input node.
+
+452
+00:20:01,240 --> 00:20:04,539
+That is, that is,
+
+453
+00:20:04,539 --> 00:20:07,160
+all the nodes that
+contribute to this one node.
+
+454
+00:20:07,160 --> 00:20:11,440
+Okay? Have incoming edge on
+the ph graph to this node.
+
+455
+00:20:11,440 --> 00:20:14,819
+And we are going to compute
+the partial adjoint, okay?
+
+456
+00:20:14,819 --> 00:20:17,259
+Here is for any input K,
+
+457
+00:20:17,259 --> 00:20:20,240
+we compute B, K to I bar,
+
+458
+00:20:20,240 --> 00:20:22,499
+which is by definition
+this equation, right?
+
+459
+00:20:22,499 --> 00:20:25,179
+Okay. And then we are going to
+
+460
+00:20:25,179 --> 00:20:28,339
+update this value
+into that node,
+
+461
+00:20:28,339 --> 00:20:30,519
+which is with index of K, right?
+
+462
+00:20:30,519 --> 00:20:32,139
+That is next time we
+
+463
+00:20:32,139 --> 00:20:34,240
+traverse the graph following
+the rewards order,
+
+464
+00:20:34,240 --> 00:20:36,320
+we are going to visit
+this K, right here.
+
+465
+00:20:36,320 --> 00:20:39,140
+We are going to get it
+basically partial duptive.
+
+466
+00:20:39,140 --> 00:20:40,819
+Okay? And you can
+
+467
+00:20:40,819 --> 00:20:43,680
+see this program is
+basically recursive,
+
+468
+00:20:43,680 --> 00:20:45,159
+right, because it will go
+
+469
+00:20:45,159 --> 00:20:47,320
+through all the way
+back to the IR node.
+
+470
+00:20:47,320 --> 00:20:48,420
+It traverse or the node,
+
+471
+00:20:48,420 --> 00:20:51,299
+and basically it will
+return the value of this.
+
+472
+00:20:51,299 --> 00:20:54,439
+That's what we
+want. Right. Okay.
+
+473
+00:20:54,439 --> 00:21:00,589
+Any question about
+this program. Okay.
+
+474
+00:21:00,589 --> 00:21:04,949
+Let's run through this. I think
+I already explained this.
+
+475
+00:21:04,949 --> 00:21:06,169
+This one is basically sum up
+
+476
+00:21:06,169 --> 00:21:08,549
+all the partial joints to
+get the gradient or partial
+
+477
+00:21:08,549 --> 00:21:10,469
+dtiveT one is compute and
+
+478
+00:21:10,469 --> 00:21:13,549
+propagates the partiality
+joints to its inputs.
+
+479
+00:21:14,750 --> 00:21:17,150
+Let's run through this, okay.
+
+480
+00:21:17,150 --> 00:21:18,949
+So given this graph,
+
+481
+00:21:18,949 --> 00:21:22,790
+we are going to follow the
+rewards topological order,
+
+482
+00:21:22,790 --> 00:21:24,709
+we are going to start from
+
+483
+00:21:24,709 --> 00:21:26,790
+W four, which is the last node.
+
+484
+00:21:26,790 --> 00:21:29,850
+And here, I equals to four,
+
+485
+00:21:29,850 --> 00:21:32,799
+which I take note here.
+
+486
+00:21:32,799 --> 00:21:35,190
+And we are going to basically,
+
+487
+00:21:35,190 --> 00:21:37,749
+uh, run this line, right?
+
+488
+00:21:37,749 --> 00:21:42,049
+And we find that for
+the open node, uh,
+
+489
+00:21:42,049 --> 00:21:45,290
+we four it only has one partial
+aloin which is one equal
+
+490
+00:21:45,290 --> 00:21:48,449
+to one because it's identity
+function, nothing special.
+
+491
+00:21:48,449 --> 00:21:50,170
+So we basically
+something together,
+
+492
+00:21:50,170 --> 00:21:53,189
+uh, and we find that the
+value is basically one.
+
+493
+00:21:53,189 --> 00:21:57,049
+And now I want to represent
+this in my graph.
+
+494
+00:21:57,049 --> 00:21:59,270
+So I basically choose
+
+495
+00:21:59,270 --> 00:22:00,449
+a more convenient method that is
+
+496
+00:22:00,449 --> 00:22:01,889
+directly assign value one,
+
+497
+00:22:01,889 --> 00:22:05,129
+right to a node
+called wifour bar.
+
+498
+00:22:05,129 --> 00:22:07,624
+And this function is
+basically identity.
+
+499
+00:22:07,624 --> 00:22:10,219
+Okay. And we finish
+this line, right?
+
+500
+00:22:10,219 --> 00:22:12,020
+And the next step
+
+501
+00:22:12,020 --> 00:22:13,800
+is basically we go
+into that inner loop.
+
+502
+00:22:13,800 --> 00:22:17,559
+Okay, we are going to
+check all the nodes that
+
+503
+00:22:17,559 --> 00:22:19,320
+basically contribute values into
+
+504
+00:22:19,320 --> 00:22:22,919
+WFO and we try to derive
+this partial adjoint.
+
+505
+00:22:24,380 --> 00:22:29,299
+Okay. Uh, here we are going
+to inspect two things, right?
+
+506
+00:22:29,299 --> 00:22:31,739
+One is the pair W
+two to wafer because
+
+507
+00:22:31,739 --> 00:22:35,120
+WIR is a function of two and
+the second is wi wi four.
+
+508
+00:22:35,120 --> 00:22:39,119
+Okay. Um, meanwhile,
+
+509
+00:22:39,119 --> 00:22:41,379
+we are going to basically,
+uh, document this.
+
+510
+00:22:41,379 --> 00:22:45,419
+We are going to record this
+last note grad, right.
+
+511
+00:22:45,419 --> 00:22:48,479
+And here, um, you can see,
+
+512
+00:22:48,479 --> 00:22:51,629
+when K equals to,
+
+513
+00:22:51,629 --> 00:22:55,079
+so here I equals to four and
+we already have W four bar,
+
+514
+00:22:55,079 --> 00:22:58,319
+and we are going to start
+from the list inputs I
+
+515
+00:22:58,319 --> 00:23:00,079
+and we know that input I
+
+516
+00:23:00,079 --> 00:23:02,099
+basically equals to either
+wet or with three, right?
+
+517
+00:23:02,099 --> 00:23:05,059
+So we are going to start
+from K equals to two, right?
+
+518
+00:23:05,059 --> 00:23:07,279
+And we are going to run
+this program, okay?
+
+519
+00:23:07,279 --> 00:23:10,239
+So we 224 bar equals
+
+520
+00:23:10,239 --> 00:23:15,719
+W four bar times partial we
+four by partial W two, right?
+
+521
+00:23:15,719 --> 00:23:17,700
+And we already have the value
+
+522
+00:23:17,700 --> 00:23:19,560
+of w four bar, which is here.
+
+523
+00:23:19,560 --> 00:23:22,499
+We assigned a value
+equal to one.
+
+524
+00:23:22,499 --> 00:23:26,780
+And we are going to write
+down this value with 24 bar,
+
+525
+00:23:26,780 --> 00:23:29,920
+and how to represent
+as dataflow graph.
+
+526
+00:23:29,920 --> 00:23:33,999
+We find that the partial
+four by partial W two is
+
+527
+00:23:33,999 --> 00:23:38,479
+basically equal to equal
+to with three, right?
+
+528
+00:23:38,479 --> 00:23:39,979
+Because here, you can see,
+
+529
+00:23:39,979 --> 00:23:42,499
+we four equals to wei
+two times with three.
+
+530
+00:23:42,499 --> 00:23:44,359
+So if you take the
+partial derivative,
+
+531
+00:23:44,359 --> 00:23:46,439
+basically our value
+is with three, right?
+
+532
+00:23:46,439 --> 00:23:50,899
+So in order to represent
+this way two to four bar,
+
+533
+00:23:50,899 --> 00:23:53,140
+we construct a graph in a way
+
+534
+00:23:53,140 --> 00:23:55,059
+that we connect this
+with three node and
+
+535
+00:23:55,059 --> 00:23:57,439
+W four bar and the operator
+
+536
+00:23:57,439 --> 00:23:59,279
+basically is multiplier, right?
+
+537
+00:23:59,279 --> 00:24:03,920
+So we basically get the
+repetition of wei 224 bar.
+
+538
+00:24:03,920 --> 00:24:07,679
+Okay. Any question? So remember,
+
+539
+00:24:07,679 --> 00:24:09,999
+our goal is we try to
+represent everything in graph.
+
+540
+00:24:09,999 --> 00:24:11,880
+Yeah, because once
+we have that graph,
+
+541
+00:24:11,880 --> 00:24:13,659
+we can represent both
+forward and backward.
+
+542
+00:24:13,659 --> 00:24:16,339
+Okay. And same thing,
+right, we can run.
+
+543
+00:24:16,339 --> 00:24:18,419
+We finish the K equal to two,
+
+544
+00:24:18,419 --> 00:24:21,739
+then we move forward to
+the next node with three,
+
+545
+00:24:21,739 --> 00:24:25,359
+right, which is another
+contributor to Wi four.
+
+546
+00:24:25,359 --> 00:24:27,800
+And same thing, we
+basically apply that rule.
+
+547
+00:24:27,800 --> 00:24:30,420
+So with three to four
+bar equals to wei
+
+548
+00:24:30,420 --> 00:24:33,679
+four times partial four
+by partial with three.
+
+549
+00:24:33,679 --> 00:24:35,819
+And partial wi four
+partial three is
+
+550
+00:24:35,819 --> 00:24:37,679
+basically equal to W two,
+
+551
+00:24:37,679 --> 00:24:38,979
+right, because it's multiply.
+
+552
+00:24:38,979 --> 00:24:40,820
+We take a directive
+against multiplier,
+
+553
+00:24:40,820 --> 00:24:44,999
+and so the value is w
+four part times W two.
+
+554
+00:24:44,999 --> 00:24:48,619
+That's why we basically add
+an multiplier here, right?
+
+555
+00:24:48,619 --> 00:24:51,959
+So we multiply with
+four part and W two,
+
+556
+00:24:51,959 --> 00:24:54,839
+and we get with bar.
+
+557
+00:24:54,839 --> 00:24:57,399
+Uh, actually, we
+didn't get with bar.
+
+558
+00:24:57,399 --> 00:24:58,659
+We get with three to four part,
+
+559
+00:24:58,659 --> 00:25:02,519
+but we found that with three
+only has, uh, one input.
+
+560
+00:25:02,519 --> 00:25:04,039
+The other input is constant.
+
+561
+00:25:04,039 --> 00:25:07,139
+So basically these two
+values are the same, right?
+
+562
+00:25:07,139 --> 00:25:09,459
+Right. So for the
+simplicity, we basically,
+
+563
+00:25:09,459 --> 00:25:12,899
+uh, uh, create another
+node which is with bar,
+
+564
+00:25:12,899 --> 00:25:15,079
+and we put it here.
+
+565
+00:25:15,600 --> 00:25:20,499
+Okay? Still follow, right?
+
+566
+00:25:20,499 --> 00:25:23,199
+Cool. That means that
+
+567
+00:25:23,199 --> 00:25:25,180
+this loop finish the
+first iteration,
+
+568
+00:25:25,180 --> 00:25:29,200
+we finish with I
+equals to with four,
+
+569
+00:25:29,200 --> 00:25:31,459
+and then we proceed. Okay?
+
+570
+00:25:31,459 --> 00:25:34,039
+And meanwhile, remember,
+we are going to
+
+571
+00:25:34,039 --> 00:25:36,720
+document all the partial
+adjoint here for each node.
+
+572
+00:25:36,720 --> 00:25:41,419
+Okay. And then we continue run
+
+573
+00:25:41,419 --> 00:25:43,699
+this and we go back to with
+
+574
+00:25:43,699 --> 00:25:46,580
+three because we are using a
+reverse topological order.
+
+575
+00:25:46,580 --> 00:25:48,519
+So we go back to with three.
+
+576
+00:25:48,519 --> 00:25:51,539
+And what we do is basically
+we find that with three
+
+577
+00:25:51,539 --> 00:25:52,759
+is already done right because we
+
+578
+00:25:52,759 --> 00:25:54,500
+three only has one
+partial adjoint,
+
+579
+00:25:54,500 --> 00:25:56,959
+so we just sum them
+together, which is here.
+
+580
+00:25:56,959 --> 00:25:59,540
+Okay. And then we go into
+
+581
+00:25:59,540 --> 00:26:02,799
+this inner loop and we
+inspect how many nodes,
+
+582
+00:26:02,799 --> 00:26:04,339
+uh, contribute to with three,
+
+583
+00:26:04,339 --> 00:26:05,820
+and we find that there's
+
+584
+00:26:05,820 --> 00:26:08,739
+only cakes to two,
+we two, right?
+
+585
+00:26:08,739 --> 00:26:10,619
+Uh, so we basically take
+
+586
+00:26:10,619 --> 00:26:13,179
+we basically try to calculate
+the wei two to three bar,
+
+587
+00:26:13,179 --> 00:26:14,719
+uh, and following the equation,
+
+588
+00:26:14,719 --> 00:26:18,119
+we get with three bar times
+partial by partial way,
+
+589
+00:26:18,119 --> 00:26:20,120
+two, and we get this value
+
+590
+00:26:20,120 --> 00:26:22,179
+is basically with
+bar itself, right?
+
+591
+00:26:22,179 --> 00:26:25,310
+So, yeah.
+
+592
+00:26:25,310 --> 00:26:29,270
+And we continue following
+the reverse topic order,
+
+593
+00:26:29,270 --> 00:26:31,109
+and we get back to W two.
+
+594
+00:26:31,109 --> 00:26:33,329
+Okay? In this example,
+
+595
+00:26:33,329 --> 00:26:34,709
+we found we two is actually
+
+596
+00:26:34,709 --> 00:26:37,249
+a expensive function of
+the input that we one.
+
+597
+00:26:37,249 --> 00:26:42,209
+Okay? So here, we first
+follow this equation,
+
+598
+00:26:42,209 --> 00:26:44,210
+we found that we two
+has two partial joint.
+
+599
+00:26:44,210 --> 00:26:46,229
+So we sum them together, right.
+
+600
+00:26:46,229 --> 00:26:48,370
+And here we sum them together.
+
+601
+00:26:48,370 --> 00:26:50,709
+And these two partial
+joints basically we two,
+
+602
+00:26:50,709 --> 00:26:53,209
+two, four bar and
+we 223 bar, right?
+
+603
+00:26:53,209 --> 00:26:54,890
+Following the data photograph,
+
+604
+00:26:54,890 --> 00:26:57,990
+we basically add two edges
+and sum them together,
+
+605
+00:26:57,990 --> 00:27:01,715
+and we results into
+we two bar, okay?
+
+606
+00:27:01,715 --> 00:27:04,680
+And then we run into
+the inner loop,
+
+607
+00:27:04,680 --> 00:27:06,999
+and when cake to one,
+
+608
+00:27:06,999 --> 00:27:09,560
+we try to calculate
+we want to burn.
+
+609
+00:27:09,560 --> 00:27:14,899
+Following equation, we get
+this uh basically this result.
+
+610
+00:27:14,899 --> 00:27:18,000
+In order to represent
+this into Dataflograph,
+
+611
+00:27:18,000 --> 00:27:20,835
+what we do is we are going
+to connect this node.
+
+612
+00:27:20,835 --> 00:27:23,269
+And the value of
+exponential one.
+
+613
+00:27:23,269 --> 00:27:26,930
+And we find that the
+exponential value
+
+614
+00:27:26,930 --> 00:27:28,709
+of one is essentially way two.
+
+615
+00:27:28,709 --> 00:27:32,129
+So we add another edge
+all the way here,
+
+616
+00:27:32,129 --> 00:27:35,669
+and that gives us uh we 122 bar.
+
+617
+00:27:35,669 --> 00:27:38,549
+And we also find out one
+does not have any input.
+
+618
+00:27:38,549 --> 00:27:41,569
+So we 12 bar basically
+equals to 1 bar.
+
+619
+00:27:41,569 --> 00:27:44,010
+So we basically simplify
+the graph a little
+
+620
+00:27:44,010 --> 00:27:47,364
+bit and create another
+node to 1 bar here.
+
+621
+00:27:47,364 --> 00:27:50,759
+Okay. That's basically how we
+
+622
+00:27:50,759 --> 00:27:54,020
+run this algorithm
+through data pho graph.
+
+623
+00:27:54,020 --> 00:27:57,519
+And as we run through,
+
+624
+00:27:57,519 --> 00:27:59,680
+forward data photograph,
+we also create
+
+625
+00:27:59,680 --> 00:28:01,779
+another graph that connected
+to the photograph.
+
+626
+00:28:01,779 --> 00:28:03,140
+That is our backward graph,
+
+627
+00:28:03,140 --> 00:28:05,559
+which is the red
+part of this graph.
+
+628
+00:28:05,559 --> 00:28:11,470
+Okay. Any question? Okay, cool.
+
+629
+00:28:11,470 --> 00:28:15,389
+If you have any trouble
+following any part of this,
+
+630
+00:28:15,389 --> 00:28:17,310
+uh, go back and take
+a look at this slide.
+
+631
+00:28:17,310 --> 00:28:18,649
+I think it's pretty
+clear. Just think
+
+632
+00:28:18,649 --> 00:28:20,909
+a little bit and
+it we figure out.
+
+633
+00:28:20,909 --> 00:28:25,230
+Okay. So in summary, uh,
+
+634
+00:28:25,230 --> 00:28:26,969
+during this process, what
+we do is basically we
+
+635
+00:28:26,969 --> 00:28:29,269
+construct the backward
+graph in a symbolic way.
+
+636
+00:28:29,269 --> 00:28:32,829
+Um, we don't actually
+calculate the values, right?
+
+637
+00:28:32,829 --> 00:28:35,769
+And the reason is
+because we really,
+
+638
+00:28:35,769 --> 00:28:40,209
+really want this graph because
+like in neural network,
+
+639
+00:28:40,209 --> 00:28:41,509
+we are going to give
+different kind of
+
+640
+00:28:41,509 --> 00:28:44,010
+data and the data
+will run risk graph.
+
+641
+00:28:44,010 --> 00:28:47,390
+And we cannot just do
+one time competition
+
+642
+00:28:47,390 --> 00:28:48,849
+because this competon should be
+
+643
+00:28:48,849 --> 00:28:51,109
+applied to all different
+kind of databtches.
+
+644
+00:28:51,109 --> 00:28:52,770
+So given this graph,
+
+645
+00:28:52,770 --> 00:28:55,550
+we can basically, uh,
+whatever input it comes,
+
+646
+00:28:55,550 --> 00:28:56,729
+we are going to derive following
+
+647
+00:28:56,729 --> 00:29:00,349
+the competon defining
+graph, it can be reused.
+
+648
+00:29:00,349 --> 00:29:04,809
+And this one is commonly
+used in tf patric.
+
+649
+00:29:04,809 --> 00:29:09,549
+Okay. Now let's do reasoning
+reason a little bit,
+
+650
+00:29:09,549 --> 00:29:10,650
+okay on the trade offs.
+
+651
+00:29:10,650 --> 00:29:16,110
+So So in a typical
+machine learning class,
+
+652
+00:29:16,110 --> 00:29:17,929
+I think the teacher
+will tell you,
+
+653
+00:29:17,929 --> 00:29:20,810
+we'll teach you like bipagon.
+
+654
+00:29:20,810 --> 00:29:23,070
+And remember B
+propagation, basically,
+
+655
+00:29:23,070 --> 00:29:24,489
+you take that left figure and
+
+656
+00:29:24,489 --> 00:29:26,609
+you run a backward pass through.
+
+657
+00:29:26,609 --> 00:29:29,109
+But in this class, we are
+actually not doing backprogion.
+
+658
+00:29:29,109 --> 00:29:31,389
+We are doing reverse
+mode allots different.
+
+659
+00:29:31,389 --> 00:29:34,070
+Why? Because in set,
+
+660
+00:29:34,070 --> 00:29:36,409
+we are going to construct a
+backward graph and we connect
+
+661
+00:29:36,409 --> 00:29:37,769
+the backward graph to
+
+662
+00:29:37,769 --> 00:29:40,850
+the photograph and we
+get even bigger graph.
+
+663
+00:29:40,880 --> 00:29:44,140
+And in the initial set
+
+664
+00:29:44,140 --> 00:29:46,399
+of machine learning frameworks
+design like ten years ago,
+
+665
+00:29:46,399 --> 00:29:48,060
+they are actually
+using that mode.
+
+666
+00:29:48,060 --> 00:29:49,679
+So basically in the system,
+
+667
+00:29:49,679 --> 00:29:51,240
+they are using back propagation.
+
+668
+00:29:51,240 --> 00:29:53,400
+So they never construct
+a backward graph.
+
+669
+00:29:53,400 --> 00:29:55,439
+They just take the
+photograph and
+
+670
+00:29:55,439 --> 00:29:58,239
+take the gradients and
+propagated gradients.
+
+671
+00:29:58,239 --> 00:30:00,159
+But in the modern
+dpling frameworks,
+
+672
+00:30:00,159 --> 00:30:03,079
+we are using this graph
+approach, that is,
+
+673
+00:30:03,079 --> 00:30:04,560
+we construct the backward graph,
+
+674
+00:30:04,560 --> 00:30:06,539
+and it has been
+used by basically
+
+675
+00:30:06,539 --> 00:30:08,359
+every framework to prog.
+
+676
+00:30:08,359 --> 00:30:12,359
+So my question is why this
+one become more popular.
+
+677
+00:30:16,200 --> 00:30:25,494
+Like, why do we care about
+getting a Brograph? Yeah.
+
+678
+00:30:25,494 --> 00:30:31,190
+Information Exactly.
+
+679
+00:30:31,190 --> 00:30:32,790
+That's one primary reason,
+
+680
+00:30:32,790 --> 00:30:35,090
+because if you only
+have photograph,
+
+681
+00:30:35,090 --> 00:30:36,490
+then your system will only read
+
+682
+00:30:36,490 --> 00:30:38,890
+the phograph and you can
+optimize over representation.
+
+683
+00:30:38,890 --> 00:30:40,830
+But if you also have
+a background graph,
+
+684
+00:30:40,830 --> 00:30:43,349
+your system can my system
+
+685
+00:30:43,349 --> 00:30:45,169
+does not care about
+for backward.
+
+686
+00:30:45,169 --> 00:30:46,830
+I only have one perspective
+
+687
+00:30:46,830 --> 00:30:48,730
+that I'm given a
+computing graph.
+
+688
+00:30:48,730 --> 00:30:51,129
+I'm going to optimize
+other graph, right?
+
+689
+00:30:51,129 --> 00:30:52,910
+So we basically want a holistic
+
+690
+00:30:52,910 --> 00:30:55,370
+representation of
+the competition.
+
+691
+00:30:55,370 --> 00:30:57,790
+Any other reason?
+
+692
+00:31:03,950 --> 00:31:09,670
+Exactly.
+
+693
+00:31:09,670 --> 00:31:11,290
+It's very amenable.
+
+694
+00:31:11,290 --> 00:31:14,229
+So for example, you
+
+695
+00:31:14,229 --> 00:31:15,690
+probably know that
+today's marginy
+
+696
+00:31:15,690 --> 00:31:17,030
+model can be very complicated.
+
+697
+00:31:17,030 --> 00:31:20,789
+Sometimes you need to take
+the gradient of the gradient.
+
+698
+00:31:20,789 --> 00:31:22,730
+If you do that mode,
+
+699
+00:31:22,730 --> 00:31:24,669
+how to take the gradient
+or gradients very
+
+700
+00:31:24,669 --> 00:31:26,189
+difficult because the gradient
+
+701
+00:31:26,189 --> 00:31:27,770
+is hidden somewhere
+in the graph.
+
+702
+00:31:27,770 --> 00:31:30,350
+But in the right
+side of the graph,
+
+703
+00:31:30,350 --> 00:31:32,329
+you see the gradient
+is explicitly
+
+704
+00:31:32,329 --> 00:31:34,489
+represented in the graph
+and what do you do?
+
+705
+00:31:34,489 --> 00:31:36,189
+If your competition needs to
+
+706
+00:31:36,189 --> 00:31:38,189
+care calculate the
+gradient or gradient,
+
+707
+00:31:38,189 --> 00:31:40,329
+you just add more
+nodes on top of that,
+
+708
+00:31:40,329 --> 00:31:42,670
+the Autolibrary
+will basically help
+
+709
+00:31:42,670 --> 00:31:45,050
+you derive the gradients
+following the competition.
+
+710
+00:31:45,050 --> 00:31:47,290
+Okay. So in other words,
+
+711
+00:31:47,290 --> 00:31:51,730
+this graph it represents
+the holistic basically, uh,
+
+712
+00:31:51,730 --> 00:31:53,730
+like representation
+of the competition,
+
+713
+00:31:53,730 --> 00:31:55,950
+and it's very
+friendly to systems
+
+714
+00:31:55,950 --> 00:31:58,009
+because system does not
+
+715
+00:31:58,009 --> 00:31:59,870
+care about semantics
+opportunity layer.
+
+716
+00:31:59,870 --> 00:32:01,410
+I only care about competition.
+
+717
+00:32:01,410 --> 00:32:07,370
+Okay? Uh a third
+reason which I'm
+
+718
+00:32:07,370 --> 00:32:08,909
+going to talk about in
+
+719
+00:32:08,909 --> 00:32:13,469
+detail is because we are still
+missing some piece here.
+
+720
+00:32:13,469 --> 00:32:15,229
+So what is missing if we want
+
+721
+00:32:15,229 --> 00:32:18,189
+to complete the deep
+learning program?
+
+722
+00:32:18,430 --> 00:32:21,829
+We hold forward,
+we held backward.
+
+723
+00:32:22,660 --> 00:32:25,299
+Yeah, we need a grading update.
+
+724
+00:32:25,299 --> 00:32:27,439
+If you do this approach, then
+
+725
+00:32:27,439 --> 00:32:30,720
+your grading update rule
+is going to be isolated.
+
+726
+00:32:30,720 --> 00:32:32,220
+You are going to
+write your own optim.
+
+727
+00:32:32,220 --> 00:32:33,600
+But if you do this mode,
+
+728
+00:32:33,600 --> 00:32:35,580
+what you do is you
+can continue adding
+
+729
+00:32:35,580 --> 00:32:38,719
+one and more nodes that
+represent the grading update.
+
+730
+00:32:38,719 --> 00:32:41,439
+In the later lectures,
+especially in the arm sessions,
+
+731
+00:32:41,439 --> 00:32:43,239
+we'll find that grading
+updates is one of
+
+732
+00:32:43,239 --> 00:32:45,780
+the most memory
+consuming operations,
+
+733
+00:32:45,780 --> 00:32:47,659
+and we are going to optimize it.
+
+734
+00:32:47,659 --> 00:32:50,019
+And if we have a graph
+repton for that part,
+
+735
+00:32:50,019 --> 00:32:52,439
+then it's pretty easy for
+the system to look at that.
+
+736
+00:32:52,439 --> 00:32:56,300
+Okay. Now, let's try to
+finish this part, okay.
+
+737
+00:32:56,300 --> 00:32:58,739
+We are going to put
+this into practice.
+
+738
+00:32:58,780 --> 00:33:03,810
+Sorry. We are going to go
+back to our mass equations
+
+739
+00:33:03,810 --> 00:33:05,289
+and we are going to instiate
+
+740
+00:33:05,289 --> 00:33:08,349
+this master equation
+using a few models.
+
+741
+00:33:08,349 --> 00:33:12,290
+That is a simple
+regression model,
+
+742
+00:33:12,290 --> 00:33:13,709
+two layer neural network.
+
+743
+00:33:13,709 --> 00:33:16,669
+We have two ways W one,
+W two, one input X.
+
+744
+00:33:16,669 --> 00:33:19,389
+Uh, this will go through
+a nonlinear function,
+
+745
+00:33:19,389 --> 00:33:21,929
+and then the value
+will be compared to
+
+746
+00:33:21,929 --> 00:33:25,490
+the ground Y using
+mean square loss.
+
+747
+00:33:25,490 --> 00:33:30,209
+And in order to represent this
+two layer neural network,
+
+748
+00:33:30,209 --> 00:33:32,629
+what we do is
+basically, by the way,
+
+749
+00:33:32,629 --> 00:33:34,569
+we also have a grading
+update rules here.
+
+750
+00:33:34,569 --> 00:33:36,910
+That is every time
+we fit the bat,
+
+751
+00:33:36,910 --> 00:33:38,670
+we are going to get gradients
+and we are going to follow
+
+752
+00:33:38,670 --> 00:33:41,850
+this rule to update the
+updated parameters.
+
+753
+00:33:41,850 --> 00:33:46,530
+And in order to represent
+this as a neural network,
+
+754
+00:33:46,530 --> 00:33:49,070
+we essentially have three parts,
+
+755
+00:33:49,070 --> 00:33:50,749
+and you need to remember this.
+
+756
+00:33:50,749 --> 00:33:52,009
+Every time we try to
+
+757
+00:33:52,009 --> 00:33:53,570
+represent the new
+net recommendation,
+
+758
+00:33:53,570 --> 00:33:55,670
+you don't need photograph.
+We have three parts.
+
+759
+00:33:55,670 --> 00:33:57,209
+The first part is forward,
+
+760
+00:33:57,209 --> 00:33:59,010
+right? We define photograph.
+
+761
+00:33:59,010 --> 00:34:02,409
+And then we take the auto
+differentiation library
+
+762
+00:34:02,409 --> 00:34:05,310
+to basically automatically
+derive the backward pass,
+
+763
+00:34:05,310 --> 00:34:08,330
+which I already ran through,
+in the previous slides.
+
+764
+00:34:08,330 --> 00:34:09,669
+And that part, you
+don't have to do that
+
+765
+00:34:09,669 --> 00:34:11,614
+because Pat will
+do that for you.
+
+766
+00:34:11,614 --> 00:34:13,239
+And the third part
+as I mentioned,
+
+767
+00:34:13,239 --> 00:34:16,000
+you need to perform
+with the update.
+
+768
+00:34:16,000 --> 00:34:17,559
+Now I'm going to we're going to
+
+769
+00:34:17,559 --> 00:34:19,179
+put all this together
+into one graph.
+
+770
+00:34:19,179 --> 00:34:23,080
+So for forward, uh,
+uh, same definition,
+
+771
+00:34:23,080 --> 00:34:26,000
+nodes represent the operator
+and it's a potential,
+
+772
+00:34:26,000 --> 00:34:29,200
+and the edges represent the
+data flowing directions.
+
+773
+00:34:29,200 --> 00:34:31,580
+For forward is pretty
+straightforward.
+
+774
+00:34:31,580 --> 00:34:34,099
+We have X and W one.
+
+775
+00:34:34,099 --> 00:34:37,859
+They go to Melmo and all
+the way to the MSE loss.
+
+776
+00:34:37,859 --> 00:34:40,040
+And then you give it to Petrog
+
+777
+00:34:40,040 --> 00:34:41,519
+and the petrog we are
+going to derve the
+
+778
+00:34:41,519 --> 00:34:45,459
+backward following what
+I just uh went through.
+
+779
+00:34:45,459 --> 00:34:49,049
+Okay. And the critical part
+
+780
+00:34:49,049 --> 00:34:52,390
+is we also need to add
+the optim meter operator.
+
+781
+00:34:52,390 --> 00:34:54,110
+So how to add op meters.
+
+782
+00:34:54,110 --> 00:34:56,149
+That is what we
+basically find out
+
+783
+00:34:56,149 --> 00:34:59,729
+the op meter update rules
+and we connect some nodes,
+
+784
+00:34:59,729 --> 00:35:01,990
+right? We update parameters.
+
+785
+00:35:01,990 --> 00:35:04,369
+Okay? Uh, very simple.
+
+786
+00:35:04,369 --> 00:35:06,489
+Basically, in the
+right hand side,
+
+787
+00:35:06,489 --> 00:35:07,809
+you basically see a full graph
+
+788
+00:35:07,809 --> 00:35:10,490
+that represent this new network.
+
+789
+00:35:10,490 --> 00:35:12,569
+And this can go arbitrary
+complex, right?
+
+790
+00:35:12,569 --> 00:35:15,730
+Remember, in reality,
+this is a neural network
+
+791
+00:35:15,730 --> 00:35:17,549
+with thousands of nodes
+
+792
+00:35:17,549 --> 00:35:19,670
+with forward,
+backward and updates.
+
+793
+00:35:19,670 --> 00:35:21,490
+So this graph could
+be maintained
+
+794
+00:35:21,490 --> 00:35:23,249
+by a system at a lower level.
+
+795
+00:35:23,249 --> 00:35:28,590
+Yeah. Okay, as a homework,
+
+796
+00:35:28,590 --> 00:35:30,710
+we are going to implement
+
+797
+00:35:30,710 --> 00:35:32,630
+this auto different library
+
+798
+00:35:32,630 --> 00:35:34,889
+with a few operators
+I give it to you.
+
+799
+00:35:34,889 --> 00:35:38,129
+And one operator is
+basically softmax,
+
+800
+00:35:38,129 --> 00:35:40,110
+and this is a very
+interesting operator.
+
+801
+00:35:40,110 --> 00:35:44,149
+I think it's greeting is
+a very uh elegant form,
+
+802
+00:35:44,149 --> 00:35:46,649
+and you are going to do this.
+
+803
+00:35:46,649 --> 00:35:51,290
+Okay. Cool. That basically
+
+804
+00:35:51,290 --> 00:35:55,429
+covers auto differentiation.
+Any question?
+
+805
+00:35:57,190 --> 00:36:01,249
+Okay, once you understand
+all the differentiation,
+
+806
+00:36:01,249 --> 00:36:02,749
+I think it's the right time to
+
+807
+00:36:02,749 --> 00:36:05,090
+introduce the
+architecture overview
+
+808
+00:36:05,090 --> 00:36:06,210
+of machine learning systems.
+
+809
+00:36:06,210 --> 00:36:08,129
+So what people are cooking here.
+
+810
+00:36:08,129 --> 00:36:11,749
+So as I said, no,
+
+811
+00:36:11,749 --> 00:36:13,110
+I give you a neural network,
+
+812
+00:36:13,110 --> 00:36:14,149
+you are going to represent as
+
+813
+00:36:14,149 --> 00:36:15,629
+a data flow graph like that?
+
+814
+00:36:15,629 --> 00:36:17,929
+Pretty nice animation
+from tensor flow.
+
+815
+00:36:17,929 --> 00:36:19,689
+It has input nodes, I have data
+
+816
+00:36:19,689 --> 00:36:22,350
+flowing through that graph.
+
+817
+00:36:22,350 --> 00:36:25,230
+For that graph, it also
+represents both forward,
+
+818
+00:36:25,230 --> 00:36:27,690
+backward, and we update.
+
+819
+00:36:27,690 --> 00:36:30,889
+So what is our system go here?
+
+820
+00:36:30,889 --> 00:36:32,849
+So our system is
+pretty simple, right.
+
+821
+00:36:32,849 --> 00:36:35,189
+We try to make this very fast,
+
+822
+00:36:35,189 --> 00:36:36,790
+because we want to optiment
+
+823
+00:36:36,790 --> 00:36:39,330
+the system to achieve
+the best performance.
+
+824
+00:36:39,330 --> 00:36:41,829
+So our system go here
+is basically we try to
+
+825
+00:36:41,829 --> 00:36:44,909
+make it fast so it
+can run super fast.
+
+826
+00:36:44,909 --> 00:36:47,549
+Secondly, we try to
+make it scale, right?
+
+827
+00:36:47,549 --> 00:36:49,010
+Because sometimes you cannot
+
+828
+00:36:49,010 --> 00:36:50,530
+run the scrap on a single GPU,
+
+829
+00:36:50,530 --> 00:36:52,229
+so you need to scale this
+
+830
+00:36:52,229 --> 00:36:55,030
+to many many GPUs to
+make it even faster.
+
+831
+00:36:56,010 --> 00:36:58,849
+We want to make sure it's
+memory efficient because
+
+832
+00:36:58,849 --> 00:37:01,069
+you already know
+that GPU memory is
+
+833
+00:37:01,069 --> 00:37:03,749
+very scare resources in
+
+834
+00:37:03,749 --> 00:37:06,849
+order to treat models
+like GPD three,
+
+835
+00:37:06,849 --> 00:37:09,930
+you have to basically
+optimize your system
+
+836
+00:37:09,930 --> 00:37:13,170
+to use the memory as
+efficient as possible.
+
+837
+00:37:13,970 --> 00:37:17,110
+And sometimes we want to
+run on diverse hardware,
+
+838
+00:37:17,110 --> 00:37:19,049
+GPU CPU, iPhone or whatever.
+
+839
+00:37:19,049 --> 00:37:21,669
+Yeah. Okay. We try to
+make sure this graph
+
+840
+00:37:21,669 --> 00:37:25,650
+can run across different
+platforms, okay?
+
+841
+00:37:25,890 --> 00:37:29,149
+And we don't want to
+consume a lot of energy,
+
+842
+00:37:29,149 --> 00:37:32,370
+because we have to pay
+for the electricity,
+
+843
+00:37:33,330 --> 00:37:35,729
+of course, you
+already know this.
+
+844
+00:37:35,729 --> 00:37:38,909
+We try to make sure that
+users feel very easy to
+
+845
+00:37:38,909 --> 00:37:42,889
+program or debug this neur
+network dataflow graph. Okay?
+
+846
+00:37:42,889 --> 00:37:45,550
+That is basically a spectrum
+
+847
+00:37:45,550 --> 00:37:46,670
+of problems that merchant
+
+848
+00:37:46,670 --> 00:37:48,389
+learning system people
+are trying to solve.
+
+849
+00:37:48,389 --> 00:37:50,609
+Okay? That is given a graph,
+
+850
+00:37:50,609 --> 00:37:54,569
+given some hardware, you
+try to achieve these goals.
+
+851
+00:37:54,569 --> 00:37:57,969
+I'm going to give you an
+overview and it's a very,
+
+852
+00:37:57,969 --> 00:38:00,909
+very simplified overview
+of how people realize
+
+853
+00:38:00,909 --> 00:38:02,749
+this in the existing machine
+
+854
+00:38:02,749 --> 00:38:04,729
+learning frameworks like
+Petro and interflow.
+
+855
+00:38:04,729 --> 00:38:07,650
+Um, maybe frameworks
+can be different,
+
+856
+00:38:07,650 --> 00:38:08,949
+but basically, my overview
+
+857
+00:38:08,949 --> 00:38:10,310
+will apply to all
+these frameworks.
+
+858
+00:38:10,310 --> 00:38:11,689
+So in the future, uh,
+
+859
+00:38:11,689 --> 00:38:13,489
+maybe when you start
+working on something,
+
+860
+00:38:13,489 --> 00:38:16,709
+you can try to map
+some code written in
+
+861
+00:38:16,709 --> 00:38:18,489
+your framework into
+these layers and think
+
+862
+00:38:18,489 --> 00:38:21,164
+about what their
+functionality are, right?
+
+863
+00:38:21,164 --> 00:38:24,839
+So at the higher layer,
+maybe start from there.
+
+864
+00:38:24,839 --> 00:38:26,259
+We have a data ph
+graph, right, and
+
+865
+00:38:26,259 --> 00:38:28,219
+we have a cluster of GPUs.
+
+866
+00:38:28,219 --> 00:38:31,099
+Okay? And at the higher layer,
+
+867
+00:38:31,099 --> 00:38:32,799
+we already know that
+we are going to
+
+868
+00:38:32,799 --> 00:38:34,979
+represent the neuralnetwork
+as the data flow graph.
+
+869
+00:38:34,979 --> 00:38:37,340
+And there are some auto
+differentiation libraries
+
+870
+00:38:37,340 --> 00:38:39,099
+that will basically
+take your photograph,
+
+871
+00:38:39,099 --> 00:38:40,459
+drupe the backward and connect
+
+872
+00:38:40,459 --> 00:38:42,279
+them together to
+represent with updates.
+
+873
+00:38:42,279 --> 00:38:44,319
+These two parts we
+already covered.
+
+874
+00:38:44,319 --> 00:38:47,119
+Okay. And this is
+
+875
+00:38:47,119 --> 00:38:49,399
+only the higher layer
+of machining systems.
+
+876
+00:38:49,399 --> 00:38:51,019
+In order to make it fast, uh,
+
+877
+00:38:51,019 --> 00:38:52,239
+the system people actually build
+
+878
+00:38:52,239 --> 00:38:54,759
+a lot layers behind this.
+
+879
+00:38:54,759 --> 00:38:56,559
+So what they do is they will do
+
+880
+00:38:56,559 --> 00:38:58,619
+a so called graph
+augmentation layer.
+
+881
+00:38:58,619 --> 00:39:00,199
+So what is graph opening?
+
+882
+00:39:00,199 --> 00:39:01,819
+I will give you a
+overview pretty soon.
+
+883
+00:39:01,819 --> 00:39:04,020
+But you can understand
+that that graph,
+
+884
+00:39:04,020 --> 00:39:07,939
+which is written by the
+user may be inefficient.
+
+885
+00:39:07,939 --> 00:39:10,599
+Then the system will take
+that graph and try to
+
+886
+00:39:10,599 --> 00:39:11,799
+analyze it a little bit to make
+
+887
+00:39:11,799 --> 00:39:13,539
+it more efficient version.
+
+888
+00:39:13,539 --> 00:39:15,339
+And this can be done using
+
+889
+00:39:15,339 --> 00:39:17,300
+many existing graph theory
+
+890
+00:39:17,300 --> 00:39:19,880
+or whatever kind of
+graph transformation.
+
+891
+00:39:19,880 --> 00:39:22,239
+Yeah. Basically, I try to
+derive a graph that is
+
+892
+00:39:22,239 --> 00:39:25,639
+equivalent with
+the initial graph,
+
+893
+00:39:25,639 --> 00:39:26,859
+but the second one will
+
+894
+00:39:26,859 --> 00:39:29,199
+be the new one will be
+much more efficient.
+
+895
+00:39:29,199 --> 00:39:31,819
+That is a layer we call
+graph augmentation.
+
+896
+00:39:31,819 --> 00:39:33,979
+Okay? And in petrogentener flow,
+
+897
+00:39:33,979 --> 00:39:35,019
+there are so many codes that is
+
+898
+00:39:35,019 --> 00:39:37,359
+basically doing
+graph augmentation.
+
+899
+00:39:38,219 --> 00:39:40,420
+And after Graph organization,
+
+900
+00:39:40,420 --> 00:39:42,379
+what we try to do is we
+
+901
+00:39:42,379 --> 00:39:44,599
+can optionally have
+a parledtion layer.
+
+902
+00:39:44,599 --> 00:39:47,220
+That is we try to distribute
+this graph on many GPOs.
+
+903
+00:39:47,220 --> 00:39:49,919
+But I said this layer
+is optional because if
+
+904
+00:39:49,919 --> 00:39:51,079
+your graph is fine on
+
+905
+00:39:51,079 --> 00:39:52,999
+a single GPO, then you
+don't care about this.
+
+906
+00:39:52,999 --> 00:39:54,479
+That means that
+this code pass is
+
+907
+00:39:54,479 --> 00:39:56,219
+not going to be able
+to activate it.
+
+908
+00:39:56,219 --> 00:39:58,399
+But in many cases,
+in today's case,
+
+909
+00:39:58,399 --> 00:40:00,539
+I don't think a GPU can
+actually train a model
+
+910
+00:40:00,539 --> 00:40:03,819
+in reasonable amount of time,
+so you have to do this.
+
+911
+00:40:03,819 --> 00:40:05,439
+You're going to take this graph
+
+912
+00:40:05,439 --> 00:40:07,039
+and going to distribute
+this graph over
+
+913
+00:40:07,039 --> 00:40:08,799
+many many devices and
+
+914
+00:40:08,799 --> 00:40:10,740
+make sure the results
+are still correct.
+
+915
+00:40:10,740 --> 00:40:16,549
+Okay? And then we also
+care about the run time.
+
+916
+00:40:16,549 --> 00:40:17,909
+That is once it runs,
+
+917
+00:40:17,909 --> 00:40:20,429
+how many memory consume,
+how it should run.
+
+918
+00:40:20,429 --> 00:40:22,149
+There are so many
+operators, right.
+
+919
+00:40:22,149 --> 00:40:24,329
+There's a left branch,
+there's a right branch.
+
+920
+00:40:24,329 --> 00:40:26,469
+How should I schedule
+each branch?
+
+921
+00:40:26,469 --> 00:40:28,509
+Should one branch
+run ahead of time,
+
+922
+00:40:28,509 --> 00:40:32,289
+or should delay the schon
+one branch over the other.
+
+923
+00:40:32,289 --> 00:40:34,809
+And this matters because it can
+
+924
+00:40:34,809 --> 00:40:38,849
+basically affect your
+efficiency, yeah.
+
+925
+00:40:38,849 --> 00:40:41,399
+And we're going to talk
+about this as well.
+
+926
+00:40:41,399 --> 00:40:45,750
+And finally, at the
+Louis layer, remember,
+
+927
+00:40:45,750 --> 00:40:48,389
+these graphs are
+constructed by a lot of
+
+928
+00:40:48,389 --> 00:40:50,449
+primitives and the
+primitives could
+
+929
+00:40:50,449 --> 00:40:53,590
+be Mm, softmax and whatever.
+
+930
+00:40:53,710 --> 00:40:57,150
+Eventually, if you want
+to run this graph,
+
+931
+00:40:57,150 --> 00:40:59,009
+you need to run
+those primitives.
+
+932
+00:40:59,009 --> 00:41:00,829
+That means that you
+have to provide
+
+933
+00:41:00,829 --> 00:41:02,489
+a library of primitives that can
+
+934
+00:41:02,489 --> 00:41:06,269
+run on different kind of
+devices like GPU CPU, whatever.
+
+935
+00:41:06,269 --> 00:41:08,189
+Lower layer, we basically have
+
+936
+00:41:08,189 --> 00:41:11,650
+operator library where we
+implement the implementation,
+
+937
+00:41:11,650 --> 00:41:14,950
+the exact we call kernels
+of these operators,
+
+938
+00:41:14,950 --> 00:41:17,530
+primitives on those
+target devices.
+
+939
+00:41:17,530 --> 00:41:19,549
+This is a pretty low level code,
+
+940
+00:41:19,549 --> 00:41:22,109
+and we are also going
+to touch base on that.
+
+941
+00:41:22,550 --> 00:41:25,469
+This basically gives you
+
+942
+00:41:25,469 --> 00:41:27,229
+an overview of what's going
+
+943
+00:41:27,229 --> 00:41:29,049
+on in terms of flow and impacts.
+
+944
+00:41:29,049 --> 00:41:31,059
+Uh, it is simply not working.
+
+945
+00:41:31,059 --> 00:41:32,740
+But if you go to
+TenderfowKolbs or Patrick
+
+946
+00:41:32,740 --> 00:41:34,939
+obises you'll find there are
+much more layers than this.
+
+947
+00:41:34,939 --> 00:41:36,420
+But basically, you can condense
+
+948
+00:41:36,420 --> 00:41:37,839
+several layers
+into one of these.
+
+949
+00:41:37,839 --> 00:41:40,459
+Okay? Any question?
+
+950
+00:41:41,699 --> 00:41:45,679
+Cool. Okay, let me give
+
+951
+00:41:45,679 --> 00:41:49,239
+you overview basically what
+each layer is cooking.
+
+952
+00:41:49,239 --> 00:41:52,299
+So basically, if you want
+to do research in this,
+
+953
+00:41:52,299 --> 00:41:54,460
+you can actually choose a layer
+that is most interesting.
+
+954
+00:41:54,460 --> 00:41:56,099
+And I can tell you each
+layer actually has
+
+955
+00:41:56,099 --> 00:41:58,780
+already more than 1,000
+papers published.
+
+956
+00:41:58,780 --> 00:42:00,400
+Discussing how to do openation.
+
+957
+00:42:00,400 --> 00:42:01,099
+Yeah.
+
+958
+00:42:01,099 --> 00:42:02,799
+Okay. The first layer,
+
+959
+00:42:02,799 --> 00:42:04,479
+graph openation as already said,
+
+960
+00:42:04,479 --> 00:42:07,279
+the goal is basically rewrite
+the original graph G,
+
+961
+00:42:07,279 --> 00:42:08,859
+defined by users into
+
+962
+00:42:08,859 --> 00:42:10,839
+another graph, which
+is called G prime.
+
+963
+00:42:10,839 --> 00:42:15,859
+And my goal is G prime will
+run much faster than G. Okay?
+
+964
+00:42:15,859 --> 00:42:17,940
+You probably are wondering
+why this could happen.
+
+965
+00:42:17,940 --> 00:42:19,560
+I'm going to give you an example
+
+966
+00:42:19,560 --> 00:42:21,819
+and look at the left
+piece of graph, right?
+
+967
+00:42:21,819 --> 00:42:25,039
+So can you guess
+where is this from?
+
+968
+00:42:27,489 --> 00:42:29,929
+Apparently, there's
+a count to D,
+
+969
+00:42:29,929 --> 00:42:32,090
+so it must from
+convolutional network.
+
+970
+00:42:32,090 --> 00:42:33,310
+And to be more precise,
+
+971
+00:42:33,310 --> 00:42:35,369
+is from resent. Okay.
+
+972
+00:42:35,369 --> 00:42:38,189
+And in restaurant, you
+basically have input X.
+
+973
+00:42:38,189 --> 00:42:39,969
+You have to wait W and B.
+
+974
+00:42:39,969 --> 00:42:41,929
+You first apply a
+count two, right?
+
+975
+00:42:41,929 --> 00:42:43,389
+And once you get the output,
+
+976
+00:42:43,389 --> 00:42:45,449
+you are going to
+get the output Y,
+
+977
+00:42:45,449 --> 00:42:47,829
+and you have another
+two parameters R and P,
+
+978
+00:42:47,829 --> 00:42:51,389
+and you run a bachelor and
+you get the second O Z.
+
+979
+00:42:51,389 --> 00:42:53,889
+And to simplify a little bit,
+
+980
+00:42:53,889 --> 00:42:56,749
+we can basically represent
+the commutation there, right?
+
+981
+00:42:56,749 --> 00:42:58,849
+So the first layer is
+basically count two,
+
+982
+00:42:58,849 --> 00:43:02,109
+which is some loops
+and sums, right?
+
+983
+00:43:02,109 --> 00:43:04,849
+And then plus bias B.
+
+984
+00:43:04,849 --> 00:43:06,649
+And the second layer
+is basically take
+
+985
+00:43:06,649 --> 00:43:09,909
+the output of the first layer
+of Y and do something else.
+
+986
+00:43:09,909 --> 00:43:14,130
+Okay? This is a simplified
+version of this graph.
+
+987
+00:43:14,900 --> 00:43:17,519
+And one way we can
+make this faster is
+
+988
+00:43:17,519 --> 00:43:19,839
+we don't run this
+graph, but we do this.
+
+989
+00:43:19,839 --> 00:43:21,559
+We find that we can actually
+
+990
+00:43:21,559 --> 00:43:23,679
+enroll this computation
+a little bit,
+
+991
+00:43:23,679 --> 00:43:26,679
+we try to define some other
+ways called W two and B two,
+
+992
+00:43:26,679 --> 00:43:29,639
+where the definition of
+W and B two is there.
+
+993
+00:43:29,639 --> 00:43:33,079
+What do we do oicly we
+
+994
+00:43:33,079 --> 00:43:34,779
+perform some
+computation ahead of
+
+995
+00:43:34,779 --> 00:43:37,099
+time, on the graph level.
+
+996
+00:43:37,099 --> 00:43:40,940
+We define W two as the
+original width W times
+
+997
+00:43:40,940 --> 00:43:42,919
+the R which is the weight
+
+998
+00:43:42,919 --> 00:43:45,219
+of the batm and
+similarly for B two.
+
+999
+00:43:45,219 --> 00:43:47,585
+And then we don't
+have to run batom.
+
+1000
+00:43:47,585 --> 00:43:49,530
+Right, we field all
+the computation
+
+1001
+00:43:49,530 --> 00:43:51,249
+into one operator
+with count two,
+
+1002
+00:43:51,249 --> 00:43:53,849
+but we behind the scene
+
+1003
+00:43:53,849 --> 00:43:57,110
+we basically switch the
+weight from W B into w2b.
+
+1004
+00:43:57,110 --> 00:43:59,570
+And it turns out that
+the second graph
+
+1005
+00:43:59,570 --> 00:44:01,429
+runs much faster than
+the first one, right?
+
+1006
+00:44:01,429 --> 00:44:03,890
+Because it's quite obvious
+
+1007
+00:44:03,890 --> 00:44:07,709
+because you alwayd running
+one more operator, ok?
+
+1008
+00:44:07,709 --> 00:44:14,399
+Um, and we can do it
+more aggressively.
+
+1009
+00:44:14,399 --> 00:44:17,299
+The way we do it is we
+are going to look at
+
+1010
+00:44:17,299 --> 00:44:20,059
+the holistic repetition
+of the dataflow graph.
+
+1011
+00:44:20,059 --> 00:44:22,099
+We are going to look for
+every opportunity that
+
+1012
+00:44:22,099 --> 00:44:24,859
+we can put C D and
+Bachelom together.
+
+1013
+00:44:24,859 --> 00:44:27,399
+In this one, I'm
+
+1014
+00:44:27,399 --> 00:44:29,860
+going to give you a
+very extreme example.
+
+1015
+00:44:29,860 --> 00:44:34,420
+Here we have input. We are
+going through two convolution,
+
+1016
+00:44:34,420 --> 00:44:37,039
+which is one by one convolution,
+
+1017
+00:44:37,039 --> 00:44:40,299
+then we go through C
+three by three and then
+
+1018
+00:44:40,299 --> 00:44:41,699
+add the results together and
+
+1019
+00:44:41,699 --> 00:44:44,020
+go through value and
+get the results.
+
+1020
+00:44:44,020 --> 00:44:49,159
+And here, apparently, this one
+by one and three by three,
+
+1021
+00:44:49,159 --> 00:44:50,920
+their filter size are different.
+
+1022
+00:44:50,920 --> 00:44:52,939
+One is three by three,
+the other one by one.
+
+1023
+00:44:52,939 --> 00:44:54,359
+So it's not very
+
+1024
+00:44:54,359 --> 00:44:57,980
+easy to put them together
+into one operator.
+
+1025
+00:44:57,980 --> 00:44:59,939
+So what do we do is we are going
+
+1026
+00:44:59,939 --> 00:45:02,999
+to enlarge this one by one
+into a three by three.
+
+1027
+00:45:02,999 --> 00:45:04,099
+We can do that, right,
+
+1028
+00:45:04,099 --> 00:45:05,579
+mathematically equivalent,
+you can do that,
+
+1029
+00:45:05,579 --> 00:45:08,360
+but the problem is through
+enlarging operation,
+
+1030
+00:45:08,360 --> 00:45:09,979
+this operator
+apparently will become
+
+1031
+00:45:09,979 --> 00:45:12,439
+slower because previously we
+only calculate one by one,
+
+1032
+00:45:12,439 --> 00:45:15,019
+but now we calculate
+three by three. Okay.
+
+1033
+00:45:15,019 --> 00:45:16,919
+Remember, this step
+becomes lower.
+
+1034
+00:45:16,919 --> 00:45:19,599
+But the benefit is
+now this one by one
+
+1035
+00:45:19,599 --> 00:45:23,560
+becomes equivalent at least
+on shape with three batter.
+
+1036
+00:45:23,560 --> 00:45:25,960
+We can write the
+mathematical equation
+
+1037
+00:45:25,960 --> 00:45:28,924
+together and we can fill
+them into 13 battery.
+
+1038
+00:45:28,924 --> 00:45:31,029
+Okay. And this step is going to
+
+1039
+00:45:31,029 --> 00:45:33,229
+be slightly faster, right?
+
+1040
+00:45:33,229 --> 00:45:35,669
+So we become slower
+and then faster.
+
+1041
+00:45:35,669 --> 00:45:37,669
+And we continue doing this.
+
+1042
+00:45:37,669 --> 00:45:40,789
+So here, you can see, uh,
+
+1043
+00:45:40,789 --> 00:45:43,309
+we are going to fill this
+split come and add all
+
+1044
+00:45:43,309 --> 00:45:46,389
+together into a more
+complete sstry.
+
+1045
+00:45:46,389 --> 00:45:48,569
+And if you compare this
+graph and this graph,
+
+1046
+00:45:48,569 --> 00:45:49,789
+you'll find that we reduce
+
+1047
+00:45:49,789 --> 00:45:51,889
+the number of nodes from
+this graph to this graph.
+
+1048
+00:45:51,889 --> 00:45:53,809
+Like this graph only
+have two nodes,
+
+1049
+00:45:53,809 --> 00:45:55,989
+but this graph has
+so many nodes.
+
+1050
+00:45:55,989 --> 00:45:59,229
+And we can continue to
+fill and eventually
+
+1051
+00:45:59,229 --> 00:46:02,879
+we fill the autograph into
+into one, only two nodes.
+
+1052
+00:46:02,879 --> 00:46:05,209
+Okay. You can see,
+
+1053
+00:46:05,209 --> 00:46:07,949
+this is pretty
+interesting because we
+
+1054
+00:46:07,949 --> 00:46:10,509
+first make the graph slower
+and then we make it faster.
+
+1055
+00:46:10,509 --> 00:46:12,289
+And if you evalue
+the vital graph,
+
+1056
+00:46:12,289 --> 00:46:13,609
+you'll find as as
+
+1057
+00:46:13,609 --> 00:46:14,829
+the vital graph is faster
+
+1058
+00:46:14,829 --> 00:46:16,449
+than the first
+graph, we are good.
+
+1059
+00:46:16,449 --> 00:46:18,110
+Okay? This is basically
+
+1060
+00:46:18,110 --> 00:46:20,329
+what we do for
+graph augmentation.
+
+1061
+00:46:20,329 --> 00:46:22,869
+And given that our graph has
+
+1062
+00:46:22,869 --> 00:46:24,069
+thousands of nodes and there
+
+1063
+00:46:24,069 --> 00:46:25,389
+are so many different operators,
+
+1064
+00:46:25,389 --> 00:46:27,069
+you can imagine there are
+so many opportunities
+
+1065
+00:46:27,069 --> 00:46:29,029
+that we can do this kind
+of augmentation, right?
+
+1066
+00:46:29,029 --> 00:46:31,529
+And that's what people
+do in this layer.
+
+1067
+00:46:31,529 --> 00:46:39,320
+Okay. Um, I think in
+the initial lecture,
+
+1068
+00:46:39,320 --> 00:46:41,559
+especially in last week's
+lecture, some people,
+
+1069
+00:46:41,559 --> 00:46:44,119
+some students ask me why
+
+1070
+00:46:44,119 --> 00:46:46,379
+fusing can be faster
+than the original graph?
+
+1071
+00:46:46,379 --> 00:46:48,419
+Let's do a deep dive.
+But before that,
+
+1072
+00:46:48,419 --> 00:46:51,600
+let's look at a more
+realistic example.
+
+1073
+00:46:51,600 --> 00:46:53,400
+This is familiar.
+
+1074
+00:46:53,400 --> 00:46:56,704
+This is attention transformers
+attention, right?
+
+1075
+00:46:56,704 --> 00:46:59,969
+And if you still
+remember in attention,
+
+1076
+00:46:59,969 --> 00:47:02,949
+what we do is we are going
+to play with meto that
+
+1077
+00:47:02,949 --> 00:47:07,070
+is we have weight for
+QK w and we have input,
+
+1078
+00:47:07,070 --> 00:47:09,249
+which is the edge hidden vector,
+
+1079
+00:47:09,249 --> 00:47:11,429
+and we are going to me met
+
+1080
+00:47:11,429 --> 00:47:13,669
+mood them together
+together the capital QQ,
+
+1081
+00:47:13,669 --> 00:47:15,450
+then we are going to
+perform attention.
+
+1082
+00:47:15,450 --> 00:47:18,649
+But if you go into any
+transformer library you
+
+1083
+00:47:18,649 --> 00:47:19,989
+will find that they don't write
+
+1084
+00:47:19,989 --> 00:47:22,009
+mathematical or
+programs in this way.
+
+1085
+00:47:22,009 --> 00:47:25,049
+They are going to write
+in this way, that is, uh,
+
+1086
+00:47:25,049 --> 00:47:29,250
+they are going to merge the
+QQw and then they directly
+
+1087
+00:47:29,250 --> 00:47:31,409
+calculate the QQv in one output
+
+1088
+00:47:31,409 --> 00:47:34,089
+which is called QQvO
+thing variable.
+
+1089
+00:47:34,089 --> 00:47:36,470
+Apparently this is fusion.
+
+1090
+00:47:36,470 --> 00:47:38,469
+We are basically, reducing
+
+1091
+00:47:38,469 --> 00:47:40,890
+the graph size by
+fusing some operators.
+
+1092
+00:47:40,890 --> 00:47:43,159
+Okay then back to the question.
+
+1093
+00:47:43,159 --> 00:47:46,739
+Why this could be
+faster? What is
+
+1094
+00:47:46,739 --> 00:47:49,000
+the fundamental mechanism
+that makes this faster?
+
+1095
+00:47:49,000 --> 00:47:51,300
+So remember that in computing,
+
+1096
+00:47:51,300 --> 00:47:54,900
+we care about
+arismtic intensity,
+
+1097
+00:47:54,900 --> 00:47:56,399
+which is denoted as AI,
+
+1098
+00:47:56,399 --> 00:47:58,920
+another AI,
+arithmetic intensity,
+
+1099
+00:47:58,920 --> 00:48:02,919
+this is defined as the lumber
+mathematical operations,
+
+1100
+00:48:02,919 --> 00:48:04,779
+uh, like compute operations,
+
+1101
+00:48:04,779 --> 00:48:07,340
+divided by, uh, the
+lumber memory access,
+
+1102
+00:48:07,340 --> 00:48:09,059
+like how many bits you
+are going to rate from
+
+1103
+00:48:09,059 --> 00:48:11,799
+your memory or whatever
+kind of storage.
+
+1104
+00:48:11,799 --> 00:48:14,139
+Okay? And the higher this value,
+
+1105
+00:48:14,139 --> 00:48:15,539
+then that means you can
+
+1106
+00:48:15,539 --> 00:48:17,959
+utilize your computer
+hardware better,
+
+1107
+00:48:17,959 --> 00:48:20,999
+and that will translate
+into faster competition.
+
+1108
+00:48:20,999 --> 00:48:23,799
+Okay. Uh, the reason that
+
+1109
+00:48:23,799 --> 00:48:28,059
+this fusion works because if
+you look at this example,
+
+1110
+00:48:28,059 --> 00:48:31,259
+what we do is basically we
+
+1111
+00:48:31,259 --> 00:48:34,119
+have to array flowing
+point rage A and B.
+
+1112
+00:48:34,119 --> 00:48:36,399
+We try to add their values
+and throw the value into
+
+1113
+00:48:36,399 --> 00:48:39,720
+C. And this is a
+very simple example,
+
+1114
+00:48:39,720 --> 00:48:44,199
+but it helps us understand
+AI, okay, original intensity.
+
+1115
+00:48:44,199 --> 00:48:47,299
+So the way we do that
+is we rate loop, right?
+
+1116
+00:48:47,299 --> 00:48:49,759
+We look through the rays and
+we write the result into
+
+1117
+00:48:49,759 --> 00:48:53,400
+C. And we can estimate
+the resin intensity.
+
+1118
+00:48:53,400 --> 00:48:55,799
+So in this process, we
+first read AI right.
+
+1119
+00:48:55,799 --> 00:49:00,019
+This is one ad, then we read
+BI and we add them together.
+
+1120
+00:49:00,019 --> 00:49:01,459
+This is a computer operation.
+
+1121
+00:49:01,459 --> 00:49:03,119
+And then once we
+have the results,
+
+1122
+00:49:03,119 --> 00:49:05,459
+we throw the result into C. So
+
+1123
+00:49:05,459 --> 00:49:09,279
+how many like a computer and
+how many read and write.
+
+1124
+00:49:10,040 --> 00:49:13,019
+So one computer, right,
+and three ran rate.
+
+1125
+00:49:13,019 --> 00:49:15,480
+So the AI is essentially,
+
+1126
+00:49:15,480 --> 00:49:18,929
+um, one divide by three,
+
+1127
+00:49:18,929 --> 00:49:20,629
+right? Okay, one by three.
+
+1128
+00:49:20,629 --> 00:49:25,329
+Same thing if we
+continue doing this,
+
+1129
+00:49:25,329 --> 00:49:27,250
+we make more
+complicated algorithm
+
+1130
+00:49:27,250 --> 00:49:28,469
+and written in this way.
+
+1131
+00:49:28,469 --> 00:49:31,589
+That is, we try to add all
+the results together and
+
+1132
+00:49:31,589 --> 00:49:35,969
+store result in E. Uh,
+
+1133
+00:49:35,969 --> 00:49:39,569
+sorry, we try to add A and B
+and T C and plus D and throw
+
+1134
+00:49:39,569 --> 00:49:41,129
+result in E. And what we
+
+1135
+00:49:41,129 --> 00:49:42,849
+do is basically we
+first add A and B,
+
+1136
+00:49:42,849 --> 00:49:44,529
+strew results in temp.
+
+1137
+00:49:44,529 --> 00:49:46,949
+Then we follow this order and
+
+1138
+00:49:46,949 --> 00:49:48,149
+continue to compute until
+
+1139
+00:49:48,149 --> 00:49:49,789
+we get the final
+results we want.
+
+1140
+00:49:49,789 --> 00:49:53,229
+And so what is the
+AI of this program?
+
+1141
+00:49:57,890 --> 00:50:00,489
+It's also one by three, right,
+
+1142
+00:50:00,489 --> 00:50:01,929
+because this line is one by
+
+1143
+00:50:01,929 --> 00:50:04,309
+three. This line
+is one by three.
+
+1144
+00:50:04,309 --> 00:50:06,469
+And this mall is
+also one by three
+
+1145
+00:50:06,469 --> 00:50:08,729
+because we read temp one,
+
+1146
+00:50:08,729 --> 00:50:11,069
+C and write results
+into temp two.
+
+1147
+00:50:11,069 --> 00:50:12,769
+And this one is
+also one by three.
+
+1148
+00:50:12,769 --> 00:50:14,369
+So in total, it's
+still one by three.
+
+1149
+00:50:14,369 --> 00:50:18,769
+Okay. Okay. But if we
+
+1150
+00:50:18,769 --> 00:50:20,629
+slightly write this program in
+
+1151
+00:50:20,629 --> 00:50:23,770
+a more efficient way that
+is we can get this program.
+
+1152
+00:50:23,770 --> 00:50:27,669
+Instead of I calculate
+the results step by step.
+
+1153
+00:50:27,669 --> 00:50:29,830
+I basically calculate
+in a long equation.
+
+1154
+00:50:29,830 --> 00:50:31,769
+I'm going to read A, B, C,
+
+1155
+00:50:31,769 --> 00:50:34,730
+and D. I directly perform
+some competition altogether,
+
+1156
+00:50:34,730 --> 00:50:37,229
+and then I throw it out into E,
+
+1157
+00:50:37,230 --> 00:50:40,469
+what is the AI over this one?
+
+1158
+00:50:43,010 --> 00:50:45,909
+So we can see there's one rate.
+
+1159
+00:50:45,909 --> 00:50:48,189
+There's one rate, right, read A,
+
+1160
+00:50:48,189 --> 00:50:50,310
+second road B, third,
+
+1161
+00:50:50,310 --> 00:50:52,529
+first rod D and
+the fifth write E.
+
+1162
+00:50:52,529 --> 00:50:55,069
+So the IO is basically five.
+
+1163
+00:50:55,069 --> 00:50:57,389
+And the computer is
+there's one plus,
+
+1164
+00:50:57,389 --> 00:50:59,290
+one plus, and one multiplier.
+
+1165
+00:50:59,290 --> 00:51:00,969
+So the computer is.
+
+1166
+00:51:00,969 --> 00:51:03,649
+So the AI is essentially
+three by five.
+
+1167
+00:51:03,649 --> 00:51:06,689
+And we can see this is
+basically opera fusion right.
+
+1168
+00:51:06,689 --> 00:51:09,689
+Because if you map this
+program into computer graph,
+
+1169
+00:51:09,689 --> 00:51:10,989
+this one only have one node
+
+1170
+00:51:10,989 --> 00:51:12,689
+that basically connect
+everything together.
+
+1171
+00:51:12,689 --> 00:51:14,129
+But this one has
+so many nodes that
+
+1172
+00:51:14,129 --> 00:51:15,910
+will write and read results.
+
+1173
+00:51:15,910 --> 00:51:18,070
+So if you do this
+kind of o fusion,
+
+1174
+00:51:18,070 --> 00:51:20,710
+you will find out your
+AI is much higher.
+
+1175
+00:51:20,710 --> 00:51:25,130
+That's why we really want
+fuse as much as possible.
+
+1176
+00:51:25,130 --> 00:51:28,049
+Okay? And we're
+going to go back to
+
+1177
+00:51:28,049 --> 00:51:31,509
+this in probably
+two lectures away,
+
+1178
+00:51:31,509 --> 00:51:33,169
+and we are going to talk
+
+1179
+00:51:33,169 --> 00:51:35,849
+about how we can find
+these opportunities.
+
+1180
+00:51:36,710 --> 00:51:39,189
+Okay. As I said, in
+
+1181
+00:51:39,189 --> 00:51:41,349
+order to perform this kind
+of graph ormentation,
+
+1182
+00:51:41,349 --> 00:51:42,609
+there are many ways.
+
+1183
+00:51:42,609 --> 00:51:44,689
+One way is you can
+write many many rules.
+
+1184
+00:51:44,689 --> 00:51:47,849
+For example, you can write
+a scanner on the graph,
+
+1185
+00:51:47,849 --> 00:51:49,269
+and that scanner program will
+
+1186
+00:51:49,269 --> 00:51:51,750
+basically uh check
+your templates.
+
+1187
+00:51:51,750 --> 00:51:53,489
+As long as I find there's
+
+1188
+00:51:53,489 --> 00:51:56,170
+a com operator connected
+with another con operator,
+
+1189
+00:51:56,170 --> 00:51:59,390
+I'm going to apply
+a specific fusion.
+
+1190
+00:51:59,390 --> 00:52:03,130
+This is the most adopted,
+uh, fusing technique.
+
+1191
+00:52:03,130 --> 00:52:05,049
+And if you check
+tender flow code,
+
+1192
+00:52:05,049 --> 00:52:05,549
+uh,
+
+1193
+00:52:05,549 --> 00:52:07,609
+they have so many templates
+that are written in this way.
+
+1194
+00:52:07,609 --> 00:52:09,769
+Okay? They have a graph
+scanner will scan
+
+1195
+00:52:09,769 --> 00:52:12,819
+the graph that basically
+find opportunities.
+
+1196
+00:52:12,819 --> 00:52:14,810
+Another way is some cutting
+
+1197
+00:52:14,810 --> 00:52:16,549
+research where people find that
+
+1198
+00:52:16,549 --> 00:52:18,269
+there are some automatic
+mechanism that we can
+
+1199
+00:52:18,269 --> 00:52:20,310
+discover this kind of
+fiting techniques,
+
+1200
+00:52:20,310 --> 00:52:22,309
+and we'll cover a
+little bit later.
+
+1201
+00:52:22,309 --> 00:52:25,289
+Okay. This gives you
+
+1202
+00:52:25,289 --> 00:52:28,509
+an overview of what's going
+on on the graph oppoiation.
+
+1203
+00:52:28,509 --> 00:52:31,729
+I hope it's interesting.
+Any question?
+
+1204
+00:52:34,440 --> 00:52:38,960
+Okay. Then let's go
+to one layer deeper.
+
+1205
+00:52:38,960 --> 00:52:40,819
+Once we open this graph,
+
+1206
+00:52:40,819 --> 00:52:42,639
+we want to deploy
+this graph over many,
+
+1207
+00:52:42,639 --> 00:52:45,419
+many devices, that is
+called paralyzation.
+
+1208
+00:52:45,419 --> 00:52:47,779
+And the problem paralyzation is
+
+1209
+00:52:47,779 --> 00:52:50,539
+that I have a computer graph,
+
+1210
+00:52:50,539 --> 00:52:53,740
+and I have some device cluster.
+
+1211
+00:52:53,740 --> 00:52:55,699
+And this visualization gives you
+
+1212
+00:52:55,699 --> 00:52:58,800
+a picture of what's
+going on in media,
+
+1213
+00:52:58,800 --> 00:53:01,620
+media basically shapes
+it kind of cluster
+
+1214
+00:53:01,620 --> 00:53:05,120
+to Google opening Amado.
+
+1215
+00:53:05,200 --> 00:53:08,640
+The key point I want to make
+through this visualization,
+
+1216
+00:53:08,640 --> 00:53:13,119
+you can see, vida usually make
+this cluster in this way.
+
+1217
+00:53:13,119 --> 00:53:14,819
+That is, it has many many nodes,
+
+1218
+00:53:14,819 --> 00:53:17,520
+and each node has a few GPUs,
+
+1219
+00:53:17,520 --> 00:53:19,359
+typically eight or four.
+
+1220
+00:53:19,359 --> 00:53:22,099
+And inside of each node, uh,
+
+1221
+00:53:22,099 --> 00:53:23,720
+those GPUs are connected
+
+1222
+00:53:23,720 --> 00:53:26,199
+using communication
+technology called
+
+1223
+00:53:26,199 --> 00:53:28,919
+veilink that unveiling super
+
+1224
+00:53:28,919 --> 00:53:30,299
+fast is almost as
+
+1225
+00:53:30,299 --> 00:53:32,540
+fast as reading things
+directly from memory.
+
+1226
+00:53:32,540 --> 00:53:35,840
+Okay? But if any two GPUs
+
+1227
+00:53:35,840 --> 00:53:38,280
+located on two different
+nodes wants to communicate,
+
+1228
+00:53:38,280 --> 00:53:41,474
+they are connected using
+some other interconnect.
+
+1229
+00:53:41,474 --> 00:53:44,210
+For example, infinite
+band or whatever.
+
+1230
+00:53:44,210 --> 00:53:48,409
+That one was not manufactured
+by media by someone else.
+
+1231
+00:53:48,409 --> 00:53:51,149
+That one is ten times slower or
+
+1232
+00:53:51,149 --> 00:53:54,029
+even 100 times slower
+than the link.
+
+1233
+00:53:54,029 --> 00:53:56,989
+So if you want to distribute
+this graph over this,
+
+1234
+00:53:56,989 --> 00:53:58,389
+you have to take this into
+
+1235
+00:53:58,389 --> 00:54:00,849
+consideration because this
+is what media giving to us.
+
+1236
+00:54:00,849 --> 00:54:03,249
+You have to find a way to cut
+
+1237
+00:54:03,249 --> 00:54:07,770
+this graph and put every part
+of it on different devices.
+
+1238
+00:54:07,770 --> 00:54:12,789
+So some communication
+will happen inside node,
+
+1239
+00:54:12,789 --> 00:54:17,134
+and some communication
+will happen across nodes.
+
+1240
+00:54:17,134 --> 00:54:19,299
+So in general, what kind of
+
+1241
+00:54:19,299 --> 00:54:21,179
+communication should
+happen inside of node,
+
+1242
+00:54:21,179 --> 00:54:22,600
+and what kind of communication
+
+1243
+00:54:22,600 --> 00:54:24,739
+should happen across nodes.
+
+1244
+00:54:27,980 --> 00:54:30,159
+As I said, inside of a node,
+
+1245
+00:54:30,159 --> 00:54:32,519
+you have not bandoes you
+communicate pretty fast.
+
+1246
+00:54:32,519 --> 00:54:35,359
+So you can put heavy
+communication inside node.
+
+1247
+00:54:35,359 --> 00:54:39,219
+But across nodes, you have
+some snow interconnect.
+
+1248
+00:54:39,219 --> 00:54:41,659
+So you want to make
+sure you place in
+
+1249
+00:54:41,659 --> 00:54:44,399
+a way where you minimize the
+communication between nodes.
+
+1250
+00:54:44,399 --> 00:54:48,120
+Okay? That is basically
+what pi trying to solve.
+
+1251
+00:54:48,120 --> 00:54:50,099
+So when we try to
+cut this graph,
+
+1252
+00:54:50,099 --> 00:54:52,720
+we try to find a
+way that minimize
+
+1253
+00:54:52,720 --> 00:54:54,039
+communication across nodes and
+
+1254
+00:54:54,039 --> 00:54:56,349
+maximize communication
+between nodes.
+
+1255
+00:54:56,349 --> 00:54:58,579
+Yeah. Okay? You can see
+
+1256
+00:54:58,579 --> 00:55:01,239
+this boils down into
+another opimenting problem.
+
+1257
+00:55:01,239 --> 00:55:04,540
+And depending on the
+communication pattern,
+
+1258
+00:55:04,540 --> 00:55:07,439
+we are going to put different
+algorithm on top of it.
+
+1259
+00:55:07,439 --> 00:55:11,139
+And this is also the
+essential part needed for
+
+1260
+00:55:11,139 --> 00:55:12,599
+training models at large as
+
+1261
+00:55:12,599 --> 00:55:15,419
+GBD and we are going to do
+a deep dive on this later,
+
+1262
+00:55:15,419 --> 00:55:19,319
+okay? Any questions
+on this layer?
+
+1263
+00:55:19,450 --> 00:55:24,329
+Yeah, maybe I can speak more
+like Groni language, okay?
+
+1264
+00:55:24,329 --> 00:55:26,049
+You probably heard about things
+
+1265
+00:55:26,049 --> 00:55:27,969
+like tensor paralism, right?
+
+1266
+00:55:27,969 --> 00:55:32,290
+Pipeline palism, sequence
+paralism, context paralism.
+
+1267
+00:55:32,290 --> 00:55:34,789
+They are basically
+trying to figure out
+
+1268
+00:55:34,789 --> 00:55:36,010
+a way that basically
+
+1269
+00:55:36,010 --> 00:55:37,889
+solve that problem I
+just mentioned, okay?
+
+1270
+00:55:37,889 --> 00:55:40,009
+And we are going
+to cover all this.
+
+1271
+00:55:42,890 --> 00:55:45,349
+Like I said, you
+want to figure out
+
+1272
+00:55:45,349 --> 00:55:47,670
+how to graph, how
+to communicate,
+
+1273
+00:55:47,670 --> 00:55:49,910
+because now you have
+communicated computer,
+
+1274
+00:55:49,910 --> 00:55:51,830
+so you want to schedule
+the communicate computer
+
+1275
+00:55:51,830 --> 00:55:54,390
+so they overlap as
+much as possible,
+
+1276
+00:55:54,390 --> 00:55:57,810
+uh, because you are doing
+distributed communication,
+
+1277
+00:55:57,810 --> 00:55:59,250
+so you care about consistency,
+
+1278
+00:55:59,250 --> 00:56:01,349
+you want to make
+sure distributed
+
+1279
+00:56:01,349 --> 00:56:04,449
+versus non distributed
+the results are the same,
+
+1280
+00:56:04,730 --> 00:56:07,450
+sometimes you want
+to automatically
+
+1281
+00:56:07,450 --> 00:56:08,949
+paralyze it because
+you are going to
+
+1282
+00:56:08,949 --> 00:56:10,610
+develop new neur networks
+
+1283
+00:56:10,610 --> 00:56:12,469
+and you don't want to
+care about you don't want
+
+1284
+00:56:12,469 --> 00:56:14,970
+to craft paralyzing strategy
+
+1285
+00:56:14,970 --> 00:56:16,350
+for ach new network you wrote.
+
+1286
+00:56:16,350 --> 00:56:20,659
+Okay and then we go to
+another layer behind,
+
+1287
+00:56:20,659 --> 00:56:22,740
+right, runtime and scheduling.
+
+1288
+00:56:22,740 --> 00:56:24,559
+So in this layer, I think
+
+1289
+00:56:24,559 --> 00:56:26,119
+it's pretty
+straightforward, right?
+
+1290
+00:56:26,119 --> 00:56:28,080
+It's what do we do in
+operating systems,
+
+1291
+00:56:28,080 --> 00:56:30,139
+how we make a program run.
+
+1292
+00:56:30,139 --> 00:56:32,220
+So we basically want to schedule
+
+1293
+00:56:32,220 --> 00:56:33,439
+the computer and
+communication and
+
+1294
+00:56:33,439 --> 00:56:34,940
+memory in a way that basically,
+
+1295
+00:56:34,940 --> 00:56:36,259
+first, you need to be fast.
+
+1296
+00:56:36,259 --> 00:56:38,960
+Second, we want to overlap the
+communication and compute.
+
+1297
+00:56:38,960 --> 00:56:41,880
+And third, our memory
+is not infinite.
+
+1298
+00:56:41,880 --> 00:56:44,200
+We have 80 giga for A or H 100,
+
+1299
+00:56:44,200 --> 00:56:46,660
+so we want to be subject
+to the memory constraints.
+
+1300
+00:56:46,660 --> 00:56:49,219
+Okay? That is basically
+what runtime does.
+
+1301
+00:56:49,219 --> 00:56:51,519
+Yeah. So what?
+
+1302
+00:56:55,480 --> 00:57:00,689
+Uh that's a great question.
+
+1303
+00:57:00,689 --> 00:57:02,829
+No one is limiting that.
+That's why there are
+
+1304
+00:57:02,829 --> 00:57:05,909
+many many startups
+building silicons, today.
+
+1305
+00:57:05,909 --> 00:57:07,909
+And they are raising
+a lot of money.
+
+1306
+00:57:07,909 --> 00:57:10,289
+And they are basically
+trying to build
+
+1307
+00:57:10,289 --> 00:57:13,369
+different configurations
+from media.
+
+1308
+00:57:13,369 --> 00:57:16,110
+For example, media, give
+you a memory of 80 giga,
+
+1309
+00:57:16,110 --> 00:57:20,190
+and AMD is basically giving
+you a memory of 160 giga.
+
+1310
+00:57:20,190 --> 00:57:22,790
+Eventually, it depends
+on your workload.
+
+1311
+00:57:22,790 --> 00:57:25,090
+Your workload probably
+only need 80 giga,
+
+1312
+00:57:25,090 --> 00:57:26,989
+so you don't have
+to pay extra price
+
+1313
+00:57:26,989 --> 00:57:29,310
+to buy the 160 giga cards.
+
+1314
+00:57:29,310 --> 00:57:31,029
+Yeah. So there are
+
+1315
+00:57:31,029 --> 00:57:33,030
+so many uh silicon companies
+
+1316
+00:57:33,030 --> 00:57:35,490
+are building different
+kind of hardware,
+
+1317
+00:57:35,490 --> 00:57:37,629
+we are going to talk
+about that a little bit.
+
+1318
+00:57:37,629 --> 00:57:40,329
+Maybe next next, okay.
+
+1319
+00:57:41,370 --> 00:57:45,590
+And finally, we go
+to the layer below,
+
+1320
+00:57:45,590 --> 00:57:47,089
+we are going to talk about how
+
+1321
+00:57:47,089 --> 00:57:48,329
+to implement a really, really,
+
+1322
+00:57:48,329 --> 00:57:52,790
+really fast primitive,
+especially for metamo.
+
+1323
+00:57:52,790 --> 00:57:54,450
+Like I said, if you solve metamo
+
+1324
+00:57:54,450 --> 00:57:56,609
+you solve 80% of the problem.
+
+1325
+00:57:56,970 --> 00:57:59,570
+Um but it's not that simple
+
+1326
+00:57:59,570 --> 00:58:03,130
+because when you talk about
+operator implementation,
+
+1327
+00:58:03,130 --> 00:58:06,069
+you face a lot of
+diversity issues.
+
+1328
+00:58:06,069 --> 00:58:08,459
+That is first you have
+
+1329
+00:58:08,459 --> 00:58:11,059
+different hardware architecture
+like that you mentioned,
+
+1330
+00:58:11,059 --> 00:58:13,499
+you need to optimize for
+different generations
+
+1331
+00:58:13,499 --> 00:58:17,899
+of MDA GPUs BD will ship
+GPUS every two years,
+
+1332
+00:58:17,899 --> 00:58:22,239
+you also even have TPU
+CPU and for example,
+
+1333
+00:58:22,239 --> 00:58:24,139
+M three, four, this
+kind of things.
+
+1334
+00:58:24,139 --> 00:58:26,160
+You want your to
+run on everywhere.
+
+1335
+00:58:26,160 --> 00:58:28,160
+You have to craft
+
+1336
+00:58:28,160 --> 00:58:32,365
+operator imitations for
+every hardware platform.
+
+1337
+00:58:32,365 --> 00:58:36,349
+Eight. Second, you have
+
+1338
+00:58:36,349 --> 00:58:39,509
+different ways of storing
+these tensor values.
+
+1339
+00:58:39,509 --> 00:58:41,770
+You can store it in
+different precisions.
+
+1340
+00:58:41,770 --> 00:58:43,889
+For each precision, it will
+
+1341
+00:58:43,889 --> 00:58:46,150
+use different curves
+from the device.
+
+1342
+00:58:46,150 --> 00:58:47,950
+So the program
+will be different.
+
+1343
+00:58:47,950 --> 00:58:49,310
+So you have to craft a different
+
+1344
+00:58:49,310 --> 00:58:50,745
+kernel for each precision.
+
+1345
+00:58:50,745 --> 00:58:53,400
+As you probably know,
+media is strongly
+
+1346
+00:58:53,400 --> 00:58:56,640
+advocating for
+reducing precisions.
+
+1347
+00:58:56,640 --> 00:58:58,539
+Like ten years ago,
+we are training
+
+1348
+00:58:58,539 --> 00:59:02,520
+neural network on 32
+bits of precisions.
+
+1349
+00:59:02,520 --> 00:59:05,800
+And today, if you check
+the latest neural network,
+
+1350
+00:59:05,800 --> 00:59:10,879
+they are trained on
+16 up to this year,
+
+1351
+00:59:10,879 --> 00:59:15,719
+the std art AM is basically
+trained on FP eight.
+
+1352
+00:59:15,719 --> 00:59:19,620
+Jensen who give a new
+card during Christmas,
+
+1353
+00:59:19,620 --> 00:59:22,439
+he said, no, you can
+train on FP four.
+
+1354
+00:59:22,439 --> 00:59:24,700
+That is each weight is basically
+
+1355
+00:59:24,700 --> 00:59:27,159
+represent using only four bits.
+
+1356
+00:59:27,159 --> 00:59:28,520
+How could that be possible?
+
+1357
+00:59:28,520 --> 00:59:31,159
+And we are going
+to dive into that.
+
+1358
+00:59:31,960 --> 00:59:35,460
+The third issue is basically,
+
+1359
+00:59:35,460 --> 00:59:39,020
+remember, our operators
+have different shapes.
+
+1360
+00:59:39,020 --> 00:59:40,979
+We could have three
+by three come,
+
+1361
+00:59:40,979 --> 00:59:42,879
+we could have five by five come.
+
+1362
+00:59:42,879 --> 00:59:45,900
+And for MTM, we could have 2d3d.
+
+1363
+00:59:45,900 --> 00:59:48,459
+And because of this
+
+1364
+00:59:48,459 --> 00:59:51,319
+because of the way we
+store the values, um,
+
+1365
+00:59:51,319 --> 00:59:53,659
+uh, a a same kind of probably
+
+1366
+00:59:53,659 --> 00:59:56,059
+will have very different
+performance on different shapes,
+
+1367
+00:59:56,059 --> 00:59:57,519
+and we are going
+to dive into that.
+
+1368
+00:59:57,519 --> 01:00:00,960
+And sometimes we index
+on some specific shapes.
+
+1369
+01:00:00,960 --> 01:00:02,659
+As I said, for example,
+for count two D,
+
+1370
+01:00:02,659 --> 01:00:04,619
+we really care about
+the performance of X
+
+1371
+01:00:04,619 --> 01:00:07,999
+because it is a cornerstone
+of ret net, right.
+
+1372
+01:00:07,999 --> 01:00:10,319
+And for this met Mo, uh,
+
+1373
+01:00:10,319 --> 01:00:12,739
+2d3d, we really care
+about some value,
+
+1374
+01:00:12,739 --> 01:00:15,139
+some dimensions of
+power two because it
+
+1375
+01:00:15,139 --> 01:00:17,660
+is the way how people build
+transformers and TPD,
+
+1376
+01:00:17,660 --> 01:00:20,214
+and we want to optimize
+to the extreme for them.
+
+1377
+01:00:20,214 --> 01:00:22,810
+Okay. And all these
+factors basically
+
+1378
+01:00:22,810 --> 01:00:23,849
+make the implementation of
+
+1379
+01:00:23,849 --> 01:00:25,710
+operators really,
+really complicated.
+
+1380
+01:00:25,710 --> 01:00:29,729
+Okay? Okay. With that,
+
+1381
+01:00:29,729 --> 01:00:31,210
+I think I basically,
+
+1382
+01:00:31,210 --> 01:00:32,890
+give you an overview
+
+1383
+01:00:32,890 --> 01:00:34,949
+of what merchant learning
+system people are
+
+1384
+01:00:34,949 --> 01:00:36,709
+doing and what basically people
+
+1385
+01:00:36,709 --> 01:00:39,449
+are cooking in petro
+and tender flow. Okay?
+
+1386
+01:00:39,449 --> 01:00:41,909
+Let's go back to our
+high level picture.
+
+1387
+01:00:41,909 --> 01:00:43,809
+So now we know how
+
+1388
+01:00:43,809 --> 01:00:45,869
+to represent our models,
+right dataflow graph.
+
+1389
+01:00:45,869 --> 01:00:47,710
+We also know how to basically
+
+1390
+01:00:47,710 --> 01:00:50,269
+represent our backward pass,
+
+1391
+01:00:50,269 --> 01:00:52,549
+okay, for backward pass.
+
+1392
+01:00:52,549 --> 01:00:55,369
+Um, we are going
+
+1393
+01:00:55,369 --> 01:00:57,469
+to talk about how to
+represent data a little bit,
+
+1394
+01:00:57,469 --> 01:01:00,589
+but in general, data is
+represented using tensors, right?
+
+1395
+01:01:00,589 --> 01:01:01,969
+But there are some magics in
+
+1396
+01:01:01,969 --> 01:01:04,189
+tensors, we are going
+to talk about that.
+
+1397
+01:01:04,189 --> 01:01:06,289
+And remember, our ultimate goal
+
+1398
+01:01:06,289 --> 01:01:09,090
+is we take this data and
+this mode representation,
+
+1399
+01:01:09,090 --> 01:01:11,070
+we are going to make it
+fast on different hardware,
+
+1400
+01:01:11,070 --> 01:01:14,489
+okay? Any question?
+
+1401
+01:01:16,030 --> 01:01:22,610
+Okay, cool. I think that
+basically wrap up the basics.
+
+1402
+01:01:22,610 --> 01:01:25,249
+Then let's basically go
+into the first layer,
+
+1403
+01:01:25,249 --> 01:01:26,489
+and we are going to start from
+
+1404
+01:01:26,489 --> 01:01:29,429
+the operator optimization layer.
+
+1405
+01:01:29,429 --> 01:01:30,929
+Okay, we are going
+to talk about how to
+
+1406
+01:01:30,929 --> 01:01:33,470
+really implement
+some fast operators.
+
+1407
+01:01:33,470 --> 01:01:36,049
+So remember our goal, given
+
+1408
+01:01:36,049 --> 01:01:38,430
+this kind of operator
+here, I give you a meto.
+
+1409
+01:01:38,430 --> 01:01:41,869
+Our goal is try to find
+implementation that is very,
+
+1410
+01:01:41,869 --> 01:01:44,889
+very fast on CPNTP
+building from there,
+
+1411
+01:01:44,889 --> 01:01:46,369
+we are going to compose more and
+
+1412
+01:01:46,369 --> 01:01:49,190
+more complicated data phlograph.
+
+1413
+01:01:49,620 --> 01:01:54,040
+Um, I think I already
+said that and I repeat.
+
+1414
+01:01:54,040 --> 01:01:56,719
+The goal of this layer
+is we try to find
+
+1415
+01:01:56,719 --> 01:02:00,039
+implementation that is well
+that will maximize AI, okay?
+
+1416
+01:02:00,039 --> 01:02:01,839
+We try to basically
+make the number of
+
+1417
+01:02:01,839 --> 01:02:03,920
+compute as much as possible.
+
+1418
+01:02:03,920 --> 01:02:07,440
+But we try to minimize
+the memory IO access.
+
+1419
+01:02:07,440 --> 01:02:11,479
+That is basically the
+fundamentals of compute, right?
+
+1420
+01:02:11,479 --> 01:02:13,845
+We try to maximize the
+original intensity.
+
+1421
+01:02:13,845 --> 01:02:15,249
+In this part, we are going
+
+1422
+01:02:15,249 --> 01:02:16,489
+to talk about three
+things, right.
+
+1423
+01:02:16,489 --> 01:02:17,969
+First is the image learning,
+
+1424
+01:02:17,969 --> 01:02:20,250
+how we can make the
+operator fast in general,
+
+1425
+01:02:20,250 --> 01:02:22,330
+regardless of
+platforms, for example,
+
+1426
+01:02:22,330 --> 01:02:24,170
+no matter you are
+using CPO or GPU,
+
+1427
+01:02:24,170 --> 01:02:26,509
+how we can make operator fast.
+
+1428
+01:02:26,509 --> 01:02:29,150
+Then, as I said, MTMo
+is so important,
+
+1429
+01:02:29,150 --> 01:02:31,049
+so we are going to
+dive into MT MO.
+
+1430
+01:02:31,049 --> 01:02:33,149
+We're going to very deep dive.
+
+1431
+01:02:33,149 --> 01:02:34,909
+And then because GPU is
+
+1432
+01:02:34,909 --> 01:02:36,709
+a major platform for
+computing today,
+
+1433
+01:02:36,709 --> 01:02:38,949
+is special machinery, so
+we are going to dive deep
+
+1434
+01:02:38,949 --> 01:02:42,265
+into how to make this
+operators fast on GPUs.
+
+1435
+01:02:42,265 --> 01:02:45,319
+Okay, so let's start
+with the first one.
+
+1436
+01:02:45,319 --> 01:02:48,899
+So how we can make operator
+fast in general, okay?
+
+1437
+01:02:48,899 --> 01:02:52,039
+In general, there are three
+ways to make operator fast.
+
+1438
+01:02:52,039 --> 01:02:55,379
+The first ways we try to
+vectorize our operators, right?
+
+1439
+01:02:55,379 --> 01:02:56,999
+And this is pretty
+straightforward if you
+
+1440
+01:02:56,999 --> 01:02:59,019
+write Lump Pi operators
+every day, right?
+
+1441
+01:02:59,019 --> 01:03:01,339
+Uh, writing vectorized
+code is always
+
+1442
+01:03:01,339 --> 01:03:04,439
+faster than writing a oop.
+
+1443
+01:03:04,439 --> 01:03:07,480
+The second way is we try
+to play with data layout.
+
+1444
+01:03:07,480 --> 01:03:09,780
+And by defining the
+right data layout,
+
+1445
+01:03:09,780 --> 01:03:11,920
+that is representing the data,
+
+1446
+01:03:11,920 --> 01:03:13,619
+inspite tensors
+in the right way,
+
+1447
+01:03:13,619 --> 01:03:15,640
+we can actually reduce overhead
+
+1448
+01:03:15,640 --> 01:03:18,080
+in many many operators
+in machinery.
+
+1449
+01:03:18,080 --> 01:03:20,140
+The third way, of
+course, per addition,
+
+1450
+01:03:20,140 --> 01:03:23,280
+we just give it more threats
+and we compute in parallel.
+
+1451
+01:03:23,280 --> 01:03:26,529
+Okay? Let's start
+with the first one.
+
+1452
+01:03:26,529 --> 01:03:29,350
+Like I said, the first one
+is pretty straightforward.
+
+1453
+01:03:29,350 --> 01:03:32,849
+And this is a piece
+of code where we
+
+1454
+01:03:32,849 --> 01:03:35,129
+add the values to
+
+1455
+01:03:35,129 --> 01:03:38,529
+erase A and B and write
+values back to C.
+
+1456
+01:03:38,529 --> 01:03:41,069
+One version of it
+is basically we
+
+1457
+01:03:41,069 --> 01:03:45,009
+use unvectorized, uh, version.
+
+1458
+01:03:45,009 --> 01:03:47,289
+We just loop over
+all the values.
+
+1459
+01:03:47,289 --> 01:03:49,049
+And we can vectorize it.
+
+1460
+01:03:49,049 --> 01:03:51,929
+The way we corize
+basically we are going to
+
+1461
+01:03:51,929 --> 01:03:54,750
+call some more
+advanced functions,
+
+1462
+01:03:54,750 --> 01:03:56,289
+which is called load flow four.
+
+1463
+01:03:56,289 --> 01:03:58,329
+In this case, every time
+we are going to load
+
+1464
+01:03:58,329 --> 01:04:01,170
+four floats inside
+one from the memory.
+
+1465
+01:04:01,170 --> 01:04:04,030
+And we are going to
+add the four flows
+
+1466
+01:04:04,030 --> 01:04:05,749
+together and the write value
+
+1467
+01:04:05,749 --> 01:04:08,930
+into another destination memory
+
+1468
+01:04:08,930 --> 01:04:10,289
+address which store four flows,
+
+1469
+01:04:10,289 --> 01:04:11,849
+which is called C, and then we
+
+1470
+01:04:11,849 --> 01:04:14,470
+store the value and
+we move the pointer.
+
+1471
+01:04:14,470 --> 01:04:16,729
+And this is a write version.
+
+1472
+01:04:16,729 --> 01:04:20,969
+Okay? Can anyone tell me why
+the version is faster than
+
+1473
+01:04:20,969 --> 01:04:26,529
+the left one? Yeah.
+
+1474
+01:04:31,300 --> 01:04:35,740
+Yeah. Yeah. In many
+modern hardware,
+
+1475
+01:04:35,740 --> 01:04:37,259
+they have this kind of load flow
+
+1476
+01:04:37,259 --> 01:04:39,099
+four that allows you to load,
+
+1477
+01:04:39,099 --> 01:04:41,379
+many values in one pass.
+
+1478
+01:04:41,379 --> 01:04:44,839
+This is given by the
+hardware manufacturer.
+
+1479
+01:04:44,839 --> 01:04:46,899
+So if you are able
+to leverage this,
+
+1480
+01:04:46,899 --> 01:04:51,139
+you basically can vectorize
+your compute in this way.
+
+1481
+01:04:51,500 --> 01:04:55,659
+This has been built into
+petrogentensor flow.
+
+1482
+01:04:55,659 --> 01:04:58,180
+I think as long as you
+call the default API
+
+1483
+01:04:58,180 --> 01:05:00,619
+and you try to write
+your code in a way that
+
+1484
+01:05:00,619 --> 01:05:03,659
+is as vectorized as
+
+1485
+01:05:03,659 --> 01:05:07,060
+much as possible is what
+work in this way, okay?
+
+1486
+01:05:09,260 --> 01:05:11,979
+That is recordis. The second one
+
+1487
+01:05:11,979 --> 01:05:14,739
+is we also play
+with data layout.
+
+1488
+01:05:14,820 --> 01:05:17,920
+Remember at the beginning
+at the global picture,
+
+1489
+01:05:17,920 --> 01:05:22,320
+I said our input
+imergiO data immersion
+
+1490
+01:05:22,320 --> 01:05:23,980
+is basically stored in tensor.
+
+1491
+01:05:23,980 --> 01:05:26,299
+But what is tensor? Tensor is
+
+1492
+01:05:26,299 --> 01:05:28,439
+basically a high
+dimensional array,
+
+1493
+01:05:28,439 --> 01:05:30,539
+fundamentally, how is high
+
+1494
+01:05:30,539 --> 01:05:32,939
+dimision array stored in memory?
+
+1495
+01:05:33,400 --> 01:05:36,420
+Okay. Fundamentally, in memory,
+
+1496
+01:05:36,420 --> 01:05:37,279
+we're not going to store
+
+1497
+01:05:37,279 --> 01:05:38,600
+anything that is
+high dimensional.
+
+1498
+01:05:38,600 --> 01:05:40,719
+We can only store things
+in one dimension, right?
+
+1499
+01:05:40,719 --> 01:05:43,159
+So we store things
+in a sequential way.
+
+1500
+01:05:43,159 --> 01:05:45,999
+Okay? That is from
+a memory level,
+
+1501
+01:05:45,999 --> 01:05:47,840
+we don't have any
+tensor awareness,
+
+1502
+01:05:47,840 --> 01:05:49,260
+and this basically visualize
+
+1503
+01:05:49,260 --> 01:05:51,120
+the way that we store values.
+
+1504
+01:05:51,120 --> 01:05:53,759
+We basically store from
+the left to right.
+
+1505
+01:05:53,840 --> 01:05:55,999
+For example, here, each value
+
+1506
+01:05:55,999 --> 01:06:00,380
+basically takes eight
+bytes in memory.
+
+1507
+01:06:00,380 --> 01:06:03,260
+And the way we represent
+tensor is basically,
+
+1508
+01:06:03,260 --> 01:06:06,699
+uh, we usually introduce
+two ways, one is row major.
+
+1509
+01:06:06,699 --> 01:06:08,179
+The other is column major.
+
+1510
+01:06:08,179 --> 01:06:09,879
+And I think all
+
+1511
+01:06:09,879 --> 01:06:11,599
+of you guys should be
+very familiar with this.
+
+1512
+01:06:11,599 --> 01:06:15,919
+In row major, we basically
+store each row first,
+
+1513
+01:06:15,919 --> 01:06:18,599
+and then we start with the
+second row and the third row.
+
+1514
+01:06:18,599 --> 01:06:21,439
+In column major, the other way,
+
+1515
+01:06:21,439 --> 01:06:23,279
+this is for the two
+dimensional case,
+
+1516
+01:06:23,279 --> 01:06:25,200
+but you can generalize
+into many many dimensions.
+
+1517
+01:06:25,200 --> 01:06:28,739
+Okay? And this is
+a visualization.
+
+1518
+01:06:28,739 --> 01:06:30,799
+The first one red
+one is row major,
+
+1519
+01:06:30,799 --> 01:06:34,199
+the second one is column major.
+
+1520
+01:06:34,590 --> 01:06:38,509
+Okay. And we need to be
+
+1521
+01:06:38,509 --> 01:06:42,549
+aware of data layout because
+if you look at this program,
+
+1522
+01:06:42,549 --> 01:06:45,629
+assuming that our data
+is stored in row major,
+
+1523
+01:06:45,629 --> 01:06:47,049
+that is we draw a zero,
+
+1524
+01:06:47,049 --> 01:06:50,189
+zero all the way
+to zero minus one,
+
+1525
+01:06:50,189 --> 01:06:52,389
+and then we start from uh
+
+1526
+01:06:52,389 --> 01:06:55,989
+A 10 and then, following
+the row major.
+
+1527
+01:06:56,390 --> 01:07:02,309
+Okay. So do you think
+this program is good?
+
+1528
+01:07:02,350 --> 01:07:04,569
+Why? Because if you pay
+
+1529
+01:07:04,569 --> 01:07:05,929
+attention you will
+find that the loop is
+
+1530
+01:07:05,929 --> 01:07:07,630
+written in a way
+that it first loops
+
+1531
+01:07:07,630 --> 01:07:08,970
+from the inside of dimension,
+
+1532
+01:07:08,970 --> 01:07:10,710
+and then outside of dimension.
+
+1533
+01:07:10,710 --> 01:07:13,549
+And this is going to
+be extremely slow.
+
+1534
+01:07:13,549 --> 01:07:18,569
+Why? Yeah, cache is one problem.
+
+1535
+01:07:18,569 --> 01:07:22,149
+Second is going to every time
+when you try to tu loop,
+
+1536
+01:07:22,149 --> 01:07:24,410
+you are going to move
+the pointers array
+
+1537
+01:07:24,410 --> 01:07:28,770
+of stress that way
+introduce some overhead.
+
+1538
+01:07:28,770 --> 01:07:31,389
+One way to improve this
+program is basically we try to
+
+1539
+01:07:31,389 --> 01:07:34,629
+swap those two loops
+we loop I and then J.
+
+1540
+01:07:34,629 --> 01:07:37,149
+This is pretty straightforward.
+
+1541
+01:07:37,310 --> 01:07:40,829
+Okay. Now we know
+that our data is
+
+1542
+01:07:40,829 --> 01:07:45,110
+stored in tensor and I'm
+going to give you MCQ,
+
+1543
+01:07:45,830 --> 01:07:48,229
+Machine learning
+systems store data
+
+1544
+01:07:48,229 --> 01:07:51,309
+in row major or column major.
+
+1545
+01:07:56,270 --> 01:08:02,930
+Who wants to answer?
+Like for example Piro.
+
+1546
+01:08:02,930 --> 01:08:07,039
+Yeah. Okay. Actually,
+I can tell you,
+
+1547
+01:08:07,039 --> 01:08:11,399
+um, they don't throw data in
+row major or column major.
+
+1548
+01:08:11,399 --> 01:08:12,839
+They throw data in a new
+
+1549
+01:08:12,839 --> 01:08:14,240
+format which I'm
+going to introduce.
+
+1550
+01:08:14,240 --> 01:08:16,919
+That is called
+strted format. Okay?
+
+1551
+01:08:16,919 --> 01:08:19,019
+So what is the strategy format?
+
+1552
+01:08:19,019 --> 01:08:23,339
+This is basically the
+last part of this class.
+
+1553
+01:08:23,339 --> 01:08:25,319
+Okay? So in strted format,
+
+1554
+01:08:25,319 --> 01:08:28,839
+you introduce two more
+parameters, okay.
+
+1555
+01:08:28,839 --> 01:08:30,819
+The first parameter
+is called offset.
+
+1556
+01:08:30,819 --> 01:08:33,939
+That is when you try to
+index value from a tensor,
+
+1557
+01:08:33,939 --> 01:08:35,859
+you first add offset value.
+
+1558
+01:08:35,859 --> 01:08:40,299
+Okay? The second, parameter
+is called stress,
+
+1559
+01:08:40,299 --> 01:08:43,199
+and the stress is also tensor
+
+1560
+01:08:43,199 --> 01:08:45,304
+with a dimension equal
+to the original tensor.
+
+1561
+01:08:45,304 --> 01:08:50,549
+Okay. So like I said,
+
+1562
+01:08:50,549 --> 01:08:52,529
+the offset basically
+means that the offset of
+
+1563
+01:08:52,529 --> 01:08:53,949
+the tensor relative to
+
+1564
+01:08:53,949 --> 01:08:56,689
+the underlying
+storage, the stress,
+
+1565
+01:08:56,689 --> 01:08:59,269
+I basically indicates
+how many elements
+
+1566
+01:08:59,269 --> 01:09:00,709
+need to be skipped
+
+1567
+01:09:00,709 --> 01:09:02,329
+in memory to move when
+
+1568
+01:09:02,329 --> 01:09:05,444
+unit in the dimension
+of the tensor.
+
+1569
+01:09:05,444 --> 01:09:07,419
+That means that here you
+
+1570
+01:09:07,419 --> 01:09:09,779
+have array three
+dimensional tensor,
+
+1571
+01:09:09,779 --> 01:09:12,539
+the way that index
+value is basically,
+
+1572
+01:09:12,539 --> 01:09:15,899
+you take underlying
+storage and you
+
+1573
+01:09:15,899 --> 01:09:20,299
+first try to calculate
+index as well plus offset,
+
+1574
+01:09:20,299 --> 01:09:22,679
+and then you multiply
+
+1575
+01:09:22,679 --> 01:09:24,179
+each dimension by strett
+
+1576
+01:09:24,179 --> 01:09:26,379
+and eventually you'll
+get this value.
+
+1577
+01:09:26,379 --> 01:09:28,099
+This is called strategy format.
+
+1578
+01:09:28,099 --> 01:09:31,919
+This is pretty
+straightforward? Let's end
+
+1579
+01:09:31,919 --> 01:09:34,579
+this lecture with a
+very simple question.
+
+1580
+01:09:34,579 --> 01:09:37,059
+These two visualization
+basically give
+
+1581
+01:09:37,059 --> 01:09:40,839
+you what it means
+by strategy format.
+
+1582
+01:09:40,839 --> 01:09:44,759
+Take 5 seconds to look at this.
+
+1583
+01:09:44,759 --> 01:09:47,119
+Okay. We easy to understand.
+
+1584
+01:09:47,119 --> 01:09:48,719
+Let me ask you two questions.
+
+1585
+01:09:48,719 --> 01:09:52,779
+So what do we have when
+we have two dimensions.
+
+1586
+01:09:52,779 --> 01:09:54,819
+So what do we have when
+
+1587
+01:09:54,819 --> 01:09:57,279
+we have the stress
+zero equal to one,
+
+1588
+01:09:57,279 --> 01:10:01,699
+and the stress one equal to
+a shape zero. What is this?
+
+1589
+01:10:04,780 --> 01:10:07,599
+This is a column major, right?
+
+1590
+01:10:07,599 --> 01:10:09,719
+You can see we can use, uh,
+
+1591
+01:10:09,719 --> 01:10:11,659
+different values of
+stress to represent
+
+1592
+01:10:11,659 --> 01:10:14,339
+the row major or column major.
+
+1593
+01:10:14,339 --> 01:10:17,119
+And we can do something
+similar that is once we
+
+1594
+01:10:17,119 --> 01:10:20,319
+set the first dimension
+of stress equal
+
+1595
+01:10:20,319 --> 01:10:23,499
+to shape one and
+
+1596
+01:10:23,499 --> 01:10:24,799
+the second dimension of stress
+
+1597
+01:10:24,799 --> 01:10:26,424
+equal to one, then we
+get to the row major.
+
+1598
+01:10:26,424 --> 01:10:30,529
+Okay. You can see
+
+1599
+01:10:30,529 --> 01:10:32,229
+stress actually gives a lot of
+
+1600
+01:10:32,229 --> 01:10:34,989
+flexibility. So why is flexible?
+
+1601
+01:10:35,070 --> 01:10:40,929
+Last question, okay? If
+a tensor of shape one,
+
+1602
+01:10:40,929 --> 01:10:42,989
+two, three, four is shared,
+
+1603
+01:10:42,989 --> 01:10:46,249
+it stored continuous in
+memory following row major.
+
+1604
+01:10:46,249 --> 01:10:54,709
+So what is the stress? So we
+
+1605
+01:10:54,709 --> 01:10:55,869
+all know that stress
+is definitely
+
+1606
+01:10:55,869 --> 01:10:58,069
+a four dimensional array.
+
+1607
+01:10:58,069 --> 01:11:00,589
+Sorry, array was
+four entries, right?
+
+1608
+01:11:00,589 --> 01:11:03,189
+So what is exactly the stress?
+
+1609
+01:11:09,790 --> 01:11:12,369
+So if you do this, um,
+
+1610
+01:11:12,369 --> 01:11:14,109
+in inter non pilot petrol,
+
+1611
+01:11:14,109 --> 01:11:16,169
+you will find that basically,
+
+1612
+01:11:16,169 --> 01:11:19,069
+we create array
+with 24 elements,
+
+1613
+01:11:19,069 --> 01:11:21,169
+and we ship using one,
+
+1614
+01:11:21,169 --> 01:11:23,389
+two, three, four,
+and we try to put
+
+1615
+01:11:23,389 --> 01:11:26,749
+stress on well find stress
+be 24, 12, four, and one.
+
+1616
+01:11:26,749 --> 01:11:29,369
+That means, if you try to move
+
+1617
+01:11:29,369 --> 01:11:31,969
+an element in the first dimension
+that is this dimension,
+
+1618
+01:11:31,969 --> 01:11:34,309
+you need to skip 24 elements.
+
+1619
+01:11:34,309 --> 01:11:37,689
+And if you try to move element
+following this dimension,
+
+1620
+01:11:37,689 --> 01:11:39,744
+you need to skip 12 elements.
+
+1621
+01:11:39,744 --> 01:11:41,379
+Okay. Pretty straightforward.
+
+1622
+01:11:41,379 --> 01:11:44,879
+Okay. The reason we have
+stress is because once we
+
+1623
+01:11:44,879 --> 01:11:48,479
+have this kind of definition
+of storing elements,
+
+1624
+01:11:48,479 --> 01:11:50,179
+we can actually using
+
+1625
+01:11:50,179 --> 01:11:51,959
+this thread to optimize
+a lot of operators,
+
+1626
+01:11:51,959 --> 01:11:53,319
+which I will cover next lecture.
+
+1627
+01:11:53,319 --> 01:11:56,219
+Okay. That's all I
+have today. Thank you.
+
+1628
+01:17:20,330 --> 01:17:22,369
+H
+
+1629
+01:21:43,740 --> 01:21:45,939
+h.

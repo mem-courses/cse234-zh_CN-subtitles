@@ -1,0 +1,8494 @@
+1
+00:03:27,250 --> 00:03:30,770
+Okay, yeah, let's get started.
+
+2
+00:03:31,290 --> 00:03:36,350
+So so logistics update,
+
+3
+00:03:36,350 --> 00:03:38,749
+please finish the
+cross valve, okay?
+
+4
+00:03:38,749 --> 00:03:41,490
+80% and you'll get two points.
+
+5
+00:03:41,490 --> 00:03:43,690
+Next Tuesday, we'll have exam,
+
+6
+00:03:43,690 --> 00:03:47,749
+and I have asked TA
+to hold recitation,
+
+7
+00:03:47,749 --> 00:03:49,970
+probably this Friday
+or next Monday,
+
+8
+00:03:49,970 --> 00:03:52,190
+to make sure you
+pass exam, okay?
+
+9
+00:03:52,190 --> 00:03:55,269
+And we will have a
+recording, of course,
+
+10
+00:03:55,269 --> 00:03:57,490
+if you're not able to attend,
+
+11
+00:03:57,490 --> 00:03:59,710
+just, you know,
+watch the recording.
+
+12
+00:03:59,710 --> 00:04:04,730
+Yeah. Okay. Yeah, let's
+back to the main content.
+
+13
+00:04:04,730 --> 00:04:06,309
+So today, we are going to
+talk about some really,
+
+14
+00:04:06,309 --> 00:04:08,970
+really, I would say
+timely content.
+
+15
+00:04:08,970 --> 00:04:10,569
+So m serving an inference.
+
+16
+00:04:10,569 --> 00:04:12,909
+Okay? I think this
+
+17
+00:04:12,909 --> 00:04:15,650
+is basically what the current
+Silicon Valley is grinding,
+
+18
+00:04:15,650 --> 00:04:17,569
+like open Google Demand,
+
+19
+00:04:17,569 --> 00:04:19,270
+all these infrastructure
+companies.
+
+20
+00:04:19,270 --> 00:04:21,749
+They are basically
+opplementing M inference.
+
+21
+00:04:21,749 --> 00:04:24,849
+Yeah, in order to make
+a perfect margin,
+
+22
+00:04:24,849 --> 00:04:26,669
+um, for serving Ms.
+
+23
+00:04:26,669 --> 00:04:28,365
+Okay? Let's go back.
+
+24
+00:04:28,365 --> 00:04:30,259
+Just a little bit recap, okay?
+
+25
+00:04:30,259 --> 00:04:33,220
+So this is our RM, right?
+
+26
+00:04:33,220 --> 00:04:35,719
+So we basically get a
+ex token predictor.
+
+27
+00:04:35,719 --> 00:04:38,099
+I think you understand
+this, okay?
+
+28
+00:04:38,099 --> 00:04:41,640
+And this is our M
+inference process, right?
+
+29
+00:04:41,640 --> 00:04:44,419
+So basically, we have a prom,
+
+30
+00:04:44,419 --> 00:04:46,660
+which is a sequence of tokens.
+
+31
+00:04:46,660 --> 00:04:49,160
+And we give this token to
+
+32
+00:04:49,160 --> 00:04:52,259
+RM and we perform forward
+pass through all the layers,
+
+33
+00:04:52,259 --> 00:04:53,939
+and we predict next token.
+
+34
+00:04:53,939 --> 00:04:55,659
+That is the first step,
+
+35
+00:04:55,659 --> 00:04:59,400
+which is called prefile
+or prompt combination.
+
+36
+00:04:59,400 --> 00:05:02,389
+Okay. And then after
+the first step,
+
+37
+00:05:02,389 --> 00:05:04,479
+We basically start, um,
+
+38
+00:05:04,479 --> 00:05:06,320
+generating new token and, um,
+
+39
+00:05:06,320 --> 00:05:10,599
+we give the new token
+back to the neurotw arm,
+
+40
+00:05:10,599 --> 00:05:12,119
+and we try to
+generate next token.
+
+41
+00:05:12,119 --> 00:05:15,720
+We repeat until we hit in, say,
+
+42
+00:05:15,720 --> 00:05:18,380
+the maximum sequence
+length of the arm or when
+
+43
+00:05:18,380 --> 00:05:22,100
+we generate end of
+sequence token, US, right?
+
+44
+00:05:22,100 --> 00:05:24,234
+This is the inference
+process, okay?
+
+45
+00:05:24,234 --> 00:05:26,970
+To summarize a little bit, we
+
+46
+00:05:26,970 --> 00:05:29,170
+can from a computational
+perspective,
+
+47
+00:05:29,170 --> 00:05:31,689
+um, my inference is
+essentially two phases.
+
+48
+00:05:31,689 --> 00:05:34,229
+The first phase we call prefill.
+
+49
+00:05:34,229 --> 00:05:36,829
+That is you are
+computing the prompt.
+
+50
+00:05:36,829 --> 00:05:39,370
+The second phase is
+called decoding.
+
+51
+00:05:39,370 --> 00:05:41,470
+And apparently
+prefill corresponds
+
+52
+00:05:41,470 --> 00:05:43,170
+to the zeros iteration that is
+
+53
+00:05:43,170 --> 00:05:44,910
+you process a prompt
+and try to generate
+
+54
+00:05:44,910 --> 00:05:47,710
+it immediately the next
+token, after the prompt.
+
+55
+00:05:47,710 --> 00:05:51,070
+And then this prefill
+is only conducted once,
+
+56
+00:05:51,070 --> 00:05:53,870
+right because you just need
+to process your prefill once,
+
+57
+00:05:53,870 --> 00:05:56,249
+and then you start
+repeating your decoding,
+
+58
+00:05:56,249 --> 00:05:57,789
+Every time you only
+decode one token.
+
+59
+00:05:57,789 --> 00:05:59,230
+Why? Because it's autoregressive
+
+60
+00:05:59,230 --> 00:06:00,410
+decoding, I already repeat that.
+
+61
+00:06:00,410 --> 00:06:01,889
+You cannot predict future tokens
+
+62
+00:06:01,889 --> 00:06:04,434
+before you know the
+current token, okay?
+
+63
+00:06:04,434 --> 00:06:07,459
+Um, remember this, okay,
+pre field decoding.
+
+64
+00:06:07,459 --> 00:06:12,920
+That is the computational
+characteristics of inference.
+
+65
+00:06:12,920 --> 00:06:17,940
+Okay. And one more component
+for M inference is,
+
+66
+00:06:17,940 --> 00:06:21,100
+we actually maintain
+another, I would say,
+
+67
+00:06:21,100 --> 00:06:22,979
+data or data structure,
+
+68
+00:06:22,979 --> 00:06:24,819
+which is called key value cache.
+
+69
+00:06:24,819 --> 00:06:27,940
+So here, key value
+basically corresponds to
+
+70
+00:06:27,940 --> 00:06:32,079
+the QQVuh in attention
+the key and the values.
+
+71
+00:06:32,079 --> 00:06:35,540
+Okay. So high level,
+at a high level,
+
+72
+00:06:35,540 --> 00:06:37,280
+this key value cache basically
+
+73
+00:06:37,280 --> 00:06:39,700
+help us save some competion.
+
+74
+00:06:39,700 --> 00:06:42,919
+But let's look at what
+is key value cache.
+
+75
+00:06:42,919 --> 00:06:45,490
+Okay. So on the left hand side,
+
+76
+00:06:45,490 --> 00:06:47,470
+I think it's basically
+the conversational graph
+
+77
+00:06:47,470 --> 00:06:50,050
+that you guys have been
+very familiar with.
+
+78
+00:06:50,050 --> 00:06:52,449
+And on the right hand side
+is basically a chief,
+
+79
+00:06:52,449 --> 00:06:55,009
+I quoted from somewhere,
+
+80
+00:06:55,009 --> 00:06:58,050
+which shows the
+inference process, okay?
+
+81
+00:06:58,050 --> 00:06:59,970
+When you compute
+that left part of,
+
+82
+00:06:59,970 --> 00:07:02,595
+um, at tensing, right?
+
+83
+00:07:02,595 --> 00:07:06,059
+So if you look at this, so
+when we do our inference,
+
+84
+00:07:06,059 --> 00:07:08,979
+what do we do is every time
+we observe a new token,
+
+85
+00:07:08,979 --> 00:07:10,579
+generated in the previous step.
+
+86
+00:07:10,579 --> 00:07:12,659
+And then we concatenate
+
+87
+00:07:12,659 --> 00:07:15,380
+this new token with
+the previous already
+
+88
+00:07:15,380 --> 00:07:18,200
+generated token and
+the prefel and we
+
+89
+00:07:18,200 --> 00:07:19,939
+forward that into
+the neural network
+
+90
+00:07:19,939 --> 00:07:21,559
+in order to compute
+the next togen.
+
+91
+00:07:21,559 --> 00:07:22,980
+When we compute the next token,
+
+92
+00:07:22,980 --> 00:07:25,940
+we only care about the query
+of the next togen, right?
+
+93
+00:07:25,940 --> 00:07:28,780
+And we like this query of
+next token to attend to
+
+94
+00:07:28,780 --> 00:07:32,080
+all the key values of
+previous tokens, right?
+
+95
+00:07:32,080 --> 00:07:33,939
+So if you look at
+this computation,
+
+96
+00:07:33,939 --> 00:07:35,899
+this chief is basically
+trying to illustrate
+
+97
+00:07:35,899 --> 00:07:38,789
+the process I just
+described, okay?
+
+98
+00:07:38,789 --> 00:07:42,540
+So why there is a
+key value catch is
+
+99
+00:07:42,540 --> 00:07:45,079
+because basically we compute
+
+100
+00:07:45,079 --> 00:07:47,100
+this when we continue
+this decoding process,
+
+101
+00:07:47,100 --> 00:07:49,380
+if we are able to save
+the previous tokens,
+
+102
+00:07:49,380 --> 00:07:52,759
+Q and V, we can avoid a
+lot of computation, okay?
+
+103
+00:07:52,759 --> 00:07:54,459
+And to illustrate
+this, you basically
+
+104
+00:07:54,459 --> 00:07:56,439
+can look at these
+two differs, okay?
+
+105
+00:07:56,439 --> 00:07:57,839
+On the upper hand side, um,
+
+106
+00:07:57,839 --> 00:07:59,980
+you basically see a computation
+
+107
+00:07:59,980 --> 00:08:02,099
+where the key value
+caches are not catched.
+
+108
+00:08:02,099 --> 00:08:04,100
+Key values are not
+catched, okay?
+
+109
+00:08:04,100 --> 00:08:05,459
+And on the bottom part, you are
+
+110
+00:08:05,459 --> 00:08:06,959
+seeing a computation
+where the keys
+
+111
+00:08:06,959 --> 00:08:10,154
+and values of previous
+steps are catched.
+
+112
+00:08:10,154 --> 00:08:12,090
+And you can clear the
+difference, right?
+
+113
+00:08:12,090 --> 00:08:13,750
+So basically, every
+time, if we don't save
+
+114
+00:08:13,750 --> 00:08:17,109
+the key keys and values in
+attention of previous tokens.
+
+115
+00:08:17,109 --> 00:08:18,950
+So every time we
+decode the new token,
+
+116
+00:08:18,950 --> 00:08:22,029
+we need to this query
+we need to recompute
+
+117
+00:08:22,029 --> 00:08:24,249
+the previous KV and then
+this new token query
+
+118
+00:08:24,249 --> 00:08:26,030
+to attend to all the KVs, right?
+
+119
+00:08:26,030 --> 00:08:27,629
+But if you are able to catch
+
+120
+00:08:27,629 --> 00:08:30,289
+this KV of previous
+generating steps,
+
+121
+00:08:30,289 --> 00:08:33,169
+then we just need
+to perform one,
+
+122
+00:08:33,169 --> 00:08:35,610
+uh attention competition,
+
+123
+00:08:35,610 --> 00:08:37,769
+and we already know
+the previous KVs.
+
+124
+00:08:37,769 --> 00:08:40,290
+We just like this query
+to attend to all the keys
+
+125
+00:08:40,290 --> 00:08:43,190
+and values to generate,
+you know, the results.
+
+126
+00:08:43,190 --> 00:08:46,629
+Okay? Any questions
+on this part?
+
+127
+00:08:47,480 --> 00:08:52,120
+Okay. Essentially, KV
+catch is a kind of
+
+128
+00:08:52,120 --> 00:08:54,099
+a computation optation where
+
+129
+00:08:54,099 --> 00:08:57,220
+we treat some additional memory
+to save for commutation,
+
+130
+00:08:57,220 --> 00:09:00,199
+right to accelerate
+the decoding, okay?
+
+131
+00:09:00,199 --> 00:09:02,540
+Then I have two questions, okay,
+
+132
+00:09:02,540 --> 00:09:05,359
+to make sure you really
+understand this process.
+
+133
+00:09:05,359 --> 00:09:07,240
+Okay? The first one
+is what happens
+
+134
+00:09:07,240 --> 00:09:10,080
+on KV catch in prefilled phase?
+
+135
+00:09:10,440 --> 00:09:15,919
+So why in prefilled there's
+like a so called QV catch?
+
+136
+00:09:17,380 --> 00:09:20,440
+It's because in pref
+we see all the tokens.
+
+137
+00:09:20,440 --> 00:09:22,859
+We just perform one forward
+across all the tokens and
+
+138
+00:09:22,859 --> 00:09:25,880
+all the KV catches are generated
+for each token position.
+
+139
+00:09:25,880 --> 00:09:27,960
+So we don't how to
+basically catch
+
+140
+00:09:27,960 --> 00:09:29,319
+the previous tokens and
+
+141
+00:09:29,319 --> 00:09:30,879
+wait for the next
+token to generate.
+
+142
+00:09:30,879 --> 00:09:36,860
+Okay? What happens on KV
+catch in perfs phase,
+
+143
+00:09:36,860 --> 00:09:38,199
+we are generating a QV cache of
+
+144
+00:09:38,199 --> 00:09:41,260
+all observed tokens in one pass.
+
+145
+00:09:42,240 --> 00:09:45,220
+Do we need to catch Q query?
+
+146
+00:09:45,220 --> 00:09:46,479
+Because in attention, we have
+
+147
+00:09:46,479 --> 00:09:48,620
+QQV do we need to catch query?
+
+148
+00:09:48,620 --> 00:09:50,639
+No, we don't know
+the query because we
+
+149
+00:09:50,639 --> 00:09:52,680
+have to see that token in
+order to know the query.
+
+150
+00:09:52,680 --> 00:09:55,480
+And when we compute the
+results of the next token,
+
+151
+00:09:55,480 --> 00:09:57,360
+we are using the
+current tokens query to
+
+152
+00:09:57,360 --> 00:09:59,859
+attend to all
+previous token QVs.
+
+153
+00:09:59,859 --> 00:10:01,299
+Don't know if we don't
+
+154
+00:10:01,299 --> 00:10:03,420
+see that token, we
+don't know the query.
+
+155
+00:10:03,420 --> 00:10:07,459
+Therefore, we cannot
+catch Q. Okay?
+
+156
+00:10:07,459 --> 00:10:10,380
+Okay. Now you
+understand QV catch
+
+157
+00:10:10,380 --> 00:10:11,979
+and then let's do this again,
+
+158
+00:10:11,979 --> 00:10:14,260
+I think we do this
+for training and now,
+
+159
+00:10:14,260 --> 00:10:16,960
+let's do this for
+uh inference again.
+
+160
+00:10:16,960 --> 00:10:18,539
+So, we also want to look
+
+161
+00:10:18,539 --> 00:10:20,760
+at computer memory
+and communication.
+
+162
+00:10:20,760 --> 00:10:22,379
+So what happens in
+
+163
+00:10:22,379 --> 00:10:25,179
+inference and what could be
+the potential for the neck.
+
+164
+00:10:25,179 --> 00:10:27,800
+Okay? If we look
+at compute, okay,
+
+165
+00:10:27,800 --> 00:10:30,100
+like I said, for inference,
+
+166
+00:10:30,100 --> 00:10:32,139
+the computer essentially um is
+
+167
+00:10:32,139 --> 00:10:35,100
+consisted of two phases,
+prefill and decoding.
+
+168
+00:10:35,100 --> 00:10:37,059
+So we look at one by one. So for
+
+169
+00:10:37,059 --> 00:10:40,540
+prefills essentially
+the same training.
+
+170
+00:10:40,540 --> 00:10:43,159
+Nothing changes, right? You
+observe the entire sequence,
+
+171
+00:10:43,159 --> 00:10:46,319
+you just forward that sequence
+into language model, okay?
+
+172
+00:10:46,319 --> 00:10:51,380
+So no difference.
+So for decoding,
+
+173
+00:10:51,380 --> 00:10:53,039
+one thing you noted that is
+
+174
+00:10:53,039 --> 00:10:55,420
+because every time we only
+generate the one token,
+
+175
+00:10:55,420 --> 00:10:58,519
+we are not able to generate
+future tokens, right.
+
+176
+00:10:58,519 --> 00:11:00,280
+So therefore, in decoding,
+
+177
+00:11:00,280 --> 00:11:02,200
+when we forward this token
+
+178
+00:11:02,200 --> 00:11:04,780
+into through the neural network,
+
+179
+00:11:04,780 --> 00:11:07,519
+we have to set S
+equal to one, right?
+
+180
+00:11:07,519 --> 00:11:08,900
+That is generating one token,
+
+181
+00:11:08,900 --> 00:11:10,120
+we're computing one token.
+
+182
+00:11:10,120 --> 00:11:12,420
+Okay? I think if you
+look at this graph,
+
+183
+00:11:12,420 --> 00:11:14,060
+I hoping emphasize
+this again and again.
+
+184
+00:11:14,060 --> 00:11:16,499
+So what is the problem
+of S equal to one?
+
+185
+00:11:16,499 --> 00:11:19,459
+It will hurt our
+arithmetic intensity,
+
+186
+00:11:19,459 --> 00:11:21,599
+because the maximal sizes are
+
+187
+00:11:21,599 --> 00:11:25,919
+being reduced into one
+dimension is one, okay?
+
+188
+00:11:25,930 --> 00:11:31,929
+The net spoken memory, one
+thing new is in training,
+
+189
+00:11:32,090 --> 00:11:34,449
+we all basically put
+
+190
+00:11:34,449 --> 00:11:35,750
+all the sequence network
+
+191
+00:11:35,750 --> 00:11:37,410
+or compute the
+QBach in one pass,
+
+192
+00:11:37,410 --> 00:11:40,149
+and then we drup gradients
+and we updated parameters,
+
+193
+00:11:40,149 --> 00:11:41,589
+and we throw everything
+away, right?
+
+194
+00:11:41,589 --> 00:11:44,489
+But in inference, we cannot
+throw this QB cache away.
+
+195
+00:11:44,489 --> 00:11:46,490
+Why? Because we continue
+to generate one token,
+
+196
+00:11:46,490 --> 00:11:47,750
+one token, one token, okay?
+
+197
+00:11:47,750 --> 00:11:50,309
+And every time we can
+only generate one token,
+
+198
+00:11:50,309 --> 00:11:51,849
+but not more than one.
+
+199
+00:11:51,849 --> 00:11:54,070
+So we have to persist
+this QB cache,
+
+200
+00:11:54,070 --> 00:11:56,770
+right through the
+lifetime of this request,
+
+201
+00:11:56,770 --> 00:11:58,710
+this sequence until
+all the tokens
+
+202
+00:11:58,710 --> 00:12:00,425
+have been generated and excited.
+
+203
+00:12:00,425 --> 00:12:02,960
+That means that we
+have to always save
+
+204
+00:12:02,960 --> 00:12:07,519
+this vocacy for considerably
+long period of time.
+
+205
+00:12:07,519 --> 00:12:10,620
+This will give us a little
+bit memory pressure,
+
+206
+00:12:10,620 --> 00:12:12,679
+which I will talk about later.
+
+207
+00:12:15,080 --> 00:12:17,719
+What about the communication?
+
+208
+00:12:17,719 --> 00:12:20,120
+In fact, there's nothing
+changed for communication.
+
+209
+00:12:20,120 --> 00:12:21,499
+It's almost the same because
+
+210
+00:12:21,499 --> 00:12:23,519
+prefer and decoding
+communication is the same.
+
+211
+00:12:23,519 --> 00:12:27,239
+Whatever kind palism
+you want to choose,
+
+212
+00:12:27,239 --> 00:12:28,579
+you will basically inherit from
+
+213
+00:12:28,579 --> 00:12:30,900
+the same techniques we
+talked about in training.
+
+214
+00:12:30,900 --> 00:12:33,939
+In fact, inference, the
+paralysm is even simpler, why?
+
+215
+00:12:33,939 --> 00:12:36,270
+Because we don't
+have a gradient.
+
+216
+00:12:36,270 --> 00:12:38,030
+We don't have um,
+
+217
+00:12:38,030 --> 00:12:40,090
+basically, we don't have
+that back chord graph.
+
+218
+00:12:40,090 --> 00:12:41,830
+We don't have optimal states.
+
+219
+00:12:41,830 --> 00:12:43,470
+Remember in arm training,
+
+220
+00:12:43,470 --> 00:12:47,710
+optimal states is where you
+consume the most memory, 16.
+
+221
+00:12:47,710 --> 00:12:50,249
+Remember that factor. And
+here we don't have that.
+
+222
+00:12:50,249 --> 00:12:51,870
+That means that our
+memory pressure
+
+223
+00:12:51,870 --> 00:12:53,610
+on saving the
+intermediate states
+
+224
+00:12:53,610 --> 00:12:55,169
+on saving the parameters on
+
+225
+00:12:55,169 --> 00:12:57,590
+saving the optimal
+states are much lower.
+
+226
+00:12:57,590 --> 00:13:00,550
+It's mainly caving hash, okay?
+
+227
+00:13:01,900 --> 00:13:05,479
+Okay, I think we
+basically look at this,
+
+228
+00:13:05,479 --> 00:13:08,459
+we go through computer
+memory and communication.
+
+229
+00:13:08,459 --> 00:13:12,779
+I have additional question.
+So how about bit size B?
+
+230
+00:13:14,940 --> 00:13:18,780
+So what makes this
+different inference?
+
+231
+00:13:18,780 --> 00:13:21,300
+Okay, let's talk
+about that, okay?
+
+232
+00:13:21,300 --> 00:13:24,199
+So in training, you always
+fixed a static bisets right?
+
+233
+00:13:24,199 --> 00:13:25,640
+So because you have a dataset,
+
+234
+00:13:25,640 --> 00:13:27,360
+you just fetch a
+static body sets.
+
+235
+00:13:27,360 --> 00:13:29,639
+But in inference,
+it's different.
+
+236
+00:13:29,639 --> 00:13:31,180
+Your boy size is determined
+
+237
+00:13:31,180 --> 00:13:32,900
+by how many traffic you receive.
+
+238
+00:13:32,900 --> 00:13:34,980
+Like I'm holding arm end point.
+
+239
+00:13:34,980 --> 00:13:37,479
+I don't know when my users
+will submit my request.
+
+240
+00:13:37,479 --> 00:13:40,360
+It's like when I will
+submit a google query,
+
+241
+00:13:40,360 --> 00:13:42,680
+I have to make a
+very smart decision
+
+242
+00:13:42,680 --> 00:13:44,040
+how I make the battery size.
+
+243
+00:13:44,040 --> 00:13:45,719
+Should I send a batch of
+
+244
+00:13:45,719 --> 00:13:50,900
+1,000 to the endpoint to
+maximize my original intensity,
+
+245
+00:13:50,900 --> 00:13:53,759
+or should I just once
+I receive one request,
+
+246
+00:13:53,759 --> 00:13:56,079
+I immediately send
+it to endpoint.
+
+247
+00:13:56,079 --> 00:13:58,279
+This two has difference?
+Because if I
+
+248
+00:13:58,279 --> 00:14:00,760
+wait to accumulate a
+batch size of 1,000,
+
+249
+00:14:00,760 --> 00:14:03,459
+then the first user
+will be mad with me
+
+250
+00:14:03,459 --> 00:14:07,079
+because he's waiting for other
+users to submit queries.
+
+251
+00:14:07,079 --> 00:14:09,799
+But if I receive one request,
+
+252
+00:14:09,799 --> 00:14:11,440
+I immediately submit, what's
+
+253
+00:14:11,440 --> 00:14:13,829
+the problem? My bist
+is equal to one.
+
+254
+00:14:13,829 --> 00:14:16,170
+Then my TPU is under utilized.
+
+255
+00:14:16,170 --> 00:14:17,689
+Okay? So you are facing
+
+256
+00:14:17,689 --> 00:14:19,309
+a very like a customer
+phasing question.
+
+257
+00:14:19,309 --> 00:14:22,450
+That is how you exactly
+make this batch, okay?
+
+258
+00:14:22,450 --> 00:14:24,450
+Which means that in inference,
+
+259
+00:14:24,450 --> 00:14:26,249
+the speed is variable.
+
+260
+00:14:26,249 --> 00:14:29,389
+Okay? You have to
+correlate the speed with
+
+261
+00:14:29,389 --> 00:14:31,469
+your traffic with a
+lot of computation
+
+262
+00:14:31,469 --> 00:14:33,855
+or utilization kind
+of thing, okay?
+
+263
+00:14:33,855 --> 00:14:36,160
+So that's why inference,
+
+264
+00:14:36,160 --> 00:14:39,099
+basically the techniques are
+developed around this B.
+
+265
+00:14:39,099 --> 00:14:42,259
+Okay. And we essentially
+consider two scenarios.
+
+266
+00:14:42,259 --> 00:14:44,739
+The first scenario is
+that we have a large B.
+
+267
+00:14:44,739 --> 00:14:47,219
+The second scenario,
+we have a small B.
+
+268
+00:14:47,219 --> 00:14:49,820
+And I'm going to make this
+even more extreme, okay?
+
+269
+00:14:49,820 --> 00:14:52,939
+So we have a large B, we are
+basically Google and open a.
+
+270
+00:14:52,939 --> 00:14:55,379
+We are serving arm
+where every day we
+
+271
+00:14:55,379 --> 00:14:58,199
+observe millions
+of requests, okay?
+
+272
+00:14:58,199 --> 00:15:00,919
+And we call this
+arm serving, okay?
+
+273
+00:15:00,919 --> 00:15:03,340
+And in another case,
+
+274
+00:15:03,340 --> 00:15:04,579
+basically, we have a small B,
+
+275
+00:15:04,579 --> 00:15:05,699
+for example, B equal to one.
+
+276
+00:15:05,699 --> 00:15:08,140
+That is, develop you deploy
+
+277
+00:15:08,140 --> 00:15:09,339
+your arm on your laptop and
+
+278
+00:15:09,339 --> 00:15:10,879
+you will be the
+only user, right?
+
+279
+00:15:10,879 --> 00:15:13,300
+And you want to
+optimize for this small
+
+280
+00:15:13,300 --> 00:15:15,940
+B. I think in last Thursday,
+
+281
+00:15:15,940 --> 00:15:18,080
+you have already heard
+this data technique
+
+282
+00:15:18,080 --> 00:15:19,359
+for optimizing small B.
+
+283
+00:15:19,359 --> 00:15:21,220
+It's basically
+speculative decoding.
+
+284
+00:15:21,220 --> 00:15:22,659
+You don't care
+about the bit sets,
+
+285
+00:15:22,659 --> 00:15:24,020
+and you just want to accelerate
+
+286
+00:15:24,020 --> 00:15:27,539
+the inference latency
+of a single request.
+
+287
+00:15:27,539 --> 00:15:30,060
+Therefore, we have
+been developing
+
+288
+00:15:30,060 --> 00:15:31,879
+a lot of speculative
+coding techniques,
+
+289
+00:15:31,879 --> 00:15:34,159
+for example, equal
+one, two, three.
+
+290
+00:15:34,159 --> 00:15:38,389
+But today, I will shift your
+focus to the first one,
+
+291
+00:15:38,389 --> 00:15:40,410
+how will optimize RTB.
+
+292
+00:15:40,410 --> 00:15:44,610
+And here, you probably already
+sense why Open and Google,
+
+293
+00:15:44,610 --> 00:15:46,309
+they put a lot of
+resources on this.
+
+294
+00:15:46,309 --> 00:15:48,390
+Because if you can
+do this better,
+
+295
+00:15:48,390 --> 00:15:50,310
+you can basically you can use
+
+296
+00:15:50,310 --> 00:15:52,670
+less GPUs to serve
+more requests.
+
+297
+00:15:52,670 --> 00:15:54,190
+And if you're able to solve
+
+298
+00:15:54,190 --> 00:15:55,550
+more requests using less GPUs,
+
+299
+00:15:55,550 --> 00:15:57,629
+you are creating a higher
+profit margin because
+
+300
+00:15:57,629 --> 00:16:00,590
+you charge your der for
+each token they consumed.
+
+301
+00:16:00,590 --> 00:16:02,509
+Basically, if you can
+reduce your cost,
+
+302
+00:16:02,509 --> 00:16:06,129
+then the rest is perfect. You
+can make money from that.
+
+303
+00:16:06,129 --> 00:16:07,969
+Okay? That's why a lot of
+
+304
+00:16:07,969 --> 00:16:10,509
+sitting companies they are
+investing a lot to make
+
+305
+00:16:10,509 --> 00:16:11,850
+sure they can solve
+
+306
+00:16:11,850 --> 00:16:15,075
+the most request using
+the fewest GPUs.
+
+307
+00:16:15,075 --> 00:16:16,900
+Okay, cool.
+
+308
+00:16:16,900 --> 00:16:19,279
+Then, in this large B scenario,
+
+309
+00:16:19,279 --> 00:16:21,359
+I think I already
+emphasized the main metric
+
+310
+00:16:21,359 --> 00:16:24,599
+is one metric we
+called cost per query.
+
+311
+00:16:24,599 --> 00:16:26,739
+That is how much you can
+
+312
+00:16:26,739 --> 00:16:30,499
+solve a query, how
+much you need to pay.
+
+313
+00:16:30,499 --> 00:16:32,240
+And if we translate
+
+314
+00:16:32,240 --> 00:16:34,759
+this cross query is basically
+a business term, right?
+
+315
+00:16:34,759 --> 00:16:35,560
+But if we translate
+
+316
+00:16:35,560 --> 00:16:37,079
+this business term
+into something that is
+
+317
+00:16:37,079 --> 00:16:40,720
+more like a system is
+basically throughput.
+
+318
+00:16:40,720 --> 00:16:43,100
+For example, how many tokens
+you can solve per second,
+
+319
+00:16:43,100 --> 00:16:45,720
+using say, eight
+GPs or six GPUs.
+
+320
+00:16:45,720 --> 00:16:48,259
+Okay? Next, we are
+going to talk about
+
+321
+00:16:48,259 --> 00:16:50,259
+a few very key
+techniques that we
+
+322
+00:16:50,259 --> 00:16:53,114
+can maximize this
+throughput, okay?
+
+323
+00:16:53,114 --> 00:16:56,309
+But before that, I
+want to dive deeper
+
+324
+00:16:56,309 --> 00:17:00,009
+into the problems of
+inference at a large B.
+
+325
+00:17:00,009 --> 00:17:02,630
+So basically a large B size.
+
+326
+00:17:02,910 --> 00:17:05,889
+So, there are a few
+problems that I want to
+
+327
+00:17:05,889 --> 00:17:08,429
+point out and I want you
+to indeed understand this.
+
+328
+00:17:08,429 --> 00:17:11,089
+Again, I think we are
+going to do this,
+
+329
+00:17:11,089 --> 00:17:12,889
+computer memory
+and communication.
+
+330
+00:17:12,889 --> 00:17:14,850
+And for communication,
+not a problem,
+
+331
+00:17:14,850 --> 00:17:17,849
+because, uh it's the
+same with the training.
+
+332
+00:17:17,849 --> 00:17:19,349
+Nothing changes and it's easier,
+
+333
+00:17:19,349 --> 00:17:21,170
+even easier because
+there is no open state.
+
+334
+00:17:21,170 --> 00:17:23,525
+So we'll focus on compute
+and memory, okay.
+
+335
+00:17:23,525 --> 00:17:26,159
+So for computer, I
+said, I'm inference,
+
+336
+00:17:26,159 --> 00:17:27,499
+there's prefew and decode.
+
+337
+00:17:27,499 --> 00:17:28,879
+So let's look at one by one.
+
+338
+00:17:28,879 --> 00:17:30,680
+So for prefew
+what's the problem.
+
+339
+00:17:30,680 --> 00:17:32,460
+So now you have a
+large bite size,
+
+340
+00:17:32,460 --> 00:17:35,240
+and this batch of requests
+are submitted by users,
+
+341
+00:17:35,240 --> 00:17:36,880
+and your user basically type
+
+342
+00:17:36,880 --> 00:17:39,400
+a different prompt to the point.
+
+343
+00:17:39,400 --> 00:17:43,340
+And you have no control of
+what prompts the we type.
+
+344
+00:17:43,340 --> 00:17:45,280
+So what's the first problem?
+
+345
+00:17:45,280 --> 00:17:49,479
+If you remember my first
+lecture in this course, I said,
+
+346
+00:17:49,479 --> 00:17:51,339
+you are facing a problem where
+
+347
+00:17:51,339 --> 00:17:55,019
+each request has a different
+number of tokens. Right?
+
+348
+00:17:55,019 --> 00:17:56,440
+Because I can ask a shorter
+
+349
+00:17:56,440 --> 00:17:57,899
+question and you can
+ask a longer question.
+
+350
+00:17:57,899 --> 00:18:00,059
+And you all give
+these questions to
+
+351
+00:18:00,059 --> 00:18:02,540
+my arm on how I can make
+the battery competition.
+
+352
+00:18:02,540 --> 00:18:05,059
+Okay? I think in my
+first lecture, I said,
+
+353
+00:18:05,059 --> 00:18:07,199
+one way to address
+that is basically,
+
+354
+00:18:07,199 --> 00:18:08,539
+no matter how short or how long,
+
+355
+00:18:08,539 --> 00:18:10,799
+you basically pad the
+shortest to longest.
+
+356
+00:18:10,799 --> 00:18:12,839
+And this is super stupid.
+
+357
+00:18:12,839 --> 00:18:14,399
+Like I said, if you do this,
+
+358
+00:18:14,399 --> 00:18:17,219
+you are going to not make any
+money from serving irons.
+
+359
+00:18:17,219 --> 00:18:19,120
+Okay? So the first problem
+
+360
+00:18:19,120 --> 00:18:21,560
+is different prompts have
+very different lens.
+
+361
+00:18:21,560 --> 00:18:23,480
+So how you exactly
+should patch them?
+
+362
+00:18:23,480 --> 00:18:24,879
+Okay, definitely not padding.
+
+363
+00:18:24,879 --> 00:18:27,380
+Padding is wasting TPRs, ok?
+
+364
+00:18:27,380 --> 00:18:31,825
+The second problem is
+undecodeUndecod was a problem.
+
+365
+00:18:31,825 --> 00:18:34,430
+I can ask you very
+difficult query
+
+366
+00:18:34,430 --> 00:18:36,550
+and another person
+as simple query,
+
+367
+00:18:36,550 --> 00:18:38,229
+like what is one
+plus one, right?
+
+368
+00:18:38,229 --> 00:18:39,650
+And the answer is
+a single token.
+
+369
+00:18:39,650 --> 00:18:42,670
+But I can let you do some
+kind of deep research,
+
+370
+00:18:42,670 --> 00:18:45,949
+basically tell me what's going
+on in this entire field.
+
+371
+00:18:45,949 --> 00:18:48,409
+So the problem is
+
+372
+00:18:48,409 --> 00:18:50,249
+different user can
+submit different queries
+
+373
+00:18:50,249 --> 00:18:52,029
+and you don't know ahead of time
+
+374
+00:18:52,029 --> 00:18:54,550
+that how many tokens you will
+generate for each query.
+
+375
+00:18:54,550 --> 00:18:57,170
+It could be super long or
+it could be super short,
+
+376
+00:18:57,170 --> 00:18:59,029
+right? And you never know.
+
+377
+00:18:59,029 --> 00:19:02,330
+Even as open, I don't know
+because this is up to the RM.
+
+378
+00:19:02,330 --> 00:19:04,150
+And if the RM reach US,
+
+379
+00:19:04,150 --> 00:19:06,029
+it will basically be terminated.
+
+380
+00:19:06,029 --> 00:19:07,829
+So the second
+problem is ideal in
+
+381
+00:19:07,829 --> 00:19:10,089
+phase. This is super dynamic.
+
+382
+00:19:10,089 --> 00:19:12,609
+Okay? You don't know
+different prompts
+
+383
+00:19:12,609 --> 00:19:15,149
+have different unknown
+number generated tokens.
+
+384
+00:19:15,149 --> 00:19:16,589
+Okay? But you still want to make
+
+385
+00:19:16,589 --> 00:19:19,470
+sure from a service
+provider's perspective,
+
+386
+00:19:19,470 --> 00:19:21,689
+you want to make sure
+you maximally utilize
+
+387
+00:19:21,689 --> 00:19:25,569
+your GPUs to service
+kind of requests, okay?
+
+388
+00:19:25,800 --> 00:19:28,280
+And like I said, another problem
+
+389
+00:19:28,280 --> 00:19:29,920
+with decoding I reiterate, okay.
+
+390
+00:19:29,920 --> 00:19:31,760
+So basically for each request,
+
+391
+00:19:31,760 --> 00:19:33,140
+when they enter decoding phase,
+
+392
+00:19:33,140 --> 00:19:34,819
+they have a sequence
+that equal to one.
+
+393
+00:19:34,819 --> 00:19:37,080
+And what's the problem?
+
+394
+00:19:37,080 --> 00:19:40,139
+So if you are not able to make
+a super big batch, right?
+
+395
+00:19:40,139 --> 00:19:43,880
+For all these sequence equal
+to one decoding requests,
+
+396
+00:19:43,880 --> 00:19:46,480
+your GPO is definitely
+under utilized,
+
+397
+00:19:46,480 --> 00:19:49,760
+because GPO is not super good
+at scalar recommendation.
+
+398
+00:19:49,760 --> 00:19:53,159
+It's pretty good at, uh
+like met more, right?
+
+399
+00:19:53,159 --> 00:19:55,660
+Okay? So basically
+decoding phase,
+
+400
+00:19:55,660 --> 00:19:57,100
+you have to make a
+super big batch.
+
+401
+00:19:57,100 --> 00:19:58,975
+But how to make that?
+That's a problem.
+
+402
+00:19:58,975 --> 00:20:03,289
+Okay. And also on memory, we
+have another problem, right.
+
+403
+00:20:03,289 --> 00:20:05,870
+So because B is large,
+
+404
+00:20:05,870 --> 00:20:07,229
+right, that means that
+
+405
+00:20:07,229 --> 00:20:09,290
+you are going to have
+many many requests.
+
+406
+00:20:09,290 --> 00:20:12,389
+Ich request is going to
+generate generator generate.
+
+407
+00:20:12,389 --> 00:20:14,890
+So basically, vertically,
+you have a large bit size,
+
+408
+00:20:14,890 --> 00:20:17,110
+which corresponds to many
+requests, and horizontally,
+
+409
+00:20:17,110 --> 00:20:19,369
+you have Is requests
+continue to generate tokens,
+
+410
+00:20:19,369 --> 00:20:20,549
+and you are not going to release
+
+411
+00:20:20,549 --> 00:20:24,549
+a QB cache for I request
+until that request finishes.
+
+412
+00:20:24,549 --> 00:20:26,949
+That means that if you
+continue to increase
+
+413
+00:20:26,949 --> 00:20:28,109
+your Bdysize and you continue
+
+414
+00:20:28,109 --> 00:20:29,389
+to generate one more tokens,
+
+415
+00:20:29,389 --> 00:20:31,769
+you have to linearly increase
+
+416
+00:20:31,769 --> 00:20:34,650
+the memory you allocate
+to see QB caches.
+
+417
+00:20:34,650 --> 00:20:36,630
+And at some point, that QV case
+
+418
+00:20:36,630 --> 00:20:38,190
+will dominate your memory usage,
+
+419
+00:20:38,190 --> 00:20:39,769
+and it will explode your GPU.
+
+420
+00:20:39,769 --> 00:20:42,929
+So how you manage this is
+going to KV cash, okay?
+
+421
+00:20:42,929 --> 00:20:47,209
+Um, so basically to
+address these problems,
+
+422
+00:20:47,209 --> 00:20:49,710
+we Next are going to talk
+about the two very fundamental
+
+423
+00:20:49,710 --> 00:20:52,389
+and very, very,
+timely techniques.
+
+424
+00:20:52,389 --> 00:20:54,029
+One is called
+continuous patching.
+
+425
+00:20:54,029 --> 00:20:57,830
+That is a key technique
+that invented one year ago,
+
+426
+00:20:57,830 --> 00:21:00,449
+maybe two years ago, 2023.
+
+427
+00:21:00,449 --> 00:21:03,470
+Um that technique basically
+improves the throughput.
+
+428
+00:21:03,470 --> 00:21:06,730
+That is the number of tokens
+you can generate by 20 X.
+
+429
+00:21:06,730 --> 00:21:08,629
+Okay? That is a
+key breakthrough.
+
+430
+00:21:08,629 --> 00:21:10,129
+And the second
+technique is basically
+
+431
+00:21:10,129 --> 00:21:11,530
+addressing the memory problem.
+
+432
+00:21:11,530 --> 00:21:14,090
+That is how you can
+efficiently manage KB cache.
+
+433
+00:21:14,090 --> 00:21:15,950
+And that technique is
+called page attention,
+
+434
+00:21:15,950 --> 00:21:18,750
+and that page attention basically
+improve the throughput.
+
+435
+00:21:18,750 --> 00:21:20,530
+That is the number
+token you can serve.
+
+436
+00:21:20,530 --> 00:21:22,949
+But another three
+times. Basically, what
+
+437
+00:21:22,949 --> 00:21:25,489
+I'm trying to say is in
+the past 1.5 a year,
+
+438
+00:21:25,489 --> 00:21:27,389
+all the people are running
+
+439
+00:21:27,389 --> 00:21:29,109
+this and they are
+able to basically,
+
+440
+00:21:29,109 --> 00:21:30,870
+improve at least provide
+
+441
+00:21:30,870 --> 00:21:33,470
+improvement of 60 times
+compared to two years ago.
+
+442
+00:21:33,470 --> 00:21:35,289
+Okay. So that means m inference
+
+443
+00:21:35,289 --> 00:21:37,409
+is being kind of commoditized,
+
+444
+00:21:37,409 --> 00:21:40,310
+o. Um, but before I
+move into techniques,
+
+445
+00:21:40,310 --> 00:21:43,400
+I want to also,
+reiterate a little
+
+446
+00:21:43,400 --> 00:21:45,160
+bit to enhance
+your understanding
+
+447
+00:21:45,160 --> 00:21:47,519
+of um, would be equal to one.
+
+448
+00:21:47,519 --> 00:21:50,440
+Okay? So equal to one,
+what's the problem.
+
+449
+00:21:50,440 --> 00:21:52,340
+So why is speculative
+coding works?
+
+450
+00:21:52,340 --> 00:21:54,040
+I think by far, you already
+
+451
+00:21:54,040 --> 00:21:57,699
+understood the basic
+rationale behind speculative.
+
+452
+00:21:57,699 --> 00:21:59,880
+But let's look at it from
+a system perspective,
+
+453
+00:21:59,880 --> 00:22:02,060
+but not from algorithm
+perspective.
+
+454
+00:22:02,060 --> 00:22:04,860
+So for B B equal to one.
+What's the problem?
+
+455
+00:22:04,860 --> 00:22:07,419
+So for pre field, like I said,
+there's no problem, right,
+
+456
+00:22:07,419 --> 00:22:09,139
+because it's basically
+a single sequence and
+
+457
+00:22:09,139 --> 00:22:11,120
+you proceed the computation
+
+458
+00:22:11,120 --> 00:22:13,575
+as if you are doing
+training. Okay, no problem.
+
+459
+00:22:13,575 --> 00:22:16,670
+But for decode, it also face
+
+460
+00:22:16,670 --> 00:22:17,969
+the same problem that
+is you don't know
+
+461
+00:22:17,969 --> 00:22:19,929
+how many token you are
+going to generate, right?
+
+462
+00:22:19,929 --> 00:22:22,430
+But that's okay. It's
+better than B equal
+
+463
+00:22:22,430 --> 00:22:25,289
+to great B is a large number.
+
+464
+00:22:25,289 --> 00:22:31,770
+Okay? Another problem for
+Bequal to one is here,
+
+465
+00:22:31,770 --> 00:22:34,859
+you have B equal to one,
+you have S equal to one.
+
+466
+00:22:34,859 --> 00:22:36,770
+Okay. And now you
+see the problem.
+
+467
+00:22:36,770 --> 00:22:41,169
+If you basically shift your
+uh if you put your eye here,
+
+468
+00:22:41,169 --> 00:22:43,350
+remember, these are
+only three dimensions.
+
+469
+00:22:43,350 --> 00:22:45,489
+Now, you have two dimension
+which are equal to one.
+
+470
+00:22:45,489 --> 00:22:47,029
+You only have one dimension that
+
+471
+00:22:47,029 --> 00:22:50,029
+is basically not equal to one.
+
+472
+00:22:50,029 --> 00:22:53,149
+This means that whatever
+kernels you launch here,
+
+473
+00:22:53,149 --> 00:22:55,889
+it's not going to
+be super efficient,
+
+474
+00:22:55,889 --> 00:22:58,650
+because it's not able
+to uti all the GPUs.
+
+475
+00:22:58,650 --> 00:23:00,570
+Okay? So what's that problem?
+
+476
+00:23:00,570 --> 00:23:02,269
+Okay? I will review later.
+
+477
+00:23:02,269 --> 00:23:04,689
+But before I finish, um for
+
+478
+00:23:04,689 --> 00:23:05,909
+memory I don't have
+a problem because
+
+479
+00:23:05,909 --> 00:23:07,390
+I only need to
+solve one request.
+
+480
+00:23:07,390 --> 00:23:09,829
+So it's very hard
+for one request to
+
+481
+00:23:09,829 --> 00:23:11,250
+set by P memory unless
+
+482
+00:23:11,250 --> 00:23:12,890
+you generally want me
+tokens for that request.
+
+483
+00:23:12,890 --> 00:23:15,169
+Okay. Then let's go
+back to this one.
+
+484
+00:23:15,169 --> 00:23:17,909
+What's the problem as equal
+to one, B equal to one.
+
+485
+00:23:17,909 --> 00:23:21,589
+If you remember this, we
+want to maximize this.
+
+486
+00:23:21,589 --> 00:23:24,449
+But here you have equals
+one, B equal to one.
+
+487
+00:23:24,449 --> 00:23:27,829
+Remember, when S equal to one,
+
+488
+00:23:27,829 --> 00:23:31,790
+B one, the floating point
+operation is very small.
+
+489
+00:23:31,790 --> 00:23:35,409
+But how about the lumber bits
+you want to read between
+
+490
+00:23:35,409 --> 00:23:38,750
+memory hierarchies?
+It's the same.
+
+491
+00:23:38,750 --> 00:23:41,529
+Every time when you try
+to compute one token,
+
+492
+00:23:41,529 --> 00:23:43,750
+you have to move at
+least the model weights
+
+493
+00:23:43,750 --> 00:23:45,930
+from GBM to SRM,
+
+494
+00:23:45,930 --> 00:23:49,070
+and you perform a
+competion GPU course.
+
+495
+00:23:49,070 --> 00:23:50,909
+That means that if you perform
+
+496
+00:23:50,909 --> 00:23:52,010
+a lot of dance competition,
+
+497
+00:23:52,010 --> 00:23:54,450
+you move that lumber bats once.
+
+498
+00:23:54,450 --> 00:23:56,490
+But if you perform
+very few competition,
+
+499
+00:23:56,490 --> 00:23:59,410
+you still move that
+lumber bats once,
+
+500
+00:23:59,410 --> 00:24:01,849
+when B goes to one,
+S you go to one,
+
+501
+00:24:01,849 --> 00:24:03,889
+what happens is that during
+this decoding process,
+
+502
+00:24:03,889 --> 00:24:05,610
+every time when you do a pass,
+
+503
+00:24:05,610 --> 00:24:10,129
+you pay the cost of moving
+the weights from GBM to SRM,
+
+504
+00:24:10,129 --> 00:24:12,290
+but you only compute
+very little.
+
+505
+00:24:12,290 --> 00:24:17,350
+Okay? That's a problem why
+speculative coding works?
+
+506
+00:24:17,350 --> 00:24:20,990
+Because I think I talked
+about this one week ago,
+
+507
+00:24:20,990 --> 00:24:22,809
+the reason speculating
+work is because it
+
+508
+00:24:22,809 --> 00:24:24,909
+can reduce the number of steps.
+
+509
+00:24:24,909 --> 00:24:26,649
+You are going to
+generate a manual
+
+510
+00:24:26,649 --> 00:24:28,650
+token, because you speculate.
+
+511
+00:24:28,650 --> 00:24:32,509
+You use a small model to
+speculate, say, five tokens,
+
+512
+00:24:32,509 --> 00:24:34,229
+and you give all
+these five tokens to
+
+513
+00:24:34,229 --> 00:24:38,330
+the large target arm to
+perform one verification.
+
+514
+00:24:38,330 --> 00:24:41,125
+And when you perform
+this verification,
+
+515
+00:24:41,125 --> 00:24:44,499
+so you pay a lot of cost
+to compute four tokens.
+
+516
+00:24:44,499 --> 00:24:47,619
+But the problem is, this
+original intensity don't look
+
+517
+00:24:47,619 --> 00:24:51,300
+much better because the
+lamer ops is increasing.
+
+518
+00:24:51,300 --> 00:24:53,080
+Say, if you get lucky
+
+519
+00:24:53,080 --> 00:24:55,080
+and all the four
+tokens are accepted,
+
+520
+00:24:55,080 --> 00:24:57,700
+then you are making this
+equity much better.
+
+521
+00:24:57,700 --> 00:25:00,339
+You are amortizing the cost of
+
+522
+00:25:00,339 --> 00:25:02,879
+moving width between
+the memory hierarchy
+
+523
+00:25:02,879 --> 00:25:04,529
+across many many tokens.
+
+524
+00:25:04,529 --> 00:25:07,479
+Okay. So that is basically from
+
+525
+00:25:07,479 --> 00:25:08,900
+a computational perspective why
+
+526
+00:25:08,900 --> 00:25:10,660
+speculative coding
+can accelerate.
+
+527
+00:25:10,660 --> 00:25:13,420
+It amortize the
+memory movement cost.
+
+528
+00:25:13,420 --> 00:25:16,139
+But like I said, if
+you are not lucky,
+
+529
+00:25:16,139 --> 00:25:18,499
+if your acceptance rate
+is low, for example,
+
+530
+00:25:18,499 --> 00:25:20,100
+your token was proposed wrong
+
+531
+00:25:20,100 --> 00:25:23,020
+incorrectly and your target arm
+
+532
+00:25:23,020 --> 00:25:24,779
+is not accepting these tokens,
+
+533
+00:25:24,779 --> 00:25:27,460
+then you are paying extra cost,
+
+534
+00:25:27,460 --> 00:25:30,860
+because you are paying
+extra uh verification cost,
+
+535
+00:25:30,860 --> 00:25:33,259
+which we are making your
+inference even slower.
+
+536
+00:25:33,259 --> 00:25:35,439
+Okay? That is specultive coding.
+
+537
+00:25:35,439 --> 00:25:39,039
+Any problem? Yeah.
+
+538
+00:25:39,039 --> 00:25:44,660
+Why speculative or large subset.
+
+539
+00:25:44,660 --> 00:25:48,159
+That's really great
+question. Is basically
+
+540
+00:25:48,159 --> 00:25:49,759
+what people are
+doing research now.
+
+541
+00:25:49,759 --> 00:25:52,040
+Yeah. We want to apply
+
+542
+00:25:52,040 --> 00:25:54,719
+speculate coding at a larger
+B, but the problem is,
+
+543
+00:25:54,719 --> 00:25:57,499
+remember, the rationale of
+
+544
+00:25:57,499 --> 00:25:59,539
+speculate encoding
+is that you amortize
+
+545
+00:25:59,539 --> 00:26:01,240
+the memory movement cost.
+
+546
+00:26:01,240 --> 00:26:03,479
+But the problem is spectu
+encoding will consume
+
+547
+00:26:03,479 --> 00:26:06,399
+more flops without
+a speculate code.
+
+548
+00:26:06,399 --> 00:26:10,420
+At a larger B, your system is
+not memory bond with bond,
+
+549
+00:26:10,420 --> 00:26:11,980
+it's computer bond,
+and you are saying,
+
+550
+00:26:11,980 --> 00:26:13,499
+I'm going to pay more computer.
+
+551
+00:26:13,499 --> 00:26:14,839
+Then you are adding
+
+552
+00:26:14,839 --> 00:26:17,279
+more computer bond into
+your equiden system.
+
+553
+00:26:17,279 --> 00:26:19,279
+That's why very few works
+
+554
+00:26:19,279 --> 00:26:21,420
+actually do this.
+Does that make sense?
+
+555
+00:26:21,420 --> 00:26:25,499
+Yeah. Okay. Okay. No, I think I
+
+556
+00:26:25,499 --> 00:26:29,839
+hope I connect this back to
+the last Thursday's lecture,
+
+557
+00:26:29,839 --> 00:26:31,399
+and you have a better
+understanding of why
+
+558
+00:26:31,399 --> 00:26:33,800
+si degree works from
+a system perspective.
+
+559
+00:26:33,800 --> 00:26:37,360
+Okay. Then let's move on to
+today's major topic, okay?
+
+560
+00:26:37,360 --> 00:26:39,440
+So how exactly, um,
+
+561
+00:26:39,440 --> 00:26:41,480
+we solve that problem? One
+is the batching problem.
+
+562
+00:26:41,480 --> 00:26:45,120
+The other is the memory
+problem in large bases, okay?
+
+563
+00:26:45,120 --> 00:26:46,999
+So the two techniques, we
+
+564
+00:26:46,999 --> 00:26:48,099
+are going to talk
+about is basically
+
+565
+00:26:48,099 --> 00:26:49,120
+continuous batching and pay
+
+566
+00:26:49,120 --> 00:26:50,739
+your attention. Let's
+start with the first one.
+
+567
+00:26:50,739 --> 00:26:54,060
+Okay? So remember
+our problem, okay?
+
+568
+00:26:54,060 --> 00:26:55,680
+For continuous batching,
+we try to solve
+
+569
+00:26:55,680 --> 00:26:56,919
+the first problem
+that is different
+
+570
+00:26:56,919 --> 00:26:58,540
+proms have different lens.
+
+571
+00:26:58,540 --> 00:27:00,399
+And different proms
+have different
+
+572
+00:27:00,399 --> 00:27:01,999
+unknown number general tokens.
+
+573
+00:27:01,999 --> 00:27:04,799
+So how exactly batch them.
+
+574
+00:27:04,799 --> 00:27:08,619
+Okay. To begin, I think,
+
+575
+00:27:08,940 --> 00:27:13,160
+we want to visualize, the
+arm inference or decoding,
+
+576
+00:27:13,160 --> 00:27:15,919
+uh, commutation along time.
+
+577
+00:27:15,919 --> 00:27:19,299
+Okay. So here you basically
+can see this figure, right?
+
+578
+00:27:19,299 --> 00:27:23,300
+So you have a few times step
+from T one to T eight, okay?
+
+579
+00:27:23,300 --> 00:27:25,240
+And basically, you start
+
+580
+00:27:25,240 --> 00:27:27,319
+receiving a request
+with three tokens,
+
+581
+00:27:27,319 --> 00:27:29,260
+colour a yellow, okay?
+
+582
+00:27:29,260 --> 00:27:33,659
+And in the first
+step, which is this.
+
+583
+00:27:35,080 --> 00:27:39,380
+This step you compute
+prefile prefile compition.
+
+584
+00:27:39,380 --> 00:27:41,239
+And then once you
+finish prefile,
+
+585
+00:27:41,239 --> 00:27:43,100
+what you do is you do
+authorizive decoding.
+
+586
+00:27:43,100 --> 00:27:46,239
+Every time you decode one, until
+
+587
+00:27:46,239 --> 00:27:48,680
+you decode that EOS,
+and you finish.
+
+588
+00:27:48,680 --> 00:27:52,419
+This is like visualize
+on time. Okay?
+
+589
+00:27:52,419 --> 00:27:55,539
+Now, I want to
+think about say no,
+
+590
+00:27:55,539 --> 00:27:57,250
+I have multiple requests coming.
+
+591
+00:27:57,250 --> 00:27:59,719
+How do I do compute on time?
+
+592
+00:27:59,719 --> 00:28:02,659
+Okay? One way, that is,
+
+593
+00:28:02,659 --> 00:28:06,619
+um, here, I have four
+requests come in, right?
+
+594
+00:28:06,619 --> 00:28:09,680
+They have different
+basically prefer lens.
+
+595
+00:28:09,680 --> 00:28:12,680
+The first one has three, second
+has two, et cetera, okay?
+
+596
+00:28:12,680 --> 00:28:14,879
+And you make them a batch, okay?
+
+597
+00:28:14,879 --> 00:28:17,099
+Uh, let's talk about
+auto batch later,
+
+598
+00:28:17,099 --> 00:28:18,399
+but just think about,
+you can make it a
+
+599
+00:28:18,399 --> 00:28:20,319
+batch and forward
+a batches work.
+
+600
+00:28:20,319 --> 00:28:22,639
+And you compute the prefiR
+
+601
+00:28:22,639 --> 00:28:25,469
+and you start generating. Okay.
+
+602
+00:28:25,469 --> 00:28:27,070
+But if you look
+at the red graph,
+
+603
+00:28:27,070 --> 00:28:29,469
+you will notice that
+the first request,
+
+604
+00:28:29,469 --> 00:28:30,729
+it will only
+generate two tokens,
+
+605
+00:28:30,729 --> 00:28:33,109
+and then you enter the end,
+
+606
+00:28:33,109 --> 00:28:35,770
+Simpson, it's only
+generate one token.
+
+607
+00:28:35,770 --> 00:28:39,509
+But this batch was bott
+encked by the second request,
+
+608
+00:28:39,509 --> 00:28:41,269
+which will generate
+a lot of tokens.
+
+609
+00:28:41,269 --> 00:28:44,729
+Until it finished
+at the last sems.
+
+610
+00:28:44,729 --> 00:28:47,270
+But I think from a
+service perspective,
+
+611
+00:28:47,270 --> 00:28:49,105
+what happened to the users?
+
+612
+00:28:49,105 --> 00:28:51,919
+So actually, for the
+first ers request,
+
+613
+00:28:51,919 --> 00:28:54,740
+it already finished at
+the Time step T six.
+
+614
+00:28:54,740 --> 00:28:56,459
+But because this request was
+
+615
+00:28:56,459 --> 00:28:58,539
+batched together with
+the second request.
+
+616
+00:28:58,539 --> 00:29:02,139
+So the first der is not going
+to observe in the results,
+
+617
+00:29:02,139 --> 00:29:05,755
+right until the entire
+batch completes.
+
+618
+00:29:05,755 --> 00:29:08,850
+What it means, actually,
+ideally, okay,
+
+619
+00:29:08,850 --> 00:29:10,829
+this request should
+immediately exit from
+
+620
+00:29:10,829 --> 00:29:13,709
+that batch and go back to
+the user with the results.
+
+621
+00:29:13,709 --> 00:29:14,949
+But because they are batting
+
+622
+00:29:14,949 --> 00:29:16,850
+together in the computer graph,
+
+623
+00:29:16,850 --> 00:29:18,789
+they have to repeatedly
+go through that
+
+624
+00:29:18,789 --> 00:29:21,189
+doing nothing for
+each request. Okay?
+
+625
+00:29:21,189 --> 00:29:23,749
+And this is one example of
+
+626
+00:29:23,749 --> 00:29:26,490
+traditional batching and why
+
+627
+00:29:26,490 --> 00:29:30,209
+this problem only happens
+for RM Because in previous,
+
+628
+00:29:30,209 --> 00:29:33,110
+before RM what kind of
+model people are serving?
+
+629
+00:29:33,110 --> 00:29:34,759
+For example, uh, you know,
+
+630
+00:29:34,759 --> 00:29:36,560
+very typical
+convolutionar networks,
+
+631
+00:29:36,560 --> 00:29:38,179
+right? You don't
+have this problem.
+
+632
+00:29:38,179 --> 00:29:40,239
+Why? Because if you
+
+633
+00:29:40,239 --> 00:29:42,219
+are going to solve
+this kind of scenes,
+
+634
+00:29:42,219 --> 00:29:43,659
+you basically have
+a batch of images,
+
+635
+00:29:43,659 --> 00:29:45,779
+and you throw a batch of
+images through network,
+
+636
+00:29:45,779 --> 00:29:47,500
+and all the images in batches,
+
+637
+00:29:47,500 --> 00:29:48,880
+they all follow
+exactly the same pace
+
+638
+00:29:48,880 --> 00:29:50,779
+to finish and you return.
+
+639
+00:29:50,779 --> 00:29:52,939
+But in RM, each request has
+
+640
+00:29:52,939 --> 00:29:55,419
+undetermined lumber
+generally tokens, right?
+
+641
+00:29:55,419 --> 00:29:58,620
+That's the unique
+problem to RMs, okay?
+
+642
+00:29:58,620 --> 00:30:01,059
+And you can say if you do
+this traditional batching,
+
+643
+00:30:01,059 --> 00:30:03,180
+um, we have a big problem.
+
+644
+00:30:03,180 --> 00:30:05,140
+Like the first problem
+is, of course,
+
+645
+00:30:05,140 --> 00:30:08,800
+the latency of this request
+you are delayed. Right.
+
+646
+00:30:08,800 --> 00:30:12,640
+A second problem is, you
+can see, during this left,
+
+647
+00:30:12,640 --> 00:30:14,760
+during the competition
+over the last two wins,
+
+648
+00:30:14,760 --> 00:30:16,840
+all these sorts are bubbles,
+
+649
+00:30:16,840 --> 00:30:19,440
+which means our TP
+is under utilized.
+
+650
+00:30:19,440 --> 00:30:22,480
+There's one more problem.
+I will review later.
+
+651
+00:30:22,480 --> 00:30:26,419
+Okay. But to
+summarize request may
+
+652
+00:30:26,419 --> 00:30:27,999
+complete at different
+iterations in
+
+653
+00:30:27,999 --> 00:30:30,499
+arms because different
+number of generate tokens,
+
+654
+00:30:30,499 --> 00:30:32,979
+and we are facing Ido GP cycles.
+
+655
+00:30:32,979 --> 00:30:34,779
+The third point is basically
+
+656
+00:30:34,779 --> 00:30:38,000
+imagine when we compute this
+batch, what will happen.
+
+657
+00:30:38,000 --> 00:30:39,919
+So our user is going to
+
+658
+00:30:39,919 --> 00:30:42,920
+continue to submit
+requests to our endpoint,
+
+659
+00:30:42,920 --> 00:30:44,319
+and we are going to
+maintain a queue
+
+660
+00:30:44,319 --> 00:30:46,220
+here, Queue in requests.
+
+661
+00:30:46,220 --> 00:30:48,139
+If this batch is
+not going to exceed
+
+662
+00:30:48,139 --> 00:30:50,179
+then we have to
+
+663
+00:30:50,179 --> 00:30:52,360
+let the order requests in the
+queue to continue to wait,
+
+664
+00:30:52,360 --> 00:30:54,019
+and that will basically increase
+
+665
+00:30:54,019 --> 00:30:55,639
+a problem called
+hydro line blocking.
+
+666
+00:30:55,639 --> 00:30:58,699
+That is your requests
+are being delayed.
+
+667
+00:30:58,699 --> 00:31:01,480
+Let's see how we
+fix this problem.
+
+668
+00:31:01,480 --> 00:31:03,699
+The way we fix the
+problem is that
+
+669
+00:31:03,699 --> 00:31:05,559
+we can convert this kind of,
+
+670
+00:31:05,559 --> 00:31:07,640
+like, traditional batching into
+
+671
+00:31:07,640 --> 00:31:09,580
+a new technique called
+continuous batching.
+
+672
+00:31:09,580 --> 00:31:11,880
+And this continue batching
+was designed for arms.
+
+673
+00:31:11,880 --> 00:31:14,019
+Okay? And highlight was
+
+674
+00:31:14,019 --> 00:31:15,619
+the benefit of continued
+batching that we have
+
+675
+00:31:15,619 --> 00:31:17,060
+a higher GP radiation
+
+676
+00:31:17,060 --> 00:31:20,020
+and new request can
+start immediately.
+
+677
+00:31:20,020 --> 00:31:21,380
+And an older request,
+
+678
+00:31:21,380 --> 00:31:24,019
+once they finish, they can
+be basically pushed out.
+
+679
+00:31:24,019 --> 00:31:25,680
+They can be excited immediately.
+
+680
+00:31:25,680 --> 00:31:28,599
+So, let's see how we do that.
+
+681
+00:31:29,020 --> 00:31:31,340
+Okay. Now, let's run
+
+682
+00:31:31,340 --> 00:31:33,739
+through this iteration
+by iteration. Okay.
+
+683
+00:31:34,100 --> 00:31:36,539
+So here we have a
+request to pull right.
+
+684
+00:31:36,539 --> 00:31:37,799
+This is our queue.
+
+685
+00:31:37,799 --> 00:31:39,860
+Okay? We are listening.
+This is a survey.
+
+686
+00:31:39,860 --> 00:31:42,359
+Okay. And see. Imagine
+yourself is open air.
+
+687
+00:31:42,359 --> 00:31:43,979
+Okay, you have a
+queue here, a lot of
+
+688
+00:31:43,979 --> 00:31:47,219
+requests on their browser,
+they are submitting requests.
+
+689
+00:31:47,219 --> 00:31:48,800
+And once the submitted request,
+
+690
+00:31:48,800 --> 00:31:50,439
+this request will
+go into a queue.
+
+691
+00:31:50,439 --> 00:31:53,360
+Okay? So here we observe r1r2.
+
+692
+00:31:53,360 --> 00:31:56,720
+Okay? And again, we
+have execution engine,
+
+693
+00:31:56,720 --> 00:31:59,140
+which is trying to
+perform expedition,
+
+694
+00:31:59,140 --> 00:32:00,659
+and this happens on GPU.
+
+695
+00:32:00,659 --> 00:32:04,439
+And here, suppose we are
+pretty GPU P and we can only,
+
+696
+00:32:04,439 --> 00:32:06,639
+um serve a basis equal to
+
+697
+00:32:06,639 --> 00:32:09,700
+three at maximum,
+okay? Just example.
+
+698
+00:32:09,700 --> 00:32:12,920
+So in the first iteration,
+
+699
+00:32:12,920 --> 00:32:14,579
+we observe that in our Q,
+
+700
+00:32:14,579 --> 00:32:15,799
+there are two requests, right?
+
+701
+00:32:15,799 --> 00:32:18,959
+So we basically fetch them
+from CPU to GPU and we say,
+
+702
+00:32:18,959 --> 00:32:22,400
+we are going to batch
+them together to Act.
+
+703
+00:32:22,400 --> 00:32:24,420
+Okay? So here, my first problem
+
+704
+00:32:24,420 --> 00:32:26,619
+is how you basically batch this.
+
+705
+00:32:28,580 --> 00:32:31,559
+Okay, I would like to look
+at this and think about
+
+706
+00:32:31,559 --> 00:32:35,460
+for 30 seconds where I grab
+my mouse. Yeah, sorry.
+
+707
+00:33:01,780 --> 00:33:04,499
+Okay, let's continue.
+
+708
+00:33:04,499 --> 00:33:07,120
+So this is actually
+pretty messy, okay.
+
+709
+00:33:07,120 --> 00:33:09,639
+The reason I do this in such
+detail is because I want
+
+710
+00:33:09,639 --> 00:33:10,959
+to make sure you
+
+711
+00:33:10,959 --> 00:33:13,679
+understand this batch is
+definitely non trivial.
+
+712
+00:33:13,679 --> 00:33:17,059
+Why? Because consider
+if this is not RM
+
+713
+00:33:17,059 --> 00:33:18,999
+if this is just a thing
+
+714
+00:33:18,999 --> 00:33:21,100
+this batching is super
+straight forward.
+
+715
+00:33:21,100 --> 00:33:24,200
+Basically I'm saying you're
+observing two images,
+
+716
+00:33:24,200 --> 00:33:25,799
+and you put these two images on
+
+717
+00:33:25,799 --> 00:33:28,239
+the batch and you go
+through the neural work.
+
+718
+00:33:28,239 --> 00:33:30,580
+And these two images
+is definitely,
+
+719
+00:33:30,580 --> 00:33:32,520
+will be reshipped
+into the same size,
+
+720
+00:33:32,520 --> 00:33:35,060
+same resolution, so you don't
+have a batching problem.
+
+721
+00:33:35,060 --> 00:33:36,939
+But here, if we break it down,
+
+722
+00:33:36,939 --> 00:33:40,119
+okay, let's be very
+hands on this.
+
+723
+00:33:40,119 --> 00:33:42,639
+If we decide to batch r1r2,
+
+724
+00:33:42,639 --> 00:33:44,459
+the first problem we facing is,
+
+725
+00:33:44,459 --> 00:33:47,699
+they likely have
+different seqns.
+
+726
+00:33:47,699 --> 00:33:50,339
+But here, I give you
+a pretty bad example
+
+727
+00:33:50,339 --> 00:33:51,760
+or have three works.
+
+728
+00:33:51,760 --> 00:33:53,399
+But let's think about they
+
+729
+00:33:53,399 --> 00:33:55,620
+have different umber tokens.
+Then what's the problem.
+
+730
+00:33:55,620 --> 00:33:58,699
+So we are going to
+forward two requests with
+
+731
+00:33:58,699 --> 00:34:00,940
+different sequence
+through first attention
+
+732
+00:34:00,940 --> 00:34:02,919
+and then MLP, right?
+
+733
+00:34:02,919 --> 00:34:05,239
+So let me ask two questions.
+
+734
+00:34:05,239 --> 00:34:08,100
+So can we batch them
+together in attention?
+
+735
+00:34:10,640 --> 00:34:14,900
+We can unless we cannot
+
+736
+00:34:14,900 --> 00:34:17,279
+unless we basically
+pad the shorter one
+
+737
+00:34:17,279 --> 00:34:20,239
+into six s equal to four, right?
+
+738
+00:34:20,239 --> 00:34:22,880
+Because attention is
+sequence dependent.
+
+739
+00:34:22,880 --> 00:34:25,259
+Atgen has to operate to.
+
+740
+00:34:25,259 --> 00:34:26,920
+And if you want to batch
+all the operators,
+
+741
+00:34:26,920 --> 00:34:29,319
+you have to make them have
+the same sequence mass.
+
+742
+00:34:29,319 --> 00:34:31,159
+Which means that at this moment,
+
+743
+00:34:31,159 --> 00:34:33,140
+you are already basically
+
+744
+00:34:33,140 --> 00:34:36,359
+losing some flops if you
+do this patty, right?
+
+745
+00:34:36,359 --> 00:34:39,039
+So this is a decision that
+many serving frame how to
+
+746
+00:34:39,039 --> 00:34:44,139
+fix to decide if you want
+to batch this a lot.
+
+747
+00:34:44,139 --> 00:34:46,539
+Okay? I will come
+back to this later,
+
+748
+00:34:46,539 --> 00:34:50,559
+but let's move forward to
+the second part. Okay, here.
+
+749
+00:34:53,800 --> 00:34:56,520
+Suppose you finish
+your attention,
+
+750
+00:34:56,520 --> 00:34:57,940
+and these two requests
+
+751
+00:34:57,940 --> 00:35:01,239
+basically entering the
+MLP module, right?
+
+752
+00:35:01,239 --> 00:35:05,319
+So can you bet these two
+sequence in MP module?
+
+753
+00:35:05,920 --> 00:35:09,179
+You can, that can be
+easily done, right?
+
+754
+00:35:09,179 --> 00:35:10,960
+Because in MLP module,
+
+755
+00:35:10,960 --> 00:35:12,700
+it's not sequence dependent.
+
+756
+00:35:12,700 --> 00:35:15,239
+And this is extremely
+important, okay?
+
+757
+00:35:15,239 --> 00:35:16,819
+So in MLP module,
+
+758
+00:35:16,819 --> 00:35:19,475
+I even don't care about
+sequence dimension.
+
+759
+00:35:19,475 --> 00:35:22,930
+Right. Because in MLP,
+
+760
+00:35:22,930 --> 00:35:25,290
+if you still remember
+the computation,
+
+761
+00:35:25,290 --> 00:35:26,689
+is basically each token will
+
+762
+00:35:26,689 --> 00:35:28,590
+be upper project
+and down project.
+
+763
+00:35:28,590 --> 00:35:30,290
+Which means that in MLP,
+
+764
+00:35:30,290 --> 00:35:31,730
+I'm in this example,
+
+765
+00:35:31,730 --> 00:35:34,949
+I'm actually getting a
+bit set equal to six.
+
+766
+00:35:34,949 --> 00:35:37,909
+It's not equal to two.
+Doesn't make sense.
+
+767
+00:35:37,909 --> 00:35:41,669
+Because I enroll my six NS into
+
+768
+00:35:41,669 --> 00:35:46,429
+previously I B
+times times H. Now,
+
+769
+00:35:46,429 --> 00:35:49,050
+once I enter MLP, this BNS,
+
+770
+00:35:49,050 --> 00:35:52,690
+my MLP is basically I cannot
+speak to this S dimension.
+
+771
+00:35:52,690 --> 00:35:54,730
+Basically, MLP is performing
+
+772
+00:35:54,730 --> 00:35:57,880
+a math mode that is the
+first dimension is B times.
+
+773
+00:35:57,880 --> 00:36:01,770
+And set H. Which
+means that in MLP,
+
+774
+00:36:01,770 --> 00:36:04,270
+the computation is
+token independent.
+
+775
+00:36:04,270 --> 00:36:07,410
+Each token will perform
+its own communication.
+
+776
+00:36:07,770 --> 00:36:11,529
+Why this is super
+important observation
+
+777
+00:36:11,529 --> 00:36:13,029
+and we'll review it next slide.
+
+778
+00:36:13,029 --> 00:36:14,809
+But to answer this question,
+
+779
+00:36:14,809 --> 00:36:18,609
+in order to batch it,
+
+780
+00:36:18,609 --> 00:36:20,110
+you are basically observing
+
+781
+00:36:20,110 --> 00:36:22,329
+two requests and you make
+this two requests one
+
+782
+00:36:22,329 --> 00:36:23,929
+batch and you forward it through
+
+783
+00:36:23,929 --> 00:36:26,070
+the RM to compute the prefile.
+
+784
+00:36:26,070 --> 00:36:27,470
+In this prefile competon,
+
+785
+00:36:27,470 --> 00:36:28,750
+what you do is in the attention,
+
+786
+00:36:28,750 --> 00:36:31,089
+you probably pad them
+together into the same lens,
+
+787
+00:36:31,089 --> 00:36:33,310
+and you perform a attention.
+
+788
+00:36:33,310 --> 00:36:35,249
+In the MLP, you can always do
+
+789
+00:36:35,249 --> 00:36:38,279
+batching without doing any
+padding. You are good.
+
+790
+00:36:38,279 --> 00:36:42,409
+Okay. And then, see,
+
+791
+00:36:42,409 --> 00:36:44,509
+we are entering our
+interim one, okay?
+
+792
+00:36:44,509 --> 00:36:46,789
+In our interim one,
+what happened is,
+
+793
+00:36:46,789 --> 00:36:49,969
+we finish prefill we
+
+794
+00:36:49,969 --> 00:36:52,049
+still have two running
+requests in the batch,
+
+795
+00:36:52,049 --> 00:36:54,929
+and we are going to transition
+into the decoding phase,
+
+796
+00:36:54,929 --> 00:36:56,490
+and we are going to decode
+
+797
+00:36:56,490 --> 00:36:58,070
+the first token
+for each request.
+
+798
+00:36:58,070 --> 00:37:00,089
+And meanwhile, on
+our third side,
+
+799
+00:37:00,089 --> 00:37:02,049
+we are observing a new request?
+
+800
+00:37:02,049 --> 00:37:05,049
+Then let me ask you
+another question.
+
+801
+00:37:05,049 --> 00:37:07,650
+So in this combination,
+
+802
+00:37:07,650 --> 00:37:09,669
+okay in the Interim one
+competon what happens is
+
+803
+00:37:09,669 --> 00:37:10,950
+each request is basically
+
+804
+00:37:10,950 --> 00:37:13,129
+performing the decoding
+combination, right?
+
+805
+00:37:13,129 --> 00:37:15,929
+So my question is, how
+
+806
+00:37:15,929 --> 00:37:19,470
+you exactly batch
+these two decoding.
+
+807
+00:37:22,470 --> 00:37:24,689
+Okay, let's step deeper, okay?
+
+808
+00:37:24,689 --> 00:37:26,689
+If you look at left hand
+side, same thing, right.
+
+809
+00:37:26,689 --> 00:37:27,989
+When we perform decoding, we
+
+810
+00:37:27,989 --> 00:37:30,170
+first go through
+attention the MLP.
+
+811
+00:37:30,170 --> 00:37:32,749
+So for MLP, can we batch?
+
+812
+00:37:32,749 --> 00:37:36,390
+Yes, like I said, the MLP
+is token independent.
+
+813
+00:37:36,390 --> 00:37:38,629
+So what's the bad inside?
+
+814
+00:37:39,190 --> 00:37:42,170
+Two, right? Because we
+are comparing two tokens.
+
+815
+00:37:42,170 --> 00:37:44,989
+Okay. But for attention,
+can we batch.
+
+816
+00:37:45,880 --> 00:37:49,620
+No, because here
+is a bad example.
+
+817
+00:37:49,620 --> 00:37:51,059
+Assuming the first has first
+
+818
+00:37:51,059 --> 00:37:52,520
+token, second half three tokens,
+
+819
+00:37:52,520 --> 00:37:54,799
+then you cannot
+batch because they
+
+820
+00:37:54,799 --> 00:37:56,500
+basically are performing
+different competition.
+
+821
+00:37:56,500 --> 00:37:58,480
+One is attending to
+previous three tokens
+
+822
+00:37:58,480 --> 00:38:00,200
+and the other is attending
+to previous two tokens.
+
+823
+00:38:00,200 --> 00:38:02,559
+Their ship are different.
+You cannot batch.
+
+824
+00:38:02,559 --> 00:38:04,059
+Okay? If you want to bat,
+
+825
+00:38:04,059 --> 00:38:06,559
+you have to pad, and if
+you pad, you lose, right?
+
+826
+00:38:06,559 --> 00:38:09,240
+So essentially in
+today's framework,
+
+827
+00:38:09,240 --> 00:38:10,460
+when you do this
+kind of competition,
+
+828
+00:38:10,460 --> 00:38:11,979
+it's much more complexe
+than your thought.
+
+829
+00:38:11,979 --> 00:38:13,519
+It's not like you
+forwarding a batch
+
+830
+00:38:13,519 --> 00:38:15,540
+through petty and
+you get results.
+
+831
+00:38:15,540 --> 00:38:17,600
+And what they do is basically,
+
+832
+00:38:17,600 --> 00:38:20,880
+they do very detailed
+breakdown for tinin and MLP,
+
+833
+00:38:20,880 --> 00:38:22,180
+and they perform in different
+
+834
+00:38:22,180 --> 00:38:23,974
+batting strategy for ten MLP.
+
+835
+00:38:23,974 --> 00:38:25,949
+Okay. So in this
+case, what do we do?
+
+836
+00:38:25,949 --> 00:38:29,610
+For example, in today's
+um, serving framework VIM,
+
+837
+00:38:29,610 --> 00:38:32,809
+they will basically execute
+the tensing kernels for
+
+838
+00:38:32,809 --> 00:38:36,169
+each sequence
+independently without
+
+839
+00:38:36,169 --> 00:38:38,010
+one batch because they
+want to save flows.
+
+840
+00:38:38,010 --> 00:38:39,790
+But once they
+finish the tenting,
+
+841
+00:38:39,790 --> 00:38:41,489
+they are going to
+put all tokens into
+
+842
+00:38:41,489 --> 00:38:43,570
+one big batch and
+perform an MLP.
+
+843
+00:38:43,570 --> 00:38:45,189
+And then unter the next layer,
+
+844
+00:38:45,189 --> 00:38:47,049
+they are going to basically
+break down a batch,
+
+845
+00:38:47,049 --> 00:38:50,049
+perform separate kernels,
+and then batching together,
+
+846
+00:38:50,049 --> 00:38:52,249
+and then batch batch
+and batch batch.
+
+847
+00:38:52,249 --> 00:38:55,264
+You got me right? Okay. It's
+very complicated, okay?
+
+848
+00:38:55,264 --> 00:38:58,219
+Why did you do that?
+Let's see Eteren three.
+
+849
+00:38:58,219 --> 00:39:02,179
+But before I move to eat three,
+
+850
+00:39:02,179 --> 00:39:04,400
+let's perform a
+mental experiment.
+
+851
+00:39:04,400 --> 00:39:07,840
+What would happen if we
+do traditional batching.
+
+852
+00:39:07,840 --> 00:39:11,679
+Okay. So now, we move
+to interim two, right?
+
+853
+00:39:11,679 --> 00:39:13,639
+Because at interim one,
+
+854
+00:39:13,639 --> 00:39:15,580
+if we follow
+traditional batching,
+
+855
+00:39:15,580 --> 00:39:20,200
+we already decided to issue
+a batch of two requests,
+
+856
+00:39:20,200 --> 00:39:22,040
+and we continue to decode
+
+857
+00:39:22,040 --> 00:39:23,839
+next token for the
+current running batch.
+
+858
+00:39:23,839 --> 00:39:26,099
+But at interim two,
+what happens is we
+
+859
+00:39:26,099 --> 00:39:29,180
+continue to observe another
+two requests RF and FL.
+
+860
+00:39:29,180 --> 00:39:30,939
+But if we follow
+traditional batching,
+
+861
+00:39:30,939 --> 00:39:33,899
+the problem is um,
+we issue this batch,
+
+862
+00:39:33,899 --> 00:39:36,340
+and we have to wait for
+this batch to finish,
+
+863
+00:39:36,340 --> 00:39:38,739
+and then we take another batch,
+
+864
+00:39:38,739 --> 00:39:41,019
+you can imagine how
+bad this is, right?
+
+865
+00:39:41,019 --> 00:39:43,599
+Basically, when you
+are running r1r2,
+
+866
+00:39:43,599 --> 00:39:46,480
+your queue is increasing.
+The size is increasing.
+
+867
+00:39:46,480 --> 00:39:49,120
+A lot of more requests
+are arrival but arriving,
+
+868
+00:39:49,120 --> 00:39:51,099
+but you are not able
+to basically add
+
+869
+00:39:51,099 --> 00:39:54,439
+or basically add anything into
+the current running batch.
+
+870
+00:39:54,439 --> 00:40:02,310
+Okay? Cool. To summarize
+
+871
+00:40:02,310 --> 00:40:04,970
+before running interns
+for continuous batching,
+
+872
+00:40:04,970 --> 00:40:06,189
+I want to summarize the
+
+873
+00:40:06,189 --> 00:40:07,590
+drawbacks or
+traditional batching.
+
+874
+00:40:07,590 --> 00:40:09,450
+So as you can see, in
+traditional batting,
+
+875
+00:40:09,450 --> 00:40:10,929
+once you issue a batch,
+you are going to
+
+876
+00:40:10,929 --> 00:40:13,290
+wait for that batch to complete.
+
+877
+00:40:13,290 --> 00:40:15,289
+So basically, if you do this,
+
+878
+00:40:15,289 --> 00:40:17,170
+the issue is that request
+
+879
+00:40:17,170 --> 00:40:19,009
+in the queue they
+cannot enter, right?
+
+880
+00:40:19,009 --> 00:40:21,749
+And also request finished
+early cannot exit.
+
+881
+00:40:21,749 --> 00:40:23,349
+In this example, you see
+
+882
+00:40:23,349 --> 00:40:26,149
+this request to it
+already hit US,
+
+883
+00:40:26,149 --> 00:40:27,770
+which means that it
+should be exited.
+
+884
+00:40:27,770 --> 00:40:30,350
+But, you know, in my
+previous illustrating,
+
+885
+00:40:30,350 --> 00:40:32,864
+I showed that you
+cannot exit this batch.
+
+886
+00:40:32,864 --> 00:40:35,859
+And because of this,
+GPO could be idle
+
+887
+00:40:35,859 --> 00:40:39,160
+due to a different number of
+general tokens per request.
+
+888
+00:40:39,160 --> 00:40:40,699
+Then let's see
+
+889
+00:40:40,699 --> 00:40:42,579
+how continuous batching
+addresses this problem.
+
+890
+00:40:42,579 --> 00:40:47,659
+Okay? So still, this is
+our current status at one,
+
+891
+00:40:47,659 --> 00:40:49,679
+where we have a
+running batch or two.
+
+892
+00:40:49,679 --> 00:40:52,000
+Each request in our
+batch already decoded
+
+893
+00:40:52,000 --> 00:40:54,880
+one token and we
+observe a new request.
+
+894
+00:40:54,880 --> 00:40:57,080
+So what will happen in
+continuous batching
+
+895
+00:40:57,080 --> 00:40:58,880
+is that in continuous batching,
+
+896
+00:40:58,880 --> 00:41:01,360
+as long as, for
+example, space allows,
+
+897
+00:41:01,360 --> 00:41:02,840
+as long as our policy allows,
+
+898
+00:41:02,840 --> 00:41:05,019
+we are going to
+immediately pick up
+
+899
+00:41:05,019 --> 00:41:06,899
+the request R three and
+
+900
+00:41:06,899 --> 00:41:09,284
+put R three into
+the running batch.
+
+901
+00:41:09,284 --> 00:41:11,609
+Okay, we're not
+waiting. That is,
+
+902
+00:41:11,609 --> 00:41:13,830
+we're not making batting entity,
+
+903
+00:41:13,830 --> 00:41:16,550
+we are making requests
+entity, iterating entity.
+
+904
+00:41:16,550 --> 00:41:19,590
+So as long as space allows,
+
+905
+00:41:19,590 --> 00:41:21,209
+we are going to
+immediately pick up
+
+906
+00:41:21,209 --> 00:41:23,310
+or request and put
+that into queue.
+
+907
+00:41:23,310 --> 00:41:25,849
+But here you are facing a
+very difficult problem.
+
+908
+00:41:25,849 --> 00:41:28,369
+What's the problem?
+If you do this,
+
+909
+00:41:28,369 --> 00:41:30,259
+if you pick up R three, right?
+
+910
+00:41:30,259 --> 00:41:32,359
+And you put cary into
+a running badge.
+
+911
+00:41:32,359 --> 00:41:34,919
+You are facing a problem that is
+
+912
+00:41:36,270 --> 00:41:39,170
+you see what I try
+to illustrate.
+
+913
+00:41:39,170 --> 00:41:41,850
+Okay? So here, three,
+just enter the battery.
+
+914
+00:41:41,850 --> 00:41:44,669
+Remember, inference,
+the first step
+
+915
+00:41:44,669 --> 00:41:48,149
+the zero step for request
+is always doing pre fill.
+
+916
+00:41:48,149 --> 00:41:49,929
+But here, R one and R two,
+
+917
+00:41:49,929 --> 00:41:51,910
+they are different
+states of the inference.
+
+918
+00:41:51,910 --> 00:41:53,970
+They are decoding
+they are decoding.
+
+919
+00:41:53,970 --> 00:41:56,509
+So here you are saying
+I'm making a batch where
+
+920
+00:41:56,509 --> 00:41:58,870
+some requests need to perform
+
+921
+00:41:58,870 --> 00:42:01,570
+prefill but some requests
+need to perform decoding.
+
+922
+00:42:01,570 --> 00:42:03,069
+Does that make sense? This is
+
+923
+00:42:03,069 --> 00:42:04,489
+a totally different
+competion, right?
+
+924
+00:42:04,489 --> 00:42:05,909
+One is like you observe to.
+
+925
+00:42:05,909 --> 00:42:09,109
+The other is like you
+are decoding, right?
+
+926
+00:42:09,109 --> 00:42:11,930
+Superficially if you
+look at this picture,
+
+927
+00:42:11,930 --> 00:42:13,909
+this is not batchb
+at all, right?
+
+928
+00:42:13,909 --> 00:42:16,010
+Be computation
+graph is different.
+
+929
+00:42:16,010 --> 00:42:19,270
+But again, let's step deeper.
+
+930
+00:42:19,270 --> 00:42:21,850
+I explain to you why
+this is vegetable.
+
+931
+00:42:21,850 --> 00:42:24,309
+Again, let's break it down.
+
+932
+00:42:24,309 --> 00:42:28,489
+The computation composed of
+two parts, attention and MLP.
+
+933
+00:42:28,489 --> 00:42:30,449
+Okay? So if you want to make
+
+934
+00:42:30,449 --> 00:42:32,670
+these three request
+computation run together,
+
+935
+00:42:32,670 --> 00:42:34,229
+we look at one by one, okay?
+
+936
+00:42:34,229 --> 00:42:36,989
+So for their attention,
+can we batch them?
+
+937
+00:42:38,730 --> 00:42:41,869
+Fundamentally we
+cannot because one is
+
+938
+00:42:41,869 --> 00:42:44,930
+attending to one token
+attend to operate tokens.
+
+939
+00:42:44,930 --> 00:42:46,069
+The other is three tokens,
+
+940
+00:42:46,069 --> 00:42:49,190
+you need to perform a batch
+pass of the neural network.
+
+941
+00:42:49,190 --> 00:42:51,309
+Which means that they
+are not a vegetable,
+
+942
+00:42:51,309 --> 00:42:52,589
+and this seems wrong.
+
+943
+00:42:52,589 --> 00:42:56,129
+If they are not vegetable why
+are putting them together.
+
+944
+00:42:56,129 --> 00:43:00,669
+But in fact, if you pay
+more attention to detail,
+
+945
+00:43:00,669 --> 00:43:04,024
+you'll find that if you look
+like MLP, can we batch them?
+
+946
+00:43:04,024 --> 00:43:06,359
+Yes, for MLP, we can batch them.
+
+947
+00:43:06,359 --> 00:43:07,540
+Even for prefer and decoding,
+
+948
+00:43:07,540 --> 00:43:08,819
+we can put the MLP into
+
+949
+00:43:08,819 --> 00:43:11,220
+one single battered
+run new network.
+
+950
+00:43:11,220 --> 00:43:14,199
+Why? Because like I said, no
+matter in prefer decoding,
+
+951
+00:43:14,199 --> 00:43:16,760
+the MLP is always
+token independent.
+
+952
+00:43:16,760 --> 00:43:20,019
+It performs on the
+tokens by itself.
+
+953
+00:43:20,019 --> 00:43:23,199
+Okay? That means that
+with this breakdown,
+
+954
+00:43:23,199 --> 00:43:24,460
+will not get a new inside.
+
+955
+00:43:24,460 --> 00:43:26,649
+That is, even if
+
+956
+00:43:26,649 --> 00:43:28,629
+we put prefer and cooling
+into the same batch,
+
+957
+00:43:28,629 --> 00:43:31,410
+we can actually at
+least batch their MLP.
+
+958
+00:43:31,410 --> 00:43:33,989
+Okay? Now, I want to
+remind you what we
+
+959
+00:43:33,989 --> 00:43:36,649
+did last week, okay?
+
+960
+00:43:36,649 --> 00:43:40,710
+I think we run the flops
+calculation for RMs,
+
+961
+00:43:40,710 --> 00:43:44,870
+and we count the number of
+flops in a tensing and MLP.
+
+962
+00:43:44,870 --> 00:43:47,309
+I hope you still
+remember the percentage.
+
+963
+00:43:47,309 --> 00:43:51,630
+So which component in RM
+occupy the most flops?
+
+964
+00:43:52,340 --> 00:43:55,180
+MLP in most cases, okay?
+
+965
+00:43:55,180 --> 00:43:57,299
+Unless you have a super
+long sequence ance, right?
+
+966
+00:43:57,299 --> 00:43:58,659
+But in most cases, you have
+
+967
+00:43:58,659 --> 00:44:01,059
+actually medium
+to low sequenans.
+
+968
+00:44:01,059 --> 00:44:02,659
+Which means that if you do this,
+
+969
+00:44:02,659 --> 00:44:05,140
+yes, your system is going
+to be more complicated.
+
+970
+00:44:05,140 --> 00:44:07,699
+But you actually can win a lot.
+
+971
+00:44:07,699 --> 00:44:09,439
+Why? Because like I said, in
+
+972
+00:44:09,439 --> 00:44:12,379
+most requests in most
+sequence ans regime,
+
+973
+00:44:12,379 --> 00:44:15,300
+that MLP is going to
+take 90% of your flops,
+
+974
+00:44:15,300 --> 00:44:17,759
+and if you are able to
+batch it, you win, right?
+
+975
+00:44:17,759 --> 00:44:19,819
+And for attention, yes,
+
+976
+00:44:19,819 --> 00:44:21,399
+you are not able to batch it,
+
+977
+00:44:21,399 --> 00:44:24,320
+but it's fine because
+it's only 10% of flops.
+
+978
+00:44:24,320 --> 00:44:27,459
+Let's just compute if
+the sequential is okay.
+
+979
+00:44:27,459 --> 00:44:30,340
+Okay? So this is the
+biggest insight,
+
+980
+00:44:30,340 --> 00:44:32,660
+taken from continuous batching.
+
+981
+00:44:32,660 --> 00:44:34,180
+And now you understand.
+
+982
+00:44:34,180 --> 00:44:36,999
+Okay? So why people
+discover this form?
+
+983
+00:44:36,999 --> 00:44:41,179
+Because before all frameworks
+like petrogTener flow,
+
+984
+00:44:41,179 --> 00:44:42,979
+they don't understand
+this kind of
+
+985
+00:44:42,979 --> 00:44:45,379
+like they are not handled
+in detail at this level.
+
+986
+00:44:45,379 --> 00:44:47,580
+So basically they treat
+the computer as static
+
+987
+00:44:47,580 --> 00:44:50,300
+and they forward about
+through the new network.
+
+988
+00:44:50,300 --> 00:44:53,220
+Okay? That's why
+before C batching,
+
+989
+00:44:53,220 --> 00:44:55,440
+if people put the request
+
+990
+00:44:55,440 --> 00:44:58,779
+into petrog or into Tinder flow,
+
+991
+00:44:58,779 --> 00:45:00,620
+you are not going to
+get great efficiency.
+
+992
+00:45:00,620 --> 00:45:02,119
+But later, I think
+there's a paper
+
+993
+00:45:02,119 --> 00:45:04,420
+published in OSDI 2023,
+
+994
+00:45:04,420 --> 00:45:05,939
+basically 1.5 years ago,
+
+995
+00:45:05,939 --> 00:45:07,400
+they discourage technique,
+
+996
+00:45:07,400 --> 00:45:09,179
+and they are able to
+break this down into
+
+997
+00:45:09,179 --> 00:45:10,399
+MLP and they do
+
+998
+00:45:10,399 --> 00:45:11,499
+different batching strategy for
+
+999
+00:45:11,499 --> 00:45:14,669
+different parts of the
+graph. Okay. Yeah.
+
+1000
+00:45:21,030 --> 00:45:23,229
+Sorry.
+
+1001
+00:45:24,590 --> 00:45:34,729
+Uh huh. Yes, that's a
+really good question.
+
+1002
+00:45:34,729 --> 00:45:36,329
+That's a really good
+question. So you're
+
+1003
+00:45:36,329 --> 00:45:37,690
+saying if we batch
+
+1004
+00:45:37,690 --> 00:45:40,830
+the MLP of rthter prefer
+and Ring together,
+
+1005
+00:45:40,830 --> 00:45:42,309
+because artery is super long,
+
+1006
+00:45:42,309 --> 00:45:44,810
+then r1r2 is going
+to be delayed.
+
+1007
+00:45:44,810 --> 00:45:46,789
+Really good question.
+I'm going to cover that.
+
+1008
+00:45:46,789 --> 00:45:49,734
+Okay? Yeah, I publish
+paper on that. Yeah.
+
+1009
+00:45:49,734 --> 00:45:53,499
+To solve that problem.
+Yeah. I can give you more.
+
+1010
+00:45:53,499 --> 00:45:55,859
+It's called prefiw
+decode disaggregation.
+
+1011
+00:45:55,859 --> 00:45:57,920
+It's called disaggregated
+prevent decoding.
+
+1012
+00:45:57,920 --> 00:45:59,180
+That is the default technique
+
+1013
+00:45:59,180 --> 00:46:00,839
+today for storing
+really large bits.
+
+1014
+00:46:00,839 --> 00:46:02,919
+And I think you already
+spotted that problem.
+
+1015
+00:46:02,919 --> 00:46:05,419
+But let's finish this
+problem. Okay. And now,
+
+1016
+00:46:05,419 --> 00:46:07,899
+you understand the essence of
+condition batching, right?
+
+1017
+00:46:07,899 --> 00:46:10,079
+So this is the first,
+
+1018
+00:46:10,079 --> 00:46:13,359
+very good benefit of condi
+batching, but there are more.
+
+1019
+00:46:13,359 --> 00:46:16,380
+Why? Because now you
+become more flexible,
+
+1020
+00:46:16,380 --> 00:46:17,679
+Previously, you always run
+
+1021
+00:46:17,679 --> 00:46:20,560
+static batch and you wait
+for that batch to finish.
+
+1022
+00:46:20,560 --> 00:46:23,059
+And now because you are able
+to break this cobion graph
+
+1023
+00:46:23,059 --> 00:46:24,159
+into a tinging MLP and
+
+1024
+00:46:24,159 --> 00:46:25,640
+you do different
+batching strategy.
+
+1025
+00:46:25,640 --> 00:46:27,320
+So you can be more flexible.
+
+1026
+00:46:27,320 --> 00:46:28,959
+So what do I mean
+by flexibility?
+
+1027
+00:46:28,959 --> 00:46:30,919
+So here, you can
+
+1028
+00:46:30,919 --> 00:46:33,679
+always pick up a new request
+and put it into a batch,
+
+1029
+00:46:33,679 --> 00:46:35,880
+and make it running with
+other ongoing batches,
+
+1030
+00:46:35,880 --> 00:46:37,200
+which are in decoding.
+
+1031
+00:46:37,200 --> 00:46:40,119
+And you can also do
+another thing that is say,
+
+1032
+00:46:40,119 --> 00:46:41,780
+if the art is finished,
+
+1033
+00:46:41,780 --> 00:46:43,739
+okay, I just aced it.
+
+1034
+00:46:43,739 --> 00:46:45,519
+Yeah, I just return it to users.
+
+1035
+00:46:45,519 --> 00:46:47,539
+And that's why leave another
+store for me to pick
+
+1036
+00:46:47,539 --> 00:46:49,899
+up another request
+from the queue, right?
+
+1037
+00:46:49,899 --> 00:46:53,119
+And this greatly address the
+halo line blocking because
+
+1038
+00:46:53,119 --> 00:46:54,860
+if you compare
+traditional batching,
+
+1039
+00:46:54,860 --> 00:46:56,540
+and continuous batching.
+
+1040
+00:46:56,540 --> 00:46:58,359
+What happens is in
+traditional batching,
+
+1041
+00:46:58,359 --> 00:46:59,799
+that running batch has to wait
+
+1042
+00:46:59,799 --> 00:47:01,400
+for the slowest
+request to finish.
+
+1043
+00:47:01,400 --> 00:47:02,660
+But in continuous batching,
+
+1044
+00:47:02,660 --> 00:47:02,959
+because
+
+1045
+00:47:02,959 --> 00:47:04,700
+the batching strategy are
+fundamentally different,
+
+1046
+00:47:04,700 --> 00:47:06,860
+I'm going to always
+pick up a new request.
+
+1047
+00:47:06,860 --> 00:47:09,380
+I batch their attention
+on MLP differently.
+
+1048
+00:47:09,380 --> 00:47:11,019
+Okay? And in that way,
+
+1049
+00:47:11,019 --> 00:47:13,359
+you can see at its sp in
+traditional batching,
+
+1050
+00:47:13,359 --> 00:47:15,739
+artery is waiting, but
+in continuous batching,
+
+1051
+00:47:15,739 --> 00:47:16,559
+artery is going to enter
+
+1052
+00:47:16,559 --> 00:47:18,060
+the battery and
+start competition.
+
+1053
+00:47:18,060 --> 00:47:19,840
+And from a user's perspective,
+
+1054
+00:47:19,840 --> 00:47:21,039
+they will basically experience
+
+1055
+00:47:21,039 --> 00:47:24,024
+a much lower latency, okay?
+
+1056
+00:47:24,024 --> 00:47:26,429
+And I will continue
+to finish this, okay.
+
+1057
+00:47:26,429 --> 00:47:27,989
+So at this step, you are
+
+1058
+00:47:27,989 --> 00:47:30,449
+computing the prefer ASR and
+decoding environment at two,
+
+1059
+00:47:30,449 --> 00:47:32,889
+but you observe one er
+two request, right?
+
+1060
+00:47:32,889 --> 00:47:36,590
+And what you do is you continue
+to pick up to request.
+
+1061
+00:47:36,590 --> 00:47:38,210
+So here, apparently,
+
+1062
+00:47:38,210 --> 00:47:39,469
+you cannot pick up
+because like I said,
+
+1063
+00:47:39,469 --> 00:47:42,470
+this TP only have capacity
+to support request.
+
+1064
+00:47:42,470 --> 00:47:45,810
+So what you do is you observe
+that two is hitting US.
+
+1065
+00:47:45,810 --> 00:47:49,460
+So you basically exit that
+request, return to users.
+
+1066
+00:47:49,460 --> 00:47:52,290
+Right? And you pick
+up our immediately.
+
+1067
+00:47:52,290 --> 00:47:54,429
+In this batch, what
+happens is R three,
+
+1068
+00:47:54,429 --> 00:47:56,370
+R one are basically
+entering decoding,
+
+1069
+00:47:56,370 --> 00:47:58,669
+but R four is doing pre few.
+
+1070
+00:47:58,669 --> 00:48:01,290
+You basically act their
+attention kernel separately,
+
+1071
+00:48:01,290 --> 00:48:03,389
+but you batch the MLP
+communication into
+
+1072
+00:48:03,389 --> 00:48:06,050
+one big batch to
+leverage diplls.
+
+1073
+00:48:06,050 --> 00:48:09,229
+Okay? And same thing, right?
+
+1074
+00:48:12,910 --> 00:48:15,649
+So same thing, you keep doing
+
+1075
+00:48:15,649 --> 00:48:18,150
+this until you
+observe no requests.
+
+1076
+00:48:18,150 --> 00:48:21,789
+Okay. To summarize, okay?
+
+1077
+00:48:21,789 --> 00:48:24,649
+So continuous batching
+is really smart because
+
+1078
+00:48:24,649 --> 00:48:26,189
+it handles early finished and
+
+1079
+00:48:26,189 --> 00:48:28,410
+little rate requests
+more efficiently.
+
+1080
+00:48:28,410 --> 00:48:30,309
+And apparently because you
+
+1081
+00:48:30,309 --> 00:48:32,349
+are able to make a
+bigger batch size,
+
+1082
+00:48:32,349 --> 00:48:35,009
+so you can improve your tion.
+
+1083
+00:48:35,009 --> 00:48:36,849
+And the key insight here is
+
+1084
+00:48:36,849 --> 00:48:39,730
+attention consumes small
+percentage of flops,
+
+1085
+00:48:39,730 --> 00:48:43,289
+Okay, at least for short
+to medium six lengths.
+
+1086
+00:48:43,289 --> 00:48:46,390
+And MLP kernels are agnostic
+to the six dimension.
+
+1087
+00:48:46,390 --> 00:48:48,069
+So you can always
+batch whatever kind
+
+1088
+00:48:48,069 --> 00:48:49,390
+of computation in transformer
+
+1089
+00:48:49,390 --> 00:48:53,949
+prefer decoding into one
+big batch to improve don.
+
+1090
+00:48:53,949 --> 00:48:59,679
+Okay. Any question for
+continuous batching? Cool.
+
+1091
+00:48:59,679 --> 00:49:02,699
+We are good. Previously,
+I thought I could
+
+1092
+00:49:02,699 --> 00:49:04,219
+make a homework for you to
+
+1093
+00:49:04,219 --> 00:49:06,499
+write connection, but
+I don't have time.
+
+1094
+00:49:06,499 --> 00:49:08,520
+But I think this is a
+pretty good practice,
+
+1095
+00:49:08,520 --> 00:49:10,720
+because you have to
+be able to implement
+
+1096
+00:49:10,720 --> 00:49:13,380
+this server client architecture,
+
+1097
+00:49:13,380 --> 00:49:14,819
+which is a default here today.
+
+1098
+00:49:14,819 --> 00:49:17,519
+But maybe let's do
+that next time.
+
+1099
+00:49:17,720 --> 00:49:20,999
+Then let's try to address
+the second problem.
+
+1100
+00:49:20,999 --> 00:49:23,099
+I think a second
+problem is even more
+
+1101
+00:49:23,099 --> 00:49:26,559
+opaque and many people they
+cannot discover this problem.
+
+1102
+00:49:26,559 --> 00:49:29,859
+It's hidden in a lower layer.
+
+1103
+00:49:29,859 --> 00:49:31,984
+Let's see what's
+the problem, okay?
+
+1104
+00:49:31,984 --> 00:49:36,289
+So so in inference process,
+let me repeat, right?
+
+1105
+00:49:36,289 --> 00:49:37,890
+So M has a unique component,
+
+1106
+00:49:37,890 --> 00:49:40,569
+which is called KB catch, right?
+
+1107
+00:49:40,569 --> 00:49:44,730
+Um, so basically, in
+processing new tokens,
+
+1108
+00:49:44,730 --> 00:49:45,989
+the model actually needs to
+
+1109
+00:49:45,989 --> 00:49:48,929
+not only the repent
+of the current token,
+
+1110
+00:49:48,929 --> 00:49:51,790
+it also needs the repenting
+of the previous tokens,
+
+1111
+00:49:51,790 --> 00:49:53,789
+and that rent is
+basically the KB cache.
+
+1112
+00:49:53,789 --> 00:49:55,589
+Okay? So this states of
+
+1113
+00:49:55,589 --> 00:49:58,270
+previous tokens should
+be kept in memory,
+
+1114
+00:49:58,270 --> 00:50:00,449
+and this is basically
+called KB catch.
+
+1115
+00:50:00,449 --> 00:50:06,019
+Okay? So so a new
+token, for example,
+
+1116
+00:50:06,019 --> 00:50:11,439
+in this example, the future
+uh the future comes, right?
+
+1117
+00:50:11,439 --> 00:50:14,299
+So besides the token itself,
+
+1118
+00:50:14,299 --> 00:50:16,139
+we also need to attend
+to all the KB caches
+
+1119
+00:50:16,139 --> 00:50:17,819
+of the previous tokens, right?
+
+1120
+00:50:17,819 --> 00:50:19,880
+So we basically keep attending
+
+1121
+00:50:19,880 --> 00:50:22,759
+to the previous KB catch
+and we generate next token.
+
+1122
+00:50:23,920 --> 00:50:30,039
+Okay. So basically, to
+recap a little bit, okay.
+
+1123
+00:50:30,039 --> 00:50:32,899
+So basically KV catch
+is a memory space to
+
+1124
+00:50:32,899 --> 00:50:37,320
+store the intermediate vector
+representations of tokens.
+
+1125
+00:50:37,320 --> 00:50:41,300
+And um, and basically,
+
+1126
+00:50:41,300 --> 00:50:42,819
+we can understand
+it as a working
+
+1127
+00:50:42,819 --> 00:50:45,299
+set rather than a catch.
+
+1128
+00:50:45,299 --> 00:50:47,959
+So I want to correct
+this word, okay?
+
+1129
+00:50:47,959 --> 00:50:50,619
+People in this field,
+they call this catch,
+
+1130
+00:50:50,619 --> 00:50:51,899
+but you probably know what
+
+1131
+00:50:51,899 --> 00:50:53,659
+is the formal
+definition of catch.
+
+1132
+00:50:53,659 --> 00:50:56,679
+So catch is something that
+you can hit or may not hit.
+
+1133
+00:50:56,679 --> 00:50:58,819
+But in this example,
+it is not a cache
+
+1134
+00:50:58,819 --> 00:51:01,499
+why because it'll
+always be hit, right?
+
+1135
+00:51:01,499 --> 00:51:03,079
+Um I had a weird name because
+
+1136
+00:51:03,079 --> 00:51:04,919
+the name was come up with
+by machinery people,
+
+1137
+00:51:04,919 --> 00:51:06,480
+not system people.
+It's not rigorous.
+
+1138
+00:51:06,480 --> 00:51:08,739
+But let's just understand
+it that way, okay?
+
+1139
+00:51:08,739 --> 00:51:12,699
+This is 100% hid cache, okay? So
+
+1140
+00:51:13,360 --> 00:51:15,960
+So if you look at the memories,
+
+1141
+00:51:15,960 --> 00:51:18,379
+kind of like a pattern, there
+are two patterns, right?
+
+1142
+00:51:18,379 --> 00:51:22,879
+One is, the size of the
+QVC what dynamic grows.
+
+1143
+00:51:22,879 --> 00:51:26,740
+Because as your
+decoding continues,
+
+1144
+00:51:26,740 --> 00:51:29,139
+the size of the QB cash
+
+1145
+00:51:29,139 --> 00:51:31,239
+corresponding to the
+request is going to grow.
+
+1146
+00:51:31,239 --> 00:51:33,459
+But at some point,
+it will shrink.
+
+1147
+00:51:33,459 --> 00:51:36,940
+Why? Because that
+requests finishing.
+
+1148
+00:51:36,940 --> 00:51:39,020
+And because we apply
+conditions batching.
+
+1149
+00:51:39,020 --> 00:51:40,500
+Once that request is finished,
+
+1150
+00:51:40,500 --> 00:51:41,980
+we are going to act request,
+
+1151
+00:51:41,980 --> 00:51:44,080
+return it to users, and
+we are going to release
+
+1152
+00:51:44,080 --> 00:51:45,680
+the memory space corresponding
+
+1153
+00:51:45,680 --> 00:51:47,459
+to the Qcache of that request.
+
+1154
+00:51:47,459 --> 00:51:50,540
+Basically, from our
+request perspective,
+
+1155
+00:51:50,540 --> 00:51:53,660
+the memory of the QB
+caches like this it inarly
+
+1156
+00:51:53,660 --> 00:51:56,839
+girl and then suddenly
+becomes. Okay?
+
+1157
+00:51:56,839 --> 00:52:03,589
+Does that make sense? Okay.
+Cool. Okay, so with that,
+
+1158
+00:52:03,589 --> 00:52:06,869
+um, uh, we can just put K
+catch in memory, right?
+
+1159
+00:52:06,869 --> 00:52:09,170
+So why do we care
+about these catches?
+
+1160
+00:52:09,170 --> 00:52:12,429
+Okay. And next,
+I'm going to give
+
+1161
+00:52:12,429 --> 00:52:16,129
+you one of the most important
+slides for today's lecture.
+
+1162
+00:52:16,129 --> 00:52:17,790
+So why QBCach matters.
+
+1163
+00:52:17,790 --> 00:52:20,949
+Okay. So what if I tell you that
+
+1164
+00:52:20,949 --> 00:52:23,229
+basically efficient
+management of Kcatch in
+
+1165
+00:52:23,229 --> 00:52:27,050
+memory can actually improve
+the AM service throughput.
+
+1166
+00:52:27,050 --> 00:52:29,149
+This is pretty
+counterintuitive, right.
+
+1167
+00:52:29,149 --> 00:52:31,330
+Why managing memory can
+improve throughput.
+
+1168
+00:52:31,330 --> 00:52:34,189
+But this is the case.
+Okay? So let's see,
+
+1169
+00:52:34,189 --> 00:52:36,639
+we run a 13 billion model.
+
+1170
+00:52:36,639 --> 00:52:40,789
+Um, 40 gigaGPU, this
+is A 100 right,
+
+1171
+00:52:40,789 --> 00:52:42,569
+40 giga memory, and
+
+1172
+00:52:42,569 --> 00:52:44,850
+we are basically running
+a 13 billion ama.
+
+1173
+00:52:44,850 --> 00:52:46,830
+So if you look at
+this breakdown,
+
+1174
+00:52:46,830 --> 00:52:49,070
+because we have 13
+billion parameters,
+
+1175
+00:52:49,070 --> 00:52:53,089
+so we are going to first
+consume 26 giga to store we,
+
+1176
+00:52:53,089 --> 00:52:55,715
+right time two, okay?
+
+1177
+00:52:55,715 --> 00:52:59,220
+And in addition, we
+have a small other area
+
+1178
+00:52:59,220 --> 00:53:01,960
+which will basically generate
+those intermediate states.
+
+1179
+00:53:01,960 --> 00:53:04,139
+But because it's inference,
+we don't have to store them.
+
+1180
+00:53:04,139 --> 00:53:05,879
+Once we generate the
+we throw them away.
+
+1181
+00:53:05,879 --> 00:53:08,439
+We forward to next layer.
+So it's a small area.
+
+1182
+00:53:08,439 --> 00:53:11,779
+So basically, uh, if you
+look at the pink part,
+
+1183
+00:53:11,779 --> 00:53:13,479
+is basically the rest
+of memory that is
+
+1184
+00:53:13,479 --> 00:53:16,340
+used to store QB
+case for inference.
+
+1185
+00:53:16,340 --> 00:53:25,039
+So, we basically have
+a curve plot where um,
+
+1186
+00:53:25,039 --> 00:53:30,039
+the X access is
+running byte size.
+
+1187
+00:53:30,440 --> 00:53:32,959
+Continuous batching continue to
+
+1188
+00:53:32,959 --> 00:53:34,559
+pick up requests into the batch.
+
+1189
+00:53:34,559 --> 00:53:38,099
+So the X access is the
+running batch bite size,
+
+1190
+00:53:38,099 --> 00:53:38,759
+which is the number of
+
+1191
+00:53:38,759 --> 00:53:40,360
+requests you are
+running concurrently.
+
+1192
+00:53:40,360 --> 00:53:42,919
+Where access is
+the memory usage.
+
+1193
+00:53:42,919 --> 00:53:45,180
+So your starting point is 26.
+
+1194
+00:53:45,180 --> 00:53:48,540
+Why? Because you already
+consuming 26 motorways.
+
+1195
+00:53:48,540 --> 00:53:50,239
+Then if you continue to pick up
+
+1196
+00:53:50,239 --> 00:53:52,379
+more requests to run on
+the GPU like I said,
+
+1197
+00:53:52,379 --> 00:53:55,860
+the QV pattern will continue
+to grow and then shrink.
+
+1198
+00:53:55,860 --> 00:53:57,659
+But now let's assume
+we are running
+
+1199
+00:53:57,659 --> 00:53:59,939
+spatch we continue to
+increase bite size.
+
+1200
+00:53:59,939 --> 00:54:03,159
+Then your memory curve
+will be looking like this.
+
+1201
+00:54:03,180 --> 00:54:05,460
+So you will continue to grow.
+
+1202
+00:54:05,460 --> 00:54:06,679
+Once you pick up request,
+
+1203
+00:54:06,679 --> 00:54:09,099
+you consume some
+memory for bias.
+
+1204
+00:54:09,099 --> 00:54:12,219
+And at some point, you
+are going to kit 40 giga.
+
+1205
+00:54:12,219 --> 00:54:15,459
+That means that full
+you're full on memory.
+
+1206
+00:54:15,459 --> 00:54:20,460
+Okay? Okay, you probably
+wonder why I draw this scroll,
+
+1207
+00:54:20,460 --> 00:54:21,560
+but if you do a projection,
+
+1208
+00:54:21,560 --> 00:54:26,240
+you'll find that at some
+point, okay? I'm serving.
+
+1209
+00:54:26,240 --> 00:54:30,659
+This running bitty size is
+limited by memory size.
+
+1210
+00:54:30,700 --> 00:54:32,819
+If you don't have
+enough memory, you
+
+1211
+00:54:32,819 --> 00:54:33,899
+are not going to accommodate
+
+1212
+00:54:33,899 --> 00:54:37,180
+a larger bit size. So
+why is this important?
+
+1213
+00:54:40,180 --> 00:54:43,460
+Yeah, exactly,
+because this is GPU.
+
+1214
+00:54:43,460 --> 00:54:46,879
+As long as your GPU
+compute is not bottleneck,
+
+1215
+00:54:46,879 --> 00:54:48,899
+you can continue to
+increase your bad size,
+
+1216
+00:54:48,899 --> 00:54:50,199
+and your commutation is going to
+
+1217
+00:54:50,199 --> 00:54:51,719
+finish in the same
+amount of time,
+
+1218
+00:54:51,719 --> 00:54:54,019
+even if you have a
+larger bite size.
+
+1219
+00:54:54,019 --> 00:54:56,299
+Which means that in serving,
+
+1220
+00:54:56,299 --> 00:54:59,679
+basically, your workload
+becomes memory bottlenecked.
+
+1221
+00:54:59,679 --> 00:55:01,400
+You first hit the
+bottleneck memory,
+
+1222
+00:55:01,400 --> 00:55:03,660
+and then you hit the bottnFlops.
+
+1223
+00:55:03,660 --> 00:55:08,250
+Okay? So suppose if we have
+a way to basically flatten
+
+1224
+00:55:08,250 --> 00:55:11,029
+this green curve from
+this pretty steep curve
+
+1225
+00:55:11,029 --> 00:55:14,329
+into a slightly more flattering
+curve, this blue one.
+
+1226
+00:55:14,329 --> 00:55:16,930
+That means that every
+time we add a new request
+
+1227
+00:55:16,930 --> 00:55:19,269
+into running batch my curve
+
+1228
+00:55:19,269 --> 00:55:21,009
+is only going to
+increase a little bit,
+
+1229
+00:55:21,009 --> 00:55:22,669
+much slower than previous curve.
+
+1230
+00:55:22,669 --> 00:55:25,689
+Then if you continue
+to trouble this curve
+
+1231
+00:55:25,689 --> 00:55:29,569
+until I hit the 40 giga
+memory limit, you can see,
+
+1232
+00:55:29,569 --> 00:55:32,750
+I do another vertical projection
+
+1233
+00:55:33,590 --> 00:55:36,709
+if I'm smart enough
+to make that curve,
+
+1234
+00:55:36,709 --> 00:55:39,699
+then I can run
+running bats of 40.
+
+1235
+00:55:39,699 --> 00:55:44,609
+The problem is GPUs computation
+is looking at less.
+
+1236
+00:55:45,010 --> 00:55:49,509
+Basically, the throughput
+is a function of bite size.
+
+1237
+00:55:49,509 --> 00:55:53,809
+So if you are able
+to uti GPU better,
+
+1238
+00:55:53,809 --> 00:55:55,289
+then your GPO is not going
+
+1239
+00:55:55,289 --> 00:55:58,589
+to increase significantly if
+you increase the bite size,
+
+1240
+00:55:58,589 --> 00:56:00,269
+which means that running a bat
+
+1241
+00:56:00,269 --> 00:56:01,909
+equal to eight and
+running at equal to 40,
+
+1242
+00:56:01,909 --> 00:56:03,169
+they take same amount of time.
+
+1243
+00:56:03,169 --> 00:56:05,069
+But because you are running
+a battery equal to 40,
+
+1244
+00:56:05,069 --> 00:56:06,969
+you are going to produce
+more tokens per second.
+
+1245
+00:56:06,969 --> 00:56:08,369
+Therefore, your throughput, if
+
+1246
+00:56:08,369 --> 00:56:09,969
+you draw another
+horizontal curve,
+
+1247
+00:56:09,969 --> 00:56:12,834
+you say, the throughput
+increase almost four times.
+
+1248
+00:56:12,834 --> 00:56:15,979
+Okay. And this is a
+pretty deeper inside.
+
+1249
+00:56:15,979 --> 00:56:18,079
+If you don't do this, you
+probably never observe this.
+
+1250
+00:56:18,079 --> 00:56:21,480
+And this is my paper, VM.
+
+1251
+00:56:21,480 --> 00:56:23,519
+Apparently, the
+reason we did this
+
+1252
+00:56:23,519 --> 00:56:25,639
+is because we are GPU four.
+
+1253
+00:56:25,639 --> 00:56:27,419
+Consider you are
+Google and you are
+
+1254
+00:56:27,419 --> 00:56:29,460
+serving a lot of requests
+using a lot of GPS,
+
+1255
+00:56:29,460 --> 00:56:30,779
+you are never
+observing this because
+
+1256
+00:56:30,779 --> 00:56:32,659
+you are not hitting that
+memory of the neck.
+
+1257
+00:56:32,659 --> 00:56:34,899
+Okay? And we observe
+
+1258
+00:56:34,899 --> 00:56:36,920
+this and we basically
+build a system called VM,
+
+1259
+00:56:36,920 --> 00:56:38,999
+and this VM basically using
+
+1260
+00:56:38,999 --> 00:56:41,519
+this trick to efficiently manage
+
+1261
+00:56:41,519 --> 00:56:42,900
+P memory and convert
+
+1262
+00:56:42,900 --> 00:56:46,760
+that P memory into
+improved throughput.
+
+1263
+00:56:46,760 --> 00:56:49,719
+Okay? Now, you
+understand the inside.
+
+1264
+00:56:49,719 --> 00:56:51,279
+So how exactly did that?
+
+1265
+00:56:51,279 --> 00:56:53,520
+Let's dive into the technique.
+
+1266
+00:56:53,520 --> 00:56:57,260
+So basically why
+existing systems
+
+1267
+00:56:57,260 --> 00:56:59,280
+there memory inefficient, okay?
+
+1268
+00:56:59,280 --> 00:57:01,879
+So so this is a snapshot of
+
+1269
+00:57:01,879 --> 00:57:05,279
+the KV catch when using
+a previous system, okay?
+
+1270
+00:57:05,279 --> 00:57:08,560
+So where we find out three
+types of memory waste.
+
+1271
+00:57:08,560 --> 00:57:10,500
+So the first is reservation.
+
+1272
+00:57:10,500 --> 00:57:13,840
+So which means that you
+hold many memory stores,
+
+1273
+00:57:13,840 --> 00:57:15,279
+right, and each story
+basically saives
+
+1274
+00:57:15,279 --> 00:57:17,419
+the QV cache for
+each token, okay?
+
+1275
+00:57:17,419 --> 00:57:19,669
+So, the first type of width
+
+1276
+00:57:19,669 --> 00:57:22,129
+is physical reserviion.
+So what is retbon?
+
+1277
+00:57:22,129 --> 00:57:24,110
+Rtobon means that those words
+
+1278
+00:57:24,110 --> 00:57:26,349
+that are not used
+at this moment,
+
+1279
+00:57:26,349 --> 00:57:30,409
+but will be used um for that
+sequence in the future.
+
+1280
+00:57:30,409 --> 00:57:32,409
+Why why there is such a case?
+
+1281
+00:57:32,409 --> 00:57:34,609
+Because you're talking
+generally one by one.
+
+1282
+00:57:34,609 --> 00:57:36,029
+So when you allocate memory to
+
+1283
+00:57:36,029 --> 00:57:37,309
+see the keV for that token,
+
+1284
+00:57:37,309 --> 00:57:40,289
+you can first ask the
+allocator to give,
+
+1285
+00:57:40,289 --> 00:57:43,829
+uh, I'm going to
+generate 100 tokens.
+
+1286
+00:57:43,829 --> 00:57:45,949
+Why don't you just
+give me 100, right?
+
+1287
+00:57:45,949 --> 00:57:48,830
+But once you ask for this 100,
+
+1288
+00:57:48,830 --> 00:57:52,029
+at the moment you ask you
+are granted this 100 slots.
+
+1289
+00:57:52,029 --> 00:57:54,170
+You're actually not
+generating 100 tokens.
+
+1290
+00:57:54,170 --> 00:57:56,690
+So that's called
+retribution, okay.
+
+1291
+00:57:56,690 --> 00:58:00,400
+So so here these
+words in the middle.
+
+1292
+00:58:00,400 --> 00:58:03,479
+Okay, they are reserved
+because they don't store
+
+1293
+00:58:03,479 --> 00:58:05,220
+any token at the current step
+
+1294
+00:58:05,220 --> 00:58:06,779
+at the current deconing step,
+
+1295
+00:58:06,779 --> 00:58:08,760
+but will be used to store,
+
+1296
+00:58:08,760 --> 00:58:10,460
+uh like future tokens.
+
+1297
+00:58:10,460 --> 00:58:13,359
+Okay? So the second
+is basically called,
+
+1298
+00:58:13,359 --> 00:58:15,859
+um, this is a reserved token.
+
+1299
+00:58:15,859 --> 00:58:18,139
+You see that right.
+So it will be
+
+1300
+00:58:18,139 --> 00:58:20,759
+used eventually but not used
+at the current step. Okay?
+
+1301
+00:58:20,759 --> 00:58:23,019
+The second is
+basically called, um,
+
+1302
+00:58:23,019 --> 00:58:25,320
+I hope you have taken
+
+1303
+00:58:25,320 --> 00:58:27,039
+operating system class,
+right? You know this right?
+
+1304
+00:58:27,039 --> 00:58:29,579
+It's called internal
+fragmentation,
+
+1305
+00:58:29,579 --> 00:58:31,100
+which means that those words
+
+1306
+00:58:31,100 --> 00:58:33,279
+allocated for sequence,
+but will never be used.
+
+1307
+00:58:33,279 --> 00:58:34,935
+That is all allocated.
+
+1308
+00:58:34,935 --> 00:58:37,469
+Okay. So this happens because
+
+1309
+00:58:37,469 --> 00:58:40,790
+the output length of the
+sequence is not known or priory.
+
+1310
+00:58:40,790 --> 00:58:42,349
+So, in fact, you
+don't know how much
+
+1311
+00:58:42,349 --> 00:58:43,830
+to allocate at all, okay?
+
+1312
+00:58:43,830 --> 00:58:45,369
+So you just try.
+
+1313
+00:58:45,369 --> 00:58:46,470
+For example, I just allocate,
+
+1314
+00:58:46,470 --> 00:58:47,889
+for example, the maximum
+sequence length,
+
+1315
+00:58:47,889 --> 00:58:50,270
+and I hope my sequence is
+going to use that many tokens,
+
+1316
+00:58:50,270 --> 00:58:51,550
+but in fact, it will exceed
+
+1317
+00:58:51,550 --> 00:58:53,270
+earlier than using
+the maximum signals.
+
+1318
+00:58:53,270 --> 00:58:55,190
+So this is what calls
+internal fragmentation.
+
+1319
+00:58:55,190 --> 00:58:57,149
+And, of course,
+finally, you have
+
+1320
+00:58:57,149 --> 00:58:59,609
+some sort of external
+fragmentation that is because you
+
+1321
+00:58:59,609 --> 00:59:01,790
+allocate different
+different sorts
+
+1322
+00:59:01,790 --> 00:59:02,989
+to different requests
+and there are
+
+1323
+00:59:02,989 --> 00:59:04,370
+some fragmentation between,
+
+1324
+00:59:04,370 --> 00:59:06,719
+and you're not able to
+use this kind of thing.
+
+1325
+00:59:06,719 --> 00:59:10,089
+So so how severe this is, okay?
+
+1326
+00:59:10,089 --> 00:59:12,789
+So if you look at this,
+memory breakdown, okay?
+
+1327
+00:59:12,789 --> 00:59:15,370
+The memory waste is
+very significant.
+
+1328
+00:59:15,370 --> 00:59:17,130
+So basically in this profile,
+
+1329
+00:59:17,130 --> 00:59:20,170
+data with different memory
+management schemes,
+
+1330
+00:59:20,170 --> 00:59:22,949
+we observe only 20 to
+30% of kebic ash is
+
+1331
+00:59:22,949 --> 00:59:25,989
+actually utilized to
+store the token ss.
+
+1332
+00:59:25,989 --> 00:59:27,589
+The rest of the space
+is basically being
+
+1333
+00:59:27,589 --> 00:59:29,209
+wasted for reservation for
+
+1334
+00:59:29,209 --> 00:59:30,770
+internal and external
+fragmentation.
+
+1335
+00:59:30,770 --> 00:59:35,730
+Okay? And basically what
+we do is, we basically,
+
+1336
+00:59:35,730 --> 00:59:38,329
+try to leave that we
+
+1337
+00:59:38,329 --> 00:59:41,870
+basically try to leave that
+green ban all the way to 99%.
+
+1338
+00:59:41,870 --> 00:59:43,509
+Okay? That is all
+the memory will
+
+1339
+00:59:43,509 --> 00:59:46,135
+be eventually utilized
+to save tokens.
+
+1340
+00:59:46,135 --> 00:59:48,739
+And I think at this
+point, you already,
+
+1341
+00:59:48,739 --> 00:59:50,360
+if you are very familiar
+
+1342
+00:59:50,360 --> 00:59:52,180
+with memory management
+in operating systems,
+
+1343
+00:59:52,180 --> 00:59:53,899
+you probably know what's
+our trick, right?
+
+1344
+00:59:53,899 --> 00:59:57,240
+It's basically you can use
+a so called virtual memory,
+
+1345
+00:59:57,240 --> 00:59:58,820
+okay, use page tables.
+
+1346
+00:59:58,820 --> 01:00:01,770
+Okay. But you have to do this
+machine learning systems.
+
+1347
+01:00:01,770 --> 01:00:04,319
+Okay, that is basically like
+we try to connect the dots,
+
+1348
+01:00:04,319 --> 01:00:05,799
+what you have learned in OS and
+
+1349
+01:00:05,799 --> 01:00:07,860
+what we are doing today
+emergency systems.
+
+1350
+01:00:07,860 --> 01:00:10,260
+So now you understand
+
+1351
+01:00:10,260 --> 01:00:11,660
+the problem. So
+what's the solution?
+
+1352
+01:00:11,660 --> 01:00:13,659
+This is a very old
+problem, okay?
+
+1353
+01:00:13,659 --> 01:00:17,299
+So the way we solve this
+problem is basically we
+
+1354
+01:00:17,299 --> 01:00:18,739
+employ the old idea of
+
+1355
+01:00:18,739 --> 01:00:21,440
+virtual memory and paging
+in opening systems.
+
+1356
+01:00:21,440 --> 01:00:23,299
+So as we all know,
+
+1357
+01:00:23,299 --> 01:00:26,019
+OS use basically pages to
+
+1358
+01:00:26,019 --> 01:00:28,619
+um to reduce fragmentation
+
+1359
+01:00:28,619 --> 01:00:29,919
+in the physical
+memory space, right?
+
+1360
+01:00:29,919 --> 01:00:32,359
+So, and use virtual memory for
+
+1361
+01:00:32,359 --> 01:00:35,400
+efficient space multiplexing
+for different processes.
+
+1362
+01:00:35,400 --> 01:00:37,979
+So here, what we do is
+basically you can think about
+
+1363
+01:00:37,979 --> 01:00:41,909
+each processing OS as
+a request in, Okay.
+
+1364
+01:00:41,909 --> 01:00:44,129
+I use similar kind of
+
+1365
+01:00:44,129 --> 01:00:46,269
+idea to reserve the
+fragmentation in
+
+1366
+01:00:46,269 --> 01:00:47,950
+KBCche and the unable
+
+1367
+01:00:47,950 --> 01:00:50,990
+efficient space sharing
+between requests.
+
+1368
+01:00:50,990 --> 01:00:52,729
+And this is why the other
+
+1369
+01:00:52,729 --> 01:00:54,390
+attention is called
+page attention.
+
+1370
+01:00:54,390 --> 01:00:55,849
+Okay. Cool. Let's see.
+
+1371
+01:00:55,849 --> 01:00:57,889
+Let's run this pretty
+quickly, okay?
+
+1372
+01:00:57,889 --> 01:01:00,910
+So to begin with,
+we first partition
+
+1373
+01:01:00,910 --> 01:01:02,449
+the GPU memory for
+
+1374
+01:01:02,449 --> 01:01:05,089
+that pink body in my
+memory breakdown graph,
+
+1375
+01:01:05,089 --> 01:01:08,710
+into, um, into an
+array of token blocks.
+
+1376
+01:01:08,710 --> 01:01:12,209
+So here, a token block is
+basically a fixed size
+
+1377
+01:01:12,209 --> 01:01:13,449
+of chunk of memory that can
+
+1378
+01:01:13,449 --> 01:01:16,149
+store the states
+from left to right.
+
+1379
+01:01:16,149 --> 01:01:18,309
+Here I hold many
+many blocks, right?
+
+1380
+01:01:18,309 --> 01:01:20,604
+My blocks are equal to four.
+
+1381
+01:01:20,604 --> 01:01:25,539
+Okay. So to clarify
+a little bit,
+
+1382
+01:01:25,539 --> 01:01:28,500
+so the tokens here
+are not strings.
+
+1383
+01:01:28,500 --> 01:01:30,840
+It's basically the KB case
+corresponding tokens.
+
+1384
+01:01:30,840 --> 01:01:32,919
+So basically each
+token block will store
+
+1385
+01:01:32,919 --> 01:01:35,099
+the key vectors for each token.
+
+1386
+01:01:35,099 --> 01:01:37,059
+Okay. So it's actually more than
+
+1387
+01:01:37,059 --> 01:01:41,420
+just one bites or whatever.
+It's a fixed size.
+
+1388
+01:01:41,420 --> 01:01:43,539
+So these are token states
+
+1389
+01:01:43,539 --> 01:01:45,700
+the vector repetition of
+the token in sequence.
+
+1390
+01:01:45,700 --> 01:01:48,359
+So for example, in
+Lama 13 bin model,
+
+1391
+01:01:48,359 --> 01:01:52,260
+each token state would consume
+about 1 megabyte memory.
+
+1392
+01:01:52,260 --> 01:01:55,899
+Which means that each token
+block is one megabytte, okay?
+
+1393
+01:01:57,960 --> 01:02:01,679
+Yeah. So, so on top of this,
+
+1394
+01:02:01,679 --> 01:02:03,480
+we basically introduce
+page attention.
+
+1395
+01:02:03,480 --> 01:02:06,499
+So this is a new implementation
+of the attention kernel.
+
+1396
+01:02:06,499 --> 01:02:08,519
+So we completely change
+
+1397
+01:02:08,519 --> 01:02:11,139
+the way like when you
+perform attention,
+
+1398
+01:02:11,139 --> 01:02:13,919
+how you fetch memories
+from GPU memory.
+
+1399
+01:02:13,919 --> 01:02:15,639
+Okay. Previously, you
+just fetch it from
+
+1400
+01:02:15,639 --> 01:02:17,019
+a continuous trunkil
+memory right on
+
+1401
+01:02:17,019 --> 01:02:18,679
+TBM but now we make it pages.
+
+1402
+01:02:18,679 --> 01:02:20,599
+So you have to redo
+that kernel inpation.
+
+1403
+01:02:20,599 --> 01:02:23,019
+Okay? So basically, we find
+
+1404
+01:02:23,019 --> 01:02:24,299
+out the fundamental
+limitation of
+
+1405
+01:02:24,299 --> 01:02:25,699
+the previous system that they
+
+1406
+01:02:25,699 --> 01:02:27,739
+require all QB states right for
+
+1407
+01:02:27,739 --> 01:02:29,619
+a sequence to be stored in
+
+1408
+01:02:29,619 --> 01:02:32,019
+a continuous trunkil
+memory in GPU.
+
+1409
+01:02:32,019 --> 01:02:35,309
+And this is a
+convention over like in
+
+1410
+01:02:35,309 --> 01:02:37,269
+typical deep learning workloads
+
+1411
+01:02:37,269 --> 01:02:40,409
+where the input and
+output ships are static.
+
+1412
+01:02:40,409 --> 01:02:42,949
+I think this was
+taken by granted by
+
+1413
+01:02:42,949 --> 01:02:44,229
+many deep learning frameworks
+
+1414
+01:02:44,229 --> 01:02:46,229
+like entropy and priority, okay?
+
+1415
+01:02:46,229 --> 01:02:48,909
+But it turns out that uh this is
+
+1416
+01:02:48,909 --> 01:02:51,649
+highly inefficient
+for inference where,
+
+1417
+01:02:51,649 --> 01:02:53,449
+the sequence length
+are highly dynamic
+
+1418
+01:02:53,449 --> 01:02:54,169
+and you don't know how many
+
+1419
+01:02:54,169 --> 01:02:55,469
+token you are going to generate.
+
+1420
+01:02:55,469 --> 01:02:56,930
+So basically page attention
+
+1421
+01:02:56,930 --> 01:02:58,529
+directly address
+this limitation.
+
+1422
+01:02:58,529 --> 01:03:00,510
+So with page
+attention, basically,
+
+1423
+01:03:00,510 --> 01:03:02,030
+the QV catch are
+basically stored
+
+1424
+01:03:02,030 --> 01:03:03,869
+in non continuous
+trunkle memory,
+
+1425
+01:03:03,869 --> 01:03:06,069
+and they can be stored
+
+1426
+01:03:06,069 --> 01:03:07,969
+in arbitrary position
+in the GP memory,
+
+1427
+01:03:07,969 --> 01:03:10,969
+but we have a mechanism
+to many them using pages.
+
+1428
+01:03:10,969 --> 01:03:13,649
+So we basically
+virtualize this QV catch,
+
+1429
+01:03:13,649 --> 01:03:16,530
+uh to logical and
+physical talking blocks.
+
+1430
+01:03:16,530 --> 01:03:19,690
+Okay? So let's see how it
+works with the example.
+
+1431
+01:03:19,690 --> 01:03:22,049
+Here I have a request with
+
+1432
+01:03:22,049 --> 01:03:25,314
+the prompt Alan Turing is a
+computer scientist, okay?
+
+1433
+01:03:25,314 --> 01:03:27,739
+So basically in the
+logical view, okay,
+
+1434
+01:03:27,739 --> 01:03:31,139
+the tokens are still stored
+in consecutive blocks,
+
+1435
+01:03:31,139 --> 01:03:33,339
+um, and the order is
+
+1436
+01:03:33,339 --> 01:03:36,059
+preserved from the first
+token to the last token.
+
+1437
+01:03:36,059 --> 01:03:38,379
+But I'm going to
+introduce a page table
+
+1438
+01:03:38,379 --> 01:03:42,199
+where the page table is in
+the middle, which I who here.
+
+1439
+01:03:42,199 --> 01:03:44,399
+And it's going to map
+
+1440
+01:03:44,399 --> 01:03:45,659
+the virtual table into
+
+1441
+01:03:45,659 --> 01:03:47,999
+the actual physical
+table, in the GPO memory.
+
+1442
+01:03:47,999 --> 01:03:50,499
+So basically in the
+physical view, um,
+
+1443
+01:03:50,499 --> 01:03:53,839
+on the other hand, the
+tokens in the same sequence,
+
+1444
+01:03:53,839 --> 01:03:57,359
+they may not be stored
+in uh adjain blocks,
+
+1445
+01:03:57,359 --> 01:03:59,859
+and the order, the orders
+
+1446
+01:03:59,859 --> 01:04:01,979
+between different
+blocks are arbitrary.
+
+1447
+01:04:01,979 --> 01:04:03,939
+But we introduce
+the mapping here.
+
+1448
+01:04:03,939 --> 01:04:06,339
+Basically, this mapping
+is going to tell you how
+
+1449
+01:04:06,339 --> 01:04:08,319
+each other logical view
+
+1450
+01:04:08,319 --> 01:04:09,699
+is going to map to
+the physical view.
+
+1451
+01:04:09,699 --> 01:04:11,779
+It's exactly the same
+
+1452
+01:04:11,779 --> 01:04:15,060
+as pages in operating
+systems, okay?
+
+1453
+01:04:15,070 --> 01:04:17,609
+So let's continue with
+the example, right?
+
+1454
+01:04:17,609 --> 01:04:21,949
+So let's see the model has
+generally the next token end.
+
+1455
+01:04:22,309 --> 01:04:24,769
+And we are going
+to write this in
+
+1456
+01:04:24,769 --> 01:04:27,829
+a logical view as the
+next token continuously.
+
+1457
+01:04:27,829 --> 01:04:31,189
+But what happened is
+using the block table,
+
+1458
+01:04:31,189 --> 01:04:32,689
+we are going to
+query where exactly
+
+1459
+01:04:32,689 --> 01:04:34,409
+should we write in
+the physical memory.
+
+1460
+01:04:34,409 --> 01:04:37,549
+In this table, it tells
+that we should write u at
+
+1461
+01:04:37,549 --> 01:04:41,589
+the physical block number
+one at the third position.
+
+1462
+01:04:41,589 --> 01:04:43,249
+We do that indexing and we find
+
+1463
+01:04:43,249 --> 01:04:46,129
+a physical block
+one third position,
+
+1464
+01:04:46,129 --> 01:04:48,889
+and we basically write
+the actual QB catch.
+
+1465
+01:04:48,889 --> 01:04:53,409
+Okay. So then we
+generate the next to
+
+1466
+01:04:53,409 --> 01:04:55,909
+mathematician and we keep
+
+1467
+01:04:55,909 --> 01:04:58,209
+querying the table, and
+we're right there, right?
+
+1468
+01:04:58,209 --> 01:05:02,070
+You can see the actual
+writing is not continuous.
+
+1469
+01:05:02,150 --> 01:05:05,069
+And finally, we generate
+
+1470
+01:05:05,069 --> 01:05:08,749
+another token and we find
+the second block is used up.
+
+1471
+01:05:08,749 --> 01:05:10,649
+So what do we do,
+we are going to ask
+
+1472
+01:05:10,649 --> 01:05:14,509
+the memory allocator to give
+us one more low, right?
+
+1473
+01:05:14,509 --> 01:05:17,269
+So here why I emphasize this.
+
+1474
+01:05:18,139 --> 01:05:22,199
+Because I'm only asking my
+allocator to give me one
+
+1475
+01:05:22,199 --> 01:05:26,059
+more only when my previous
+talking block was used up.
+
+1476
+01:05:26,059 --> 01:05:28,979
+And this completely
+remove reservation.
+
+1477
+01:05:28,979 --> 01:05:31,599
+I never need to reserve anymore.
+
+1478
+01:05:31,599 --> 01:05:34,719
+Why reservation is pretty bad.
+
+1479
+01:05:34,719 --> 01:05:37,819
+You suffer a strong
+opportunity cost.
+
+1480
+01:05:37,819 --> 01:05:39,519
+If you reserve memory, you are
+
+1481
+01:05:39,519 --> 01:05:40,879
+not going to make that memory
+
+1482
+01:05:40,879 --> 01:05:44,159
+usable for the incoming
+requests in all set.
+
+1483
+01:05:44,159 --> 01:05:47,159
+That's exactly the
+same with page tables
+
+1484
+01:05:47,159 --> 01:05:48,939
+in operating systems.
+
+1485
+01:05:48,939 --> 01:05:51,624
+You basically eliminate
+the opportunity cost.
+
+1486
+01:05:51,624 --> 01:05:56,549
+Okay. So here, I found my
+second block table is done.
+
+1487
+01:05:56,549 --> 01:05:58,889
+I moved to my third
+third row and
+
+1488
+01:05:58,889 --> 01:06:03,249
+this third row was allocated
+in runtime only when needed.
+
+1489
+01:06:03,249 --> 01:06:06,349
+I keep doing this,
+allocate it on
+
+1490
+01:06:06,349 --> 01:06:09,999
+demand and keep writing
+to next o. Okay.
+
+1491
+01:06:09,999 --> 01:06:12,539
+And this is even
+better when we have
+
+1492
+01:06:12,539 --> 01:06:14,739
+multiple requests coming
+to the queue, right?
+
+1493
+01:06:14,739 --> 01:06:16,959
+Because if you have multiple
+requests we basically,
+
+1494
+01:06:16,959 --> 01:06:18,819
+give them different
+logical views,
+
+1495
+01:06:18,819 --> 01:06:20,379
+and this logical view we all
+
+1496
+01:06:20,379 --> 01:06:23,299
+basically mapped into
+the same physical space,
+
+1497
+01:06:23,299 --> 01:06:26,240
+which is paged,
+okay, by kernels.
+
+1498
+01:06:26,240 --> 01:06:30,219
+Okay. Cool. To summarize,
+
+1499
+01:06:30,219 --> 01:06:32,199
+okay, uh, let's analyze
+
+1500
+01:06:32,199 --> 01:06:34,559
+the memory efficiency
+of page attention.
+
+1501
+01:06:34,559 --> 01:06:39,999
+So first, we have very minimal
+internal fragmentation.
+
+1502
+01:06:39,999 --> 01:06:42,519
+Why? This is because
+
+1503
+01:06:42,519 --> 01:06:44,260
+the internal fragmentation
+only happens
+
+1504
+01:06:44,260 --> 01:06:46,659
+at the last block
+of the sequence.
+
+1505
+01:06:46,659 --> 01:06:48,699
+So our internal fragmentation
+
+1506
+01:06:48,699 --> 01:06:51,039
+is bonded by the block size.
+
+1507
+01:06:51,039 --> 01:06:52,359
+It's not going to be greater
+
+1508
+01:06:52,359 --> 01:06:54,759
+than in my previous
+example, four tokens.
+
+1509
+01:06:54,759 --> 01:06:57,419
+At most we only
+wait three tokens.
+
+1510
+01:06:57,419 --> 01:07:01,145
+That basically eliminated
+the internal fragmentation.
+
+1511
+01:07:01,145 --> 01:07:03,709
+We also don't have
+external fragmentation.
+
+1512
+01:07:03,709 --> 01:07:06,209
+Why? Because now we
+
+1513
+01:07:06,209 --> 01:07:07,889
+always allocate a block
+
+1514
+01:07:07,889 --> 01:07:09,869
+of fixed size that
+is four tokens,
+
+1515
+01:07:09,869 --> 01:07:12,129
+so there's no external
+fragmentation.
+
+1516
+01:07:12,129 --> 01:07:14,809
+Finally, we don't have
+
+1517
+01:07:14,809 --> 01:07:18,329
+reservation because each
+block is allocated on demand.
+
+1518
+01:07:18,329 --> 01:07:19,729
+So whenever we need it, we
+
+1519
+01:07:19,729 --> 01:07:21,429
+allocate we're not
+reserving anything.
+
+1520
+01:07:21,429 --> 01:07:24,089
+We completely eliminate
+the opportunity cost.
+
+1521
+01:07:24,089 --> 01:07:27,229
+Basically as a result,
+you can see in VOM
+
+1522
+01:07:27,229 --> 01:07:30,790
+the memory utilition is
+greatly improved. Agree.
+
+1523
+01:07:30,790 --> 01:07:32,389
+Yeah. We basically eliminate
+
+1524
+01:07:32,389 --> 01:07:36,569
+the external and retribon cost.
+
+1525
+01:07:37,010 --> 01:07:42,130
+Okay. And we get a 96.3%
+okay your addition.
+
+1526
+01:07:42,130 --> 01:07:44,589
+Okay, so that'll
+basically wrap up.
+
+1527
+01:07:44,589 --> 01:07:48,449
+Put your attention.
+Any question? Yeah.
+
+1528
+01:07:50,430 --> 01:07:53,589
+Um, we need. Yeah.
+
+1529
+01:07:55,870 --> 01:07:58,729
+Okay. I have some rumors here.
+
+1530
+01:07:58,729 --> 01:08:00,009
+Basically when we build
+
+1531
+01:08:00,009 --> 01:08:01,949
+this V I think Jensen
+is pretty mad.
+
+1532
+01:08:01,949 --> 01:08:03,869
+Um he sort of like,
+
+1533
+01:08:03,869 --> 01:08:05,230
+you should be media who builds
+
+1534
+01:08:05,230 --> 01:08:07,369
+this B media should be more
+
+1535
+01:08:07,369 --> 01:08:09,089
+familiar with their hardware
+and this should manage
+
+1536
+01:08:09,089 --> 01:08:11,510
+their GPU memory in
+a way that is page.
+
+1537
+01:08:11,510 --> 01:08:13,269
+But it turns out that
+we build this first.
+
+1538
+01:08:13,269 --> 01:08:15,009
+Yeah. That's why we now
+
+1539
+01:08:15,009 --> 01:08:16,749
+collaborating with
+media pretty closely,
+
+1540
+01:08:16,749 --> 01:08:18,409
+and we try to push this into
+
+1541
+01:08:18,409 --> 01:08:19,829
+their GPU as a native feature.
+
+1542
+01:08:19,829 --> 01:08:23,749
+Yeah. Okay. Okay, cool.
+
+1543
+01:08:23,749 --> 01:08:25,149
+I think I covered the second
+
+1544
+01:08:25,149 --> 01:08:27,229
+key technique, page attention,
+
+1545
+01:08:27,229 --> 01:08:29,049
+and apparently this
+page attention
+
+1546
+01:08:29,049 --> 01:08:31,154
+has already taken
+off. Yeah, please.
+
+1547
+01:08:31,154 --> 01:08:39,459
+Yeah. I don't know,
+
+1548
+01:08:39,459 --> 01:08:41,620
+but I think when we
+part this in 2023,
+
+1549
+01:08:41,620 --> 01:08:43,639
+we are ahead of open on serving.
+
+1550
+01:08:43,639 --> 01:08:45,579
+Yeah. So basically,
+when we put this,
+
+1551
+01:08:45,579 --> 01:08:46,919
+I think this make
+a huge impact to
+
+1552
+01:08:46,919 --> 01:08:48,679
+Google Dibne and open air,
+
+1553
+01:08:48,679 --> 01:08:50,744
+they all try to
+mimic our technique.
+
+1554
+01:08:50,744 --> 01:08:56,629
+Yeah. Okay. Yeah.
+Very good question.
+
+1555
+01:08:56,629 --> 01:09:00,209
+You do application. Yeah.
+You run block size of 16,
+
+1556
+01:09:00,209 --> 01:09:02,209
+32, 64 and you figure
+
+1557
+01:09:02,209 --> 01:09:04,469
+out the one that is best,
+you tune the kernels.
+
+1558
+01:09:04,469 --> 01:09:12,269
+Yeah. Yeah. It depends
+on basically block size.
+
+1559
+01:09:12,269 --> 01:09:14,029
+I think I create with
+asking the question.
+
+1560
+01:09:14,029 --> 01:09:15,469
+If you have very
+small block size,
+
+1561
+01:09:15,469 --> 01:09:17,509
+then your indexing
+cost is higher.
+
+1562
+01:09:17,509 --> 01:09:20,189
+If you have a large piece
+you basically go back to
+
+1563
+01:09:20,189 --> 01:09:23,389
+the continuous memory regime.
+So you have to tune it.
+
+1564
+01:09:23,389 --> 01:09:26,409
+Yeah. Okay. And this is
+
+1565
+01:09:26,409 --> 01:09:27,989
+basically I think this
+
+1566
+01:09:27,989 --> 01:09:30,110
+is many people's
+favorite paper in 2023.
+
+1567
+01:09:30,110 --> 01:09:33,789
+Because this improves the
+inference soaring cost
+
+1568
+01:09:33,789 --> 01:09:36,449
+by three X. Yeah, pretty good.
+
+1569
+01:09:36,449 --> 01:09:39,129
+Okay. I hope you enjoy
+this part, okay?
+
+1570
+01:09:39,129 --> 01:09:41,889
+And then let's move on to
+an even newer technique.
+
+1571
+01:09:41,889 --> 01:09:43,529
+And I think I try to
+answer your question.
+
+1572
+01:09:43,529 --> 01:09:45,269
+So apparently
+
+1573
+01:09:45,269 --> 01:09:46,949
+that student already aided
+the question, right?
+
+1574
+01:09:46,949 --> 01:09:48,869
+So when you do
+continuous batching,
+
+1575
+01:09:48,869 --> 01:09:50,709
+you indeed improve the
+addition because you
+
+1576
+01:09:50,709 --> 01:09:53,689
+batch you make a pretty
+batch when you run MLP per.
+
+1577
+01:09:53,689 --> 01:09:57,269
+But the problem is, say a
+prefew is super long, right?
+
+1578
+01:09:57,269 --> 01:10:00,929
+So a decode only have
+one token per request.
+
+1579
+01:10:00,929 --> 01:10:03,129
+Essentially, if you
+put all them together,
+
+1580
+01:10:03,129 --> 01:10:04,709
+you are saying only doing
+
+1581
+01:10:04,709 --> 01:10:06,329
+what you maximize
+your throughput,
+
+1582
+01:10:06,329 --> 01:10:07,929
+yes, but you are
+delaying the latency
+
+1583
+01:10:07,929 --> 01:10:09,629
+for other decoding requests.
+
+1584
+01:10:09,629 --> 01:10:11,549
+So how do fix that problem?
+
+1585
+01:10:11,549 --> 01:10:14,209
+Let's see. This is
+a pretty hot topic
+
+1586
+01:10:14,209 --> 01:10:16,769
+I have to cover because
+I think this year,
+
+1587
+01:10:16,769 --> 01:10:18,729
+2025, a lot of company they are
+
+1588
+01:10:18,729 --> 01:10:21,209
+moving into this
+architecture from C speci.
+
+1589
+01:10:21,209 --> 01:10:22,529
+It's called pre field decode
+
+1590
+01:10:22,529 --> 01:10:24,549
+desegregation and I say,
+what's the problem?
+
+1591
+01:10:24,549 --> 01:10:27,329
+Okay. So I think,
+
+1592
+01:10:27,329 --> 01:10:29,909
+as I have already ind
+many times, okay?
+
+1593
+01:10:29,909 --> 01:10:32,169
+So at least in 2023 and 24,
+
+1594
+01:10:32,169 --> 01:10:33,809
+people are basically trying to
+
+1595
+01:10:33,809 --> 01:10:36,029
+grind this so called
+throughput metric.
+
+1596
+01:10:36,029 --> 01:10:37,689
+They try to maximize
+the number of
+
+1597
+01:10:37,689 --> 01:10:39,549
+tokens they can serve
+per second given
+
+1598
+01:10:39,549 --> 01:10:41,829
+a limited lumbaus you
+
+1599
+01:10:41,829 --> 01:10:44,489
+can see this limit keep
+being pushed higher,
+
+1600
+01:10:44,489 --> 01:10:45,869
+uh, like 24 X,
+
+1601
+01:10:45,869 --> 01:10:47,669
+3.5 X or whatever.
+
+1602
+01:10:47,669 --> 01:10:50,269
+L basically ground
+this throughput.
+
+1603
+01:10:50,269 --> 01:10:53,619
+Okay? But besides
+throughput, okay?
+
+1604
+01:10:53,619 --> 01:10:55,779
+Many applications,
+they are offered
+
+1605
+01:10:55,779 --> 01:10:58,159
+as a service to users.
+
+1606
+01:10:58,159 --> 01:10:59,939
+Therefore, for such services,
+
+1607
+01:10:59,939 --> 01:11:02,499
+we do have some equally
+important metrics,
+
+1608
+01:11:02,499 --> 01:11:07,119
+which we call service level
+objectives, or in short, SO.
+
+1609
+01:11:07,119 --> 01:11:08,679
+You've probably heard
+about this work
+
+1610
+01:11:08,679 --> 01:11:10,519
+many many places many companies,
+
+1611
+01:11:10,519 --> 01:11:12,039
+they want to guarantee
+so called SO.
+
+1612
+01:11:12,039 --> 01:11:14,599
+Okay? So in ARM there
+
+1613
+01:11:14,599 --> 01:11:18,260
+are uh two most important
+service level objectives.
+
+1614
+01:11:18,260 --> 01:11:22,459
+One is called TTFToh the
+other is called TPOT.
+
+1615
+01:11:22,459 --> 01:11:24,799
+This is a pretty weird, word,
+
+1616
+01:11:24,799 --> 01:11:26,459
+but let's try to remember them.
+
+1617
+01:11:26,459 --> 01:11:29,424
+So TTFTT to first too.
+
+1618
+01:11:29,424 --> 01:11:32,869
+TVOT time per output token.
+So what do they mean?
+
+1619
+01:11:32,869 --> 01:11:35,569
+Okay. So a chat bot,
+
+1620
+01:11:35,569 --> 01:11:37,369
+like HGBT, they need to have
+
+1621
+01:11:37,369 --> 01:11:40,269
+a relatively fast
+initial response.
+
+1622
+01:11:40,269 --> 01:11:42,049
+Therefore, lower TDOT.
+
+1623
+01:11:42,049 --> 01:11:43,789
+That is when you
+type a car into HTP,
+
+1624
+01:11:43,789 --> 01:11:45,769
+you expect to see the first
+word as soon as possible.
+
+1625
+01:11:45,769 --> 01:11:47,269
+You don't want to
+wait. Otherwise, it's
+
+1626
+01:11:47,269 --> 01:11:49,049
+a pretty bad experience, right?
+
+1627
+01:11:49,049 --> 01:11:51,969
+But when the first
+token was generated,
+
+1628
+01:11:51,969 --> 01:11:55,149
+if you ever I'm
+
+1629
+01:11:55,149 --> 01:11:57,409
+pretty sure you have ever
+used the CHITP right?
+
+1630
+01:11:57,409 --> 01:12:00,109
+You can see the ChatB token
+was streamed, one by one.
+
+1631
+01:12:00,109 --> 01:12:01,789
+So once you observe
+the first token,
+
+1632
+01:12:01,789 --> 01:12:03,689
+you are going to read
+from the first token.
+
+1633
+01:12:03,689 --> 01:12:05,609
+And from a service provider's
+
+1634
+01:12:05,609 --> 01:12:07,169
+perspective, what a problem.
+
+1635
+01:12:07,169 --> 01:12:09,389
+So as long as they
+can generate tokens
+
+1636
+01:12:09,389 --> 01:12:12,269
+as fast as your reading
+speed, they are good.
+
+1637
+01:12:12,269 --> 01:12:13,849
+Because you are not
+going to read faster
+
+1638
+01:12:13,849 --> 01:12:15,489
+than what the generated, okay?
+
+1639
+01:12:15,489 --> 01:12:18,669
+So um so basically, um,
+
+1640
+01:12:18,669 --> 01:12:20,769
+in order to make the
+user experience better,
+
+1641
+01:12:20,769 --> 01:12:22,449
+they need to have a lower DFT.
+
+1642
+01:12:22,449 --> 01:12:24,029
+But after that, okay,
+
+1643
+01:12:24,029 --> 01:12:26,789
+the following generated
+text doesn't have to
+
+1644
+01:12:26,789 --> 01:12:30,369
+be faster than the average
+reading speed over human.
+
+1645
+01:12:30,369 --> 01:12:34,079
+So how many words you
+can read per minute?
+
+1646
+01:12:34,079 --> 01:12:35,749
+I can tell you number.
+
+1647
+01:12:35,749 --> 01:12:38,829
+It's roughly 15550
+words in English. Yeah.
+
+1648
+01:12:38,829 --> 01:12:41,509
+Okay. So you don't know how
+to be faster than that,
+
+1649
+01:12:41,509 --> 01:12:42,689
+but you cannot be
+slower than that.
+
+1650
+01:12:42,689 --> 01:12:44,029
+Otherwise, you
+don't have to wait.
+
+1651
+01:12:44,029 --> 01:12:47,849
+Okay. So this means
+that the TPOT that is
+
+1652
+01:12:47,849 --> 01:12:49,669
+the time per output token
+
+1653
+01:12:49,669 --> 01:12:52,109
+after the initial
+token generated,
+
+1654
+01:12:52,109 --> 01:12:53,989
+doesn't have to be fast,
+
+1655
+01:12:53,989 --> 01:12:57,329
+in order to make satisfy
+the user experience.
+
+1656
+01:12:57,329 --> 01:13:00,029
+Okay. But in contrast, okay,
+
+1657
+01:13:00,029 --> 01:13:01,749
+say, we have another
+task M task,
+
+1658
+01:13:01,749 --> 01:13:03,409
+which is summarization, right?
+
+1659
+01:13:03,409 --> 01:13:07,309
+So der will use a
+summarizing application,
+
+1660
+01:13:07,309 --> 01:13:09,269
+and they can actually tolerate
+
+1661
+01:13:09,269 --> 01:13:11,269
+a longer initial response
+because when you
+
+1662
+01:13:11,269 --> 01:13:13,449
+try to submit a batch
+of documents to RM,
+
+1663
+01:13:13,449 --> 01:13:15,369
+you don't want to see the
+first token immediately,
+
+1664
+01:13:15,369 --> 01:13:16,169
+you want to see
+
+1665
+01:13:16,169 --> 01:13:18,569
+the eventual results
+as early as possible.
+
+1666
+01:13:18,569 --> 01:13:19,969
+So in that case,
+you don't have to
+
+1667
+01:13:19,969 --> 01:13:21,349
+prioritize your time to first
+
+1668
+01:13:21,349 --> 01:13:23,009
+token because the user doesn't
+
+1669
+01:13:23,009 --> 01:13:24,629
+care about that. They
+just want to see.
+
+1670
+01:13:24,629 --> 01:13:26,709
+S, after 1 hour I
+eventually see,
+
+1671
+01:13:26,709 --> 01:13:28,949
+uh, my summarizations, right.
+
+1672
+01:13:28,949 --> 01:13:31,229
+So in this case,
+
+1673
+01:13:31,229 --> 01:13:32,809
+TTF T is not important,
+
+1674
+01:13:32,809 --> 01:13:34,149
+but TPOT is important because
+
+1675
+01:13:34,149 --> 01:13:36,139
+we want to generate
+as far as possi.
+
+1676
+01:13:36,139 --> 01:13:38,249
+Okay. And this gives
+you a sense of
+
+1677
+01:13:38,249 --> 01:13:41,069
+what is TDFD and TOT, okay?
+
+1678
+01:13:41,150 --> 01:13:43,849
+So then the question is,
+
+1679
+01:13:43,849 --> 01:13:45,989
+in the presence
+of these two SOs,
+
+1680
+01:13:45,989 --> 01:13:48,409
+TDFT and TBOTuh is
+
+1681
+01:13:48,409 --> 01:13:50,489
+throughput sufficiently
+good measure
+
+1682
+01:13:50,489 --> 01:13:52,249
+for arm serving systems?
+
+1683
+01:13:52,249 --> 01:13:54,589
+And turns out that this
+is not always the case.
+
+1684
+01:13:54,589 --> 01:13:56,549
+So, suggest that we have
+
+1685
+01:13:56,549 --> 01:13:58,629
+a system that can serve
+ten requests per second.
+
+1686
+01:13:58,629 --> 01:14:01,469
+That's our system
+capacity, okay?
+
+1687
+01:14:01,580 --> 01:14:05,059
+But when we post
+actual constraint
+
+1688
+01:14:05,059 --> 01:14:06,739
+on TDFE and TPOT, okay,
+
+1689
+01:14:06,739 --> 01:14:08,679
+that is we need to
+solve t requests,
+
+1690
+01:14:08,679 --> 01:14:11,739
+and we also need to satisfy
+the service level objective.
+
+1691
+01:14:11,739 --> 01:14:15,760
+That is, TTFT need to stay
+within 200 milliseconds,
+
+1692
+01:14:15,760 --> 01:14:18,359
+and TPOT need to stay
+within 50 minutes seconds.
+
+1693
+01:14:18,359 --> 01:14:20,739
+Okay, we put these
+two constraints.
+
+1694
+01:14:21,460 --> 01:14:23,759
+And if I put this
+two constraints,
+
+1695
+01:14:23,759 --> 01:14:25,739
+you can see, many requests
+
+1696
+01:14:25,739 --> 01:14:27,659
+are not satisfying request
+this constraint, right?
+
+1697
+01:14:27,659 --> 01:14:29,359
+Meaning that they are
+not actually meeting
+
+1698
+01:14:29,359 --> 01:14:31,699
+the service level quality, okay?
+
+1699
+01:14:31,699 --> 01:14:34,919
+So we call the portion of
+
+1700
+01:14:34,919 --> 01:14:36,479
+this throughput
+that is subject to
+
+1701
+01:14:36,479 --> 01:14:39,309
+the constraint as as goodput.
+
+1702
+01:14:39,309 --> 01:14:41,529
+So that is the good part
+of this throughput.
+
+1703
+01:14:41,529 --> 01:14:42,829
+That's why it's called goodput.
+
+1704
+01:14:42,829 --> 01:14:44,869
+Okay? So you can see,
+
+1705
+01:14:44,869 --> 01:14:47,449
+um, the term goodput properly,
+
+1706
+01:14:47,449 --> 01:14:50,049
+reminds you of some
+very old things
+
+1707
+01:14:50,049 --> 01:14:51,469
+that you learned from,
+
+1708
+01:14:51,469 --> 01:14:53,209
+uh, maybe computer networks.
+
+1709
+01:14:53,209 --> 01:14:55,169
+I think when they do
+package delivery,
+
+1710
+01:14:55,169 --> 01:14:56,669
+they also put a constraint
+
+1711
+01:14:56,669 --> 01:14:57,929
+on these kind of things, right?
+
+1712
+01:14:57,929 --> 01:15:00,889
+So here, you can see.
+
+1713
+01:15:00,889 --> 01:15:04,609
+Um, I'm sorry indeed share
+some more similar idea.
+
+1714
+01:15:06,240 --> 01:15:08,459
+So this basically means that
+
+1715
+01:15:08,459 --> 01:15:11,119
+high throughput cannot
+always translate into
+
+1716
+01:15:11,119 --> 01:15:12,839
+high goodput once we
+
+1717
+01:15:12,839 --> 01:15:16,679
+factor the latency into
+this picture, okay?
+
+1718
+01:15:17,440 --> 01:15:21,299
+Um, Okay. So this
+
+1719
+01:15:21,299 --> 01:15:23,299
+leads us to ask another
+important question.
+
+1720
+01:15:23,299 --> 01:15:25,459
+So why do existing systems
+
+1721
+01:15:25,459 --> 01:15:27,899
+they fail to achieve this
+kind of high goodput.
+
+1722
+01:15:27,899 --> 01:15:30,039
+Okay? And let's take
+a step back and
+
+1723
+01:15:30,039 --> 01:15:33,259
+understand how a request
+goes through the RM.
+
+1724
+01:15:33,259 --> 01:15:36,119
+And here I make a pretty
+nice G for you, okay?
+
+1725
+01:15:36,119 --> 01:15:37,999
+So I will let you look at it
+
+1726
+01:15:37,999 --> 01:15:48,189
+for 10 seconds. Okay.
+
+1727
+01:15:48,189 --> 01:15:50,249
+So basically, I think
+what I try to convey
+
+1728
+01:15:50,249 --> 01:15:53,449
+in chief is what I introduced
+in condition batching,
+
+1729
+01:15:53,449 --> 01:15:56,889
+uh your prefuel and decoding,
+they are batched together.
+
+1730
+01:15:56,889 --> 01:15:59,789
+Okay. And I think you
+already read that question.
+
+1731
+01:15:59,789 --> 01:16:01,789
+So if the prefel
+is pretty heavy,
+
+1732
+01:16:01,789 --> 01:16:03,329
+then your decoding is
+going to be delayed
+
+1733
+01:16:03,329 --> 01:16:05,549
+because of the highway
+work load prefuel.
+
+1734
+01:16:05,549 --> 01:16:10,349
+Okay? That is one major drawback
+for conditions batching.
+
+1735
+01:16:10,349 --> 01:16:14,069
+Okay? So, um,
+
+1736
+01:16:14,069 --> 01:16:16,389
+so let me reiterate
+
+1737
+01:16:16,389 --> 01:16:19,069
+basically prefuel is
+very compute bond,
+
+1738
+01:16:19,069 --> 01:16:20,629
+meaning that a small batch of
+
+1739
+01:16:20,629 --> 01:16:24,069
+prefill they are like when
+you compute the prefiel face,
+
+1740
+01:16:24,069 --> 01:16:26,209
+they are like you
+are doing training.
+
+1741
+01:16:26,209 --> 01:16:27,949
+It's pretty computer heavy,
+
+1742
+01:16:27,949 --> 01:16:29,789
+and a small batch of pre fuel,
+
+1743
+01:16:29,789 --> 01:16:31,809
+they can saturate
+the GPU competition.
+
+1744
+01:16:31,809 --> 01:16:33,529
+But on the other
+hand, the decode,
+
+1745
+01:16:33,529 --> 01:16:34,709
+right, they need
+
+1746
+01:16:34,709 --> 01:16:36,789
+a much bigger size because
+S equal to one, right.
+
+1747
+01:16:36,789 --> 01:16:38,029
+So they need a much bigger size
+
+1748
+01:16:38,029 --> 01:16:39,269
+to actually sat with
+the competition,
+
+1749
+01:16:39,269 --> 01:16:40,029
+which means that they have
+
+1750
+01:16:40,029 --> 01:16:42,870
+very distinct computational
+characteristics.
+
+1751
+01:16:42,870 --> 01:16:44,829
+And, um, and because
+
+1752
+01:16:44,829 --> 01:16:47,329
+continuous batching basically
+cool case prefer decode,
+
+1753
+01:16:47,329 --> 01:16:49,829
+right into the same
+batch, the two phases
+
+1754
+01:16:49,829 --> 01:16:52,269
+actually interfere
+with each other.
+
+1755
+01:16:52,269 --> 01:16:54,269
+Okay. So let's see
+a comparison here.
+
+1756
+01:16:54,269 --> 01:16:56,164
+So on the left, um,
+
+1757
+01:16:56,164 --> 01:16:59,619
+uh, we batch RON R two,
+
+1758
+01:16:59,619 --> 01:17:03,439
+o you can see the first
+is RN second R two and RA
+
+1759
+01:17:03,439 --> 01:17:04,979
+is going through the
+decoding phase and
+
+1760
+01:17:04,979 --> 01:17:07,379
+R R two is going through
+the prefill phase,
+
+1761
+01:17:07,379 --> 01:17:09,059
+and we are going to put
+these two batches together.
+
+1762
+01:17:09,059 --> 01:17:11,919
+Okay. So we can
+
+1763
+01:17:11,919 --> 01:17:14,379
+see that in the red window
+in the pink window,
+
+1764
+01:17:14,379 --> 01:17:17,859
+when Art arrives, ROs decode
+time, which is in blue.
+
+1765
+01:17:17,859 --> 01:17:19,539
+It will once you put it into
+
+1766
+01:17:19,539 --> 01:17:21,339
+the same batch
+using con batching,
+
+1767
+01:17:21,339 --> 01:17:23,399
+it will be significantly
+delayed, right?
+
+1768
+01:17:23,399 --> 01:17:25,859
+Because Rtools prefer
+will take longer. Okay.
+
+1769
+01:17:25,859 --> 01:17:27,139
+And same thing, actually
+
+1770
+01:17:27,139 --> 01:17:28,859
+arts prefel also
+get a little bit
+
+1771
+01:17:28,859 --> 01:17:32,044
+delayed because you batch the
+decode into Rtools perfil.
+
+1772
+01:17:32,044 --> 01:17:36,709
+Okay. But if I do this,
+suppose I have a way.
+
+1773
+01:17:36,709 --> 01:17:38,569
+Basically I run RN RT to prevent
+
+1774
+01:17:38,569 --> 01:17:41,109
+decoding on different dips.
+I don't have this problem.
+
+1775
+01:17:41,109 --> 01:17:44,809
+So RN decode will continue
+following its own pace,
+
+1776
+01:17:44,809 --> 01:17:47,309
+and RT will just do its profile.
+
+1777
+01:17:47,309 --> 01:17:52,189
+Okay? And I can make
+this even more serious.
+
+1778
+01:17:52,189 --> 01:17:54,689
+In reality, what happens is,
+
+1779
+01:17:54,689 --> 01:17:57,839
+you have a streaming of
+requests coming. Okay.
+
+1780
+01:17:57,839 --> 01:17:59,879
+Every time you pick
+up new requests,
+
+1781
+01:17:59,879 --> 01:18:01,639
+put into the continued batching,
+
+1782
+01:18:01,639 --> 01:18:04,379
+you are going to introduce
+a pre fuel that is going to
+
+1783
+01:18:04,379 --> 01:18:07,379
+interfere with the decode
+or other requests.
+
+1784
+01:18:07,379 --> 01:18:10,259
+And this can create a
+cascade of interference.
+
+1785
+01:18:10,259 --> 01:18:13,319
+So basically, if you continue
+to continue batching, yes,
+
+1786
+01:18:13,319 --> 01:18:16,219
+utility is high,
+but this decode,
+
+1787
+01:18:16,219 --> 01:18:17,859
+they are going to be delayed.
+
+1788
+01:18:17,859 --> 01:18:20,459
+And if you have a latency
+constraint on decode,
+
+1789
+01:18:20,459 --> 01:18:22,399
+you are not going to
+meet listening delay.
+
+1790
+01:18:22,399 --> 01:18:23,579
+Okay, listening constraint.
+
+1791
+01:18:23,579 --> 01:18:27,199
+Sorry. Okay. So then
+
+1792
+01:18:27,199 --> 01:18:30,459
+if you want to basically to
+a good service like GBT,
+
+1793
+01:18:30,459 --> 01:18:31,859
+you want to maximize your sput
+
+1794
+01:18:31,859 --> 01:18:32,679
+while you still meet
+
+1795
+01:18:32,679 --> 01:18:34,669
+the listening
+constraint what you do.
+
+1796
+01:18:34,669 --> 01:18:38,659
+Okay. As a result of
+this interference, uh,
+
+1797
+01:18:38,659 --> 01:18:42,339
+when service must satisfy
+both TDF and TPOT,
+
+1798
+01:18:42,339 --> 01:18:45,319
+um, what they do is they
+basically add multiples.
+
+1799
+01:18:45,319 --> 01:18:47,560
+Yeah, they allocate multiples
+
+1800
+01:18:47,560 --> 01:18:50,280
+to basically diminish
+the interference.
+
+1801
+01:18:50,280 --> 01:18:55,139
+Okay. Um apparently,
+the reason the problem
+
+1802
+01:18:55,139 --> 01:18:56,739
+of adding multiple is
+that you're going to pay
+
+1803
+01:18:56,739 --> 01:19:00,179
+more to satisfy your
+service quality, right?
+
+1804
+01:19:00,179 --> 01:19:04,039
+Okay? So what's the solution?
+
+1805
+01:19:04,039 --> 01:19:05,179
+The solution is pretty simple.
+
+1806
+01:19:05,179 --> 01:19:06,319
+I think you already get that.
+
+1807
+01:19:06,319 --> 01:19:07,659
+Why don't we just put preview
+
+1808
+01:19:07,659 --> 01:19:09,439
+and decod on different dips.
+
+1809
+01:19:09,439 --> 01:19:11,639
+We're not going
+to batch anymore.
+
+1810
+01:19:11,639 --> 01:19:13,839
+We just basically put
+prefer and deco on
+
+1811
+01:19:13,839 --> 01:19:17,799
+different dipUsT if basically
+gives you an example where,
+
+1812
+01:19:17,799 --> 01:19:19,859
+um, I allocate two GPUs.
+
+1813
+01:19:19,859 --> 01:19:22,179
+The first GPU basically
+take all the preview job.
+
+1814
+01:19:22,179 --> 01:19:24,019
+And once it finishes prefiw,
+
+1815
+01:19:24,019 --> 01:19:26,359
+I'm going to forward
+the QB catch
+
+1816
+01:19:26,359 --> 01:19:29,379
+from the first DPU
+to second DPU.
+
+1817
+01:19:29,379 --> 01:19:32,739
+And then I batch all the
+decode in the second DPO.
+
+1818
+01:19:32,739 --> 01:19:35,279
+In that way, I can
+completely eliminate
+
+1819
+01:19:35,279 --> 01:19:39,199
+the interference between
+preferent decode.
+
+1820
+01:19:39,320 --> 01:19:42,079
+This makes the system
+even more complicated.
+
+1821
+01:19:42,079 --> 01:19:45,179
+Why? Previously, I do
+
+1822
+01:19:45,179 --> 01:19:46,419
+everything on one
+single GPU, right?
+
+1823
+01:19:46,419 --> 01:19:48,199
+I just do everything
+in a kernel level,
+
+1824
+01:19:48,199 --> 01:19:50,119
+and now you're asking me to do
+
+1825
+01:19:50,119 --> 01:19:52,579
+a distribute system on
+how to communicate.
+
+1826
+01:19:52,579 --> 01:19:54,459
+But this is what
+we do today, okay?
+
+1827
+01:19:54,459 --> 01:19:56,139
+I'm going to reveal why this
+
+1828
+01:19:56,139 --> 01:19:58,199
+can be better in
+the last lecture.
+
+1829
+01:19:58,199 --> 01:19:59,839
+Okay, thank you.

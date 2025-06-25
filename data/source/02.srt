@@ -1,0 +1,7679 @@
+1
+00:00:10,400 --> 00:00:15,559
+Okay, yeah, let's get started.
+
+2
+00:00:27,940 --> 00:00:31,139
+Cool, cool, let's get started.
+
+3
+00:00:32,660 --> 00:00:35,820
+Let's get started, yeah.
+
+4
+00:00:37,620 --> 00:00:41,039
+Okay, thanks for coming back.
+
+5
+00:00:41,039 --> 00:00:45,400
+Today, we are going to start,
+
+6
+00:00:45,400 --> 00:00:47,860
+officially start our lecture.
+
+7
+00:00:47,860 --> 00:00:49,959
+We all start from here,
+
+8
+00:00:49,959 --> 00:00:53,065
+as you can see, machine
+learning system basics.
+
+9
+00:00:53,065 --> 00:00:56,410
+Yeah. I believe this lecture
+
+10
+00:00:56,410 --> 00:00:58,769
+is still pretty
+lightweight. Yeah. Enjoy.
+
+11
+00:00:58,769 --> 00:01:00,989
+Before that, there are
+
+12
+00:01:00,989 --> 00:01:02,889
+three forms that
+worth your attention.
+
+13
+00:01:02,889 --> 00:01:05,990
+The first one is beginning
+of quarter survey.
+
+14
+00:01:05,990 --> 00:01:08,370
+If 80% of you finish that,
+
+15
+00:01:08,370 --> 00:01:10,130
+all you get one point.
+
+16
+00:01:10,130 --> 00:01:12,450
+Okay? One of the most
+efficient way and
+
+17
+00:01:12,450 --> 00:01:15,330
+the easiest way to
+get one point, okay?
+
+18
+00:01:15,330 --> 00:01:17,670
+Second is make sure you sign up
+
+19
+00:01:17,670 --> 00:01:21,809
+the scribe and we have
+a lot of students,
+
+20
+00:01:21,809 --> 00:01:23,250
+so you don't have to
+do a lot of work.
+
+21
+00:01:23,250 --> 00:01:26,249
+The second most efficient
+way to get eight points.
+
+22
+00:01:26,249 --> 00:01:28,870
+Okay. You just need
+to do it once.
+
+23
+00:01:29,310 --> 00:01:33,049
+The third one is,
+we created Slack.
+
+24
+00:01:33,049 --> 00:01:35,030
+So we will still
+
+25
+00:01:35,030 --> 00:01:37,209
+send our important
+announcement on Piazza,
+
+26
+00:01:37,209 --> 00:01:38,890
+but slack is for you guys.
+
+27
+00:01:38,890 --> 00:01:40,630
+So if you need to
+get in touch with
+
+28
+00:01:40,630 --> 00:01:43,249
+your teammate or whatever,
+
+29
+00:01:43,249 --> 00:01:44,909
+if you want to discuss homework,
+
+30
+00:01:44,909 --> 00:01:46,289
+feel free to use that space.
+
+31
+00:01:46,289 --> 00:01:49,980
+Okay? Yeah. Okay, cool.
+
+32
+00:01:49,980 --> 00:01:51,460
+Today, we are going to talk
+
+33
+00:01:51,460 --> 00:01:54,859
+about some basics or
+machine learning systems.
+
+34
+00:01:54,859 --> 00:01:57,340
+I think one of the most
+important basics is,
+
+35
+00:01:57,340 --> 00:01:59,099
+we try to understand
+our workload,
+
+36
+00:01:59,099 --> 00:02:00,399
+because we are building systems.
+
+37
+00:02:00,399 --> 00:02:02,759
+Our system is trying to
+support some workload.
+
+38
+00:02:02,759 --> 00:02:04,759
+So let's first
+understand our workload.
+
+39
+00:02:04,759 --> 00:02:06,099
+So pretty simple.
+
+40
+00:02:06,099 --> 00:02:08,179
+Our workload is basically,
+machine learning
+
+41
+00:02:08,179 --> 00:02:11,200
+or more dominantly deep
+learning competitions.
+
+42
+00:02:11,200 --> 00:02:13,839
+Yeah. So idea of deep learning,
+
+43
+00:02:13,839 --> 00:02:14,960
+I think all you guys should
+
+44
+00:02:14,960 --> 00:02:17,079
+have that understanding, right?
+
+45
+00:02:17,079 --> 00:02:19,639
+I basically we try
+to stack many,
+
+46
+00:02:19,639 --> 00:02:22,140
+many new layers and
+we try to compose
+
+47
+00:02:22,140 --> 00:02:25,899
+a pretty large and effective
+powerful model like this.
+
+48
+00:02:25,899 --> 00:02:27,219
+So we have a set of
+
+49
+00:02:27,219 --> 00:02:29,339
+images and we want to
+classify them, right?
+
+50
+00:02:29,339 --> 00:02:31,859
+Uh, so we basically come up with
+
+51
+00:02:31,859 --> 00:02:33,519
+a few layers and each layer
+
+52
+00:02:33,519 --> 00:02:35,739
+perform some type
+of competition.
+
+53
+00:02:35,739 --> 00:02:39,060
+And we forward the images
+through the network
+
+54
+00:02:39,060 --> 00:02:43,099
+and we get some labels
+predicted, right?
+
+55
+00:02:43,099 --> 00:02:45,359
+And at the inference,
+
+56
+00:02:45,359 --> 00:02:46,699
+we basically do this so called
+
+57
+00:02:46,699 --> 00:02:48,339
+forward competition, right?
+
+58
+00:02:48,339 --> 00:02:51,579
+But this new network cannot
+work if you don't train it.
+
+59
+00:02:51,579 --> 00:02:53,680
+So the way we train this
+neural network is basically
+
+60
+00:02:53,680 --> 00:02:56,039
+do we do a backward propagation,
+
+61
+00:02:56,039 --> 00:02:58,055
+right, we update
+parameters, okay?
+
+62
+00:02:58,055 --> 00:03:01,670
+Um, there are many types
+of neural networks.
+
+63
+00:03:01,670 --> 00:03:03,030
+But in this course,
+
+64
+00:03:03,030 --> 00:03:04,730
+we are going to
+simplify a little bit.
+
+65
+00:03:04,730 --> 00:03:07,450
+I'm going to give you
+a master equation,
+
+66
+00:03:07,450 --> 00:03:09,370
+which is pretty simple here.
+
+67
+00:03:09,370 --> 00:03:13,049
+Okay. Uh, at the first glance is
+
+68
+00:03:13,049 --> 00:03:16,630
+basically like we have some
+loss function A and we try
+
+69
+00:03:16,630 --> 00:03:18,530
+to derive the gradients
+using this function
+
+70
+00:03:18,530 --> 00:03:21,470
+against the parameters
+theta given
+
+71
+00:03:21,470 --> 00:03:24,070
+training data D.
+And then we apply
+
+72
+00:03:24,070 --> 00:03:25,750
+the gradients or parameter
+
+73
+00:03:25,750 --> 00:03:27,230
+updates to the
+original parameter.
+
+74
+00:03:27,230 --> 00:03:29,729
+So we finish on iteration
+of computation.
+
+75
+00:03:29,729 --> 00:03:31,809
+Almost all the new networks or
+
+76
+00:03:31,809 --> 00:03:34,629
+deep learning programs are
+essentially doing this.
+
+77
+00:03:34,629 --> 00:03:36,589
+Okay? We are going to spend
+
+78
+00:03:36,589 --> 00:03:39,050
+a little bit time diving
+into this equation, o.
+
+79
+00:03:39,050 --> 00:03:40,389
+But I want to make sure you guys
+
+80
+00:03:40,389 --> 00:03:41,650
+remember this
+equation because this
+
+81
+00:03:41,650 --> 00:03:44,410
+will be our basic abstraction.
+
+82
+00:03:44,410 --> 00:03:47,530
+We will develop our system
+based on this equation.
+
+83
+00:03:47,530 --> 00:03:50,229
+Okay, let's look
+at the components.
+
+84
+00:03:50,229 --> 00:03:53,229
+The first component, D,
+or training data, right?
+
+85
+00:03:53,229 --> 00:03:55,510
+It could be images,
+could be text,
+
+86
+00:03:55,510 --> 00:03:57,649
+could be video, could
+be audio, right?
+
+87
+00:03:57,649 --> 00:04:01,090
+And there are many ways
+to store this data.
+
+88
+00:04:01,090 --> 00:04:03,549
+For example, database people,
+they develop a lot of
+
+89
+00:04:03,549 --> 00:04:07,109
+very nice storage or
+mechanisms to store data.
+
+90
+00:04:07,109 --> 00:04:08,530
+But in this course,
+
+91
+00:04:08,530 --> 00:04:12,010
+we are not going to spend a
+lot of time on that, okay.
+
+92
+00:04:12,330 --> 00:04:15,569
+This data is our
+parameter, right?
+
+93
+00:04:15,569 --> 00:04:17,350
+In deep learning, we have
+a set of parameters we
+
+94
+00:04:17,350 --> 00:04:19,389
+want to optimize
+until convergence.
+
+95
+00:04:19,389 --> 00:04:21,630
+So we already perform a kind
+
+96
+00:04:21,630 --> 00:04:23,789
+of iterative converging
+computation.
+
+97
+00:04:23,789 --> 00:04:27,209
+That is, we keep throwing
+data into our new network.
+
+98
+00:04:27,209 --> 00:04:28,449
+We calculate the gradients.
+
+99
+00:04:28,449 --> 00:04:29,710
+We update the parameter until
+
+100
+00:04:29,710 --> 00:04:31,990
+the parameter does not
+change anymore, right?
+
+101
+00:04:31,990 --> 00:04:34,070
+So that's why we
+have superscript
+
+102
+00:04:34,070 --> 00:04:37,169
+T. That is we perform
+iterations, yeah.
+
+103
+00:04:38,260 --> 00:04:40,699
+We already have a loss function,
+
+104
+00:04:40,699 --> 00:04:42,680
+right? That defines our goal.
+
+105
+00:04:42,680 --> 00:04:45,419
+For example, it could be, um,
+
+106
+00:04:45,419 --> 00:04:48,960
+it could be two loss
+where we do regression.
+
+107
+00:04:48,960 --> 00:04:51,020
+It could be hinge loss,
+softmax loss where we
+
+108
+00:04:51,020 --> 00:04:54,199
+do classification or ranking
+loss where we do ranking.
+
+109
+00:04:54,199 --> 00:04:57,060
+It depends on your
+problem. Okay. And in
+
+110
+00:04:57,060 --> 00:04:58,359
+this etuation the
+loss is basically
+
+111
+00:04:58,359 --> 00:05:03,420
+the capital L. And in
+order to make this work,
+
+112
+00:05:03,420 --> 00:05:04,720
+we usually apply some sort
+
+113
+00:05:04,720 --> 00:05:06,520
+of optimization
+algorithms, right?
+
+114
+00:05:06,520 --> 00:05:09,600
+So one of the most
+famous algorithm
+
+115
+00:05:09,600 --> 00:05:11,920
+is basically is stochastic
+grading decent, right?
+
+116
+00:05:11,920 --> 00:05:14,179
+And it's variants like
+atom or whatever.
+
+117
+00:05:14,179 --> 00:05:16,460
+And there are also some other
+methods that's possible,
+
+118
+00:05:16,460 --> 00:05:17,860
+like second order methods,
+
+119
+00:05:17,860 --> 00:05:19,559
+right, new methods or whatever.
+
+120
+00:05:19,559 --> 00:05:22,439
+But basically, they belong
+to the optimization methods,
+
+121
+00:05:22,439 --> 00:05:24,860
+which is basically the
+function F, right?
+
+122
+00:05:24,860 --> 00:05:28,660
+That is how we apply our
+updates to our primeers. Okay?
+
+123
+00:05:28,660 --> 00:05:33,270
+Any question? Cool. Here, we
+
+124
+00:05:33,270 --> 00:05:35,589
+basically get our three
+most important components
+
+125
+00:05:35,589 --> 00:05:37,149
+that machine learning
+systems will cover.
+
+126
+00:05:37,149 --> 00:05:39,790
+Okay? The first one, of
+course, data, right?
+
+127
+00:05:39,790 --> 00:05:41,370
+So what type of data we have?
+
+128
+00:05:41,370 --> 00:05:42,750
+We have a lot, right, images,
+
+129
+00:05:42,750 --> 00:05:44,430
+text, audio, table, right?
+
+130
+00:05:44,430 --> 00:05:46,089
+And that actually corresponds
+
+131
+00:05:46,089 --> 00:05:48,555
+to different kinds of
+models we develop.
+
+132
+00:05:48,555 --> 00:05:51,760
+Second pillar model, right?
+
+133
+00:05:51,760 --> 00:05:54,400
+So what are the most
+important models here?
+
+134
+00:05:54,400 --> 00:05:57,519
+So in this course, we are
+going to cover probably
+
+135
+00:05:57,519 --> 00:05:59,339
+the most important class models
+
+136
+00:05:59,339 --> 00:06:01,299
+that will solve 80%
+of the problems.
+
+137
+00:06:01,299 --> 00:06:02,879
+So here's a list. For example,
+
+138
+00:06:02,879 --> 00:06:05,280
+SNS, RNs, transformers,
+and MOEs.
+
+139
+00:06:05,280 --> 00:06:08,360
+There are a few variants built
+based on on top of them.
+
+140
+00:06:08,360 --> 00:06:11,860
+Okay? And with data
+and the model,
+
+141
+00:06:11,860 --> 00:06:14,559
+the third element is
+basically compute.
+
+142
+00:06:14,559 --> 00:06:15,879
+We want to throw them into
+
+143
+00:06:15,879 --> 00:06:17,799
+some hardware and we
+try to get the results.
+
+144
+00:06:17,799 --> 00:06:20,660
+Okay? So what kind
+of computer we have?
+
+145
+00:06:21,460 --> 00:06:27,940
+CPUs, GPUs, accelerators,
+TPU, and LPUs.
+
+146
+00:06:27,940 --> 00:06:31,339
+Even like your laptop
+
+147
+00:06:31,339 --> 00:06:33,000
+can actually do
+deploying today, right?
+
+148
+00:06:33,000 --> 00:06:37,159
+You have arm architecture MOM
+two and three, four, okay?
+
+149
+00:06:37,159 --> 00:06:38,760
+And PGA, right.
+
+150
+00:06:38,760 --> 00:06:43,040
+Okay. Uh, that's
+basically our workload.
+
+151
+00:06:43,040 --> 00:06:46,019
+But you can see from this list,
+
+152
+00:06:46,019 --> 00:06:47,979
+it's already complicated,
+very very complicated.
+
+153
+00:06:47,979 --> 00:06:49,880
+So we're not going to
+build a system that can
+
+154
+00:06:49,880 --> 00:06:52,379
+basically solve
+all the problems.
+
+155
+00:06:52,379 --> 00:06:55,180
+So the first uh thing I
+want to make clear is,
+
+156
+00:06:55,180 --> 00:06:57,200
+um there are many,
+
+157
+00:06:57,200 --> 00:07:00,039
+many great models
+developed in history.
+
+158
+00:07:00,039 --> 00:07:01,880
+But because this is
+
+159
+00:07:01,880 --> 00:07:03,680
+a system course and we
+
+160
+00:07:03,680 --> 00:07:05,980
+are not all we are
+system builders.
+
+161
+00:07:05,980 --> 00:07:07,519
+So one of the lesson that system
+
+162
+00:07:07,519 --> 00:07:09,115
+builders should keep in mind is,
+
+163
+00:07:09,115 --> 00:07:11,969
+we will not be able
+to build systems
+
+164
+00:07:11,969 --> 00:07:14,909
+that can support all
+types of workloads, okay?
+
+165
+00:07:14,909 --> 00:07:17,710
+So as a system builder,
+
+166
+00:07:17,710 --> 00:07:19,230
+always ask ourselves, what are
+
+167
+00:07:19,230 --> 00:07:20,469
+the most important workloads
+
+168
+00:07:20,469 --> 00:07:21,969
+that can solve 80%
+of the problems?
+
+169
+00:07:21,969 --> 00:07:23,169
+And we're going
+to build a system
+
+170
+00:07:23,169 --> 00:07:24,769
+that is pretty good at this 80%,
+
+171
+00:07:24,769 --> 00:07:28,870
+and we'll give the rest of 20%
+to the PD students, right?
+
+172
+00:07:28,870 --> 00:07:32,670
+Okay. Um, so basically
+system building is
+
+173
+00:07:32,670 --> 00:07:36,749
+the process to reveal the
+most important, um factors.
+
+174
+00:07:36,749 --> 00:07:38,469
+Then we start asking ourselves,
+
+175
+00:07:38,469 --> 00:07:40,269
+what are the most
+important models?
+
+176
+00:07:40,269 --> 00:07:42,050
+What are most
+important data types
+
+177
+00:07:42,050 --> 00:07:43,790
+and what are most
+important hardware,
+
+178
+00:07:43,790 --> 00:07:46,569
+and we are going to build
+a system for them, okay?
+
+179
+00:07:46,569 --> 00:07:48,449
+What are the most
+important models?
+
+180
+00:07:48,449 --> 00:07:52,950
+As I already said, four types
+of models today, right?
+
+181
+00:07:52,950 --> 00:07:54,670
+Widely adopted. Almost solve
+
+182
+00:07:54,670 --> 00:07:57,429
+like 80% of marchinary
+problems, okay?
+
+183
+00:07:57,429 --> 00:08:00,030
+SN recurrent neural
+networks transformer
+
+184
+00:08:00,030 --> 00:08:01,889
+and mixture experts.
+
+185
+00:08:01,889 --> 00:08:03,949
+Okay? These are basically
+
+186
+00:08:03,949 --> 00:08:06,369
+the most popular
+model families today.
+
+187
+00:08:06,369 --> 00:08:09,690
+So what is the most important
+opmenting algorithm?
+
+188
+00:08:09,690 --> 00:08:12,189
+I already said, Stochastic
+gradient descent.
+
+189
+00:08:12,189 --> 00:08:14,529
+Yeah. And what is the
+most important variant
+
+190
+00:08:14,529 --> 00:08:16,509
+of stochastic grading design?
+
+191
+00:08:16,509 --> 00:08:18,530
+It's basically Adam, right?
+
+192
+00:08:18,530 --> 00:08:19,770
+So we are going to learn.
+
+193
+00:08:19,770 --> 00:08:23,329
+We are going to grind a lot
+on Adam algorithm, okay?
+
+194
+00:08:23,329 --> 00:08:26,449
+Yeah, SGD and its
+variance, for example,
+
+195
+00:08:26,449 --> 00:08:31,329
+Adam Okay, um,
+throughout this lecture,
+
+196
+00:08:31,329 --> 00:08:32,989
+we are going to keep
+asking ourselves,
+
+197
+00:08:32,989 --> 00:08:35,309
+what are the most
+important Xs in Y?
+
+198
+00:08:35,309 --> 00:08:37,590
+So we can basically gradually
+
+199
+00:08:37,590 --> 00:08:39,650
+figure out the right
+thing to build.
+
+200
+00:08:39,650 --> 00:08:40,929
+Because when we build system,
+
+201
+00:08:40,929 --> 00:08:43,249
+we try to figure out the
+right abstraction, right?
+
+202
+00:08:43,249 --> 00:08:44,770
+The abstraction should express
+
+203
+00:08:44,770 --> 00:08:47,939
+the most important class
+problems we care about.
+
+204
+00:08:47,939 --> 00:08:51,629
+Okay. Uh, next, I'm
+going to quickly go
+
+205
+00:08:51,629 --> 00:08:54,990
+through the important
+machinery algorithms
+
+206
+00:08:54,990 --> 00:08:56,989
+in roughly 30 minutes.
+
+207
+00:08:56,989 --> 00:09:01,949
+So usually, it takes a whole
+quarter to learn them,
+
+208
+00:09:01,949 --> 00:09:03,590
+but I'm going to go through
+that in 30 minutes.
+
+209
+00:09:03,590 --> 00:09:06,189
+So if you have trouble
+following this,
+
+210
+00:09:06,189 --> 00:09:07,549
+make sure you take
+
+211
+00:09:07,549 --> 00:09:10,569
+some machinery classes,
+or read some books.
+
+212
+00:09:10,569 --> 00:09:14,529
+Okay. The first classroom
+models we care about SN, right?
+
+213
+00:09:14,529 --> 00:09:17,909
+SN already enabled so
+many cool applications.
+
+214
+00:09:17,909 --> 00:09:21,009
+Here I give six,
+classification, retrieval,
+
+215
+00:09:21,009 --> 00:09:22,370
+detection, segmentation,
+
+216
+00:09:22,370 --> 00:09:24,370
+self driving, and
+image synthesis.
+
+217
+00:09:24,370 --> 00:09:25,869
+And you can see SN is mostly
+
+218
+00:09:25,869 --> 00:09:28,569
+adopted in compavon
+problems, okay?
+
+219
+00:09:28,569 --> 00:09:31,230
+So the fundamental
+scene is basically,
+
+220
+00:09:31,230 --> 00:09:32,770
+there is a very magical layer
+
+221
+00:09:32,770 --> 00:09:34,369
+called convolution layer, right?
+
+222
+00:09:34,369 --> 00:09:35,670
+And this convolution layer
+
+223
+00:09:35,670 --> 00:09:38,090
+has basically input and output.
+
+224
+00:09:38,090 --> 00:09:40,350
+The input, for example,
+is to the image.
+
+225
+00:09:40,350 --> 00:09:43,249
+The output is slightly
+smaller to the image.
+
+226
+00:09:43,249 --> 00:09:45,750
+And one key parameter of scene
+
+227
+00:09:45,750 --> 00:09:48,650
+it has some so called
+convolution filters.
+
+228
+00:09:48,650 --> 00:09:50,590
+The filter is very small size,
+
+229
+00:09:50,590 --> 00:09:52,929
+for example, three by three
+or four by four, right?
+
+230
+00:09:52,929 --> 00:09:54,310
+And you will apply
+
+231
+00:09:54,310 --> 00:09:56,439
+these filters on top
+of the input image.
+
+232
+00:09:56,439 --> 00:09:58,290
+Uh, you will slide
+
+233
+00:09:58,290 --> 00:09:59,849
+the small filter from
+
+234
+00:09:59,849 --> 00:10:01,949
+left to right from
+top to bottom, right?
+
+235
+00:10:01,949 --> 00:10:04,829
+And you will apply dot
+product on top of it,
+
+236
+00:10:04,829 --> 00:10:07,370
+and then you will
+get uh a result
+
+237
+00:10:07,370 --> 00:10:10,384
+which will be written into
+the output image, right?
+
+238
+00:10:10,384 --> 00:10:12,620
+So this is basic scene, yeah.
+
+239
+00:10:12,620 --> 00:10:15,059
+So the magic behind scene is if
+
+240
+00:10:15,059 --> 00:10:17,360
+you stack these layers
+many, many times,
+
+241
+00:10:17,360 --> 00:10:20,800
+it will basically start
+learning the features,
+
+242
+00:10:20,800 --> 00:10:22,820
+so called features, like
+low level features.
+
+243
+00:10:22,820 --> 00:10:24,300
+And at the initial layers,
+
+244
+00:10:24,300 --> 00:10:27,000
+it will learn some
+very low level edge
+
+245
+00:10:27,000 --> 00:10:28,460
+and color features.
+
+246
+00:10:28,460 --> 00:10:30,619
+But as you stack more
+and more layers,
+
+247
+00:10:30,619 --> 00:10:32,580
+you will find that it
+will start to learn
+
+248
+00:10:32,580 --> 00:10:34,060
+more and more high
+level features,
+
+249
+00:10:34,060 --> 00:10:35,059
+like semantic features.
+
+250
+00:10:35,059 --> 00:10:36,479
+For example, if that is
+
+251
+00:10:36,479 --> 00:10:38,899
+a catfish or if that's a dog
+fish, something like that.
+
+252
+00:10:38,899 --> 00:10:41,840
+Okay? This is why scene
+works pretty well.
+
+253
+00:10:41,950 --> 00:10:48,509
+Okay. Is this okay as a
+starter lessons for CN? Yeah.
+
+254
+00:10:48,509 --> 00:10:51,029
+Okay, only two slides.
+
+255
+00:10:51,030 --> 00:10:54,189
+Then I'm going to ask you
+the most important question
+
+256
+00:10:54,189 --> 00:10:55,669
+for system builder perspective.
+
+257
+00:10:55,669 --> 00:10:59,429
+Okay. So what is the top
+three models for CN?
+
+258
+00:11:02,050 --> 00:11:04,749
+Yeah, Rest definitely
+one of them, right?
+
+259
+00:11:04,749 --> 00:11:06,950
+So I'm going to review,
+
+260
+00:11:06,950 --> 00:11:08,749
+the first one AlexNet, right?
+
+261
+00:11:08,749 --> 00:11:10,909
+One most important one. It was
+
+262
+00:11:10,909 --> 00:11:12,349
+basically the start
+of everything.
+
+263
+00:11:12,349 --> 00:11:14,509
+Yeah. And this paper,
+
+264
+00:11:14,509 --> 00:11:16,230
+I think is a classic.
+
+265
+00:11:16,230 --> 00:11:18,970
+I believe most of you have
+already read this paper, okay?
+
+266
+00:11:18,970 --> 00:11:21,769
+Second one, Rest already
+pointed out, right?
+
+267
+00:11:21,769 --> 00:11:25,430
+So Ra is the thing that
+brings the thing up to scale,
+
+268
+00:11:25,430 --> 00:11:27,589
+and people can
+start 100 liars or
+
+269
+00:11:27,589 --> 00:11:30,580
+even more to get
+very good results.
+
+270
+00:11:30,580 --> 00:11:34,549
+The third one is
+basically Unit, right?
+
+271
+00:11:34,549 --> 00:11:36,069
+If you are familiar with
+
+272
+00:11:36,069 --> 00:11:37,749
+the diffusion
+community, you know,
+
+273
+00:11:37,749 --> 00:11:40,990
+Unit is basically a backbone
+for stable diffusion.
+
+274
+00:11:40,990 --> 00:11:42,729
+Yeah. But today is not,
+
+275
+00:11:42,729 --> 00:11:44,690
+but we still look at that, okay?
+
+276
+00:11:44,690 --> 00:11:46,889
+Yeah. Unit is also pretty
+
+277
+00:11:46,889 --> 00:11:50,489
+widely adopted in medical
+image analysis, okay?
+
+278
+00:11:50,489 --> 00:11:53,849
+So this thing, in my opinion,
+is the most important one,
+
+279
+00:11:53,849 --> 00:11:55,029
+and we are going to optimize
+
+280
+00:11:55,029 --> 00:11:58,190
+them from a system
+perspective, okay?
+
+281
+00:11:58,280 --> 00:12:02,739
+Cool. With that, then we start
+asking another question.
+
+282
+00:12:02,739 --> 00:12:04,820
+So from a computational
+perspective,
+
+283
+00:12:04,820 --> 00:12:07,480
+what are the most important
+components in science?
+
+284
+00:12:07,480 --> 00:12:09,999
+For example, what kind of
+mathematical operations and
+
+285
+00:12:09,999 --> 00:12:13,480
+computations are performed in
+all these types of scenes?
+
+286
+00:12:13,780 --> 00:12:16,519
+The first one definitely
+convolution, right?
+
+287
+00:12:16,519 --> 00:12:18,459
+It could be com one D,
+
+288
+00:12:18,459 --> 00:12:20,100
+count two D. Comm three D
+
+289
+00:12:20,100 --> 00:12:22,179
+is basically the one you
+apply on videos, right?
+
+290
+00:12:22,179 --> 00:12:26,000
+And among count two D was
+the most important shape.
+
+291
+00:12:26,000 --> 00:12:28,419
+It's basically three
+by three count. Yeah.
+
+292
+00:12:28,419 --> 00:12:29,979
+So if you have a kernel that
+
+293
+00:12:29,979 --> 00:12:32,740
+optimize three count
+in extreme sense,
+
+294
+00:12:32,740 --> 00:12:35,100
+then you're doing pretty well
+already on Mtunit systems.
+
+295
+00:12:35,100 --> 00:12:36,859
+Yeah. Yeah.
+
+296
+00:12:36,859 --> 00:12:40,479
+Okay. Then the second most
+important operator incident
+
+297
+00:12:40,479 --> 00:12:43,120
+is basically remember
+in stress nut,
+
+298
+00:12:43,120 --> 00:12:45,100
+at the end, we have a few MLPs,
+
+299
+00:12:45,100 --> 00:12:46,399
+right, multilayer perception.
+
+300
+00:12:46,399 --> 00:12:50,144
+So what is inside of
+multilyer perception?
+
+301
+00:12:50,144 --> 00:12:52,669
+It's basically math mo
+
+302
+00:12:52,669 --> 00:12:56,609
+A times B to see where A
+and B are both matrices.
+
+303
+00:12:56,609 --> 00:13:00,409
+Okay? And at the end,
+we have a soft max,
+
+304
+00:13:00,409 --> 00:13:02,229
+and softmax is basically like we
+
+305
+00:13:02,229 --> 00:13:04,689
+apply some sort of
+a romanization.
+
+306
+00:13:04,689 --> 00:13:06,070
+We try to get a probability
+
+307
+00:13:06,070 --> 00:13:07,870
+and we try to predict the label.
+
+308
+00:13:07,870 --> 00:13:11,509
+Softmax is pretty
+important. What else?
+
+309
+00:13:13,220 --> 00:13:15,899
+There are some element
+wise operations, right,
+
+310
+00:13:15,899 --> 00:13:19,979
+like non linear function
+transformations
+
+311
+00:13:19,979 --> 00:13:22,040
+such as u in Rs Nat.
+
+312
+00:13:22,040 --> 00:13:23,700
+There are some add and sub.
+
+313
+00:13:23,700 --> 00:13:25,799
+We also sometimes
+perform some sort
+
+314
+00:13:25,799 --> 00:13:28,359
+of pooling and batmanization.
+
+315
+00:13:28,359 --> 00:13:30,879
+All these are basically
+belonging to the element wise.
+
+316
+00:13:30,879 --> 00:13:32,620
+Okay? I think this list
+
+317
+00:13:32,620 --> 00:13:34,300
+basically summarize
+the most important
+
+318
+00:13:34,300 --> 00:13:37,860
+computational I call primitive
+we performed scenes.
+
+319
+00:13:37,860 --> 00:13:38,839
+Yeah, we care about that
+
+320
+00:13:38,839 --> 00:13:41,060
+because we are going
+to optimize them.
+
+321
+00:13:41,770 --> 00:13:44,170
+That basically wraps up SN.
+
+322
+00:13:44,170 --> 00:13:46,549
+Okay? The problem SN is
+
+323
+00:13:46,549 --> 00:13:48,930
+basically it basically does
+
+324
+00:13:48,930 --> 00:13:50,290
+some sort of one to one mapping.
+
+325
+00:13:50,290 --> 00:13:52,370
+That is, you have image,
+you pre label for it.
+
+326
+00:13:52,370 --> 00:13:53,869
+But in nature, there
+
+327
+00:13:53,869 --> 00:13:55,609
+are so many data that's
+not one to one, right?
+
+328
+00:13:55,609 --> 00:13:57,530
+For example, in
+natural language,
+
+329
+00:13:57,530 --> 00:13:58,709
+we are speaking a sentence
+
+330
+00:13:58,709 --> 00:14:00,530
+and we try to predict
+next sentence,
+
+331
+00:14:00,530 --> 00:14:02,129
+in many cases, we want to do
+
+332
+00:14:02,129 --> 00:14:03,774
+sequence to sequence prediction.
+
+333
+00:14:03,774 --> 00:14:07,239
+Uh, that's why we have
+recurrent nu networks, okay?
+
+334
+00:14:07,239 --> 00:14:09,639
+Recurrent news has a power that
+
+335
+00:14:09,639 --> 00:14:12,060
+is they can't do one
+too many mapping.
+
+336
+00:14:12,060 --> 00:14:13,439
+That is, you give
+you the one word, it
+
+337
+00:14:13,439 --> 00:14:14,819
+can predict many
+words out, right.
+
+338
+00:14:14,819 --> 00:14:16,559
+Or you can do many to one or
+
+339
+00:14:16,559 --> 00:14:18,459
+you can do many too
+many in different ways.
+
+340
+00:14:18,459 --> 00:14:19,799
+Predict future words or
+
+341
+00:14:19,799 --> 00:14:21,880
+predict a label for
+each current word.
+
+342
+00:14:21,880 --> 00:14:23,499
+Okay? That's why we have
+
+343
+00:14:23,499 --> 00:14:27,050
+iron the key idea
+of RN is basically,
+
+344
+00:14:27,050 --> 00:14:29,209
+it has some internal
+state that is
+
+345
+00:14:29,209 --> 00:14:31,630
+updated as a sequence process,
+
+346
+00:14:31,630 --> 00:14:32,809
+right from the first word to
+
+347
+00:14:32,809 --> 00:14:34,909
+second word third word, we are
+going to maintain a state.
+
+348
+00:14:34,909 --> 00:14:36,129
+We are going to keep updating
+
+349
+00:14:36,129 --> 00:14:37,870
+state through some competition.
+
+350
+00:14:37,870 --> 00:14:40,469
+Okay? And theoretically, we
+
+351
+00:14:40,469 --> 00:14:43,489
+can make any neural
+network requirement right.
+
+352
+00:14:43,489 --> 00:14:45,509
+Because if we enroll RN,
+
+353
+00:14:45,509 --> 00:14:49,290
+we can see the orange orange box
+
+354
+00:14:49,290 --> 00:14:50,949
+is basically a neural
+network architecture,
+
+355
+00:14:50,949 --> 00:14:52,309
+and we can basically embed
+
+356
+00:14:52,309 --> 00:14:54,269
+any neural network into
+this orange box, right.
+
+357
+00:14:54,269 --> 00:14:55,590
+It could be a could be
+
+358
+00:14:55,590 --> 00:14:59,270
+something basically
+any competition, okay?
+
+359
+00:15:00,070 --> 00:15:03,169
+Then let's go back, right? We
+keep asking this question.
+
+360
+00:15:03,169 --> 00:15:06,229
+So what is the top
+three models in Iran?
+
+361
+00:15:08,100 --> 00:15:11,539
+Yeah, STM definitely
+one of them, right?
+
+362
+00:15:11,539 --> 00:15:14,120
+So here's my list, okay?
+
+363
+00:15:14,120 --> 00:15:16,060
+The first one, bi
+direction ions,
+
+364
+00:15:16,060 --> 00:15:17,879
+that is you compute
+from left to right.
+
+365
+00:15:17,879 --> 00:15:19,719
+Meanwhile, you also compute
+from right to left.
+
+366
+00:15:19,719 --> 00:15:23,539
+Okay? Second one, LSTM as you
+already pointed out, right?
+
+367
+00:15:23,539 --> 00:15:25,099
+And it has been widely adopted
+
+368
+00:15:25,099 --> 00:15:27,600
+in analyzing time series, okay?
+
+369
+00:15:27,600 --> 00:15:29,100
+And I hope you guys already
+
+370
+00:15:29,100 --> 00:15:31,520
+learned LSTM
+somewhere else, okay?
+
+371
+00:15:31,520 --> 00:15:35,820
+And third one GRU is a
+slightly simplified wing LSTM.
+
+372
+00:15:35,820 --> 00:15:40,820
+It has less, it has
+a much simplified,
+
+373
+00:15:40,820 --> 00:15:44,760
+recurrent mechanism, but
+it's still powerful.
+
+374
+00:15:44,760 --> 00:15:48,260
+Okay, that's the
+top three model.
+
+375
+00:15:48,300 --> 00:15:50,639
+Then we keep asking
+the question,
+
+376
+00:15:50,639 --> 00:15:52,320
+what are the most
+important components
+
+377
+00:15:52,320 --> 00:15:55,540
+in our computational components?
+
+378
+00:15:57,180 --> 00:16:00,620
+As I said, any model
+can be made recurrent.
+
+379
+00:16:00,620 --> 00:16:03,499
+So if your iron is
+based on cong work,
+
+380
+00:16:03,499 --> 00:16:06,000
+then you basically have
+all the operators from CN.
+
+381
+00:16:06,000 --> 00:16:08,280
+But meanwhile, how
+do you basically,
+
+382
+00:16:08,280 --> 00:16:12,300
+update the states
+from step to step?
+
+383
+00:16:12,900 --> 00:16:18,400
+So you basically still use
+a few metamorF example,
+
+384
+00:16:18,400 --> 00:16:19,580
+you do weighted average
+
+385
+00:16:19,580 --> 00:16:21,260
+across all the
+states in the past,
+
+386
+00:16:21,260 --> 00:16:23,340
+and you try to get a new state.
+
+387
+00:16:23,340 --> 00:16:25,419
+And meanwhile, you apply
+
+388
+00:16:25,419 --> 00:16:27,279
+some linear transformation on
+
+389
+00:16:27,279 --> 00:16:28,799
+top of the metamo
+results, right?
+
+390
+00:16:28,799 --> 00:16:33,019
+So you still have a few very
+fancy linear transformations
+
+391
+00:16:33,019 --> 00:16:34,759
+such as Valu tangent,
+
+392
+00:16:34,759 --> 00:16:36,599
+sigmo or whatever, right?
+
+393
+00:16:36,599 --> 00:16:39,560
+Okay. That's basically
+the novel elements
+
+394
+00:16:39,560 --> 00:16:42,460
+that introduced by
+An pretty simple.
+
+395
+00:16:42,460 --> 00:16:45,290
+Steel metamo and a few linears.
+
+396
+00:16:45,290 --> 00:16:47,599
+Okay. Then I'm going to
+
+397
+00:16:47,599 --> 00:16:51,480
+review very difficult multiple
+choice question, okay?
+
+398
+00:16:51,480 --> 00:16:54,240
+So who invented LSTM?
+
+399
+00:16:54,240 --> 00:16:57,380
+So choice A, Yana
+
+400
+00:16:57,380 --> 00:17:00,720
+Con Choice B. Jeffer
+Hinton, of course, yeah.
+
+401
+00:17:00,720 --> 00:17:04,160
+Chose three Yoshi Benjo
+Choice for this guy.
+
+402
+00:17:04,160 --> 00:17:07,199
+Yeah. Yeah. This is a pretty
+difficult question, right?
+
+403
+00:17:07,199 --> 00:17:12,099
+B if you actually brows a
+little bit on Diploing history,
+
+404
+00:17:12,099 --> 00:17:14,040
+you probably know
+actually the first guy
+
+405
+00:17:14,040 --> 00:17:16,579
+invented asked him,
+for the first time.
+
+406
+00:17:16,579 --> 00:17:19,220
+But only the first three guys,
+
+407
+00:17:19,220 --> 00:17:20,480
+they get twin award.
+
+408
+00:17:20,480 --> 00:17:22,439
+Yeah. So that guy
+is pretty unhappy.
+
+409
+00:17:22,439 --> 00:17:24,959
+Yeah. He was, like,
+
+410
+00:17:24,959 --> 00:17:27,299
+debating with all the people
+
+411
+00:17:27,299 --> 00:17:29,579
+deploying community
+at Twitter every day.
+
+412
+00:17:29,579 --> 00:17:31,900
+Yeah, if you check
+his tweet, okay?
+
+413
+00:17:31,900 --> 00:17:34,820
+But we have to give
+him credit, okay?
+
+414
+00:17:34,820 --> 00:17:38,699
+Okay. Then let's ask a
+more open ended question.
+
+415
+00:17:38,699 --> 00:17:42,979
+I Arn is already able to
+model sequences pretty well,
+
+416
+00:17:42,979 --> 00:17:47,299
+why ChIP was not built
+using RNs but transformers?
+
+417
+00:17:48,860 --> 00:17:52,140
+So that means An actually
+has some limitations,
+
+418
+00:17:52,140 --> 00:17:53,340
+right? You want to speak?
+
+419
+00:17:53,340 --> 00:17:58,020
+Yeah. Uh huh.
+
+420
+00:17:58,660 --> 00:18:01,379
+Yes. Yes. Yeah.
+
+421
+00:18:01,379 --> 00:18:05,179
+That's exactly like 80%
+of the answer. Yeah.
+
+422
+00:18:05,179 --> 00:18:07,859
+So Arn has two major problems.
+
+423
+00:18:07,859 --> 00:18:11,100
+One problem is it keeps
+forgetting things.
+
+424
+00:18:11,100 --> 00:18:13,894
+The reason is pretty easy
+to understand, right?
+
+425
+00:18:13,894 --> 00:18:16,270
+So if you basically
+maintain a state
+
+426
+00:18:16,270 --> 00:18:19,470
+right from the first time
+step to the last time step,
+
+427
+00:18:19,470 --> 00:18:22,770
+normally in deep
+unilateral competition,
+
+428
+00:18:22,770 --> 00:18:25,650
+we basically multiply something
+
+429
+00:18:25,650 --> 00:18:27,249
+that is smaller than one, right?
+
+430
+00:18:27,249 --> 00:18:29,810
+The value is pretty
+small floating point.
+
+431
+00:18:29,810 --> 00:18:31,430
+And if you do this and you keep
+
+432
+00:18:31,430 --> 00:18:32,889
+updating the state, you can see,
+
+433
+00:18:32,889 --> 00:18:35,490
+if we multiply any
+arbitrary large value H
+
+434
+00:18:35,490 --> 00:18:37,689
+by value that is
+smaller than one.
+
+435
+00:18:37,689 --> 00:18:39,289
+And if you do it
+many many steps,
+
+436
+00:18:39,289 --> 00:18:41,469
+then the value will
+approximate zero, right?
+
+437
+00:18:41,469 --> 00:18:42,329
+That means that when
+
+438
+00:18:42,329 --> 00:18:43,949
+your sequence is pretty
+long at the end,
+
+439
+00:18:43,949 --> 00:18:45,790
+you are going to diminish
+your activation.
+
+440
+00:18:45,790 --> 00:18:49,015
+Yeah. That's why An cannot
+learn very long sequences.
+
+441
+00:18:49,015 --> 00:18:51,699
+The second reason or
+the primary reason is
+
+442
+00:18:51,699 --> 00:18:52,980
+because as a student already
+
+443
+00:18:52,980 --> 00:18:54,499
+pointed out, it's
+not paralizable.
+
+444
+00:18:54,499 --> 00:18:56,539
+So every time you
+can only wait for
+
+445
+00:18:56,539 --> 00:18:58,440
+the previous time step
+to finish competition,
+
+446
+00:18:58,440 --> 00:19:00,280
+then you can proceed to
+the next competition.
+
+447
+00:19:00,280 --> 00:19:04,965
+Yeah. So it cannot benefit
+from our powerful GPUs.
+
+448
+00:19:04,965 --> 00:19:07,809
+Okay. Given these two problems,
+
+449
+00:19:07,809 --> 00:19:09,589
+I think, basically, um,
+
+450
+00:19:09,589 --> 00:19:12,149
+in 20 I think 17 or 2018,
+
+451
+00:19:12,149 --> 00:19:13,689
+some researchers from Google,
+
+452
+00:19:13,689 --> 00:19:16,090
+they wrote a paper called
+Attention is all Net.
+
+453
+00:19:16,090 --> 00:19:18,289
+Okay? And that paper
+is pretty famous,
+
+454
+00:19:18,289 --> 00:19:19,770
+but it's not on our reading list
+
+455
+00:19:19,770 --> 00:19:21,350
+because we're not
+macharing class.
+
+456
+00:19:21,350 --> 00:19:24,629
+But I highly recommend.
+Attention basically
+
+457
+00:19:24,629 --> 00:19:26,269
+fix that problem, okay?
+
+458
+00:19:26,269 --> 00:19:28,490
+The idea of attention
+is basically we try
+
+459
+00:19:28,490 --> 00:19:30,849
+to this sequence, right?
+
+460
+00:19:30,849 --> 00:19:34,050
+But we try to treat each
+position's representation as
+
+461
+00:19:34,050 --> 00:19:35,729
+a query to access
+
+462
+00:19:35,729 --> 00:19:38,025
+and incorporate information
+from a set of values.
+
+463
+00:19:38,025 --> 00:19:39,919
+Right? So basically now,
+
+464
+00:19:39,919 --> 00:19:41,860
+when you compute
+the hidden position
+
+465
+00:19:41,860 --> 00:19:43,419
+for each sequence position,
+
+466
+00:19:43,419 --> 00:19:45,079
+you basically see the query,
+
+467
+00:19:45,079 --> 00:19:46,719
+and you try to query the key and
+
+468
+00:19:46,719 --> 00:19:49,080
+values from all the other
+posts in the previous layer.
+
+469
+00:19:49,080 --> 00:19:52,419
+In this way, you
+can see layer one,
+
+470
+00:19:52,419 --> 00:19:54,899
+all the one, all the
+positions with label one,
+
+471
+00:19:54,899 --> 00:19:56,399
+they can compute in
+parallel, right,
+
+472
+00:19:56,399 --> 00:19:57,839
+because they are not
+blocking each other.
+
+473
+00:19:57,839 --> 00:20:00,620
+Okay? There's no
+sequential dependency.
+
+474
+00:20:00,620 --> 00:20:03,319
+And this is perfectly
+for GPUs because you can
+
+475
+00:20:03,319 --> 00:20:06,159
+parleyze these unit
+GPU kernels, right.
+
+476
+00:20:06,159 --> 00:20:07,800
+But in iron, that's not the case
+
+477
+00:20:07,800 --> 00:20:09,480
+because at least in iron,
+
+478
+00:20:09,480 --> 00:20:11,259
+you know layer one, you
+have to compute from
+
+479
+00:20:11,259 --> 00:20:14,219
+left to right, right. Okay.
+
+480
+00:20:14,219 --> 00:20:17,055
+Any problem on the spur?
+
+481
+00:20:17,055 --> 00:20:21,250
+Cool. Personally,
+I think attention
+
+482
+00:20:21,250 --> 00:20:23,049
+becomes pretty dominant and it
+
+483
+00:20:23,049 --> 00:20:25,349
+wins over majorly
+because of this.
+
+484
+00:20:25,349 --> 00:20:27,809
+Yeah. It is so paralyzable.
+
+485
+00:20:27,809 --> 00:20:31,669
+Okay. And as I already said,
+
+486
+00:20:31,669 --> 00:20:33,449
+attention is massively
+paralyzable and
+
+487
+00:20:33,449 --> 00:20:35,810
+the lumber unparallezable
+operations
+
+488
+00:20:35,810 --> 00:20:37,530
+does not increase
+with sequence nons.
+
+489
+00:20:37,530 --> 00:20:39,209
+That means we can
+apply attention to
+
+490
+00:20:39,209 --> 00:20:41,469
+arbitrary large sequences
+and we are not going to,
+
+491
+00:20:41,469 --> 00:20:44,050
+you know, suffer from that
+sequential dependency.
+
+492
+00:20:44,050 --> 00:20:45,909
+We are going to
+dive deep into this
+
+493
+00:20:45,909 --> 00:20:48,150
+and write down the
+mathematical equations later.
+
+494
+00:20:48,150 --> 00:20:51,529
+Okay? But here I'm just
+trying to give you overview.
+
+495
+00:20:51,650 --> 00:20:54,070
+Okay. And given attention,
+
+496
+00:20:54,070 --> 00:20:55,129
+we are basically able to
+
+497
+00:20:55,129 --> 00:20:56,809
+construct the
+transformers, right?
+
+498
+00:20:56,809 --> 00:20:59,970
+So transformer basically
+equals to attention plus
+
+499
+00:20:59,970 --> 00:21:03,710
+a few MLP and plast
+few other operations.
+
+500
+00:21:03,710 --> 00:21:05,549
+So this is the figure I
+
+501
+00:21:05,549 --> 00:21:08,730
+basically cropped from that
+attention or you need paper,
+
+502
+00:21:08,730 --> 00:21:10,809
+and you can see this
+figure basically
+
+503
+00:21:10,809 --> 00:21:13,150
+illustrates the attention,
+uh composition.
+
+504
+00:21:13,150 --> 00:21:14,810
+So you have a few attentions,
+
+505
+00:21:14,810 --> 00:21:17,129
+you go through some
+operation layer lo.
+
+506
+00:21:17,129 --> 00:21:19,230
+It's a lomization
+operation element wise,
+
+507
+00:21:19,230 --> 00:21:22,049
+and then you go through
+some MLP, right?
+
+508
+00:21:22,049 --> 00:21:25,950
+The MLP, that is exactly in
+the sence and oppose value.
+
+509
+00:21:25,950 --> 00:21:28,110
+And transformers have two types.
+
+510
+00:21:28,110 --> 00:21:29,809
+One is encoder,
+the other decoder,
+
+511
+00:21:29,809 --> 00:21:32,769
+and we are going to dive
+deep into that. Okay.
+
+512
+00:21:33,610 --> 00:21:38,489
+So the most famous model
+for encoder is Bird, right?
+
+513
+00:21:38,489 --> 00:21:41,509
+And the most famous model
+for decoder is GPT.
+
+514
+00:21:41,509 --> 00:21:45,790
+Okay. Okay, then let's
+ask this question again.
+
+515
+00:21:45,790 --> 00:21:49,310
+So what is the top three
+models for transformers?
+
+516
+00:21:49,310 --> 00:21:53,930
+I already said Bird,
+encoder based.
+
+517
+00:21:53,930 --> 00:21:56,849
+Second, GPT and LIMs, right?
+
+518
+00:21:56,849 --> 00:22:05,919
+What's the third
+type? Okay. Yeah.
+
+519
+00:22:05,919 --> 00:22:14,260
+T five, right? You said T five.
+
+520
+00:22:14,260 --> 00:22:16,079
+But you can think T five
+
+521
+00:22:16,079 --> 00:22:21,819
+as something that is pretty
+similar to bird and GBD.
+
+522
+00:22:21,819 --> 00:22:23,520
+It's basically a
+combination half bird
+
+523
+00:22:23,520 --> 00:22:25,139
+and half GBT, right?
+
+524
+00:22:25,139 --> 00:22:28,039
+Yeah. Yeah. Yeah,
+wind transformer,
+
+525
+00:22:28,039 --> 00:22:30,200
+but is basically
+similar to bird.
+
+526
+00:22:30,200 --> 00:22:32,439
+Yeah. In my opinion,
+
+527
+00:22:32,439 --> 00:22:35,119
+it's DIT, diffusion
+transformers. Okay.
+
+528
+00:22:35,119 --> 00:22:36,920
+That's why I said
+Unit is no longer
+
+529
+00:22:36,920 --> 00:22:38,999
+used in in diffusions.
+
+530
+00:22:38,999 --> 00:22:40,539
+I think today people
+are moving away from
+
+531
+00:22:40,539 --> 00:22:42,760
+Unit to apply transformers
+into diffusion.
+
+532
+00:22:42,760 --> 00:22:44,279
+Okay? Yeah. And we
+
+533
+00:22:44,279 --> 00:22:46,219
+are also going to study
+that a little bit.
+
+534
+00:22:46,219 --> 00:22:51,899
+Cool. Okay? Apparently, this
+
+535
+00:22:51,899 --> 00:22:53,580
+already happened at
+least transformer
+
+536
+00:22:53,580 --> 00:22:55,419
+becomes the choosing one, right?
+
+537
+00:22:55,419 --> 00:22:57,879
+So everyone now basically
+use transformer as
+
+538
+00:22:57,879 --> 00:23:02,219
+a default backbone for
+all types of tasks, okay?
+
+539
+00:23:02,219 --> 00:23:04,259
+And it becomes the
+
+540
+00:23:04,259 --> 00:23:06,479
+chosen largely because
+of this guy, right?
+
+541
+00:23:06,479 --> 00:23:09,099
+And this guy looks
+pretty wise, okay?
+
+542
+00:23:09,099 --> 00:23:10,739
+This is a picture of him this
+
+543
+00:23:10,739 --> 00:23:12,839
+year last year,
+sorry, last December.
+
+544
+00:23:12,839 --> 00:23:14,780
+And you can say ten years ago,
+
+545
+00:23:14,780 --> 00:23:16,699
+he looks much younger, okay?
+
+546
+00:23:16,699 --> 00:23:19,419
+And this guy now
+
+547
+00:23:19,419 --> 00:23:21,280
+is basically very famous
+in Silicon Valley,
+
+548
+00:23:21,280 --> 00:23:24,239
+right, and people treat
+him as a perfect.
+
+549
+00:23:24,280 --> 00:23:26,359
+So sometimes he speaks
+
+550
+00:23:26,359 --> 00:23:28,260
+something and people
+will believe, okay?
+
+551
+00:23:28,260 --> 00:23:30,799
+And actually, ten years ago,
+
+552
+00:23:30,799 --> 00:23:32,979
+he has a paper
+called sequence to
+
+553
+00:23:32,979 --> 00:23:35,539
+sequence learning with
+Depart works, right?
+
+554
+00:23:35,539 --> 00:23:37,679
+That model that
+paper is basically
+
+555
+00:23:37,679 --> 00:23:40,759
+the foundation and the
+first try of training,
+
+556
+00:23:40,759 --> 00:23:42,759
+P kind of models, right?
+
+557
+00:23:42,759 --> 00:23:46,540
+And other talk, he has
+a very famous slide,
+
+558
+00:23:46,540 --> 00:23:48,819
+which I also crop here.
+
+559
+00:23:48,819 --> 00:23:51,379
+Only three sentence.
+So if you have
+
+560
+00:23:51,379 --> 00:23:54,540
+a very large data set and
+you train a very big model,
+
+561
+00:23:54,540 --> 00:23:56,480
+then success is guaranteed.
+
+562
+00:23:56,480 --> 00:23:59,099
+Right? This is a pretty
+brief statement.
+
+563
+00:23:59,099 --> 00:24:01,920
+And yeah, yeah, pretty good.
+
+564
+00:24:01,920 --> 00:24:04,439
+Okay. And I also give
+the talk link here
+
+565
+00:24:04,439 --> 00:24:07,159
+and if you're
+interested, go watch it.
+
+566
+00:24:07,159 --> 00:24:08,639
+It's only 20 minutes.
+Pretty good.
+
+567
+00:24:08,639 --> 00:24:12,000
+Okay. Okay, then let's
+
+568
+00:24:12,000 --> 00:24:13,660
+come back to the
+computational perspective.
+
+569
+00:24:13,660 --> 00:24:15,180
+So what are the most
+
+570
+00:24:15,180 --> 00:24:18,159
+important components
+in transformers.
+
+571
+00:24:19,020 --> 00:24:21,900
+Like I already said,
+transformer equal to attention
+
+572
+00:24:21,900 --> 00:24:23,900
+plus MLP plus something else.
+
+573
+00:24:23,900 --> 00:24:26,660
+Then we just look at one
+by one, What is attention?
+
+574
+00:24:26,660 --> 00:24:29,359
+Attention is basically
+a few metamor right?
+
+575
+00:24:29,359 --> 00:24:33,240
+And after metamo you do
+some sort of softmax.
+
+576
+00:24:33,240 --> 00:24:38,019
+And one of the most common
+romanization operation
+
+577
+00:24:38,019 --> 00:24:39,480
+in attention is called layer on.
+
+578
+00:24:39,480 --> 00:24:41,699
+So basically attention
+is basically composed
+
+579
+00:24:41,699 --> 00:24:44,640
+with metamor soft max
+and the romanization.
+
+580
+00:24:44,640 --> 00:24:47,359
+Okay. So MLP, you
+already know met M,
+
+581
+00:24:47,359 --> 00:24:49,249
+right? More met moo.
+
+582
+00:24:49,249 --> 00:24:51,620
+And there are some like Galo,
+
+583
+00:24:51,620 --> 00:24:55,860
+a special type of non linear
+function used in attention.
+
+584
+00:24:55,860 --> 00:24:58,620
+Okay? That's basically, um,
+
+585
+00:24:58,620 --> 00:25:01,199
+the computational operators that
+
+586
+00:25:01,199 --> 00:25:03,320
+we can find in transformers.
+
+587
+00:25:03,320 --> 00:25:06,319
+Cool. Any questions so far?
+
+588
+00:25:06,920 --> 00:25:10,920
+Okay, then we'll move
+to our fourth model,
+
+589
+00:25:10,920 --> 00:25:13,019
+MOE, okay Mixture experts.
+
+590
+00:25:13,019 --> 00:25:15,299
+So there are indeed,
+
+591
+00:25:15,299 --> 00:25:18,509
+there are not many normal
+components from MOE, okay?
+
+592
+00:25:18,509 --> 00:25:21,079
+Uh, MOE is usually used together
+
+593
+00:25:21,079 --> 00:25:23,800
+with one of the previous
+three types of models.
+
+594
+00:25:23,800 --> 00:25:27,480
+For example, you can
+mix MOE transformers.
+
+595
+00:25:27,480 --> 00:25:31,219
+You can mix MOE with
+something like that. Okay.
+
+596
+00:25:31,219 --> 00:25:34,359
+But the idea high level
+idea of MOE is basically,
+
+597
+00:25:34,359 --> 00:25:36,040
+um, we try to replicate
+
+598
+00:25:36,040 --> 00:25:38,100
+some components of
+the single model.
+
+599
+00:25:38,100 --> 00:25:39,799
+So we create a lot of experts,
+
+600
+00:25:39,799 --> 00:25:43,759
+and the hope is basically
+we let all the experts
+
+601
+00:25:43,759 --> 00:25:47,940
+to produce a prediction and
+we take a majority voting,
+
+602
+00:25:47,940 --> 00:25:49,239
+right, something like that or
+
+603
+00:25:49,239 --> 00:25:50,839
+weighted average voting, right?
+
+604
+00:25:50,839 --> 00:25:52,939
+And we hope that the voting from
+
+605
+00:25:52,939 --> 00:25:55,560
+many experts could produce
+
+606
+00:25:55,560 --> 00:25:57,320
+a better results than
+a single expert.
+
+607
+00:25:57,320 --> 00:25:58,260
+That's basically idea.
+
+608
+00:25:58,260 --> 00:26:03,550
+Okay. And as a fact
+as a reality check,
+
+609
+00:26:03,550 --> 00:26:06,190
+okay, latest alums
+are mostly MOEs.
+
+610
+00:26:06,190 --> 00:26:09,889
+For example, Grock
+Mas Grock is MOE.
+
+611
+00:26:09,889 --> 00:26:12,589
+Okay? And the mixture
+is the one that
+
+612
+00:26:12,589 --> 00:26:16,449
+created by the misrEIPrevioc
+by Lamantin. Okay.
+
+613
+00:26:16,449 --> 00:26:23,210
+DBD four uh said to be MOE,
+no confirmation, okay?
+
+614
+00:26:23,210 --> 00:26:25,949
+And the very famous DPC V three,
+
+615
+00:26:25,949 --> 00:26:27,470
+which was released
+two weeks ago,
+
+616
+00:26:27,470 --> 00:26:31,209
+I think it basically
+becomes very popular,
+
+617
+00:26:31,209 --> 00:26:33,549
+very hot on Twitter.
+
+618
+00:26:33,549 --> 00:26:34,969
+It is MOE, right?
+
+619
+00:26:34,969 --> 00:26:38,419
+Okay? And as I already said,
+
+620
+00:26:38,419 --> 00:26:39,919
+the only novel computation in
+
+621
+00:26:39,919 --> 00:26:41,840
+MOE is something
+called a router.
+
+622
+00:26:41,840 --> 00:26:43,579
+Why? Because once you have
+
+623
+00:26:43,579 --> 00:26:46,339
+input going into
+all these experts,
+
+624
+00:26:46,339 --> 00:26:48,440
+you need to basically
+embed a router
+
+625
+00:26:48,440 --> 00:26:50,759
+to decide which expert is
+going to ask you that input.
+
+626
+00:26:50,759 --> 00:26:52,400
+Right? Because you
+are replicating
+
+627
+00:26:52,400 --> 00:26:53,579
+the model with
+many many experts.
+
+628
+00:26:53,579 --> 00:26:55,759
+And for example,
+in transformers,
+
+629
+00:26:55,759 --> 00:26:57,219
+each expert only corresponds to
+
+630
+00:26:57,219 --> 00:27:00,745
+a few say MLPs MLP layers, okay.
+
+631
+00:27:00,745 --> 00:27:03,889
+So what constitutes a router?
+
+632
+00:27:03,889 --> 00:27:05,730
+It's still meta and softmax,
+
+633
+00:27:05,730 --> 00:27:07,830
+because you basically, uh,
+
+634
+00:27:07,830 --> 00:27:10,349
+apply a classification
+mechanism here, right?
+
+635
+00:27:10,349 --> 00:27:12,469
+You take the input,
+you classify it
+
+636
+00:27:12,469 --> 00:27:14,649
+into the lumber classes.
+
+637
+00:27:14,649 --> 00:27:16,469
+Corresponding to the
+lumber experts here,
+
+638
+00:27:16,469 --> 00:27:18,389
+and then you take the
+top two value and you
+
+639
+00:27:18,389 --> 00:27:20,709
+give the output to
+the top two experts.
+
+640
+00:27:20,709 --> 00:27:29,279
+Yeah, that's it. Okay. Then
+I'm going to ask a question.
+
+641
+00:27:29,279 --> 00:27:30,860
+I'm not going to give answer.
+
+642
+00:27:30,860 --> 00:27:32,859
+You should think about
+it, if you have time.
+
+643
+00:27:32,859 --> 00:27:35,800
+Why router makes it
+super difficult?
+
+644
+00:27:36,160 --> 00:27:39,979
+Yeah, why it difficult
+to design systems.
+
+645
+00:27:39,979 --> 00:27:42,580
+Okay, we are going to gradually
+
+646
+00:27:42,580 --> 00:27:44,939
+approach it out in
+later lectures.
+
+647
+00:27:44,939 --> 00:27:48,359
+Okay. Any questions so far?
+
+648
+00:27:48,690 --> 00:27:52,030
+Okay, that's basically our
+20 minutes machining class.
+
+649
+00:27:52,030 --> 00:27:56,450
+Okay, we finish. Um, Okay,
+let's do a summarize.
+
+650
+00:27:56,450 --> 00:27:59,250
+Do a summary. Okay.
+So we basically,
+
+651
+00:27:59,250 --> 00:28:00,750
+look at the computation.
+
+652
+00:28:00,750 --> 00:28:01,669
+Look at these models from
+
+653
+00:28:01,669 --> 00:28:03,350
+a competition perspective, okay?
+
+654
+00:28:03,350 --> 00:28:06,269
+We basically reviewed four
+types of models, right?
+
+655
+00:28:06,269 --> 00:28:09,210
+Sins, irons,
+transformers, and MOEs,
+
+656
+00:28:09,210 --> 00:28:10,769
+and we try to identify
+
+657
+00:28:10,769 --> 00:28:12,629
+the computational elements
+from these models,
+
+658
+00:28:12,629 --> 00:28:14,870
+okay, which are
+listed here, okay?
+
+659
+00:28:14,870 --> 00:28:17,209
+And if we basically
+shuffle them a little bit,
+
+660
+00:28:17,209 --> 00:28:21,890
+we will see that Mdmol
+appears four times,
+
+661
+00:28:21,890 --> 00:28:25,450
+Softmax appears three
+times and then others.
+
+662
+00:28:25,450 --> 00:28:28,249
+Then I'm going to give
+you the true name on
+
+663
+00:28:28,249 --> 00:28:32,169
+this cours Meta M plus
+softmax are all you need.
+
+664
+00:28:32,169 --> 00:28:34,870
+We are going to grand
+on these two operators
+
+665
+00:28:34,870 --> 00:28:37,069
+from CPO to GPO,
+
+666
+00:28:37,069 --> 00:28:39,590
+from single device to clusters.
+
+667
+00:28:39,590 --> 00:28:41,489
+A majority of our
+effort will be just
+
+668
+00:28:41,489 --> 00:28:43,329
+looking at how we
+can make metamo
+
+669
+00:28:43,329 --> 00:28:45,549
+and Soffamx faster or how we can
+
+670
+00:28:45,549 --> 00:28:49,170
+paralyze metamo and
+softmax on many GPOs.
+
+671
+00:28:49,410 --> 00:28:54,169
+In other words, MLC is
+basically equals to met Moss.
+
+672
+00:28:54,169 --> 00:28:56,329
+If you study metamo pretty well,
+
+673
+00:28:56,329 --> 00:28:59,849
+you are already an expert.
+That's all you need.
+
+674
+00:28:59,849 --> 00:29:04,049
+Cool, cool. Then we finish
+the machining part,
+
+675
+00:29:04,049 --> 00:29:07,349
+okay, we are going to come
+back to the system part.
+
+676
+00:29:07,349 --> 00:29:10,769
+So as I said, we have
+data model and computer,
+
+677
+00:29:10,769 --> 00:29:14,329
+as the three key components
+in machining systems.
+
+678
+00:29:14,329 --> 00:29:16,929
+So then we are going to study
+this one by one, right?
+
+679
+00:29:16,929 --> 00:29:19,369
+Because eventually our
+goal is basically given
+
+680
+00:29:19,369 --> 00:29:22,570
+the data and given computation
+described by the model,
+
+681
+00:29:22,570 --> 00:29:24,050
+we try to put them onto
+
+682
+00:29:24,050 --> 00:29:26,909
+our computer devices and
+try to get the results.
+
+683
+00:29:26,909 --> 00:29:29,010
+So how to represent data.
+
+684
+00:29:29,010 --> 00:29:31,170
+So normally we represent
+data in this way,
+
+685
+00:29:31,170 --> 00:29:33,210
+right? This is our data.
+
+686
+00:29:33,210 --> 00:29:36,630
+Computers, how do
+we represent data.
+
+687
+00:29:36,630 --> 00:29:38,289
+So in mergin systems we
+
+688
+00:29:38,289 --> 00:29:40,150
+usually use a format
+called tensor,
+
+689
+00:29:40,150 --> 00:29:42,769
+withdraw this in memory,
+
+690
+00:29:42,769 --> 00:29:45,230
+and we are going to come
+back to this later.
+
+691
+00:29:45,230 --> 00:29:50,409
+Okay? How do we represent
+models in our program?
+
+692
+00:29:50,440 --> 00:29:53,860
+Like I already
+said, we represent
+
+693
+00:29:53,860 --> 00:29:57,800
+them using a set of
+mathematical primitives,
+
+694
+00:29:57,800 --> 00:30:00,979
+already figure out other set
+of primitives, mostly memo.
+
+695
+00:30:00,979 --> 00:30:03,560
+Okay? But that's not sufficient.
+
+696
+00:30:03,560 --> 00:30:05,700
+Why? Because we only,
+
+697
+00:30:05,700 --> 00:30:09,940
+figure out the basic
+individual primitives.
+
+698
+00:30:09,940 --> 00:30:11,500
+We still need to
+connect them together,
+
+699
+00:30:11,500 --> 00:30:13,659
+to represent the competition
+
+700
+00:30:13,659 --> 00:30:15,120
+of the model, the entire model.
+
+701
+00:30:15,120 --> 00:30:18,259
+Globally. So basically,
+we are going to develop
+
+702
+00:30:18,259 --> 00:30:19,739
+a reputation that can
+
+703
+00:30:19,739 --> 00:30:22,139
+express the competition
+using these primitives.
+
+704
+00:30:22,139 --> 00:30:25,124
+Okay? We are going to
+connect them together.
+
+705
+00:30:25,124 --> 00:30:27,849
+And third one, of
+course, compute,
+
+706
+00:30:27,849 --> 00:30:30,149
+how we can make this primitives
+
+707
+00:30:30,149 --> 00:30:31,609
+into programs and how we can
+
+708
+00:30:31,609 --> 00:30:33,349
+make programs that can
+run on all sorts of
+
+709
+00:30:33,349 --> 00:30:35,289
+hardware, CPU GPU TPU.
+
+710
+00:30:35,289 --> 00:30:38,049
+Yeah. That's basically
+the third part.
+
+711
+00:30:38,049 --> 00:30:40,029
+Okay. Next, I'm going to
+
+712
+00:30:40,029 --> 00:30:42,330
+introduce a very, very
+powerful repentation.
+
+713
+00:30:42,330 --> 00:30:44,049
+We are going to focus
+on the middle question,
+
+714
+00:30:44,049 --> 00:30:48,169
+how we can develop orientation
+to express the models.
+
+715
+00:30:48,169 --> 00:30:50,829
+Okay? And this orientation
+is called dataflow graph.
+
+716
+00:30:50,829 --> 00:30:53,510
+Okay? If you use the
+partwortna flow,
+
+717
+00:30:53,510 --> 00:30:55,109
+you probably are already
+familiar with this term.
+
+718
+00:30:55,109 --> 00:30:58,230
+Okay. Data flow graph
+is basically the kind
+
+719
+00:30:58,230 --> 00:31:03,130
+of language we use to express
+marinaring competition.
+
+720
+00:31:03,450 --> 00:31:08,689
+Okay. Before I dive deep into
+that let's recall our goal.
+
+721
+00:31:08,689 --> 00:31:11,949
+Our goal is we try to express
+as many model as possible
+
+722
+00:31:11,949 --> 00:31:13,249
+using one set of
+
+723
+00:31:13,249 --> 00:31:15,129
+program interface by connecting
+
+724
+00:31:15,129 --> 00:31:17,429
+these mathematical
+primitives, right?
+
+725
+00:31:17,429 --> 00:31:20,370
+And remember what is
+inside the model,
+
+726
+00:31:20,370 --> 00:31:22,609
+we have the model and
+architecture which basically
+
+727
+00:31:22,609 --> 00:31:25,250
+express the connectivity between
+mathematical primitives.
+
+728
+00:31:25,250 --> 00:31:27,029
+We have an objective
+function, right,
+
+729
+00:31:27,029 --> 00:31:28,850
+which is essentially another set
+
+730
+00:31:28,850 --> 00:31:31,650
+of, uh, like computation.
+
+731
+00:31:31,650 --> 00:31:33,849
+We have an optidor which is,
+
+732
+00:31:33,849 --> 00:31:35,829
+in my opinion, atom, right?
+
+733
+00:31:35,829 --> 00:31:37,189
+Everyone is atom.
+
+734
+00:31:37,189 --> 00:31:39,009
+We need to express
+atom pretty well.
+
+735
+00:31:39,009 --> 00:31:41,414
+And we have some data, okay?
+
+736
+00:31:41,414 --> 00:31:43,619
+So the way that we find out
+
+737
+00:31:43,619 --> 00:31:45,339
+the right abstraction or
+
+738
+00:31:45,339 --> 00:31:46,639
+the right representations,
+basically,
+
+739
+00:31:46,639 --> 00:31:47,899
+we look at our application and
+
+740
+00:31:47,899 --> 00:31:49,679
+we think about what kind of
+
+741
+00:31:49,679 --> 00:31:51,840
+representation can
+actually serve
+
+742
+00:31:51,840 --> 00:31:53,920
+better on our application.
+
+743
+00:31:53,920 --> 00:31:55,279
+So in history, we have
+
+744
+00:31:55,279 --> 00:31:57,260
+developed many many
+systems, for example,
+
+745
+00:31:57,260 --> 00:31:59,539
+if you study database
+courses, you know,
+
+746
+00:31:59,539 --> 00:32:00,959
+uh, we have a pretty famous
+
+747
+00:32:00,959 --> 00:32:02,359
+workload called Data
+Management, right?
+
+748
+00:32:02,359 --> 00:32:03,899
+In other words, OLTP.
+
+749
+00:32:03,899 --> 00:32:05,420
+And in this workload,
+
+750
+00:32:05,420 --> 00:32:07,559
+how do we represent programs and
+
+751
+00:32:07,559 --> 00:32:10,809
+communi so the very
+famous language
+
+752
+00:32:10,809 --> 00:32:12,769
+to do this is basically
+called SCO, right?
+
+753
+00:32:12,769 --> 00:32:14,850
+We use SQL to query data,
+
+754
+00:32:14,850 --> 00:32:17,830
+and we sort data in
+some sort of storage,
+
+755
+00:32:17,830 --> 00:32:19,990
+and we build a so called
+relation database.
+
+756
+00:32:19,990 --> 00:32:21,369
+And in a relation database,
+
+757
+00:32:21,369 --> 00:32:23,569
+we have a lot of tables to
+represent the data, right?
+
+758
+00:32:23,569 --> 00:32:25,670
+And the SQL will
+basically quires tables.
+
+759
+00:32:25,670 --> 00:32:29,049
+And before it actually ask
+you that query it will has
+
+760
+00:32:29,049 --> 00:32:31,769
+some query processing or
+query planning mechanism
+
+761
+00:32:31,769 --> 00:32:33,349
+to make it efficient, right?
+
+762
+00:32:33,349 --> 00:32:35,229
+This is how we ended up
+
+763
+00:32:35,229 --> 00:32:38,570
+building in the past 20
+years, right for database.
+
+764
+00:32:38,570 --> 00:32:41,190
+And as data become
+bigger and bigger,
+
+765
+00:32:41,190 --> 00:32:44,049
+we start moving to OEP, right?
+
+766
+00:32:44,049 --> 00:32:46,909
+We start moving into big
+data and we try to do
+
+767
+00:32:46,909 --> 00:32:50,769
+some very simple functional
+transformation on big tables.
+
+768
+00:32:50,769 --> 00:32:53,969
+And apparently this plane
+SQL does not suffice.
+
+769
+00:32:53,969 --> 00:32:56,850
+So what we do is we build
+something called spark memduc
+
+770
+00:32:56,850 --> 00:33:00,710
+and we start redesigning
+our storage mechanism.
+
+771
+00:33:00,710 --> 00:33:03,469
+We store them in so called
+column storage, right?
+
+772
+00:33:03,469 --> 00:33:07,049
+And we create some data
+warehousing and we start creating
+
+773
+00:33:07,049 --> 00:33:09,250
+those data flow competition
+
+774
+00:33:09,250 --> 00:33:10,995
+so we can express
+the competition.
+
+775
+00:33:10,995 --> 00:33:13,940
+Okay. And probably in the same.
+
+776
+00:33:13,940 --> 00:33:15,939
+Now we are moving to
+the third stage that
+
+777
+00:33:15,939 --> 00:33:18,079
+is machine learning become
+a dominant workload.
+
+778
+00:33:18,079 --> 00:33:19,339
+How do we develop
+
+779
+00:33:19,339 --> 00:33:22,545
+orientation to basically
+express this combination.
+
+780
+00:33:22,545 --> 00:33:25,709
+Okay. Here, we are
+
+781
+00:33:25,709 --> 00:33:28,130
+going to introduce
+computation dear graph, okay?
+
+782
+00:33:28,130 --> 00:33:29,869
+So here, you can
+see two examples.
+
+783
+00:33:29,869 --> 00:33:31,209
+I'm going to dive
+deep into that.
+
+784
+00:33:31,209 --> 00:33:32,829
+Remember, this is
+probably one of
+
+785
+00:33:32,829 --> 00:33:35,389
+the most important slides
+of this lecture, okay?
+
+786
+00:33:35,389 --> 00:33:37,410
+If you cannot follow
+in a lecture,
+
+787
+00:33:37,410 --> 00:33:38,249
+go back to check it out.
+
+788
+00:33:38,249 --> 00:33:42,670
+Okay? So here we define graph
+with node and edges, okay?
+
+789
+00:33:42,670 --> 00:33:44,670
+The node basically
+represents the computation.
+
+790
+00:33:44,670 --> 00:33:46,889
+For example, it's a
+primitive, it's an operator.
+
+791
+00:33:46,889 --> 00:33:49,229
+For example, Mdm
+is a node, right?
+
+792
+00:33:49,229 --> 00:33:51,990
+And like add sub or whatever,
+
+793
+00:33:51,990 --> 00:33:53,789
+it kind of primitive operator.
+
+794
+00:33:53,789 --> 00:33:55,309
+Okay. And it will basically
+
+795
+00:33:55,309 --> 00:33:57,395
+represent a node in the graph.
+
+796
+00:33:57,395 --> 00:33:59,980
+In your graph, of
+course, you have edges.
+
+797
+00:33:59,980 --> 00:34:03,120
+Basically, the edge represents
+the data dependency.
+
+798
+00:34:03,120 --> 00:34:04,459
+That is how the data flow from
+
+799
+00:34:04,459 --> 00:34:06,920
+the first operator
+to second or third.
+
+800
+00:34:06,920 --> 00:34:10,100
+Only represent the dependency.
+
+801
+00:34:10,530 --> 00:34:12,970
+Meanwhile, we're
+going to slightly
+
+802
+00:34:12,970 --> 00:34:15,289
+overload node, the
+definition node.
+
+803
+00:34:15,289 --> 00:34:17,630
+We also use the
+node to represent
+
+804
+00:34:17,630 --> 00:34:20,270
+the output tensor
+of the operator.
+
+805
+00:34:20,270 --> 00:34:22,249
+For example, in the left
+figure, you can see,
+
+806
+00:34:22,249 --> 00:34:24,969
+we have the mo multiplication.
+
+807
+00:34:24,969 --> 00:34:27,849
+So that node
+represents two things.
+
+808
+00:34:27,849 --> 00:34:30,269
+One is the mod itself,
+the computation.
+
+809
+00:34:30,269 --> 00:34:32,410
+Second is output.
+
+810
+00:34:32,410 --> 00:34:35,270
+It represents computation
+and the output.
+
+811
+00:34:35,270 --> 00:34:38,630
+That's why there's arrow from
+the mount to the add const
+
+812
+00:34:38,630 --> 00:34:40,269
+because the output of
+
+813
+00:34:40,269 --> 00:34:42,934
+the mode will go into
+the next operator, okay?
+
+814
+00:34:42,934 --> 00:34:47,000
+And if we also use the nodes
+to represent some constant,
+
+815
+00:34:47,000 --> 00:34:48,960
+for example, you don't have
+to perform any competition,
+
+816
+00:34:48,960 --> 00:34:50,860
+you just have input and
+input is a constant.
+
+817
+00:34:50,860 --> 00:34:53,039
+That's why the A and
+B are also nodes,
+
+818
+00:34:53,039 --> 00:34:55,299
+A and B has the edge
+going to the mod,
+
+819
+00:34:55,299 --> 00:34:57,379
+so they flow into the mod and
+
+820
+00:34:57,379 --> 00:35:01,199
+perform the mount
+competition. Okay? Clear?
+
+821
+00:35:01,199 --> 00:35:04,520
+Okay. So from this definition,
+
+822
+00:35:04,520 --> 00:35:06,019
+you can see, on the left side,
+
+823
+00:35:06,019 --> 00:35:07,300
+we basically define competition,
+
+824
+00:35:07,300 --> 00:35:11,579
+which is a multiply
+B plus three, right?
+
+825
+00:35:11,579 --> 00:35:14,199
+Okay. And on the right
+one is slightly more
+
+826
+00:35:14,199 --> 00:35:15,619
+complicated and you can spend
+
+827
+00:35:15,619 --> 00:35:17,679
+5 seconds looking at that
+and you all figure out,
+
+828
+00:35:17,679 --> 00:35:19,680
+we are basically defining
+
+829
+00:35:19,680 --> 00:35:21,359
+a very small neural
+network, right?
+
+830
+00:35:21,359 --> 00:35:25,439
+So we have the constant X
+and a constant W one, right.
+
+831
+00:35:25,439 --> 00:35:28,699
+And they are nodes and
+they flow into the met mo.
+
+832
+00:35:28,699 --> 00:35:31,680
+So we met mod them together,
+we get the results.
+
+833
+00:35:31,680 --> 00:35:33,059
+The results will going into
+
+834
+00:35:33,059 --> 00:35:34,779
+the next operator
+with Lu, right?
+
+835
+00:35:34,779 --> 00:35:38,799
+And the results will get
+into the second memo, right?
+
+836
+00:35:38,799 --> 00:35:41,959
+The second memo has a
+second input with W two.
+
+837
+00:35:41,959 --> 00:35:45,359
+Then W two, and the
+result value will be
+
+838
+00:35:45,359 --> 00:35:49,459
+met mode and get into
+lots funone MSE, right?
+
+839
+00:35:49,459 --> 00:35:52,619
+And then MSE you will compare
+the computation results and
+
+840
+00:35:52,619 --> 00:35:56,899
+the two label Y and give you
+output, which is the loss.
+
+841
+00:35:56,899 --> 00:35:59,500
+Okay? So here, actually,
+
+842
+00:35:59,500 --> 00:36:00,859
+this graph has a
+little bit problem.
+
+843
+00:36:00,859 --> 00:36:03,680
+So MSE is actually
+not primitive.
+
+844
+00:36:03,680 --> 00:36:07,380
+Right, MSE is a function is
+a very complicated function,
+
+845
+00:36:07,380 --> 00:36:08,859
+so I simplify a it bit.
+
+846
+00:36:08,859 --> 00:36:10,979
+Okay? And you guys need
+to figure out how to
+
+847
+00:36:10,979 --> 00:36:13,820
+actually express MSE
+in true primitive.
+
+848
+00:36:13,820 --> 00:36:18,099
+Yeah, the most elementary
+operators from there, okay?
+
+849
+00:36:18,099 --> 00:36:20,899
+But I think you basically
+get the definition, right.
+
+850
+00:36:20,899 --> 00:36:25,460
+This is dataflow graph. Okay.
+In the next few slides,
+
+851
+00:36:25,460 --> 00:36:27,460
+I'm going to do a case study
+
+852
+00:36:27,460 --> 00:36:29,759
+of deploying programs
+using a very,
+
+853
+00:36:29,759 --> 00:36:32,080
+very original tensor
+flow one API.
+
+854
+00:36:32,080 --> 00:36:33,959
+U Echo it a classic flavor.
+
+855
+00:36:33,959 --> 00:36:38,879
+Okay. And, um, but you should
+keep in mind that today,
+
+856
+00:36:38,879 --> 00:36:41,079
+for example, if you
+are petrogPower user,
+
+857
+00:36:41,079 --> 00:36:42,820
+you probably find it slightly
+
+858
+00:36:42,820 --> 00:36:44,759
+different from what
+you wrote today.
+
+859
+00:36:44,759 --> 00:36:46,460
+But basically, under Hood,
+
+860
+00:36:46,460 --> 00:36:48,060
+they are using the
+same representation,
+
+861
+00:36:48,060 --> 00:36:49,339
+which is called data ph graph.
+
+862
+00:36:49,339 --> 00:36:51,739
+Okay? So the use case we
+
+863
+00:36:51,739 --> 00:36:52,900
+are going to look
+at is basically
+
+864
+00:36:52,900 --> 00:36:54,220
+one linear neural network,
+
+865
+00:36:54,220 --> 00:36:56,220
+which performs
+logistic regression.
+
+866
+00:36:56,220 --> 00:37:00,440
+It basically takes the image
+represented as a vector.
+
+867
+00:37:00,440 --> 00:37:03,299
+It goes through this like
+a single layer MLP, right?
+
+868
+00:37:03,299 --> 00:37:06,600
+And it will go through
+two class softmax,
+
+869
+00:37:06,600 --> 00:37:10,785
+which is basically
+logistic regression, okay?
+
+870
+00:37:10,785 --> 00:37:12,969
+And here's the program, okay?
+
+871
+00:37:12,969 --> 00:37:15,609
+You can see, we first
+import something
+
+872
+00:37:15,609 --> 00:37:18,730
+right from the Paton library,
+
+873
+00:37:18,730 --> 00:37:21,349
+and then we start call
+this interface to
+
+874
+00:37:21,349 --> 00:37:25,529
+define a few constant
+X Y X is our input,
+
+875
+00:37:25,529 --> 00:37:28,729
+Ys put W is the weight, okay?
+
+876
+00:37:29,310 --> 00:37:32,150
+And then what we do is what
+we call the interface,
+
+877
+00:37:32,150 --> 00:37:34,270
+we continue to
+define commutation.
+
+878
+00:37:34,270 --> 00:37:36,870
+Here we basically um define
+
+879
+00:37:36,870 --> 00:37:38,669
+loss function and we
+
+880
+00:37:38,669 --> 00:37:41,289
+call API which is
+called the TFRduc mean.
+
+881
+00:37:41,289 --> 00:37:42,929
+Inside of reduce
+mean, what do we
+
+882
+00:37:42,929 --> 00:37:45,069
+do uh we do a reduce sum.
+
+883
+00:37:45,069 --> 00:37:47,749
+Uh we like Y times TF log Y.
+
+884
+00:37:47,749 --> 00:37:50,509
+Then we basically
+slightly rotate
+
+885
+00:37:50,509 --> 00:37:51,949
+the axis in some way and we
+
+886
+00:37:51,949 --> 00:37:54,509
+try to get the mean value, okay?
+
+887
+00:37:55,220 --> 00:37:58,580
+And in order to make
+this new network,
+
+888
+00:37:58,580 --> 00:38:00,979
+but because up until here,
+
+889
+00:38:00,979 --> 00:38:03,179
+we only define the fmmetation we
+
+890
+00:38:03,179 --> 00:38:05,799
+still need to define some
+sort of recommendation.
+
+891
+00:38:05,799 --> 00:38:07,500
+So what we do is basically
+
+892
+00:38:07,500 --> 00:38:10,120
+we use other API
+called Tift gradient.
+
+893
+00:38:10,120 --> 00:38:13,019
+So what does this
+Tift grading do?
+
+894
+00:38:13,830 --> 00:38:17,049
+I perform something called
+automatic differentiation,
+
+895
+00:38:17,049 --> 00:38:17,329
+right?
+
+896
+00:38:17,329 --> 00:38:20,450
+It basically take
+this computation
+
+897
+00:38:20,450 --> 00:38:21,749
+you defined in forward mode and
+
+898
+00:38:21,749 --> 00:38:23,469
+you try to derive
+the backward mode,
+
+899
+00:38:23,469 --> 00:38:25,210
+how to calculate gradients.
+
+900
+00:38:25,210 --> 00:38:28,169
+Okay? And then we are
+
+901
+00:38:28,169 --> 00:38:31,269
+going to specify the
+SET update rule, right?
+
+902
+00:38:31,269 --> 00:38:33,409
+So here you can see, uh,
+
+903
+00:38:33,409 --> 00:38:35,810
+we have a learning rate,
+which is a constant.
+
+904
+00:38:35,810 --> 00:38:38,050
+From the TF grading,
+
+905
+00:38:38,050 --> 00:38:39,610
+we have the calculated gradient,
+
+906
+00:38:39,610 --> 00:38:42,309
+which is W grad,
+underscore grad.
+
+907
+00:38:42,309 --> 00:38:44,130
+And we market them together,
+
+908
+00:38:44,130 --> 00:38:46,209
+and then we manage
+it from the original
+
+909
+00:38:46,209 --> 00:38:48,709
+with W. We get the next re W.
+
+910
+00:38:48,709 --> 00:38:51,010
+So recall that master
+equation activity
+
+911
+00:38:51,010 --> 00:38:53,269
+at the beginning, okay?
+
+912
+00:38:54,429 --> 00:38:58,589
+And here comes to something
+that is really weird, okay?
+
+913
+00:38:58,589 --> 00:39:01,590
+And you can see, actually
+
+914
+00:39:01,590 --> 00:39:04,169
+the program actually
+run here at the end.
+
+915
+00:39:04,169 --> 00:39:05,729
+So basically, all the code I
+
+916
+00:39:05,729 --> 00:39:08,969
+showed about this line is
+basically defining the graph.
+
+917
+00:39:08,969 --> 00:39:10,609
+Try to declare the graph,
+
+918
+00:39:10,609 --> 00:39:12,329
+but it actually runs at the end.
+
+919
+00:39:12,329 --> 00:39:14,389
+Okay. I'm going to explain
+this because this is
+
+920
+00:39:14,389 --> 00:39:18,549
+a very important thing in
+margining frameworks, okay?
+
+921
+00:39:19,790 --> 00:39:22,830
+So but before I
+explain the mechanism,
+
+922
+00:39:22,830 --> 00:39:24,229
+the execution mechanism here,
+
+923
+00:39:24,229 --> 00:39:25,489
+so you can see, what
+
+924
+00:39:25,489 --> 00:39:27,290
+happens behind the
+scenes, basically,
+
+925
+00:39:27,290 --> 00:39:30,450
+whenever you call
+the TFEPTflowEPI
+
+926
+00:39:30,450 --> 00:39:33,329
+to define to write
+some competition, uh,
+
+927
+00:39:33,329 --> 00:39:34,409
+the tener flow will basically
+
+928
+00:39:34,409 --> 00:39:35,929
+try to comprehend
+what you wrote in
+
+929
+00:39:35,929 --> 00:39:37,330
+program and try to construct
+
+930
+00:39:37,330 --> 00:39:39,309
+a graph structure here, right?
+
+931
+00:39:39,309 --> 00:39:40,889
+So every time you
+write one line,
+
+932
+00:39:40,889 --> 00:39:42,050
+you basically add a one operator
+
+933
+00:39:42,050 --> 00:39:43,090
+and the TF will basically
+
+934
+00:39:43,090 --> 00:39:47,070
+maintain TF flow
+graph, behind, okay.
+
+935
+00:39:47,409 --> 00:39:50,909
+And you keep writing the
+loss function or whatever,
+
+936
+00:39:50,909 --> 00:39:52,249
+so the TF will keep
+
+937
+00:39:52,249 --> 00:39:55,010
+constructing one more
+nodes into this graph.
+
+938
+00:39:55,010 --> 00:39:57,430
+And once you call
+the TF gradient,
+
+939
+00:39:57,430 --> 00:40:00,529
+it will automatically
+perform auto Div and try to
+
+940
+00:40:00,529 --> 00:40:04,089
+derive a graph that we call
+backward graph, right?
+
+941
+00:40:04,089 --> 00:40:06,149
+The backward graph
+will take some
+
+942
+00:40:06,149 --> 00:40:07,709
+inputs from the forward graph,
+
+943
+00:40:07,709 --> 00:40:09,150
+and it will basically reverse
+
+944
+00:40:09,150 --> 00:40:10,709
+the graph using some
+mathematical rules,
+
+945
+00:40:10,709 --> 00:40:13,009
+which is follow back
+propagation, okay?
+
+946
+00:40:13,009 --> 00:40:16,089
+And it will basically
+connect them together.
+
+947
+00:40:16,089 --> 00:40:19,609
+Okay. And when you
+
+948
+00:40:19,609 --> 00:40:21,889
+do open matter declaration
+and when you do section run,
+
+949
+00:40:21,889 --> 00:40:23,730
+they basically trigger a graph.
+
+950
+00:40:23,730 --> 00:40:25,389
+And then the data will flow from
+
+951
+00:40:25,389 --> 00:40:27,789
+the first node to last
+node and then come back.
+
+952
+00:40:27,789 --> 00:40:29,849
+Yeah. This is what
+tender flow does,
+
+953
+00:40:29,849 --> 00:40:31,890
+for your machining program.
+
+954
+00:40:31,890 --> 00:40:34,969
+Okay, um, if you're not
+
+955
+00:40:34,969 --> 00:40:36,149
+familiar with it's
+fine because we
+
+956
+00:40:36,149 --> 00:40:37,529
+are going to come back
+to this again. Okay.
+
+957
+00:40:37,529 --> 00:40:43,390
+But let us discuss a few
+problems or questions.
+
+958
+00:40:43,390 --> 00:40:46,050
+The first one is, what are
+the benefits of computing
+
+959
+00:40:46,050 --> 00:40:51,329
+graph abstraction? Like,
+what are the pros?
+
+960
+00:40:52,610 --> 00:40:57,429
+Sorry? Yeah. So
+it's very powerful,
+
+961
+00:40:57,429 --> 00:40:59,550
+as you can see, because
+it's a graph orientation,
+
+962
+00:40:59,550 --> 00:41:01,189
+you can't represent
+any kind of amation
+
+963
+00:41:01,189 --> 00:41:03,089
+as long as you have
+a primitive, right?
+
+964
+00:41:03,089 --> 00:41:05,409
+Okay. And it's very clean.
+
+965
+00:41:05,409 --> 00:41:08,849
+Once you take this graph,
+you can ask you the graph.
+
+966
+00:41:09,770 --> 00:41:12,109
+So given this graph,
+
+967
+00:41:12,109 --> 00:41:13,909
+what are the possible
+implementations
+
+968
+00:41:13,909 --> 00:41:15,349
+and implementations
+on this graph?
+
+969
+00:41:15,349 --> 00:41:17,570
+Maybe we'll focus
+on implementation.
+
+970
+00:41:17,570 --> 00:41:19,609
+If we are going to focus, if we
+
+971
+00:41:19,609 --> 00:41:21,809
+are going to basically
+ask you this graph,
+
+972
+00:41:21,809 --> 00:41:24,450
+how we can make it faster.
+
+973
+00:41:25,850 --> 00:41:28,669
+Actually, this data
+photograph provides
+
+974
+00:41:28,669 --> 00:41:31,299
+a perfect platform
+for us to optimize
+
+975
+00:41:31,299 --> 00:41:33,860
+because you probably can apply
+
+976
+00:41:33,860 --> 00:41:35,499
+arbitrary graph parsing and
+
+977
+00:41:35,499 --> 00:41:38,299
+graph analyzing
+algorithm on the graph.
+
+978
+00:41:38,299 --> 00:41:39,659
+You try to reduce the
+size of the graph,
+
+979
+00:41:39,659 --> 00:41:41,879
+for example, you try
+to field some nodes,
+
+980
+00:41:41,879 --> 00:41:43,499
+and you try to cut graph,
+
+981
+00:41:43,499 --> 00:41:45,319
+maybe put one half
+on one device,
+
+982
+00:41:45,319 --> 00:41:47,199
+the other half on
+the second device,
+
+983
+00:41:47,199 --> 00:41:48,659
+you try to paralyze this graph.
+
+984
+00:41:48,659 --> 00:41:50,500
+So as you can see, this graph
+
+985
+00:41:50,500 --> 00:41:52,859
+also enables a lot of
+possible organizations.
+
+986
+00:41:52,859 --> 00:41:55,179
+So in the next few classes,
+
+987
+00:41:55,179 --> 00:41:56,879
+we are going to basically
+optimize this graph
+
+988
+00:41:56,879 --> 00:41:58,179
+because this graph represents
+
+989
+00:41:58,179 --> 00:41:59,220
+the machine learning programs.
+
+990
+00:41:59,220 --> 00:42:00,759
+And we are going to
+discuss all the ways
+
+991
+00:42:00,759 --> 00:42:02,899
+how we can make
+the graph faster.
+
+992
+00:42:03,300 --> 00:42:06,220
+Then the third question,
+what are the cons
+
+993
+00:42:06,220 --> 00:42:12,899
+of the graph? Okay.
+
+994
+00:42:12,899 --> 00:42:14,719
+One major bottleneck of
+
+995
+00:42:14,719 --> 00:42:17,840
+this computer graph
+is very static.
+
+996
+00:42:17,840 --> 00:42:20,639
+You define it, then
+you cannot change it.
+
+997
+00:42:20,639 --> 00:42:23,659
+You define the compution
+then you cannot change it.
+
+998
+00:42:23,659 --> 00:42:25,479
+The graph is here and it's
+
+999
+00:42:25,479 --> 00:42:27,119
+very hard to alter
+the computation.
+
+1000
+00:42:27,119 --> 00:42:28,974
+You basically need to
+redefine the graph.
+
+1001
+00:42:28,974 --> 00:42:32,690
+So in reality, many many
+computations are very dynamic.
+
+1002
+00:42:32,690 --> 00:42:34,149
+For example, the graph can
+
+1003
+00:42:34,149 --> 00:42:35,769
+change depending on your input.
+
+1004
+00:42:35,769 --> 00:42:39,369
+For example, if you write
+person wrote slaps you probably
+
+1005
+00:42:39,369 --> 00:42:41,409
+usually use something like if
+
+1006
+00:42:41,409 --> 00:42:43,849
+my value is greater than what
+I'm going to do something,
+
+1007
+00:42:43,849 --> 00:42:46,209
+otherwise, I'm going to
+do something else, right?
+
+1008
+00:42:46,209 --> 00:42:48,369
+And you can imagine if there's
+
+1009
+00:42:48,369 --> 00:42:50,930
+a machinery model does
+something similar,
+
+1010
+00:42:50,930 --> 00:42:53,609
+if my tensor value is
+greater than something,
+
+1011
+00:42:53,609 --> 00:42:55,009
+I want to ask you that graph,
+
+1012
+00:42:55,009 --> 00:42:57,429
+otherwise, I ask
+you another graph.
+
+1013
+00:42:57,630 --> 00:43:00,670
+The reality is you actually
+don't know your input.
+
+1014
+00:43:00,670 --> 00:43:02,289
+Your input is
+basically some data
+
+1015
+00:43:02,289 --> 00:43:04,449
+generated by somewhere else,
+
+1016
+00:43:04,449 --> 00:43:07,810
+and the screen pattern
+can be very dynamic.
+
+1017
+00:43:07,810 --> 00:43:10,710
+But you can see this data
+flow graph is pretty static,
+
+1018
+00:43:10,710 --> 00:43:12,770
+so it can only represent
+static things.
+
+1019
+00:43:12,770 --> 00:43:18,389
+Okay. Cool. Any
+questions so far?
+
+1020
+00:43:18,830 --> 00:43:22,769
+Okay, then we are going
+to move into a more,
+
+1021
+00:43:22,769 --> 00:43:24,489
+I would say modern version,
+
+1022
+00:43:24,489 --> 00:43:27,129
+a different flavor,
+which is Petrich.
+
+1023
+00:43:27,129 --> 00:43:32,010
+Okay? Uh, Petrich actually
+also use, um, dataflow graphs.
+
+1024
+00:43:32,010 --> 00:43:34,795
+But the way that they use
+data flow is quite different.
+
+1025
+00:43:34,795 --> 00:43:37,739
+So here is a very nice, uh, uh,
+
+1026
+00:43:37,739 --> 00:43:39,940
+illustration of what happens
+
+1027
+00:43:39,940 --> 00:43:41,320
+under the hood when
+you start writing
+
+1028
+00:43:41,320 --> 00:43:42,779
+Petro programs, right?
+
+1029
+00:43:42,779 --> 00:43:46,400
+You can see different from
+the previous example I showed
+
+1030
+00:43:46,400 --> 00:43:48,679
+where you define a graph and
+
+1031
+00:43:48,679 --> 00:43:51,579
+then you remember there's a
+session door run at the end,
+
+1032
+00:43:51,579 --> 00:43:53,180
+which will trigger
+the execution.
+
+1033
+00:43:53,180 --> 00:43:54,860
+In Petrogs quite different.
+
+1034
+00:43:54,860 --> 00:43:56,159
+Whenever you write
+the line of code,
+
+1035
+00:43:56,159 --> 00:43:58,839
+you can actually immediately
+ask you a line of code.
+
+1036
+00:43:58,839 --> 00:44:00,759
+You will get results. It's very,
+
+1037
+00:44:00,759 --> 00:44:02,660
+very similar to how
+you use Python.
+
+1038
+00:44:02,660 --> 00:44:04,539
+Right under the hood
+
+1039
+00:44:04,539 --> 00:44:06,859
+what petri does is basically
+whenever you write
+
+1040
+00:44:06,859 --> 00:44:08,680
+some line of code
+that will basically
+
+1041
+00:44:08,680 --> 00:44:11,059
+contribute to a
+component of the graph,
+
+1042
+00:44:11,059 --> 00:44:13,639
+Petrog will dynamically
+constrain the graph.
+
+1043
+00:44:13,639 --> 00:44:16,339
+And meanwhile, it will
+trigger the excusion for you.
+
+1044
+00:44:16,339 --> 00:44:18,479
+So you can always get
+results at any line,
+
+1045
+00:44:18,479 --> 00:44:20,060
+If you add a print
+in the middle,
+
+1046
+00:44:20,060 --> 00:44:21,159
+you will get the results.
+
+1047
+00:44:21,159 --> 00:44:22,399
+But in the previous example,
+
+1048
+00:44:22,399 --> 00:44:24,784
+if you add a print,
+there's no results, okay.
+
+1049
+00:44:24,784 --> 00:44:30,409
+Yeah. Sorry.
+
+1050
+00:44:32,930 --> 00:44:34,670
+Yes, exactly.
+
+1051
+00:44:34,670 --> 00:44:36,509
+I'm going to talk about
+that in my next step.
+
+1052
+00:44:36,509 --> 00:44:39,589
+I hope you guys understand
+this difference, right?
+
+1053
+00:44:39,589 --> 00:44:42,670
+The first one is more like
+a symbolic declaration,
+
+1054
+00:44:42,670 --> 00:44:45,710
+but this one is
+more like a flavor,
+
+1055
+00:44:45,710 --> 00:44:49,489
+Pythonic, we do have a
+name for them, okay?
+
+1056
+00:44:49,489 --> 00:44:51,670
+We call the first one
+a symbolic program,
+
+1057
+00:44:51,670 --> 00:44:54,870
+and we call the second
+one imperative program,
+
+1058
+00:44:54,870 --> 00:44:57,449
+this basically classifies
+
+1059
+00:44:57,449 --> 00:45:00,170
+the existing emerging
+frameworks into two categories.
+
+1060
+00:45:00,170 --> 00:45:01,570
+One is symbolic frameworks.
+
+1061
+00:45:01,570 --> 00:45:03,395
+The other is
+imperative frameworks.
+
+1062
+00:45:03,395 --> 00:45:05,559
+And I think most of you what
+
+1063
+00:45:05,559 --> 00:45:08,059
+you use today is basically
+belonging to the second class.
+
+1064
+00:45:08,059 --> 00:45:09,619
+Because you can already reason
+
+1065
+00:45:09,619 --> 00:45:11,220
+why the second class
+is more popular.
+
+1066
+00:45:11,220 --> 00:45:13,039
+It's more intuitive, because
+
+1067
+00:45:13,039 --> 00:45:14,499
+I always want to print something
+
+1068
+00:45:14,499 --> 00:45:15,999
+in the middle and to make sure
+
+1069
+00:45:15,999 --> 00:45:17,979
+that my program runs
+correctly, right?
+
+1070
+00:45:17,979 --> 00:45:19,119
+Okay.
+
+1071
+00:45:19,119 --> 00:45:22,459
+And as I already pointed
+out in this slide.
+
+1072
+00:45:22,459 --> 00:45:25,460
+The key difference is basically
+in symbolic programming,
+
+1073
+00:45:25,460 --> 00:45:28,259
+you do workflow which is
+called define then run.
+
+1074
+00:45:28,259 --> 00:45:31,099
+You first define the
+competition, then you write it.
+
+1075
+00:45:31,099 --> 00:45:34,499
+In imperative programming,
+you define and run,
+
+1076
+00:45:34,499 --> 00:45:35,959
+you define it and you can write.
+
+1077
+00:45:35,959 --> 00:45:38,259
+You can write anytime, Okay?
+
+1078
+00:45:39,030 --> 00:45:42,349
+Let's basically discuss
+a little bit more on
+
+1079
+00:45:42,349 --> 00:45:45,970
+the pros and cons of
+symbolic versus imperative.
+
+1080
+00:45:45,970 --> 00:45:47,969
+For symbolic, I already said,
+
+1081
+00:45:47,969 --> 00:45:52,050
+it's good because you cannot
+run it before you define.
+
+1082
+00:45:52,050 --> 00:45:53,789
+But once you define, you
+
+1083
+00:45:53,789 --> 00:45:56,789
+actually have a global picture
+of what you are doing.
+
+1084
+00:45:57,630 --> 00:45:59,749
+Maintaining a global picture is
+
+1085
+00:45:59,749 --> 00:46:00,810
+good for system developers
+
+1086
+00:46:00,810 --> 00:46:02,149
+because I know what
+they are going to
+
+1087
+00:46:02,149 --> 00:46:04,429
+do in the future. I
+can optimize for you.
+
+1088
+00:46:04,429 --> 00:46:09,349
+In general, symbolic program
+or frameworks is easier to
+
+1089
+00:46:09,349 --> 00:46:10,469
+optimize because I know
+
+1090
+00:46:10,469 --> 00:46:14,230
+your graph and it's
+much more efficient.
+
+1091
+00:46:14,230 --> 00:46:16,070
+It could be turn more efficient.
+
+1092
+00:46:16,070 --> 00:46:18,329
+That's why your patgram
+is actually pretty smaw.
+
+1093
+00:46:18,329 --> 00:46:19,895
+It has a lot of
+space to optimize.
+
+1094
+00:46:19,895 --> 00:46:24,579
+Okay. The bad thing I
+already told you, right?
+
+1095
+00:46:24,579 --> 00:46:26,440
+So the way that you program
+
+1096
+00:46:26,440 --> 00:46:30,860
+the symbolic program programs
+is very counterintuitive.
+
+1097
+00:46:30,860 --> 00:46:32,640
+You have to define
+define device.
+
+1098
+00:46:32,640 --> 00:46:34,979
+So it has a large
+overhead on your brain.
+
+1099
+00:46:34,979 --> 00:46:36,339
+Yeah, you need to know
+what you're doing.
+
+1100
+00:46:36,339 --> 00:46:39,740
+Yeah. Secondly, it's
+very difficult to debug,
+
+1101
+00:46:39,740 --> 00:46:42,439
+because you cannot know
+the results until you
+
+1102
+00:46:42,439 --> 00:46:43,759
+define the competition
+and trigger
+
+1103
+00:46:43,759 --> 00:46:45,579
+a session door run. Okay?
+
+1104
+00:46:45,579 --> 00:46:48,114
+And it's not less flexible as I.
+
+1105
+00:46:48,114 --> 00:46:49,950
+Okay. For the imperative,
+
+1106
+00:46:49,950 --> 00:46:51,729
+I think it is basically
+on the other side.
+
+1107
+00:46:51,729 --> 00:46:54,950
+So it's very good because
+it's very flexible.
+
+1108
+00:46:54,950 --> 00:46:57,269
+You can add whatever print or
+
+1109
+00:46:57,269 --> 00:47:01,110
+whatever statement in the
+middle of the program,
+
+1110
+00:47:01,110 --> 00:47:03,730
+you can do whatever
+inspection, debugging.
+
+1111
+00:47:03,730 --> 00:47:06,549
+It's very easy to program
+and very easy to debug.
+
+1112
+00:47:06,549 --> 00:47:08,589
+That's why Python is
+so popular, right?
+
+1113
+00:47:08,589 --> 00:47:11,869
+But the bacon is
+very inefficient,
+
+1114
+00:47:11,869 --> 00:47:14,129
+and it's more difficult to
+
+1115
+00:47:14,129 --> 00:47:16,769
+optimize because the user
+can finish the graph,
+
+1116
+00:47:16,769 --> 00:47:19,369
+finish the graph definitely
+in the middle and
+
+1117
+00:47:19,369 --> 00:47:20,569
+through it to you and you don't
+
+1118
+00:47:20,569 --> 00:47:22,870
+know what you're going
+to do in the future.
+
+1119
+00:47:24,590 --> 00:47:27,569
+Okay. Any concern on this part?
+
+1120
+00:47:27,569 --> 00:47:31,609
+I can clarify. Cool. I
+assume you get it, right?
+
+1121
+00:47:31,609 --> 00:47:38,709
+Yeah. Product. I will
+talk about that.
+
+1122
+00:47:39,710 --> 00:47:43,230
+Then let's review MCQ.
+
+1123
+00:47:43,590 --> 00:47:46,189
+Which category symbolic versus
+
+1124
+00:47:46,189 --> 00:47:47,590
+imperative is the following PL
+
+1125
+00:47:47,590 --> 00:47:49,269
+programming language
+belonging to.
+
+1126
+00:47:49,269 --> 00:47:53,230
+In a sense of what I define
+as symbolic and imperative.
+
+1127
+00:47:53,230 --> 00:47:56,570
+First one, C plus plus,
+symbolic or imperative.
+
+1128
+00:47:56,570 --> 00:47:58,549
+It's definitely symbolic Because
+
+1129
+00:47:58,549 --> 00:47:59,809
+you cannot write, you
+have to compile it.
+
+1130
+00:47:59,809 --> 00:48:03,390
+You need to wait. Python.
+Of course, imperative.
+
+1131
+00:48:03,390 --> 00:48:06,704
+It has interpreter.
+How about CQ.
+
+1132
+00:48:06,704 --> 00:48:09,659
+Also symbolic, you have
+to send a sequel to
+
+1133
+00:48:09,659 --> 00:48:10,939
+the dabs and compile it for
+
+1134
+00:48:10,939 --> 00:48:12,639
+quite a long and then excv it.
+
+1135
+00:48:12,639 --> 00:48:15,180
+As you can see, symbolic
+and imperative is actually
+
+1136
+00:48:15,180 --> 00:48:18,340
+a very common thing already
+in programming language.
+
+1137
+00:48:18,860 --> 00:48:22,919
+Then I'm going to give you a
+very interesting phenomenon.
+
+1138
+00:48:22,919 --> 00:48:25,840
+We know that Python
+is imperative
+
+1139
+00:48:25,840 --> 00:48:30,180
+it's defined and run PO,
+
+1140
+00:48:30,660 --> 00:48:33,059
+we also know that tender flow is
+
+1141
+00:48:33,059 --> 00:48:35,660
+defined in run
+machinery framework,
+
+1142
+00:48:37,460 --> 00:48:40,639
+indeed, tender flow when
+you program tender flow,
+
+1143
+00:48:40,639 --> 00:48:44,959
+you're programming Python.
+There's a conflict here.
+
+1144
+00:48:44,959 --> 00:48:47,120
+TensorFlow is
+symbolic, but Python
+
+1145
+00:48:47,120 --> 00:48:50,280
+is imperative. So
+how did this happen?
+
+1146
+00:48:51,760 --> 00:48:54,519
+Yeah, it's actually
+pretty simple.
+
+1147
+00:48:54,519 --> 00:48:56,920
+So you are indeed using Python,
+
+1148
+00:48:56,920 --> 00:48:58,119
+but basically tenser flow will
+
+1149
+00:48:58,119 --> 00:49:00,119
+overwrite all those python
+interface you wrote.
+
+1150
+00:49:00,119 --> 00:49:02,419
+It actually give you a DSL
+
+1151
+00:49:02,419 --> 00:49:04,600
+which stands for domain
+specific language.
+
+1152
+00:49:04,600 --> 00:49:06,819
+So all the interface you
+call from Tinder flow,
+
+1153
+00:49:06,819 --> 00:49:08,980
+they are in Python, but it's
+a domain specif language.
+
+1154
+00:49:08,980 --> 00:49:11,279
+It modifies Python a little bit.
+
+1155
+00:49:11,800 --> 00:49:16,019
+That's why in many literatures,
+
+1156
+00:49:16,019 --> 00:49:18,519
+in many many websites, people
+usually complain saying
+
+1157
+00:49:18,519 --> 00:49:21,459
+that Petrox is more
+Pythonic than tender flow.
+
+1158
+00:49:21,459 --> 00:49:23,990
+They are both python, but
+Petros is slightly more python.
+
+1159
+00:49:23,990 --> 00:49:27,279
+Okay. Cool. I hope
+
+1160
+00:49:27,279 --> 00:49:28,460
+you guys get the concept
+
+1161
+00:49:28,460 --> 00:49:30,279
+of symbolic or
+imperative, right?
+
+1162
+00:49:30,279 --> 00:49:33,759
+Okay? Then we are going
+to do something fun.
+
+1163
+00:49:33,759 --> 00:49:35,639
+We're going to review
+what's going on in
+
+1164
+00:49:35,639 --> 00:49:37,775
+the machinery framework history.
+
+1165
+00:49:37,775 --> 00:49:41,349
+Okay. So basically, like I said,
+
+1166
+00:49:41,349 --> 00:49:42,750
+we can classify the machinery
+
+1167
+00:49:42,750 --> 00:49:44,029
+frameworks into
+two class, right?
+
+1168
+00:49:44,029 --> 00:49:46,230
+Symbolic and imperative.
+
+1169
+00:49:46,230 --> 00:49:47,510
+We can draw spectrum,
+
+1170
+00:49:47,510 --> 00:49:49,089
+and we put all these
+framework here.
+
+1171
+00:49:49,089 --> 00:49:50,710
+Okay? This is basically
+
+1172
+00:49:50,710 --> 00:49:53,269
+the relatively
+famous framework we
+
+1173
+00:49:53,269 --> 00:49:54,709
+developed in the past ten years
+
+1174
+00:49:54,709 --> 00:49:56,390
+when this industry starts.
+
+1175
+00:49:56,390 --> 00:49:57,909
+And you can see petrogs on
+
+1176
+00:49:57,909 --> 00:50:00,329
+the left extreme right
+frase on the right.
+
+1177
+00:50:00,329 --> 00:50:03,029
+And between Petrogenflow, uh,
+
+1178
+00:50:03,029 --> 00:50:04,470
+there are many many
+frameworks developed,
+
+1179
+00:50:04,470 --> 00:50:07,589
+for example, the very
+first one cafe, right?
+
+1180
+00:50:07,589 --> 00:50:09,410
+It is actually symbolic.
+
+1181
+00:50:09,410 --> 00:50:12,989
+Uh, there are siano
+and Cafe, too.
+
+1182
+00:50:12,989 --> 00:50:15,350
+And there are some
+frameworks that basically
+
+1183
+00:50:15,350 --> 00:50:18,690
+motivate Petro for
+example, towards China,
+
+1184
+00:50:18,690 --> 00:50:21,989
+and there's a very famous
+one called DMLC MXNet,
+
+1185
+00:50:21,989 --> 00:50:24,689
+which was developed by
+a few students in US,
+
+1186
+00:50:24,689 --> 00:50:26,830
+but that one is kind of audtd.
+
+1187
+00:50:26,830 --> 00:50:29,890
+And there's one I developed
+called Dnites also adated.
+
+1188
+00:50:29,890 --> 00:50:33,310
+Okay? And on this spectrum,
+
+1189
+00:50:33,310 --> 00:50:34,950
+you can see, uh,
+different frameworks
+
+1190
+00:50:34,950 --> 00:50:37,050
+have some slightly
+different flavors.
+
+1191
+00:50:37,050 --> 00:50:40,810
+So why N MXNet is in the middle.
+
+1192
+00:50:42,290 --> 00:50:44,729
+It actually had two
+programming mode.
+
+1193
+00:50:44,729 --> 00:50:48,115
+Yeah, you can switch symbolic
+or, like, imperative.
+
+1194
+00:50:48,115 --> 00:50:53,099
+Okay. As time goes,
+
+1195
+00:50:53,099 --> 00:50:55,319
+you know, some frameworks
+become outdated, right?
+
+1196
+00:50:55,319 --> 00:50:57,980
+They are not and some frameworks
+have a larger community,
+
+1197
+00:50:57,980 --> 00:51:00,439
+so they are being
+maintained better.
+
+1198
+00:51:00,439 --> 00:51:02,724
+And this is what happened today.
+
+1199
+00:51:02,724 --> 00:51:05,490
+We roughly just have
+three frameworks, okay?
+
+1200
+00:51:05,490 --> 00:51:07,309
+Pero Tinder flow.
+
+1201
+00:51:07,309 --> 00:51:10,309
+And there's one more called Jax.
+
+1202
+00:51:10,309 --> 00:51:11,790
+Okay, also from Google.
+
+1203
+00:51:11,790 --> 00:51:14,789
+And you can think Jack is a
+derivative from tender flow.
+
+1204
+00:51:14,789 --> 00:51:16,589
+Okay. It's more lightweight one.
+
+1205
+00:51:16,589 --> 00:51:18,669
+Uh, Tender flow used to be,
+
+1206
+00:51:18,669 --> 00:51:20,430
+in my opinion, masterpiece.
+
+1207
+00:51:20,430 --> 00:51:23,829
+Okay. Next week, we're going
+to read Tener flow paper.
+
+1208
+00:51:23,829 --> 00:51:25,770
+Yeah, that's a require already.
+
+1209
+00:51:25,770 --> 00:51:27,270
+Tender flow is definitely
+a masterpiece.
+
+1210
+00:51:27,270 --> 00:51:30,550
+It's written by so many like
+excellent google engineers.
+
+1211
+00:51:30,550 --> 00:51:33,069
+But unfortunately, uh, you know,
+
+1212
+00:51:33,069 --> 00:51:35,734
+uh, it's not always good
+to have a big team.
+
+1213
+00:51:35,734 --> 00:51:37,979
+Yeah. And people
+start fighting and
+
+1214
+00:51:37,979 --> 00:51:38,840
+they try to contribute
+
+1215
+00:51:38,840 --> 00:51:40,599
+different components
+in Tenner flow,
+
+1216
+00:51:40,599 --> 00:51:42,179
+which result into a lot of
+
+1217
+00:51:42,179 --> 00:51:43,660
+politics in interflow community.
+
+1218
+00:51:43,660 --> 00:51:45,879
+And you can see Tinnerflow
+at some point has
+
+1219
+00:51:45,879 --> 00:51:49,139
+so many random features
+merged into their Github and,
+
+1220
+00:51:49,139 --> 00:51:51,700
+uh, people start
+getting confused,
+
+1221
+00:51:51,700 --> 00:51:53,440
+especially users
+getting confused.
+
+1222
+00:51:53,440 --> 00:51:55,159
+Uh, Piers, which is
+
+1223
+00:51:55,159 --> 00:51:58,699
+much much later framework
+than tinder flow,
+
+1224
+00:51:58,699 --> 00:52:02,779
+they have a very small and
+lean team and they have one
+
+1225
+00:52:02,779 --> 00:52:05,019
+like solitary goal that
+is we are going to
+
+1226
+00:52:05,019 --> 00:52:07,540
+build the most
+imperative framework.
+
+1227
+00:52:07,540 --> 00:52:10,440
+Okay? They don't trust
+tinder flows like roadmap.
+
+1228
+00:52:10,440 --> 00:52:13,200
+They don't trust symbolic.
+They just do imperative,
+
+1229
+00:52:13,200 --> 00:52:14,910
+and they do it in the extreme.
+
+1230
+00:52:14,910 --> 00:52:16,899
+And it quickly gains a lot of
+
+1231
+00:52:16,899 --> 00:52:19,680
+popularity from especially
+you guys, like students.
+
+1232
+00:52:19,680 --> 00:52:22,100
+And people students
+and researchers,
+
+1233
+00:52:22,100 --> 00:52:24,139
+they endorse Petrich a lot and
+
+1234
+00:52:24,139 --> 00:52:26,560
+Petro become more
+and more popular.
+
+1235
+00:52:26,560 --> 00:52:28,559
+And at some point,
+I think Petrog has
+
+1236
+00:52:28,559 --> 00:52:32,260
+even larger market here than
+Center flow today, okay?
+
+1237
+00:52:32,260 --> 00:52:34,639
+And Jack is some framework that,
+
+1238
+00:52:34,639 --> 00:52:36,659
+you know, Center
+flow people build.
+
+1239
+00:52:36,659 --> 00:52:38,959
+They hit Center flow, so
+they come out and spin off
+
+1240
+00:52:38,959 --> 00:52:41,919
+and build another framework
+called Jax which was used,
+
+1241
+00:52:41,919 --> 00:52:45,694
+um, in Google, especially
+on TPUs, okay?
+
+1242
+00:52:45,694 --> 00:52:49,650
+And here is basically the trend
+
+1243
+00:52:49,650 --> 00:52:53,050
+or maybe a reflection
+
+1244
+00:52:53,050 --> 00:52:56,150
+of the market share of
+tinder floor versus Petroc.
+
+1245
+00:52:56,150 --> 00:52:58,690
+As you can see,
+at the beginning,
+
+1246
+00:52:58,690 --> 00:53:01,489
+um, so many people are
+built on tender floor.
+
+1247
+00:53:01,489 --> 00:53:03,769
+But uh Petro comes out
+
+1248
+00:53:03,769 --> 00:53:05,629
+and they start eating
+
+1249
+00:53:05,629 --> 00:53:07,949
+the shares eating the
+market of tinder flow.
+
+1250
+00:53:07,949 --> 00:53:10,849
+And Today, if you look at
+
+1251
+00:53:10,849 --> 00:53:12,130
+Hugging fins most of the models
+
+1252
+00:53:12,130 --> 00:53:15,670
+are basically Petros. Yeah.
+
+1253
+00:53:15,670 --> 00:53:16,909
+Okay.
+
+1254
+00:53:16,909 --> 00:53:20,009
+Uh, reason that's one
+reason that I told
+
+1255
+00:53:20,009 --> 00:53:23,170
+you about why Petrich
+wins the market,
+
+1256
+00:53:23,170 --> 00:53:24,930
+even if it was a
+later framework.
+
+1257
+00:53:24,930 --> 00:53:26,269
+But I would like you guys
+
+1258
+00:53:26,269 --> 00:53:28,349
+to probably read
+some articles from,
+
+1259
+00:53:28,349 --> 00:53:30,149
+do some search and try to think
+
+1260
+00:53:30,149 --> 00:53:31,549
+about this squat yourself, okay?
+
+1261
+00:53:31,549 --> 00:53:33,849
+Why? Why Petro can wins?
+
+1262
+00:53:33,849 --> 00:53:36,430
+Yeah. Because
+machining systems, uh,
+
+1263
+00:53:36,430 --> 00:53:37,809
+things change pretty quickly,
+
+1264
+00:53:37,809 --> 00:53:40,569
+um, if you are pretty
+good at coding,
+
+1265
+00:53:40,569 --> 00:53:41,910
+you can go create
+your own framework.
+
+1266
+00:53:41,910 --> 00:53:44,449
+You have a chance. Yeah.
+By study in this case,
+
+1267
+00:53:44,449 --> 00:53:46,189
+you probably can create
+the next port which
+
+1268
+00:53:46,189 --> 00:53:49,254
+will win the market
+piracy. Yeah.
+
+1269
+00:53:49,254 --> 00:53:53,159
+Okay. Any question?
+
+1270
+00:53:53,680 --> 00:53:55,920
+No, let's continue.
+
+1271
+00:53:55,920 --> 00:53:57,679
+So as I said,
+
+1272
+00:53:57,679 --> 00:54:00,819
+uh, if you know
+
+1273
+00:54:00,819 --> 00:54:02,439
+the difference between
+slides, you can see,
+
+1274
+00:54:02,439 --> 00:54:04,680
+actually, uh, if you compare
+
+1275
+00:54:04,680 --> 00:54:07,839
+the programming flavor of
+Pitrg and tender flow,
+
+1276
+00:54:07,839 --> 00:54:10,599
+they all move into the
+middle a little bit.
+
+1277
+00:54:10,599 --> 00:54:12,180
+Like at the beginning, Petrog
+
+1278
+00:54:12,180 --> 00:54:15,360
+is extremely
+imperative framework,
+
+1279
+00:54:15,360 --> 00:54:18,030
+tender flow is a very
+symbolic framework.
+
+1280
+00:54:18,030 --> 00:54:19,739
+But as time goes,
+
+1281
+00:54:19,739 --> 00:54:20,999
+more and more features being
+
+1282
+00:54:20,999 --> 00:54:22,240
+incorporated into the framework,
+
+1283
+00:54:22,240 --> 00:54:24,860
+they become like in the middle,
+
+1284
+00:54:24,860 --> 00:54:26,720
+they can do some
+sort of symbolic,
+
+1285
+00:54:26,720 --> 00:54:29,219
+some sort of um, imperative.
+
+1286
+00:54:29,219 --> 00:54:30,720
+Yeah, it's very different
+
+1287
+00:54:30,720 --> 00:54:32,419
+from United States
+politics, right?
+
+1288
+00:54:32,419 --> 00:54:35,699
+And uh, the reason
+is because, uh,
+
+1289
+00:54:35,699 --> 00:54:38,460
+people discovered
+a new technique
+
+1290
+00:54:38,460 --> 00:54:40,580
+called just in time compilation.
+
+1291
+00:54:40,580 --> 00:54:42,919
+Okay? So we're going to
+cover that a little bit.
+
+1292
+00:54:42,919 --> 00:54:45,200
+So what is just in
+time compilation?
+
+1293
+00:54:45,200 --> 00:54:46,499
+So think about this,
+
+1294
+00:54:46,499 --> 00:54:48,939
+ideally, also to
+answer your question.
+
+1295
+00:54:48,939 --> 00:54:52,479
+Ideally, we want some
+sort of define and run
+
+1296
+00:54:52,479 --> 00:54:56,239
+during during development,
+we are not sure.
+
+1297
+00:54:56,239 --> 00:54:57,980
+We are not sure
+about our models.
+
+1298
+00:54:57,980 --> 00:54:59,520
+We are not sure about
+our algorithms.
+
+1299
+00:54:59,520 --> 00:55:00,919
+We try to do something that
+
+1300
+00:55:00,919 --> 00:55:03,479
+is friendly to debugging, right?
+
+1301
+00:55:03,479 --> 00:55:07,740
+So we want to define and
+run during our development.
+
+1302
+00:55:07,740 --> 00:55:09,799
+And once we lock down the model,
+
+1303
+00:55:09,799 --> 00:55:12,119
+we are pretty sure our
+algorithm is going to work.
+
+1304
+00:55:12,119 --> 00:55:14,419
+We want something that
+is performance, right.
+
+1305
+00:55:14,419 --> 00:55:18,725
+So we want to define then
+run using during deployment.
+
+1306
+00:55:18,725 --> 00:55:21,830
+Then what GIT tries to
+achieve is basically
+
+1307
+00:55:21,830 --> 00:55:24,949
+we try to combine the
+best of both words.
+
+1308
+00:55:24,949 --> 00:55:28,169
+So what do you do is
+basically in DV mode,
+
+1309
+00:55:28,169 --> 00:55:29,529
+you still write this
+kind of code like
+
+1310
+00:55:29,529 --> 00:55:32,229
+petrogyde you can debug,
+you can insert any print.
+
+1311
+00:55:32,229 --> 00:55:33,589
+But once you lock down the code,
+
+1312
+00:55:33,589 --> 00:55:36,439
+what you do is you
+can add a uh, today,
+
+1313
+00:55:36,439 --> 00:55:38,599
+I think the most famous
+get framework from
+
+1314
+00:55:38,599 --> 00:55:41,459
+Petrot is called
+Tochi compile, right?
+
+1315
+00:55:41,459 --> 00:55:43,440
+Uh, you can define a
+more other function,
+
+1316
+00:55:43,440 --> 00:55:45,620
+then you decorate interface,
+
+1317
+00:55:45,620 --> 00:55:47,240
+which is called Toyo comple.
+
+1318
+00:55:47,240 --> 00:55:50,160
+What does this Toch
+comple do basically?
+
+1319
+00:55:50,160 --> 00:55:52,200
+It will basically twist
+down your program.
+
+1320
+00:55:52,200 --> 00:55:54,840
+Okay. It will stop it from
+executing immediately.
+
+1321
+00:55:54,840 --> 00:55:56,500
+Okay? It will basically,
+
+1322
+00:55:56,500 --> 00:55:58,319
+try to twist down
+your present program
+
+1323
+00:55:58,319 --> 00:56:01,620
+and it will do something
+similar to interflow.
+
+1324
+00:56:01,620 --> 00:56:04,020
+Yeah, I convert all
+the passing code erode
+
+1325
+00:56:04,020 --> 00:56:07,699
+into something
+something I showed in
+
+1326
+00:56:07,699 --> 00:56:10,280
+the first example in
+interflow I basically
+
+1327
+00:56:10,280 --> 00:56:14,099
+started not stop avoid
+executing it my line,
+
+1328
+00:56:14,099 --> 00:56:16,619
+but it will trace all
+the programs and try to
+
+1329
+00:56:16,619 --> 00:56:20,020
+construct the dataflow
+graph as a global graph,
+
+1330
+00:56:20,020 --> 00:56:22,559
+then it will optimize it to
+
+1331
+00:56:22,559 --> 00:56:25,080
+the extreme and then
+it will execute.
+
+1332
+00:56:25,080 --> 00:56:27,340
+Which Which means
+that in this program,
+
+1333
+00:56:27,340 --> 00:56:29,760
+if you don't decorate
+the torch dot compiler,
+
+1334
+00:56:29,760 --> 00:56:31,680
+you can add print
+statement in the middle.
+
+1335
+00:56:31,680 --> 00:56:33,279
+But once you decorate
+it, you cannot.
+
+1336
+00:56:33,279 --> 00:56:34,960
+Okay? Yeah, it will basically
+
+1337
+00:56:34,960 --> 00:56:37,219
+convert that passing
+ggramt another program.
+
+1338
+00:56:37,219 --> 00:56:38,839
+Okay.
+
+1339
+00:56:39,080 --> 00:56:41,700
+Yeah, this is a pretty
+lazy technique,
+
+1340
+00:56:41,700 --> 00:56:43,180
+and we are going to
+have a guest speaker
+
+1341
+00:56:43,180 --> 00:56:45,040
+coming to us to talk about GIT,
+
+1342
+00:56:45,040 --> 00:56:47,800
+because this is one of
+the coolest technology
+
+1343
+00:56:47,800 --> 00:56:50,179
+today in Pirch Community, okay?
+
+1344
+00:56:50,179 --> 00:56:52,219
+Then let me ask you a question.
+
+1345
+00:56:52,219 --> 00:56:54,480
+What's the problem with GIT?
+
+1346
+00:57:03,200 --> 00:57:07,239
+Exactly. T can only
+jet study graph.
+
+1347
+00:57:07,239 --> 00:57:09,739
+But you can imagine if this
+is up in passing code,
+
+1348
+00:57:09,739 --> 00:57:12,319
+it will have a lot of
+weird things if else,
+
+1349
+00:57:12,319 --> 00:57:16,160
+four, it basically has a lot
+of conditional exclusion,
+
+1350
+00:57:16,160 --> 00:57:17,520
+which means that the toy comple
+
+1351
+00:57:17,520 --> 00:57:19,180
+actually has a lot
+of limitations.
+
+1352
+00:57:19,180 --> 00:57:21,279
+If your patent program is
+
+1353
+00:57:21,279 --> 00:57:24,360
+or your Do mode program
+is very dynamic,
+
+1354
+00:57:24,360 --> 00:57:25,934
+the JET will not work.
+
+1355
+00:57:25,934 --> 00:57:27,149
+Okay.
+
+1356
+00:57:27,149 --> 00:57:30,950
+Then we are going
+to to summarize,
+
+1357
+00:57:30,950 --> 00:57:33,630
+basically, it requires static
+graphs, static programs.
+
+1358
+00:57:33,630 --> 00:57:37,289
+Okay. But we do have a
+few solutions, okay?
+
+1359
+00:57:37,289 --> 00:57:39,650
+But before I dive
+into the solutions,
+
+1360
+00:57:39,650 --> 00:57:42,249
+I want to first introduce
+another concept, okay?
+
+1361
+00:57:42,249 --> 00:57:43,729
+I think we have to
+spend a lot of time on
+
+1362
+00:57:43,729 --> 00:57:45,990
+introducing symbolic
+versus imperative.
+
+1363
+00:57:45,990 --> 00:57:49,229
+Now I'm going to
+introduce 21 more thing
+
+1364
+00:57:49,229 --> 00:57:51,670
+that is static versus
+dynamic models.
+
+1365
+00:57:51,670 --> 00:57:54,309
+Okay. So what is static
+model? What is dynamic model?
+
+1366
+00:57:54,309 --> 00:57:57,149
+So let's first see
+how they differ.
+
+1367
+00:57:57,149 --> 00:58:01,589
+Okay. So CNN is a
+static model, right?
+
+1368
+00:58:01,589 --> 00:58:03,129
+Why CN is a static model?
+
+1369
+00:58:03,129 --> 00:58:06,369
+Because, so in static
+model like CN, right,
+
+1370
+00:58:06,369 --> 00:58:08,749
+uh, we have a few
+operators here is
+
+1371
+00:58:08,749 --> 00:58:10,969
+count two pool. Another
+count two, right?
+
+1372
+00:58:10,969 --> 00:58:15,029
+We come together, we
+compose the dataflow graph.
+
+1373
+00:58:15,029 --> 00:58:17,969
+So the key point here is, um,
+
+1374
+00:58:17,969 --> 00:58:21,849
+whenever what kind of data
+you come, you give it to CN.
+
+1375
+00:58:21,849 --> 00:58:23,850
+The middle part, that
+is the graph definition
+
+1376
+00:58:23,850 --> 00:58:25,689
+will not change, right?
+
+1377
+00:58:25,689 --> 00:58:28,649
+And the input data X
+will have a fixed shape.
+
+1378
+00:58:28,649 --> 00:58:30,969
+It will be, for
+example, 20 by 20
+
+1379
+00:58:30,969 --> 00:58:33,829
+or 5,500 by 500 or
+something like that.
+
+1380
+00:58:33,829 --> 00:58:36,149
+And output shape
+Y will be fixed.
+
+1381
+00:58:36,149 --> 00:58:38,589
+It could be a ten dimension
+vector or whatever,
+
+1382
+00:58:38,589 --> 00:58:40,650
+dimension vector you
+define at the beginning.
+
+1383
+00:58:40,650 --> 00:58:42,009
+Okay.
+
+1384
+00:58:42,450 --> 00:58:46,310
+But things are different
+in many other workloads,
+
+1385
+00:58:46,310 --> 00:58:51,370
+for example, this is semantic
+parsing tree from ALP.
+
+1386
+00:58:51,370 --> 00:58:53,589
+Okay. And you can see this is
+
+1387
+00:58:53,589 --> 00:58:55,970
+already probably give
+you a sense of dynamics.
+
+1388
+00:58:55,970 --> 00:58:58,530
+That is, for
+different sentences,
+
+1389
+00:58:58,530 --> 00:59:01,029
+it has a slightly
+different parsing tree.
+
+1390
+00:59:01,029 --> 00:59:03,129
+For this one, John, he's a boll.
+
+1391
+00:59:03,129 --> 00:59:04,034
+Okay.
+
+1392
+00:59:04,034 --> 00:59:08,600
+And when we model this
+kind of input sequence,
+
+1393
+00:59:08,600 --> 00:59:11,239
+we want to basically
+apply recurring network
+
+1394
+00:59:11,239 --> 00:59:13,740
+to compute over the
+tree structure.
+
+1395
+00:59:13,740 --> 00:59:15,379
+So what we end up with is
+
+1396
+00:59:15,379 --> 00:59:17,579
+a neural network looking
+like this, right?
+
+1397
+00:59:17,579 --> 00:59:19,740
+We first compute towards
+
+1398
+00:59:19,740 --> 00:59:22,639
+the boll and then we
+combine them together,
+
+1399
+00:59:22,639 --> 00:59:24,279
+we incorporate
+another word heat,
+
+1400
+00:59:24,279 --> 00:59:25,419
+and then we combine them
+
+1401
+00:59:25,419 --> 00:59:27,704
+together and incorporate
+another word too.
+
+1402
+00:59:27,704 --> 00:59:31,070
+But when you are given
+a different sequence,
+
+1403
+00:59:31,070 --> 00:59:33,569
+it has a different
+semantic parsing tree.
+
+1404
+00:59:33,569 --> 00:59:35,129
+And then you end up with
+
+1405
+00:59:35,129 --> 00:59:37,750
+a different
+computational pattern.
+
+1406
+00:59:37,750 --> 00:59:39,369
+And if I ask you
+
+1407
+00:59:39,369 --> 00:59:41,889
+to express the competition
+using Data Po graph,
+
+1408
+00:59:41,889 --> 00:59:44,989
+you will end up with two very
+different competing graphs.
+
+1409
+00:59:44,989 --> 00:59:47,770
+That means that the
+model competition,
+
+1410
+00:59:47,770 --> 00:59:50,909
+they have something same that
+is team is the same, right?
+
+1411
+00:59:50,909 --> 00:59:54,390
+But they also have something
+that is very different.
+
+1412
+00:59:55,110 --> 00:59:57,889
+The global Datapgraph
+will be very
+
+1413
+00:59:57,889 --> 01:00:00,799
+different depending on
+the input you give to.
+
+1414
+01:00:00,799 --> 01:00:02,409
+Okay.
+
+1415
+01:00:02,690 --> 01:00:05,570
+Uh, to summarize
+the computation,
+
+1416
+01:00:05,570 --> 01:00:09,569
+like, characteristics, for
+static data flo graphs, uh,
+
+1417
+01:00:09,569 --> 01:00:12,089
+we basically define wines
+and we optimize the ones,
+
+1418
+01:00:12,089 --> 01:00:14,690
+and then for arbitrary
+input and output,
+
+1419
+01:00:14,690 --> 01:00:16,129
+we are going to ask
+you them, right?
+
+1420
+01:00:16,129 --> 01:00:17,749
+We don't have to touch
+that graph again.
+
+1421
+01:00:17,749 --> 01:00:20,210
+It's basically keep as constant.
+
+1422
+01:00:20,210 --> 01:00:24,570
+Okay. But for dynamic offer
+was slightly different.
+
+1423
+01:00:24,570 --> 01:00:28,489
+It's very difficult to
+express it in dynamics,
+
+1424
+01:00:28,489 --> 01:00:31,230
+because the data
+flow graph cometion
+
+1425
+01:00:31,230 --> 01:00:33,870
+the graph structure will
+change with the input.
+
+1426
+01:00:33,870 --> 01:00:37,229
+And it's also pretty
+difficult to debug in
+
+1427
+01:00:37,229 --> 01:00:40,169
+because if your
+program has a bug,
+
+1428
+01:00:40,169 --> 01:00:42,050
+it's probably dependent
+with the input.
+
+1429
+01:00:42,050 --> 01:00:46,069
+You have to figure out the
+input and see what's going on.
+
+1430
+01:00:47,590 --> 01:00:50,369
+And as a student
+already pointed out,
+
+1431
+01:00:50,369 --> 01:00:55,570
+it's almost impossible
+to jet dynamic program.
+
+1432
+01:00:55,570 --> 01:00:57,069
+Then we basically lose hope
+
+1433
+01:00:57,069 --> 01:01:00,830
+because literal
+language is dynamic.
+
+1434
+01:01:00,830 --> 01:01:03,230
+Why literal language is dynamic.
+
+1435
+01:01:03,420 --> 01:01:07,460
+Because each sentence has a
+different number of tokens.
+
+1436
+01:01:07,460 --> 01:01:10,020
+And that means that the
+computation you perform,
+
+1437
+01:01:10,020 --> 01:01:13,459
+um, depends on the length
+of the input, right?
+
+1438
+01:01:13,459 --> 01:01:14,139
+Okay.
+
+1439
+01:01:14,139 --> 01:01:17,299
+So then, uh, we start
+asking the question,
+
+1440
+01:01:17,299 --> 01:01:21,599
+how we can basically
+still in some way,
+
+1441
+01:01:21,599 --> 01:01:23,879
+express our dynamic
+neuralnetworks,
+
+1442
+01:01:23,879 --> 01:01:25,559
+or dynamic data graph,
+
+1443
+01:01:25,559 --> 01:01:28,179
+in a static in
+relatively static way.
+
+1444
+01:01:28,179 --> 01:01:31,239
+So we can still, get
+the global graph,
+
+1445
+01:01:31,239 --> 01:01:32,559
+we can optimize that, and
+
+1446
+01:01:32,559 --> 01:01:34,360
+we can get the best
+of the performance.
+
+1447
+01:01:34,360 --> 01:01:37,319
+Okay? And that basically marks,
+
+1448
+01:01:37,319 --> 01:01:39,240
+uh, the last part
+of this lecture.
+
+1449
+01:01:39,240 --> 01:01:41,179
+So we roughly have three ways.
+
+1450
+01:01:41,179 --> 01:01:43,019
+Okay. The first way is, um,
+
+1451
+01:01:43,019 --> 01:01:45,299
+Forget about that. We
+just do define run.
+
+1452
+01:01:45,299 --> 01:01:46,999
+Okay? That's what you do, right?
+
+1453
+01:01:46,999 --> 01:01:49,060
+You never open your program,
+
+1454
+01:01:49,060 --> 01:01:51,680
+until you take this course.
+
+1455
+01:01:51,680 --> 01:01:53,999
+The second way is, we
+
+1456
+01:01:53,999 --> 01:01:55,940
+have a mechanism that
+we can introduce
+
+1457
+01:01:55,940 --> 01:01:59,960
+control flow primitives
+into data program,
+
+1458
+01:01:59,960 --> 01:02:01,559
+which I will explain next.
+
+1459
+01:02:01,559 --> 01:02:04,490
+And the third way is called
+piecewise compilation.
+
+1460
+01:02:04,490 --> 01:02:07,000
+Okay. And I think
+you can actually
+
+1461
+01:02:07,000 --> 01:02:09,399
+already infer the
+method from this name.
+
+1462
+01:02:09,399 --> 01:02:11,759
+That is, uh, suppose my graph
+
+1463
+01:02:11,759 --> 01:02:14,640
+has some parts that is dynamic.
+
+1464
+01:02:14,640 --> 01:02:16,039
+I'm going to compae
+of each part,
+
+1465
+01:02:16,039 --> 01:02:19,019
+and I leave the
+dynamic a dynamic, ya.
+
+1466
+01:02:19,019 --> 01:02:21,059
+Okay. Uh for the first one,
+
+1467
+01:02:21,059 --> 01:02:22,659
+I don't think I need
+to introduce, right?
+
+1468
+01:02:22,659 --> 01:02:26,429
+So for the second one, so what
+does control flow up does?
+
+1469
+01:02:26,429 --> 01:02:29,600
+So here is a very
+famous control flows
+
+1470
+01:02:29,600 --> 01:02:31,839
+developed by enter flow team,
+
+1471
+01:02:31,839 --> 01:02:34,439
+and I think this figure
+is pretty clear.
+
+1472
+01:02:34,439 --> 01:02:36,020
+It's basically a
+switch and merge.
+
+1473
+01:02:36,020 --> 01:02:38,280
+Okay? In a switch,
+
+1474
+01:02:38,280 --> 01:02:41,379
+basically, you have
+one single input data
+
+1475
+01:02:41,379 --> 01:02:43,160
+and you want to give
+you a condition.
+
+1476
+01:02:43,160 --> 01:02:44,400
+And depending on the condition,
+
+1477
+01:02:44,400 --> 01:02:47,299
+you want to output something,
+either left or right.
+
+1478
+01:02:47,299 --> 01:02:49,340
+You want to switch
+between two outputs.
+
+1479
+01:02:49,340 --> 01:02:52,180
+Okay? And for the merge
+is a reverse operation.
+
+1480
+01:02:52,180 --> 01:02:54,380
+You have two inputs,
+and, for example,
+
+1481
+01:02:54,380 --> 01:02:55,739
+you can compare the values and
+
+1482
+01:02:55,739 --> 01:02:58,214
+depending on which one is
+larger, you output one value.
+
+1483
+01:02:58,214 --> 01:03:00,449
+Okay. You can actually
+program this into
+
+1484
+01:03:00,449 --> 01:03:03,389
+a primitive computation
+primitive in the ho graph,
+
+1485
+01:03:03,389 --> 01:03:05,809
+and you insert this kind
+of primitive together with
+
+1486
+01:03:05,809 --> 01:03:09,110
+your mass with your matm with
+whatever other operations.
+
+1487
+01:03:09,110 --> 01:03:11,730
+And you can basically
+kind of absorb
+
+1488
+01:03:11,730 --> 01:03:14,810
+some sort of dynamics from,
+for example, your program.
+
+1489
+01:03:14,810 --> 01:03:17,550
+Like for example, if a program
+has a merger operation,
+
+1490
+01:03:17,550 --> 01:03:19,909
+then this one will also
+be a problem, right?
+
+1491
+01:03:19,909 --> 01:03:22,229
+And here's a more complex case.
+
+1492
+01:03:22,229 --> 01:03:25,930
+So this is the Lumina function
+we have from interflow.
+
+1493
+01:03:25,930 --> 01:03:27,890
+What it does is pretty
+straightforward.
+
+1494
+01:03:27,890 --> 01:03:29,969
+We have two inputs X and Y,
+
+1495
+01:03:29,969 --> 01:03:31,470
+and we are going to compare
+
+1496
+01:03:31,470 --> 01:03:34,969
+their value and see which
+one is smaller, right?
+
+1497
+01:03:34,969 --> 01:03:36,609
+And if X is smaller,
+
+1498
+01:03:36,609 --> 01:03:37,930
+we are going to do a
+computation analyst,
+
+1499
+01:03:37,930 --> 01:03:40,870
+we are going to add X with
+Z, which is a constant.
+
+1500
+01:03:40,870 --> 01:03:45,050
+And otherwise, we will do
+another Lamin equation,
+
+1501
+01:03:45,050 --> 01:03:47,309
+which we will take a square Y.
+
+1502
+01:03:47,309 --> 01:03:49,510
+This is a very dynamic program
+
+1503
+01:03:49,510 --> 01:03:51,844
+already because you are
+conditional on something.
+
+1504
+01:03:51,844 --> 01:03:54,279
+So the way that you can
+express this kind of
+
+1505
+01:03:54,279 --> 01:03:56,880
+competition is basically you
+use what I just introduced.
+
+1506
+01:03:56,880 --> 01:03:58,679
+You use a combination of
+
+1507
+01:03:58,679 --> 01:04:01,920
+switch and some other
+mathematical operators.
+
+1508
+01:04:01,920 --> 01:04:05,700
+You start with X and Y,
+you compare the values.
+
+1509
+01:04:05,700 --> 01:04:07,499
+And then, uh,
+
+1510
+01:04:07,499 --> 01:04:11,140
+uh in the output of this
+comparison operator,
+
+1511
+01:04:11,140 --> 01:04:13,560
+you basically add a
+lot a lot of switch,
+
+1512
+01:04:13,560 --> 01:04:15,780
+and you try to switch
+between different outputs,
+
+1513
+01:04:15,780 --> 01:04:19,559
+and eventually into two
+branches right on left branch,
+
+1514
+01:04:19,559 --> 01:04:21,640
+you basically do the
+left competition
+
+1515
+01:04:21,640 --> 01:04:22,159
+on the right branch,
+
+1516
+01:04:22,159 --> 01:04:23,340
+you do the right combination
+
+1517
+01:04:23,340 --> 01:04:25,280
+and eventually you
+merge the results.
+
+1518
+01:04:25,280 --> 01:04:28,159
+Okay? So you can
+see you can still
+
+1519
+01:04:28,159 --> 01:04:29,980
+express this kind of
+dynamic competition
+
+1520
+01:04:29,980 --> 01:04:31,840
+using a few control flows.
+
+1521
+01:04:31,840 --> 01:04:35,879
+Okay. Uh, it turns out that
+
+1522
+01:04:35,879 --> 01:04:36,960
+control flow is actually
+
+1523
+01:04:36,960 --> 01:04:40,580
+a very natural idea in all
+programming languages.
+
+1524
+01:04:40,580 --> 01:04:42,919
+So if you write pattern,
+you write C plt plus,
+
+1525
+01:04:42,919 --> 01:04:46,139
+there are so many control
+flow ups if then if
+
+1526
+01:04:46,139 --> 01:04:49,079
+sh is the control flow ups which
+
+1527
+01:04:49,079 --> 01:04:50,739
+basically tell your program to
+
+1528
+01:04:50,739 --> 01:04:53,559
+loop while the same, right?
+
+1529
+01:04:53,559 --> 01:04:55,519
+But let me ask questions.
+
+1530
+01:04:55,519 --> 01:04:56,859
+What's the potential
+problem using
+
+1531
+01:04:56,859 --> 01:04:58,099
+control flow and
+dataflow graphs,
+
+1532
+01:04:58,099 --> 01:05:00,360
+especially from
+learning programs?
+
+1533
+01:05:05,250 --> 01:05:11,009
+Yeah, yeah, that's
+one thing. Yeah.
+
+1534
+01:05:12,450 --> 01:05:14,729
+I don't agree with
+them on that because
+
+1535
+01:05:14,729 --> 01:05:16,169
+I think you can
+still paralyze it.
+
+1536
+01:05:16,169 --> 01:05:18,849
+Yeah. Yeah.
+
+1537
+01:05:22,570 --> 01:05:26,750
+Yeah, I think that's basically
+the complexity argument.
+
+1538
+01:05:26,750 --> 01:05:29,009
+Yeah, because you add
+up so you can see,
+
+1539
+01:05:29,009 --> 01:05:30,610
+for such a small equation,
+
+1540
+01:05:30,610 --> 01:05:32,930
+you are making such big graph.
+
+1541
+01:05:32,930 --> 01:05:36,049
+One thing that
+dataflow graph for
+
+1542
+01:05:36,049 --> 01:05:37,149
+engineering program must do is
+
+1543
+01:05:37,149 --> 01:05:39,370
+basically you need to do
+backward propagation.
+
+1544
+01:05:39,370 --> 01:05:41,689
+You need to auto
+differentiation.
+
+1545
+01:05:41,689 --> 01:05:43,809
+Then I start asking
+your question. What is
+
+1546
+01:05:43,809 --> 01:05:46,250
+the gradient of switch?
+
+1547
+01:05:47,290 --> 01:05:50,649
+What is the gradient of four?
+
+1548
+01:05:50,890 --> 01:05:53,969
+That's a hard question. You
+need to think about that.
+
+1549
+01:05:53,969 --> 01:05:57,009
+But it turns out that there
+is a gradient for four.
+
+1550
+01:05:57,009 --> 01:05:58,669
+I'm going to give you a reading.
+
+1551
+01:05:58,669 --> 01:06:00,369
+I'm not going to cover
+that in lecture.
+
+1552
+01:06:00,369 --> 01:06:02,469
+Yeah. So at some point,
+
+1553
+01:06:02,469 --> 01:06:04,609
+tensor flow team, they
+
+1554
+01:06:04,609 --> 01:06:06,809
+become fascinated with
+these cotlow ups.
+
+1555
+01:06:06,809 --> 01:06:08,249
+And these are writing a lot of
+
+1556
+01:06:08,249 --> 01:06:09,729
+papers to discussing how to
+
+1557
+01:06:09,729 --> 01:06:11,169
+drup the gradient for four
+
+1558
+01:06:11,169 --> 01:06:13,289
+for a while and for if and then.
+
+1559
+01:06:13,289 --> 01:06:15,649
+And they even get
+the best paper award
+
+1560
+01:06:15,649 --> 01:06:16,930
+from some top conference.
+
+1561
+01:06:16,930 --> 01:06:19,849
+But unfortunately, as
+you already pointed out,
+
+1562
+01:06:19,849 --> 01:06:21,470
+this actually very complicated.
+
+1563
+01:06:21,470 --> 01:06:23,129
+You don't how to do
+that, and you can
+
+1564
+01:06:23,129 --> 01:06:25,259
+do much simpler ways. Okay.
+
+1565
+01:06:25,259 --> 01:06:29,519
+A much simpler way, which
+turns out to be really well
+
+1566
+01:06:29,519 --> 01:06:31,639
+adopted and more adopted than
+
+1567
+01:06:31,639 --> 01:06:34,780
+control flow is basically we
+do piecewise compilation.
+
+1568
+01:06:34,780 --> 01:06:37,740
+Okay? Piecewise compilation
+
+1569
+01:06:37,740 --> 01:06:38,999
+is very easy to
+understand, okay?
+
+1570
+01:06:38,999 --> 01:06:40,679
+So say, we have a graph which
+
+1571
+01:06:40,679 --> 01:06:43,839
+basically accepting
+input shapes of X,
+
+1572
+01:06:43,839 --> 01:06:47,480
+C one, C two, where C one
+and C two are constant.
+
+1573
+01:06:47,480 --> 01:06:48,899
+They will lane change.
+
+1574
+01:06:48,899 --> 01:06:50,805
+But X is variable.
+
+1575
+01:06:50,805 --> 01:06:53,709
+Right? So what case
+we map to this case?
+
+1576
+01:06:53,709 --> 01:06:55,669
+It's basically literal
+language, right.
+
+1577
+01:06:55,669 --> 01:06:57,609
+X is the number of
+tokens, and C one,
+
+1578
+01:06:57,609 --> 01:07:00,189
+what basically embedding
+dimensions of the token.
+
+1579
+01:07:00,189 --> 01:07:01,749
+So we have a graph we
+
+1580
+01:07:01,749 --> 01:07:04,650
+accept variable number
+of input sequences.
+
+1581
+01:07:04,650 --> 01:07:07,890
+So if we want to
+compile this program
+
+1582
+01:07:07,890 --> 01:07:10,069
+to compile dataflow graph to
+
+1583
+01:07:10,069 --> 01:07:13,449
+make sure they can work
+on X, what do we do?
+
+1584
+01:07:23,000 --> 01:07:25,919
+Yeah, you are pretty close.
+
+1585
+01:07:25,919 --> 01:07:28,899
+Basically, we compile
+for X equal to one,
+
+1586
+01:07:28,899 --> 01:07:30,679
+x2x2 all the way
+
+1587
+01:07:30,679 --> 01:07:33,119
+to X equal to the
+largest value we can do.
+
+1588
+01:07:33,119 --> 01:07:36,220
+Yeah, that's basically
+piecewise compilation.
+
+1589
+01:07:36,220 --> 01:07:39,040
+We just compile all the
+possible input dimensions.
+
+1590
+01:07:39,040 --> 01:07:41,000
+And when we accept a sequence,
+
+1591
+01:07:41,000 --> 01:07:42,839
+which is X ex to five,
+
+1592
+01:07:42,839 --> 01:07:44,820
+we basically equal the boundary
+
+1593
+01:07:44,820 --> 01:07:47,719
+that is compiled with
+X equal to five.
+
+1594
+01:07:47,920 --> 01:07:51,299
+Straightforward. But we
+can do slightly better.
+
+1595
+01:07:51,299 --> 01:07:53,840
+Can someone give me
+a better solution?
+
+1596
+01:07:55,880 --> 01:08:05,420
+Yeah, yeah. Yeah, that's
+a better solution.
+
+1597
+01:08:05,420 --> 01:08:08,620
+We basically reduce the
+number of bonaries we compel,
+
+1598
+01:08:08,620 --> 01:08:10,640
+but we wasting competition,
+
+1599
+01:08:10,640 --> 01:08:14,600
+Because now you only comple
+for X, say, equal to 500.
+
+1600
+01:08:14,600 --> 01:08:17,239
+But if you are accepting
+a sequence with X one,
+
+1601
+01:08:17,239 --> 01:08:19,479
+you still need to call
+that X equal to 500,
+
+1602
+01:08:19,479 --> 01:08:21,419
+which we waste of competition.
+
+1603
+01:08:21,419 --> 01:08:24,639
+Can someone give you
+even better solution?
+
+1604
+01:08:27,540 --> 01:08:30,679
+Okay, I'm going to tell
+you un we do baketing.
+
+1605
+01:08:30,679 --> 01:08:32,739
+So we can compile the power two.
+
+1606
+01:08:32,739 --> 01:08:35,619
+We compile X to one X two,
+
+1607
+01:08:35,619 --> 01:08:38,079
+then we compile X equal
+to four and eight.
+
+1608
+01:08:38,079 --> 01:08:39,499
+And for ab value,
+
+1609
+01:08:39,499 --> 01:08:41,299
+we are going to
+map it to the lost
+
+1610
+01:08:41,299 --> 01:08:43,079
+like power or two, right?
+
+1611
+01:08:43,079 --> 01:08:44,999
+That will basically
+reduce competition.
+
+1612
+01:08:44,999 --> 01:08:48,719
+Okay? This is already very
+complicated and it will
+
+1613
+01:08:48,719 --> 01:08:50,759
+dive into the very deep part
+
+1614
+01:08:50,759 --> 01:08:52,699
+of compson and I'm
+going to stop here.
+
+1615
+01:08:52,699 --> 01:08:56,719
+Okay? And we have a guest
+already confirmed and he's
+
+1616
+01:08:56,719 --> 01:08:58,869
+the author of a as
+
+1617
+01:08:58,869 --> 01:09:01,409
+probably many of you
+already know then is TQ,
+
+1618
+01:09:01,409 --> 01:09:02,929
+author of TVM, okay?
+
+1619
+01:09:02,929 --> 01:09:04,889
+He is basically the guard
+of Machining systems
+
+1620
+01:09:04,889 --> 01:09:06,849
+and like the Michael
+Jordan to MBAs,
+
+1621
+01:09:06,849 --> 01:09:08,749
+and he's going to come to us and
+
+1622
+01:09:08,749 --> 01:09:12,224
+introduce the compilers,
+okay, in deep.
+
+1623
+01:09:12,224 --> 01:09:15,019
+Another use case of um,
+
+1624
+01:09:15,019 --> 01:09:16,779
+piecewise compilation
+is basically,
+
+1625
+01:09:16,779 --> 01:09:19,619
+if we have a graph
+which is static,
+
+1626
+01:09:19,619 --> 01:09:22,439
+then dynamic and then
+static, what do we do?
+
+1627
+01:09:22,439 --> 01:09:25,799
+So we introduce
+concept called grad,
+
+1628
+01:09:25,799 --> 01:09:27,659
+and we insert grad at
+
+1629
+01:09:27,659 --> 01:09:28,839
+the end of the first static
+
+1630
+01:09:28,839 --> 01:09:31,099
+and at the beginning
+of the second static.
+
+1631
+01:09:31,099 --> 01:09:32,519
+We compare the first we
+
+1632
+01:09:32,519 --> 01:09:34,879
+compile the first
+static into a binary.
+
+1633
+01:09:34,879 --> 01:09:36,679
+We ask you to get
+results, right?
+
+1634
+01:09:36,679 --> 01:09:38,459
+And then we fed the results
+
+1635
+01:09:38,459 --> 01:09:40,259
+into a dynamic part
+and let it run using
+
+1636
+01:09:40,259 --> 01:09:42,719
+pure pison then we
+get the results
+
+1637
+01:09:42,719 --> 01:09:45,359
+and comp unfed the
+results to a second part,
+
+1638
+01:09:45,359 --> 01:09:47,679
+which is static and we
+also compile that part.
+
+1639
+01:09:47,679 --> 01:09:49,059
+This is another way that
+
+1640
+01:09:49,059 --> 01:09:50,944
+you understand
+piecewise compilation.
+
+1641
+01:09:50,944 --> 01:09:56,249
+Okay. Cool. Um, I
+
+1642
+01:09:56,249 --> 01:09:57,769
+think I finished most
+of the contents. Okay?
+
+1643
+01:09:57,769 --> 01:10:00,229
+Now, let's basically
+review a little bit.
+
+1644
+01:10:00,229 --> 01:10:04,370
+We know how to represent
+the mass primitives.
+
+1645
+01:10:04,370 --> 01:10:06,669
+We summarize the four
+most important models.
+
+1646
+01:10:06,669 --> 01:10:09,329
+That will be our targets,
+mostly math more.
+
+1647
+01:10:09,329 --> 01:10:13,729
+And we haven't studied
+how to represent data,
+
+1648
+01:10:13,729 --> 01:10:15,369
+which we'll cover soon.
+
+1649
+01:10:15,369 --> 01:10:17,889
+But basically tensors, okay.
+
+1650
+01:10:17,889 --> 01:10:21,149
+We also already developed
+representation that
+
+1651
+01:10:21,149 --> 01:10:22,449
+expressed computation using
+
+1652
+01:10:22,449 --> 01:10:24,109
+primitives, but we're
+not finished yet.
+
+1653
+01:10:24,109 --> 01:10:25,309
+Why?
+
+1654
+01:10:25,430 --> 01:10:27,589
+Because by far, we only
+
+1655
+01:10:27,589 --> 01:10:29,869
+covered forward
+competition, right?
+
+1656
+01:10:29,869 --> 01:10:31,429
+And in the next lecture,
+
+1657
+01:10:31,429 --> 01:10:33,089
+we are going to tell you how to
+
+1658
+01:10:33,089 --> 01:10:35,009
+derive the backward
+competition from the forward.
+
+1659
+01:10:35,009 --> 01:10:36,909
+That is basically the auto diff.
+
+1660
+01:10:36,909 --> 01:10:41,029
+Okay? That's pretty much
+I have today. Thank you.
+
+1661
+01:11:43,360 --> 01:11:45,399
+A

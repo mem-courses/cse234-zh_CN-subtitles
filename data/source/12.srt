@@ -1,0 +1,7342 @@
+1
+00:00:22,080 --> 00:00:25,320
+Okay. Yeah, let's get started.
+
+2
+00:00:25,320 --> 00:00:27,480
+Thanks for coming
+on a rainy day.
+
+3
+00:00:27,480 --> 00:00:31,719
+Yeah. Cool. So where we are.
+
+4
+00:00:31,719 --> 00:00:33,800
+So I think last lecture,
+
+5
+00:00:33,800 --> 00:00:37,219
+I justified why we need to
+do paralyzation, right?
+
+6
+00:00:37,219 --> 00:00:41,000
+Because we just need more
+computer and more memory, okay?
+
+7
+00:00:41,000 --> 00:00:45,960
+And I think we also I also
+give you parole content
+
+8
+00:00:45,960 --> 00:00:49,979
+explaining what are
+parallelisms and how we
+
+9
+00:00:49,979 --> 00:00:51,920
+can apply this kind
+of parallelisms
+
+10
+00:00:51,920 --> 00:00:54,059
+onto a continued graph, right?
+
+11
+00:00:54,059 --> 00:00:57,500
+It will result into
+different runtime pattern
+
+12
+00:00:57,500 --> 00:00:58,780
+or communication pattern,
+
+13
+00:00:58,780 --> 00:01:01,779
+and we are going to dive
+deeper into lecture, okay?
+
+14
+00:01:01,779 --> 00:01:04,420
+Okay, just to recap, for
+
+15
+00:01:04,420 --> 00:01:07,840
+parallelism, our
+problem superficially,
+
+16
+00:01:07,840 --> 00:01:10,759
+our problem is basically
+how to partition
+
+17
+00:01:10,759 --> 00:01:14,220
+the continued graph on a
+given device class, right?
+
+18
+00:01:14,220 --> 00:01:18,059
+Okay? Superficially, we are
+
+19
+00:01:18,059 --> 00:01:19,600
+going to simplify this
+problem and we're going
+
+20
+00:01:19,600 --> 00:01:21,860
+to go deeper and deeper, okay?
+
+21
+00:01:21,860 --> 00:01:24,640
+And there are essentially
+in this class,
+
+22
+00:01:24,640 --> 00:01:25,880
+there are essentially
+two types of
+
+23
+00:01:25,880 --> 00:01:28,479
+parallelism which with
+a precise definition,
+
+24
+00:01:28,479 --> 00:01:31,799
+one is interoperatism, where
+we just cut the graph,
+
+25
+00:01:31,799 --> 00:01:33,360
+not the operator, right?
+
+26
+00:01:33,360 --> 00:01:36,240
+And the other is intraparism,
+
+27
+00:01:36,240 --> 00:01:38,984
+where we cut the operator
+but not the graph.
+
+28
+00:01:38,984 --> 00:01:44,550
+Okay. And we stop here
+right in NAs lecture.
+
+29
+00:01:44,550 --> 00:01:46,089
+I think this is one of the most
+
+30
+00:01:46,089 --> 00:01:47,869
+important slide in NAS lecture.
+
+31
+00:01:47,869 --> 00:01:50,149
+We run through these
+two types of partism
+
+32
+00:01:50,149 --> 00:01:52,389
+using example from each type,
+
+33
+00:01:52,389 --> 00:01:54,750
+and we realize that
+
+34
+00:01:54,750 --> 00:01:57,129
+for this kind of
+intraoperative partism,
+
+35
+00:01:57,129 --> 00:02:00,669
+we will always cause some
+sort of communication,
+
+36
+00:02:00,669 --> 00:02:02,890
+which I call connective
+communication. Okay?
+
+37
+00:02:02,890 --> 00:02:04,509
+And for the second type,
+
+38
+00:02:04,509 --> 00:02:06,830
+which is the interop partism it
+
+39
+00:02:06,830 --> 00:02:08,070
+always cause some type of
+
+40
+00:02:08,070 --> 00:02:10,599
+communication which we
+call PTP communication.
+
+41
+00:02:10,599 --> 00:02:12,489
+Okay. And in this slide,
+
+42
+00:02:12,489 --> 00:02:15,110
+I basically give you an
+example of two devices.
+
+43
+00:02:15,110 --> 00:02:17,889
+To enhance your understanding,
+
+44
+00:02:17,889 --> 00:02:20,710
+um, I'm not going to
+generalize a little bit.
+
+45
+00:02:20,710 --> 00:02:22,890
+I'm going to generalize
+this from two devices,
+
+46
+00:02:22,890 --> 00:02:26,530
+two GPUs to four devices,
+four GPUs, okay?
+
+47
+00:02:26,530 --> 00:02:28,969
+To give you a better
+understanding what is going on,
+
+48
+00:02:28,969 --> 00:02:31,329
+especially on communication
+part because like I said,
+
+49
+00:02:31,329 --> 00:02:33,409
+communication is the
+most important thing
+
+50
+00:02:33,409 --> 00:02:35,640
+in poison, okay?
+
+51
+00:02:35,640 --> 00:02:40,009
+So this is our case, right?
+In this two devices scenario,
+
+52
+00:02:40,009 --> 00:02:41,609
+we run through that graph
+
+53
+00:02:41,609 --> 00:02:44,770
+following the defined
+partitioning,
+
+54
+00:02:44,770 --> 00:02:47,330
+and we get two partial
+sums on each device.
+
+55
+00:02:47,330 --> 00:02:50,089
+And in order to get a
+replica on each devices,
+
+56
+00:02:50,089 --> 00:02:53,369
+what we do is we run two
+device or reduce, right?
+
+57
+00:02:53,369 --> 00:02:56,090
+So by two device
+or reduce, I mean,
+
+58
+00:02:56,090 --> 00:02:58,309
+the first device sends
+its partial sum to
+
+59
+00:02:58,309 --> 00:03:01,249
+the second device and the
+second device do summarization.
+
+60
+00:03:01,249 --> 00:03:03,449
+And the second device,
+send partial sum
+
+61
+00:03:03,449 --> 00:03:04,589
+to the first device and the
+
+62
+00:03:04,589 --> 00:03:05,989
+first device does
+the same thing,
+
+63
+00:03:05,989 --> 00:03:08,365
+right? This is all reduce.
+
+64
+00:03:08,365 --> 00:03:11,100
+And if we run this
+on four devices,
+
+65
+00:03:11,100 --> 00:03:14,020
+that is we partition this graph,
+
+66
+00:03:14,020 --> 00:03:18,039
+say in four parts,
+we cut three times.
+
+67
+00:03:18,039 --> 00:03:20,800
+Okay. We'll get basically
+one fourth on device.
+
+68
+00:03:20,800 --> 00:03:23,399
+What we all get is
+basically like this, right?
+
+69
+00:03:23,399 --> 00:03:26,440
+Okay. So each each
+of the four devices,
+
+70
+00:03:26,440 --> 00:03:28,279
+we'll get a partial sum,
+but this partial sum
+
+71
+00:03:28,279 --> 00:03:31,419
+is one fourth of the
+total sum, right?
+
+72
+00:03:31,419 --> 00:03:34,000
+And because we still apply
+
+73
+00:03:34,000 --> 00:03:36,920
+this partism that is in the end,
+
+74
+00:03:36,920 --> 00:03:40,359
+we want each device to
+have a replica, right?
+
+75
+00:03:40,359 --> 00:03:43,859
+So here, it's exactly
+the same, right?
+
+76
+00:03:43,859 --> 00:03:47,140
+We need to run or reduce
+across all four devices.
+
+77
+00:03:47,140 --> 00:03:49,319
+Okay. And this
+reduce is apparently
+
+78
+00:03:49,319 --> 00:03:50,399
+more expensive than running
+
+79
+00:03:50,399 --> 00:03:51,579
+or reduce on two devices, right?
+
+80
+00:03:51,579 --> 00:03:53,579
+Because in order to
+run this reduce,
+
+81
+00:03:53,579 --> 00:03:55,240
+all you need to do is
+you allow each device to
+
+82
+00:03:55,240 --> 00:03:57,359
+send its partial sum to
+all other devices, right?
+
+83
+00:03:57,359 --> 00:03:59,920
+And once the device
+
+84
+00:03:59,920 --> 00:04:02,564
+receives all the partial
+sums, it will do aggregation.
+
+85
+00:04:02,564 --> 00:04:05,270
+That is why this communication
+is called reduce.
+
+86
+00:04:05,270 --> 00:04:07,210
+It's not reduced.
+It's all reduce.
+
+87
+00:04:07,210 --> 00:04:08,349
+That is every device needs
+
+88
+00:04:08,349 --> 00:04:10,769
+to communicate and reduce, okay?
+
+89
+00:04:10,769 --> 00:04:12,369
+And from this example, you can
+
+90
+00:04:12,369 --> 00:04:14,169
+generalize even more to
+more devices, right?
+
+91
+00:04:14,169 --> 00:04:16,049
+As you grow the lumber devices,
+
+92
+00:04:16,049 --> 00:04:18,289
+as you grow the lumber
+
+93
+00:04:18,289 --> 00:04:20,089
+the size of cluster you are
+
+94
+00:04:20,089 --> 00:04:21,529
+going to use to train the model,
+
+95
+00:04:21,529 --> 00:04:22,990
+this reduce is going to be
+
+96
+00:04:22,990 --> 00:04:24,670
+more and more and more
+expensive, right?
+
+97
+00:04:24,670 --> 00:04:27,999
+It's basically square
+square complexity, okay?
+
+98
+00:04:27,999 --> 00:04:32,130
+But in contrast, uh,
+in this interperism,
+
+99
+00:04:32,130 --> 00:04:34,249
+no matter where you cut,
+right, you are not going to
+
+100
+00:04:34,249 --> 00:04:37,169
+cause or reduce or
+collective communication.
+
+101
+00:04:37,169 --> 00:04:39,249
+You can only cause P
+to be communication.
+
+102
+00:04:39,249 --> 00:04:42,550
+That is one device need to
+send to the other, right?
+
+103
+00:04:42,550 --> 00:04:44,070
+Notter how you cut, you can
+
+104
+00:04:44,070 --> 00:04:46,110
+cut vertically or you
+cut horizontally.
+
+105
+00:04:46,110 --> 00:04:48,690
+But essentially in this
+two device scenario,
+
+106
+00:04:48,690 --> 00:04:49,970
+you just need one device to
+
+107
+00:04:49,970 --> 00:04:51,550
+send something to
+the second device.
+
+108
+00:04:51,550 --> 00:04:53,110
+And the second device
+doesn't know how to send
+
+109
+00:04:53,110 --> 00:04:55,090
+something to the
+first device, right?
+
+110
+00:04:55,090 --> 00:04:57,529
+Okay. I hope this
+basically enhance
+
+111
+00:04:57,529 --> 00:05:00,250
+your understanding
+a little Okay,
+
+112
+00:05:00,250 --> 00:05:02,350
+and come back to this slide,
+
+113
+00:05:02,350 --> 00:05:06,169
+I think, previously we
+focused on explaining,
+
+114
+00:05:06,169 --> 00:05:09,569
+um, what kind of
+communication pattern,
+
+115
+00:05:09,569 --> 00:05:11,250
+it will incur, right?
+
+116
+00:05:11,250 --> 00:05:16,670
+So now, let's focus on
+the uh on the device.
+
+117
+00:05:16,670 --> 00:05:19,450
+So if there's any
+device at the time.
+
+118
+00:05:19,450 --> 00:05:22,590
+Okay? So if you basically
+go through that,
+
+119
+00:05:22,590 --> 00:05:24,250
+the first row one more time,
+
+120
+00:05:24,250 --> 00:05:26,609
+you'll find that during
+
+121
+00:05:26,609 --> 00:05:29,089
+the entire lifetime of
+doing this competition,
+
+122
+00:05:29,089 --> 00:05:31,405
+all devices are busy, right?
+
+123
+00:05:31,405 --> 00:05:36,419
+For example, here, when you
+do this MthmoEdS perform
+
+124
+00:05:36,419 --> 00:05:40,779
+a part of metamo when
+you do this memo,
+
+125
+00:05:40,779 --> 00:05:42,599
+E device perform
+another part of memo.
+
+126
+00:05:42,599 --> 00:05:44,519
+Basically at anytime
+these two devices
+
+127
+00:05:44,519 --> 00:05:46,500
+are busy, they're
+doing some work.
+
+128
+00:05:46,500 --> 00:05:47,939
+And when you do communication,
+
+129
+00:05:47,939 --> 00:05:50,020
+each device are
+communicating, right?
+
+130
+00:05:50,020 --> 00:05:56,440
+Okay. How about this
+one? So in this case,
+
+131
+00:05:56,440 --> 00:05:58,720
+the first device
+will start compute,
+
+132
+00:05:58,720 --> 00:06:00,939
+right, and it will
+produce its memo results.
+
+133
+00:06:00,939 --> 00:06:03,100
+But during the computation
+of the first device,
+
+134
+00:06:03,100 --> 00:06:04,830
+what is the second device doing?
+
+135
+00:06:04,830 --> 00:06:07,339
+It's waiting for the results
+
+136
+00:06:07,339 --> 00:06:09,200
+to be sent from
+the first device.
+
+137
+00:06:09,200 --> 00:06:11,020
+So which means that if
+
+138
+00:06:11,020 --> 00:06:12,980
+the first device haven't
+finished the compute,
+
+139
+00:06:12,980 --> 00:06:16,040
+then the second device
+is idle, rights waiting,
+
+140
+00:06:16,040 --> 00:06:17,780
+o same thing, right,
+
+141
+00:06:17,780 --> 00:06:19,959
+when we proceed when the
+first device finished
+
+142
+00:06:19,959 --> 00:06:22,540
+and forward results or send
+results to second device,
+
+143
+00:06:22,540 --> 00:06:25,140
+and then the second device
+start computing, right?
+
+144
+00:06:25,140 --> 00:06:27,839
+But the problem is during
+the second device compute,
+
+145
+00:06:27,839 --> 00:06:29,440
+the first device is idle.
+
+146
+00:06:29,440 --> 00:06:31,740
+Okay? Now, you'll see
+the difference, right?
+
+147
+00:06:31,740 --> 00:06:33,379
+The second difference
+is basically,
+
+148
+00:06:33,379 --> 00:06:35,440
+in intraoperpism, yes,
+
+149
+00:06:35,440 --> 00:06:37,659
+you are going to trigger a
+very expensive communication,
+
+150
+00:06:37,659 --> 00:06:39,960
+but you can always keep
+every device busy.
+
+151
+00:06:39,960 --> 00:06:41,734
+At anytime they are busy.
+
+152
+00:06:41,734 --> 00:06:44,629
+But in interopism, yeah,
+
+153
+00:06:44,629 --> 00:06:45,929
+you can do better
+on communication,
+
+154
+00:06:45,929 --> 00:06:48,669
+but you got a problem that is
+when some devices computed,
+
+155
+00:06:48,669 --> 00:06:50,470
+the other devices are
+idle because they
+
+156
+00:06:50,470 --> 00:06:52,730
+are waiting for
+the results. Okay?
+
+157
+00:06:52,730 --> 00:06:55,949
+This is basically the
+most important meta point
+
+158
+00:06:55,949 --> 00:06:58,629
+I want to make about
+these two types of pisms.
+
+159
+00:06:58,629 --> 00:07:01,209
+Okay? Which I summarized
+in this slide.
+
+160
+00:07:01,209 --> 00:07:05,470
+Um, so basically
+interim interroparism
+
+161
+00:07:05,470 --> 00:07:07,969
+requires point to
+point communication,
+
+162
+00:07:07,969 --> 00:07:11,245
+but it results in
+idle devices, okay?
+
+163
+00:07:11,245 --> 00:07:14,800
+But for intero partism
+devices are always busy,
+
+164
+00:07:14,800 --> 00:07:19,020
+but you require connective
+communication, okay?
+
+165
+00:07:19,020 --> 00:07:21,060
+And if we put them side by side,
+
+166
+00:07:21,060 --> 00:07:23,340
+we basically get
+this table where,
+
+167
+00:07:23,340 --> 00:07:26,304
+for interpartism, the
+communication is less.
+
+168
+00:07:26,304 --> 00:07:29,430
+Um, but the device at
+a time is more, okay?
+
+169
+00:07:29,430 --> 00:07:30,749
+And for intra partism
+
+170
+00:07:30,749 --> 00:07:32,969
+the communication is more
+because it's connective.
+
+171
+00:07:32,969 --> 00:07:35,870
+But the device at is less. Okay.
+
+172
+00:07:35,870 --> 00:07:37,550
+Eventually, you are
+going to basically
+
+173
+00:07:37,550 --> 00:07:39,330
+combine all this kind
+of parism and you want
+
+174
+00:07:39,330 --> 00:07:40,670
+to basically make
+sure you minimize
+
+175
+00:07:40,670 --> 00:07:43,090
+communication while minimize
+device at the time, right?
+
+176
+00:07:43,090 --> 00:07:45,090
+So basically you're trying
+to solve this problem.
+
+177
+00:07:45,090 --> 00:07:47,149
+Okay. And in the
+next few lectures,
+
+178
+00:07:47,149 --> 00:07:49,630
+I'm going to
+gradually, like, uh,
+
+179
+00:07:49,630 --> 00:07:51,069
+go deeper and
+deeper to formulate
+
+180
+00:07:51,069 --> 00:07:52,610
+this problem into a
+mathematical form so you
+
+181
+00:07:52,610 --> 00:07:53,950
+can understand what we are doing
+
+182
+00:07:53,950 --> 00:07:56,749
+for all different
+kind of models, okay?
+
+183
+00:07:57,510 --> 00:07:59,729
+But before I do that, okay, let
+
+184
+00:07:59,729 --> 00:08:01,249
+me summarize this part, okay?
+
+185
+00:08:01,249 --> 00:08:03,870
+This is very
+important. So the way
+
+186
+00:08:03,870 --> 00:08:06,430
+that way represent the
+different types of partism.
+
+187
+00:08:06,430 --> 00:08:08,490
+I think at the
+beginning, I said,
+
+188
+00:08:08,490 --> 00:08:10,130
+traditionally, people just talk
+
+189
+00:08:10,130 --> 00:08:11,869
+about data on modo
+partism, right?
+
+190
+00:08:11,869 --> 00:08:13,490
+But in this class, I give you
+
+191
+00:08:13,490 --> 00:08:16,589
+a new concept that is
+interop and into partism.
+
+192
+00:08:16,589 --> 00:08:18,530
+I want to make a strong argument
+
+193
+00:08:18,530 --> 00:08:20,650
+because I think, uh, yeah,
+
+194
+00:08:20,650 --> 00:08:23,525
+data and modoparism are
+very classic concepts, but,
+
+195
+00:08:23,525 --> 00:08:25,899
+Um, but they have some problems
+
+196
+00:08:25,899 --> 00:08:27,780
+when you talk about
+these two words, right?
+
+197
+00:08:27,780 --> 00:08:29,119
+For data partism, yes,
+
+198
+00:08:29,119 --> 00:08:30,620
+it's pretty clean, okay?
+
+199
+00:08:30,620 --> 00:08:32,319
+When I say data partism, you
+know what I mean, right?
+
+200
+00:08:32,319 --> 00:08:34,679
+I basically part in the
+data, I raplic wait, right?
+
+201
+00:08:34,679 --> 00:08:36,279
+But when I say Multi partarisms
+
+202
+00:08:36,279 --> 00:08:37,659
+a little bit, like, ambiguous,
+
+203
+00:08:37,659 --> 00:08:39,439
+a little bit vague, because
+
+204
+00:08:39,439 --> 00:08:41,939
+there are so many types of
+multiparism you can do.
+
+205
+00:08:41,939 --> 00:08:44,000
+You can cut the graph,
+you can cut the operator.
+
+206
+00:08:44,000 --> 00:08:45,600
+And maybe in some sense,
+
+207
+00:08:45,600 --> 00:08:48,159
+data partism is also a
+type of multipism right
+
+208
+00:08:48,159 --> 00:08:51,179
+if you see the entire data
+as a big tenser, right?
+
+209
+00:08:51,179 --> 00:08:52,600
+So you're basically partion
+
+210
+00:08:52,600 --> 00:08:54,365
+over the batch dimension, okay?
+
+211
+00:08:54,365 --> 00:08:55,929
+That's why I bring in this
+
+212
+00:08:55,929 --> 00:08:58,449
+new definition
+interrupt interrupt.
+
+213
+00:08:58,449 --> 00:09:01,309
+And I think the definition
+of inter interop partism
+
+214
+00:09:01,309 --> 00:09:07,029
+are very computational centric.
+
+215
+00:09:07,029 --> 00:09:09,790
+In a sense, basically
+when I say interrupt,
+
+216
+00:09:09,790 --> 00:09:11,310
+you know, I'm not operator,
+
+217
+00:09:11,310 --> 00:09:12,650
+but I'm just cut the graph.
+
+218
+00:09:12,650 --> 00:09:14,309
+And when I say
+interrupt, you know,
+
+219
+00:09:14,309 --> 00:09:16,889
+I'm cut the operator
+but not graph.
+
+220
+00:09:16,889 --> 00:09:18,830
+So in the rest of lecture,
+
+221
+00:09:18,830 --> 00:09:20,489
+I'm going to
+probably use more of
+
+222
+00:09:20,489 --> 00:09:21,709
+this part of definition
+
+223
+00:09:21,709 --> 00:09:24,350
+because I think
+it's very precise.
+
+224
+00:09:24,910 --> 00:09:27,949
+Any problem about this?
+
+225
+00:09:28,720 --> 00:09:32,060
+Cool. Then let's continue.
+
+226
+00:09:32,060 --> 00:09:34,659
+Okay. Then under this new view,
+
+227
+00:09:34,659 --> 00:09:37,219
+we can basically try to
+simplify our problem, right.
+
+228
+00:09:37,219 --> 00:09:40,279
+Previously, the version
+of our problem is we need
+
+229
+00:09:40,279 --> 00:09:41,959
+to partition the graph
+
+230
+00:09:41,959 --> 00:09:44,639
+over the class around
+the right, right?
+
+231
+00:09:44,639 --> 00:09:47,019
+And now we are basically
+trying to figure out
+
+232
+00:09:47,019 --> 00:09:49,380
+what is the most
+efficient way to ask
+
+233
+00:09:49,380 --> 00:09:50,960
+you to the graph using
+
+234
+00:09:50,960 --> 00:09:54,199
+a combination of inter
+and interoperabism.
+
+235
+00:09:54,199 --> 00:09:56,120
+You already know
+that my interperism
+
+236
+00:09:56,120 --> 00:09:57,179
+can represent datapism.
+
+237
+00:09:57,179 --> 00:09:59,160
+So data partism is already
+
+238
+00:09:59,160 --> 00:10:02,409
+kind of like included
+in this sentence, okay?
+
+239
+00:10:02,409 --> 00:10:04,500
+And of course, you
+need to subject
+
+240
+00:10:04,500 --> 00:10:06,499
+to memory constraints, right.
+
+241
+00:10:06,499 --> 00:10:08,040
+Memory means that when
+you're partition,
+
+242
+00:10:08,040 --> 00:10:09,360
+you need to fit that
+model into a device,
+
+243
+00:10:09,360 --> 00:10:10,700
+part of model into a device.
+
+244
+00:10:10,700 --> 00:10:11,780
+And of course, you need to
+
+245
+00:10:11,780 --> 00:10:13,499
+subject to communication
+constraints.
+
+246
+00:10:13,499 --> 00:10:16,080
+But here, I still
+feel this definition
+
+247
+00:10:16,080 --> 00:10:17,599
+of all this statement of
+
+248
+00:10:17,599 --> 00:10:19,160
+this problem is still
+too complicated,
+
+249
+00:10:19,160 --> 00:10:20,760
+because I think for
+memory constraints,
+
+250
+00:10:20,760 --> 00:10:21,319
+it makes sense, right.
+
+251
+00:10:21,319 --> 00:10:23,719
+You basically you cannot
+exceed the peak memory.
+
+252
+00:10:23,719 --> 00:10:25,419
+But for communication,
+what do I mean by
+
+253
+00:10:25,419 --> 00:10:27,539
+subject to communication
+constraints, right?
+
+254
+00:10:27,539 --> 00:10:29,520
+So the last step
+into communication,
+
+255
+00:10:29,520 --> 00:10:31,630
+what do I mean by communication?
+
+256
+00:10:31,630 --> 00:10:33,779
+But before I dive
+into communication,
+
+257
+00:10:33,779 --> 00:10:35,920
+let's look at the most
+important objective here.
+
+258
+00:10:35,920 --> 00:10:38,139
+So for this problem, the
+most important objective
+
+259
+00:10:38,139 --> 00:10:40,219
+is we want to be
+efficient, right?
+
+260
+00:10:40,219 --> 00:10:43,820
+That is always always the
+goal of this entire class.
+
+261
+00:10:43,820 --> 00:10:45,379
+We want to be efficient. We want
+
+262
+00:10:45,379 --> 00:10:47,504
+to compute as fast
+as possible, right?
+
+263
+00:10:47,504 --> 00:10:50,929
+So then if we start
+considering this kind of
+
+264
+00:10:50,929 --> 00:10:52,050
+partism that is we run
+
+265
+00:10:52,050 --> 00:10:54,929
+a computer graph on a
+super large cluster,
+
+266
+00:10:54,929 --> 00:10:57,390
+how do we define efficiency?
+
+267
+00:10:57,390 --> 00:10:59,250
+I think previously when we run
+
+268
+00:10:59,250 --> 00:11:00,630
+this kind of thing
+on single device,
+
+269
+00:11:00,630 --> 00:11:02,850
+we already have a
+definition of efficiency.
+
+270
+00:11:02,850 --> 00:11:05,949
+It's basically AI or
+arithmetic intensity.
+
+271
+00:11:05,949 --> 00:11:07,950
+We want each
+operator to maximize
+
+272
+00:11:07,950 --> 00:11:11,390
+his arithmetic intensity. So AI.
+
+273
+00:11:11,390 --> 00:11:15,650
+But AI is more like a
+macro level definition.
+
+274
+00:11:15,650 --> 00:11:17,570
+For example, when you speak AI,
+
+275
+00:11:17,570 --> 00:11:19,129
+you probably when
+you talk about AI,
+
+276
+00:11:19,129 --> 00:11:20,649
+you probably mean that
+
+277
+00:11:20,649 --> 00:11:23,089
+the original intensity of
+single operator, right?
+
+278
+00:11:23,089 --> 00:11:25,170
+Single devices on
+single type of course.
+
+279
+00:11:25,170 --> 00:11:27,429
+Okay. But here we want
+
+280
+00:11:27,429 --> 00:11:29,929
+a definition that is
+more like a global,
+
+281
+00:11:29,929 --> 00:11:32,889
+more holistic because now we
+are running a graph on, say,
+
+282
+00:11:32,889 --> 00:11:34,909
+thousands of GPUs,
+how we measure
+
+283
+00:11:34,909 --> 00:11:37,509
+the total efficiency of the
+thousands of GPUs, right?
+
+284
+00:11:37,509 --> 00:11:39,889
+And we also care about
+
+285
+00:11:39,889 --> 00:11:41,290
+the entire graphs efficiency
+
+286
+00:11:41,290 --> 00:11:42,730
+instead of a single operator.
+
+287
+00:11:42,730 --> 00:11:46,530
+Okay? So, in order to
+introduce this efficiency,
+
+288
+00:11:46,530 --> 00:11:48,649
+I need to introduce a very
+important term, okay?
+
+289
+00:11:48,649 --> 00:11:50,989
+And this term is basically, uh,
+
+290
+00:11:50,989 --> 00:11:52,610
+if you go to industry,
+
+291
+00:11:52,610 --> 00:11:54,570
+so everybody is talking
+about this term, okay?
+
+292
+00:11:54,570 --> 00:11:56,789
+So it's called MF.
+
+293
+00:11:57,030 --> 00:12:00,589
+MFU. If you read
+
+294
+00:12:00,589 --> 00:12:05,010
+any language model system
+or efficiency or any paper,
+
+295
+00:12:05,010 --> 00:12:06,529
+they're going to
+report MFU because
+
+296
+00:12:06,529 --> 00:12:08,909
+MFU is basically a way to
+
+297
+00:12:08,909 --> 00:12:11,049
+show the kind of
+
+298
+00:12:11,049 --> 00:12:13,730
+the strength of the system
+team in your company.
+
+299
+00:12:13,730 --> 00:12:15,869
+If your system team
+is pretty good, uh,
+
+300
+00:12:15,869 --> 00:12:18,129
+they should give
+a pretty good MFU
+
+301
+00:12:18,129 --> 00:12:21,330
+because the job of the entire
+system team in any company,
+
+302
+00:12:21,330 --> 00:12:22,889
+for example, open air, their job
+
+303
+00:12:22,889 --> 00:12:24,570
+is basically maximize MFU.
+
+304
+00:12:24,570 --> 00:12:26,750
+Okay? So what is MFU, okay?
+
+305
+00:12:26,750 --> 00:12:30,355
+So here I directly give
+you the definition.
+
+306
+00:12:30,355 --> 00:12:33,900
+So MFU equals to the
+number of flops.
+
+307
+00:12:33,900 --> 00:12:36,680
+So here I use a smaller S, okay.
+
+308
+00:12:36,680 --> 00:12:37,999
+And here I use a capital S,
+
+309
+00:12:37,999 --> 00:12:39,880
+and I want to distinguish
+it a little bit.
+
+310
+00:12:39,880 --> 00:12:41,519
+So when I do this,
+you can see it's
+
+311
+00:12:41,519 --> 00:12:44,400
+basically that the lumber
+flops, a lot of flops.
+
+312
+00:12:44,400 --> 00:12:46,399
+And the number of flops
+here basically means
+
+313
+00:12:46,399 --> 00:12:49,319
+the total compute
+flowing point opera
+
+314
+00:12:49,319 --> 00:12:52,080
+is needed to finish your
+machine learning program.
+
+315
+00:12:52,080 --> 00:12:55,140
+Okay? So MFU equals
+to number of flops
+
+316
+00:12:55,140 --> 00:12:58,660
+divided by the time T
+and T is time spent,
+
+317
+00:12:58,660 --> 00:13:01,739
+um on finishing
+finishing training,
+
+318
+00:13:01,739 --> 00:13:05,484
+for example, or when interingt
+basically finish your job.
+
+319
+00:13:05,484 --> 00:13:07,389
+And divided by the peak flops.
+
+320
+00:13:07,389 --> 00:13:09,989
+Here, I use capitals, meaning
+that this is a single word.
+
+321
+00:13:09,989 --> 00:13:12,790
+Okay, these flops
+capital S means
+
+322
+00:13:12,790 --> 00:13:17,330
+the processing capability
+of a chip or GPU.
+
+323
+00:13:17,330 --> 00:13:20,250
+For example, you probably
+know that V 100,
+
+324
+00:13:20,250 --> 00:13:25,389
+the flops capital S is basically
+around 150 flops, right?
+
+325
+00:13:25,389 --> 00:13:27,630
+Um, T flops, sorry, yeah.
+
+326
+00:13:27,630 --> 00:13:31,730
+There's a Terra Okay, T
+flops per second, okay?
+
+327
+00:13:31,730 --> 00:13:34,410
+So here, from this cavity
+
+328
+00:13:34,410 --> 00:13:36,649
+you can see MF is basically
+a percentage, right?
+
+329
+00:13:36,649 --> 00:13:41,650
+Okay. So MFU here stands for
+model flops UTS addition,
+
+330
+00:13:41,650 --> 00:13:43,250
+and it is UTS addition.
+
+331
+00:13:43,250 --> 00:13:46,489
+It basically characterize
+how much percentage you
+
+332
+00:13:46,489 --> 00:13:50,110
+can utilize your peak
+capability of your GPUs.
+
+333
+00:13:50,110 --> 00:13:53,189
+Okay? Because your GPU
+once it is manufactured
+
+334
+00:13:53,189 --> 00:13:55,089
+and you bought a GPU are you
+
+335
+00:13:55,089 --> 00:13:57,530
+basically have a peak flops
+that the GPU can enable,
+
+336
+00:13:57,530 --> 00:14:01,130
+every generation nearer
+GPU have higher peak.
+
+337
+00:14:01,130 --> 00:14:05,129
+But your program cannot always
+use peak flops because you
+
+338
+00:14:05,129 --> 00:14:07,110
+use different operations and
+different operations have
+
+339
+00:14:07,110 --> 00:14:09,509
+different computation
+charistics also,
+
+340
+00:14:09,509 --> 00:14:10,890
+you can write pretty bad code
+
+341
+00:14:10,890 --> 00:14:12,129
+and your code could be slowed.
+
+342
+00:14:12,129 --> 00:14:14,820
+That's why your MFU canot
+always reach peak, okay?
+
+343
+00:14:14,820 --> 00:14:17,269
+Okay. From here, you can see
+
+344
+00:14:17,269 --> 00:14:20,969
+MF is a udtion which means
+that the value is 0-100%.
+
+345
+00:14:20,969 --> 00:14:24,549
+Okay? And here, the flops
+already explained it is
+
+346
+00:14:24,549 --> 00:14:28,490
+a total compute needed
+to compute your model.
+
+347
+00:14:28,490 --> 00:14:31,509
+Okay? Uh So how
+to estimate this?
+
+348
+00:14:31,509 --> 00:14:33,130
+For example, if your model is
+
+349
+00:14:33,130 --> 00:14:34,969
+a methemo you already know
+how to estimate, right?
+
+350
+00:14:34,969 --> 00:14:37,910
+It's two M k. I give
+you the equation, okay?
+
+351
+00:14:37,910 --> 00:14:40,309
+But if your model is a lotto,
+
+352
+00:14:40,309 --> 00:14:41,849
+you'll be add together, right?
+
+353
+00:14:41,849 --> 00:14:43,509
+It's a total flop needed for
+
+354
+00:14:43,509 --> 00:14:45,990
+computer model for
+iteration, okay?
+
+355
+00:14:45,990 --> 00:14:48,109
+So this term basically
+characterize
+
+356
+00:14:48,109 --> 00:14:51,005
+how many computer needed
+to run the program, okay?
+
+357
+00:14:51,005 --> 00:14:52,760
+And this is easy to understand.
+
+358
+00:14:52,760 --> 00:14:54,540
+That is when you write
+
+359
+00:14:54,540 --> 00:14:56,160
+your program when you
+write your software,
+
+360
+00:14:56,160 --> 00:14:59,280
+and when you deploy this
+program and software on GPU,
+
+361
+00:14:59,280 --> 00:15:01,980
+you run Iteration and
+you do a benchmark
+
+362
+00:15:01,980 --> 00:15:03,480
+and you know how long it takes
+
+363
+00:15:03,480 --> 00:15:05,440
+this T is basically
+how long it takes.
+
+364
+00:15:05,440 --> 00:15:09,980
+Okay? If you divide
+this number by T,
+
+365
+00:15:09,980 --> 00:15:13,220
+you basically get how good
+your program is running,
+
+366
+00:15:13,220 --> 00:15:15,380
+in terms of flops per second.
+
+367
+00:15:15,380 --> 00:15:19,739
+For example, you can run
+at 100 flops per second.
+
+368
+00:15:19,739 --> 00:15:23,740
+That is how good you can
+achieve on your code.
+
+369
+00:15:23,740 --> 00:15:25,279
+And then you divide
+this number by
+
+370
+00:15:25,279 --> 00:15:27,000
+the peak flops
+offered by the GPU,
+
+371
+00:15:27,000 --> 00:15:30,940
+that is addition. Okay.
+Does that make sense?
+
+372
+00:15:30,940 --> 00:15:34,240
+Cool. And this term
+is so important,
+
+373
+00:15:34,240 --> 00:15:36,119
+so I spent a lot of
+time explaining this.
+
+374
+00:15:36,119 --> 00:15:38,679
+Okay? So as you can see,
+
+375
+00:15:38,679 --> 00:15:40,080
+in this class, we try to
+
+376
+00:15:40,080 --> 00:15:41,479
+build marchearing
+systems, right?
+
+377
+00:15:41,479 --> 00:15:43,420
+And MSU is basically
+
+378
+00:15:43,420 --> 00:15:45,040
+the verdict of whether
+
+379
+00:15:45,040 --> 00:15:46,580
+your marche learning
+system is good.
+
+380
+00:15:46,580 --> 00:15:49,360
+Right? If your machine
+learning system is pretty bad,
+
+381
+00:15:49,360 --> 00:15:51,339
+your MFU is going
+to be low, right?
+
+382
+00:15:51,339 --> 00:15:53,439
+Which means that given
+the same program,
+
+383
+00:15:53,439 --> 00:15:55,659
+you are going to run
+longer than others, right?
+
+384
+00:15:55,659 --> 00:15:57,760
+And if your MF is high,
+
+385
+00:15:57,760 --> 00:16:01,279
+that means you are doing pretty
+good job on augmentation.
+
+386
+00:16:01,279 --> 00:16:02,480
+You are basically squeeze
+
+387
+00:16:02,480 --> 00:16:04,320
+the last bit of
+performance on the CPU.
+
+388
+00:16:04,320 --> 00:16:07,880
+Okay. Any question
+about this term?
+
+389
+00:16:08,270 --> 00:16:11,449
+Cool. So how we
+
+390
+00:16:11,449 --> 00:16:13,209
+get these Pi flops,
+it's very easy, right?
+
+391
+00:16:13,209 --> 00:16:14,510
+You just go check
+
+392
+00:16:14,510 --> 00:16:18,370
+ND products back and ND
+will give you the number.
+
+393
+00:16:18,370 --> 00:16:20,269
+For example, this is
+the t hundred products
+
+394
+00:16:20,269 --> 00:16:21,950
+back here, okay?
+
+395
+00:16:21,950 --> 00:16:23,649
+And if you are like I said,
+
+396
+00:16:23,649 --> 00:16:24,970
+when you train language model,
+
+397
+00:16:24,970 --> 00:16:27,369
+you basically run on
+LP 16, 1004, right?
+
+398
+00:16:27,369 --> 00:16:30,129
+So you basically check
+this line, right?
+
+399
+00:16:30,129 --> 00:16:31,830
+And you can see the P
+
+400
+00:16:31,830 --> 00:16:34,749
+161004 have this
+kind of peak flops.
+
+401
+00:16:34,749 --> 00:16:36,089
+Okay? Which means
+that you need to
+
+402
+00:16:36,089 --> 00:16:37,569
+substitute this value into here.
+
+403
+00:16:37,569 --> 00:16:41,669
+Okay. Cool. Yeah.
+
+404
+00:16:43,480 --> 00:16:47,599
+Doesn't always rect
+real performance.
+
+405
+00:16:47,599 --> 00:16:50,999
+When you're comparing
+compare other
+
+406
+00:16:50,999 --> 00:16:54,260
+number stores, Yeah, exactly.
+
+407
+00:16:54,260 --> 00:16:55,940
+You compare it to another
+system, for example.
+
+408
+00:16:55,940 --> 00:16:58,139
+Yeah, I will tell you
+where we are now.
+
+409
+00:16:58,139 --> 00:17:00,600
+I mean, for example, how
+open eye is doing today.
+
+410
+00:17:00,600 --> 00:17:02,499
+Okay. But like I said,
+
+411
+00:17:02,499 --> 00:17:04,679
+media only gives
+you the peak flops.
+
+412
+00:17:04,679 --> 00:17:08,319
+The Pk flops is nowhere
+you can achieve.
+
+413
+00:17:08,319 --> 00:17:11,540
+Because it has a very
+strong requirement.
+
+414
+00:17:11,540 --> 00:17:15,430
+For example, for element
+wise operations,
+
+415
+00:17:15,430 --> 00:17:17,509
+you are not going to
+achieve the P flops,
+
+416
+00:17:17,509 --> 00:17:20,149
+because it's not you
+
+417
+00:17:20,149 --> 00:17:21,929
+not be able to use element
+
+418
+00:17:21,929 --> 00:17:24,649
+wise to utilize
+all their course.
+
+419
+00:17:24,649 --> 00:17:27,950
+And basically, in order to
+achieve that peak flops, uh,
+
+420
+00:17:27,950 --> 00:17:31,829
+there's one way that is
+you do a very big Mtmo.
+
+421
+00:17:31,829 --> 00:17:34,009
+And media can basically have
+
+422
+00:17:34,009 --> 00:17:36,409
+the code or elaborate
+to achieve P flops.
+
+423
+00:17:36,409 --> 00:17:39,050
+But only subject that
+only applies to met.
+
+424
+00:17:39,050 --> 00:17:41,389
+But when I talk about
+this program, right,
+
+425
+00:17:41,389 --> 00:17:43,839
+this program flops,
+as you can imagine,
+
+426
+00:17:43,839 --> 00:17:45,839
+in transformers, you
+only have a few metamo.
+
+427
+00:17:45,839 --> 00:17:47,039
+And between metamo you have
+
+428
+00:17:47,039 --> 00:17:49,779
+many layer normalization
+and a few softmax,
+
+429
+00:17:49,779 --> 00:17:50,879
+and these kind of operations are
+
+430
+00:17:50,879 --> 00:17:52,199
+less efficient than Mtmo.
+
+431
+00:17:52,199 --> 00:17:54,199
+So when you consider
+
+432
+00:17:54,199 --> 00:17:56,000
+the entire machine learning
+program as a whole,
+
+433
+00:17:56,000 --> 00:17:57,954
+you are not able to
+achieve the peak flops.
+
+434
+00:17:57,954 --> 00:18:01,549
+Okay. Any question about this?
+
+435
+00:18:01,590 --> 00:18:06,429
+Cool. Yeah, then,
+given this equation,
+
+436
+00:18:06,429 --> 00:18:08,229
+I assume you understand
+this equation.
+
+437
+00:18:08,229 --> 00:18:09,689
+Let's discuss a little
+bit more, right?
+
+438
+00:18:09,689 --> 00:18:12,430
+What are basically in a
+TP Commercial program,
+
+439
+00:18:12,430 --> 00:18:16,289
+what are the potential
+factors that can lower MF?
+
+440
+00:18:16,289 --> 00:18:18,610
+Because the maximum
+possible value
+
+441
+00:18:18,610 --> 00:18:20,629
+of MF is basically 100%, right?
+
+442
+00:18:20,629 --> 00:18:22,910
+But I told you we are not
+going to get there, okay?
+
+443
+00:18:22,910 --> 00:18:25,410
+So what are the
+potential factors
+
+444
+00:18:25,410 --> 00:18:28,850
+that basically prevent us
+from achieving 100% MF?
+
+445
+00:18:28,850 --> 00:18:31,309
+Okay. So the first one is,
+
+446
+00:18:31,309 --> 00:18:32,390
+of course, operator types.
+
+447
+00:18:32,390 --> 00:18:34,410
+Like I said, for met
+Mo, you have a chance.
+
+448
+00:18:34,410 --> 00:18:35,729
+If you only run met Moe you have
+
+449
+00:18:35,729 --> 00:18:37,430
+a chance to get
+peak performance.
+
+450
+00:18:37,430 --> 00:18:39,469
+But in machining programs,
+
+451
+00:18:39,469 --> 00:18:41,870
+you have many element
+wise, for example,
+
+452
+00:18:41,870 --> 00:18:45,669
+alo gelo, arm edition,
+which are not matm.
+
+453
+00:18:45,669 --> 00:18:50,229
+So why this kind of element
+wise cannot get peak flops?
+
+454
+00:18:50,720 --> 00:18:55,119
+You basically go back to
+that arithmetic intensity.
+
+455
+00:18:55,119 --> 00:18:56,600
+You need to read all the data
+
+456
+00:18:56,600 --> 00:18:57,879
+in order to compute
+one operator.
+
+457
+00:18:57,879 --> 00:18:59,999
+But for metam, you just need
+
+458
+00:18:59,999 --> 00:19:02,379
+to read two matrix and you
+can perform a lot of flops.
+
+459
+00:19:02,379 --> 00:19:04,399
+So your AI is much higher on
+
+460
+00:19:04,399 --> 00:19:07,419
+Metamor compared to
+other operators, okay?
+
+461
+00:19:07,419 --> 00:19:10,639
+So this means that there
+are some good models.
+
+462
+00:19:10,639 --> 00:19:12,579
+There are some bad
+models, right?
+
+463
+00:19:12,579 --> 00:19:15,500
+Because if a model
+always has element wise,
+
+464
+00:19:15,500 --> 00:19:17,180
+but not metamos bad model.
+
+465
+00:19:17,180 --> 00:19:20,180
+Right from the perspective
+of GPU addition.
+
+466
+00:19:20,180 --> 00:19:22,059
+Okay? But if a model has
+
+467
+00:19:22,059 --> 00:19:25,880
+a perfect balance of
+metamO and something else,
+
+468
+00:19:25,880 --> 00:19:28,479
+then you can strike
+a balance between,
+
+469
+00:19:28,479 --> 00:19:31,579
+utilize your GPU
+pretty good, right,
+
+470
+00:19:31,579 --> 00:19:33,180
+and increase
+
+471
+00:19:33,180 --> 00:19:36,359
+the marchine learning models
+basically power, right?
+
+472
+00:19:36,359 --> 00:19:38,619
+Because you cannot
+always do matm for
+
+473
+00:19:38,619 --> 00:19:41,560
+your model because it will
+only bear linear operations.
+
+474
+00:19:41,560 --> 00:19:43,880
+Linear operation has
+very limited kind
+
+475
+00:19:43,880 --> 00:19:45,819
+of marchinary modeling
+power, right?
+
+476
+00:19:45,819 --> 00:19:47,699
+So a perfect model
+should basically
+
+477
+00:19:47,699 --> 00:19:49,600
+strike a balance
+between its own power.
+
+478
+00:19:49,600 --> 00:19:51,819
+For example, you need to
+mix linear operations and
+
+479
+00:19:51,819 --> 00:19:53,659
+nonlinear operations to express
+
+480
+00:19:53,659 --> 00:19:56,105
+a sophisticated
+enough functions.
+
+481
+00:19:56,105 --> 00:19:58,469
+And you need to basically
+
+482
+00:19:58,469 --> 00:20:00,729
+have a way to utilize
+GPU pretty well.
+
+483
+00:20:00,729 --> 00:20:02,489
+Okay? So here I want
+
+484
+00:20:02,489 --> 00:20:04,450
+to echo a little bit
+in my first lecture.
+
+485
+00:20:04,450 --> 00:20:07,429
+I also echo what our guest
+speaker said, right?
+
+486
+00:20:07,429 --> 00:20:09,550
+So eventually in the current
+
+487
+00:20:09,550 --> 00:20:11,249
+in contemporary
+machinery development,
+
+488
+00:20:11,249 --> 00:20:12,390
+you when you design model,
+
+489
+00:20:12,390 --> 00:20:13,929
+you have to think
+about this. Okay?
+
+490
+00:20:13,929 --> 00:20:16,170
+You cannot design model that
+you think are pretty good.
+
+491
+00:20:16,170 --> 00:20:17,870
+A lot of representative power,
+
+492
+00:20:17,870 --> 00:20:20,109
+like model arbitrary function,
+
+493
+00:20:20,109 --> 00:20:21,469
+but it's not GPU friendly.
+
+494
+00:20:21,469 --> 00:20:23,289
+Okay, you have to
+think about this.
+
+495
+00:20:23,289 --> 00:20:25,290
+Okay, you need to
+maximize your MF well,
+
+496
+00:20:25,290 --> 00:20:26,950
+design your model, okay?
+
+497
+00:20:26,950 --> 00:20:28,589
+That's why transformer
+wins, right?
+
+498
+00:20:28,589 --> 00:20:30,285
+Okay. Cool.
+
+499
+00:20:30,285 --> 00:20:32,539
+Uh, I already told you,
+
+500
+00:20:32,539 --> 00:20:36,160
+what are the MF friendly
+O and M unfriendly op.
+
+501
+00:20:36,160 --> 00:20:39,059
+So basically MTM is
+very MF friendly, um,
+
+502
+00:20:39,059 --> 00:20:42,719
+and element we are
+not very friendly.
+
+503
+00:20:42,719 --> 00:20:46,720
+Cool. Okay, of course,
+
+504
+00:20:46,720 --> 00:20:48,140
+what kind of affect your MMF?
+
+505
+00:20:48,140 --> 00:20:50,019
+That is the system ogmentation
+
+506
+00:20:50,019 --> 00:20:51,699
+you applied to your
+machining program, right?
+
+507
+00:20:51,699 --> 00:20:53,419
+If you do telling, if you do
+
+508
+00:20:53,419 --> 00:20:55,759
+all these kind of like
+graph ogmentation,
+
+509
+00:20:55,759 --> 00:20:57,599
+you do fusion, you do
+
+510
+00:20:57,599 --> 00:21:00,119
+lower precision, uh,
+computation, right?
+
+511
+00:21:00,119 --> 00:21:02,859
+And you can definitely, uh,
+
+512
+00:21:02,859 --> 00:21:05,200
+reduce the time you
+spend on reading data,
+
+513
+00:21:05,200 --> 00:21:07,079
+but increase the
+time you spend on,
+
+514
+00:21:07,079 --> 00:21:09,339
+um, on computing, right?
+
+515
+00:21:09,339 --> 00:21:12,200
+And you can always keep your
+GPU busier than before.
+
+516
+00:21:12,200 --> 00:21:15,119
+So if you know how to
+optimize your program,
+
+517
+00:21:15,119 --> 00:21:16,700
+how to optimize your graph,
+
+518
+00:21:16,700 --> 00:21:18,100
+how to optimize your operators,
+
+519
+00:21:18,100 --> 00:21:20,639
+you are going to
+increase your MMF. Okay?
+
+520
+00:21:20,639 --> 00:21:22,299
+So what I ask you to do in
+
+521
+00:21:22,299 --> 00:21:23,919
+the second homework
+is basically,
+
+522
+00:21:23,919 --> 00:21:27,320
+I hope you can increase
+your MF, okay?
+
+523
+00:21:28,130 --> 00:21:31,409
+And the third factor
+primary factor
+
+524
+00:21:31,409 --> 00:21:33,369
+that affect MMF is basically,
+
+525
+00:21:33,369 --> 00:21:35,789
+of course, precision, right?
+
+526
+00:21:35,789 --> 00:21:37,449
+Because for GPO, it has
+
+527
+00:21:37,449 --> 00:21:39,830
+a different peak flops
+at different precision.
+
+528
+00:21:39,830 --> 00:21:41,769
+Which means that this
+number is different if you
+
+529
+00:21:41,769 --> 00:21:44,130
+use different um precision.
+
+530
+00:21:44,130 --> 00:21:47,389
+Okay? And of course, the
+type of course, right?
+
+531
+00:21:47,389 --> 00:21:49,990
+I show your products
+back of H 100.
+
+532
+00:21:49,990 --> 00:21:52,289
+So they have
+different peak flops
+
+533
+00:21:52,289 --> 00:21:56,069
+for ten circle and
+long ten circle, okay?
+
+534
+00:21:56,069 --> 00:21:58,289
+GPOtype H 100 is
+
+535
+00:21:58,289 --> 00:22:00,349
+definitely more powerful
+than E 100. Yeah.
+
+536
+00:22:00,349 --> 00:22:01,910
+So this number is
+going to change
+
+537
+00:22:01,910 --> 00:22:03,569
+once this number
+changes, you know,
+
+538
+00:22:03,569 --> 00:22:10,400
+your MF is going to change,
+okay? Anything else?
+
+539
+00:22:12,760 --> 00:22:14,939
+Basically, it goes back to
+
+540
+00:22:14,939 --> 00:22:19,479
+our main content of this
+lecture, communication, right?
+
+541
+00:22:19,479 --> 00:22:20,839
+So when you start doing
+
+542
+00:22:20,839 --> 00:22:23,159
+part addition, you
+introduce communication.
+
+543
+00:22:23,159 --> 00:22:24,580
+And once you communicate,
+
+544
+00:22:24,580 --> 00:22:28,539
+that means you're going to
+spend time on something else,
+
+545
+00:22:28,539 --> 00:22:31,659
+but not on TPU, holistically,
+
+546
+00:22:31,659 --> 00:22:32,980
+you are basically lowering M
+
+547
+00:22:32,980 --> 00:22:35,799
+because this is
+going to increase.
+
+548
+00:22:35,799 --> 00:22:38,919
+Communication takes
+time. What are
+
+549
+00:22:38,919 --> 00:22:41,920
+the possible ways that we
+can reduce communication?
+
+550
+00:22:42,530 --> 00:22:45,229
+There are a few
+ways, right. One is,
+
+551
+00:22:45,229 --> 00:22:46,850
+you choose the paradim
+
+552
+00:22:46,850 --> 00:22:48,530
+in a way that minimize
+communication.
+
+553
+00:22:48,530 --> 00:22:50,390
+You don't do connective.
+
+554
+00:22:50,390 --> 00:22:54,029
+You do less connective
+compared to PDP.
+
+555
+00:22:54,029 --> 00:22:56,090
+Second is, you try to put
+
+556
+00:22:56,090 --> 00:22:57,429
+those expensive communication
+
+557
+00:22:57,429 --> 00:22:59,549
+on high bandwis interconnect.
+
+558
+00:22:59,549 --> 00:23:02,650
+Right. And we are
+covered next, okay?
+
+559
+00:23:02,650 --> 00:23:05,529
+And of course, you can also
+do some scheduling to make
+
+560
+00:23:05,529 --> 00:23:08,769
+sure your communication is
+overlapped with compute.
+
+561
+00:23:08,769 --> 00:23:10,389
+That way, you can basically
+
+562
+00:23:10,389 --> 00:23:12,349
+diminish the time
+of communication,
+
+563
+00:23:12,349 --> 00:23:14,360
+right? And we'll increase MF.
+
+564
+00:23:14,360 --> 00:23:18,669
+Okay. So that basically give
+you a high level picture.
+
+565
+00:23:18,669 --> 00:23:22,369
+So when we start considering
+paralyzation, uh,
+
+566
+00:23:22,369 --> 00:23:24,470
+our problem becomes a
+little bit more complicated
+
+567
+00:23:24,470 --> 00:23:27,069
+because there's one more
+factor here, communication.
+
+568
+00:23:27,069 --> 00:23:31,529
+Okay. Okay, so to synchronize
+a little bit, um,
+
+569
+00:23:31,529 --> 00:23:33,169
+I think in all previous lecture,
+
+570
+00:23:33,169 --> 00:23:35,090
+we explain how to make sure
+
+571
+00:23:35,090 --> 00:23:37,509
+the three items are being
+taken care of, right?
+
+572
+00:23:37,509 --> 00:23:39,729
+And so basically in the
+rest of the lecture,
+
+573
+00:23:39,729 --> 00:23:41,070
+I'm going to start
+
+574
+00:23:41,070 --> 00:23:42,850
+discussing communication
+because that's
+
+575
+00:23:42,850 --> 00:23:46,349
+a new factor we introduced
+once we do part addition.
+
+576
+00:23:46,349 --> 00:23:49,419
+Okay. But before that,
+
+577
+00:23:49,419 --> 00:23:52,779
+I still want to spend a
+little bit more time on MFU.
+
+578
+00:23:52,779 --> 00:23:55,979
+So now, suppose you
+start working okay and
+
+579
+00:23:55,979 --> 00:23:57,739
+your boss is going
+to ask you to ask me
+
+580
+00:23:57,739 --> 00:23:59,859
+MF of your marchining
+program. What do you do?
+
+581
+00:23:59,859 --> 00:24:03,639
+What's the procedure? Because I
+
+582
+00:24:03,639 --> 00:24:04,700
+think this will happen
+
+583
+00:24:04,700 --> 00:24:06,499
+someday in the
+future, yeah for you.
+
+584
+00:24:06,499 --> 00:24:08,679
+B MF is such an important way to
+
+585
+00:24:08,679 --> 00:24:10,979
+measure how good you are
+using the RTP right.
+
+586
+00:24:10,979 --> 00:24:12,459
+For example, if you
+ask your boss to buy
+
+587
+00:24:12,459 --> 00:24:14,459
+Mul TPUs, you need
+justification.
+
+588
+00:24:14,459 --> 00:24:16,299
+And your boss will ask you,
+
+589
+00:24:16,299 --> 00:24:18,000
+Okay, how good you
+are using RTPU?
+
+590
+00:24:18,000 --> 00:24:20,859
+If it's the only 20% of MF,
+no, I'm going to reject you.
+
+591
+00:24:20,859 --> 00:24:22,520
+But if you're already at 50%,
+
+592
+00:24:22,520 --> 00:24:24,459
+I'm going to buy more
+GPU for you, right?
+
+593
+00:24:24,459 --> 00:24:28,000
+Okay. So how to ask me MF?
+
+594
+00:24:28,840 --> 00:24:31,040
+So there are a few steps, okay,
+
+595
+00:24:31,040 --> 00:24:32,239
+I'm going to go through, and I'm
+
+596
+00:24:32,239 --> 00:24:33,840
+also going to put
+this in homework.
+
+597
+00:24:33,840 --> 00:24:35,640
+Okay. You have to do this,
+and you need to write
+
+598
+00:24:35,640 --> 00:24:38,079
+the programming especially
+for language models. Okay.
+
+599
+00:24:38,079 --> 00:24:39,580
+So the first step, of course,
+
+600
+00:24:39,580 --> 00:24:41,219
+you look at your machine
+learning program,
+
+601
+00:24:41,219 --> 00:24:43,219
+and you count how many ops here.
+
+602
+00:24:43,219 --> 00:24:47,720
+And you also try to figure
+out the shape or your data.
+
+603
+00:24:47,720 --> 00:24:51,739
+And so with this data
+shapes with the type of
+
+604
+00:24:51,739 --> 00:24:54,059
+operators and so basically
+
+605
+00:24:54,059 --> 00:24:56,020
+all the operators
+that in that graph,
+
+606
+00:24:56,020 --> 00:24:57,539
+you are able to estimate,
+
+607
+00:24:57,539 --> 00:24:59,619
+uh the total flops needed to
+
+608
+00:24:59,619 --> 00:25:02,034
+run one iteration of
+forward and backward.
+
+609
+00:25:02,034 --> 00:25:03,949
+Because you know the computes
+
+610
+00:25:03,949 --> 00:25:06,849
+essentially a lot of
+math mol linear, right?
+
+611
+00:25:06,849 --> 00:25:10,230
+So you basically count
+how many addition
+
+612
+00:25:10,230 --> 00:25:12,589
+and basically floating
+point arithmetics
+
+613
+00:25:12,589 --> 00:25:14,770
+you need for running
+the tar graph.
+
+614
+00:25:14,770 --> 00:25:17,689
+So you all get the first
+term, which is flops.
+
+615
+00:25:17,689 --> 00:25:21,269
+Okay? And then suppose you
+already have your system,
+
+616
+00:25:21,269 --> 00:25:23,529
+for example, your
+homework one, right?
+
+617
+00:25:23,529 --> 00:25:25,769
+You wrote at difference
+in library, right?
+
+618
+00:25:25,769 --> 00:25:27,089
+You can run the transformer for
+
+619
+00:25:27,089 --> 00:25:29,189
+one iteration,
+forward and backward.
+
+620
+00:25:29,189 --> 00:25:32,149
+And you run on your
+target type of GPU
+
+621
+00:25:32,149 --> 00:25:34,810
+and you basically try
+
+622
+00:25:34,810 --> 00:25:36,549
+to benchmark how long
+it takes, right?
+
+623
+00:25:36,549 --> 00:25:38,850
+And that give you since
+
+624
+00:25:38,850 --> 00:25:40,150
+that how long it
+takes for running
+
+625
+00:25:40,150 --> 00:25:44,109
+while it using your
+system, for this program.
+
+626
+00:25:44,109 --> 00:25:47,029
+You get a second term T. Okay?
+
+627
+00:25:47,029 --> 00:25:50,089
+And third, of course, you
+go to Media's website,
+
+628
+00:25:50,089 --> 00:25:51,930
+you check their product spec.
+
+629
+00:25:51,930 --> 00:25:53,610
+You check, for example,
+if you are running
+
+630
+00:25:53,610 --> 00:25:55,169
+on T four in homework two,
+
+631
+00:25:55,169 --> 00:25:57,689
+or if you are running
+on H hundred in future,
+
+632
+00:25:57,689 --> 00:25:59,409
+you check their P flops and
+
+633
+00:25:59,409 --> 00:26:01,750
+you make sure that you
+indeed use the core.
+
+634
+00:26:01,750 --> 00:26:05,690
+For example, a P 16 core or
+they mentioned in the spec.
+
+635
+00:26:05,690 --> 00:26:07,429
+You basically get a third term
+
+636
+00:26:07,429 --> 00:26:09,109
+which is the P flops, right?
+
+637
+00:26:09,109 --> 00:26:12,390
+And then you are able
+to calculate MF.
+
+638
+00:26:12,390 --> 00:26:15,570
+You'll know how many percentage
+you utilize for the GPU.
+
+639
+00:26:15,570 --> 00:26:19,419
+Okay. So I'm going to
+put this into homework.
+
+640
+00:26:19,419 --> 00:26:21,219
+Okay, I'm going to give you ama.
+
+641
+00:26:21,219 --> 00:26:22,799
+I'm going to give you amas back.
+
+642
+00:26:22,799 --> 00:26:24,380
+So Lama has many layers
+
+643
+00:26:24,380 --> 00:26:26,060
+like the table I
+showed for GBD ray.
+
+644
+00:26:26,060 --> 00:26:28,860
+Okay. I basically
+defines how many layers,
+
+645
+00:26:28,860 --> 00:26:31,520
+transformer layers for each
+layer, what's the shape?
+
+646
+00:26:31,520 --> 00:26:33,600
+I'm going to give you
+ama, and you tell
+
+647
+00:26:33,600 --> 00:26:35,979
+me the lamas flops,
+
+648
+00:26:35,979 --> 00:26:38,299
+how much flops you
+needed to train ama.
+
+649
+00:26:38,299 --> 00:26:40,699
+Okay? And then I'm going
+to give you a program,
+
+650
+00:26:40,699 --> 00:26:44,060
+and you estimate the MMF
+for training Llama IT.
+
+651
+00:26:44,060 --> 00:26:52,639
+Okay? Yeah. Mix I'm
+going to simplify.
+
+652
+00:26:52,639 --> 00:26:55,600
+You only consider
+FP 16. Yeah, yeah.
+
+653
+00:26:55,600 --> 00:26:58,119
+Okay. Yeah, because the majority
+
+654
+00:26:58,119 --> 00:27:01,440
+of compute takes place
+on IP 16 course.
+
+655
+00:27:01,440 --> 00:27:04,760
+Just a little bit compute
+takes place on IP 32 course.
+
+656
+00:27:04,760 --> 00:27:09,399
+Okay? Okay, so why
+this is so important?
+
+657
+00:27:09,399 --> 00:27:11,939
+Be Because in next week when we
+
+658
+00:27:11,939 --> 00:27:14,940
+start touching base on
+skinning lows and you start
+
+659
+00:27:14,940 --> 00:27:18,400
+to realize that the way that
+people design your networks
+
+660
+00:27:18,400 --> 00:27:20,599
+especially design
+language models is all
+
+661
+00:27:20,599 --> 00:27:24,380
+basically anchored on
+this MF and flop scene.
+
+662
+00:27:24,380 --> 00:27:28,100
+Okay? And I'm going to
+dive deeper later, okay?
+
+663
+00:27:28,620 --> 00:27:31,320
+Uh, so to repeat,
+
+664
+00:27:31,320 --> 00:27:33,199
+MF is becoming a metric,
+
+665
+00:27:33,199 --> 00:27:36,739
+highly indexed in today's
+language model industry, okay?
+
+666
+00:27:36,739 --> 00:27:40,199
+And I'm going to give
+you a few real numbers.
+
+667
+00:27:40,199 --> 00:27:42,600
+So basically four years ago,
+
+668
+00:27:42,600 --> 00:27:46,020
+our class is mainly
+composed of the V 100,
+
+669
+00:27:46,020 --> 00:27:48,200
+so basically two
+generations ahead, okay?
+
+670
+00:27:48,200 --> 00:27:50,780
+Two generation
+before, sorry, um,
+
+671
+00:27:50,780 --> 00:27:52,520
+so the best machine learning
+
+672
+00:27:52,520 --> 00:27:54,620
+system running on, for example,
+
+673
+00:27:54,620 --> 00:27:59,369
+1,100 can basically
+get 30 to 50% of MMF.
+
+674
+00:27:59,369 --> 00:28:01,960
+Okay, that is we only
+
+675
+00:28:01,960 --> 00:28:04,579
+utilize half of the
+power of our GPU.
+
+676
+00:28:04,579 --> 00:28:06,399
+Okay? The best system,
+
+677
+00:28:06,399 --> 00:28:08,200
+okay, on Viva hundred.
+
+678
+00:28:08,200 --> 00:28:11,799
+And you can see here the
+peak flops for Va hundred
+
+679
+00:28:11,799 --> 00:28:15,959
+is essentially 112 T
+flops, right, Terra flops,
+
+680
+00:28:15,959 --> 00:28:18,540
+which means that four years ago,
+
+681
+00:28:18,540 --> 00:28:22,099
+we can only use like
+almost 50 to 60 T flops
+
+682
+00:28:22,099 --> 00:28:25,335
+per GPU on class,
+120 language model.
+
+683
+00:28:25,335 --> 00:28:27,909
+Of course, Mchani
+system is developing
+
+684
+00:28:27,909 --> 00:28:31,189
+and hardware is also getting
+more powerful, right?
+
+685
+00:28:31,189 --> 00:28:34,170
+So fast forward to
+Eva hundred, uh,
+
+686
+00:28:34,170 --> 00:28:37,550
+we basically get 30% of MFU.
+
+687
+00:28:37,550 --> 00:28:39,250
+Okay? Not very good.
+
+688
+00:28:39,250 --> 00:28:43,589
+Okay. And once flash
+attention is out,
+
+689
+00:28:43,589 --> 00:28:44,989
+we can get to 60%.
+
+690
+00:28:44,989 --> 00:28:47,389
+So now you know why flax
+is so important, right?
+
+691
+00:28:47,389 --> 00:28:49,369
+It basically means that you
+
+692
+00:28:49,369 --> 00:28:51,169
+just save billions
+of dollars. Yeah.
+
+693
+00:28:51,169 --> 00:28:54,349
+Okay. Uh, so once how fly ation,
+
+694
+00:28:54,349 --> 00:28:56,650
+we can basically
+boost from 30% to 6%.
+
+695
+00:28:56,650 --> 00:28:59,009
+Okay? And 60% is
+already pretty good.
+
+696
+00:28:59,009 --> 00:29:01,070
+Like I said, the only
+way you can achieve
+
+697
+00:29:01,070 --> 00:29:04,170
+100% is that you only
+run matm, nothing else.
+
+698
+00:29:04,170 --> 00:29:07,129
+But here you already get
+60%, which is pretty good.
+
+699
+00:29:07,129 --> 00:29:10,789
+Okay. And to give
+you a reference,
+
+700
+00:29:10,789 --> 00:29:14,109
+the peak flops of P 30 P 16,
+
+701
+00:29:14,109 --> 00:29:17,010
+tircle of A 100
+is basically 312,
+
+702
+00:29:17,010 --> 00:29:19,950
+which means that we
+can already run at
+
+703
+00:29:19,950 --> 00:29:24,369
+almost 160 flops
+per E 100, okay?
+
+704
+00:29:24,369 --> 00:29:26,590
+And recently, we are all moving
+
+705
+00:29:26,590 --> 00:29:28,869
+our cluster from E
+100 to H 100, right?
+
+706
+00:29:28,869 --> 00:29:31,569
+So so we are
+
+707
+00:29:31,569 --> 00:29:32,709
+becoming a little
+bit worse because
+
+708
+00:29:32,709 --> 00:29:34,470
+HI hundred peak flop
+is much higher.
+
+709
+00:29:34,470 --> 00:29:36,489
+Okay, and our software
+is not catching up,
+
+710
+00:29:36,489 --> 00:29:40,990
+so we can only run
+between 30% to 50%.
+
+711
+00:29:40,990 --> 00:29:43,249
+Okay. So basically, if
+you work for a company
+
+712
+00:29:43,249 --> 00:29:45,750
+and your company system is
+running within its range,
+
+713
+00:29:45,750 --> 00:29:47,190
+you are not going to be fired.
+
+714
+00:29:47,190 --> 00:29:50,130
+Okay. But if it's below
+30, you have a problem.
+
+715
+00:29:50,130 --> 00:29:56,290
+Okay? And why is that is
+depending on model size?
+
+716
+00:29:58,500 --> 00:30:00,939
+Apparently, running
+larger metamol
+
+717
+00:30:00,939 --> 00:30:02,280
+will be more efficient
+than running
+
+718
+00:30:02,280 --> 00:30:04,219
+small metamR Running
+larger metamol
+
+719
+00:30:04,219 --> 00:30:05,459
+will give you a higher MF.
+
+720
+00:30:05,459 --> 00:30:07,240
+So if you train a
+really big model,
+
+721
+00:30:07,240 --> 00:30:08,719
+you're going to hit 50% one.
+
+722
+00:30:08,719 --> 00:30:10,240
+But if you to a smaller model,
+
+723
+00:30:10,240 --> 00:30:14,139
+you hit you're going
+to get 30%, okay?
+
+724
+00:30:15,100 --> 00:30:17,499
+And for your reference,
+
+725
+00:30:17,499 --> 00:30:20,959
+at hundred has 992 flops,
+
+726
+00:30:20,959 --> 00:30:23,520
+which means that we can
+utilize we can operate at
+
+727
+00:30:23,520 --> 00:30:26,700
+almost 300 flops per
+GPU for t hundred.
+
+728
+00:30:26,700 --> 00:30:33,294
+Yeah. About what is
+dividing factor. Yeah.
+
+729
+00:30:33,294 --> 00:30:38,790
+In the previous what are
+the things that detector?
+
+730
+00:30:38,790 --> 00:30:41,409
+What is the major factor?
+
+731
+00:30:41,409 --> 00:30:42,749
+Why is model architecture?
+
+732
+00:30:42,749 --> 00:30:44,890
+If you do transformer,
+you're not going to hit 100.
+
+733
+00:30:44,890 --> 00:30:47,229
+Unless you can invent a
+model that is only matma,
+
+734
+00:30:47,229 --> 00:30:48,850
+but that model
+will be super weak
+
+735
+00:30:48,850 --> 00:30:51,089
+because it only
+have linear openon.
+
+736
+00:30:51,089 --> 00:30:54,929
+The other is communication
+because you are going to run
+
+737
+00:30:54,929 --> 00:30:56,490
+this on thousands or 10,000
+
+738
+00:30:56,490 --> 00:30:58,989
+GPs and those
+communication takes time.
+
+739
+00:30:58,989 --> 00:31:06,809
+I slows down things. Okay.
+Apparently, this year,
+
+740
+00:31:06,809 --> 00:31:09,849
+media promised to shape B 100,
+
+741
+00:31:09,849 --> 00:31:12,149
+uh, I would like to
+take a guess. Okay.
+
+742
+00:31:12,149 --> 00:31:13,510
+And in Homework three, I'm
+
+743
+00:31:13,510 --> 00:31:14,970
+going to ask you to
+write the essay.
+
+744
+00:31:14,970 --> 00:31:16,910
+Okay. It's open problem.
+
+745
+00:31:16,910 --> 00:31:18,689
+I'm going to give you
+a few open problems.
+
+746
+00:31:18,689 --> 00:31:22,069
+For example, one open
+problem you make a guess of
+
+747
+00:31:22,069 --> 00:31:23,929
+what MF will be on B
+
+748
+00:31:23,929 --> 00:31:26,949
+100 clacers and you need
+to provide evidence.
+
+749
+00:31:26,949 --> 00:31:29,529
+You need to argue, justify it.
+
+750
+00:31:29,529 --> 00:31:34,329
+Okay. Cool. Okay,
+not finished yet.
+
+751
+00:31:34,329 --> 00:31:36,490
+I still need to in
+something relative to MF.
+
+752
+00:31:36,490 --> 00:31:38,410
+Okay? So besides MF,
+
+753
+00:31:38,410 --> 00:31:41,150
+we have another
+concept called HF.
+
+754
+00:31:41,430 --> 00:31:44,669
+Okay, HFU here, MU
+is the same, right,
+
+755
+00:31:44,669 --> 00:31:48,630
+flops utilization, but
+H stands for hardware.
+
+756
+00:31:48,630 --> 00:31:52,869
+So to distinguish it we care
+about MF, we care about HF.
+
+757
+00:31:52,869 --> 00:31:56,190
+So SUFU is actually more easy
+to understand definition.
+
+758
+00:31:56,190 --> 00:31:58,209
+It's basically precisely
+
+759
+00:31:58,209 --> 00:32:00,970
+characterized from
+hardware level,
+
+760
+00:32:00,970 --> 00:32:02,429
+how many ti you have.
+
+761
+00:32:02,429 --> 00:32:04,309
+For example, this
+hardware have say,
+
+762
+00:32:04,309 --> 00:32:07,309
+1,000 flops and your program,
+
+763
+00:32:07,309 --> 00:32:09,430
+uh, like on the hardware level,
+
+764
+00:32:09,430 --> 00:32:11,969
+utilizes 600 flops per second.
+
+765
+00:32:11,969 --> 00:32:14,169
+Then your HF is 60%.
+
+766
+00:32:14,169 --> 00:32:17,330
+Then given HUFU why
+there is a MFU?o?
+
+767
+00:32:17,330 --> 00:32:21,929
+The problem is, if you still
+remember emergeny programs,
+
+768
+00:32:21,929 --> 00:32:23,769
+but in the memory
+part, right, we have
+
+769
+00:32:23,769 --> 00:32:26,229
+some tricks that we can
+treat a computer for memory.
+
+770
+00:32:26,229 --> 00:32:29,229
+Still remember the
+checkpointing thing, right?
+
+771
+00:32:29,229 --> 00:32:32,589
+So we can checkpoint a few
+at the trasfmer boundary,
+
+772
+00:32:32,589 --> 00:32:34,209
+and during the backward,
+
+773
+00:32:34,209 --> 00:32:36,529
+we can recompute, right?
+
+774
+00:32:36,529 --> 00:32:40,709
+The problem actually MFU of
+that kind of optimization
+
+775
+00:32:40,709 --> 00:32:42,270
+is you actually spend
+
+776
+00:32:42,270 --> 00:32:45,229
+extra flops in order
+to save some memory.
+
+777
+00:32:45,229 --> 00:32:48,329
+And this extra flops is
+not actually contributing
+
+778
+00:32:48,329 --> 00:32:49,569
+to the progress of
+
+779
+00:32:49,569 --> 00:32:52,555
+the model training.
+Does that make sense?
+
+780
+00:32:52,555 --> 00:32:56,059
+Okay. Which means that you
+need to spend extra flops or
+
+781
+00:32:56,059 --> 00:32:59,520
+something else and something
+else is meaningless.
+
+782
+00:32:59,520 --> 00:33:01,999
+Which means that
+your TPU is actually
+
+783
+00:33:01,999 --> 00:33:04,280
+operated at a very
+high tition level.
+
+784
+00:33:04,280 --> 00:33:07,439
+But because you spend that
+amount of extra flops,
+
+785
+00:33:07,439 --> 00:33:11,159
+your MF is actually pretty
+low. You got my point, right?
+
+786
+00:33:11,159 --> 00:33:13,179
+Which means that you're
+still wasting money because
+
+787
+00:33:13,179 --> 00:33:16,859
+eventually your OKR is training
+the model to converge.
+
+788
+00:33:16,859 --> 00:33:18,539
+It's not like saving
+memory, right?
+
+789
+00:33:18,539 --> 00:33:22,480
+Okay. So that's why
+there is HF, okay?
+
+790
+00:33:22,480 --> 00:33:24,499
+And already explained
+in what case,
+
+791
+00:33:24,499 --> 00:33:26,100
+HFU does not equal to MF,
+
+792
+00:33:26,100 --> 00:33:28,319
+that is you spend some
+flops for other work,
+
+793
+00:33:28,319 --> 00:33:29,319
+and that work is not
+
+794
+00:33:29,319 --> 00:33:31,020
+contributing to your
+model convergence.
+
+795
+00:33:31,020 --> 00:33:33,539
+Okay? So like I said,
+
+796
+00:33:33,539 --> 00:33:36,139
+in Silicon Valley,
+people only index on MF.
+
+797
+00:33:36,139 --> 00:33:38,619
+So if your boss asks
+what's retention,
+
+798
+00:33:38,619 --> 00:33:41,119
+you cannot report
+HF because HF is
+
+799
+00:33:41,119 --> 00:33:45,379
+sometimes is not
+equal to MF, okay?
+
+800
+00:33:45,379 --> 00:33:47,439
+Um, I can ask one more question.
+
+801
+00:33:47,439 --> 00:33:50,819
+So if we use those kind of
+checkpoint in strategy, right,
+
+802
+00:33:50,819 --> 00:33:52,659
+we checkpoint at the
+transumer boundary,
+
+803
+00:33:52,659 --> 00:33:56,800
+then what is the mathematical
+relation between HU and MF?
+
+804
+00:34:01,320 --> 00:34:09,199
+Anyone want to answer?
+Okay. Let me explain.
+
+805
+00:34:09,199 --> 00:34:11,019
+So it's very easy to
+understand, right?
+
+806
+00:34:11,019 --> 00:34:13,880
+So without checkpointing,
+you basically perform
+
+807
+00:34:13,880 --> 00:34:17,179
+one forward and went
+backward, right?
+
+808
+00:34:17,179 --> 00:34:18,679
+And with checkpointing, I
+
+809
+00:34:18,679 --> 00:34:19,979
+think I explained
+in the lecture,
+
+810
+00:34:19,979 --> 00:34:23,299
+you perform two forward
+and went backward.
+
+811
+00:34:23,299 --> 00:34:25,859
+Then you are basically
+comparing two things, right.
+
+812
+00:34:25,859 --> 00:34:29,699
+One is you perform one forward
+and one backward, right?
+
+813
+00:34:29,699 --> 00:34:33,519
+And the other you perform two
+forward and one backward.
+
+814
+00:34:33,600 --> 00:34:36,840
+So what are the relation?
+
+815
+00:34:37,310 --> 00:34:40,389
+So essentially, in
+most near training,
+
+816
+00:34:40,389 --> 00:34:43,450
+we can think that one backward
+equals to two forward.
+
+817
+00:34:43,450 --> 00:34:46,149
+Can anyone explain why?
+
+818
+00:34:46,150 --> 00:34:48,409
+If you are going to take
+
+819
+00:34:48,409 --> 00:34:50,689
+grads against the
+parameters and activations,
+
+820
+00:34:50,689 --> 00:34:53,009
+basically for most math,
+
+821
+00:34:53,009 --> 00:34:54,429
+you basically do twice
+
+822
+00:34:54,429 --> 00:34:56,549
+during backward,
+compared to forward.
+
+823
+00:34:56,549 --> 00:34:59,969
+Okay? So if we substitute
+this into the equation,
+
+824
+00:34:59,969 --> 00:35:02,009
+without checkpoint,
+when we treat
+
+825
+00:35:02,009 --> 00:35:05,154
+one interregional neurork we
+get three forward, right?
+
+826
+00:35:05,154 --> 00:35:07,460
+But if we're unable
+to check pointing,
+
+827
+00:35:07,460 --> 00:35:09,219
+we are actually every time
+
+828
+00:35:09,219 --> 00:35:10,919
+we finish one inter or training,
+
+829
+00:35:10,919 --> 00:35:14,919
+we are spinning
+four times forward.
+
+830
+00:35:14,919 --> 00:35:18,159
+Okay? That is basically the
+relation between MF and SF.
+
+831
+00:35:18,159 --> 00:35:21,959
+So um, like when you're
+unable to check pointing,
+
+832
+00:35:21,959 --> 00:35:23,999
+you can observe a pretty high F,
+
+833
+00:35:23,999 --> 00:35:27,559
+but indeed, your MF is only
+like three fourths. Okay?
+
+834
+00:35:27,559 --> 00:35:34,539
+Cool. Any problem on this
+one? Cool, cool, cool.
+
+835
+00:35:34,539 --> 00:35:37,279
+Yeah, that basically finish
+my definition of this very,
+
+836
+00:35:37,279 --> 00:35:38,839
+very important concept, and,
+
+837
+00:35:38,839 --> 00:35:41,060
+um, yeah, let's continue.
+
+838
+00:35:41,060 --> 00:35:44,999
+With that, with the
+introduction of MF,
+
+839
+00:35:44,999 --> 00:35:46,820
+our goal can be simplified,
+
+840
+00:35:46,820 --> 00:35:48,319
+basically we want to maximize MF
+
+841
+00:35:48,319 --> 00:35:49,579
+subject to memory constraints.
+
+842
+00:35:49,579 --> 00:35:53,079
+Why? Because communication
+is slowing down MF, right?
+
+843
+00:35:53,079 --> 00:35:54,939
+So we want to minimize
+our communication,
+
+844
+00:35:54,939 --> 00:35:56,939
+which is equivalent
+to maximize MF.
+
+845
+00:35:56,939 --> 00:35:59,459
+So our eventual goal in
+part addition is basically,
+
+846
+00:35:59,459 --> 00:36:01,399
+we want to maximize MF,
+
+847
+00:36:01,399 --> 00:36:04,419
+and this is our only goal. Okay.
+
+848
+00:36:05,139 --> 00:36:07,899
+Um, yeah, that basically,
+
+849
+00:36:07,899 --> 00:36:09,199
+I think define a problem,
+
+850
+00:36:09,199 --> 00:36:10,480
+okay, of p addition.
+
+851
+00:36:10,480 --> 00:36:11,859
+And next, I'm going to dive
+
+852
+00:36:11,859 --> 00:36:15,540
+deeper into communication, okay?
+
+853
+00:36:15,540 --> 00:36:18,219
+Uh, I think in the
+previous side,
+
+854
+00:36:18,219 --> 00:36:20,119
+I said, in machine learning,
+
+855
+00:36:20,119 --> 00:36:21,920
+we basically have two
+types of communication
+
+856
+00:36:21,920 --> 00:36:25,039
+connective and P to P. Okay.
+
+857
+00:36:25,039 --> 00:36:26,939
+Let's basically study
+them a little bit in
+
+858
+00:36:26,939 --> 00:36:29,269
+case you don't know
+that before, okay?
+
+859
+00:36:29,269 --> 00:36:32,659
+So what is PTP?
+
+860
+00:36:32,659 --> 00:36:34,839
+I think this one
+everybody knows, okay?
+
+861
+00:36:34,839 --> 00:36:36,419
+So this is PTP, right.
+
+862
+00:36:36,419 --> 00:36:37,819
+You have two devices
+and you want
+
+863
+00:36:37,819 --> 00:36:39,879
+the first device to send
+something to second device.
+
+864
+00:36:39,879 --> 00:36:42,539
+And in a PTB communication, um,
+
+865
+00:36:42,539 --> 00:36:44,779
+you basically have a sender and
+
+866
+00:36:44,779 --> 00:36:47,339
+a receiver and the
+sender tries to
+
+867
+00:36:47,339 --> 00:36:49,979
+initiate basically the
+communication happens by
+
+868
+00:36:49,979 --> 00:36:52,179
+you first initiate
+some connection
+
+869
+00:36:52,179 --> 00:36:53,439
+between these two
+devices, right?
+
+870
+00:36:53,439 --> 00:36:55,179
+And then you ask
+the sender to send
+
+871
+00:36:55,179 --> 00:36:57,599
+the content to receiver,
+okay? That's simple.
+
+872
+00:36:57,599 --> 00:36:59,979
+Yeah, very simple. I
+think whenever you take
+
+873
+00:36:59,979 --> 00:37:03,739
+any course on networking, I
+think you learn this, right.
+
+874
+00:37:03,739 --> 00:37:07,019
+Okay. But I think
+
+875
+00:37:07,019 --> 00:37:08,260
+the part that really concerns
+
+876
+00:37:08,260 --> 00:37:09,840
+us is basically
+connective communication.
+
+877
+00:37:09,840 --> 00:37:11,439
+What is connective
+communication?
+
+878
+00:37:11,439 --> 00:37:14,220
+How many of you have
+taken courses in HPC,
+
+879
+00:37:14,220 --> 00:37:17,599
+high performance
+computing? No. Okay.
+
+880
+00:37:17,599 --> 00:37:19,499
+Then let's spend
+some time, okay?
+
+881
+00:37:19,499 --> 00:37:23,279
+Um, so basically connective
+communication is a very very,
+
+882
+00:37:23,279 --> 00:37:25,319
+I would say central concept in
+
+883
+00:37:25,319 --> 00:37:27,119
+HPC, high performance computing.
+
+884
+00:37:27,119 --> 00:37:28,959
+So basically, 40 years ago,
+
+885
+00:37:28,959 --> 00:37:31,459
+people when people are not
+doing machine learning,
+
+886
+00:37:31,459 --> 00:37:32,800
+they are basically doing HPC.
+
+887
+00:37:32,800 --> 00:37:34,999
+And they try to
+build this kind of
+
+888
+00:37:34,999 --> 00:37:39,179
+like super computing center
+to estimate the universe,
+
+889
+00:37:39,179 --> 00:37:41,239
+to estimate some
+physical laws, yeah.
+
+890
+00:37:41,239 --> 00:37:42,639
+And they try to do a lot with
+
+891
+00:37:42,639 --> 00:37:44,059
+this kind of stuff
+they be computing.
+
+892
+00:37:44,059 --> 00:37:45,519
+And this connective
+communication is
+
+893
+00:37:45,519 --> 00:37:47,319
+basically invented back then,
+
+894
+00:37:47,319 --> 00:37:49,469
+okay? So what are the?
+
+895
+00:37:49,469 --> 00:37:51,889
+I think I give one example that
+
+896
+00:37:51,889 --> 00:37:54,309
+is this example,
+you already know.
+
+897
+00:37:54,309 --> 00:37:56,690
+This is all reduced
+between two devices.
+
+898
+00:37:56,690 --> 00:38:00,289
+And what happens
+behind the scenes, uh,
+
+899
+00:38:00,289 --> 00:38:01,629
+you basically need this to send
+
+900
+00:38:01,629 --> 00:38:03,389
+this and this to send this and
+
+901
+00:38:03,389 --> 00:38:07,429
+then every device do the
+reduction in order to get here.
+
+902
+00:38:07,429 --> 00:38:12,109
+Okay. Um if you
+
+903
+00:38:12,109 --> 00:38:15,329
+ever played with pipeword and
+they have this interface,
+
+904
+00:38:15,329 --> 00:38:19,129
+DDP distribute data
+per behind the scenes.
+
+905
+00:38:19,129 --> 00:38:21,929
+Basically inside of this GDP
+they are doing this reduce,
+
+906
+00:38:21,929 --> 00:38:24,549
+which I will explain next.
+
+907
+00:38:25,580 --> 00:38:29,279
+But mathematically,
+what already is doing?
+
+908
+00:38:29,279 --> 00:38:33,239
+That is, you are given four
+devices in this example,
+
+909
+00:38:33,239 --> 00:38:34,699
+and each device is going to give
+
+910
+00:38:34,699 --> 00:38:36,779
+a name, which we call rank.
+
+911
+00:38:36,779 --> 00:38:40,779
+Here I hold four devices from
+rank zero to rank three and
+
+912
+00:38:40,779 --> 00:38:43,039
+their initial state is each
+
+913
+00:38:43,039 --> 00:38:45,899
+have a different copy of array.
+
+914
+00:38:45,899 --> 00:38:47,699
+Uh, different values of array.
+
+915
+00:38:47,699 --> 00:38:52,879
+In this example is in zero
+in one in two in three,
+
+916
+00:38:52,879 --> 00:38:55,439
+and they want to communicate.
+
+917
+00:38:55,439 --> 00:38:57,179
+They want to
+communicate in a way
+
+918
+00:38:57,179 --> 00:38:58,879
+that they will end up with
+
+919
+00:38:58,879 --> 00:39:01,340
+all the ranks have basically
+
+920
+00:39:01,340 --> 00:39:04,639
+the same copy of the output
+array, which is out.
+
+921
+00:39:04,639 --> 00:39:06,559
+And here, they require the
+
+922
+00:39:06,559 --> 00:39:09,630
+out to be the sum of
+all these in arrays.
+
+923
+00:39:09,630 --> 00:39:11,660
+Okay. That is
+basically all reduced.
+
+924
+00:39:11,660 --> 00:39:14,139
+Okay. And basically,
+you need to perform
+
+925
+00:39:14,139 --> 00:39:15,999
+a communicating pattern to
+
+926
+00:39:15,999 --> 00:39:18,179
+basically move the contents
+between these ranks.
+
+927
+00:39:18,179 --> 00:39:20,499
+So the values of
+
+928
+00:39:20,499 --> 00:39:23,739
+the risk change from here to
+here. That is all reduce.
+
+929
+00:39:23,739 --> 00:39:25,319
+Okay? I think you can also
+
+930
+00:39:25,319 --> 00:39:27,139
+infer the meaning from
+the lanes all reduced,
+
+931
+00:39:27,139 --> 00:39:28,919
+so I need to perform
+or reduce and
+
+932
+00:39:28,919 --> 00:39:31,159
+this reduce need to be
+performed across all ranks.
+
+933
+00:39:31,159 --> 00:39:33,699
+Is is why it's
+called reduce. Okay.
+
+934
+00:39:33,699 --> 00:39:36,719
+Any question regarding this one?
+
+935
+00:39:37,159 --> 00:39:41,119
+Cool. We have more.
+
+936
+00:39:41,119 --> 00:39:43,319
+It's not only all use,
+
+937
+00:39:43,319 --> 00:39:45,579
+and we have broadcast.
+
+938
+00:39:45,579 --> 00:39:47,479
+We have reduce, and I think
+
+939
+00:39:47,479 --> 00:39:50,839
+reduce understands not all
+use, it's just one reduce.
+
+940
+00:39:50,839 --> 00:39:52,999
+We have scatter gather,
+
+941
+00:39:52,999 --> 00:39:56,739
+reduced scatter and use, you
+need to memorize all this.
+
+942
+00:39:56,739 --> 00:39:59,579
+Sorry. Yeah. Be area of
+
+943
+00:39:59,579 --> 00:40:00,739
+this operation is
+going to be used
+
+944
+00:40:00,739 --> 00:40:02,920
+somewhere in emergency systems.
+
+945
+00:40:03,280 --> 00:40:07,160
+Let's go through this
+one by one, okay.
+
+946
+00:40:07,750 --> 00:40:10,829
+Broadcast, very easy
+to understand, right?
+
+947
+00:40:10,829 --> 00:40:13,029
+So some rank have array,
+
+948
+00:40:13,029 --> 00:40:14,389
+and that rank is to
+
+949
+00:40:14,389 --> 00:40:18,409
+broadcast that array
+across all other ranks.
+
+950
+00:40:18,409 --> 00:40:20,650
+That is the broadcast.
+
+951
+00:40:20,650 --> 00:40:22,829
+So from this slide, you
+already get it, right.
+
+952
+00:40:22,829 --> 00:40:26,669
+So in this slide, the rank
+this rank zero is rank one.
+
+953
+00:40:26,669 --> 00:40:28,669
+I will use the index
+starting from zero.
+
+954
+00:40:28,669 --> 00:40:33,369
+Rank one has the array the
+target state is rank one,
+
+955
+00:40:33,369 --> 00:40:35,749
+broadcast the array
+across all other ranks.
+
+956
+00:40:35,749 --> 00:40:40,209
+Okay? And this is before and
+this upper. Good, right.
+
+957
+00:40:40,209 --> 00:40:42,550
+Broadcast very easy
+to understand.
+
+958
+00:40:42,619 --> 00:40:46,579
+Reduce and reduced one is
+not red just reduced one.
+
+959
+00:40:46,579 --> 00:40:51,539
+This is also where array
+all the ranks has array,
+
+960
+00:40:51,539 --> 00:40:55,759
+and the west is we want
+to reduce the arrays into
+
+961
+00:40:55,759 --> 00:40:58,559
+one rank rank that target rank
+
+962
+00:40:58,559 --> 00:41:00,239
+has a reduction of the arrays.
+
+963
+00:41:00,239 --> 00:41:01,779
+Here I generate a little bit.
+
+964
+00:41:01,779 --> 00:41:03,380
+In most cases, it's
+basically submission,
+
+965
+00:41:03,380 --> 00:41:04,859
+but sometimes you
+want to do some
+
+966
+00:41:04,859 --> 00:41:07,139
+other reduction
+operations for example,
+
+967
+00:41:07,139 --> 00:41:08,399
+you want to time the value
+
+968
+00:41:08,399 --> 00:41:10,639
+altogether or you want
+to do something else.
+
+969
+00:41:10,639 --> 00:41:13,080
+That's why people
+call it reduce.
+
+970
+00:41:13,080 --> 00:41:15,579
+Basically, you want
+to reduce them.
+
+971
+00:41:17,100 --> 00:41:19,959
+Any question about this one?
+
+972
+00:41:19,959 --> 00:41:26,880
+Cool. Next one. So basically,
+
+973
+00:41:26,880 --> 00:41:32,140
+you can see, broadcast and
+reduced over like a reverse.
+
+974
+00:41:32,140 --> 00:41:34,219
+If you don't do reduce, is
+
+975
+00:41:34,219 --> 00:41:36,599
+basically broadcast
+and reduce reverse.
+
+976
+00:41:36,599 --> 00:41:38,899
+Yeah. In broadcast, you send
+
+977
+00:41:38,899 --> 00:41:41,439
+from one rank to all other
+ranks and in reduce,
+
+978
+00:41:41,439 --> 00:41:43,979
+you send from all
+ranks to one rank.
+
+979
+00:41:43,979 --> 00:41:45,719
+Cool.
+
+980
+00:41:45,719 --> 00:41:49,539
+Next one, scatter. Scatter I
+
+981
+00:41:49,539 --> 00:41:50,899
+think you can once I shoot
+
+982
+00:41:50,899 --> 00:41:52,799
+the picture you
+immediately get it, right?
+
+983
+00:41:52,799 --> 00:41:55,839
+So one rank has array,
+
+984
+00:41:55,839 --> 00:42:00,839
+and the target state is that
+I want to scatter the array
+
+985
+00:42:00,839 --> 00:42:03,159
+across all other
+ranks and make sure
+
+986
+00:42:03,159 --> 00:42:06,279
+each rank has one
+divided by N here,
+
+987
+00:42:06,279 --> 00:42:08,529
+N is equal to the number ranks.
+
+988
+00:42:08,529 --> 00:42:10,360
+Okay. That is scatter.
+
+989
+00:42:10,360 --> 00:42:12,799
+Yeah. It's like a
+through that array,
+
+990
+00:42:12,799 --> 00:42:14,079
+all the way to every rank.
+
+991
+00:42:14,079 --> 00:42:16,779
+Yeah, scatter. Yeah. Okay.
+
+992
+00:42:17,340 --> 00:42:19,619
+And gather is essentially
+
+993
+00:42:19,619 --> 00:42:21,680
+the reverse operation
+of scatter.
+
+994
+00:42:21,680 --> 00:42:25,139
+That is each rank has
+a part of the array,
+
+995
+00:42:25,139 --> 00:42:29,059
+one divided by part of the
+array portion of the array.
+
+996
+00:42:29,059 --> 00:42:30,539
+And I want to basically
+
+997
+00:42:30,539 --> 00:42:32,679
+gather all together
+into a target rank.
+
+998
+00:42:32,679 --> 00:42:34,959
+So the eventual target rank has
+
+999
+00:42:34,959 --> 00:42:38,840
+the whole array,
+okay? It's gather.
+
+1000
+00:42:38,840 --> 00:42:40,539
+And you man get it, right?
+
+1001
+00:42:40,539 --> 00:42:42,480
+So basically scatter
+and gather the reverse.
+
+1002
+00:42:42,480 --> 00:42:46,659
+Okay. A question?
+
+1003
+00:42:46,659 --> 00:42:48,639
+Okay, these are simple ones.
+
+1004
+00:42:48,639 --> 00:42:52,019
+Let's go into some
+more complicated ones.
+
+1005
+00:42:52,019 --> 00:42:53,779
+And apparently, uh,
+
+1006
+00:42:53,779 --> 00:42:56,699
+those connective operations with
+
+1007
+00:42:56,699 --> 00:42:59,319
+is definitely more complicated
+than without, right?
+
+1008
+00:42:59,319 --> 00:43:01,379
+So the next one is
+basically all gather.
+
+1009
+00:43:01,379 --> 00:43:04,279
+Okay? All gather is basically
+like I want to gather,
+
+1010
+00:43:04,279 --> 00:43:05,939
+but I want all ranks together.
+
+1011
+00:43:05,939 --> 00:43:08,019
+Okay? That's easy way
+to understand, right?
+
+1012
+00:43:08,019 --> 00:43:11,079
+So I gather I have
+a turkey rank,
+
+1013
+00:43:11,079 --> 00:43:13,840
+and the turkey rank is going
+to gather all the values,
+
+1014
+00:43:13,840 --> 00:43:16,399
+from the original ranks.
+
+1015
+00:43:16,399 --> 00:43:18,239
+But all gather essentially
+
+1016
+00:43:18,239 --> 00:43:20,599
+I need all the ranks
+together. Okay.
+
+1017
+00:43:20,599 --> 00:43:23,179
+So basically the initial
+state is every rank
+
+1018
+00:43:23,179 --> 00:43:26,119
+has one divided by N
+part of the array,
+
+1019
+00:43:26,119 --> 00:43:28,699
+but the initial state is all
+ranks have the whole array.
+
+1020
+00:43:28,699 --> 00:43:35,359
+Okay, this is all
+gather. Any question?
+
+1021
+00:43:35,359 --> 00:43:37,879
+The next one, reduce scatter.
+
+1022
+00:43:37,879 --> 00:43:39,480
+And you already get it's
+
+1023
+00:43:39,480 --> 00:43:42,180
+basically like I first
+reduce and then I scatter.
+
+1024
+00:43:42,180 --> 00:43:45,360
+So basically, initially,
+
+1025
+00:43:45,360 --> 00:43:49,379
+each rank basically has
+the who rate, right?
+
+1026
+00:43:49,379 --> 00:43:51,900
+And my goal is I first
+reduce all the values.
+
+1027
+00:43:51,900 --> 00:43:56,019
+I get the submisson for
+example, for ranks.
+
+1028
+00:43:56,019 --> 00:43:59,259
+And then I want to make sure
+each rank eventually has
+
+1029
+00:43:59,259 --> 00:44:00,879
+one divided by part of
+
+1030
+00:44:00,879 --> 00:44:03,159
+the submission. That
+is reduced scatter.
+
+1031
+00:44:03,159 --> 00:44:05,530
+Essentially, I first
+reduce and then scatter.
+
+1032
+00:44:05,530 --> 00:44:09,099
+Okay. Okay.
+
+1033
+00:44:09,099 --> 00:44:11,139
+And you can imagine,
+
+1034
+00:44:11,139 --> 00:44:13,499
+basically, gather
+and reduced scatter,
+
+1035
+00:44:13,499 --> 00:44:14,899
+they are kind of reverse, right?
+
+1036
+00:44:14,899 --> 00:44:17,199
+All gather is that I gather
+all things together.
+
+1037
+00:44:17,199 --> 00:44:20,059
+And reduced scatter is I
+first reduce and scatter.
+
+1038
+00:44:20,059 --> 00:44:31,760
+Yeah. Cool. Yeah. F.
+
+1039
+00:44:32,880 --> 00:44:34,599
+Yeah, you can do that.
+
+1040
+00:44:34,599 --> 00:44:36,099
+Yeah, I'm going to
+cover that. Yeah.
+
+1041
+00:44:36,099 --> 00:44:39,279
+But your master is not
+efficient. Yeah, yeah.
+
+1042
+00:44:39,279 --> 00:44:44,919
+Okay. Yeah. Yeah, yeah. Yeah.
+
+1043
+00:44:44,919 --> 00:44:46,879
+Yeah.
+
+1044
+00:44:47,560 --> 00:44:51,579
+So I PA two, I ask you to
+introduce two connectives.
+
+1045
+00:44:51,579 --> 00:44:55,320
+One is all reduce,
+the other is all.
+
+1046
+00:44:55,320 --> 00:44:57,959
+Okay. You're going to figure
+out how to implement that.
+
+1047
+00:44:57,959 --> 00:44:59,460
+And if you are
+able to match NPI,
+
+1048
+00:44:59,460 --> 00:45:02,139
+you are going to get a
+pretty good bounce point.
+
+1049
+00:45:02,139 --> 00:45:04,239
+Okay? Cool.
+
+1050
+00:45:04,239 --> 00:45:06,800
+And this reduced gutter
+
+1051
+00:45:06,800 --> 00:45:09,500
+Aguer and reduced gutter,
+they are reverse.
+
+1052
+00:45:09,500 --> 00:45:11,460
+Eventually, you have
+this all reduced
+
+1053
+00:45:11,460 --> 00:45:13,959
+This is the one that I
+mentioned most, okay?
+
+1054
+00:45:13,959 --> 00:45:17,879
+Every array has one
+Everyb has one array,
+
+1055
+00:45:17,879 --> 00:45:19,399
+and you want to reduce
+them and then make
+
+1056
+00:45:19,399 --> 00:45:22,079
+sure event eventual state,
+
+1057
+00:45:22,079 --> 00:45:23,519
+you want to make sure everyb has
+
+1058
+00:45:23,519 --> 00:45:26,080
+the sum, has a reduction.
+
+1059
+00:45:26,240 --> 00:45:31,060
+Okay. Any question
+regarding the connectives?
+
+1060
+00:45:31,060 --> 00:45:35,379
+No. Let's continue. Okay. So to
+
+1061
+00:45:35,379 --> 00:45:36,980
+give you a little
+bit more background.
+
+1062
+00:45:36,980 --> 00:45:39,380
+Like I said, the
+connective operations,
+
+1063
+00:45:39,380 --> 00:45:43,500
+they originated from HPC,
+high performance computing.
+
+1064
+00:45:43,500 --> 00:45:46,480
+But you can see today
+machinary is like HPC.
+
+1065
+00:45:46,480 --> 00:45:49,440
+Yeah, it's basically
+very similar to HPC.
+
+1066
+00:45:49,440 --> 00:45:53,340
+Okay. The first fact
+
+1067
+00:45:53,340 --> 00:45:55,479
+is connective is much more
+
+1068
+00:45:55,479 --> 00:45:58,119
+expensive than PTP, you
+can imagine, right?
+
+1069
+00:45:58,119 --> 00:46:00,760
+I'm always asking all my
+ranks to communicate.
+
+1070
+00:46:00,760 --> 00:46:04,070
+And in PTP I only need
+two ranks to communicate.
+
+1071
+00:46:04,070 --> 00:46:07,399
+Okay. And of course,
+
+1072
+00:46:07,399 --> 00:46:08,580
+I already give you a solution.
+
+1073
+00:46:08,580 --> 00:46:10,179
+So in homework one, sorry,
+
+1074
+00:46:10,179 --> 00:46:11,959
+I question one of homework two,
+
+1075
+00:46:11,959 --> 00:46:14,740
+you can actually implement
+your connective, just use PDP.
+
+1076
+00:46:14,740 --> 00:46:17,719
+You can assign modem.
+Like you said,
+
+1077
+00:46:17,719 --> 00:46:20,039
+basically like this
+rank to send each,
+
+1078
+00:46:20,039 --> 00:46:20,819
+you figure out what's
+
+1079
+00:46:20,819 --> 00:46:22,519
+the right way to send and
+you want to get there.
+
+1080
+00:46:22,519 --> 00:46:25,140
+Okay, 40% 40 points guaranteed.
+
+1081
+00:46:25,140 --> 00:46:28,699
+Okay, very easy, right? But
+that's going to be very slow.
+
+1082
+00:46:28,699 --> 00:46:31,459
+Yeah, of course. Yeah. Okay.
+
+1083
+00:46:32,600 --> 00:46:36,999
+Connected is highly optimized
+in the past 20 years.
+
+1084
+00:46:37,160 --> 00:46:43,120
+If you look out for any library
+that is ending with CCL,
+
+1085
+00:46:43,120 --> 00:46:46,080
+CCL stands for connective
+Communication Library.
+
+1086
+00:46:46,080 --> 00:46:48,540
+X basically is the branding
+
+1087
+00:46:48,540 --> 00:46:50,580
+of that company
+making this library.
+
+1088
+00:46:50,580 --> 00:46:52,139
+For example, when
+X is equal to N,
+
+1089
+00:46:52,139 --> 00:46:56,919
+it is DR CCL you got it.
+
+1090
+00:46:56,919 --> 00:47:00,679
+W X equal to M, you
+don't know what is.
+
+1091
+00:47:00,850 --> 00:47:03,369
+Okay, I also don't know.
+
+1092
+00:47:03,369 --> 00:47:05,729
+When Xc one is
+basically Intel, okay?
+
+1093
+00:47:05,729 --> 00:47:07,350
+This is Intel CCR.
+
+1094
+00:47:07,350 --> 00:47:09,889
+Uh, actually stands
+for Microsoft. Yeah.
+
+1095
+00:47:09,889 --> 00:47:12,189
+Microsoft has CCO as well.
+
+1096
+00:47:12,189 --> 00:47:14,449
+So basically, in
+the past 40 years,
+
+1097
+00:47:14,449 --> 00:47:16,830
+every company is
+developing a CCO.
+
+1098
+00:47:16,830 --> 00:47:19,490
+Yeah. I think Google
+also has a CCO,
+
+1099
+00:47:19,490 --> 00:47:22,069
+but I don't know what's the
+name. It's internal, okay?
+
+1100
+00:47:22,069 --> 00:47:24,569
+Um, and you asked me
+
+1101
+00:47:24,569 --> 00:47:27,349
+why Odia stock price
+is so good, right?
+
+1102
+00:47:27,349 --> 00:47:30,069
+One partial reason is because
+NCCO is one of the best.
+
+1103
+00:47:30,069 --> 00:47:32,309
+Okay? So Odia did pretty well
+
+1104
+00:47:32,309 --> 00:47:34,929
+on optimizing its connective
+communicing libraries. Yeah.
+
+1105
+00:47:34,929 --> 00:47:38,509
+And there so basically NCR
+library is one of the best.
+
+1106
+00:47:38,509 --> 00:47:41,710
+So every company is doing
+that, o for MIDI Ds.
+
+1107
+00:47:41,710 --> 00:47:44,249
+But connective communication has
+
+1108
+00:47:44,249 --> 00:47:48,550
+a pretty bad property that
+is not fault tolerant.
+
+1109
+00:47:48,550 --> 00:47:50,450
+That is every time
+when you initiate
+
+1110
+00:47:50,450 --> 00:47:52,090
+communication
+across all devices,
+
+1111
+00:47:52,090 --> 00:47:54,030
+if one device failed,
+
+1112
+00:47:54,030 --> 00:47:56,269
+that communication
+is going to fail.
+
+1113
+00:47:56,269 --> 00:47:58,070
+It's not fault tolerant.
+
+1114
+00:47:58,070 --> 00:48:00,630
+That's why today,
+
+1115
+00:48:00,630 --> 00:48:03,689
+if you join a company
+doing big model training,
+
+1116
+00:48:03,689 --> 00:48:07,070
+your job mostly is spending
+time on babysiting or GPUs.
+
+1117
+00:48:07,070 --> 00:48:07,989
+You need to make sure there's
+
+1118
+00:48:07,989 --> 00:48:10,509
+no GPU, throwing out arrows.
+
+1119
+00:48:10,509 --> 00:48:12,765
+Otherwise, your entire job
+is going to be stopped.
+
+1120
+00:48:12,765 --> 00:48:18,799
+Okay. Cool. Any question? Okay.
+
+1121
+00:48:18,799 --> 00:48:20,539
+We basically get
+a picture of what
+
+1122
+00:48:20,539 --> 00:48:22,680
+is going on in connective
+communication.
+
+1123
+00:48:22,680 --> 00:48:25,580
+Then I'm going to
+introduce a few algorithms
+
+1124
+00:48:25,580 --> 00:48:26,479
+to basically make
+
+1125
+00:48:26,479 --> 00:48:28,879
+this communication
+operates pretty fast.
+
+1126
+00:48:28,879 --> 00:48:30,800
+But before I introduce
+the algorithms,
+
+1127
+00:48:30,800 --> 00:48:32,380
+I want to first establish
+
+1128
+00:48:32,380 --> 00:48:33,920
+a little bit of
+mathematical foundation.
+
+1129
+00:48:33,920 --> 00:48:36,159
+So how you can understand
+what is going on?
+
+1130
+00:48:36,159 --> 00:48:38,799
+Like how slow or how fast
+communication should be.
+
+1131
+00:48:38,799 --> 00:48:40,519
+Okay? So in communication,
+
+1132
+00:48:40,519 --> 00:48:42,839
+we basically use
+this alphabet model.
+
+1133
+00:48:42,839 --> 00:48:45,460
+Okay. This model is
+just called alphabet.
+
+1134
+00:48:45,460 --> 00:48:48,059
+The reason is because it
+has two parameters and bet.
+
+1135
+00:48:48,059 --> 00:48:49,960
+Okay? So basically
+in networking,
+
+1136
+00:48:49,960 --> 00:48:52,119
+when we characterize the
+speed of communication,
+
+1137
+00:48:52,119 --> 00:48:55,019
+we basically use this alphabet
+model and the speed is
+
+1138
+00:48:55,019 --> 00:48:58,559
+basically characterized as
+Apha plus ten times better.
+
+1139
+00:48:58,559 --> 00:49:01,920
+Okay? So here, Alpha is
+basically the latency.
+
+1140
+00:49:01,920 --> 00:49:03,339
+That is, if I want to launch
+
+1141
+00:49:03,339 --> 00:49:05,640
+a communication
+between any two ranks,
+
+1142
+00:49:05,640 --> 00:49:07,060
+I'm suffering a latency.
+
+1143
+00:49:07,060 --> 00:49:08,860
+It's like to a kernel to GPU,
+
+1144
+00:49:08,860 --> 00:49:12,160
+I suffer a latency, and
+the latency is constant.
+
+1145
+00:49:12,160 --> 00:49:14,500
+As long as I need
+to communicate,
+
+1146
+00:49:14,500 --> 00:49:16,000
+I need to initiate the sockets,
+
+1147
+00:49:16,000 --> 00:49:18,359
+I need to do this kind
+of heavy lifting work,
+
+1148
+00:49:18,359 --> 00:49:19,499
+and that takes time.
+
+1149
+00:49:19,499 --> 00:49:22,379
+Okay? That's Alpha.
+And this part
+
+1150
+00:49:22,379 --> 00:49:23,839
+is basically very easy
+to understand, right?
+
+1151
+00:49:23,839 --> 00:49:26,339
+So this beta is basically
+one divided by B
+
+1152
+00:49:26,339 --> 00:49:29,379
+and B is bandwidth.
+
+1153
+00:49:29,379 --> 00:49:31,520
+Bandwidth. That is
+the communicating
+
+1154
+00:49:31,520 --> 00:49:34,219
+bandwidth between
+these two ranks.
+
+1155
+00:49:34,219 --> 00:49:36,319
+And this bandwidth
+was determined by
+
+1156
+00:49:36,319 --> 00:49:39,239
+what? By hardware, right?
+
+1157
+00:49:39,239 --> 00:49:41,980
+So you can spend more money
+to buy more bandwidth.
+
+1158
+00:49:41,980 --> 00:49:45,379
+That will make this
+one bigger, right?
+
+1159
+00:49:45,379 --> 00:49:47,779
+Uh, the second part
+is essentially like,
+
+1160
+00:49:47,779 --> 00:49:49,659
+this is a message size.
+
+1161
+00:49:49,659 --> 00:49:52,179
+That is how much you want
+to send between the ranks.
+
+1162
+00:49:52,179 --> 00:49:56,820
+And apparently, you
+divide by bandwidth,
+
+1163
+00:49:56,820 --> 00:49:59,060
+you get the time spent
+on, basically sending,
+
+1164
+00:49:59,060 --> 00:50:01,199
+um this message, right?
+
+1165
+00:50:01,199 --> 00:50:03,099
+That's how that
+basically intuitively
+
+1166
+00:50:03,099 --> 00:50:05,509
+explain this alphabet
+model, okay?
+
+1167
+00:50:05,509 --> 00:50:08,520
+So to summarize, when you
+start a communication,
+
+1168
+00:50:08,520 --> 00:50:10,460
+you first suffer bandwidth,
+
+1169
+00:50:10,460 --> 00:50:12,400
+suffer a latency,
+constant latency,
+
+1170
+00:50:12,400 --> 00:50:14,559
+and then the rest of
+time is determined by
+
+1171
+00:50:14,559 --> 00:50:16,879
+how much the message size you
+
+1172
+00:50:16,879 --> 00:50:19,940
+want to send and the
+bandwidths you have, okay?
+
+1173
+00:50:20,400 --> 00:50:22,740
+With this model,
+you can basically,
+
+1174
+00:50:22,740 --> 00:50:24,879
+uh, uh, try to analyze
+it a little bit, right?
+
+1175
+00:50:24,879 --> 00:50:28,300
+So if you are going to
+send a very small message,
+
+1176
+00:50:28,300 --> 00:50:30,939
+a very small message,
+just one byte.
+
+1177
+00:50:30,939 --> 00:50:32,920
+So in this equation,
+
+1178
+00:50:32,920 --> 00:50:37,740
+this Rhi is going to
+dominate Rp dominate.
+
+1179
+00:50:37,740 --> 00:50:40,899
+But if you are going to
+send a large message as,
+
+1180
+00:50:40,899 --> 00:50:44,440
+then see an approach infinity,
+
+1181
+00:50:44,440 --> 00:50:46,160
+then this term is
+going to dominate.
+
+1182
+00:50:46,160 --> 00:50:48,299
+And this latency
+is a smart term.
+
+1183
+00:50:48,299 --> 00:50:53,080
+Okay. The reason I emphasize
+this is because, um,
+
+1184
+00:50:53,080 --> 00:50:55,119
+when you send a
+small message size,
+
+1185
+00:50:55,119 --> 00:50:58,399
+uh, you want to minimize
+this phone, right?
+
+1186
+00:50:58,399 --> 00:51:02,140
+And then when you
+send a large message,
+
+1187
+00:51:02,140 --> 00:51:05,255
+you want to make sure you
+utilize all the bandwidth.
+
+1188
+00:51:05,255 --> 00:51:06,109
+Okay.
+
+1189
+00:51:06,109 --> 00:51:08,830
+And given this observation,
+
+1190
+00:51:08,830 --> 00:51:10,610
+in the HPC community,
+
+1191
+00:51:10,610 --> 00:51:12,049
+they basically spent a lot of
+
+1192
+00:51:12,049 --> 00:51:13,689
+time optimizing the connectives,
+
+1193
+00:51:13,689 --> 00:51:16,509
+and they develop two types of
+
+1194
+00:51:16,509 --> 00:51:18,769
+implementations
+and algorithms to
+
+1195
+00:51:18,769 --> 00:51:20,529
+make connective
+communication fast.
+
+1196
+00:51:20,529 --> 00:51:23,990
+And one type of algorithm
+basically emphasize latency,
+
+1197
+00:51:23,990 --> 00:51:25,249
+that is they assume that you
+
+1198
+00:51:25,249 --> 00:51:26,690
+are going to send
+small messages,
+
+1199
+00:51:26,690 --> 00:51:28,529
+and they want to make
+sure they minimize this
+
+1200
+00:51:28,529 --> 00:51:31,209
+pa. And the other
+type, they want to,
+
+1201
+00:51:31,209 --> 00:51:34,550
+uh basically maximize the
+utilization of bandwidth,
+
+1202
+00:51:34,550 --> 00:51:37,375
+and they assume that you are
+going to send big messages.
+
+1203
+00:51:37,375 --> 00:51:39,799
+Okay, I'm going to
+introduce both,
+
+1204
+00:51:39,799 --> 00:51:41,280
+and you can choose to implement
+
+1205
+00:51:41,280 --> 00:51:43,240
+either one in your homework.
+
+1206
+00:51:43,240 --> 00:51:44,919
+But let me ask a question.
+
+1207
+00:51:44,919 --> 00:51:47,520
+Immersion learning,
+which one is preferred?
+
+1208
+00:51:48,760 --> 00:51:51,299
+Immersion learning, do
+you think which one is
+
+1209
+00:51:51,299 --> 00:51:59,149
+likely to dominate? Sorry.
+
+1210
+00:51:59,149 --> 00:52:02,170
+Emotionally, you are
+sending big tensors
+
+1211
+00:52:02,170 --> 00:52:04,730
+across DPs and apparently
+
+1212
+00:52:04,730 --> 00:52:05,909
+emersionaly, you
+prefer this one.
+
+1213
+00:52:05,909 --> 00:52:07,769
+You prefer to minimize this one.
+
+1214
+00:52:07,769 --> 00:52:12,189
+But I will still take
+time to introduce both.
+
+1215
+00:52:12,189 --> 00:52:15,950
+So a little bit more background.
+
+1216
+00:52:15,950 --> 00:52:18,950
+So the first type of algorithm
+
+1217
+00:52:18,950 --> 00:52:20,550
+that try to minimize distance
+
+1218
+00:52:20,550 --> 00:52:22,790
+is called minimum
+spanning tree algorithm.
+
+1219
+00:52:22,790 --> 00:52:25,289
+The second type of
+algorithm that try to
+
+1220
+00:52:25,289 --> 00:52:28,730
+emphasize bandwidth is
+called ring algorithm.
+
+1221
+00:52:28,730 --> 00:52:30,449
+That's why sometimes when people
+
+1222
+00:52:30,449 --> 00:52:34,049
+speak or reduce the always
+called ring or reduce.
+
+1223
+00:52:34,049 --> 00:52:37,669
+Yeah. In the past 20 years,
+
+1224
+00:52:37,669 --> 00:52:40,110
+this HPC community,
+they have graduated
+
+1225
+00:52:40,110 --> 00:52:41,489
+many many PE students and they
+
+1226
+00:52:41,489 --> 00:52:43,829
+wrote so many papers on opens.
+
+1227
+00:52:43,829 --> 00:52:46,530
+In 2023, I think
+the Turing award
+
+1228
+00:52:46,530 --> 00:52:49,264
+was given to HPC
+professor, okay?
+
+1229
+00:52:49,264 --> 00:52:53,179
+Cool. So let's come to
+the first type, okay?
+
+1230
+00:52:53,179 --> 00:52:55,520
+In the first time, we want
+to minimize the latency.
+
+1231
+00:52:55,520 --> 00:52:57,660
+Okay? In order to
+minimize the latency,
+
+1232
+00:52:57,660 --> 00:53:00,720
+the Apha, what's
+the high intuition?
+
+1233
+00:53:00,720 --> 00:53:02,100
+Le want to minimize
+
+1234
+00:53:02,100 --> 00:53:03,700
+the number of wrongs
+needed for communication,
+
+1235
+00:53:03,700 --> 00:53:05,440
+Because every time when you
+launch your communication,
+
+1236
+00:53:05,440 --> 00:53:06,680
+you are going to suffer ARpa.
+
+1237
+00:53:06,680 --> 00:53:08,500
+So you want to minimize
+the number of pans.
+
+1238
+00:53:08,500 --> 00:53:11,480
+Okay? In this minimum
+span entry algorithm,
+
+1239
+00:53:11,480 --> 00:53:12,779
+the idea is like this.
+
+1240
+00:53:12,779 --> 00:53:16,699
+So the message
+starts on one rank.
+
+1241
+00:53:16,699 --> 00:53:18,180
+One processor.
+
+1242
+00:53:18,180 --> 00:53:25,109
+And then we try to divide
+all the ranks into half.
+
+1243
+00:53:25,109 --> 00:53:27,209
+That's why it's called a
+minimum spanning tree.
+
+1244
+00:53:27,209 --> 00:53:28,849
+We try to basically
+divide all the ranks
+
+1245
+00:53:28,849 --> 00:53:31,509
+into first half and second half.
+
+1246
+00:53:31,510 --> 00:53:34,729
+And what we do is basically we
+
+1247
+00:53:34,729 --> 00:53:37,969
+send the message from the
+first half to the second half.
+
+1248
+00:53:37,969 --> 00:53:40,630
+In this example,
+I send a message
+
+1249
+00:53:40,630 --> 00:53:42,169
+to the half of a network that
+
+1250
+00:53:42,169 --> 00:53:44,015
+does not contain this message.
+
+1251
+00:53:44,015 --> 00:53:46,219
+Right? So here, I divide
+
+1252
+00:53:46,219 --> 00:53:49,059
+the ranks into this
+group and this group.
+
+1253
+00:53:49,059 --> 00:53:52,739
+I found that my initial rank
+is basically in this group.
+
+1254
+00:53:52,739 --> 00:53:54,139
+And in the second group,
+
+1255
+00:53:54,139 --> 00:53:55,520
+there's no such message.
+
+1256
+00:53:55,520 --> 00:53:58,619
+My first step is I'm trying
+to send this to here.
+
+1257
+00:53:58,619 --> 00:54:01,219
+Okay? And once I finish
+this step, what I do?
+
+1258
+00:54:01,219 --> 00:54:04,560
+I basically use
+binary tree message.
+
+1259
+00:54:04,560 --> 00:54:07,800
+What I do is once the
+ranks have this message,
+
+1260
+00:54:07,800 --> 00:54:09,019
+I know this group
+and this group,
+
+1261
+00:54:09,019 --> 00:54:11,420
+they all have a rank
+which contains a message,
+
+1262
+00:54:11,420 --> 00:54:13,499
+and I'm going to do
+that recursively.
+
+1263
+00:54:13,499 --> 00:54:16,950
+Okay? I'm going to
+It's like this, okay?
+
+1264
+00:54:16,950 --> 00:54:18,629
+And then I'm going
+to divide it again.
+
+1265
+00:54:18,629 --> 00:54:19,809
+I'm going to divide here,
+
+1266
+00:54:19,809 --> 00:54:21,689
+right, and I'm going
+to divide here.
+
+1267
+00:54:21,689 --> 00:54:23,469
+Okay? I'm going to let this
+
+1268
+00:54:23,469 --> 00:54:25,509
+descend to this and
+this to send this.
+
+1269
+00:54:25,509 --> 00:54:27,189
+And I do it recursively.
+
+1270
+00:54:27,189 --> 00:54:30,489
+And I can prove that this will
+minimize R because this is
+
+1271
+00:54:30,489 --> 00:54:32,570
+a minimum span entry
+and the number
+
+1272
+00:54:32,570 --> 00:54:35,190
+once I needed is
+guaranteed is minimized.
+
+1273
+00:54:35,190 --> 00:54:36,529
+Okay.
+
+1274
+00:54:36,770 --> 00:54:41,350
+To give you more
+realistic example,
+
+1275
+00:54:41,350 --> 00:54:44,210
+let's run this minimum
+spanning tree for Broadcast.
+
+1276
+00:54:44,210 --> 00:54:45,989
+Okay. Still remember
+broadcast, right?
+
+1277
+00:54:45,989 --> 00:54:48,029
+This is before, this is after.
+
+1278
+00:54:48,029 --> 00:54:52,509
+So how do we do that? So we
+start from the initial state.
+
+1279
+00:54:52,509 --> 00:54:55,089
+We try to divide all the ranks.
+
+1280
+00:54:55,089 --> 00:54:56,109
+Okay?
+
+1281
+00:54:56,109 --> 00:54:59,430
+And we divide all
+ranks into two groups.
+
+1282
+00:54:59,430 --> 00:55:02,969
+Without the rank
+that has the value
+
+1283
+00:55:02,969 --> 00:55:06,689
+to send its value to another
+rank at the second group.
+
+1284
+00:55:06,689 --> 00:55:10,364
+And we continue divided
+ranks in each group.
+
+1285
+00:55:10,364 --> 00:55:12,779
+And we sin, right?
+
+1286
+00:55:12,779 --> 00:55:15,320
+And we continue to basically
+
+1287
+00:55:15,320 --> 00:55:19,120
+broadcast these values
+like this, okay?
+
+1288
+00:55:19,120 --> 00:55:20,840
+And you can say
+after four steps,
+
+1289
+00:55:20,840 --> 00:55:23,899
+I basically have eight ranks
+having a message, right?
+
+1290
+00:55:23,899 --> 00:55:25,759
+And I found out there's
+
+1291
+00:55:25,759 --> 00:55:27,380
+one rank that is still
+missing message,
+
+1292
+00:55:27,380 --> 00:55:29,179
+so I perform one more step.
+
+1293
+00:55:29,179 --> 00:55:32,999
+Okay? And I can prove
+that the steps needed to
+
+1294
+00:55:32,999 --> 00:55:34,700
+initiate the communication
+is minimized
+
+1295
+00:55:34,700 --> 00:55:36,739
+using this spanning tree.
+
+1296
+00:55:36,739 --> 00:55:39,740
+Okay? That's why this
+algorithm is basically
+
+1297
+00:55:39,740 --> 00:55:43,719
+used for minimize
+Alpha term, okay?
+
+1298
+00:55:43,719 --> 00:55:50,049
+Any question? Cool. Okay.
+
+1299
+00:55:50,049 --> 00:55:53,170
+Um, now let's try to explore.
+
+1300
+00:55:53,170 --> 00:55:55,330
+By the way, you can
+ignore these equations.
+
+1301
+00:55:55,330 --> 00:55:57,349
+Okay. I'm not going
+to cover this,
+
+1302
+00:55:57,349 --> 00:55:58,549
+and it's not covered in exam.
+
+1303
+00:55:58,549 --> 00:56:00,149
+Okay. But the reason
+
+1304
+00:56:00,149 --> 00:56:01,569
+I have this slide is
+because I want to
+
+1305
+00:56:01,569 --> 00:56:02,889
+explore some connections between
+
+1306
+00:56:02,889 --> 00:56:05,149
+different connective operations.
+
+1307
+00:56:05,149 --> 00:56:09,570
+Gather gather still remember
+
+1308
+00:56:09,570 --> 00:56:10,949
+the initial end state, right?
+
+1309
+00:56:10,949 --> 00:56:15,049
+So in is each rank
+has protein and
+
+1310
+00:56:15,049 --> 00:56:20,064
+ditch the entire global array.
+
+1311
+00:56:20,064 --> 00:56:22,419
+So one way that we
+can realize or gather
+
+1312
+00:56:22,419 --> 00:56:24,879
+is we can we can
+first gather, right?
+
+1313
+00:56:24,879 --> 00:56:26,420
+We can first perform a gather.
+
+1314
+00:56:26,420 --> 00:56:29,639
+So we gather the values
+into one target rank.
+
+1315
+00:56:29,639 --> 00:56:34,219
+And then we do a
+broadcast, right?
+
+1316
+00:56:34,219 --> 00:56:35,999
+So basically, uh, or gather
+
+1317
+00:56:35,999 --> 00:56:38,980
+equals to gather plus broadcast.
+
+1318
+00:56:39,060 --> 00:56:42,979
+Cool. Reduce scatter, uh,
+
+1319
+00:56:42,979 --> 00:56:44,539
+you already know from the name.
+
+1320
+00:56:44,539 --> 00:56:47,979
+So you first reduce like this,
+
+1321
+00:56:47,979 --> 00:56:50,540
+and then you do a scatter.
+
+1322
+00:56:50,540 --> 00:56:53,060
+Yeah, you got to reduce scatter.
+
+1323
+00:56:53,820 --> 00:56:59,590
+Or reduce. Can anyone
+give me an answer?
+
+1324
+00:56:59,590 --> 00:57:01,909
+How to assemble or reduce?
+
+1325
+00:57:04,790 --> 00:57:07,810
+Yes, you do reduce and
+then you do broadcast.
+
+1326
+00:57:07,810 --> 00:57:10,070
+Okay? So basically in
+this last scenario,
+
+1327
+00:57:10,070 --> 00:57:11,970
+the way people implement
+these three opportunity,
+
+1328
+00:57:11,970 --> 00:57:13,810
+basically, they first implement
+
+1329
+00:57:13,810 --> 00:57:17,289
+those primitive ones
+and they assemble it.
+
+1330
+00:57:17,289 --> 00:57:17,929
+Okay.
+
+1331
+00:57:17,929 --> 00:57:22,989
+So in summary, reduced
+gutter is reduced by
+
+1332
+00:57:22,989 --> 00:57:25,629
+scatter or reduce is reduced and
+
+1333
+00:57:25,629 --> 00:57:29,365
+broadcast or gather is
+usually gather and bracast.
+
+1334
+00:57:29,365 --> 00:57:37,439
+Yeah. Exactly. You
+got the point, right?
+
+1335
+00:57:37,439 --> 00:57:41,519
+So that will basically bring
+us to the second part,
+
+1336
+00:57:41,519 --> 00:57:43,599
+but I want to answer
+your question first.
+
+1337
+00:57:43,599 --> 00:57:45,380
+So this algorithm, it minimizes
+
+1338
+00:57:45,380 --> 00:57:47,160
+the number one to communicate.
+
+1339
+00:57:47,160 --> 00:57:50,699
+But it does not utilize
+the bandwidth, right?
+
+1340
+00:57:50,699 --> 00:57:53,219
+Because each node only
+send to a target node.
+
+1341
+00:57:53,219 --> 00:57:54,779
+And while this node is
+
+1342
+00:57:54,779 --> 00:57:56,880
+sending all the other
+bandwidths are not utilized.
+
+1343
+00:57:56,880 --> 00:57:57,379
+Okay?
+
+1344
+00:57:57,379 --> 00:58:00,239
+Cool. Like I said,
+
+1345
+00:58:00,239 --> 00:58:01,700
+this one is not
+preferred Imaginaring,
+
+1346
+00:58:01,700 --> 00:58:03,159
+because it's minimize
+the alpha term,
+
+1347
+00:58:03,159 --> 00:58:04,619
+but inverse ing the
+second term is larger.
+
+1348
+00:58:04,619 --> 00:58:08,574
+So I'm going to bring all you
+into the second part, okay?
+
+1349
+00:58:08,574 --> 00:58:11,869
+But before that, let's
+summarize MST, okay?
+
+1350
+00:58:11,869 --> 00:58:14,949
+So for MST, is
+extremely useful for
+
+1351
+00:58:14,949 --> 00:58:18,869
+small messages where the first
+term is dominating, right?
+
+1352
+00:58:18,869 --> 00:58:22,809
+And it emphasizes
+tiency the problem of
+
+1353
+00:58:22,809 --> 00:58:24,849
+minimum span entry
+algorithm is that it
+
+1354
+00:58:24,849 --> 00:58:28,049
+prioritize the alpha
+term than a better term.
+
+1355
+00:58:28,049 --> 00:58:30,929
+So like that student
+pointed out,
+
+1356
+00:58:30,929 --> 00:58:32,650
+when especially
+
+1357
+00:58:32,650 --> 00:58:34,710
+at the initial stage
+of the communication,
+
+1358
+00:58:34,710 --> 00:58:37,989
+most of the
+interconnects are idle.
+
+1359
+00:58:37,989 --> 00:58:40,570
+You are not actually utilize
+the bandwidth here, okay?
+
+1360
+00:58:40,570 --> 00:58:42,209
+And next, I'm going to run
+
+1361
+00:58:42,209 --> 00:58:44,070
+another algorithm which
+is ring algorithm,
+
+1362
+00:58:44,070 --> 00:58:45,710
+and this ring algorithm
+is essentially
+
+1363
+00:58:45,710 --> 00:58:48,770
+the one that I used
+today in macheary, okay?
+
+1364
+00:58:48,890 --> 00:58:51,669
+And the general principle of
+
+1365
+00:58:51,669 --> 00:58:53,149
+this ring algorithm is that we
+
+1366
+00:58:53,149 --> 00:58:55,190
+try to utilize all these links,
+
+1367
+00:58:55,190 --> 00:58:57,109
+and we try to utilize
+all these band ways
+
+1368
+00:58:57,109 --> 00:58:58,589
+available between ranks.
+
+1369
+00:58:58,589 --> 00:59:00,849
+Let's assume that
+all the ranks are
+
+1370
+00:59:00,849 --> 00:59:03,249
+connected using some
+like Iranet or whatever.
+
+1371
+00:59:03,249 --> 00:59:05,489
+Okay? And here,
+
+1372
+00:59:05,489 --> 00:59:07,549
+how many rounds of
+communication does not matter.
+
+1373
+00:59:07,549 --> 00:59:10,549
+Because like I said, the Alpha
+does not matter anymore.
+
+1374
+00:59:10,549 --> 00:59:13,009
+The main overhead is
+the second term better.
+
+1375
+00:59:13,009 --> 00:59:15,689
+So, one algorithm that
+
+1376
+00:59:15,689 --> 00:59:17,729
+enable this basically
+we try to form
+
+1377
+00:59:17,729 --> 00:59:19,609
+a logical ring across all ranks
+
+1378
+00:59:19,609 --> 00:59:22,229
+and we send messages
+along this ring. Okay?
+
+1379
+00:59:22,229 --> 00:59:24,849
+Let's see, how we do that.
+
+1380
+00:59:25,260 --> 00:59:27,679
+So here, this is
+
+1381
+00:59:27,679 --> 00:59:29,820
+the initial state where
+we want to perform,
+
+1382
+00:59:29,820 --> 00:59:32,259
+for example, um,
+
+1383
+00:59:32,740 --> 00:59:36,039
+like gather gather,
+something like that. Okay?
+
+1384
+00:59:36,039 --> 00:59:37,720
+So we can basically
+
+1385
+00:59:37,720 --> 00:59:39,999
+construct a logical
+ring like this, right?
+
+1386
+00:59:39,999 --> 00:59:42,359
+So here you can see,
+this rank has this part.
+
+1387
+00:59:42,359 --> 00:59:44,499
+This rank has this part.
+This un has this part.
+
+1388
+00:59:44,499 --> 00:59:46,400
+So what do we do is
+we want to utilize
+
+1389
+00:59:46,400 --> 00:59:48,120
+the bandari as much as possible.
+
+1390
+00:59:48,120 --> 00:59:49,779
+So at anytime we
+want to make sure
+
+1391
+00:59:49,779 --> 00:59:52,500
+all the ranks are sending
+or receiving, okay?
+
+1392
+00:59:52,500 --> 00:59:54,399
+So what do we do we
+construct this ring.
+
+1393
+00:59:54,399 --> 00:59:56,079
+And in the next step, we need
+
+1394
+00:59:56,079 --> 00:59:58,979
+each rank to send this
+protein to the next rank.
+
+1395
+00:59:58,979 --> 01:00:00,819
+Right? And by doing this,
+
+1396
+01:00:00,819 --> 01:00:02,719
+I can make sure that
+all ranks are busy,
+
+1397
+01:00:02,719 --> 01:00:04,439
+at least on networking pair.
+
+1398
+01:00:04,439 --> 01:00:06,479
+Okay? So if we do this,
+
+1399
+01:00:06,479 --> 01:00:08,560
+what happen is
+basically we perform
+
+1400
+01:00:08,560 --> 01:00:11,500
+one round of
+exchanging messages,
+
+1401
+01:00:11,500 --> 01:00:13,539
+right, and we get here.
+
+1402
+01:00:13,539 --> 01:00:15,400
+Okay? You can compare
+
+1403
+01:00:15,400 --> 01:00:17,819
+the difference between
+these two states, right.
+
+1404
+01:00:17,819 --> 01:00:20,880
+The key difference
+here is all devices
+
+1405
+01:00:20,880 --> 01:00:22,559
+are busy on communicating.
+
+1406
+01:00:22,559 --> 01:00:25,759
+That's why we can
+utilize bandwiys, okay?
+
+1407
+01:00:25,759 --> 01:00:27,639
+And what you do next is
+
+1408
+01:00:27,639 --> 01:00:28,519
+basically you continue to
+
+1409
+01:00:28,519 --> 01:00:29,959
+propagate these messages, right?
+
+1410
+01:00:29,959 --> 01:00:31,660
+And you can construct
+
+1411
+01:00:31,660 --> 01:00:33,559
+another ring and you
+continue doing this.
+
+1412
+01:00:33,559 --> 01:00:35,639
+And after you doing
+many, many rounds,
+
+1413
+01:00:35,639 --> 01:00:37,619
+you eventually get to a state
+
+1414
+01:00:37,619 --> 01:00:41,179
+where so basically, I'm
+going to shoot next.
+
+1415
+01:00:41,179 --> 01:00:42,279
+Okay?
+
+1416
+01:00:42,279 --> 01:00:44,859
+I'm going to shoot next,
+and I'm going to run
+
+1417
+01:00:44,859 --> 01:00:47,999
+this kind of algorithm
+on a few connectives.
+
+1418
+01:00:47,999 --> 01:00:51,599
+Yeah. So gather, let's
+run a ring or gather.
+
+1419
+01:00:51,599 --> 01:00:53,379
+Okay? So we start from
+
+1420
+01:00:53,379 --> 01:00:54,839
+the left hand side and we try
+
+1421
+01:00:54,839 --> 01:00:56,299
+to reach the right
+hand side, right?
+
+1422
+01:00:56,299 --> 01:00:58,859
+So this are initial
+state, right,
+
+1423
+01:00:58,859 --> 01:01:00,499
+we construct a ring, and
+
+1424
+01:01:00,499 --> 01:01:03,239
+we each rank to send this
+protein to the next rank.
+
+1425
+01:01:03,239 --> 01:01:04,959
+Uh, This is the one round
+
+1426
+01:01:04,959 --> 01:01:06,779
+of communication,
+right we get here.
+
+1427
+01:01:06,779 --> 01:01:08,860
+Then we run another round, okay?
+
+1428
+01:01:08,860 --> 01:01:10,499
+We'll get to here, right?
+
+1429
+01:01:10,499 --> 01:01:15,739
+Another round here, another
+round here, ther round.
+
+1430
+01:01:18,329 --> 01:01:22,889
+Okay, we're good, right?
+So you got me right. Cool.
+
+1431
+01:01:22,889 --> 01:01:25,689
+And you can see, this is a
+pretty good visualization,
+
+1432
+01:01:25,689 --> 01:01:28,449
+but the problem here
+is at each step,
+
+1433
+01:01:28,449 --> 01:01:29,769
+you are utilizing bandwidth,
+
+1434
+01:01:29,769 --> 01:01:31,949
+but you are taking
+many many runs,
+
+1435
+01:01:31,949 --> 01:01:33,769
+compared to the
+minimum spanning tree?
+
+1436
+01:01:33,769 --> 01:01:35,029
+Because minimum spanning tree,
+
+1437
+01:01:35,029 --> 01:01:37,369
+you are doing a binary
+tree, which is super fast.
+
+1438
+01:01:37,369 --> 01:01:39,169
+But in this algorithm,
+you basically need to
+
+1439
+01:01:39,169 --> 01:01:42,489
+run the number of times equal
+to the number of ranks,
+
+1440
+01:01:42,489 --> 01:01:44,610
+which is more runs.
+
+1441
+01:01:44,610 --> 01:01:47,309
+So the Alpha term we are going
+to increase a little bit,
+
+1442
+01:01:47,309 --> 01:01:48,569
+but it doesn't matter
+because like I said,
+
+1443
+01:01:48,569 --> 01:01:50,929
+the second term dominates, okay?
+
+1444
+01:01:52,130 --> 01:01:55,649
+Let's run another
+version, reduce scatter.
+
+1445
+01:01:55,649 --> 01:01:57,309
+Still remember reduce
+scatter, right?
+
+1446
+01:01:57,309 --> 01:01:59,069
+So we first reduce and scatter.
+
+1447
+01:01:59,069 --> 01:02:02,529
+So what do we do is, this
+is our united state, right.
+
+1448
+01:02:02,529 --> 01:02:05,030
+We want to reduce them
+and scatter results.
+
+1449
+01:02:05,030 --> 01:02:07,729
+So we construct a ring.
+
+1450
+01:02:08,010 --> 01:02:13,450
+On on this part of this
+message, we perform a reduce.
+
+1451
+01:02:13,809 --> 01:02:17,349
+And we continue doing
+so we send the results.
+
+1452
+01:02:17,349 --> 01:02:19,489
+We propagated to reduce
+the results, okay?
+
+1453
+01:02:19,489 --> 01:02:22,369
+Once we propagate basically
+each we will have
+
+1454
+01:02:22,369 --> 01:02:26,750
+a partial sum and we continue
+to reduce and propagate,
+
+1455
+01:02:26,750 --> 01:02:29,930
+reduce, propagate,
+reduce propagate.
+
+1456
+01:02:31,409 --> 01:02:33,969
+Okay. We'll get results.
+
+1457
+01:02:33,969 --> 01:02:39,129
+Yeah. Cool. This is basically
+a ring algorithm. Okay.
+
+1458
+01:02:39,129 --> 01:02:40,990
+Then under this ring algorithm,
+
+1459
+01:02:40,990 --> 01:02:42,229
+let's also do some connection
+
+1460
+01:02:42,229 --> 01:02:43,729
+between different connectives.
+
+1461
+01:02:43,729 --> 01:02:44,809
+Okay.
+
+1462
+01:02:46,130 --> 01:02:49,310
+So basically for this broadcast,
+
+1463
+01:02:49,310 --> 01:02:51,509
+we can basically
+use this algorithm
+
+1464
+01:02:51,509 --> 01:02:55,830
+to as assemble from primitives,
+
+1465
+01:02:55,830 --> 01:02:57,729
+basically broadcast equals to,
+
+1466
+01:02:57,729 --> 01:03:01,090
+uh we first scatter,
+
+1467
+01:03:01,090 --> 01:03:04,069
+and then we gather.
+
+1468
+01:03:04,069 --> 01:03:08,129
+So broadcast is equal to
+scattering or gather, okay?
+
+1469
+01:03:08,329 --> 01:03:10,589
+And for this reduced one,
+
+1470
+01:03:10,589 --> 01:03:14,749
+what we do is basically we
+first do a reduced scatter,
+
+1471
+01:03:14,749 --> 01:03:18,029
+and then we gather,
+
+1472
+01:03:18,029 --> 01:03:19,529
+reduce scatter and gather.
+
+1473
+01:03:19,529 --> 01:03:23,809
+We basically um, get this one.
+
+1474
+01:03:23,809 --> 01:03:26,049
+For reduce, we also have
+
+1475
+01:03:26,049 --> 01:03:27,989
+a different types
+of combination.
+
+1476
+01:03:27,989 --> 01:03:29,289
+In order to implement or
+
+1477
+01:03:29,289 --> 01:03:30,610
+reduce using this
+ring algorithm,
+
+1478
+01:03:30,610 --> 01:03:33,369
+what we do is basically
+we first reduce scatter,
+
+1479
+01:03:33,369 --> 01:03:36,050
+reduce the redundant scatter,
+
+1480
+01:03:36,050 --> 01:03:38,384
+and then we do gather.
+
+1481
+01:03:38,384 --> 01:03:39,919
+Okay.
+
+1482
+01:03:39,919 --> 01:03:41,919
+So to summarize a little bit,
+
+1483
+01:03:41,919 --> 01:03:43,919
+uh, in this ring, algorithm,
+
+1484
+01:03:43,919 --> 01:03:45,720
+reduce equals to reduce Getter
+
+1485
+01:03:45,720 --> 01:03:47,419
+plus gather and
+all reduced equals
+
+1486
+01:03:47,419 --> 01:03:48,979
+reduce Getter plus or gather
+
+1487
+01:03:48,979 --> 01:03:52,099
+and broadcast equals to
+Scatter and all gather.
+
+1488
+01:03:52,099 --> 01:03:58,849
+An An question? Okay, if
+
+1489
+01:03:58,849 --> 01:04:00,609
+you feel a little
+bit confused here,
+
+1490
+01:04:00,609 --> 01:04:03,470
+look, just, you know,
+review my slides.
+
+1491
+01:04:03,470 --> 01:04:05,349
+I think it's pretty clear here.
+
+1492
+01:04:05,349 --> 01:04:07,489
+The reason I try to draw
+this connection is because,
+
+1493
+01:04:07,489 --> 01:04:09,349
+uh, you know,
+
+1494
+01:04:09,349 --> 01:04:12,229
+next week when we start
+introducing machinery partism,
+
+1495
+01:04:12,229 --> 01:04:14,029
+you all understand you all
+
+1496
+01:04:14,029 --> 01:04:15,789
+realize that basically
+we are basically
+
+1497
+01:04:15,789 --> 01:04:17,610
+decomposing all
+these all reduced
+
+1498
+01:04:17,610 --> 01:04:20,149
+and broadcast and reduced
+into different primitives,
+
+1499
+01:04:20,149 --> 01:04:21,349
+and we'll try to
+schedule them in
+
+1500
+01:04:21,349 --> 01:04:23,090
+different places of execution.
+
+1501
+01:04:23,090 --> 01:04:24,769
+Okay. And that will
+
+1502
+01:04:24,769 --> 01:04:26,630
+result into different
+memory utilization,
+
+1503
+01:04:26,630 --> 01:04:28,029
+different memory
+requirement, and
+
+1504
+01:04:28,029 --> 01:04:31,169
+also different
+computer patterns.
+
+1505
+01:04:31,570 --> 01:04:33,049
+Cool.
+
+1506
+01:04:33,049 --> 01:04:36,669
+Um, I think we're
+
+1507
+01:04:36,669 --> 01:04:40,009
+pretty close to finish this
+slide, finish this lecture.
+
+1508
+01:04:40,009 --> 01:04:42,109
+So let's come back.
+
+1509
+01:04:42,109 --> 01:04:43,869
+Okay, let's basically
+ground this in
+
+1510
+01:04:43,869 --> 01:04:46,009
+the context of
+Machining Pism, okay.
+
+1511
+01:04:46,009 --> 01:04:48,849
+So like I said, interop
+
+1512
+01:04:48,849 --> 01:04:50,969
+always results in
+PTV communication,
+
+1513
+01:04:50,969 --> 01:04:52,429
+and this is quite obvious.
+
+1514
+01:04:52,429 --> 01:04:54,709
+Now, you probably start asking
+
+1515
+01:04:54,709 --> 01:04:58,350
+why interop always result in
+connective communication.
+
+1516
+01:04:58,350 --> 01:05:02,389
+Okay? And this is a pretty
+important topic for next week,
+
+1517
+01:05:02,389 --> 01:05:04,689
+but I want to
+finish this lecture
+
+1518
+01:05:04,689 --> 01:05:07,869
+by giving you some
+connection between,
+
+1519
+01:05:07,869 --> 01:05:11,789
+uh, basically, um, marching
+Pism and the connectives,
+
+1520
+01:05:11,789 --> 01:05:14,329
+I spend almost half an
+hour introducing, okay?
+
+1521
+01:05:14,329 --> 01:05:17,469
+So the reason that intraop
+
+1522
+01:05:17,469 --> 01:05:19,309
+always result into
+different sorts
+
+1523
+01:05:19,309 --> 01:05:21,489
+of connective
+communication is because,
+
+1524
+01:05:21,489 --> 01:05:26,510
+um, um, at least under
+this repenton mechanism,
+
+1525
+01:05:26,510 --> 01:05:29,889
+like I introduced basically
+coloring nodes and operators.
+
+1526
+01:05:29,889 --> 01:05:33,309
+You realize that when we
+do this intraop partism,
+
+1527
+01:05:33,309 --> 01:05:34,849
+we are essentially partition
+
+1528
+01:05:34,849 --> 01:05:37,289
+the operators and its output.
+
+1529
+01:05:37,769 --> 01:05:40,089
+Whenever a
+communication happens,
+
+1530
+01:05:40,089 --> 01:05:42,969
+it happens because we
+need to repartition it.
+
+1531
+01:05:43,480 --> 01:05:47,359
+Okay. Remember, in the
+tensor parallel case,
+
+1532
+01:05:47,359 --> 01:05:49,199
+that is the one
+that I run through.
+
+1533
+01:05:49,199 --> 01:05:50,699
+So when the
+communication patterns,
+
+1534
+01:05:50,699 --> 01:05:53,040
+uh when or happens,
+
+1535
+01:05:53,040 --> 01:05:56,999
+it's basically each rank
+basically get a partial sum,
+
+1536
+01:05:56,999 --> 01:05:59,339
+but you want each rank to
+have a replica, right.
+
+1537
+01:05:59,339 --> 01:06:01,039
+Which means that
+you need to swap
+
+1538
+01:06:01,039 --> 01:06:02,439
+the array content in a way
+
+1539
+01:06:02,439 --> 01:06:05,999
+that to meet the
+repartitioning requirement.
+
+1540
+01:06:05,999 --> 01:06:08,359
+Okay. And in the next lecture,
+
+1541
+01:06:08,359 --> 01:06:11,819
+I'm going to show that uh
+basically in all types of
+
+1542
+01:06:11,819 --> 01:06:13,819
+existing pysms that we use to
+
+1543
+01:06:13,819 --> 01:06:16,114
+train language models or
+train whatever models today.
+
+1544
+01:06:16,114 --> 01:06:18,729
+Okay. Uh, the
+communicating happens
+
+1545
+01:06:18,729 --> 01:06:21,309
+only when that between
+two operators,
+
+1546
+01:06:21,309 --> 01:06:22,510
+two adjacent operators,
+
+1547
+01:06:22,510 --> 01:06:25,070
+their partitioning
+scheme are different.
+
+1548
+01:06:25,070 --> 01:06:27,109
+Okay? In order to meet
+
+1549
+01:06:27,109 --> 01:06:29,070
+the partiing scheme
+of the next operator,
+
+1550
+01:06:29,070 --> 01:06:30,869
+you have to repar in array.
+
+1551
+01:06:30,869 --> 01:06:32,849
+Okay? So here, I give you
+
+1552
+01:06:32,849 --> 01:06:35,469
+an example in two decase
+
+1553
+01:06:35,469 --> 01:06:37,569
+but in reality,
+this is a 40 case.
+
+1554
+01:06:37,569 --> 01:06:38,669
+F doming transformer, you have
+
+1555
+01:06:38,669 --> 01:06:43,749
+a 40 array B times times H
+times something else, right?
+
+1556
+01:06:43,749 --> 01:06:46,649
+And let's simplfy a
+little bit, okay.
+
+1557
+01:06:46,649 --> 01:06:51,059
+In two cases, we have three
+types of partitioning, right?
+
+1558
+01:06:51,059 --> 01:06:52,499
+The first type is replicated.
+
+1559
+01:06:52,499 --> 01:06:54,479
+That I device have a replica.
+
+1560
+01:06:54,479 --> 01:06:57,299
+Okay? The second
+is row partition.
+
+1561
+01:06:57,299 --> 01:06:59,059
+So horizontal cut.
+
+1562
+01:06:59,059 --> 01:07:02,159
+Okay? And the third type
+is column partition.
+
+1563
+01:07:02,159 --> 01:07:05,399
+Like I said, the communication
+happens when you need
+
+1564
+01:07:05,399 --> 01:07:08,659
+to switch between these
+three states, right?
+
+1565
+01:07:08,659 --> 01:07:10,760
+Sometimes one operator
+need a replica,
+
+1566
+01:07:10,760 --> 01:07:12,439
+sometimes one operator
+need a row party,
+
+1567
+01:07:12,439 --> 01:07:15,659
+sometimes one opportun
+a column partition.
+
+1568
+01:07:15,659 --> 01:07:18,619
+Then I start to ask
+a question, okay?
+
+1569
+01:07:18,619 --> 01:07:20,519
+So if I want to switch
+
+1570
+01:07:20,519 --> 01:07:23,059
+from row party to
+replicate what I do.
+
+1571
+01:07:29,630 --> 01:07:34,069
+So if I want to draw a edge
+from here to here what I do.
+
+1572
+01:07:36,030 --> 01:07:39,749
+It's basically for
+gather, right?
+
+1573
+01:07:39,749 --> 01:07:42,969
+So you want each device to
+gather it protein, right?
+
+1574
+01:07:42,969 --> 01:07:46,369
+And then you will
+get a replica. Okay.
+
+1575
+01:07:46,369 --> 01:07:48,449
+And the next one is if I want to
+
+1576
+01:07:48,449 --> 01:07:50,370
+switch from replica
+to row Pisin,
+
+1577
+01:07:50,370 --> 01:07:52,949
+that is, I want to do
+a reverse what I do.
+
+1578
+01:07:53,670 --> 01:08:02,259
+A scatter, really? Think
+twice. I do nothing.
+
+1579
+01:08:02,259 --> 01:08:05,380
+I just throw it away, right?
+I don't need to communicate.
+
+1580
+01:08:05,380 --> 01:08:07,299
+Why? Because I want
+
+1581
+01:08:07,299 --> 01:08:09,459
+to switch between from this
+state to this state, right?
+
+1582
+01:08:09,459 --> 01:08:12,460
+So now, each already
+have a replica
+
+1583
+01:08:12,460 --> 01:08:14,559
+and my eventual state
+
+1584
+01:08:14,559 --> 01:08:16,739
+I want each state to
+only have a half.
+
+1585
+01:08:16,739 --> 01:08:18,139
+I just throw the other half.
+
+1586
+01:08:18,139 --> 01:08:19,599
+I don't need to
+communicate. Okay?
+
+1587
+01:08:19,599 --> 01:08:24,639
+I do nothing. Okay? Slice.
+Yeah, I do slice. Okay?

@@ -1,0 +1,6548 @@
+1
+00:00:08,760 --> 00:00:14,579
+Okay, let's get started.
+Yeah, thanks for coming.
+
+2
+00:00:14,579 --> 00:00:20,099
+Um, just to recap what happened
+in last lecture, right?
+
+3
+00:00:20,099 --> 00:00:22,259
+So we talk about how to
+
+4
+00:00:22,259 --> 00:00:24,899
+make operator faster
+in general, right?
+
+5
+00:00:24,899 --> 00:00:29,159
+And then we realize
+that we have to use um,
+
+6
+00:00:29,159 --> 00:00:31,320
+accelerators because
+the current CPO
+
+7
+00:00:31,320 --> 00:00:33,599
+is hitting a wall, right?
+
+8
+00:00:33,599 --> 00:00:37,700
+And then we start
+talking about how to Um,
+
+9
+00:00:37,700 --> 00:00:40,080
+how to build
+accelerators, right?
+
+10
+00:00:40,080 --> 00:00:42,220
+And we talk about the
+accelerator market.
+
+11
+00:00:42,220 --> 00:00:44,599
+Okay? And in today's lecture,
+
+12
+00:00:44,599 --> 00:00:46,839
+we are going to continue
+to talk about GPUs.
+
+13
+00:00:46,839 --> 00:00:50,000
+But before that,
+let's do a few MCQs,
+
+14
+00:00:50,000 --> 00:00:52,020
+okay, to help you, okay?
+
+15
+00:00:52,020 --> 00:00:54,659
+And the first one,
+
+16
+00:00:54,659 --> 00:00:57,100
+I will give you 1 minute.
+
+17
+00:01:32,740 --> 00:01:40,560
+Okay, so which one? A. So so
+
+18
+00:01:40,560 --> 00:01:43,380
+the steel and the cost,
+could you explain?
+
+19
+00:01:52,910 --> 00:02:01,989
+Uh huh.
+
+20
+00:02:07,430 --> 00:02:09,849
+So the IO is 12, right?
+
+21
+00:02:09,849 --> 00:02:12,309
+You load a load B and write
+
+22
+00:02:12,309 --> 00:02:18,510
+C. Be because A and B
+are two D matrices,
+
+23
+00:02:18,510 --> 00:02:19,989
+so the shape is two by two.
+
+24
+00:02:19,989 --> 00:02:22,709
+So in order to load A, you
+need to load four floats,
+
+25
+00:02:22,709 --> 00:02:25,429
+and we can't number
+flows we load, right?
+
+26
+00:02:25,429 --> 00:02:27,670
+So we are pretty sure the IO
+
+27
+00:02:27,670 --> 00:02:31,410
+the denominator is basically 12.
+
+28
+00:02:31,410 --> 00:02:33,790
+Then the question is
+how many compute here?
+
+29
+00:02:33,790 --> 00:02:41,969
+Oh second answer.
+
+30
+00:02:42,890 --> 00:02:45,649
+C. Okay?
+
+31
+00:02:45,649 --> 00:02:48,869
+The answer is actually D. Okay.
+
+32
+00:02:48,869 --> 00:02:52,910
+So this is something that
+I have to introduce,
+
+33
+00:02:52,910 --> 00:02:54,749
+and you guys need to memorize
+
+34
+00:02:54,749 --> 00:02:57,169
+because this is
+very fundamental.
+
+35
+00:02:57,169 --> 00:02:59,729
+So one important note
+that you need to know is
+
+36
+00:02:59,729 --> 00:03:03,749
+the flops of basically flop
+is a major that we count
+
+37
+00:03:03,749 --> 00:03:05,549
+how many floating
+point operations we
+
+38
+00:03:05,549 --> 00:03:08,270
+do for operator flops
+
+39
+00:03:08,270 --> 00:03:12,889
+for Mt M for this kind of form
+where C equals to A and B,
+
+40
+00:03:12,889 --> 00:03:14,389
+where A and B are shape of
+
+41
+00:03:14,389 --> 00:03:18,729
+MN BP and the result
+is M P. The flops of
+
+42
+00:03:18,729 --> 00:03:21,829
+this operation is it's two M and
+
+43
+00:03:21,829 --> 00:03:26,490
+P. Can anyone tell me why
+is why there's two here?
+
+44
+00:03:28,610 --> 00:03:32,549
+Yes, exactly. You need to
+count multiply and add.
+
+45
+00:03:32,549 --> 00:03:37,249
+Okay? Yeah. If you go and
+um basically do this,
+
+46
+00:03:37,249 --> 00:03:39,869
+you'll find out how to
+count multiple and add.
+
+47
+00:03:39,869 --> 00:03:42,289
+Okay? So basically, any form
+
+48
+00:03:42,289 --> 00:03:45,349
+of metamol you basically
+get these flops, right?
+
+49
+00:03:45,349 --> 00:03:47,030
+And then on that line,
+
+50
+00:03:47,030 --> 00:03:48,929
+you say equals to Mmo A and B,
+
+51
+00:03:48,929 --> 00:03:51,729
+and it's basically two
+times eight, right?
+
+52
+00:03:51,729 --> 00:03:55,150
+It's 16. Okay, 16/12.
+
+53
+00:03:55,150 --> 00:03:58,109
+Okay. The original
+intensity is 1.3.
+
+54
+00:03:58,109 --> 00:04:01,319
+Yeah, okay. Very good.
+
+55
+00:04:01,319 --> 00:04:04,239
+One thing you want to compare is
+
+56
+00:04:04,239 --> 00:04:05,959
+comparing this program to
+
+57
+00:04:05,959 --> 00:04:07,720
+the program that I
+presented last lecture.
+
+58
+00:04:07,720 --> 00:04:08,940
+Remember in the last lecture,
+
+59
+00:04:08,940 --> 00:04:10,900
+I use example where
+you basically
+
+60
+00:04:10,900 --> 00:04:13,780
+perform a very simple add
+between two matrices.
+
+61
+00:04:13,780 --> 00:04:16,680
+You'll find that the IO
+is essentially the same.
+
+62
+00:04:16,680 --> 00:04:19,540
+I read two matrices and I
+write the result into one.
+
+63
+00:04:19,540 --> 00:04:21,260
+But you can see
+this one has a much
+
+64
+00:04:21,260 --> 00:04:22,780
+better response in
+intensity, why?
+
+65
+00:04:22,780 --> 00:04:27,080
+Because metamo is very
+dense competition.
+
+66
+00:04:27,680 --> 00:04:30,420
+If you know the fact
+that basically,
+
+67
+00:04:30,420 --> 00:04:32,479
+when you use GPU to
+perform this metamo
+
+68
+00:04:32,479 --> 00:04:35,280
+and use GPO to perform
+that element wise ad,
+
+69
+00:04:35,280 --> 00:04:37,075
+they roughly take the same time.
+
+70
+00:04:37,075 --> 00:04:38,869
+That's why GPU is so powerful,
+
+71
+00:04:38,869 --> 00:04:40,669
+GPU can perform Metamo
+
+72
+00:04:40,669 --> 00:04:42,670
+much more efficient
+than animal wise.
+
+73
+00:04:42,670 --> 00:04:44,750
+So this fact actually needs to
+
+74
+00:04:44,750 --> 00:04:48,569
+the kind of needs to design
+many modern machinery models
+
+75
+00:04:48,569 --> 00:04:50,090
+because we really want to use
+
+76
+00:04:50,090 --> 00:04:51,949
+met M because at
+least mathematically
+
+77
+00:04:51,949 --> 00:04:53,330
+met Mo is more expressive than
+
+78
+00:04:53,330 --> 00:04:55,670
+a simple animal
+wise aisle, right?
+
+79
+00:04:55,670 --> 00:04:58,409
+But they take the same
+time running on GPUs.
+
+80
+00:04:58,409 --> 00:05:02,410
+Okay? Very important, you
+need to memorize this because
+
+81
+00:05:02,410 --> 00:05:04,449
+we are going to
+use this to derive
+
+82
+00:05:04,449 --> 00:05:07,149
+the flops for language models,
+
+83
+00:05:07,149 --> 00:05:08,750
+yeah, down the road.
+
+84
+00:05:08,750 --> 00:05:13,830
+Okay? Second one, 1 minute.
+
+85
+00:05:13,990 --> 00:05:40,030
+This
+
+86
+00:05:40,030 --> 00:05:40,090
+is
+
+87
+00:05:40,090 --> 00:05:42,350
+the easy one, right?
+So which one?
+
+88
+00:05:42,670 --> 00:05:44,830
+It's basically F, right?
+
+89
+00:05:44,830 --> 00:05:46,670
+Except F, all the others I
+
+90
+00:05:46,670 --> 00:05:49,369
+hope introduced in
+the lecture, okay?
+
+91
+00:05:49,369 --> 00:05:51,930
+Okay. The third one?
+
+92
+00:05:51,930 --> 00:05:55,590
+Maybe half a minute.
+This is the easy one.
+
+93
+00:06:13,270 --> 00:06:16,590
+Which one? A, right.
+
+94
+00:06:16,590 --> 00:06:19,349
+So basically, if you remember
+
+95
+00:06:19,349 --> 00:06:20,929
+the definition of
+stress is basically
+
+96
+00:06:20,929 --> 00:06:22,789
+if we move along this dimension,
+
+97
+00:06:22,789 --> 00:06:24,410
+how many elements we
+need to move along
+
+98
+00:06:24,410 --> 00:06:26,309
+the row major sequence.
+
+99
+00:06:26,309 --> 00:06:29,569
+So here I play a trick
+that is I introduce
+
+100
+00:06:29,569 --> 00:06:33,049
+a very like a trivial dimension,
+
+101
+00:06:33,049 --> 00:06:34,350
+which is one, right?
+
+102
+00:06:34,350 --> 00:06:36,589
+So you basically just copy
+
+103
+00:06:36,589 --> 00:06:38,949
+this one here because if you
+move along this dimension,
+
+104
+00:06:38,949 --> 00:06:41,749
+you just move one element, okay?
+
+105
+00:06:45,990 --> 00:06:49,550
+Cool. The last one.
+
+106
+00:07:07,030 --> 00:07:09,770
+Which one? C, right?
+
+107
+00:07:09,770 --> 00:07:11,870
+Yeah, let's go with one by one.
+
+108
+00:07:11,870 --> 00:07:15,689
+So cache telling
+definitely does not save
+
+109
+00:07:15,689 --> 00:07:17,750
+memory on catch because
+
+110
+00:07:17,750 --> 00:07:21,049
+we are going to use more
+memory in catch, okay?
+
+111
+00:07:21,049 --> 00:07:27,209
+And it reduce memory
+between rhyme and catch,
+
+112
+00:07:27,209 --> 00:07:29,250
+not cache and register, right?
+
+113
+00:07:29,250 --> 00:07:31,189
+Okay. The one that reduce
+
+114
+00:07:31,189 --> 00:07:34,029
+this is basically
+register telling, okay?
+
+115
+00:07:34,029 --> 00:07:36,869
+And this one, yeah, true.
+
+116
+00:07:36,869 --> 00:07:39,669
+Does it increase
+arithmat intensity?
+
+117
+00:07:39,669 --> 00:07:41,410
+Yes, it increases, but
+
+118
+00:07:41,410 --> 00:07:43,969
+it's not because it
+makes compute faster.
+
+119
+00:07:43,969 --> 00:07:46,369
+It's because it reduce IO, okay?
+
+120
+00:07:46,369 --> 00:07:51,229
+Cool. Yeah, that's all
+it. And let's continue.
+
+121
+00:07:51,229 --> 00:07:53,689
+So today, to this
+learning goal, okay,
+
+122
+00:07:53,689 --> 00:07:56,950
+we are going to continue
+last lectures topic.
+
+123
+00:07:56,950 --> 00:07:59,830
+We are going to dive
+deeper into GPUs,
+
+124
+00:07:59,830 --> 00:08:02,530
+and we are going to
+talk about some very,
+
+125
+00:08:02,530 --> 00:08:06,230
+um, simple examples
+in Cuda. Okay?
+
+126
+00:08:06,230 --> 00:08:12,700
+So, so this is a picture
+that illustrating GPU,
+
+127
+00:08:12,740 --> 00:08:15,180
+let's parse this picture
+a little bit because
+
+128
+00:08:15,180 --> 00:08:17,900
+this one is basically
+quoted from dia,
+
+129
+00:08:17,900 --> 00:08:20,780
+it's very similar to
+any other processors
+
+130
+00:08:20,780 --> 00:08:23,360
+you have ever
+played with, right?
+
+131
+00:08:23,360 --> 00:08:25,779
+We have a global memory,
+
+132
+00:08:25,780 --> 00:08:29,080
+and we have some L
+two, L one catch.
+
+133
+00:08:29,080 --> 00:08:32,699
+Okay? This is GPU
+memory hierarchy
+
+134
+00:08:32,940 --> 00:08:37,000
+and we have some LO catch here,
+
+135
+00:08:37,000 --> 00:08:40,859
+which is one layer upper
+than L two, right?
+
+136
+00:08:40,859 --> 00:08:42,740
+And we have some registers.
+
+137
+00:08:42,740 --> 00:08:44,759
+This is GPU memory hierarchy.
+
+138
+00:08:44,759 --> 00:08:46,480
+The thing that makes
+GPU different,
+
+139
+00:08:46,480 --> 00:08:49,174
+you'll find that there are
+so many things called SM.
+
+140
+00:08:49,174 --> 00:08:52,710
+Okay. And normally in CPU,
+
+141
+00:08:52,710 --> 00:08:53,889
+you just has a few course.
+
+142
+00:08:53,889 --> 00:08:56,809
+But in GPU you have a
+definition called SM.
+
+143
+00:08:56,809 --> 00:08:59,109
+And SM defined basically stands
+
+144
+00:08:59,109 --> 00:09:01,929
+for streaming market
+prorocessor, okay?
+
+145
+00:09:01,929 --> 00:09:04,129
+And I'm going to
+talk about this.
+
+146
+00:09:07,830 --> 00:09:12,070
+So in GPU, we have a few
+very basic concepts, okay.
+
+147
+00:09:12,070 --> 00:09:14,509
+And the first concepts
+are basically
+
+148
+00:09:14,509 --> 00:09:17,230
+kernel threads,
+blocks and grids.
+
+149
+00:09:17,230 --> 00:09:19,289
+Okay. And we probably
+want to talk
+
+150
+00:09:19,289 --> 00:09:21,770
+about talk from threads.
+
+151
+00:09:21,770 --> 00:09:22,890
+So threat is basically
+
+152
+00:09:22,890 --> 00:09:25,670
+the smallest unit to
+process the chunko data.
+
+153
+00:09:25,670 --> 00:09:27,889
+That is the thing that is
+
+154
+00:09:27,889 --> 00:09:30,630
+actually working in GPU is
+basically a thread, okay?
+
+155
+00:09:30,630 --> 00:09:34,909
+And a thread basically
+corresponds to the acuda core,
+
+156
+00:09:34,909 --> 00:09:37,030
+okay or tensor core on GPU.
+
+157
+00:09:37,030 --> 00:09:38,790
+And this core is
+basically those ALU,
+
+158
+00:09:38,790 --> 00:09:42,450
+like you embedded
+into your GPU, okay?
+
+159
+00:09:42,450 --> 00:09:46,769
+And I know then we also have
+the definition of block,
+
+160
+00:09:46,769 --> 00:09:48,450
+and block is very
+easy to understand.
+
+161
+00:09:48,450 --> 00:09:51,409
+It's basically a group of
+threads that share memory.
+
+162
+00:09:51,409 --> 00:09:53,030
+So in GPO, we group
+
+163
+00:09:53,030 --> 00:09:55,010
+some threads together
+and we form a block.
+
+164
+00:09:55,010 --> 00:09:58,249
+Okay? And this block is
+the thing that makes GPO
+
+165
+00:09:58,249 --> 00:09:59,990
+slightly different from CPU
+
+166
+00:09:59,990 --> 00:10:02,029
+that is remember
+in this picture,
+
+167
+00:10:02,029 --> 00:10:03,529
+we have so many SMs.
+
+168
+00:10:03,529 --> 00:10:07,149
+Okay? So roughly each SM
+streaming microprocessor
+
+169
+00:10:07,149 --> 00:10:08,409
+will corresponds to a block and
+
+170
+00:10:08,409 --> 00:10:10,330
+each block has
+many many threats.
+
+171
+00:10:10,330 --> 00:10:13,910
+And this all these threads
+will compute in parallel,
+
+172
+00:10:13,910 --> 00:10:16,220
+oh for some given task.
+
+173
+00:10:16,220 --> 00:10:19,169
+And then we have another
+higher layer concept
+
+174
+00:10:19,169 --> 00:10:21,210
+called grid and grid,
+
+175
+00:10:21,210 --> 00:10:23,329
+you probably already
+infer is basically
+
+176
+00:10:23,329 --> 00:10:27,050
+a connection or blocks that
+ascue the same kernel.
+
+177
+00:10:27,050 --> 00:10:28,589
+So what is a kernel? Kernel is
+
+178
+00:10:28,589 --> 00:10:30,430
+basically how we call GPU code.
+
+179
+00:10:30,430 --> 00:10:32,710
+We don't call it a program.
+We call it kernel.
+
+180
+00:10:32,710 --> 00:10:34,450
+It's a fancier name, okay?
+
+181
+00:10:34,450 --> 00:10:37,029
+In other way, we
+basically know like in
+
+182
+00:10:37,029 --> 00:10:39,650
+GPO we roughly launch
+a kernel to grids
+
+183
+00:10:39,650 --> 00:10:42,449
+right then Griz launches
+things into blocks and
+
+184
+00:10:42,449 --> 00:10:45,610
+blocks give those
+things to threads.
+
+185
+00:10:45,610 --> 00:10:47,569
+And there are some kind
+
+186
+00:10:47,569 --> 00:10:49,849
+of hierarchy between
+all these three layers.
+
+187
+00:10:49,849 --> 00:10:52,609
+Okay? Any question?
+
+188
+00:10:52,650 --> 00:10:59,060
+Cool. This is a thread,
+
+189
+00:10:59,060 --> 00:11:00,679
+like I said, it
+actually doesn't work.
+
+190
+00:11:00,679 --> 00:11:02,439
+It's a los level worker
+
+191
+00:11:02,439 --> 00:11:05,419
+and it basically corresponds
+to a quota core.
+
+192
+00:11:06,470 --> 00:11:10,050
+And this is a block block
+has so many threads,
+
+193
+00:11:10,050 --> 00:11:12,470
+and we are going to map some
+computation to a block.
+
+194
+00:11:12,470 --> 00:11:16,849
+And what I mean by mapping
+the commuting into a block,
+
+195
+00:11:16,849 --> 00:11:18,590
+we map the commuting
+into all the threads in
+
+196
+00:11:18,590 --> 00:11:20,589
+a block and each thread of
+
+197
+00:11:20,589 --> 00:11:22,089
+the block will take a part of
+
+198
+00:11:22,089 --> 00:11:24,530
+the computation because
+remember in the last lecture,
+
+199
+00:11:24,530 --> 00:11:26,129
+I mentioned GPO is basically for
+
+200
+00:11:26,129 --> 00:11:29,790
+SIM D single instruction
+multiple processing.
+
+201
+00:11:29,790 --> 00:11:31,710
+You ask you the same program,
+
+202
+00:11:31,710 --> 00:11:33,290
+but you ask you the program
+
+203
+00:11:33,290 --> 00:11:35,830
+on different partition
+of the data.
+
+204
+00:11:35,830 --> 00:11:37,229
+Yeah, that's how we split
+
+205
+00:11:37,229 --> 00:11:39,430
+work between different
+threads of the block.
+
+206
+00:11:39,430 --> 00:11:44,680
+Okay. And this is grid,
+
+207
+00:11:44,680 --> 00:11:48,300
+a grid is basically
+many many blocks.
+
+208
+00:11:52,780 --> 00:11:55,959
+Then given these definitions,
+
+209
+00:11:55,959 --> 00:11:57,620
+I want to ask you
+a few questions.
+
+210
+00:11:57,620 --> 00:12:00,840
+When we say that a GPU is more
+powerful, what do we mean?
+
+211
+00:12:00,840 --> 00:12:02,780
+When we say H hundred is more
+
+212
+00:12:02,780 --> 00:12:04,969
+powerful than A 100 or do we?
+
+213
+00:12:04,969 --> 00:12:07,560
+More flops, when you reflect
+
+214
+00:12:07,560 --> 00:12:09,960
+this on thread on the
+blocks what do we mean.
+
+215
+00:12:09,960 --> 00:12:12,419
+There are three
+meaning, The first one
+
+216
+00:12:12,419 --> 00:12:15,000
+is you probably have more SMs.
+
+217
+00:12:15,000 --> 00:12:17,500
+You can build more SMs into GPU.
+
+218
+00:12:17,500 --> 00:12:18,900
+And that's what media is doing.
+
+219
+00:12:18,900 --> 00:12:21,939
+We build more and more
+SMs every generation.
+
+220
+00:12:21,939 --> 00:12:23,860
+Okay? Because when
+you have more SMs,
+
+221
+00:12:23,860 --> 00:12:26,499
+you have more threads and you're
+
+222
+00:12:26,499 --> 00:12:27,900
+better, you're more powerful.
+
+223
+00:12:27,900 --> 00:12:32,519
+Or we can build more
+cost per exam, right?
+
+224
+00:12:32,519 --> 00:12:34,320
+That is we increase
+the number of threads
+
+225
+00:12:34,320 --> 00:12:36,120
+in streaming
+multiprocessor, okay.
+
+226
+00:12:36,120 --> 00:12:38,549
+And each thread corresponds
+to, like I already said.
+
+227
+00:12:38,549 --> 00:12:42,800
+Okay. Or we can build
+more powerful cross.
+
+228
+00:12:42,800 --> 00:12:45,519
+But this line is
+actually hitting wall,
+
+229
+00:12:45,519 --> 00:12:46,579
+like I said, because we are
+
+230
+00:12:46,579 --> 00:12:47,920
+subject to the physical limit.
+
+231
+00:12:47,920 --> 00:12:50,039
+Yeah, the cross is nanometers,
+
+232
+00:12:50,039 --> 00:12:52,419
+that we are not able to
+reduce it anymore now.
+
+233
+00:12:52,419 --> 00:12:54,479
+Okay? So roughly,
+
+234
+00:12:54,479 --> 00:12:56,099
+if you look at the
+immediate trajectory,
+
+235
+00:12:56,099 --> 00:12:58,919
+they are basically doing
+these two things. Okay? Yeah.
+
+236
+00:12:58,919 --> 00:13:01,399
+Every year, release
+a GPU with more SMs
+
+237
+00:13:01,399 --> 00:13:05,059
+or probably more
+cross per SM, okay?
+
+238
+00:13:08,380 --> 00:13:11,920
+Okay. Let's look at how
+media release GPUs,
+
+239
+00:13:11,920 --> 00:13:15,125
+This is a timeline that
+I get from Internet.
+
+240
+00:13:15,125 --> 00:13:16,889
+And I think there are
+
+241
+00:13:16,889 --> 00:13:19,189
+some code that you want
+to get from here that
+
+242
+00:13:19,189 --> 00:13:23,830
+is this is a product line
+that we do for deep learning.
+
+243
+00:13:23,830 --> 00:13:27,050
+Okay. It starts from a
+code called P P 100,
+
+244
+00:13:27,050 --> 00:13:30,869
+and that was released,
+about ten years ago, okay?
+
+245
+00:13:30,869 --> 00:13:32,930
+It's very weak DP today.
+
+246
+00:13:32,930 --> 00:13:35,270
+But at that time, I think
+it's still quite expensive.
+
+247
+00:13:35,270 --> 00:13:38,569
+You have to pay like 20 k to
+purchase one of these, okay?
+
+248
+00:13:38,569 --> 00:13:40,549
+And then we start, like,
+
+249
+00:13:40,549 --> 00:13:43,089
+evolving the
+architectures from P
+
+250
+00:13:43,089 --> 00:13:48,829
+100 to V hundred to E 100 to
+today's um, H 100, right?
+
+251
+00:13:48,829 --> 00:13:50,949
+And probably by the
+summer of this year,
+
+252
+00:13:50,949 --> 00:13:53,759
+we'll basically going
+into B 100, okay.
+
+253
+00:13:53,759 --> 00:13:55,670
+And meanwhile, you can
+also see there are
+
+254
+00:13:55,670 --> 00:13:58,209
+a few other GPUs that is, um,
+
+255
+00:13:58,209 --> 00:14:02,589
+slightly lower
+lower tier than is,
+
+256
+00:14:02,589 --> 00:14:05,349
+uh, this code with 100.
+
+257
+00:14:05,349 --> 00:14:08,230
+Okay? It's called p4t4 and P 80.
+
+258
+00:14:08,230 --> 00:14:10,950
+So this is another generation
+
+259
+00:14:10,950 --> 00:14:13,630
+of another line GPO media build
+
+260
+00:14:13,630 --> 00:14:16,209
+for you can think
+it in a way that
+
+261
+00:14:16,209 --> 00:14:19,590
+is for those less
+computation intensive jobs.
+
+262
+00:14:19,590 --> 00:14:22,190
+Okay. And this is for
+the more coming jobs.
+
+263
+00:14:22,190 --> 00:14:23,710
+Therefore, the GPU are a
+
+264
+00:14:23,710 --> 00:14:25,349
+little bit cheaper
+than this one.
+
+265
+00:14:25,349 --> 00:14:29,374
+For example, less memory,
+less exams or whatever, okay?
+
+266
+00:14:29,374 --> 00:14:32,400
+And this is roughly timeline.
+
+267
+00:14:32,400 --> 00:14:36,559
+And if we basically align
+this with media stock,
+
+268
+00:14:36,559 --> 00:14:39,499
+and you can see
+when it takes off,
+
+269
+00:14:39,499 --> 00:14:41,499
+it's roughly from here, right?
+
+270
+00:14:41,499 --> 00:14:44,660
+Yeah. When media
+ships Ava hundred,
+
+271
+00:14:44,660 --> 00:14:48,899
+the stock price start exploding.
+What happened this year?
+
+272
+00:14:49,990 --> 00:14:52,390
+I GBD The paper?
+
+273
+00:14:52,390 --> 00:14:55,649
+Yeah, GBD The paper,
+was released this year.
+
+274
+00:14:55,649 --> 00:14:59,310
+And the real taking
+off is basically here.
+
+275
+00:15:00,710 --> 00:15:03,910
+At this point, I think
+the language model market
+
+276
+00:15:03,910 --> 00:15:06,429
+becomes very very
+competitive and more and
+
+277
+00:15:06,429 --> 00:15:09,110
+more big corporate
+want to purchase
+
+278
+00:15:09,110 --> 00:15:12,170
+and H hundred build
+really large clusters,
+
+279
+00:15:12,170 --> 00:15:14,329
+and they are ordered from
+
+280
+00:15:14,329 --> 00:15:17,430
+Nidia and roughly
+last year in 2023,
+
+281
+00:15:17,430 --> 00:15:21,530
+Nidia stock price growth
+and, you know, yeah.
+
+282
+00:15:21,530 --> 00:15:26,619
+Crypto is another
+reason, yeah. Okay.
+
+283
+00:15:26,619 --> 00:15:31,179
+Um, so another
+interesting phenomenon
+
+284
+00:15:31,179 --> 00:15:33,620
+you want to be familiar
+with is basically,
+
+285
+00:15:33,620 --> 00:15:37,339
+um, the number of
+Ms and threads on
+
+286
+00:15:37,339 --> 00:15:41,799
+WDA GPU generating GPU
+and how the market goes.
+
+287
+00:15:41,799 --> 00:15:44,319
+Basically, media is the
+one that sells GPU, right?
+
+288
+00:15:44,319 --> 00:15:46,479
+But when you try to use GPU,
+
+289
+00:15:46,479 --> 00:15:48,399
+you don't directly buy
+from media, right.
+
+290
+00:15:48,399 --> 00:15:50,080
+You actually use
+from, for example,
+
+291
+00:15:50,080 --> 00:15:52,840
+Cloud from Abs from
+GCP or whatever,
+
+292
+00:15:52,840 --> 00:15:54,200
+this kind of to Cloud.
+
+293
+00:15:54,200 --> 00:15:57,020
+Basically, there
+is a layer of, uh,
+
+294
+00:15:57,020 --> 00:15:58,840
+infrastructure on top of media,
+
+295
+00:15:58,840 --> 00:16:01,800
+which build software, build
+infrastructure for you, okay?
+
+296
+00:16:01,800 --> 00:16:05,520
+And um so for Vb hundred,
+
+297
+00:16:05,520 --> 00:16:08,719
+which is the one that
+we use to trim many,
+
+298
+00:16:08,719 --> 00:16:11,579
+many models like a bird
+in the bird generation,
+
+299
+00:16:11,579 --> 00:16:14,600
+for Vb hundred, we
+have roughly 80 SMs.
+
+300
+00:16:14,600 --> 00:16:17,600
+And for each SM, we
+have two case threads.
+
+301
+00:16:17,600 --> 00:16:19,220
+Okay, that's computing power.
+
+302
+00:16:19,220 --> 00:16:23,019
+Okay, you can actually This
+actually give you a sense of
+
+303
+00:16:23,019 --> 00:16:25,699
+how many floating point it can
+
+304
+00:16:25,699 --> 00:16:28,159
+calculate per second
+because roughly,
+
+305
+00:16:28,159 --> 00:16:31,419
+I can have this lumber that
+is uh computing, right?
+
+306
+00:16:31,419 --> 00:16:33,480
+This lumber floating point
+
+307
+00:16:33,480 --> 00:16:36,259
+operating that computing
+in parallel, okay?
+
+308
+00:16:36,259 --> 00:16:41,709
+Yeah. And then we fast
+forward to Av 100, right?
+
+309
+00:16:41,709 --> 00:16:44,150
+That is the GPU
+that is basically,
+
+310
+00:16:44,150 --> 00:16:48,229
+uh start twining GBD three.
+
+311
+00:16:48,229 --> 00:16:50,310
+And you can see what
+media does is basically
+
+312
+00:16:50,310 --> 00:16:55,049
+increase the number
+of SMs, 80-108.
+
+313
+00:16:55,049 --> 00:16:57,250
+But it keeps the number
+of threads per SM.
+
+314
+00:16:57,250 --> 00:17:02,390
+Okay? And then we go to H
+100 and we keep increasing.
+
+315
+00:17:02,390 --> 00:17:06,109
+We increased 108-144.
+
+316
+00:17:06,109 --> 00:17:07,950
+And from this hardware
+specification,
+
+317
+00:17:07,950 --> 00:17:09,269
+you will notice the fact that
+
+318
+00:17:09,269 --> 00:17:11,369
+every time media shifts
+a new generation,
+
+319
+00:17:11,369 --> 00:17:14,479
+the computer is
+not double. Right?
+
+320
+00:17:14,479 --> 00:17:16,539
+Because if you count
+the number of SMs,
+
+321
+00:17:16,539 --> 00:17:20,180
+apparently, this number
+is a lot double of 108.
+
+322
+00:17:20,180 --> 00:17:23,639
+But how could the media
+claim the fact that uh,
+
+323
+00:17:23,639 --> 00:17:26,000
+the mores law is
+still continuing?
+
+324
+00:17:26,000 --> 00:17:27,840
+Yeah, that's because, uh,
+
+325
+00:17:27,840 --> 00:17:29,459
+in every generation
+of the GPUs they
+
+326
+00:17:29,459 --> 00:17:31,239
+are building some lower
+precision course.
+
+327
+00:17:31,239 --> 00:17:33,199
+So they advocate you
+
+328
+00:17:33,199 --> 00:17:35,200
+to use lower precision
+to train departing.
+
+329
+00:17:35,200 --> 00:17:36,780
+And we use lower precision,
+
+330
+00:17:36,780 --> 00:17:39,699
+uh, and also when you
+have slightly more SMs,
+
+331
+00:17:39,699 --> 00:17:43,340
+you indeed can double your
+flowing point per second,
+
+332
+00:17:43,340 --> 00:17:45,800
+you have a new
+generation of GPUs.
+
+333
+00:17:45,800 --> 00:17:50,789
+Okay? And then let's
+play a very simple game.
+
+334
+00:17:50,789 --> 00:17:53,449
+Okay. So how much price
+do you think this one?
+
+335
+00:17:53,449 --> 00:17:56,229
+Like, if you want to
+get 1 hour or 100,
+
+336
+00:17:56,229 --> 00:17:58,850
+how much do you
+need to pay on AWS?
+
+337
+00:18:03,970 --> 00:18:09,969
+Okay. Today, the price
+is basically 3 hours,
+
+338
+00:18:09,969 --> 00:18:13,009
+$3 per hour per TPV
+very expensive.
+
+339
+00:18:13,009 --> 00:18:18,309
+Okay. And when we evolve
+from W 100 to 100, how much?
+
+340
+00:18:18,309 --> 00:18:20,069
+So if we count the SMS,
+
+341
+00:18:20,069 --> 00:18:22,669
+it should be roughly $5, right?
+
+342
+00:18:22,669 --> 00:18:26,349
+But the fact is, uh four, y.
+
+343
+00:18:26,349 --> 00:18:28,810
+And if we evolve 100-100,
+
+344
+00:18:28,810 --> 00:18:33,879
+how much and maybe
+five or six, right?
+
+345
+00:18:33,879 --> 00:18:36,259
+But yeah, it's 12.
+
+346
+00:18:36,259 --> 00:18:39,300
+Okay. I increased
+more than double.
+
+347
+00:18:39,300 --> 00:18:42,879
+In fact, if you go to ABS and
+you try to run the H 100,
+
+348
+00:18:42,879 --> 00:18:44,339
+you are not going to get it.
+
+349
+00:18:44,339 --> 00:18:46,979
+You know why? Because all
+these H hundred are basically
+
+350
+00:18:46,979 --> 00:18:49,880
+occupied by big corporates
+train language models.
+
+351
+00:18:49,880 --> 00:18:51,440
+I don't think
+students or faculty
+
+352
+00:18:51,440 --> 00:18:53,179
+in university you
+are able to get it.
+
+353
+00:18:53,179 --> 00:18:55,460
+Okay. Yeah, it's
+very competitive.
+
+354
+00:18:55,460 --> 00:18:58,159
+And I think by the
+middle of this year,
+
+355
+00:18:58,159 --> 00:19:00,059
+ATBs and all the
+cloud providers,
+
+356
+00:19:00,059 --> 00:19:03,729
+they are going to
+shape B 100 and um,
+
+357
+00:19:03,729 --> 00:19:05,409
+but basically, at that time, we
+
+358
+00:19:05,409 --> 00:19:06,930
+will be able to get H 100.
+
+359
+00:19:06,930 --> 00:19:09,430
+So the academia is basically
+one generating behind.
+
+360
+00:19:09,430 --> 00:19:13,550
+Okay? That's what
+we are doing, okay?
+
+361
+00:19:13,710 --> 00:19:16,249
+Cool. That is a little bit more
+
+362
+00:19:16,249 --> 00:19:18,049
+about the GPU market
+and the cloud,
+
+363
+00:19:18,049 --> 00:19:19,750
+and this is a huge
+market, by the way,
+
+364
+00:19:19,750 --> 00:19:22,670
+yeah. And, um, cool.
+
+365
+00:19:22,670 --> 00:19:25,649
+So I will give you a
+task that is, um, uh,
+
+366
+00:19:25,649 --> 00:19:30,109
+go and survey the price of
+100 and the number of SMs,
+
+367
+00:19:30,109 --> 00:19:33,229
+uh we just going
+into shape, okay?
+
+368
+00:19:34,280 --> 00:19:37,459
+And that is basically
+the kind of
+
+369
+00:19:37,459 --> 00:19:41,100
+hardware architecture and
+abstractions WDS GPU build
+
+370
+00:19:41,100 --> 00:19:43,639
+into Koda apparently is
+
+371
+00:19:43,639 --> 00:19:46,199
+the programming language
+that WDA build for
+
+372
+00:19:46,199 --> 00:19:49,280
+developers to write
+code on top of GPU.
+
+373
+00:19:49,280 --> 00:19:51,239
+It history about Koda.
+
+374
+00:19:51,239 --> 00:19:55,500
+So it was introduced in 2007
+with MDS Tesla architecture,
+
+375
+00:19:55,500 --> 00:19:59,559
+and it has a C language
+for programming GPU,
+
+376
+00:19:59,559 --> 00:20:02,159
+and its design exactly matches
+
+377
+00:20:02,159 --> 00:20:04,319
+the uh grade block and
+
+378
+00:20:04,319 --> 00:20:07,400
+read three layer hierarchy
+I just introduced.
+
+379
+00:20:07,400 --> 00:20:11,169
+Let's dive into
+it. Okay. And this
+
+380
+00:20:11,169 --> 00:20:12,790
+is a piece of quota code.
+
+381
+00:20:12,790 --> 00:20:16,049
+So for the understanding,
+I also um,
+
+382
+00:20:16,049 --> 00:20:18,889
+put the grid on the
+block definition,
+
+383
+00:20:18,889 --> 00:20:22,290
+uh, on the left
+part of this slide.
+
+384
+00:20:22,290 --> 00:20:24,169
+And you can see, uh,
+
+385
+00:20:24,169 --> 00:20:26,249
+maybe you can parse
+this one a little bit.
+
+386
+00:20:26,249 --> 00:20:28,610
+But this is actually
+not quota code.
+
+387
+00:20:28,610 --> 00:20:29,770
+This is the CPU code,
+
+388
+00:20:29,770 --> 00:20:31,430
+and only this line
+is quota code.
+
+389
+00:20:31,430 --> 00:20:34,089
+And you still remember
+what we call this, right?
+
+390
+00:20:34,089 --> 00:20:37,110
+It's a kernel. We
+call it quota kernel.
+
+391
+00:20:37,110 --> 00:20:39,109
+And what it does,
+you can see, um,
+
+392
+00:20:39,109 --> 00:20:40,829
+I first do a few like,
+
+393
+00:20:40,829 --> 00:20:43,510
+uh, preparation before I
+can launch the kernel.
+
+394
+00:20:43,510 --> 00:20:44,750
+And in preparation code,
+
+395
+00:20:44,750 --> 00:20:48,894
+what I do is I define some
+dimension variables X and NY.
+
+396
+00:20:48,894 --> 00:20:52,000
+And then I define a
+three dimensional array,
+
+397
+00:20:52,000 --> 00:20:54,264
+which is called a
+threads per block.
+
+398
+00:20:54,264 --> 00:20:56,010
+Okay, three dimensional.
+
+399
+00:20:56,010 --> 00:20:57,469
+Okay. And from this,
+
+400
+00:20:57,469 --> 00:21:00,229
+you can see per block roughly
+have 12 threads, right?
+
+401
+00:21:00,229 --> 00:21:02,429
+Okay. And then I also
+
+402
+00:21:02,429 --> 00:21:05,269
+define some three dom no
+we called lumber blocks.
+
+403
+00:21:05,269 --> 00:21:08,389
+Okay? And the way
+I do it is I use
+
+404
+00:21:08,389 --> 00:21:10,669
+the original shape
+array to divide it by
+
+405
+00:21:10,669 --> 00:21:13,710
+sra per block in order to
+get these lumber blocks.
+
+406
+00:21:13,710 --> 00:21:15,430
+It's also three dimsion array.
+
+407
+00:21:15,430 --> 00:21:17,869
+And then I start launching
+Qunar kernel and
+
+408
+00:21:17,869 --> 00:21:20,289
+the grammar of Quada
+kernel looks like this.
+
+409
+00:21:20,289 --> 00:21:23,189
+So this is where you pass
+argument into the kernel.
+
+410
+00:21:23,189 --> 00:21:28,089
+And meanwhile, you get this
+where you pass two metadata.
+
+411
+00:21:28,089 --> 00:21:29,829
+One is the three dom array
+
+412
+00:21:29,829 --> 00:21:31,809
+I just created called
+lumber blocks.
+
+413
+00:21:31,809 --> 00:21:34,350
+The other is the thre per block.
+
+414
+00:21:34,350 --> 00:21:36,530
+And this basically means
+you are going to launch
+
+415
+00:21:36,530 --> 00:21:39,029
+your kernel that will basically
+
+416
+00:21:39,029 --> 00:21:40,029
+run on this number of
+
+417
+00:21:40,029 --> 00:21:41,369
+blocks and this
+number of threads on
+
+418
+00:21:41,369 --> 00:21:44,729
+TPU. Okay. Any question?
+
+419
+00:21:45,370 --> 00:21:53,649
+Cool. From this figure we can
+
+420
+00:21:53,649 --> 00:21:55,109
+actually figure out how
+
+421
+00:21:55,109 --> 00:21:57,409
+many threads and
+blocks is going to
+
+422
+00:21:57,409 --> 00:22:01,989
+run Because this
+is declared here,
+
+423
+00:22:01,989 --> 00:22:05,529
+very explicitly. How
+many blocks will run?
+
+424
+00:22:08,750 --> 00:22:11,769
+So basically multiply
+these two values, right?
+
+425
+00:22:11,769 --> 00:22:14,049
+And for this x is
+
+426
+00:22:14,049 --> 00:22:16,670
+12 and the first dimension of
+threads per block is four.
+
+427
+00:22:16,670 --> 00:22:20,589
+So this value is three,
+for this one is two,
+
+428
+00:22:20,589 --> 00:22:22,769
+we are running on six blocks.
+
+429
+00:22:22,769 --> 00:22:26,710
+And then how many
+threads are running?
+
+430
+00:22:27,590 --> 00:22:30,750
+It's basically the
+product of two values,
+
+431
+00:22:30,750 --> 00:22:32,449
+right? It's 72 threads.
+
+432
+00:22:32,449 --> 00:22:34,609
+Okay? So we are
+roughly running on
+
+433
+00:22:34,609 --> 00:22:38,050
+six blocks with in
+total, 72 threads.
+
+434
+00:22:38,050 --> 00:22:43,049
+So each block will
+have 12 threads. Okay.
+
+435
+00:22:43,049 --> 00:22:45,370
+Clear. So we are
+basically mapping
+
+436
+00:22:45,370 --> 00:22:48,789
+the community in
+72 threads, okay?
+
+437
+00:22:52,670 --> 00:22:54,929
+Yeah, this is what I just did.
+
+438
+00:22:54,929 --> 00:22:58,470
+Okay? So remember when I write
+
+439
+00:22:58,470 --> 00:23:00,770
+that code where I mix
+
+440
+00:23:00,770 --> 00:23:04,490
+CPC and PC together, I
+do some preparation.
+
+441
+00:23:04,490 --> 00:23:06,489
+In that preparation,
+what I do is basically I
+
+442
+00:23:06,489 --> 00:23:09,590
+define the shape of the threads,
+
+443
+00:23:09,590 --> 00:23:13,049
+the three dimensional array,
+threads under the blocks.
+
+444
+00:23:13,049 --> 00:23:16,330
+In Coda, there is a few uh,
+
+445
+00:23:16,330 --> 00:23:17,730
+definitions about that shape.
+
+446
+00:23:17,730 --> 00:23:20,789
+Okay? So here in this slide,
+you basically definition.
+
+447
+00:23:20,789 --> 00:23:23,010
+We first have a definition
+which is called a grade Dam.
+
+448
+00:23:23,010 --> 00:23:24,669
+Okay. This grade deem basically
+
+449
+00:23:24,669 --> 00:23:26,849
+defines how many blocks
+I have that grade.
+
+450
+00:23:26,849 --> 00:23:28,969
+I have in one grade. So remember
+
+451
+00:23:28,969 --> 00:23:30,590
+in one GPO I only
+have one grade.
+
+452
+00:23:30,590 --> 00:23:34,369
+Okay? So basically this grade
+deem is the total number
+
+453
+00:23:34,369 --> 00:23:36,629
+of blocks in a grade
+basically should be
+
+454
+00:23:36,629 --> 00:23:38,930
+equal to the number of SMs,
+
+455
+00:23:38,930 --> 00:23:42,769
+right in GPU because
+each SM maps to a block.
+
+456
+00:23:42,769 --> 00:23:44,409
+So this grade dam basically
+
+457
+00:23:44,409 --> 00:23:46,030
+defines the dimension
+of the grade.
+
+458
+00:23:46,030 --> 00:23:47,409
+And this will give you example,
+
+459
+00:23:47,409 --> 00:23:50,769
+this is a grade deam X
+and this grid Dam Y.
+
+460
+00:23:51,010 --> 00:23:53,989
+If I index on this graded array,
+
+461
+00:23:53,989 --> 00:23:58,240
+I basically get one M which
+is a block. Okay, here.
+
+462
+00:23:58,240 --> 00:24:00,660
+And then because my block
+
+463
+00:24:00,660 --> 00:24:02,600
+is arranged in a way in a grade.
+
+464
+00:24:02,600 --> 00:24:05,000
+So what I do is I will
+have a block index,
+
+465
+00:24:05,000 --> 00:24:07,579
+basically help me index
+which block this is.
+
+466
+00:24:07,579 --> 00:24:09,739
+Okay. And similarly, I
+
+467
+00:24:09,739 --> 00:24:12,700
+have a block dam why
+I have a block dam.
+
+468
+00:24:13,070 --> 00:24:15,749
+Because a block has
+many many threads,
+
+469
+00:24:15,749 --> 00:24:17,009
+so I have to organize them in
+
+470
+00:24:17,009 --> 00:24:18,970
+a way that I can
+map my competition.
+
+471
+00:24:18,970 --> 00:24:22,210
+I also have a block D.
+And in this figure,
+
+472
+00:24:22,210 --> 00:24:24,609
+you can see this block D is
+basically three by three.
+
+473
+00:24:24,609 --> 00:24:28,690
+Okay? I organize nine
+threads, into D in my block.
+
+474
+00:24:28,690 --> 00:24:32,190
+And finally, of course,
+I have a thread index,
+
+475
+00:24:32,190 --> 00:24:34,490
+because thread is
+the smallest unit,
+
+476
+00:24:34,490 --> 00:24:36,889
+so I have index to index them.
+
+477
+00:24:36,889 --> 00:24:39,129
+Okay. Then I have two questions.
+
+478
+00:24:39,129 --> 00:24:41,550
+So what is a great D?
+
+479
+00:24:43,900 --> 00:24:47,859
+So grade I always
+equal to zero or one,
+
+480
+00:24:47,859 --> 00:24:49,319
+depending on how you
+index it because
+
+481
+00:24:49,319 --> 00:24:51,019
+we only have one grade, right?
+
+482
+00:24:51,019 --> 00:24:53,620
+So what about thread dam?
+
+483
+00:24:53,900 --> 00:24:56,179
+It's also a trivial thing,
+
+484
+00:24:56,179 --> 00:24:57,979
+because it reduced to one.
+
+485
+00:24:57,979 --> 00:25:00,180
+Because thread is
+the smallest unit,
+
+486
+00:25:00,180 --> 00:25:04,140
+so I only for eareads
+one dimension.
+
+487
+00:25:04,140 --> 00:25:10,340
+Any question? Yeah. Sorry.
+
+488
+00:25:10,340 --> 00:25:16,319
+Grade ID is basically
+index of the grade, right?
+
+489
+00:25:16,319 --> 00:25:19,325
+Because I only have one
+grade, so the index is zero.
+
+490
+00:25:19,325 --> 00:25:27,149
+Okay. Cool. Okay, this
+
+491
+00:25:27,149 --> 00:25:30,029
+basically give you an
+example of a coda program.
+
+492
+00:25:30,029 --> 00:25:31,390
+And in this a program,
+
+493
+00:25:31,390 --> 00:25:32,710
+what we do is basically try
+
+494
+00:25:32,710 --> 00:25:36,190
+to we try to add two matrices.
+
+495
+00:25:36,190 --> 00:25:38,990
+I think for this part,
+you guys are already
+
+496
+00:25:38,990 --> 00:25:41,970
+for miliar I already explained
+this is the CPU code.
+
+497
+00:25:41,970 --> 00:25:46,810
+And in addition to
+this part of the code,
+
+498
+00:25:46,810 --> 00:25:49,129
+you also need to
+implement the kernel,
+
+499
+00:25:49,129 --> 00:25:51,960
+this is basically the
+implementation of the kernel.
+
+500
+00:25:51,960 --> 00:25:54,209
+So what this CPU part
+of the code does
+
+501
+00:25:54,209 --> 00:25:56,129
+is basically it
+launch a grade of
+
+502
+00:25:56,129 --> 00:25:58,609
+da threats and it
+
+503
+00:25:58,609 --> 00:26:04,269
+will basically so this call
+will basically blocks,
+
+504
+00:26:04,269 --> 00:26:09,289
+um and until all the threats
+you launch return. Okay?
+
+505
+00:26:09,289 --> 00:26:11,369
+And what it happening
+is basically
+
+506
+00:26:11,369 --> 00:26:13,089
+you pass the array A, B, and C,
+
+507
+00:26:13,089 --> 00:26:15,349
+which is A and B are
+the two arrays you want
+
+508
+00:26:15,349 --> 00:26:16,469
+to add together and C is
+
+509
+00:26:16,469 --> 00:26:17,649
+where you want to write
+the results, right?
+
+510
+00:26:17,649 --> 00:26:19,670
+And you give this argument
+to the qua kernel,
+
+511
+00:26:19,670 --> 00:26:21,990
+and this squaar kernel is
+going to run this, okay?
+
+512
+00:26:21,990 --> 00:26:26,035
+And let's move our focus on
+this quadar kernel, okay.
+
+513
+00:26:26,035 --> 00:26:29,740
+So there are some very weird
+grammar in quata kernel,
+
+514
+00:26:29,740 --> 00:26:31,919
+but you have to remember it.
+
+515
+00:26:31,919 --> 00:26:33,879
+The way that you
+define quata kernels,
+
+516
+00:26:33,879 --> 00:26:35,940
+you use some annotation.
+
+517
+00:26:35,940 --> 00:26:37,859
+For example, you give you
+the global notation which
+
+518
+00:26:37,859 --> 00:26:41,499
+basically denotes a quaakernel
+function runs on GPU.
+
+519
+00:26:41,499 --> 00:26:43,999
+Okay. And if you start
+function with global,
+
+520
+00:26:43,999 --> 00:26:45,600
+basically, it means
+it's a quadra kernel.
+
+521
+00:26:45,600 --> 00:26:49,020
+Okay. And, um, and of course,
+
+522
+00:26:49,020 --> 00:26:50,979
+you pass array into that, right?
+
+523
+00:26:50,979 --> 00:26:52,959
+But the interest thing here is
+
+524
+00:26:52,959 --> 00:26:55,000
+when you implement
+quadra kernel, uh,
+
+525
+00:26:55,000 --> 00:26:58,259
+because this function is
+going to run all the threads,
+
+526
+00:26:58,259 --> 00:26:59,679
+you launched from CPU.
+
+527
+00:26:59,679 --> 00:27:01,959
+So when you implement uh kernel,
+
+528
+00:27:01,959 --> 00:27:03,399
+you have to think
+about like what
+
+529
+00:27:03,399 --> 00:27:05,255
+is the job of that thread.
+
+530
+00:27:05,255 --> 00:27:07,150
+Because we do SIMD,
+
+531
+00:27:07,150 --> 00:27:08,750
+so it split works.
+
+532
+00:27:08,750 --> 00:27:11,089
+So each thread will
+take only a split
+
+533
+00:27:11,089 --> 00:27:12,949
+of the global data ABC.
+
+534
+00:27:12,949 --> 00:27:14,849
+So you have to think
+in a way that what is
+
+535
+00:27:14,849 --> 00:27:17,289
+the job of this thread.
+
+536
+00:27:17,289 --> 00:27:19,209
+So in this program,
+you can basically say,
+
+537
+00:27:19,209 --> 00:27:23,789
+what do we do is we use Block
+index and block Dam and
+
+538
+00:27:23,789 --> 00:27:26,850
+thread index to get uh
+
+539
+00:27:26,850 --> 00:27:30,349
+get index over this
+array A B and C, right.
+
+540
+00:27:30,349 --> 00:27:32,229
+And then we use
+this array to index
+
+541
+00:27:32,229 --> 00:27:34,790
+a part of data and we
+add them together,
+
+542
+00:27:34,790 --> 00:27:38,969
+and write the result
+back to C. Okay.
+
+543
+00:27:38,969 --> 00:27:42,919
+Any question? Okay.
+
+544
+00:27:42,919 --> 00:27:44,539
+So the metal point
+here is basically,
+
+545
+00:27:44,539 --> 00:27:47,500
+you have to use this
+block dam thread index,
+
+546
+00:27:47,500 --> 00:27:50,119
+this kind of thing to figure out
+
+547
+00:27:50,119 --> 00:27:51,559
+what is the proportion of
+
+548
+00:27:51,559 --> 00:27:53,679
+data that you want this
+thread to process on.
+
+549
+00:27:53,679 --> 00:27:56,960
+And then you write the
+result back to the array.
+
+550
+00:27:56,960 --> 00:27:59,079
+And you need to also address.
+
+551
+00:27:59,079 --> 00:28:00,499
+You need to address
+the memory in
+
+552
+00:28:00,499 --> 00:28:04,479
+the correct way to
+avoid conflict,
+
+553
+00:28:04,479 --> 00:28:07,100
+because you cannot
+write to array
+
+554
+00:28:07,100 --> 00:28:08,499
+where another thread
+is also writing
+
+555
+00:28:08,499 --> 00:28:10,099
+to that why have a problem.
+
+556
+00:28:10,099 --> 00:28:14,164
+So we're essentially
+writing SMD code, in perl.
+
+557
+00:28:14,164 --> 00:28:18,030
+Okay. Basically the essence
+
+558
+00:28:18,030 --> 00:28:20,249
+of GP programming is
+you have to think in
+
+559
+00:28:20,249 --> 00:28:22,809
+this way and you
+try to figure out
+
+560
+00:28:22,809 --> 00:28:25,470
+the most efficient way
+that you can partition
+
+561
+00:28:25,470 --> 00:28:28,570
+the job and write this
+kind of SIMD code.
+
+562
+00:28:28,570 --> 00:28:37,369
+Okay? One important thing
+
+563
+00:28:37,369 --> 00:28:38,749
+you want to note that when
+
+564
+00:28:38,749 --> 00:28:40,629
+we implement Coda on top of GPU
+
+565
+00:28:40,629 --> 00:28:45,770
+is we have a very clear
+separation of CPU and GPU code,
+
+566
+00:28:45,770 --> 00:28:48,789
+apparently on this
+host code, uh,
+
+567
+00:28:48,789 --> 00:28:50,489
+this is very easy to
+understand and this
+
+568
+00:28:50,489 --> 00:28:52,490
+follows our intuition
+of programming.
+
+569
+00:28:52,490 --> 00:28:53,770
+It's a serial code.
+
+570
+00:28:53,770 --> 00:28:55,509
+It basically ask
+you line by line,
+
+571
+00:28:55,509 --> 00:28:57,549
+by a single thread on CPU.
+
+572
+00:28:57,549 --> 00:29:00,710
+But on the green part,
+we have the device code,
+
+573
+00:29:00,710 --> 00:29:02,249
+and this code is a little bit
+
+574
+00:29:02,249 --> 00:29:04,450
+counterintuitive because
+it is a parallel code.
+
+575
+00:29:04,450 --> 00:29:05,870
+It's going to be
+launched on many
+
+576
+00:29:05,870 --> 00:29:07,429
+many threads in the GPU.
+
+577
+00:29:07,429 --> 00:29:12,789
+So, uh, it's SMD parallel
+execution on GPU.
+
+578
+00:29:14,070 --> 00:29:16,629
+Then, I hope you understand
+
+579
+00:29:16,629 --> 00:29:19,469
+this part and I have
+a few questions.
+
+580
+00:29:19,590 --> 00:29:23,909
+So what happens post
+launching the kernel?
+
+581
+00:29:27,430 --> 00:29:29,989
+That is, if my CPU ask you
+
+582
+00:29:29,989 --> 00:29:31,809
+this code line by
+line all the way
+
+583
+00:29:31,809 --> 00:29:33,509
+down to here and
+
+584
+00:29:33,509 --> 00:29:35,569
+after I launch this
+kernel, what happened?
+
+585
+00:29:35,569 --> 00:29:38,549
+So suppose there's another
+line of code here.
+
+586
+00:29:38,549 --> 00:29:45,009
+Will my CPU continue to
+ask you this code? No.
+
+587
+00:29:45,009 --> 00:29:46,910
+Why?
+
+588
+00:29:52,680 --> 00:29:56,499
+A, my CPO will continue to
+
+589
+00:29:56,499 --> 00:29:59,559
+ask you the next lines of
+code because like I said,
+
+590
+00:29:59,559 --> 00:30:01,379
+this kernel actually runs on
+
+591
+00:30:01,379 --> 00:30:03,839
+GPU and this code runs on CPU.
+
+592
+00:30:03,839 --> 00:30:07,239
+CPU code is 100% like a serial.
+
+593
+00:30:07,239 --> 00:30:08,860
+But once my CPU launch,
+
+594
+00:30:08,860 --> 00:30:10,719
+give this code dedicated
+to GPU and it will
+
+595
+00:30:10,719 --> 00:30:13,240
+continue to launch
+next line of code.
+
+596
+00:30:13,240 --> 00:30:15,359
+It's not blocking, o?
+
+597
+00:30:15,960 --> 00:30:18,600
+What if this function
+has a return value?
+
+598
+00:30:18,600 --> 00:30:23,419
+For example, I return
+the value to arrayed X,
+
+599
+00:30:23,419 --> 00:30:27,400
+then my code is
+my following line
+
+600
+00:30:27,400 --> 00:30:28,599
+so my CPU code is going
+
+601
+00:30:28,599 --> 00:30:31,060
+to basically play some
+other operations,
+
+602
+00:30:31,060 --> 00:30:32,759
+say operate on this array X.
+
+603
+00:30:32,759 --> 00:30:37,979
+What do I have? You
+shouldn't do that.
+
+604
+00:30:37,979 --> 00:30:39,899
+That is very bad code because
+
+605
+00:30:39,899 --> 00:30:42,119
+this is something you
+really need to remember.
+
+606
+00:30:42,119 --> 00:30:44,900
+If you launch your
+da kernel, um, uh,
+
+607
+00:30:44,900 --> 00:30:47,339
+it's not guaranteed
+that the returned value
+
+608
+00:30:47,339 --> 00:30:49,920
+will basically because this code
+
+609
+00:30:49,920 --> 00:30:51,039
+will run concurrently with
+
+610
+00:30:51,039 --> 00:30:55,179
+this code kernel code before
+this kernel finishes,
+
+611
+00:30:55,179 --> 00:30:57,100
+if you operate on
+the return RAX,
+
+612
+00:30:57,100 --> 00:30:59,659
+it's going to give you
+undetermined behavior,
+
+613
+00:30:59,659 --> 00:31:01,460
+because you don't know if theta
+
+614
+00:31:01,460 --> 00:31:03,119
+or GPU has finished your job.
+
+615
+00:31:03,119 --> 00:31:07,399
+Okay? Uh, do you know what
+is the solution for this?
+
+616
+00:31:09,450 --> 00:31:11,809
+So in CDA, there's a very famous
+
+617
+00:31:11,809 --> 00:31:13,970
+API called CDA synchronize.
+
+618
+00:31:13,970 --> 00:31:16,410
+So in order to block this call,
+
+619
+00:31:16,410 --> 00:31:18,129
+you have to add DA
+synchronize here,
+
+620
+00:31:18,129 --> 00:31:19,949
+and that means that you want to
+
+621
+00:31:19,949 --> 00:31:23,149
+synchronize the execution
+of CPU and GPU.
+
+622
+00:31:23,149 --> 00:31:25,409
+CPU has the CPO code
+has to wait for
+
+623
+00:31:25,409 --> 00:31:26,709
+this kernel to return and then
+
+624
+00:31:26,709 --> 00:31:28,170
+continue the rest of the code.
+
+625
+00:31:28,170 --> 00:31:30,089
+Okay. And if you go to
+
+626
+00:31:30,089 --> 00:31:32,449
+Petroc and if you go to
+the lower level of Petroc
+
+627
+00:31:32,449 --> 00:31:34,590
+you'll find in Petroc so
+many coda synchronize
+
+628
+00:31:34,590 --> 00:31:36,930
+everywhere to make sure that
+the user at a higher level,
+
+629
+00:31:36,930 --> 00:31:39,889
+they actually get
+the values, okay.
+
+630
+00:31:43,530 --> 00:31:47,869
+Okay. One characteristics
+of Koa program
+
+631
+00:31:47,869 --> 00:31:49,609
+is the threads are basically
+
+632
+00:31:49,609 --> 00:31:51,890
+explicit and static in programs.
+
+633
+00:31:51,890 --> 00:31:54,430
+So it's the developer's
+responsibility
+
+634
+00:31:54,430 --> 00:31:57,450
+to provide this kind of
+CPU and GPU separation.
+
+635
+00:31:57,450 --> 00:31:59,949
+You have to write a part
+of CPU and then the CPU
+
+636
+00:31:59,949 --> 00:32:02,830
+you embed a few da kernels
+and then another file,
+
+637
+00:32:02,830 --> 00:32:05,309
+you probably implement actually
+
+638
+00:32:05,309 --> 00:32:07,694
+provide implementation
+of the a kernel, okay?
+
+639
+00:32:07,694 --> 00:32:09,679
+And also it's responsibility of
+
+640
+00:32:09,679 --> 00:32:12,579
+the developers to basically
+
+641
+00:32:12,579 --> 00:32:14,419
+explicitly declare the block
+
+642
+00:32:14,419 --> 00:32:16,339
+deem the shapes and
+
+643
+00:32:16,339 --> 00:32:18,939
+the threads number
+threads you want to use.
+
+644
+00:32:18,939 --> 00:32:22,619
+And it's also the
+developer's responsibility
+
+645
+00:32:22,619 --> 00:32:24,800
+to map the data to
+blocks and stress.
+
+646
+00:32:24,800 --> 00:32:26,559
+At least, you have to think,
+
+647
+00:32:26,559 --> 00:32:29,279
+uh, in parallel in
+your brain and,
+
+648
+00:32:29,279 --> 00:32:31,340
+you know, at least SIMD,
+
+649
+00:32:31,340 --> 00:32:35,144
+so you can launch the jobs
+to many many threads, okay?
+
+650
+00:32:35,144 --> 00:32:40,569
+And this is one primary
+reason why many compilers,
+
+651
+00:32:40,569 --> 00:32:42,169
+for example, torch dot compel,
+
+652
+00:32:42,169 --> 00:32:43,750
+they require static shapes
+
+653
+00:32:43,750 --> 00:32:48,009
+because uh if you don't
+actually declare the ships,
+
+654
+00:32:48,009 --> 00:32:50,389
+then you have to do
+a lot of padding
+
+655
+00:32:50,389 --> 00:32:53,450
+or whatever kind of
+operation to make this ship
+
+656
+00:32:53,450 --> 00:32:55,469
+static in order to
+launch these jobs
+
+657
+00:32:55,469 --> 00:32:58,009
+into explicit number of
+
+658
+00:32:58,009 --> 00:33:00,669
+threats that you declare
+in quaakernel, right?
+
+659
+00:33:00,669 --> 00:33:03,569
+Okay. That means that
+Koda is very very static.
+
+660
+00:33:03,569 --> 00:33:05,209
+It does not allow you to
+
+661
+00:33:05,209 --> 00:33:07,509
+basically declare
+a variable number,
+
+662
+00:33:07,509 --> 00:33:09,629
+for example, blocks and threats.
+
+663
+00:33:09,629 --> 00:33:11,189
+Okay?
+
+664
+00:33:11,230 --> 00:33:21,169
+Any question? So
+because of this,
+
+665
+00:33:21,169 --> 00:33:23,490
+I think when you start
+writing a Ka program,
+
+666
+00:33:23,490 --> 00:33:26,289
+is very important to check
+boundary conditions.
+
+667
+00:33:26,289 --> 00:33:27,929
+So what do I mean by
+boundary conditions.
+
+668
+00:33:27,929 --> 00:33:29,870
+So here, I give you example.
+
+669
+00:33:29,870 --> 00:33:31,990
+In this a kernel,
+
+670
+00:33:31,990 --> 00:33:35,490
+what we do is, we
+durt a control flow.
+
+671
+00:33:35,490 --> 00:33:38,909
+Okay. So what do we
+do is basically we
+
+672
+00:33:38,909 --> 00:33:42,029
+check the value of X
+and the way we get X,
+
+673
+00:33:42,029 --> 00:33:44,869
+basically, we use the
+block index and read
+
+674
+00:33:44,869 --> 00:33:47,970
+index to index the value
+from the input array, SMD.
+
+675
+00:33:47,970 --> 00:33:49,869
+Okay. And we check
+the value of X,
+
+676
+00:33:49,869 --> 00:33:52,410
+and if X is greater than
+zero, we do something.
+
+677
+00:33:52,410 --> 00:33:53,929
+Otherwise, we do something else.
+
+678
+00:33:53,929 --> 00:33:55,570
+Okay, this is the control flow.
+
+679
+00:33:55,570 --> 00:33:58,069
+And if you write this
+kind of, like, um,
+
+680
+00:33:58,069 --> 00:33:59,509
+Koda kernels is not going
+
+681
+00:33:59,509 --> 00:34:01,189
+to be very efficient
+because like I said,
+
+682
+00:34:01,189 --> 00:34:02,969
+Koda is very static.
+
+683
+00:34:02,969 --> 00:34:05,649
+So all the cores, they
+basically operate at
+
+684
+00:34:05,649 --> 00:34:09,009
+the same pace and they have
+to do exactly the same job.
+
+685
+00:34:09,009 --> 00:34:09,909
+But in this kernel,
+
+686
+00:34:09,909 --> 00:34:11,329
+what you write is
+basically you are asking
+
+687
+00:34:11,329 --> 00:34:13,989
+different stress or courts to
+do slightly different job.
+
+688
+00:34:13,989 --> 00:34:16,510
+So how Koda can handle
+this kind of thing, okay?
+
+689
+00:34:16,510 --> 00:34:19,090
+So the way it handles
+that is basically,
+
+690
+00:34:19,090 --> 00:34:23,899
+um, so it's going to,
+for example, here,
+
+691
+00:34:23,899 --> 00:34:26,059
+I have eight cores, okay,
+
+692
+00:34:26,059 --> 00:34:29,359
+and we are going to basically
+map to eight stress,
+
+693
+00:34:29,359 --> 00:34:32,300
+and we are going to map this
+job to this eight thress.
+
+694
+00:34:32,300 --> 00:34:35,679
+So in the first step, we just
+do our competition, okay.
+
+695
+00:34:35,679 --> 00:34:39,399
+At some point, we hit this E
+and L s and we are going to
+
+696
+00:34:39,399 --> 00:34:41,399
+check if the value I get in
+
+697
+00:34:41,399 --> 00:34:43,939
+this thread is
+greater than zero.
+
+698
+00:34:43,939 --> 00:34:46,059
+And in this example,
+you can see, uh,
+
+699
+00:34:46,059 --> 00:34:49,500
+we have three threads that
+basically return true,
+
+700
+00:34:49,500 --> 00:34:51,339
+and the rest return force.
+
+701
+00:34:51,339 --> 00:34:52,979
+So like I said,
+
+702
+00:34:52,979 --> 00:34:54,460
+Coda is very static.
+
+703
+00:34:54,460 --> 00:34:56,240
+So uh, it actually
+
+704
+00:34:56,240 --> 00:34:58,320
+cannot process this
+kind of EFL sematic.
+
+705
+00:34:58,320 --> 00:34:59,920
+It cannot for some course
+
+706
+00:34:59,920 --> 00:35:01,479
+do this and for other
+courses do this,
+
+707
+00:35:01,479 --> 00:35:03,019
+they have to do exactly
+the same thing.
+
+708
+00:35:03,019 --> 00:35:05,469
+So how can I handle this?
+
+709
+00:35:05,469 --> 00:35:08,320
+So the way Coda handles
+that is basically,
+
+710
+00:35:08,320 --> 00:35:11,139
+I'm going to make I'm going to
+
+711
+00:35:11,139 --> 00:35:14,179
+ask you the true branch
+and then the first branch.
+
+712
+00:35:14,179 --> 00:35:17,639
+So for the true branch, when
+I ask them I'm going to
+
+713
+00:35:17,639 --> 00:35:19,219
+actually do the work for
+
+714
+00:35:19,219 --> 00:35:20,459
+all the threads that are
+
+715
+00:35:20,459 --> 00:35:21,879
+with the value
+greater than zero.
+
+716
+00:35:21,879 --> 00:35:23,279
+But for the rest of them,
+
+717
+00:35:23,279 --> 00:35:25,619
+I just put them
+idle, doing nothing.
+
+718
+00:35:25,619 --> 00:35:28,239
+They have to wait.
+And then I'm going to
+
+719
+00:35:28,239 --> 00:35:31,599
+ask you the else
+branch, same thing.
+
+720
+00:35:31,599 --> 00:35:34,720
+As you can imagine, this
+code is very efficient
+
+721
+00:35:34,720 --> 00:35:38,079
+because there are so
+many idle times, right?
+
+722
+00:35:38,079 --> 00:35:40,200
+And we basically
+call this bubbles.
+
+723
+00:35:40,200 --> 00:35:44,399
+In Koda, if you do this
+kind of control flow job,
+
+724
+00:35:44,399 --> 00:35:46,600
+you are going to hit
+a lot of bubbles.
+
+725
+00:35:46,600 --> 00:35:50,179
+No problem. Cool.
+
+726
+00:35:51,740 --> 00:35:54,759
+Then once we finish
+this ELS branch,
+
+727
+00:35:54,759 --> 00:35:56,779
+we are going to proceed
+with the rest of the job.
+
+728
+00:35:56,779 --> 00:35:58,499
+The reason could not do
+this is because they want
+
+729
+00:35:58,499 --> 00:36:00,139
+to keep all the cross
+on the same pace.
+
+730
+00:36:00,139 --> 00:36:01,520
+They have to exactly actue
+
+731
+00:36:01,520 --> 00:36:02,799
+the same thing at
+the same time point.
+
+732
+00:36:02,799 --> 00:36:09,450
+Okay Actually,
+
+733
+00:36:09,450 --> 00:36:10,710
+this is a little bit irrelevant
+
+734
+00:36:10,710 --> 00:36:12,369
+from the global
+picture of quota but
+
+735
+00:36:12,369 --> 00:36:16,309
+the reason I introduced
+this because um uh,
+
+736
+00:36:16,309 --> 00:36:18,789
+here I give the definition
+of coherent excusion and
+
+737
+00:36:18,789 --> 00:36:20,409
+divergence execution
+is basically what
+
+738
+00:36:20,409 --> 00:36:22,509
+I described but with
+a fancier name.
+
+739
+00:36:22,509 --> 00:36:24,590
+Coherent exclusion is basically
+
+740
+00:36:24,590 --> 00:36:26,989
+the same instruction
+applied to all data,
+
+741
+00:36:26,989 --> 00:36:28,929
+divergence is
+basically the case I
+
+742
+00:36:28,929 --> 00:36:31,129
+give it to you. So why
+would care about this?
+
+743
+00:36:31,129 --> 00:36:35,710
+Um, Because if you guys are
+familiar language modeling,
+
+744
+00:36:35,710 --> 00:36:37,349
+you probably know that in
+language modeling there
+
+745
+00:36:37,349 --> 00:36:39,895
+the thing that we often
+do is called masking.
+
+746
+00:36:39,895 --> 00:36:42,339
+Right? I do some attenting but I
+
+747
+00:36:42,339 --> 00:36:44,399
+mask something out because
+
+748
+00:36:44,399 --> 00:36:47,019
+I don't want that part of value.
+
+749
+00:36:47,019 --> 00:36:49,180
+A very common masking mechanism
+
+750
+00:36:49,180 --> 00:36:50,560
+is called the caudal masking.
+
+751
+00:36:50,560 --> 00:36:52,219
+Right. I always attend to
+
+752
+00:36:52,219 --> 00:36:54,280
+the previous tokens, but
+not the future tokens.
+
+753
+00:36:54,280 --> 00:36:55,700
+And if you want to implement
+
+754
+00:36:55,700 --> 00:36:57,340
+this kind of masking in Coda,
+
+755
+00:36:57,340 --> 00:36:59,759
+it's going to be
+super efficient way,
+
+756
+00:36:59,759 --> 00:37:02,079
+because I'm going to
+check if that thing is,
+
+757
+00:37:02,079 --> 00:37:04,159
+uh, on the caudal mask, right.
+
+758
+00:37:04,159 --> 00:37:05,739
+And if it's in the cod mask,
+
+759
+00:37:05,739 --> 00:37:07,099
+I'm going to remove the value.
+
+760
+00:37:07,099 --> 00:37:08,859
+Otherwise, I keep
+the value, right.
+
+761
+00:37:08,859 --> 00:37:10,099
+And this kind of mechanism is
+
+762
+00:37:10,099 --> 00:37:11,699
+very hard to implement Coda.
+
+763
+00:37:11,699 --> 00:37:13,719
+So how we can make
+this fast, okay?
+
+764
+00:37:13,719 --> 00:37:16,679
+And this is going to be
+something we study when we, um,
+
+765
+00:37:16,679 --> 00:37:18,479
+go to the um,
+
+766
+00:37:18,479 --> 00:37:23,869
+transformer park,
+okay? Yeah. Cool.
+
+767
+00:37:23,869 --> 00:37:27,690
+That basically covers the
+execution model for Koda.
+
+768
+00:37:27,690 --> 00:37:29,990
+Okay. And then we are going
+to talk about the memory.
+
+769
+00:37:29,990 --> 00:37:34,749
+Um, so Koda memory model is
+basically illustrated here.
+
+770
+00:37:34,749 --> 00:37:36,389
+Uh, you can see, um,
+
+771
+00:37:36,389 --> 00:37:38,129
+because you have a
+horse memory, right,
+
+772
+00:37:38,129 --> 00:37:41,669
+which we often call emergency
+system as RAM, right?
+
+773
+00:37:41,669 --> 00:37:43,910
+And this is basically
+Quota memory.
+
+774
+00:37:43,910 --> 00:37:45,010
+We call it GPU memory.
+
+775
+00:37:45,010 --> 00:37:48,589
+Okay. So do you know
+what is lower level,
+
+776
+00:37:48,589 --> 00:37:51,729
+like mechanism for
+GPU memory today?
+
+777
+00:37:52,730 --> 00:37:56,329
+So it's called HBM,
+high bandwidth memory.
+
+778
+00:37:56,329 --> 00:37:58,589
+Okay, it is much faster
+than CPN memory.
+
+779
+00:37:58,589 --> 00:38:02,650
+So to distinguish this
+today imagining system,
+
+780
+00:38:02,650 --> 00:38:06,209
+we call the CPO memory
+called DRM, okay?
+
+781
+00:38:06,209 --> 00:38:07,429
+This is what we did last week,
+
+782
+00:38:07,429 --> 00:38:09,150
+right, for the telling.
+
+783
+00:38:09,150 --> 00:38:11,090
+Okay. And in the future,
+
+784
+00:38:11,090 --> 00:38:14,349
+we will use HBM to
+denote the GPU memory.
+
+785
+00:38:14,349 --> 00:38:17,690
+Okay? It is a memory mechanism
+that developed by media.
+
+786
+00:38:17,690 --> 00:38:19,670
+Okay. It has a higher bandwidth,
+
+787
+00:38:19,670 --> 00:38:22,159
+um, than host memory, okay?
+
+788
+00:38:22,159 --> 00:38:24,349
+So imperical, this
+figure already tells
+
+789
+00:38:24,349 --> 00:38:26,209
+you how the memory works, right?
+
+790
+00:38:26,209 --> 00:38:28,129
+So basically, uh, CPU has
+
+791
+00:38:28,129 --> 00:38:31,530
+its own memory on the
+computer and CODA devices,
+
+792
+00:38:31,530 --> 00:38:33,270
+for example, O OS GPUs,
+
+793
+00:38:33,270 --> 00:38:36,589
+they have their own memory,
+which is called HBM, okay?
+
+794
+00:38:38,150 --> 00:38:41,209
+Okay. And the way
+
+795
+00:38:41,209 --> 00:38:44,650
+that computer manage
+memory space basically,
+
+796
+00:38:44,650 --> 00:38:47,809
+I hope you still remember, so
+
+797
+00:38:47,809 --> 00:38:50,510
+how is the host
+memory managed in OS?
+
+798
+00:38:54,360 --> 00:38:57,759
+We organize them
+into pages, right?
+
+799
+00:38:57,759 --> 00:38:59,919
+It's called page memory, right?
+
+800
+00:38:59,919 --> 00:39:01,679
+We page all the memory together,
+
+801
+00:39:01,679 --> 00:39:04,059
+so we can index the pages, okay?
+
+802
+00:39:04,059 --> 00:39:07,980
+Um um but the Cut memory
+is slight different.
+
+803
+00:39:07,980 --> 00:39:12,140
+So it has it has distinct holes
+and device memory spaces.
+
+804
+00:39:12,140 --> 00:39:14,819
+Okay. Which means that if
+you launch a CPU code,
+
+805
+00:39:14,819 --> 00:39:16,400
+that ZPU code is
+not going to access
+
+806
+00:39:16,400 --> 00:39:18,320
+any pages in GPU memory.
+
+807
+00:39:18,320 --> 00:39:20,299
+Okay. And if you
+launch GPO code,
+
+808
+00:39:20,299 --> 00:39:23,820
+the GPO code is not going
+to access the pages in OS.
+
+809
+00:39:23,820 --> 00:39:25,660
+Okay? And also in GPO,
+
+810
+00:39:25,660 --> 00:39:29,300
+we do not actually explicitly
+manage memory in pages.
+
+811
+00:39:29,300 --> 00:39:30,899
+Okay, we just put it as
+
+812
+00:39:30,899 --> 00:39:33,859
+entire memory pool, and we
+will get it from there.
+
+813
+00:39:33,859 --> 00:39:40,740
+Okay. And in order to
+populate the memory,
+
+814
+00:39:40,740 --> 00:39:43,819
+uh, between RAM and GPA model,
+
+815
+00:39:43,819 --> 00:39:46,859
+we do is basically we
+use this API memo copy.
+
+816
+00:39:46,859 --> 00:39:48,740
+So we have to call Malloc.
+
+817
+00:39:48,740 --> 00:39:49,959
+And that Malloc also has
+
+818
+00:39:49,959 --> 00:39:52,100
+a prefix that is
+called Koda Malloc.
+
+819
+00:39:52,100 --> 00:39:54,100
+We first Coda Mock
+on GPO memory,
+
+820
+00:39:54,100 --> 00:39:55,699
+and then we do quota memo copy.
+
+821
+00:39:55,699 --> 00:39:57,939
+This memoco you basically copy
+
+822
+00:39:57,939 --> 00:40:01,139
+some memory from
+the RAM to device.
+
+823
+00:40:01,139 --> 00:40:03,539
+Okay. And this device, uh,
+
+824
+00:40:03,539 --> 00:40:06,860
+you can see it is allocated
+using Koda Malloc,
+
+825
+00:40:06,860 --> 00:40:08,260
+so it's part of
+the quota memory.
+
+826
+00:40:08,260 --> 00:40:13,279
+Okay. Okay? This is a pretty
+standard things, okay?
+
+827
+00:40:16,020 --> 00:40:18,859
+There's a little bit
+more concept that
+
+828
+00:40:18,859 --> 00:40:20,999
+you need to remember
+that is pin memory.
+
+829
+00:40:20,999 --> 00:40:23,560
+Okay? So when we see pin memory,
+
+830
+00:40:23,560 --> 00:40:25,780
+it is basically a
+part of the RAM,
+
+831
+00:40:25,780 --> 00:40:28,059
+the host and CPO memory. Okay.
+
+832
+00:40:28,059 --> 00:40:29,939
+Um, the reason we have
+
+833
+00:40:29,939 --> 00:40:31,300
+pin memory because sometimes
+
+834
+00:40:31,300 --> 00:40:32,800
+we often need to move memory,
+
+835
+00:40:32,800 --> 00:40:36,360
+populate contents
+between DRAM and HBM.
+
+836
+00:40:36,360 --> 00:40:40,140
+So we already once your
+computer installed with Koda
+
+837
+00:40:40,140 --> 00:40:41,819
+and the media driver will try to
+
+838
+00:40:41,819 --> 00:40:44,699
+pin a part of the host memory.
+
+839
+00:40:44,699 --> 00:40:47,819
+So it can reserve this
+part for this kind of
+
+840
+00:40:47,819 --> 00:40:51,305
+memory copy between
+host and HBM.
+
+841
+00:40:51,305 --> 00:40:54,270
+And because media striver
+
+842
+00:40:54,270 --> 00:40:56,389
+basically reserve this
+part of the host memory,
+
+843
+00:40:56,389 --> 00:40:57,809
+so it's not pageable by OS.
+
+844
+00:40:57,809 --> 00:41:00,829
+Okay, it's locked. Any other
+protests cannot use that.
+
+845
+00:41:00,829 --> 00:41:03,830
+Okay? And in CUDA,
+
+846
+00:41:03,830 --> 00:41:07,489
+there are a few APS that they
+can only use pin memory.
+
+847
+00:41:07,489 --> 00:41:09,229
+They cannot directly copy things
+
+848
+00:41:09,229 --> 00:41:12,350
+from HBM to any part
+of the host memory.
+
+849
+00:41:12,350 --> 00:41:14,429
+They have to first
+copy from HBM to
+
+850
+00:41:14,429 --> 00:41:17,449
+pin memory and then let
+the CPU to do the rest.
+
+851
+00:41:17,449 --> 00:41:21,529
+Okay? Okay, that is
+
+852
+00:41:21,529 --> 00:41:24,270
+a higher level introduction
+of how memory works in Koda,
+
+853
+00:41:24,270 --> 00:41:29,814
+and we are going to
+dive deeper, okay.
+
+854
+00:41:29,814 --> 00:41:32,040
+We introduced the HBM.
+
+855
+00:41:32,040 --> 00:41:35,959
+But actually, we know
+any device like this,
+
+856
+00:41:35,959 --> 00:41:37,280
+they have a memory hierarchy,
+
+857
+00:41:37,280 --> 00:41:39,020
+they have catches,
+they have registers.
+
+858
+00:41:39,020 --> 00:41:40,299
+So how does that work?
+
+859
+00:41:40,299 --> 00:41:42,719
+From this picture, you can see,
+
+860
+00:41:42,719 --> 00:41:45,659
+internally, for each thread,
+
+861
+00:41:45,659 --> 00:41:48,519
+it has its own
+private memory space,
+
+862
+00:41:48,519 --> 00:41:52,620
+it's even lower level
+memory other than HBM.
+
+863
+00:41:52,620 --> 00:41:55,559
+It is a private space
+only by that thread.
+
+864
+00:41:55,559 --> 00:41:57,419
+I must be faster because we
+
+865
+00:41:57,419 --> 00:41:59,819
+build this kind of
+memory hierarchy, okay?
+
+866
+00:41:59,819 --> 00:42:03,099
+And also because each block has
+
+867
+00:42:03,099 --> 00:42:05,059
+many threads and that block also
+
+868
+00:42:05,059 --> 00:42:07,719
+has a certain memory
+space where very small,
+
+869
+00:42:07,719 --> 00:42:10,939
+and all those threads
+will be able to share.
+
+870
+00:42:10,939 --> 00:42:12,799
+All those threads in a block
+
+871
+00:42:12,799 --> 00:42:14,419
+will be able to share
+that part of memory.
+
+872
+00:42:14,419 --> 00:42:17,239
+That means all those stress
+can access that memory.
+
+873
+00:42:17,239 --> 00:42:19,140
+But stress in
+another block cannot
+
+874
+00:42:19,140 --> 00:42:21,399
+actually access the
+memory in this block.
+
+875
+00:42:21,399 --> 00:42:25,539
+Makes sense. Okay. And
+as I already said,
+
+876
+00:42:25,539 --> 00:42:27,240
+you also have a
+global device memory
+
+877
+00:42:27,240 --> 00:42:29,219
+which is called HBM, right?
+
+878
+00:42:29,219 --> 00:42:30,659
+That is every thread
+
+879
+00:42:30,659 --> 00:42:32,520
+can actually access
+that part of memory.
+
+880
+00:42:32,520 --> 00:42:36,479
+And this part is
+probably pretty large,
+
+881
+00:42:36,479 --> 00:42:40,199
+a lot of space, but
+much slower, okay?
+
+882
+00:42:40,240 --> 00:42:43,080
+So why we make it so complex?
+
+883
+00:42:43,080 --> 00:42:46,460
+This is because we want to
+make our program faster.
+
+884
+00:42:46,460 --> 00:42:48,520
+The reason we do
+this kind of memory
+
+885
+00:42:48,520 --> 00:42:51,100
+has all because we want
+to make it faster.
+
+886
+00:42:51,100 --> 00:42:52,819
+So in order to understand this,
+
+887
+00:42:52,819 --> 00:42:55,880
+um, I'm going to
+give you an example.
+
+888
+00:42:55,880 --> 00:42:57,640
+So in this example,
+
+889
+00:42:57,640 --> 00:42:59,159
+what we want to do
+is basically we
+
+890
+00:42:59,159 --> 00:43:01,299
+do a window average, okay?
+
+891
+00:43:01,299 --> 00:43:03,000
+And I think implement
+
+892
+00:43:03,000 --> 00:43:05,259
+this Window average is
+very easy on CPU, right?
+
+893
+00:43:05,259 --> 00:43:08,439
+You basically looping
+over the input array,
+
+894
+00:43:08,439 --> 00:43:10,579
+and you take every three
+
+895
+00:43:10,579 --> 00:43:13,160
+adjacent elements and
+you take the average,
+
+896
+00:43:13,160 --> 00:43:15,649
+and then you write results
+back into the output array.
+
+897
+00:43:15,649 --> 00:43:19,079
+Okay. Then my question is,
+
+898
+00:43:19,079 --> 00:43:21,900
+because we are going
+to launch this to da.
+
+899
+00:43:21,900 --> 00:43:25,420
+So when we start writing the
+da kernel for this array,
+
+900
+00:43:25,420 --> 00:43:27,600
+the way we think need
+to be different.
+
+901
+00:43:27,600 --> 00:43:29,339
+We need to think
+about which part
+
+902
+00:43:29,339 --> 00:43:31,939
+of this computation
+can be paralyzed.
+
+903
+00:43:31,939 --> 00:43:34,979
+And then the high level
+idea is basically we map
+
+904
+00:43:34,979 --> 00:43:37,079
+those part that can
+be paralyzed into
+
+905
+00:43:37,079 --> 00:43:39,800
+different threads so they
+can ask you in parallel.
+
+906
+00:43:39,800 --> 00:43:44,019
+Then my question is what
+is the paralyzable part?
+
+907
+00:43:47,900 --> 00:43:49,979
+Yeah, exactly. So you
+
+908
+00:43:49,979 --> 00:43:53,059
+basically each thread to
+grab three elements, right?
+
+909
+00:43:53,059 --> 00:43:55,339
+Computer average and write back.
+
+910
+00:43:55,339 --> 00:43:59,380
+And each operation
+that is each operation
+
+911
+00:43:59,380 --> 00:44:00,759
+of computing the average of
+
+912
+00:44:00,759 --> 00:44:03,220
+three elements are independent
+from other operations,
+
+913
+00:44:03,220 --> 00:44:05,300
+so they can be
+perfectly paralyzed.
+
+914
+00:44:05,300 --> 00:44:07,759
+Okay? That's basically
+our high level idea
+
+915
+00:44:07,759 --> 00:44:10,579
+that the hot rate is
+square kernel, okay?
+
+916
+00:44:10,820 --> 00:44:14,380
+So like I said, every
+three adjacent elements,
+
+917
+00:44:14,380 --> 00:44:16,879
+um, uh, can be reduced
+as an output, right?
+
+918
+00:44:16,879 --> 00:44:19,260
+And this operation
+is independent.
+
+919
+00:44:19,260 --> 00:44:21,920
+So I can basically map
+them to different threads.
+
+920
+00:44:21,920 --> 00:44:24,119
+Okay? Um let's do that.
+
+921
+00:44:24,119 --> 00:44:25,999
+Okay, let's go
+through this example.
+
+922
+00:44:25,999 --> 00:44:28,819
+So what I do is I start
+from, like I said,
+
+923
+00:44:28,819 --> 00:44:31,439
+you need to its
+users responsibility
+
+924
+00:44:31,439 --> 00:44:33,399
+to separate the
+CPU and GPU code.
+
+925
+00:44:33,399 --> 00:44:35,439
+So I have to start
+with my CP code.
+
+926
+00:44:35,439 --> 00:44:38,280
+And in my CP code, my
+mission is trying to define
+
+927
+00:44:38,280 --> 00:44:40,979
+the block and thread ID
+
+928
+00:44:40,979 --> 00:44:43,859
+and their shape in order to map
+
+929
+00:44:43,859 --> 00:44:47,660
+their computon into these many
+many threads on Coda GPUs.
+
+930
+00:44:47,660 --> 00:44:51,919
+So in this one, I'm given
+array of one Kb one K, okay.
+
+931
+00:44:51,919 --> 00:44:53,669
+It's a pretty large array.
+
+932
+00:44:53,669 --> 00:44:55,679
+And what I do is I'm going to
+
+933
+00:44:55,679 --> 00:44:58,979
+allocate allocate enough
+memory on my device.
+
+934
+00:44:58,979 --> 00:45:00,880
+Here I call Coda Mock.
+
+935
+00:45:00,880 --> 00:45:04,820
+I'm going to allocate memory
+onto array called Dv input.
+
+936
+00:45:04,820 --> 00:45:08,300
+And the amount of memory
+I'm asking is basically,
+
+937
+00:45:08,300 --> 00:45:11,699
+it should be times the
+size of the float.
+
+938
+00:45:11,699 --> 00:45:12,879
+But here I ask one more.
+
+939
+00:45:12,879 --> 00:45:15,600
+Why? Because I want to handle
+the boundary condition.
+
+940
+00:45:15,600 --> 00:45:17,759
+I ask two more because
+
+941
+00:45:17,759 --> 00:45:19,359
+remember when I loop
+
+942
+00:45:19,359 --> 00:45:20,799
+that array, at the
+end of the element,
+
+943
+00:45:20,799 --> 00:45:23,160
+I how to read another
+two elements,
+
+944
+00:45:23,160 --> 00:45:25,199
+for the output, I don't
+know how to do that
+
+945
+00:45:25,199 --> 00:45:28,539
+because I'm going to just
+write the results back, right?
+
+946
+00:45:28,539 --> 00:45:31,740
+So I ask Koda to
+give me two arrays,
+
+947
+00:45:31,740 --> 00:45:34,240
+one for input and one
+for output, okay?
+
+948
+00:45:34,240 --> 00:45:37,599
+And then I basically
+launch my kernel, right?
+
+949
+00:45:37,599 --> 00:45:39,719
+In this kernel, what I do is,
+
+950
+00:45:39,719 --> 00:45:43,559
+I define some global variable
+that is stress per block,
+
+951
+00:45:43,559 --> 00:45:46,099
+and, because I define this,
+
+952
+00:45:46,099 --> 00:45:47,679
+I can infer my
+number of blocks and
+
+953
+00:45:47,679 --> 00:45:49,579
+it is undivided by
+stress per block.
+
+954
+00:45:49,579 --> 00:45:52,409
+Okay. And I give this to them.
+
+955
+00:45:52,409 --> 00:45:54,849
+Okay? This is the CPR
+part of the code.
+
+956
+00:45:54,849 --> 00:45:57,649
+I hope you still This
+one is easy, right?
+
+957
+00:45:57,649 --> 00:45:59,749
+And then the rest of
+
+958
+00:45:59,749 --> 00:46:02,289
+my job is basically I'm trying
+to implement this kernel.
+
+959
+00:46:02,289 --> 00:46:05,549
+Okay. And still
+remember hw idea,
+
+960
+00:46:05,549 --> 00:46:08,009
+I'm going to let
+each thread to fetch
+
+961
+00:46:08,009 --> 00:46:10,639
+elements and ever
+read without back.
+
+962
+00:46:10,639 --> 00:46:15,029
+Right. Okay. So the high level
+thing that I need to do in
+
+963
+00:46:15,029 --> 00:46:19,669
+this squad kernel is I first
+index that thread, right?
+
+964
+00:46:19,669 --> 00:46:21,410
+And I make sure that thread
+
+965
+00:46:21,410 --> 00:46:24,209
+knows which is three
+elements you need to fetch.
+
+966
+00:46:24,209 --> 00:46:25,889
+And I also make sure it
+
+967
+00:46:25,889 --> 00:46:27,829
+knows that where I
+write the results back,
+
+968
+00:46:27,829 --> 00:46:29,789
+and I need to avoid
+conflicts because I
+
+969
+00:46:29,789 --> 00:46:31,809
+cannot two threads read
+into the same element,
+
+970
+00:46:31,809 --> 00:46:35,909
+otherwise, the value will
+be undetermined, okay?
+
+971
+00:46:36,230 --> 00:46:38,289
+So this is this is the code.
+
+972
+00:46:38,289 --> 00:46:43,149
+I would like to take a
+look at maybe 10 seconds.
+
+973
+00:46:51,749 --> 00:46:54,609
+Okay, this one is simple, right?
+
+974
+00:46:54,609 --> 00:46:57,709
+So this is my signature
+of my Koda kernel.
+
+975
+00:46:57,709 --> 00:47:00,149
+I have to start with a
+global like I already said,
+
+976
+00:47:00,149 --> 00:47:03,330
+because it helps the compiler
+to identify this Coda.
+
+977
+00:47:03,330 --> 00:47:07,409
+And then I pass the arguments
+into this Quota kernel.
+
+978
+00:47:07,409 --> 00:47:11,669
+And what this line is doing?
+
+979
+00:47:12,719 --> 00:47:15,300
+It's basically trying to index,
+
+980
+00:47:15,300 --> 00:47:17,659
+trying to figure out the
+current thread index.
+
+981
+00:47:17,659 --> 00:47:19,519
+Okay? Remember, like I said,
+
+982
+00:47:19,519 --> 00:47:21,099
+the block ID, the block D
+
+983
+00:47:21,099 --> 00:47:22,940
+and thread ID, the
+global variables.
+
+984
+00:47:22,940 --> 00:47:25,799
+So basically, each thread
+remember their own value.
+
+985
+00:47:25,799 --> 00:47:27,979
+You just need to basically
+
+986
+00:47:27,979 --> 00:47:29,779
+code that value and
+it all return out.
+
+987
+00:47:29,779 --> 00:47:32,199
+Once I have index, what
+I do is basically,
+
+988
+00:47:32,199 --> 00:47:34,659
+I allocate a thread
+local variable.
+
+989
+00:47:34,659 --> 00:47:37,399
+Remember this variable
+is thread local,
+
+990
+00:47:37,399 --> 00:47:39,569
+only this current thread
+consist variable.
+
+991
+00:47:39,569 --> 00:47:43,219
+And I'm going to basically
+fetch the three elements,
+
+992
+00:47:43,219 --> 00:47:46,139
+and do my average.
+
+993
+00:47:46,139 --> 00:47:48,139
+Here, I have a loop which
+
+994
+00:47:48,139 --> 00:47:50,719
+basically perform
+three times, okay.
+
+995
+00:47:50,719 --> 00:47:52,740
+And because I have this index.
+
+996
+00:47:52,740 --> 00:47:55,999
+I use this index to index
+my input array, right?
+
+997
+00:47:55,999 --> 00:47:58,519
+And I read the index from
+
+998
+00:47:58,519 --> 00:48:01,939
+the current element to the
+future three elements, okay?
+
+999
+00:48:01,939 --> 00:48:04,459
+And I basically
+add them together,
+
+1000
+00:48:04,459 --> 00:48:07,360
+and then this one basically
+take the average,
+
+1001
+00:48:07,360 --> 00:48:12,149
+right, and write the result
+back into output. Okay.
+
+1002
+00:48:12,389 --> 00:48:14,889
+So when you launch this kernel,
+
+1003
+00:48:14,889 --> 00:48:16,989
+this kernel actually
+run on one thread.
+
+1004
+00:48:16,989 --> 00:48:18,709
+But because Kota is
+
+1005
+00:48:18,709 --> 00:48:20,590
+going to launch this kernel
+onto many many threads,
+
+1006
+00:48:20,590 --> 00:48:22,329
+so basically they
+run in parallel.
+
+1007
+00:48:22,329 --> 00:48:27,149
+Okay? Any question?
+
+1008
+00:48:27,590 --> 00:48:28,909
+Cool.
+
+1009
+00:48:28,909 --> 00:48:31,130
+This is the one simplest
+
+1010
+00:48:31,130 --> 00:48:32,409
+kernel we are going
+to do in this class.
+
+1011
+00:48:32,409 --> 00:48:35,349
+We are going to do much
+difficult ones in the future.
+
+1012
+00:48:35,349 --> 00:48:40,269
+Okay. Then I have two questions.
+
+1013
+00:48:40,269 --> 00:48:43,549
+How many thread in
+total here I launched?
+
+1014
+00:48:48,079 --> 00:48:56,999
+It's basically one k by one
+times one k. How many blocks?
+
+1015
+00:48:58,400 --> 00:49:00,879
+This variable
+basically gives you
+
+1016
+00:49:00,879 --> 00:49:06,019
+blocks it's basically
+eight K. Because here,
+
+1017
+00:49:06,019 --> 00:49:08,800
+threads per block,
+I define it as 128.
+
+1018
+00:49:08,800 --> 00:49:10,319
+What I do is basically use
+
+1019
+00:49:10,319 --> 00:49:12,939
+undivided by 128.
+I'm going to launch.
+
+1020
+00:49:12,939 --> 00:49:15,059
+Basically this kernel is
+going to be launched on
+
+1021
+00:49:15,059 --> 00:49:20,320
+eight k blocks where each
+block has 128 threads.
+
+1022
+00:49:20,320 --> 00:49:22,859
+Then you probably come
+up with a question.
+
+1023
+00:49:22,859 --> 00:49:27,679
+What GPU has eight
+k blocks? Right?
+
+1024
+00:49:27,679 --> 00:49:29,739
+Like I said, at
+the beginning, uh,
+
+1025
+00:49:29,739 --> 00:49:33,059
+today's H 100, they only
+have 44 exams, right.
+
+1026
+00:49:33,059 --> 00:49:35,319
+So welcome to that
+part later, okay.
+
+1027
+00:49:35,319 --> 00:49:38,619
+But in general, this
+code is correct.
+
+1028
+00:49:38,619 --> 00:49:40,099
+And in general,
+you want to launch
+
+1029
+00:49:40,099 --> 00:49:41,959
+more blocks than GPU has.
+
+1030
+00:49:41,959 --> 00:49:44,759
+And this is called
+oversubscription to GPUs.
+
+1031
+00:49:44,759 --> 00:49:46,279
+And when we write GPU code,
+
+1032
+00:49:46,279 --> 00:49:47,799
+we always want to
+
+1033
+00:49:47,799 --> 00:49:50,439
+oversubscribe because we
+want to keep all them busy.
+
+1034
+00:49:50,439 --> 00:49:53,659
+And we actually know that
+in GPU in Kota Bacon,
+
+1035
+00:49:53,659 --> 00:49:55,340
+there's a scheduler that
+is trying to schedule
+
+1036
+00:49:55,340 --> 00:49:58,719
+a job one by one until
+it finishes, okay?
+
+1037
+00:50:00,770 --> 00:50:04,050
+So yeah, we finish
+our first kernel.
+
+1038
+00:50:04,050 --> 00:50:06,129
+Okay. So identify a problem.
+
+1039
+00:50:06,129 --> 00:50:08,209
+You guys know there's a
+problem in this kernel.
+
+1040
+00:50:08,209 --> 00:50:09,589
+Otherwise, I'm not going
+to talk about this.
+
+1041
+00:50:09,589 --> 00:50:11,890
+It's not going to
+be that simple.
+
+1042
+00:50:13,130 --> 00:50:17,249
+Sorry? Yes, exactly.
+
+1043
+00:50:17,249 --> 00:50:18,529
+So if you look at this,
+
+1044
+00:50:18,529 --> 00:50:22,049
+so each thread is going to
+read three elements, right?
+
+1045
+00:50:22,049 --> 00:50:23,869
+But for adjacent threads, yeah,
+
+1046
+00:50:23,869 --> 00:50:25,329
+it's going to read
+adjacent elements
+
+1047
+00:50:25,329 --> 00:50:26,729
+many many times, right?
+
+1048
+00:50:26,729 --> 00:50:28,650
+So in this program,
+
+1049
+00:50:28,650 --> 00:50:30,849
+what do we do is basically
+for each thread,
+
+1050
+00:50:30,849 --> 00:50:34,769
+we read three elements
+and we have that thread.
+
+1051
+00:50:34,769 --> 00:50:38,929
+So we read three times
+and times. Right?
+
+1052
+00:50:38,929 --> 00:50:41,929
+But the hall intuition
+tells me that we don't how
+
+1053
+00:50:41,929 --> 00:50:45,570
+to B when we calculate
+this chunk of the results,
+
+1054
+00:50:45,570 --> 00:50:48,429
+right, we actually don't
+how to read for example,
+
+1055
+00:50:48,429 --> 00:50:49,909
+this is one, two,
+three, four, five,
+
+1056
+00:50:49,909 --> 00:50:52,049
+we don't how to read 15 times.
+
+1057
+00:50:52,049 --> 00:50:55,389
+We just need to read this
+part of the content.
+
+1058
+00:50:55,389 --> 00:50:57,969
+This is one, two, three,
+four, seven times.
+
+1059
+00:50:57,969 --> 00:50:59,729
+Okay. So in the previous kernel,
+
+1060
+00:50:59,729 --> 00:51:02,090
+each t has to repeatedly
+read the three elements.
+
+1061
+00:51:02,090 --> 00:51:04,629
+Okay but ideally,
+
+1062
+00:51:04,629 --> 00:51:05,949
+we should only read seven times
+
+1063
+00:51:05,949 --> 00:51:07,170
+to calculate the five results.
+
+1064
+00:51:07,170 --> 00:51:09,369
+Okay? So how to do this.
+
+1065
+00:51:10,409 --> 00:51:14,869
+So this is basically why Coda
+has shared memory, right?
+
+1066
+00:51:14,869 --> 00:51:16,550
+Suppose we have
+some shared memory
+
+1067
+00:51:16,550 --> 00:51:20,629
+that all the threads in
+one block or access.
+
+1068
+00:51:20,629 --> 00:51:21,990
+What we can do is basically
+
+1069
+00:51:21,990 --> 00:51:24,249
+we utilize this kind of
+memory hierarchy, right.
+
+1070
+00:51:24,249 --> 00:51:27,249
+We first read the seven elements
+into the shared memory,
+
+1071
+00:51:27,249 --> 00:51:29,530
+and then we launch this code
+
+1072
+00:51:29,530 --> 00:51:31,569
+into all those threads
+in another block.
+
+1073
+00:51:31,569 --> 00:51:33,169
+And because those
+threads in our block
+
+1074
+00:51:33,169 --> 00:51:35,689
+can actually access
+shared memory,
+
+1075
+00:51:35,689 --> 00:51:37,650
+they don't have to read
+directly from HBM.
+
+1076
+00:51:37,650 --> 00:51:39,469
+They just basically
+fetch contents
+
+1077
+00:51:39,469 --> 00:51:42,149
+from the intermediate layer,
+the shared memory, right?
+
+1078
+00:51:42,149 --> 00:51:46,270
+So we only need to do
+seven times, okay?
+
+1079
+00:51:46,270 --> 00:51:49,709
+With that highlintuion,
+let's try to dive deeper,
+
+1080
+00:51:49,709 --> 00:51:51,829
+we are going to improve
+this kernel a little bit.
+
+1081
+00:51:51,829 --> 00:51:53,589
+We try to reduce
+the lumber rates.
+
+1082
+00:51:53,589 --> 00:51:57,510
+Okay. And here's the example.
+
+1083
+00:51:57,510 --> 00:51:59,389
+I'm going to let you
+look at this kernel
+
+1084
+00:51:59,389 --> 00:52:02,289
+for maybe 30 seconds.
+
+1085
+00:52:20,409 --> 00:52:21,569
+Okay.
+
+1086
+00:52:21,569 --> 00:52:22,969
+Yeah, let's try
+to go through it.
+
+1087
+00:52:22,969 --> 00:52:24,389
+Okay? So here,
+
+1088
+00:52:24,389 --> 00:52:26,629
+what we do is basically we
+add this chunk of code.
+
+1089
+00:52:26,629 --> 00:52:28,969
+For the rest is
+roughly the same.
+
+1090
+00:52:28,969 --> 00:52:31,669
+So what this chunk of code
+is doing is basically first.
+
+1091
+00:52:31,669 --> 00:52:36,389
+I try to declare a memory
+space which I call support,
+
+1092
+00:52:36,389 --> 00:52:40,029
+and this support has a size
+of threat per block plus two.
+
+1093
+00:52:40,029 --> 00:52:41,389
+The reason it plus two is
+
+1094
+00:52:41,389 --> 00:52:44,769
+because I try to handle
+the edge condition, okay?
+
+1095
+00:52:44,769 --> 00:52:46,689
+One weird thing you find
+
+1096
+00:52:46,689 --> 00:52:48,269
+is basically I have
+another prefix,
+
+1097
+00:52:48,269 --> 00:52:51,649
+which is called shared with
+two double underscores.
+
+1098
+00:52:51,649 --> 00:52:53,550
+This is how you
+declare those shared
+
+1099
+00:52:53,550 --> 00:52:57,249
+memory in Quota kernel,
+
+1100
+00:52:57,249 --> 00:52:59,329
+if you pass this
+to Quota compiler,
+
+1101
+00:52:59,329 --> 00:53:00,989
+they know that you are
+asking memory from
+
+1102
+00:53:00,989 --> 00:53:04,229
+the shared memory in one
+block across threads.
+
+1103
+00:53:04,229 --> 00:53:05,789
+I ask for this memory,
+
+1104
+00:53:05,789 --> 00:53:10,869
+and then um, I'm
+going to, um, read.
+
+1105
+00:53:10,869 --> 00:53:12,829
+I'm going to read the
+input to the part of
+
+1106
+00:53:12,829 --> 00:53:15,389
+the support and write the
+results back to the support.
+
+1107
+00:53:15,389 --> 00:53:17,049
+Remember, this index is
+
+1108
+00:53:17,049 --> 00:53:19,714
+basically already
+calculated here, okay?
+
+1109
+00:53:19,714 --> 00:53:21,880
+And because I need
+two more elements,
+
+1110
+00:53:21,880 --> 00:53:24,059
+so I'm going to ask
+
+1111
+00:53:24,059 --> 00:53:26,719
+the first two threads to
+do a little bit more job.
+
+1112
+00:53:26,719 --> 00:53:30,399
+Okay? This is not good,
+by the way, right?
+
+1113
+00:53:30,399 --> 00:53:32,979
+Remember, because this is the
+I, this is a control flow,
+
+1114
+00:53:32,979 --> 00:53:34,159
+which means that when the first
+
+1115
+00:53:34,159 --> 00:53:35,720
+two threads are reading
+into two elements,
+
+1116
+00:53:35,720 --> 00:53:37,559
+all the other threads
+are basically waiting.
+
+1117
+00:53:37,559 --> 00:53:40,520
+I wit a little bit. I
+produce a little bit bubble.
+
+1118
+00:53:40,520 --> 00:53:43,279
+But that's fine.
+Once I have this,
+
+1119
+00:53:43,279 --> 00:53:46,279
+I basically add another line
+which is called synchres.
+
+1120
+00:53:46,279 --> 00:53:47,959
+This sync rise is quite
+
+1121
+00:53:47,959 --> 00:53:50,419
+different from the Koda
+synchronize I introduced.
+
+1122
+00:53:50,419 --> 00:53:53,739
+This syncs basically think
+all the threads in one block.
+
+1123
+00:53:53,739 --> 00:53:56,029
+It tells all threats to wait.
+
+1124
+00:53:56,029 --> 00:54:01,519
+Until all of you have finished
+any code above this line.
+
+1125
+00:54:01,519 --> 00:54:03,079
+And at this point,
+
+1126
+00:54:03,079 --> 00:54:04,539
+I think the rest and then what
+
+1127
+00:54:04,539 --> 00:54:06,439
+I do is basically
+I do the sum job.
+
+1128
+00:54:06,439 --> 00:54:07,979
+Um, I think for this loop,
+
+1129
+00:54:07,979 --> 00:54:10,119
+the only difference is
+instead of directly reading
+
+1130
+00:54:10,119 --> 00:54:12,600
+from this input
+which rests on GBM,
+
+1131
+00:54:12,600 --> 00:54:15,519
+what I do is basically I read
+the results from support,
+
+1132
+00:54:15,519 --> 00:54:18,399
+which is the shared
+memory that block.
+
+1133
+00:54:18,399 --> 00:54:22,679
+Okay? So if you compare this
+code to previous kernel,
+
+1134
+00:54:22,679 --> 00:54:24,219
+what I do is basically, uh,
+
+1135
+00:54:24,219 --> 00:54:27,409
+I save a lot of as in
+the previous block,
+
+1136
+00:54:27,409 --> 00:54:29,219
+in the previous
+version of the kernel,
+
+1137
+00:54:29,219 --> 00:54:32,719
+I basically do three
+times 128 per block,
+
+1138
+00:54:32,719 --> 00:54:35,839
+uh, because each
+block has 128 res.
+
+1139
+00:54:35,839 --> 00:54:39,139
+But in this kernel, I
+only read 30 times 130,
+
+1140
+00:54:39,139 --> 00:54:41,059
+which is almost three times
+
+1141
+00:54:41,059 --> 00:54:43,299
+smaller than the
+previous kernel.
+
+1142
+00:54:43,299 --> 00:54:44,519
+And this kernel is much better.
+
+1143
+00:54:44,519 --> 00:54:45,740
+Yeah, that's why I like Hua
+
+1144
+00:54:45,740 --> 00:54:47,139
+needs to introduce
+a shared memory.
+
+1145
+00:54:47,139 --> 00:54:51,829
+Okay? And to summarize
+a little bit, yeah,
+
+1146
+00:54:51,829 --> 00:54:54,129
+there are two kind
+of synchronize
+
+1147
+00:54:54,129 --> 00:54:57,009
+sync threads and in
+synchro threads,
+
+1148
+00:54:57,009 --> 00:54:59,929
+uh when we call that, it
+means that we need to wait
+
+1149
+00:54:59,929 --> 00:55:03,309
+for all threads in a block
+to arrive at that point.
+
+1150
+00:55:03,309 --> 00:55:05,789
+Another thing synchronized
+could not synchronize,
+
+1151
+00:55:05,789 --> 00:55:08,809
+as we want to sync the CPU
+code and the CPU code.
+
+1152
+00:55:08,809 --> 00:55:13,169
+Okay? And that basically
+answer this question, right?
+
+1153
+00:55:13,169 --> 00:55:15,549
+So if you don't s here,
+
+1154
+00:55:15,549 --> 00:55:17,489
+you CP code to continue
+
+1155
+00:55:17,489 --> 00:55:19,349
+to execute without
+waiting for results,
+
+1156
+00:55:19,349 --> 00:55:22,129
+then you shouldn't actually
+rely on the return results of
+
+1157
+00:55:22,129 --> 00:55:23,649
+this uh kernel because
+
+1158
+00:55:23,649 --> 00:55:25,609
+you are not sure
+when it will finish,
+
+1159
+00:55:25,609 --> 00:55:28,449
+your program is going to
+have undetermined behavior.
+
+1160
+00:55:28,449 --> 00:55:34,189
+Okay. Okay. That basically
+wrapped up our first kernel.
+
+1161
+00:55:34,189 --> 00:55:40,829
+Any question? Yeah.
+Why we have what?
+
+1162
+00:55:42,150 --> 00:55:48,029
+Which block? You mean this one?
+
+1163
+00:55:50,949 --> 00:55:54,029
+What is the question,
+by the way.
+
+1164
+00:56:01,880 --> 00:56:05,440
+You mean, why we
+allocate this support?
+
+1165
+00:56:05,440 --> 00:56:12,340
+Y y plus two in this kernel,
+
+1166
+00:56:12,340 --> 00:56:14,599
+we are going to launch
+it into one block.
+
+1167
+00:56:14,599 --> 00:56:17,880
+That block only
+have 128 threads.
+
+1168
+00:56:17,880 --> 00:56:22,120
+But we need to handle
+boundary condition.
+
+1169
+00:56:22,600 --> 00:56:26,119
+Remember, we need to scan the
+array from left to right,
+
+1170
+00:56:26,119 --> 00:56:27,419
+and we need to make
+sure each thread
+
+1171
+00:56:27,419 --> 00:56:30,520
+exactly has access to
+the same elements,
+
+1172
+00:56:30,520 --> 00:56:33,560
+same shape of inputs and
+produce the same output.
+
+1173
+00:56:33,560 --> 00:56:35,600
+We have to handle
+boundary condition.
+
+1174
+00:56:35,600 --> 00:56:44,440
+Okay. Cool. Okay. That
+wrap up our first kernel.
+
+1175
+00:56:44,440 --> 00:56:47,239
+In the next lecture,
+we are going to do met
+
+1176
+00:56:47,239 --> 00:56:50,539
+more Mt Mo is going to be
+more complicated than this,
+
+1177
+00:56:50,539 --> 00:56:52,900
+because we have
+three layer loops
+
+1178
+00:56:52,900 --> 00:56:55,000
+and you can already predict
+
+1179
+00:56:55,000 --> 00:56:56,700
+that we are going to do telling.
+
+1180
+00:56:56,700 --> 00:56:58,820
+We have to do telling on DPs.
+
+1181
+00:56:58,820 --> 00:57:00,920
+But before that, I
+want to introduce
+
+1182
+00:57:00,920 --> 00:57:04,159
+a bit more on the
+fundamentals of Coda, okay.
+
+1183
+00:57:04,560 --> 00:57:07,220
+So when you launch this kernel,
+
+1184
+00:57:07,220 --> 00:57:10,180
+um, uh, to dA to media devices,
+
+1185
+00:57:10,180 --> 00:57:13,519
+what happen any C
+plus plus code,
+
+1186
+00:57:13,519 --> 00:57:15,639
+so what do you do is you
+need to comple this code.
+
+1187
+00:57:15,639 --> 00:57:17,399
+Okay. And after you
+
+1188
+00:57:17,399 --> 00:57:19,819
+put you give this
+code to compiler, uh,
+
+1189
+00:57:19,819 --> 00:57:21,060
+the compiler is going to convert
+
+1190
+00:57:21,060 --> 00:57:22,760
+this code into a very
+low level instructions,
+
+1191
+00:57:22,760 --> 00:57:24,500
+right, the processor
+can understand.
+
+1192
+00:57:24,500 --> 00:57:26,719
+So the compilers basically for
+
+1193
+00:57:26,719 --> 00:57:30,459
+dA program roughly uh can
+be summarized as this.
+
+1194
+00:57:30,459 --> 00:57:34,160
+So it has some program
+texts instructions, okay?
+
+1195
+00:57:34,160 --> 00:57:37,580
+And it also has information
+about the required resources.
+
+1196
+00:57:37,580 --> 00:57:40,219
+Okay? For example,
+in this program, uh,
+
+1197
+00:57:40,219 --> 00:57:41,720
+because you explicitly define
+
+1198
+00:57:41,720 --> 00:57:44,479
+the number of threads
+and blocks you ask for,
+
+1199
+00:57:44,920 --> 00:57:47,279
+the compiling
+instruction is going to
+
+1200
+00:57:47,279 --> 00:57:49,240
+contain the resource
+requirement.
+
+1201
+00:57:49,240 --> 00:57:51,720
+So in this program, the
+resource requirement
+
+1202
+00:57:51,720 --> 00:57:53,939
+is I need to I'm the user.
+
+1203
+00:57:53,939 --> 00:57:57,759
+I'm asking for h 128
+threads per block.
+
+1204
+00:57:57,759 --> 00:58:01,339
+I'm asking for eight bytes
+of local data per thread.
+
+1205
+00:58:01,339 --> 00:58:03,259
+This is the local
+data allocated here,
+
+1206
+00:58:03,259 --> 00:58:04,279
+this kind of thing.
+
+1207
+00:58:04,279 --> 00:58:06,559
+I'm allocating this.
+I need this part of
+
+1208
+00:58:06,559 --> 00:58:09,605
+memory to see the
+temporary variables.
+
+1209
+00:58:09,605 --> 00:58:15,610
+I'm also asking for 31
+30 floating point spaces
+
+1210
+00:58:15,610 --> 00:58:18,729
+of shared space per
+red block, right?
+
+1211
+00:58:18,729 --> 00:58:21,609
+This is the resource
+requirement is kernel ask for.
+
+1212
+00:58:21,609 --> 00:58:24,290
+Okay? Once you have this kind
+of resource requirement,
+
+1213
+00:58:24,290 --> 00:58:25,869
+what do you do is basically you
+
+1214
+00:58:25,869 --> 00:58:28,690
+submit this instruction to CODA
+
+1215
+00:58:28,690 --> 00:58:31,290
+to GPU and GPU
+actually has built
+
+1216
+00:58:31,290 --> 00:58:34,069
+in scheduler to schedule
+this kind of jobs.
+
+1217
+00:58:34,069 --> 00:58:38,180
+Okay? So let's see how
+the scheduler works.
+
+1218
+00:58:38,180 --> 00:58:41,329
+So the way that
+scheduler works is
+
+1219
+00:58:41,329 --> 00:58:43,749
+basically they try
+to accommodate uh,
+
+1220
+00:58:43,749 --> 00:58:46,370
+different requirements
+of blocks,
+
+1221
+00:58:46,370 --> 00:58:48,690
+threads or whatever kind
+of memory requirement
+
+1222
+00:58:48,690 --> 00:58:51,450
+that user could come up
+with in their Ka program.
+
+1223
+00:58:51,450 --> 00:58:53,629
+Okay? Uh, the user could ask for
+
+1224
+00:58:53,629 --> 00:58:55,869
+a static but large number
+of blocks that is,
+
+1225
+00:58:55,869 --> 00:58:57,209
+for example, greater than
+
+1226
+00:58:57,209 --> 00:58:59,510
+the total blocks
+of the entire GPU.
+
+1227
+00:58:59,510 --> 00:59:01,969
+And also GPU,
+different GPUs have
+
+1228
+00:59:01,969 --> 00:59:04,690
+varying number of SMS
+or number of threads.
+
+1229
+00:59:04,690 --> 00:59:07,050
+So but Koda is a
+universal language.
+
+1230
+00:59:07,050 --> 00:59:09,329
+It basically schedule all
+these kind of things.
+
+1231
+00:59:09,329 --> 00:59:11,970
+Okay? So the way this
+schedule is basically,
+
+1232
+00:59:11,970 --> 00:59:14,669
+uh it has a crestin that is, uh,
+
+1233
+00:59:14,669 --> 00:59:17,869
+the thread blocks can be
+executed in any order.
+
+1234
+00:59:17,869 --> 00:59:21,109
+Right. This is a very
+reasonable assumption because
+
+1235
+00:59:21,109 --> 00:59:24,709
+your code is supposed
+to be AMD, right?
+
+1236
+00:59:24,709 --> 00:59:27,770
+Uh, because each thread basically
+asks you independently.
+
+1237
+00:59:27,770 --> 00:59:30,970
+So this assumption
+is quite reasonable.
+
+1238
+00:59:30,970 --> 00:59:33,149
+Okay? And then what the TPO does
+
+1239
+00:59:33,149 --> 00:59:35,910
+is going to map the
+thread blocks to cross,
+
+1240
+00:59:35,910 --> 00:59:38,590
+uh using a dynamic
+scaling policy
+
+1241
+00:59:38,590 --> 00:59:41,810
+that were trying to fulfill
+your resource requirement.
+
+1242
+00:59:41,810 --> 00:59:44,409
+Okay? So basically
+let's see this example.
+
+1243
+00:59:44,409 --> 00:59:45,989
+This is our Window sum, right?
+
+1244
+00:59:45,989 --> 00:59:48,530
+C we D equivalently, okay?
+
+1245
+00:59:48,530 --> 00:59:53,230
+And we try to schedule the
+kernel to many many exams.
+
+1246
+00:59:53,230 --> 00:59:55,190
+Okay. What we do is basically,
+
+1247
+00:59:55,190 --> 00:59:58,889
+um, we have this code here,
+
+1248
+00:59:58,889 --> 01:00:00,230
+and we have a GPU.
+
+1249
+01:00:00,230 --> 01:00:02,950
+Suppose we have a GPU
+with only two SMs.
+
+1250
+01:00:02,950 --> 01:00:05,689
+Okay? And the specs
+are given below.
+
+1251
+01:00:05,689 --> 01:00:07,369
+So if you uh,
+
+1252
+01:00:07,369 --> 01:00:09,109
+slightly read this spec,
+
+1253
+01:00:09,109 --> 01:00:11,230
+you can see, we have two SMs.
+
+1254
+01:00:11,230 --> 01:00:13,730
+We have a few
+stress in this stem
+
+1255
+01:00:13,730 --> 01:00:19,209
+this SM has shared memory
+space equal to 1.5 kilobytes.
+
+1256
+01:00:19,209 --> 01:00:20,624
+Okay, very small.
+
+1257
+01:00:20,624 --> 01:00:24,579
+Okay, so how will Koda
+schedule this job?
+
+1258
+01:00:24,579 --> 01:00:27,779
+So let's go through
+them. So first,
+
+1259
+01:00:27,779 --> 01:00:29,980
+the host sends Koda
+kernel instruction
+
+1260
+01:00:29,980 --> 01:00:32,079
+to TPU devices. Okay?
+
+1261
+01:00:32,079 --> 01:00:36,239
+And then scheduler basically
+maps the block zero to
+
+1262
+01:00:36,239 --> 01:00:41,000
+the physical SM zero to the
+first streaming processor.
+
+1263
+01:00:41,000 --> 01:00:43,500
+And it will reserve
+
+1264
+01:00:43,500 --> 01:00:47,180
+a few resources from this
+streaming processor.
+
+1265
+01:00:47,180 --> 01:00:49,339
+So how many resources reserve?
+
+1266
+01:00:49,339 --> 01:00:52,800
+Because as I said, the
+previous compiled instruction
+
+1267
+01:00:52,800 --> 01:00:55,180
+said I need 128 threads,
+
+1268
+01:00:55,180 --> 01:00:58,149
+and I also need roughly uh,
+
+1269
+01:00:58,149 --> 01:01:01,249
+420 bytes of shared
+memory, right.
+
+1270
+01:01:01,249 --> 01:01:03,769
+So it will basically
+split these per
+
+1271
+01:01:03,769 --> 01:01:06,949
+resources for this
+block of jobs.
+
+1272
+01:01:06,949 --> 01:01:09,929
+And then because you
+are asking for many,
+
+1273
+01:01:09,929 --> 01:01:10,990
+many blocks, right, remember,
+
+1274
+01:01:10,990 --> 01:01:13,470
+you are asking for
+eight key blocks.
+
+1275
+01:01:13,470 --> 01:01:15,929
+So but I only have two
+blocks. What I do.
+
+1276
+01:01:15,929 --> 01:01:17,349
+What I do is
+basically, I'm going
+
+1277
+01:01:17,349 --> 01:01:18,549
+to schedule the
+one by one, okay?
+
+1278
+01:01:18,549 --> 01:01:19,989
+I'm going to launch
+the next block to
+
+1279
+01:01:19,989 --> 01:01:21,929
+the second exam, okay?
+
+1280
+01:01:21,929 --> 01:01:24,769
+And then I launch the third
+block to the first AM,
+
+1281
+01:01:24,769 --> 01:01:26,549
+right, because I
+still have space.
+
+1282
+01:01:26,549 --> 01:01:28,069
+And then I launched
+my first one.
+
+1283
+01:01:28,069 --> 01:01:29,849
+Okay. Then at this point,
+
+1284
+01:01:29,849 --> 01:01:31,889
+I find that, um,
+
+1285
+01:01:31,889 --> 01:01:35,689
+you can see the memory
+here is already full,
+
+1286
+01:01:35,689 --> 01:01:41,969
+because each block of job is
+going to ask for, um, 430.
+
+1287
+01:01:41,969 --> 01:01:46,130
+But my total SM only has a
+shared memory of 1.5 kilobyt.
+
+1288
+01:01:46,130 --> 01:01:49,149
+So when I try to
+schedule my fifth job,
+
+1289
+01:01:49,149 --> 01:01:50,849
+I find I don't have space.
+
+1290
+01:01:50,849 --> 01:01:53,390
+This is basically called
+oversubscription.
+
+1291
+01:01:53,390 --> 01:01:54,889
+That means that Koda is going to
+
+1292
+01:01:54,889 --> 01:01:56,790
+put the rest of blocks in queue.
+
+1293
+01:01:56,790 --> 01:01:58,669
+It's going to wait
+for this block to
+
+1294
+01:01:58,669 --> 01:02:01,149
+finish and continue
+launch and launch launch.
+
+1295
+01:02:01,149 --> 01:02:02,569
+In this way, you can keep the
+
+1296
+01:02:02,569 --> 01:02:04,269
+GPU utilization always high.
+
+1297
+01:02:04,269 --> 01:02:06,389
+Okay? This is how
+Koda schedule works,
+
+1298
+01:02:06,389 --> 01:02:11,509
+okay? Any question? Yeah.
+
+1299
+01:02:12,520 --> 01:02:18,079
+Sorry? It's basically
+in media driver.
+
+1300
+01:02:18,079 --> 01:02:21,679
+Yeah. Not in CPU, yeah, yeah.
+
+1301
+01:02:21,679 --> 01:02:26,040
+Okay. Yeah, this is
+what I just explained.
+
+1302
+01:02:26,040 --> 01:02:28,379
+So basically, you have to
+queue all the block jobs
+
+1303
+01:02:28,379 --> 01:02:29,820
+and launch it one
+by one depending
+
+1304
+01:02:29,820 --> 01:02:31,020
+on the available resources.
+
+1305
+01:02:31,020 --> 01:02:32,840
+And you can see this
+is pretty advanced
+
+1306
+01:02:32,840 --> 01:02:36,300
+because if you look at
+today's cluster scheduler,
+
+1307
+01:02:36,300 --> 01:02:38,440
+for example, Copernint slurm,
+
+1308
+01:02:38,440 --> 01:02:40,439
+and they basically use
+very similar things.
+
+1309
+01:02:40,439 --> 01:02:46,020
+Yeah. Okay, that's pretty
+
+1310
+01:02:46,020 --> 01:02:49,479
+much wrap up all the deep
+technical contents of today.
+
+1311
+01:02:49,479 --> 01:02:53,140
+Then we have some other
+things to talk about, okay?
+
+1312
+01:02:53,140 --> 01:02:57,579
+So let's look at how media
+evolves your GPOs, okay?
+
+1313
+01:02:57,579 --> 01:03:00,459
+So this is a very
+famous GPU GTX line 80.
+
+1314
+01:03:00,459 --> 01:03:03,080
+I think many of you
+probably purchase
+
+1315
+01:03:03,080 --> 01:03:06,899
+this for your GGiveF
+playing games, okay.
+
+1316
+01:03:06,899 --> 01:03:09,519
+And this can also be
+used for deep learning.
+
+1317
+01:03:09,519 --> 01:03:14,260
+Um, because now you understand
+SMs and the stress,
+
+1318
+01:03:14,260 --> 01:03:16,879
+we can look at the specs,
+right at lower level.
+
+1319
+01:03:16,879 --> 01:03:21,560
+So for this GPU you
+roughly only have 16 SMs.
+
+1320
+01:03:21,560 --> 01:03:23,960
+Okay. We very small number
+because if you remember,
+
+1321
+01:03:23,960 --> 01:03:26,599
+H 100 is 144, right? Okay.
+
+1322
+01:03:26,599 --> 01:03:28,340
+And for shared memory,
+
+1323
+01:03:28,340 --> 01:03:32,159
+that is how many memory
+threads in your block here,
+
+1324
+01:03:32,159 --> 01:03:37,359
+it only has 96
+kilobytes very small,
+
+1325
+01:03:37,360 --> 01:03:43,240
+ESM can offer you
+roughly two k threads,
+
+1326
+01:03:44,040 --> 01:03:48,799
+ESM physically have
+128 quarter cross.
+
+1327
+01:03:48,799 --> 01:03:50,979
+That is a spec, but here
+you spawn a problem.
+
+1328
+01:03:50,979 --> 01:03:52,260
+So why the number of cross
+
+1329
+01:03:52,260 --> 01:03:53,980
+is not equal to
+number of threats?
+
+1330
+01:03:53,980 --> 01:03:55,579
+Because I said each core,
+
+1331
+01:03:55,579 --> 01:03:57,929
+each thread is going to
+ask you on one core.
+
+1332
+01:03:57,929 --> 01:04:00,379
+Okay, this is a part
+that I didn't cover,
+
+1333
+01:04:00,379 --> 01:04:02,160
+so please check
+out the readings.
+
+1334
+01:04:02,160 --> 01:04:06,939
+In Koda, you can create more
+threads than physical core.
+
+1335
+01:04:07,260 --> 01:04:10,979
+There's one concept rap
+
+1336
+01:04:10,979 --> 01:04:13,059
+and you have to
+understand the part.
+
+1337
+01:04:13,059 --> 01:04:16,100
+But that is too deep
+because normally,
+
+1338
+01:04:16,100 --> 01:04:17,619
+if you don't use
+the concept of rap,
+
+1339
+01:04:17,619 --> 01:04:19,659
+you can still write pretty
+efficient quota code.
+
+1340
+01:04:19,659 --> 01:04:23,359
+But if you want to go to the
+level of flash in three,
+
+1341
+01:04:23,359 --> 01:04:26,619
+you have to
+understand rap. Cool.
+
+1342
+01:04:26,619 --> 01:04:28,340
+That is a little bit further,
+
+1343
+01:04:28,340 --> 01:04:31,444
+but try to figure this
+out by yourself, okay.
+
+1344
+01:04:31,444 --> 01:04:37,309
+And then let's compare this
+gaming GPO with H 100, right?
+
+1345
+01:04:37,309 --> 01:04:39,610
+What the media
+does is basically,
+
+1346
+01:04:39,610 --> 01:04:41,850
+you can see this thresher
+block is unchanged,
+
+1347
+01:04:41,850 --> 01:04:47,019
+still two k, quota cross
+changed, still 128.
+
+1348
+01:04:47,019 --> 01:04:51,609
+But shared memory changes a lot.
+
+1349
+01:04:51,609 --> 01:04:54,009
+For example, when they evolve
+
+1350
+01:04:54,009 --> 01:04:58,310
+this from the original
+GTX to A 100,
+
+1351
+01:04:58,310 --> 01:05:00,630
+we almost double
+the shared memory.
+
+1352
+01:05:00,630 --> 01:05:03,790
+But when we evolved
+from E 100 to H 100,
+
+1353
+01:05:03,790 --> 01:05:09,169
+we almost increased
+by 1.5, not double.
+
+1354
+01:05:09,169 --> 01:05:13,690
+We keep increasing the
+the shared memory.
+
+1355
+01:05:13,690 --> 01:05:19,110
+There's another name for shared
+memory, it's called SRAM.
+
+1356
+01:05:19,110 --> 01:05:22,329
+If you attend the last
+lecture, you probably know,
+
+1357
+01:05:22,329 --> 01:05:25,010
+SRAM is a very
+critical resources
+
+1358
+01:05:25,010 --> 01:05:28,810
+for for language
+model inference.
+
+1359
+01:05:28,810 --> 01:05:33,150
+That's why media, when they
+evolve from 100 to hundred,
+
+1360
+01:05:33,150 --> 01:05:34,770
+they try to increase SRAM.
+
+1361
+01:05:34,770 --> 01:05:36,409
+We are going to cover why
+
+1362
+01:05:36,409 --> 01:05:39,509
+this SRAM is so critical for
+language model infracelaor.
+
+1363
+01:05:39,509 --> 01:05:41,790
+But from this trend,
+you can see media
+
+1364
+01:05:41,790 --> 01:05:44,150
+is trying to increase
+the SRAM memory,
+
+1365
+01:05:44,150 --> 01:05:46,710
+also the SM apparently greatly
+
+1366
+01:05:46,710 --> 01:05:49,329
+increased, almost ten times.
+
+1367
+01:05:49,329 --> 01:05:51,769
+And as a result, the
+flops increase a lot.
+
+1368
+01:05:51,769 --> 01:05:53,689
+And these flops many comes from
+
+1369
+01:05:53,689 --> 01:05:57,269
+changing from normal Quota
+cre into tenser core.
+
+1370
+01:05:57,269 --> 01:05:59,009
+Still remember
+tender core tender
+
+1371
+01:05:59,009 --> 01:06:00,370
+Core is very good at Mtmo,
+
+1372
+01:06:00,370 --> 01:06:02,540
+and it can only do meto.
+
+1373
+01:06:02,540 --> 01:06:05,589
+Okay, so why energy is so fast?
+
+1374
+01:06:05,589 --> 01:06:07,630
+I will leave this to you.
+Okay, I have readings,
+
+1375
+01:06:07,630 --> 01:06:09,410
+and if you do readings,
+you will understand.
+
+1376
+01:06:09,410 --> 01:06:12,639
+Okay. Then let's try
+
+1377
+01:06:12,639 --> 01:06:14,580
+to echo what I said
+in the last lecture.
+
+1378
+01:06:14,580 --> 01:06:16,079
+Remember, in last lecture,
+
+1379
+01:06:16,079 --> 01:06:18,319
+I talk about accelerator
+market, right?
+
+1380
+01:06:18,319 --> 01:06:19,879
+So there's a company called
+
+1381
+01:06:19,879 --> 01:06:21,899
+Grock that company
+is crazy because
+
+1382
+01:06:21,899 --> 01:06:24,419
+their language model
+inference speed
+
+1383
+01:06:24,419 --> 01:06:27,040
+is basically ten or
+20 times medius.
+
+1384
+01:06:27,040 --> 01:06:29,839
+And I basically tell you
+that they do some kind
+
+1385
+01:06:29,839 --> 01:06:33,040
+of adjustment on the
+accelerator configuration.
+
+1386
+01:06:33,040 --> 01:06:35,260
+So what is that adjustment?
+Now you understand.
+
+1387
+01:06:35,260 --> 01:06:40,059
+It's basically like they have
+23 megabytes of as well.
+
+1388
+01:06:40,059 --> 01:06:42,819
+So for each streaming
+multiprocessor,
+
+1389
+01:06:42,819 --> 01:06:45,799
+they almost 100 times
+
+1390
+01:06:45,799 --> 01:06:50,780
+the uh 1,000 times of the
+shared memory, compared to GPU.
+
+1391
+01:06:50,780 --> 01:06:52,779
+And one weird thing
+
+1392
+01:06:52,779 --> 01:06:54,740
+about this chip is that
+they don't have HBM.
+
+1393
+01:06:54,740 --> 01:06:59,220
+They only have SRM. Like,
+they don't care about HBM.
+
+1394
+01:06:59,220 --> 01:07:00,799
+The large part of
+memory, they only build
+
+1395
+01:07:00,799 --> 01:07:02,859
+SRM into this chip.
+
+1396
+01:07:02,859 --> 01:07:04,859
+And because as I said, SRM is
+
+1397
+01:07:04,859 --> 01:07:07,720
+a critical resources
+language model inference,
+
+1398
+01:07:07,720 --> 01:07:09,739
+that basically explains why it
+
+1399
+01:07:09,739 --> 01:07:13,059
+is so fast at language
+model inference, okay?
+
+1400
+01:07:14,050 --> 01:07:18,549
+Okay, then that's pretty
+much what I have today.
+
+1401
+01:07:18,549 --> 01:07:20,509
+I have three questions
+for you after class.
+
+1402
+01:07:20,509 --> 01:07:21,749
+Okay. I think you can
+
+1403
+01:07:21,749 --> 01:07:23,449
+find most of the
+answers in reading.
+
+1404
+01:07:23,449 --> 01:07:25,369
+One is, how about B 100, right?
+
+1405
+01:07:25,369 --> 01:07:27,649
+I already left this
+to last lecture.
+
+1406
+01:07:27,649 --> 01:07:30,930
+Second is how does
+the tentercre works?
+
+1407
+01:07:31,290 --> 01:07:35,289
+Third one is why the
+umber physical course is
+
+1408
+01:07:35,289 --> 01:07:38,649
+not equal to the lumber
+active threats in SM.
+
+1409
+01:07:38,649 --> 01:07:40,609
+Okay? Thank you.
+
+1410
+01:13:06,880 --> 01:13:08,919
+H

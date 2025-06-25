@@ -1,0 +1,8035 @@
+1
+00:00:07,100 --> 00:00:12,039
+Okay. Welcome back.
+Thanks for coming,
+
+2
+00:00:12,039 --> 00:00:14,179
+and let's get started.
+
+3
+00:00:14,179 --> 00:00:16,459
+So first, PA three is posted.
+
+4
+00:00:16,459 --> 00:00:19,000
+If you check GithHub
+there's a p three folder.
+
+5
+00:00:19,000 --> 00:00:21,520
+I think the TAs will
+follow up with post.
+
+6
+00:00:21,520 --> 00:00:25,299
+Okay. But this slide
+gives you an overview.
+
+7
+00:00:25,299 --> 00:00:29,279
+We have four questions.
+The first question, MOE.
+
+8
+00:00:29,279 --> 00:00:30,999
+Okay? It's basically
+a continuation
+
+9
+00:00:30,999 --> 00:00:33,319
+of the last question in PA two.
+
+10
+00:00:33,319 --> 00:00:37,500
+In P two, you use or
+reduced to TP Ter pl.
+
+11
+00:00:37,500 --> 00:00:39,619
+And here I ask you to use all
+
+12
+00:00:39,619 --> 00:00:41,979
+to all to do MOE.
+Okay? That's it.
+
+13
+00:00:41,979 --> 00:00:45,319
+Yeah. There's a slightly
+
+14
+00:00:45,319 --> 00:00:47,700
+more difficult one
+on m inference.
+
+15
+00:00:47,700 --> 00:00:49,240
+If you take a look
+at this basically,
+
+16
+00:00:49,240 --> 00:00:51,819
+I'd like you to implement
+speculative decoding.
+
+17
+00:00:51,819 --> 00:00:54,379
+Okay, I will cover
+that next week.
+
+18
+00:00:54,379 --> 00:00:57,679
+And then, like I promised, um,
+
+19
+00:00:57,679 --> 00:01:00,439
+that are basically two
+programming assignment,
+
+20
+00:01:00,439 --> 00:01:01,999
+and we have one more
+
+21
+00:01:01,999 --> 00:01:04,439
+slightly more
+theoretical assignment.
+
+22
+00:01:04,439 --> 00:01:06,740
+Skinning law, okay? I'm going to
+
+23
+00:01:06,740 --> 00:01:08,480
+let you I'm going to give
+
+24
+00:01:08,480 --> 00:01:12,320
+you a few dollars and ask
+you to design your own IM,
+
+25
+00:01:12,320 --> 00:01:14,259
+which is computer optimal,
+
+26
+00:01:14,259 --> 00:01:16,279
+which I will cover today, okay?
+
+27
+00:01:16,279 --> 00:01:19,240
+So you have the space to
+design your own RM, okay?
+
+28
+00:01:19,240 --> 00:01:21,539
+And I don't think you need
+to write a lot of code.
+
+29
+00:01:21,539 --> 00:01:23,319
+It's just a few passing
+function to help
+
+30
+00:01:23,319 --> 00:01:25,640
+you navigate the design
+space. That's it.
+
+31
+00:01:25,640 --> 00:01:30,099
+Yeah. And lastly, I ask
+you to write an essay,
+
+32
+00:01:30,099 --> 00:01:32,639
+and it's basically 500 words.
+
+33
+00:01:32,639 --> 00:01:34,020
+And you can write
+whatever you want.
+
+34
+00:01:34,020 --> 00:01:38,579
+And I want you to basically
+make a conviction.
+
+35
+00:01:38,579 --> 00:01:41,280
+And after you take this course,
+
+36
+00:01:41,280 --> 00:01:44,359
+and I hope you can argue
+your conviction, okay?
+
+37
+00:01:44,359 --> 00:01:46,200
+That is basically the last one.
+
+38
+00:01:46,200 --> 00:01:48,639
+Okay, pure essay, pure writing.
+
+39
+00:01:48,639 --> 00:01:52,860
+Okay, cool. I think TA will
+follow up with a post here.
+
+40
+00:01:52,860 --> 00:01:54,779
+Okay. Let's continue.
+
+41
+00:01:54,779 --> 00:01:57,900
+I think we are about to
+finish parallelism, right?
+
+42
+00:01:57,900 --> 00:01:59,900
+We talk about autoparalization.
+
+43
+00:01:59,900 --> 00:02:03,919
+I think I basically mentioned
+two categories of matters.
+
+44
+00:02:03,919 --> 00:02:05,620
+One is learning based.
+
+45
+00:02:05,620 --> 00:02:07,440
+Okay, reinforced learning.
+
+46
+00:02:07,440 --> 00:02:11,280
+It's very brute force
+that you basically,
+
+47
+00:02:11,280 --> 00:02:14,420
+search the plis design space and
+
+48
+00:02:14,420 --> 00:02:18,120
+you try to get some reward
+signal, and you train a model.
+
+49
+00:02:18,120 --> 00:02:20,619
+The second is the
+optimization based,
+
+50
+00:02:20,619 --> 00:02:26,680
+which is basically Opa and
+let's continue Opa to recap.
+
+51
+00:02:26,680 --> 00:02:28,600
+I Opa we basically are given
+
+52
+00:02:28,600 --> 00:02:31,770
+continue graph and
+device cluster.
+
+53
+00:02:31,770 --> 00:02:35,060
+And we take two passes,
+
+54
+00:02:35,060 --> 00:02:38,940
+to find out the optimal
+pattern strategy.
+
+55
+00:02:38,940 --> 00:02:41,259
+The reason we design
+two passes is
+
+56
+00:02:41,259 --> 00:02:43,779
+because it's impossible
+to do it in one pass.
+
+57
+00:02:43,779 --> 00:02:46,300
+It's too difficult, okay?
+
+58
+00:02:46,300 --> 00:02:48,079
+And there are some
+heuristics that
+
+59
+00:02:48,079 --> 00:02:49,899
+we can nverag
+because like I said,
+
+60
+00:02:49,899 --> 00:02:52,139
+interop prefers,
+
+61
+00:02:52,139 --> 00:02:54,699
+like, low bondis
+communication and
+
+62
+00:02:54,699 --> 00:02:56,599
+the previous high
+bodice communication.
+
+63
+00:02:56,599 --> 00:02:59,219
+So we can basically map
+the first path across
+
+64
+00:02:59,219 --> 00:03:00,520
+nodes and the second pass
+
+65
+00:03:00,520 --> 00:03:02,760
+inside of the node
+using Milink, okay?
+
+66
+00:03:02,760 --> 00:03:04,699
+That is basically leveraging,
+
+67
+00:03:04,699 --> 00:03:08,000
+um, you know, hardware
+properties today, okay?
+
+68
+00:03:08,000 --> 00:03:09,999
+So basically, we do this
+kind of organization.
+
+69
+00:03:09,999 --> 00:03:12,739
+We first, um, split
+
+70
+00:03:12,739 --> 00:03:14,559
+our device cluster into a
+
+71
+00:03:14,559 --> 00:03:16,900
+few which I call
+sub matches, okay?
+
+72
+00:03:16,900 --> 00:03:18,219
+And then we also split
+
+73
+00:03:18,219 --> 00:03:20,300
+our neural network
+into different stages,
+
+74
+00:03:20,300 --> 00:03:23,340
+and we map the stage
+to matches, okay.
+
+75
+00:03:23,340 --> 00:03:25,520
+And then after the mapping,
+
+76
+00:03:25,520 --> 00:03:28,120
+we basically perform
+the intrap path,
+
+77
+00:03:28,120 --> 00:03:29,359
+which is trying to figure out
+
+78
+00:03:29,359 --> 00:03:35,039
+the optimal intrapb strategy
+given stage and mesh.
+
+79
+00:03:35,039 --> 00:03:38,840
+And we keep enumerating
+keep enumerating, okay?
+
+80
+00:03:38,840 --> 00:03:41,600
+And then we start
+asking the problem.
+
+81
+00:03:41,600 --> 00:03:45,159
+So how exactly should we
+solve this oomation, right?
+
+82
+00:03:45,159 --> 00:03:47,759
+So let's take a look
+at each pass, okay?
+
+83
+00:03:47,759 --> 00:03:51,370
+So so in the interop pass,
+
+84
+00:03:51,370 --> 00:03:54,990
+essentially, we are trying to
+solve for pipeline partism?
+
+85
+00:03:54,990 --> 00:03:56,449
+The problem is that we want to
+
+86
+00:03:56,449 --> 00:03:59,289
+split the graph into
+stages and we want
+
+87
+00:03:59,289 --> 00:04:01,050
+to find a way
+
+88
+00:04:01,050 --> 00:04:04,104
+that basically minimize the
+pipeline execution agency.
+
+89
+00:04:04,104 --> 00:04:08,499
+Okay. Here, we make a very
+realistic assumption,
+
+90
+00:04:08,499 --> 00:04:10,420
+that is, we already know
+the pipeline schedule.
+
+91
+00:04:10,420 --> 00:04:12,920
+For example, you probably
+know we probably adopt
+
+92
+00:04:12,920 --> 00:04:16,260
+one F and B or something
+very similar, right?
+
+93
+00:04:16,260 --> 00:04:18,759
+Because other schedule
+probably don't work.
+
+94
+00:04:18,759 --> 00:04:20,399
+F TPP doesn't work, yeah.
+
+95
+00:04:20,399 --> 00:04:21,780
+And we probably just say,
+
+96
+00:04:21,780 --> 00:04:24,440
+we are going to
+use, um WY F and B.
+
+97
+00:04:24,440 --> 00:04:26,900
+And given that, our problem
+is essentially we try to
+
+98
+00:04:26,900 --> 00:04:29,880
+figure out a way that split
+the new networks, right?
+
+99
+00:04:29,880 --> 00:04:31,899
+So if you still remember, uh,
+
+100
+00:04:31,899 --> 00:04:34,880
+when we try to split new
+network, what's our goal.
+
+101
+00:04:37,030 --> 00:04:39,949
+We try to make sure
+that each stage
+
+102
+00:04:39,949 --> 00:04:42,230
+takes roughly the same
+time to acute, right?
+
+103
+00:04:42,230 --> 00:04:44,770
+Because if there's a straggler,
+
+104
+00:04:44,770 --> 00:04:46,569
+then the entire
+pipeline schedule
+
+105
+00:04:46,569 --> 00:04:49,009
+is going to be slowed
+down, by the straggler.
+
+106
+00:04:49,009 --> 00:04:50,950
+So this is basically
+our problem, right.
+
+107
+00:04:50,950 --> 00:04:54,870
+So we try to split into
+A B CD four stages,
+
+108
+00:04:54,870 --> 00:04:56,349
+and we also try to split
+
+109
+00:04:56,349 --> 00:04:58,649
+a match from the
+entire device cluster.
+
+110
+00:04:58,649 --> 00:05:01,009
+So we make sure that stage
+
+111
+00:05:01,009 --> 00:05:02,549
+when it is assigned
+on that match,
+
+112
+00:05:02,549 --> 00:05:03,910
+it basically exceed with
+
+113
+00:05:03,910 --> 00:05:08,084
+other stages with the same
+time as other stages, okay?
+
+114
+00:05:08,084 --> 00:05:11,219
+And here I introduce
+a few notation.
+
+115
+00:05:11,219 --> 00:05:13,000
+For example, T one,
+T two, T three,
+
+116
+00:05:13,000 --> 00:05:15,099
+I basically a screening
+
+117
+00:05:15,099 --> 00:05:18,580
+time when I assign
+a stage to a match,
+
+118
+00:05:19,300 --> 00:05:22,020
+you can see, if I
+draw this scan chart,
+
+119
+00:05:22,020 --> 00:05:24,900
+I basically uh write
+down this equation.
+
+120
+00:05:24,900 --> 00:05:26,820
+I find that uh
+
+121
+00:05:26,820 --> 00:05:28,880
+the entire Pipeline
+screening latency
+
+122
+00:05:28,880 --> 00:05:31,079
+basically is composed
+of two terms.
+
+123
+00:05:31,079 --> 00:05:35,000
+The first term which
+I call warmup phase.
+
+124
+00:05:35,000 --> 00:05:37,120
+That is basically when
+I just get started,
+
+125
+00:05:37,120 --> 00:05:38,480
+my pipeline is not formed yet,
+
+126
+00:05:38,480 --> 00:05:40,519
+but I start feeding batches.
+
+127
+00:05:40,519 --> 00:05:44,179
+I have a warm up phase which
+is basically in this case,
+
+128
+00:05:44,179 --> 00:05:47,545
+T one plus d two plus
+T three plus 34.
+
+129
+00:05:47,545 --> 00:05:50,470
+And then I have a second
+phase, which is stable phase.
+
+130
+00:05:50,470 --> 00:05:52,110
+That is my pipeline
+is ready form.
+
+131
+00:05:52,110 --> 00:05:55,270
+I have infinite stream
+of batches, right?
+
+132
+00:05:55,270 --> 00:05:56,569
+And then I add a second term.
+
+133
+00:05:56,569 --> 00:05:58,250
+And the second
+term is very easy.
+
+134
+00:05:58,250 --> 00:06:01,469
+It is basically determined
+by the slowest stage.
+
+135
+00:06:01,469 --> 00:06:05,350
+Okay? So I have a
+second term, okay?
+
+136
+00:06:05,430 --> 00:06:08,929
+Essentially, I'm trying
+to solve this obit.
+
+137
+00:06:08,929 --> 00:06:10,609
+So if you do a little
+bit algorithm,
+
+138
+00:06:10,609 --> 00:06:13,670
+you probably know this
+algorithm can be solved using
+
+139
+00:06:13,670 --> 00:06:18,400
+a a very typical dynamic
+programming approach, okay?
+
+140
+00:06:18,400 --> 00:06:21,499
+And you can imagine, when
+is this one minimized?
+
+141
+00:06:21,499 --> 00:06:23,239
+It's basically when
+all the stages,
+
+142
+00:06:23,239 --> 00:06:24,860
+um, are equal, right?
+
+143
+00:06:24,860 --> 00:06:27,319
+So we can basically enumerate
+
+144
+00:06:27,319 --> 00:06:31,120
+all those possible mesh
+split and stages split,
+
+145
+00:06:31,120 --> 00:06:32,740
+and we keep using
+
+146
+00:06:32,740 --> 00:06:34,920
+dynamic programming to
+prune space and eventually
+
+147
+00:06:34,920 --> 00:06:36,800
+we'll reach a
+solution where given
+
+148
+00:06:36,800 --> 00:06:39,019
+the current device mash and
+given this neural network,
+
+149
+00:06:39,019 --> 00:06:40,780
+we figure out one solution
+
+150
+00:06:40,780 --> 00:06:42,199
+that is closest to the optimal,
+
+151
+00:06:42,199 --> 00:06:43,839
+that is when all the
+stages are equal.
+
+152
+00:06:43,839 --> 00:06:45,200
+Okay this one is
+
+153
+00:06:45,200 --> 00:06:47,960
+basically solvable.
+That's my point, okay?
+
+154
+00:06:47,960 --> 00:06:50,180
+Yeah, this is how
+we basically solve
+
+155
+00:06:50,180 --> 00:06:55,480
+the um this basically
+interrupt path.
+
+156
+00:06:55,480 --> 00:06:57,520
+And like I said, this
+problem can be solved
+
+157
+00:06:57,520 --> 00:07:00,279
+using dynamic
+programming algorithm.
+
+158
+00:07:00,279 --> 00:07:04,180
+And in this um DP algorithm,
+
+159
+00:07:04,180 --> 00:07:08,200
+we all assume that we know
+the optimal latency of asking
+
+160
+00:07:08,200 --> 00:07:12,880
+stage EI on its assigned math
+I. Why I emphasize this?
+
+161
+00:07:12,880 --> 00:07:15,879
+Because when you try
+to ask the stage
+
+162
+00:07:15,879 --> 00:07:19,379
+on assign mesh, you need
+to know the optimal.
+
+163
+00:07:19,379 --> 00:07:21,459
+So why there's the optimal here?
+
+164
+00:07:23,350 --> 00:07:26,910
+Because when you try to
+assign a stage to a mesh,
+
+165
+00:07:26,910 --> 00:07:28,989
+right, the mash also
+have multiple devices.
+
+166
+00:07:28,989 --> 00:07:30,350
+And in our optimization,
+
+167
+00:07:30,350 --> 00:07:32,510
+we assume that we
+
+168
+00:07:32,510 --> 00:07:34,910
+are going to apply
+intraperism on top of that.
+
+169
+00:07:34,910 --> 00:07:37,449
+And there are many possible
+ways for you to choose
+
+170
+00:07:37,449 --> 00:07:39,690
+which intra oper parison you try
+
+171
+00:07:39,690 --> 00:07:43,329
+to apply for this stage
+and math pier, okay?
+
+172
+00:07:43,329 --> 00:07:45,270
+And we want to know
+the optimal here.
+
+173
+00:07:45,270 --> 00:07:47,530
+That's why, this is a
+hierarchic opmentation.
+
+174
+00:07:47,530 --> 00:07:49,329
+So in the outer
+optimization loop,
+
+175
+00:07:49,329 --> 00:07:51,369
+we assume we know
+the optimal solution
+
+176
+00:07:51,369 --> 00:07:54,769
+in like internal loop, okay.
+
+177
+00:07:54,769 --> 00:08:00,400
+So So basically, here,
+I'll notate it here.
+
+178
+00:08:00,400 --> 00:08:03,220
+So basically, we assume we
+know the best solution,
+
+179
+00:08:03,220 --> 00:08:05,640
+the best intraop
+problem solution
+
+180
+00:08:05,640 --> 00:08:07,800
+for this stage at
+match pier, okay?
+
+181
+00:08:07,800 --> 00:08:09,160
+And if we know that,
+
+182
+00:08:09,160 --> 00:08:10,419
+then we can basically substitute
+
+183
+00:08:10,419 --> 00:08:11,520
+this optimal solution into
+
+184
+00:08:11,520 --> 00:08:13,940
+that equation and we
+use our DP algorithm
+
+185
+00:08:13,940 --> 00:08:19,259
+to solve for the optimal
+path like a solution, okay?
+
+186
+00:08:19,259 --> 00:08:24,660
+Any question? Okay. So then
+
+187
+00:08:24,660 --> 00:08:25,680
+the problem is how we can
+
+188
+00:08:25,680 --> 00:08:27,360
+exactly get that optimal, right?
+
+189
+00:08:27,360 --> 00:08:31,899
+So that is when we
+choose stage partison
+
+190
+00:08:31,899 --> 00:08:33,880
+choose to split
+the neural network
+
+191
+00:08:33,880 --> 00:08:35,379
+into these stages
+and when we choose
+
+192
+00:08:35,379 --> 00:08:36,699
+to split the cluster into
+
+193
+00:08:36,699 --> 00:08:38,439
+these matches and when
+we make the pairing,
+
+194
+00:08:38,439 --> 00:08:40,159
+how we know exactly what is
+
+195
+00:08:40,159 --> 00:08:42,040
+the optimal solution
+for each pair,
+
+196
+00:08:42,040 --> 00:08:43,739
+each of the stages matched pair.
+
+197
+00:08:43,739 --> 00:08:46,360
+Okay? That basically leads
+
+198
+00:08:46,360 --> 00:08:49,000
+us to solve a second internal
+optimization problem.
+
+199
+00:08:49,000 --> 00:08:53,089
+That is how we exactly
+know like this, right?
+
+200
+00:08:53,089 --> 00:08:55,669
+The problem is that we
+have a stage and we
+
+201
+00:08:55,669 --> 00:08:58,569
+have a choosing match. We
+are enumerating, right?
+
+202
+00:08:58,569 --> 00:09:02,529
+Okay. And given this stage
+and this enumerated math,
+
+203
+00:09:02,529 --> 00:09:03,789
+we want to figure out what is
+
+204
+00:09:03,789 --> 00:09:05,150
+the optimal way of executing
+
+205
+00:09:05,150 --> 00:09:08,569
+it with the best
+intraop solution.
+
+206
+00:09:08,569 --> 00:09:11,949
+Okay? And this is
+another layer of ing,
+
+207
+00:09:11,949 --> 00:09:14,689
+so we need to solve. So
+how do you solve this?
+
+208
+00:09:15,800 --> 00:09:17,660
+I think I mentioned,
+
+209
+00:09:17,660 --> 00:09:19,099
+basically, in order
+to solve this one,
+
+210
+00:09:19,099 --> 00:09:20,519
+we are basically minimizing
+
+211
+00:09:20,519 --> 00:09:23,180
+the acuten latency of
+this stage on this mesh.
+
+212
+00:09:23,180 --> 00:09:25,840
+Thecreen latency is
+determined by two things.
+
+213
+00:09:25,840 --> 00:09:27,480
+One is the node cost.
+
+214
+00:09:27,480 --> 00:09:29,300
+The second is the edge cost.
+
+215
+00:09:29,300 --> 00:09:32,619
+So the node cost constitute
+of when you choose a
+
+216
+00:09:32,619 --> 00:09:36,240
+particular say partner
+strategy, you suffer a cost.
+
+217
+00:09:36,240 --> 00:09:38,779
+And the edge cost
+is when you have
+
+218
+00:09:38,779 --> 00:09:40,220
+two operators that are choosing
+
+219
+00:09:40,220 --> 00:09:42,019
+two different
+parting strategies.
+
+220
+00:09:42,019 --> 00:09:44,699
+They need to reshared
+that reshared basically
+
+221
+00:09:44,699 --> 00:09:46,860
+constituted of some
+connective communication,
+
+222
+00:09:46,860 --> 00:09:48,135
+and that is a cost.
+
+223
+00:09:48,135 --> 00:09:50,210
+So what do we do is we
+can write down this kind
+
+224
+00:09:50,210 --> 00:09:52,769
+of cost and we try to
+minimize that cost,
+
+225
+00:09:52,769 --> 00:09:53,969
+and we'll try to figure out if
+
+226
+00:09:53,969 --> 00:09:55,369
+we can solve that opmentation.
+
+227
+00:09:55,369 --> 00:09:58,189
+Okay? Let me give
+you an example.
+
+228
+00:09:58,630 --> 00:10:01,990
+So here, suppose I
+use this notation,
+
+229
+00:10:01,990 --> 00:10:04,150
+I think you are very
+familiar with this now.
+
+230
+00:10:04,150 --> 00:10:05,550
+And let's just look at
+
+231
+00:10:05,550 --> 00:10:10,089
+a little dataflow graph
+where a single memo, okay?
+
+232
+00:10:10,089 --> 00:10:12,609
+And like I said, this
+memo is basically this,
+
+233
+00:10:12,609 --> 00:10:14,329
+um, uh, summation, right,
+
+234
+00:10:14,329 --> 00:10:16,570
+this loop. Okay.
+It's really a loop.
+
+235
+00:10:16,570 --> 00:10:19,509
+Okay. So what do we do
+is we can enumerate
+
+236
+00:10:19,509 --> 00:10:22,669
+all possible interrup part
+strategies for this mammo.
+
+237
+00:10:22,669 --> 00:10:26,090
+Okay? And we can basically
+enumerate the cost,
+
+238
+00:10:26,090 --> 00:10:28,969
+corresponding to the part
+strategy we choose for it.
+
+239
+00:10:28,969 --> 00:10:33,729
+Okay? So say, if we choose
+to use algorithm one,
+
+240
+00:10:33,729 --> 00:10:36,469
+where we try to part
+in loop I, right?
+
+241
+00:10:36,469 --> 00:10:38,909
+So if we part in loop I,
+
+242
+00:10:38,909 --> 00:10:42,310
+then the first matrix
+X is row partin, okay?
+
+243
+00:10:42,310 --> 00:10:44,589
+And like I mentioned
+in my last lake,
+
+244
+00:10:44,589 --> 00:10:46,729
+second matrix is
+replicated, right?
+
+245
+00:10:46,729 --> 00:10:50,409
+Okay. And the result is this.
+
+246
+00:10:50,409 --> 00:10:54,799
+So what is the cost?
+No cost, right?
+
+247
+00:10:54,799 --> 00:10:56,840
+So there are no communicating
+costs, at least.
+
+248
+00:10:56,840 --> 00:11:00,140
+Okay. And we can also
+choose to enumerate
+
+249
+00:11:00,140 --> 00:11:02,059
+a second possibility that is we
+
+250
+00:11:02,059 --> 00:11:05,280
+can select algorithm to
+where we parti in Lop J.
+
+251
+00:11:05,280 --> 00:11:06,820
+So you basically
+get this solution.
+
+252
+00:11:06,820 --> 00:11:08,599
+Okay, column partition.
+
+253
+00:11:08,599 --> 00:11:12,099
+Or sometimes you probably
+prefer a third algorithm,
+
+254
+00:11:12,099 --> 00:11:14,319
+algorithm three, so
+you get this one.
+
+255
+00:11:14,319 --> 00:11:16,440
+Okay? And this is
+what you choose.
+
+256
+00:11:16,440 --> 00:11:19,100
+And there are more, right?
+In my previous lecture
+
+257
+00:11:19,100 --> 00:11:21,239
+I said there are some partially
+tiled this kind of thing,
+
+258
+00:11:21,239 --> 00:11:23,604
+okay, more complicated ones.
+
+259
+00:11:23,604 --> 00:11:27,410
+Okay. And by enumeraating
+the the chosen,
+
+260
+00:11:27,410 --> 00:11:29,570
+um, pm algorithm, you basically
+
+261
+00:11:29,570 --> 00:11:31,770
+can associate each
+algorithm with a cost.
+
+262
+00:11:31,770 --> 00:11:33,590
+Okay. Let's make it simple.
+
+263
+00:11:33,590 --> 00:11:36,249
+Suppose the first
+algorithm has a cost one,
+
+264
+00:11:36,249 --> 00:11:37,829
+the second algorithm
+has a cost two, right?
+
+265
+00:11:37,829 --> 00:11:39,209
+The third has a cost three.
+
+266
+00:11:39,209 --> 00:11:42,890
+Okay. And here, cost includes
+not only communication
+
+267
+00:11:42,890 --> 00:11:44,189
+but also compute
+because when you
+
+268
+00:11:44,189 --> 00:11:46,570
+split the operating
+in different ways,
+
+269
+00:11:46,570 --> 00:11:49,030
+the computational time will
+be slightly different.
+
+270
+00:11:49,030 --> 00:11:51,189
+Okay. Okay. But anyway,
+
+271
+00:11:51,189 --> 00:11:53,330
+let's note it as cost
+one, two, three, okay?
+
+272
+00:11:53,330 --> 00:11:55,270
+And then this is basically
+
+273
+00:11:55,270 --> 00:11:57,970
+like when we try to
+choose a split algorithm,
+
+274
+00:11:57,970 --> 00:11:59,630
+we get a cost, we suffer a cost.
+
+275
+00:11:59,630 --> 00:12:02,610
+Okay? Then let's extend
+a little bit, okay.
+
+276
+00:12:02,610 --> 00:12:04,370
+And now we have a slightly more
+
+277
+00:12:04,370 --> 00:12:07,470
+complicated neural network
+we have two metmo.
+
+278
+00:12:07,630 --> 00:12:10,789
+So I also put the
+three algorithms,
+
+279
+00:12:10,789 --> 00:12:12,650
+I just explained on the panel
+
+280
+00:12:12,650 --> 00:12:15,129
+so you know, you
+still remember it.
+
+281
+00:12:15,129 --> 00:12:17,209
+So what do we do is we
+
+282
+00:12:17,209 --> 00:12:18,569
+are going to generise
+a little bit, right.
+
+283
+00:12:18,569 --> 00:12:19,509
+We are going to generalize from
+
+284
+00:12:19,509 --> 00:12:21,210
+one metmo to many many memos.
+
+285
+00:12:21,210 --> 00:12:24,190
+So what I do is I'm going to
+enumerate all possibilities.
+
+286
+00:12:24,190 --> 00:12:26,729
+I'm going to enumerate
+algorithm for
+
+287
+00:12:26,729 --> 00:12:30,150
+each matmo I will
+see what happens.
+
+288
+00:12:30,150 --> 00:12:32,890
+In this case, say,
+how two memos,
+
+289
+00:12:32,890 --> 00:12:34,310
+they are going to be
+connected together,
+
+290
+00:12:34,310 --> 00:12:35,809
+and they're going
+to be paralyzed.
+
+291
+00:12:35,809 --> 00:12:37,250
+So what I do is basically I
+
+292
+00:12:37,250 --> 00:12:39,910
+enumerate I first try
+my first choice, okay?
+
+293
+00:12:39,910 --> 00:12:41,309
+I choose algorithm one for
+
+294
+00:12:41,309 --> 00:12:44,550
+my first memo and also algorithm
+one for my second memo.
+
+295
+00:12:44,550 --> 00:12:46,510
+Okay? And then I
+say, what happened?
+
+296
+00:12:46,510 --> 00:12:49,210
+So what happened is
+basically I find
+
+297
+00:12:49,210 --> 00:12:52,229
+that their partison
+are all low parison.
+
+298
+00:12:52,229 --> 00:12:54,450
+So if I connect them
+together, no problem.
+
+299
+00:12:54,450 --> 00:12:56,309
+There's no cost, right?
+
+300
+00:12:56,309 --> 00:12:59,249
+Yeah, that's what I found.
+There's no layout conversion,
+
+301
+00:12:59,249 --> 00:13:00,889
+no recharging, okay.
+
+302
+00:13:00,889 --> 00:13:02,870
+Therefore, the cost is zero.
+
+303
+00:13:02,870 --> 00:13:04,670
+I can just proceed
+to competition
+
+304
+00:13:04,670 --> 00:13:06,470
+without any problem, okay?
+
+305
+00:13:06,470 --> 00:13:09,730
+And similarly, I continue
+enumeration, okay?
+
+306
+00:13:09,730 --> 00:13:12,289
+I try to choose
+algorithm three for
+
+307
+00:13:12,289 --> 00:13:15,610
+my first memo and algorithm
+two for my second memo, okay?
+
+308
+00:13:15,610 --> 00:13:17,569
+And if I do this, I find that
+
+309
+00:13:17,569 --> 00:13:20,370
+that sharding and that sharding,
+they are not all green.
+
+310
+00:13:20,370 --> 00:13:23,009
+So there's a layout
+conversion, right?
+
+311
+00:13:23,009 --> 00:13:25,009
+And this layout of
+conversing is basically,
+
+312
+00:13:25,009 --> 00:13:27,780
+I have to convert from um,
+
+313
+00:13:27,780 --> 00:13:30,479
+partial sum into
+replicate it, okay?
+
+314
+00:13:30,479 --> 00:13:32,339
+And this has a cost, right?
+
+315
+00:13:32,339 --> 00:13:34,200
+I repeated this for many, many,
+
+316
+00:13:34,200 --> 00:13:36,099
+many times, okay?
+This is all reduced.
+
+317
+00:13:36,099 --> 00:13:38,580
+Okay. I suffer or reduced cost.
+
+318
+00:13:38,580 --> 00:13:40,260
+I keep doing this, okay?
+
+319
+00:13:40,260 --> 00:13:42,159
+I keep enumerating all
+the possibilities.
+
+320
+00:13:42,159 --> 00:13:43,759
+I already told you this
+
+321
+00:13:43,759 --> 00:13:45,379
+is the filane space.
+You can do that.
+
+322
+00:13:45,379 --> 00:13:47,860
+And you can write
+algorithm to that, okay?
+
+323
+00:13:47,860 --> 00:13:49,779
+And I keep doing this,
+
+324
+00:13:49,779 --> 00:13:51,700
+I basically enumerate
+all the possibility.
+
+325
+00:13:51,700 --> 00:13:52,619
+For example, in this case,
+
+326
+00:13:52,619 --> 00:13:54,199
+I choose algorithm one
+and algorithm two,
+
+327
+00:13:54,199 --> 00:13:57,440
+and I know that the cost
+is going to be all gather.
+
+328
+00:13:57,490 --> 00:13:59,749
+Now, you understand
+the problem, right?
+
+329
+00:13:59,749 --> 00:14:01,650
+So what I do what
+I try to figure
+
+330
+00:14:01,650 --> 00:14:03,669
+out the optimal solution
+for intraparism is
+
+331
+00:14:03,669 --> 00:14:05,609
+because I generate all
+the possibilities and I
+
+332
+00:14:05,609 --> 00:14:07,910
+count cost, and I
+add them together.
+
+333
+00:14:07,910 --> 00:14:09,370
+Then I try to figure
+
+334
+00:14:09,370 --> 00:14:11,630
+out the one that minimize
+the cost equation.
+
+335
+00:14:11,630 --> 00:14:16,089
+Okay? Good. Cool. Like I said,
+
+336
+00:14:16,089 --> 00:14:18,090
+this is the cost matrix,
+
+337
+00:14:18,090 --> 00:14:19,629
+if you swap between
+
+338
+00:14:19,629 --> 00:14:22,190
+different partien you suffer
+a cost and this is the cost.
+
+339
+00:14:22,190 --> 00:14:26,080
+Okay. And if I do this for
+my entire data flow graph,
+
+340
+00:14:26,080 --> 00:14:27,239
+I can basically write down,
+
+341
+00:14:27,239 --> 00:14:28,979
+um, something like this.
+
+342
+00:14:28,979 --> 00:14:30,780
+When I split the operator,
+
+343
+00:14:30,780 --> 00:14:33,059
+my computation changes, right?
+
+344
+00:14:33,059 --> 00:14:35,000
+So I know there is some cost.
+
+345
+00:14:35,000 --> 00:14:37,060
+And when I choose different
+
+346
+00:14:37,060 --> 00:14:38,800
+split strategy for
+different nodes,
+
+347
+00:14:38,800 --> 00:14:40,300
+I know they are going to there's
+
+348
+00:14:40,300 --> 00:14:41,959
+a chance that maybe we need
+
+349
+00:14:41,959 --> 00:14:44,060
+a reshting that
+resharing basically
+
+350
+00:14:44,060 --> 00:14:47,419
+corresponds to, communication,
+connective, right?
+
+351
+00:14:47,419 --> 00:14:49,640
+And I know there's a edge cost.
+
+352
+00:14:49,640 --> 00:14:51,179
+So basically my
+goal is trying to
+
+353
+00:14:51,179 --> 00:14:52,940
+minimize the node
+cost plus edge cost.
+
+354
+00:14:52,940 --> 00:14:54,799
+Of course, I need to
+subject my memory,
+
+355
+00:14:54,799 --> 00:14:57,620
+like a peak memory kind
+of like a constraint.
+
+356
+00:14:57,620 --> 00:15:01,179
+Okay? And if you are
+slightly familiar with this,
+
+357
+00:15:01,179 --> 00:15:04,540
+and this can also be solved
+using an analytical solution,
+
+358
+00:15:04,540 --> 00:15:07,979
+this is the IOP problem,
+integer linear program.
+
+359
+00:15:07,979 --> 00:15:11,019
+Okay? So you keep
+enumerating keeper and you
+
+360
+00:15:11,019 --> 00:15:13,799
+can use the existing IOP
+software to solve it,
+
+361
+00:15:13,799 --> 00:15:16,140
+and it will give you
+the optimal solution.
+
+362
+00:15:16,140 --> 00:15:21,419
+Okay, cool. That is basically
+a global picture of Opa.
+
+363
+00:15:21,419 --> 00:15:22,800
+So just a recap.
+
+364
+00:15:22,800 --> 00:15:24,460
+Okay. I have a upper layer,
+
+365
+00:15:24,460 --> 00:15:26,559
+which I split the
+new tw into stages.
+
+366
+00:15:26,559 --> 00:15:28,220
+I match each stage to
+
+367
+00:15:28,220 --> 00:15:30,900
+also selected submatch
+from the cluster.
+
+368
+00:15:30,900 --> 00:15:33,320
+And in the internal loop,
+
+369
+00:15:33,320 --> 00:15:36,440
+I have this very
+nice IOP formulation
+
+370
+00:15:36,440 --> 00:15:38,260
+where I enumerating
+the partner strategy
+
+371
+00:15:38,260 --> 00:15:40,200
+for each operator I count cost.
+
+372
+00:15:40,200 --> 00:15:42,359
+So my oral goal is
+I try to minimize
+
+373
+00:15:42,359 --> 00:15:45,860
+this two level
+augmentation. Okay? Cool.
+
+374
+00:15:45,860 --> 00:15:47,359
+But if I put all this together,
+
+375
+00:15:47,359 --> 00:15:49,200
+then this problem becomes uh
+
+376
+00:15:49,200 --> 00:15:51,270
+insolvable because
+it's too complicated.
+
+377
+00:15:51,270 --> 00:15:53,440
+Yeah, cool.
+
+378
+00:15:53,440 --> 00:15:57,379
+Okay. And indeed, when
+we do this opera work,
+
+379
+00:15:57,379 --> 00:15:59,639
+it was very popular in 2022.
+
+380
+00:15:59,639 --> 00:16:01,819
+We get a pretty
+good performance.
+
+381
+00:16:01,819 --> 00:16:05,000
+When we try to put
+when we try to select
+
+382
+00:16:05,000 --> 00:16:06,080
+new work and we run
+
+383
+00:16:06,080 --> 00:16:08,080
+this opera and to figure out
+this performance strategy,
+
+384
+00:16:08,080 --> 00:16:09,939
+we find that in
+many, many cases,
+
+385
+00:16:09,939 --> 00:16:11,600
+it can indeed find a strategy
+
+386
+00:16:11,600 --> 00:16:13,079
+that's better than human design.
+
+387
+00:16:13,079 --> 00:16:18,359
+Okay, yeah. Okay,
+back to my argument.
+
+388
+00:16:18,359 --> 00:16:23,740
+So first, I want to tell you
+a fact Opa didn't take off.
+
+389
+00:16:23,740 --> 00:16:26,280
+Yeah, I use that paper
+to get a faculty job,
+
+390
+00:16:26,280 --> 00:16:27,900
+but that doesn't take off.
+
+391
+00:16:27,900 --> 00:16:33,520
+So any reason You know argument,
+
+392
+00:16:33,520 --> 00:16:36,319
+right, because Opa is
+automatic perdition method.
+
+393
+00:16:36,319 --> 00:16:39,219
+So when will this
+kind of method shine,
+
+394
+00:16:39,219 --> 00:16:42,120
+we have a lot of new
+network architectures,
+
+395
+00:16:42,120 --> 00:16:45,019
+Because the key value purpose is
+
+396
+00:16:45,019 --> 00:16:46,459
+that I can reduce
+the developer's time
+
+397
+00:16:46,459 --> 00:16:48,040
+to figure out the perm srategy.
+
+398
+00:16:48,040 --> 00:16:51,120
+But what happens is after
+I publish this paper,
+
+399
+00:16:51,120 --> 00:16:52,760
+the model is converging.
+
+400
+00:16:52,760 --> 00:16:55,039
+There's only one
+model, transformers.
+
+401
+00:16:55,039 --> 00:16:56,819
+Yeah, so people don't use this.
+
+402
+00:16:56,819 --> 00:16:58,040
+Yeah. They just use like
+
+403
+00:16:58,040 --> 00:17:00,439
+expert design because there's
+only one strategy for it.
+
+404
+00:17:00,439 --> 00:17:03,460
+Okay. Cool. I hope
+that makes sense.
+
+405
+00:17:03,460 --> 00:17:11,799
+Any question? Yeah. Yeah,
+it's better than mine.
+
+406
+00:17:11,799 --> 00:17:15,919
+Yeah. It's basically the 03.
+
+407
+00:17:15,919 --> 00:17:18,360
+03 cover last.
+
+408
+00:17:18,360 --> 00:17:22,179
+Okay. Cool. Yeah, you
+
+409
+00:17:22,179 --> 00:17:24,539
+can see this is a very
+nice formulation. Yeah.
+
+410
+00:17:24,539 --> 00:17:26,300
+Yeah, please.
+
+411
+00:17:30,850 --> 00:17:34,209
+Yeah, but the data between
+different companies is so
+
+412
+00:17:34,209 --> 00:17:35,449
+small that it defeats
+
+413
+00:17:35,449 --> 00:17:37,350
+the purpose of this
+kind of compiler.
+
+414
+00:17:37,350 --> 00:17:41,210
+Yeah. Yeah. Okay, cool.
+
+415
+00:17:41,210 --> 00:17:43,869
+Yeah, choose the
+problem to walk on.
+
+416
+00:17:43,869 --> 00:17:46,369
+You need to have the
+quidty predict the future.
+
+417
+00:17:46,369 --> 00:17:49,770
+Yeah. Okay. So to summarize,
+
+418
+00:17:49,770 --> 00:17:52,710
+in this palism space, okay?
+
+419
+00:17:52,710 --> 00:17:55,790
+I think I introduced two
+major classes of prisms,
+
+420
+00:17:55,790 --> 00:17:57,430
+intra op and interrupt.
+
+421
+00:17:57,430 --> 00:17:59,190
+I also introduced
+a lot of system
+
+422
+00:17:59,190 --> 00:18:01,269
+artifacts build around it.
+
+423
+00:18:01,269 --> 00:18:04,189
+It basically I draw
+three circles,
+
+424
+00:18:04,189 --> 00:18:07,510
+Inter and also I covered
+automatic approaches.
+
+425
+00:18:07,510 --> 00:18:12,229
+Basically, megatR Mc
+tensor flow and GHR,
+
+426
+00:18:12,229 --> 00:18:14,169
+these three belong to
+Intraop because they
+
+427
+00:18:14,169 --> 00:18:16,690
+basically are playing with
+tensor and expert partism.
+
+428
+00:18:16,690 --> 00:18:19,830
+And apparently MctGHR
+they already taken off,
+
+429
+00:18:19,830 --> 00:18:23,149
+because Microtron is a
+TP that use every day.
+
+430
+00:18:23,149 --> 00:18:26,190
+DHR, they propose a
+EP expert parison
+
+431
+00:18:26,190 --> 00:18:29,250
+that has been used in MOE.
+
+432
+00:18:29,250 --> 00:18:30,729
+Okay? And I said,
+
+433
+00:18:30,729 --> 00:18:33,070
+GCR is basically a
+continuation of new version
+
+434
+00:18:33,070 --> 00:18:35,409
+of Msenerflow so you can think
+of them as a same project,
+
+435
+00:18:35,409 --> 00:18:39,739
+okay and there's a w two,
+
+436
+00:18:39,739 --> 00:18:41,999
+GPi, Pip dream and Dipo.
+
+437
+00:18:41,999 --> 00:18:45,800
+I didn't cover Dipo, but
+GPiP it failed, right? Why?
+
+438
+00:18:45,800 --> 00:18:47,679
+Because it has a
+drawback, the memory.
+
+439
+00:18:47,679 --> 00:18:51,019
+Right. Okay. I WY FMB is
+
+440
+00:18:51,019 --> 00:18:52,240
+basically the one
+that implementing
+
+441
+00:18:52,240 --> 00:18:54,639
+MctroniT and that
+project also take off.
+
+442
+00:18:54,639 --> 00:18:57,139
+Okay? And Pip
+dream, like I said,
+
+443
+00:18:57,139 --> 00:18:59,199
+it has a problem on your
+networks because it's
+
+444
+00:18:59,199 --> 00:19:00,559
+a synchronous pipeline parism
+
+445
+00:19:00,559 --> 00:19:01,920
+and it affects the convergence.
+
+446
+00:19:01,920 --> 00:19:03,619
+So this project
+doesn't take off.
+
+447
+00:19:03,619 --> 00:19:10,279
+Okay? And there are also some
+automatic systems. Okay?
+
+448
+00:19:10,279 --> 00:19:11,860
+To flex flow, I didn't
+
+449
+00:19:11,860 --> 00:19:13,619
+cover this too, but
+they are earlier works.
+
+450
+00:19:13,619 --> 00:19:15,719
+And is basically 01, two,
+
+451
+00:19:15,719 --> 00:19:18,199
+three, and apparently 03
+and 02 take off, right?
+
+452
+00:19:18,199 --> 00:19:20,520
+Because it's so simple, yeah.
+
+453
+00:19:20,520 --> 00:19:22,820
+And there's another
+colocal error,
+
+454
+00:19:22,820 --> 00:19:23,999
+the Stanford faculty one.
+
+455
+00:19:23,999 --> 00:19:25,759
+And this one didn't take off,
+
+456
+00:19:25,759 --> 00:19:28,239
+unfortunately, because it
+requires so many compute.
+
+457
+00:19:28,239 --> 00:19:30,759
+Only Google can do
+that. Yeah. And also,
+
+458
+00:19:30,759 --> 00:19:34,400
+there's my work Alpha didn't
+take off. Okay. Cool.
+
+459
+00:19:34,400 --> 00:19:39,380
+But it's in the middle.
+Yeah. Okay, um, cool.
+
+460
+00:19:39,380 --> 00:19:42,640
+That's pretty much,
+the space in parism.
+
+461
+00:19:42,640 --> 00:19:44,540
+So given that,
+like I said, given
+
+462
+00:19:44,540 --> 00:19:46,400
+today that models are
+mostly transformers,
+
+463
+00:19:46,400 --> 00:19:48,399
+I would say what I taught
+today is basically
+
+464
+00:19:48,399 --> 00:19:51,060
+the one that is used
+in training models.
+
+465
+00:19:51,060 --> 00:19:53,059
+I would say there
+are very few data
+
+466
+00:19:53,059 --> 00:19:54,419
+that people are inventing on
+
+467
+00:19:54,419 --> 00:19:57,920
+in the area because model
+is not changing anymore.
+
+468
+00:19:57,920 --> 00:19:59,559
+But maybe someday, like in
+
+469
+00:19:59,559 --> 00:20:01,579
+one or two years
+when people study,
+
+470
+00:20:01,579 --> 00:20:03,659
+uh better on new models,
+
+471
+00:20:03,659 --> 00:20:06,205
+probably we will need to
+revisit this again, okay?
+
+472
+00:20:06,205 --> 00:20:10,509
+Oh. Okay, then I
+
+473
+00:20:10,509 --> 00:20:12,229
+want to spend
+probably 10 minutes
+
+474
+00:20:12,229 --> 00:20:15,410
+to give you a very
+very practical guest,
+
+475
+00:20:15,410 --> 00:20:18,670
+this is very special because
+nowhere else in the world,
+
+476
+00:20:18,670 --> 00:20:20,130
+you can get this 10 minutes,
+
+477
+00:20:20,130 --> 00:20:22,629
+because this is based on my
+five years of tuning this.
+
+478
+00:20:22,629 --> 00:20:26,709
+I've been working this, you
+know, hands on fashion.
+
+479
+00:20:26,709 --> 00:20:28,510
+I have been tuning
+this days and nights,
+
+480
+00:20:28,510 --> 00:20:30,209
+you know, when I do
+this kind of work.
+
+481
+00:20:30,209 --> 00:20:32,170
+Yeah. I can give you my lesson.
+
+482
+00:20:32,170 --> 00:20:34,630
+Okay. And if you start
+working in this area,
+
+483
+00:20:34,630 --> 00:20:36,649
+if you start training your
+neur networks using pism,
+
+484
+00:20:36,649 --> 00:20:39,140
+you'll probably find this
+slide pretty useful.
+
+485
+00:20:39,140 --> 00:20:41,470
+So in general, how
+do you choose prism?
+
+486
+00:20:41,470 --> 00:20:44,370
+So so big picture wise,
+
+487
+00:20:44,370 --> 00:20:46,850
+you can if your model
+is not transformer,
+
+488
+00:20:46,850 --> 00:20:49,370
+okay, you basically can
+use these compilers.
+
+489
+00:20:49,370 --> 00:20:50,569
+Like I said, because
+that's where
+
+490
+00:20:50,569 --> 00:20:53,310
+compiler values
+come, right, B okay.
+
+491
+00:20:53,310 --> 00:20:55,390
+But if your model is
+purely transformer based,
+
+492
+00:20:55,390 --> 00:21:00,609
+okay, essentially, there's
+some like design traits.
+
+493
+00:21:00,609 --> 00:21:03,549
+Okay, and you can
+basically manually,
+
+494
+00:21:03,549 --> 00:21:06,709
+search following this
+design traits, okay?
+
+495
+00:21:06,709 --> 00:21:10,449
+Uh there are a few
+factors to consider.
+
+496
+00:21:10,449 --> 00:21:13,109
+One is, how many GP
+you have, right?
+
+497
+00:21:13,109 --> 00:21:14,969
+Because if you have
+a small and if
+
+498
+00:21:14,969 --> 00:21:17,189
+you have a large cluster,
+the decisions are different.
+
+499
+00:21:17,189 --> 00:21:19,070
+Second is your model size.
+
+500
+00:21:19,070 --> 00:21:21,249
+You have a small model,
+you don't need pism.
+
+501
+00:21:21,249 --> 00:21:23,549
+Large model, you need
+a lot of partism.
+
+502
+00:21:23,549 --> 00:21:26,289
+Then JCT, job completing time,
+
+503
+00:21:26,289 --> 00:21:28,809
+whether you can finish
+your job in given time,
+
+504
+00:21:28,809 --> 00:21:30,729
+and also communicating
+bandwidth,
+
+505
+00:21:30,729 --> 00:21:33,230
+how many bandos you
+have, et cetera.
+
+506
+00:21:33,230 --> 00:21:35,789
+Okay? Now, I'm going
+to run through this.
+
+507
+00:21:35,789 --> 00:21:38,830
+I want you to understand
+every decision point.
+
+508
+00:21:38,830 --> 00:21:40,689
+If you don't understand,
+feel free to come to
+
+509
+00:21:40,689 --> 00:21:42,969
+my office because I
+think this is actually,
+
+510
+00:21:42,969 --> 00:21:47,869
+uh the distilled slide
+for the entire pism part.
+
+511
+00:21:47,869 --> 00:21:50,969
+Okay. You start with
+asking the question,
+
+512
+00:21:50,969 --> 00:21:53,689
+if your model can fit
+into a single GPU.
+
+513
+00:21:53,689 --> 00:21:55,649
+Of course, you start with
+this question. Okay?
+
+514
+00:21:55,649 --> 00:21:57,570
+And yes, you're lucky.
+
+515
+00:21:57,570 --> 00:21:58,810
+You're training a small model.
+
+516
+00:21:58,810 --> 00:22:02,569
+Okay. And you start asking
+if my JCT is okay, right?
+
+517
+00:22:02,569 --> 00:22:05,950
+So if I can finish my
+training in given time, okay?
+
+518
+00:22:05,950 --> 00:22:08,070
+And if yes, then you are good.
+
+519
+00:22:08,070 --> 00:22:09,979
+Okay. You don't
+have any pressure?
+
+520
+00:22:09,979 --> 00:22:11,549
+Um, but if not,
+
+521
+00:22:11,549 --> 00:22:13,009
+what you do is because
+
+522
+00:22:13,009 --> 00:22:15,389
+your model can fit into
+a single GPU, right?
+
+523
+00:22:15,389 --> 00:22:17,649
+So you don't want to
+complicate your system.
+
+524
+00:22:17,649 --> 00:22:20,449
+So you start skinning
+data parism, right?
+
+525
+00:22:20,449 --> 00:22:22,869
+Because once you start
+scanning with data parism,
+
+526
+00:22:22,869 --> 00:22:24,249
+you can accelerate
+your job and you
+
+527
+00:22:24,249 --> 00:22:26,569
+can stay within JCT, okay?
+
+528
+00:22:26,569 --> 00:22:29,850
+So you basically skill with
+more GPUs and by adding
+
+529
+00:22:29,850 --> 00:22:31,629
+more data parism you basically
+
+530
+00:22:31,629 --> 00:22:33,770
+stay within JCO GCT is okay.
+
+531
+00:22:33,770 --> 00:22:36,010
+Okay? And then, of course,
+
+532
+00:22:36,010 --> 00:22:37,489
+you're going to have
+this branch, right?
+
+533
+00:22:37,489 --> 00:22:39,769
+And this is the
+reality. My many models
+
+534
+00:22:39,769 --> 00:22:41,429
+cannot fit into a single GPU.
+
+535
+00:22:41,429 --> 00:22:43,170
+Okay? I think at this point,
+
+536
+00:22:43,170 --> 00:22:46,470
+you probably know the
+first thing is still,
+
+537
+00:22:46,470 --> 00:22:48,370
+you should avoid
+complicating your system.
+
+538
+00:22:48,370 --> 00:22:50,210
+Whenever you start doing
+distributing system,
+
+539
+00:22:50,210 --> 00:22:53,110
+your code is going to
+be very complicated.
+
+540
+00:22:53,110 --> 00:22:54,990
+So you want to start
+with something simple.
+
+541
+00:22:54,990 --> 00:22:56,729
+You ask yourself if you can use
+
+542
+00:22:56,729 --> 00:22:59,569
+the memory orientation I
+taught in my previous lecture.
+
+543
+00:22:59,569 --> 00:23:01,410
+I basically still try to apply
+
+544
+00:23:01,410 --> 00:23:02,649
+some memory orenation and
+
+545
+00:23:02,649 --> 00:23:04,869
+try to fit my model
+into a single Gib.
+
+546
+00:23:04,869 --> 00:23:07,150
+I think in my memory
+orienting lecture,
+
+547
+00:23:07,150 --> 00:23:08,350
+I also have a ditera.
+
+548
+00:23:08,350 --> 00:23:11,440
+You can go there and
+look at it again, okay?
+
+549
+00:23:11,440 --> 00:23:14,369
+So yes, you can actually
+
+550
+00:23:14,369 --> 00:23:17,189
+play a checkpoint
+rematerialization,
+
+551
+00:23:17,189 --> 00:23:19,670
+or this kind of, uh,
+
+552
+00:23:19,670 --> 00:23:21,289
+still remember micro
+Batching, right?
+
+553
+00:23:21,289 --> 00:23:22,929
+Yeah. Grad accumulation is
+
+554
+00:23:22,929 --> 00:23:25,149
+kind of trick to fit your model,
+
+555
+00:23:25,149 --> 00:23:27,610
+then you ask yourself
+if your J is okay.
+
+556
+00:23:27,610 --> 00:23:30,429
+Okay? And if yes, then
+you are still good.
+
+557
+00:23:30,429 --> 00:23:33,440
+You don't need to
+distribute systems, okay?
+
+558
+00:23:33,440 --> 00:23:35,769
+Of course, the next one is no.
+
+559
+00:23:35,769 --> 00:23:38,589
+Okay? So either when
+
+560
+00:23:38,589 --> 00:23:41,569
+you enumerate all the possible
+memory organizations,
+
+561
+00:23:41,569 --> 00:23:45,629
+including remotenization,
+and also green accumulation,
+
+562
+00:23:45,629 --> 00:23:47,229
+usually we don't do swap
+because like I said,
+
+563
+00:23:47,229 --> 00:23:48,709
+swap is basically we are
+
+564
+00:23:48,709 --> 00:23:50,469
+going to slow down
+your GCT, right.
+
+565
+00:23:50,469 --> 00:23:54,969
+So basically, you try checkpoint
+remotization and, uh,
+
+566
+00:23:54,969 --> 00:23:57,590
+green accumulation,
+and if you still
+
+567
+00:23:57,590 --> 00:24:01,010
+cannot fit or your CT
+is basically not okay.
+
+568
+00:24:01,010 --> 00:24:05,099
+You start considering using
+piss multiparisms, okay?
+
+569
+00:24:05,099 --> 00:24:07,549
+You start considering
+incorporating
+
+570
+00:24:07,549 --> 00:24:09,309
+intra or interoperism,
+
+571
+00:24:09,309 --> 00:24:11,530
+um, at this point,
+
+572
+00:24:11,530 --> 00:24:13,190
+you should first turn off
+
+573
+00:24:13,190 --> 00:24:16,130
+your previous exploration that
+is memory organization y.
+
+574
+00:24:16,130 --> 00:24:18,489
+Because most memory
+organization will
+
+575
+00:24:18,489 --> 00:24:22,389
+treat compute for memory,
+you don't want to do that.
+
+576
+00:24:22,389 --> 00:24:25,269
+Now, you have decided
+to scale out,
+
+577
+00:24:25,269 --> 00:24:27,070
+so you have plenty of memory.
+
+578
+00:24:27,070 --> 00:24:30,244
+So you don't want to
+treat treat flops.
+
+579
+00:24:30,244 --> 00:24:34,219
+Okay. And then at this point
+you once you start deciding,
+
+580
+00:24:34,219 --> 00:24:36,639
+okay, I'm going to use
+Multipis what do I do?
+
+581
+00:24:36,639 --> 00:24:38,499
+I start looking at my cluster,
+
+582
+00:24:38,499 --> 00:24:39,919
+how many bandos I have.
+
+583
+00:24:39,919 --> 00:24:42,219
+Okay? So basically,
+there are two branches.
+
+584
+00:24:42,219 --> 00:24:43,799
+One is, I have a cluster where
+
+585
+00:24:43,799 --> 00:24:45,880
+GPUs are all
+connected with mink.
+
+586
+00:24:45,880 --> 00:24:47,419
+For example, I only have GPUs,
+
+587
+00:24:47,419 --> 00:24:49,560
+and these GPUs are
+inside one node.
+
+588
+00:24:49,560 --> 00:24:51,779
+Okay. Another case is
+
+589
+00:24:51,779 --> 00:24:54,119
+basically either you don't
+have a meaning at all.
+
+590
+00:24:54,119 --> 00:24:57,920
+For example, you are
+your Chinese firm, okay?
+
+591
+00:24:57,920 --> 00:25:01,720
+Or, you just don't have
+a meaning, yeah, okay?
+
+592
+00:25:01,720 --> 00:25:05,180
+Let's go to the left
+part first, okay?
+
+593
+00:25:06,190 --> 00:25:09,269
+Yes, I have a meaning what I do.
+
+594
+00:25:09,269 --> 00:25:11,749
+If you have a, you can
+do whatever you want.
+
+595
+00:25:11,749 --> 00:25:14,950
+Like I said, you bind
+basically infinite.
+
+596
+00:25:14,950 --> 00:25:17,790
+Yeah. Communication is
+very minimal, okay?
+
+597
+00:25:17,790 --> 00:25:20,069
+So you do whatever
+kind of pim you want,
+
+598
+00:25:20,069 --> 00:25:22,709
+but typically it's TP
+tenerpis because like I said,
+
+599
+00:25:22,709 --> 00:25:24,229
+ton is pretty easy, right?
+
+600
+00:25:24,229 --> 00:25:25,709
+Just a single ore. Yeah.
+
+601
+00:25:25,709 --> 00:25:28,310
+You do that in your
+homework, okay?
+
+602
+00:25:28,310 --> 00:25:32,169
+But if I apply tinder part
+I still cannot fit, right?
+
+603
+00:25:32,169 --> 00:25:35,389
+Because my model is so
+large, Okay? What do I do?
+
+604
+00:25:35,980 --> 00:25:40,759
+So two ways, one you start
+turning on memory ogenation.
+
+605
+00:25:40,759 --> 00:25:43,120
+You start turning
+on checkpointing,
+
+606
+00:25:43,120 --> 00:25:45,039
+you start turning on
+green accumulation,
+
+607
+00:25:45,039 --> 00:25:46,540
+you reduce your byside effective
+
+608
+00:25:46,540 --> 00:25:48,480
+biside and say if it works.
+
+609
+00:25:48,480 --> 00:25:51,940
+The second way, of course,
+you need more GPU,
+
+610
+00:25:51,940 --> 00:25:53,279
+GPU is not enough,
+
+611
+00:25:53,279 --> 00:25:57,279
+so you skill you skill
+beyond GPUs, okay?
+
+612
+00:25:57,279 --> 00:26:00,820
+So either way, eventually
+you will converge to a point
+
+613
+00:26:00,820 --> 00:26:05,335
+where you need to
+skill out GPUs, okay?
+
+614
+00:26:05,335 --> 00:26:07,570
+And if you skill GPS,
+
+615
+00:26:07,570 --> 00:26:08,870
+you are facing the
+second branch,
+
+616
+00:26:08,870 --> 00:26:10,589
+which is you have GPUs that are
+
+617
+00:26:10,589 --> 00:26:13,529
+connected using non
+wilink interconnects,
+
+618
+00:26:13,529 --> 00:26:17,109
+which are Iternet much lower
+bandwidth than wilink. Okay?
+
+619
+00:26:17,109 --> 00:26:20,710
+What do you do? Okay? Of course,
+
+620
+00:26:20,710 --> 00:26:22,689
+we need to discuss based on
+the available bandwidth.
+
+621
+00:26:22,689 --> 00:26:25,529
+So there are many many different
+networking technologies.
+
+622
+00:26:25,529 --> 00:26:27,670
+So two branches, okay.
+
+623
+00:26:27,670 --> 00:26:29,329
+If you are a very rich company,
+
+624
+00:26:29,329 --> 00:26:32,250
+you are open air, you are
+like this kind of a big firm,
+
+625
+00:26:32,250 --> 00:26:34,409
+XI, then you probably in
+
+626
+00:26:34,409 --> 00:26:37,530
+that branch that you have
+high bandwidth connect, okay?
+
+627
+00:26:37,530 --> 00:26:40,230
+Maybe not unwink but
+pretty close, okay?
+
+628
+00:26:40,230 --> 00:26:43,110
+Like 100 GBPS per GPU bandwidth.
+
+629
+00:26:43,110 --> 00:26:45,850
+But wilink is 400 GPS per GB.
+
+630
+00:26:45,850 --> 00:26:47,569
+Yeah, you are only
+one first of that.
+
+631
+00:26:47,569 --> 00:26:49,269
+It's fine. But if you are
+
+632
+00:26:49,269 --> 00:26:52,050
+not a rich firm, you're
+probably in that branch.
+
+633
+00:26:52,050 --> 00:26:55,790
+So you have a very low
+bandwidth. For example, 25.
+
+634
+00:26:55,790 --> 00:26:58,210
+If you hire if you basically try
+
+635
+00:26:58,210 --> 00:27:01,310
+to rent some DPs from AWS,
+you are in that branch.
+
+636
+00:27:01,310 --> 00:27:04,510
+Okay. Okay. Let's talk
+about the first branch.
+
+637
+00:27:04,510 --> 00:27:05,890
+So in the first branch,
+
+638
+00:27:05,890 --> 00:27:08,619
+if you have a lot
+of bandwidth we do,
+
+639
+00:27:08,619 --> 00:27:10,529
+you basically try to skill out,
+
+640
+00:27:10,529 --> 00:27:11,729
+you need 02, right?
+
+641
+00:27:11,729 --> 00:27:13,409
+Because in 02, if you remember,
+
+642
+00:27:13,409 --> 00:27:17,209
+the communicating cost
+is one or reduce, right?
+
+643
+00:27:17,209 --> 00:27:20,889
+Okay. And 02 has compared to 03,
+
+644
+00:27:20,889 --> 00:27:24,509
+the problem is, it
+doesn't share weights.
+
+645
+00:27:24,509 --> 00:27:29,430
+Remember, the cost is 16, sorry,
+
+646
+00:27:29,430 --> 00:27:34,609
+it's 14 plus 40 divided
+by N plus two, right?
+
+647
+00:27:34,609 --> 00:27:37,429
+That's 02. Okay.
+You start with 02,
+
+648
+00:27:37,429 --> 00:27:39,409
+and the reason you start with
+
+649
+00:27:39,409 --> 00:27:42,010
+02 because you have
+less communication.
+
+650
+00:27:42,010 --> 00:27:43,930
+You just have one single reduce.
+
+651
+00:27:43,930 --> 00:27:45,929
+But the drawback is
+
+652
+00:27:45,929 --> 00:27:47,589
+you waste a little bit more
+
+653
+00:27:47,589 --> 00:27:49,270
+memory because you
+don't share weights.
+
+654
+00:27:49,270 --> 00:27:52,630
+Okay? But if you still
+cannot fit your model,
+
+655
+00:27:52,630 --> 00:27:57,069
+02, what do you basically
+upgrade to 03, right?
+
+656
+00:27:57,069 --> 00:27:59,609
+So I 03, your peak memory is
+
+657
+00:27:59,609 --> 00:28:03,149
+further reduced because the
+two was also shared, right?
+
+658
+00:28:03,149 --> 00:28:06,570
+But you suffer
+another 0.5 reduce.
+
+659
+00:28:06,570 --> 00:28:09,845
+You are paying a 1.5
+reduce communicating cost.
+
+660
+00:28:09,845 --> 00:28:11,679
+Okay. But like I said,
+
+661
+00:28:11,679 --> 00:28:14,340
+because your GP has high
+noise, so all reduce is okay.
+
+662
+00:28:14,340 --> 00:28:19,939
+Yeah. Yeah, you
+start exploring 03.
+
+663
+00:28:19,939 --> 00:28:24,199
+Okay, you still
+cannot fit or it do.
+
+664
+00:28:24,420 --> 00:28:29,519
+Okay. Of course, you
+turn on memory cumation.
+
+665
+00:28:29,519 --> 00:28:30,740
+You'll start doing checkpoint,
+
+666
+00:28:30,740 --> 00:28:32,959
+you start doing all this
+kind of green accumulation
+
+667
+00:28:32,959 --> 00:28:35,820
+until you can fit.
+Still cannot fit.
+
+668
+00:28:35,820 --> 00:28:39,860
+Okay? What do you do? You
+can just correct, okay.
+
+669
+00:28:39,860 --> 00:28:41,620
+Um, that's a joke.
+
+670
+00:28:41,620 --> 00:28:43,540
+Just add multiples
+until you can fit.
+
+671
+00:28:43,540 --> 00:28:46,299
+Okay? Yeah, just pay
+more money. Okay?
+
+672
+00:28:46,299 --> 00:28:49,200
+Does that make
+sense? Okay, cool.
+
+673
+00:28:49,200 --> 00:28:51,679
+But of course, we want
+to first minimize
+
+674
+00:28:51,679 --> 00:28:54,199
+number of GP use because
+that was our money, right?
+
+675
+00:28:54,199 --> 00:28:55,939
+But if you cannot, basically
+
+676
+00:28:55,939 --> 00:28:57,699
+enumera all these possibilities
+you still cannot fit,
+
+677
+00:28:57,699 --> 00:29:00,809
+you should ask multiples
+from your manager, okay?
+
+678
+00:29:00,809 --> 00:29:03,420
+Uh, then let's explore
+a brand, okay?
+
+679
+00:29:03,420 --> 00:29:05,479
+Now, you don't have this kind of
+
+680
+00:29:05,479 --> 00:29:08,080
+high banistween
+GPUs across nodes.
+
+681
+00:29:08,080 --> 00:29:12,300
+You only have low band Wis
+for about 25 GPS per GP.
+
+682
+00:29:12,300 --> 00:29:14,480
+Like I said, in this
+case, you start
+
+683
+00:29:14,480 --> 00:29:16,600
+doing interoperatism.
+
+684
+00:29:16,600 --> 00:29:19,860
+You start introducing
+pipeline Pism. Why?
+
+685
+00:29:19,860 --> 00:29:21,659
+Because like I said,
+pipeline parism only
+
+686
+00:29:21,659 --> 00:29:23,919
+communicate sent residual
+between boundaries.
+
+687
+00:29:23,919 --> 00:29:25,900
+So it's very little
+communication.
+
+688
+00:29:25,900 --> 00:29:29,599
+You are not going to be
+slowed down a lot, okay?
+
+689
+00:29:29,599 --> 00:29:32,400
+Okay. Once you start
+considering interpartism,
+
+690
+00:29:32,400 --> 00:29:35,419
+you are basically introduced
+another layer of complexity.
+
+691
+00:29:35,419 --> 00:29:37,139
+That is you have to tune
+
+692
+00:29:37,139 --> 00:29:39,029
+your lumber micro baatches
+
+693
+00:29:39,029 --> 00:29:40,889
+right to minimize
+your bubble, right?
+
+694
+00:29:40,889 --> 00:29:43,209
+But if you increase your
+number of mini batches,
+
+695
+00:29:43,209 --> 00:29:44,609
+like that you point out,
+
+696
+00:29:44,609 --> 00:29:46,870
+you are going to reduce
+your arismt intensity.
+
+697
+00:29:46,870 --> 00:29:48,309
+So you want to strike a balance
+
+698
+00:29:48,309 --> 00:29:49,649
+between the lumber bubbles
+
+699
+00:29:49,649 --> 00:29:53,089
+and the AI on each operator.
+
+700
+00:29:53,089 --> 00:29:56,450
+So that basically creates
+another like decision space.
+
+701
+00:29:56,450 --> 00:29:58,049
+You have to tune very hard to
+
+702
+00:29:58,049 --> 00:30:00,369
+figure out good
+configuration, okay?
+
+703
+00:30:00,369 --> 00:30:03,690
+So tune microbatchy and
+the micro baades size.
+
+704
+00:30:03,690 --> 00:30:08,930
+Okay? And you keep doing
+this until you can fit.
+
+705
+00:30:08,930 --> 00:30:10,790
+If you cannot fit,
+just add multiples,
+
+706
+00:30:10,790 --> 00:30:12,869
+okay? No more are the solution.
+
+707
+00:30:12,869 --> 00:30:15,110
+Okay. And, of course,
+
+708
+00:30:15,110 --> 00:30:18,710
+there's exception that
+is you are Tip Sik.
+
+709
+00:30:18,710 --> 00:30:20,570
+So in Deep six's case,
+
+710
+00:30:20,570 --> 00:30:22,430
+you don't have wilink, okay?
+
+711
+00:30:22,430 --> 00:30:25,010
+You only have a kind
+
+712
+00:30:25,010 --> 00:30:27,330
+of like a compromise
+version of link,
+
+713
+00:30:27,330 --> 00:30:28,870
+right by the US government.
+
+714
+00:30:28,870 --> 00:30:30,629
+And you also have a little bit
+
+715
+00:30:30,629 --> 00:30:31,850
+like boundaries between dips.
+
+716
+00:30:31,850 --> 00:30:33,989
+So what do you do? We are
+
+717
+00:30:33,989 --> 00:30:35,290
+going to cover this later, okay?
+
+718
+00:30:35,290 --> 00:30:38,030
+Yeah. Cool. Does
+that make sense?
+
+719
+00:30:38,030 --> 00:30:40,530
+Okay, I want you to
+understand DC in point, okay?
+
+720
+00:30:40,530 --> 00:30:43,710
+So this is basically today if
+you are doing transformer,
+
+721
+00:30:43,710 --> 00:30:45,570
+you are doing AM, you
+follow this dalgram.
+
+722
+00:30:45,570 --> 00:30:47,909
+Okay. Yeah.
+
+723
+00:30:47,909 --> 00:30:49,949
+For the bed connect,
+
+724
+00:30:49,949 --> 00:30:52,150
+do you need to connect each GPU
+
+725
+00:30:52,150 --> 00:30:55,029
+each other GPO how does that?
+
+726
+00:30:55,029 --> 00:30:57,689
+I cannot see all the
+configures but I can
+
+727
+00:30:57,689 --> 00:31:00,350
+give you the config in IBS.
+
+728
+00:31:00,350 --> 00:31:02,809
+Basically IBS, they are going to
+
+729
+00:31:02,809 --> 00:31:06,229
+install Iranet
+hardware for each GPU.
+
+730
+00:31:06,229 --> 00:31:09,349
+For example, if you are
+going to rent, say,
+
+731
+00:31:09,349 --> 00:31:11,430
+P for instance, from IBS,
+
+732
+00:31:11,430 --> 00:31:13,770
+where you have four a 100.
+
+733
+00:31:13,770 --> 00:31:16,310
+Basically EGPU is going
+to have one Iranet,
+
+734
+00:31:16,310 --> 00:31:19,194
+which means that the entire
+node has eight Iranets.
+
+735
+00:31:19,194 --> 00:31:25,219
+Okay. Yeah. Okay. Cool. Okay.
+
+736
+00:31:25,219 --> 00:31:27,480
+This is the distilled version.
+
+737
+00:31:27,480 --> 00:31:29,380
+I hope you understand
+the rationale
+
+738
+00:31:29,380 --> 00:31:31,320
+behind this, very important.
+
+739
+00:31:31,320 --> 00:31:35,759
+Then we can probably
+wrap up everything here.
+
+740
+00:31:35,759 --> 00:31:37,039
+We covered everything.
+
+741
+00:31:37,039 --> 00:31:39,159
+So typically we can
+end this course.
+
+742
+00:31:39,159 --> 00:31:41,759
+But let's move on into RM.
+
+743
+00:31:41,759 --> 00:31:44,019
+We are going to actually,
+you're not already understand
+
+744
+00:31:44,019 --> 00:31:46,540
+all the techniques behind
+Mergent systems, mostly, okay?
+
+745
+00:31:46,540 --> 00:31:48,900
+What do we do next is
+basically connect the dots.
+
+746
+00:31:48,900 --> 00:31:51,019
+And we take a model.
+That model is basically
+
+747
+00:31:51,019 --> 00:31:53,319
+RM and we try to
+revisit techniques.
+
+748
+00:31:53,319 --> 00:31:56,379
+So why we make that
+decision for that RM, okay?
+
+749
+00:31:56,379 --> 00:32:01,650
+Cool. Okay, let's move
+on to our third chapter.
+
+750
+00:32:01,650 --> 00:32:04,209
+So in this part
+
+751
+00:32:04,209 --> 00:32:06,590
+of this course, I'm going
+to cover these things.
+
+752
+00:32:06,590 --> 00:32:09,229
+Okay. I'm going to first,
+
+753
+00:32:09,229 --> 00:32:11,069
+of course, give you
+a very quick go
+
+754
+00:32:11,069 --> 00:32:13,470
+through of transformers
+and attention.
+
+755
+00:32:13,470 --> 00:32:15,190
+And then I'm going to of course,
+
+756
+00:32:15,190 --> 00:32:17,049
+I need to introduce skin
+law because you need to
+
+757
+00:32:17,049 --> 00:32:19,329
+understand why we train
+such large models, right?
+
+758
+00:32:19,329 --> 00:32:21,990
+It's because we are
+following skin law, okay?
+
+759
+00:32:21,990 --> 00:32:23,710
+And then probably next week
+
+760
+00:32:23,710 --> 00:32:25,310
+we are going to
+connect the dots.
+
+761
+00:32:25,310 --> 00:32:26,629
+We are going to tell you why we
+
+762
+00:32:26,629 --> 00:32:28,470
+apply this kind of
+opium training.
+
+763
+00:32:28,470 --> 00:32:29,909
+I think you all figure out
+
+764
+00:32:29,909 --> 00:32:32,189
+a lot of things
+pretty soon, okay?
+
+765
+00:32:32,189 --> 00:32:35,730
+And there's one special thing
+to that is flash attention,
+
+766
+00:32:35,730 --> 00:32:37,730
+which is a very fast
+attaching kernel,
+
+767
+00:32:37,730 --> 00:32:39,219
+and we have to cover them.
+
+768
+00:32:39,219 --> 00:32:43,129
+And then we move on our topic
+to serving an inference.
+
+769
+00:32:43,129 --> 00:32:44,489
+And in serving an inference,
+
+770
+00:32:44,489 --> 00:32:46,530
+there are a lot of new
+things that we didn't cover,
+
+771
+00:32:46,530 --> 00:32:49,650
+because that's very
+special to IM.
+
+772
+00:32:49,650 --> 00:32:54,209
+And finally, we are going
+to connecting the dots,
+
+773
+00:32:54,209 --> 00:32:55,929
+and we are going to
+use our last lecture
+
+774
+00:32:55,929 --> 00:32:57,529
+to review Deep I'm
+
+775
+00:32:57,529 --> 00:33:01,049
+going to basically read
+Withy paper with you.
+
+776
+00:33:01,049 --> 00:33:03,669
+I'm going to reason
+why they do this.
+
+777
+00:33:03,669 --> 00:33:07,150
+Okay? I think you'll be
+enjoying that, okay?
+
+778
+00:33:07,150 --> 00:33:09,169
+And lastly, if you have time,
+
+779
+00:33:09,169 --> 00:33:11,399
+I'm going to cover
+hot topics. Okay.
+
+780
+00:33:11,399 --> 00:33:14,289
+Cool. Okay, so what is ARM?
+
+781
+00:33:14,289 --> 00:33:16,329
+So ARM is basically
+token prediction, right?
+
+782
+00:33:16,329 --> 00:33:18,030
+So we have a prefix
+
+783
+00:33:18,030 --> 00:33:20,310
+and we try to model the
+probability distribution.
+
+784
+00:33:20,310 --> 00:33:22,310
+Conditional prefix we
+predict next word.
+
+785
+00:33:22,310 --> 00:33:24,049
+Okay. Lake token prediction.
+
+786
+00:33:24,049 --> 00:33:27,129
+For example, we want
+to model the sentence.
+
+787
+00:33:27,129 --> 00:33:29,270
+San Diego has very
+nice and we try
+
+788
+00:33:29,270 --> 00:33:31,550
+to output the next token,
+
+789
+00:33:31,550 --> 00:33:33,570
+right It could be
+surfing weather or snow,
+
+790
+00:33:33,570 --> 00:33:35,270
+but we are going to
+align our probability.
+
+791
+00:33:35,270 --> 00:33:36,970
+Same thing, San
+Francisco is the city
+
+792
+00:33:36,970 --> 00:33:38,989
+of innovation or homess, right?
+
+793
+00:33:38,989 --> 00:33:40,950
+And we are going to
+give a probability.
+
+794
+00:33:40,950 --> 00:33:43,710
+Okay? And once we have
+this probability,
+
+795
+00:33:43,710 --> 00:33:44,629
+we are going to sample from
+
+796
+00:33:44,629 --> 00:33:46,569
+this probability
+distribution of words,
+
+797
+00:33:46,569 --> 00:33:48,034
+right? That's basically RM.
+
+798
+00:33:48,034 --> 00:33:52,179
+Okay. And if we write
+down the equation,
+
+799
+00:33:52,179 --> 00:33:55,810
+we basically know
+that u for example,
+
+800
+00:33:55,810 --> 00:33:58,189
+probability of San Diego
+has very nice weather.
+
+801
+00:33:58,189 --> 00:34:00,429
+We can basically expand
+it into a lot of, like,
+
+802
+00:34:00,429 --> 00:34:03,129
+a factor idton of conditional
+probability, okay?
+
+803
+00:34:03,129 --> 00:34:05,669
+We start with the
+first word San Diego.
+
+804
+00:34:05,669 --> 00:34:07,850
+So here I take San
+Diego as a single word,
+
+805
+00:34:07,850 --> 00:34:09,469
+okay? Uh, bear me.
+
+806
+00:34:09,469 --> 00:34:11,809
+And then conditional
+on San Diego,
+
+807
+00:34:11,809 --> 00:34:15,069
+we have a probability
+of next word being has,
+
+808
+00:34:15,069 --> 00:34:18,989
+and then we keep doing so
+very city and better, okay?
+
+809
+00:34:18,989 --> 00:34:20,669
+And we factorism together,
+
+810
+00:34:20,669 --> 00:34:24,009
+we get the probability of
+this entire sequence, right?
+
+811
+00:34:24,009 --> 00:34:26,809
+So if we write
+
+812
+00:34:26,809 --> 00:34:28,449
+down the mathematical
+form, is basically a one,
+
+813
+00:34:28,449 --> 00:34:31,729
+right and when we
+try to so here we
+
+814
+00:34:31,729 --> 00:34:35,989
+try to try to model this, okay?
+
+815
+00:34:35,989 --> 00:34:37,869
+And in reality, if you
+
+816
+00:34:37,869 --> 00:34:39,509
+want to change this kind
+of model, what we do?
+
+817
+00:34:39,509 --> 00:34:41,769
+We observe a lot of this
+kind of symptoms, right?
+
+818
+00:34:41,769 --> 00:34:44,309
+And this is basically
+the copies we
+
+819
+00:34:44,309 --> 00:34:47,630
+connected from Internet
+from what human in books,
+
+820
+00:34:47,630 --> 00:34:49,849
+we observe a lot of
+this kind of things.
+
+821
+00:34:49,849 --> 00:34:53,209
+And we try to use maximum
+likelihood estimation
+
+822
+00:34:53,209 --> 00:34:55,870
+to basically estimate
+the primeters,
+
+823
+00:34:55,870 --> 00:34:58,209
+the way we design the
+model is basically we
+
+824
+00:34:58,209 --> 00:34:59,609
+design model that is
+
+825
+00:34:59,609 --> 00:35:02,269
+capable of predicting
+the next token, right?
+
+826
+00:35:02,269 --> 00:35:04,689
+And so this model
+basically will take
+
+827
+00:35:04,689 --> 00:35:08,779
+a prefix and predict the
+probability of the next token.
+
+828
+00:35:08,779 --> 00:35:11,549
+And by factorizing all this
+
+829
+00:35:11,549 --> 00:35:12,930
+together following
+this equation,
+
+830
+00:35:12,930 --> 00:35:15,890
+we basically get a probability
+of this observed sequence,
+
+831
+00:35:15,890 --> 00:35:17,410
+and we try to maximize
+
+832
+00:35:17,410 --> 00:35:20,449
+the likelihood of all
+observed data. Okay?
+
+833
+00:35:20,449 --> 00:35:22,249
+This is typical
+machine learning.
+
+834
+00:35:22,249 --> 00:35:25,849
+Any questions on this? No,
+this is pretty good, right?
+
+835
+00:35:25,849 --> 00:35:27,749
+So the way that we try to model
+
+836
+00:35:27,749 --> 00:35:29,289
+this conditional
+probability is basically
+
+837
+00:35:29,289 --> 00:35:31,509
+we use language model, right?
+
+838
+00:35:31,509 --> 00:35:34,689
+Transformers. Okay?
+So how do we do that?
+
+839
+00:35:34,689 --> 00:35:39,049
+There are many ways,
+but despite many ways,
+
+840
+00:35:39,049 --> 00:35:40,950
+is basically a sequence
+prediction problem
+
+841
+00:35:40,950 --> 00:35:44,289
+where we have input x1x2,
+
+842
+00:35:44,289 --> 00:35:47,210
+x3x4, and we try
+to predict output.
+
+843
+00:35:47,210 --> 00:35:50,450
+Okay? I M in nextcen predicting,
+
+844
+00:35:50,450 --> 00:35:53,209
+this is a little bit different
+because we are going to
+
+845
+00:35:53,209 --> 00:35:58,509
+apply cadal relationship
+that is we observe X one.
+
+846
+00:35:58,509 --> 00:36:00,229
+We try to predict the next word.
+
+847
+00:36:00,229 --> 00:36:02,369
+Okay, we observe
+X one and X two,
+
+848
+00:36:02,369 --> 00:36:04,289
+we try to predict the next word,
+
+849
+00:36:04,289 --> 00:36:06,390
+because we are model
+the condition.
+
+850
+00:36:06,390 --> 00:36:10,269
+Okay. And this is
+
+851
+00:36:10,269 --> 00:36:12,109
+a very typical sequence
+to sequence model,
+
+852
+00:36:12,109 --> 00:36:14,389
+and there are many ways
+to do that, right?
+
+853
+00:36:14,389 --> 00:36:17,509
+And I think one way is RN,
+
+854
+00:36:17,509 --> 00:36:19,009
+but we know RN is bad on this
+
+855
+00:36:19,009 --> 00:36:21,229
+because it's very
+hard to scale, right?
+
+856
+00:36:21,229 --> 00:36:22,929
+Be ARN has those hidden states
+
+857
+00:36:22,929 --> 00:36:25,409
+we talked about in our
+first lecture, okay?
+
+858
+00:36:25,409 --> 00:36:28,710
+And today's approach is
+basically attention.
+
+859
+00:36:28,710 --> 00:36:30,729
+Attention is very
+capable of doing this.
+
+860
+00:36:30,729 --> 00:36:34,230
+So what is attention? So
+this is basically attention.
+
+861
+00:36:34,230 --> 00:36:35,909
+Attention is basically, uh
+
+862
+00:36:35,909 --> 00:36:38,309
+general attention
+generally refers to
+
+863
+00:36:38,309 --> 00:36:43,109
+the approach that we
+combine individual states.
+
+864
+00:36:43,109 --> 00:36:46,309
+So here we observe this
+kind of words, right?
+
+865
+00:36:46,309 --> 00:36:48,610
+We have hidden we have
+a representation,
+
+866
+00:36:48,610 --> 00:36:49,889
+for example, embedding for it.
+
+867
+00:36:49,889 --> 00:36:51,749
+Okay? And we are going to,
+
+868
+00:36:51,749 --> 00:36:54,649
+uh stack a lot of attention
+layers on top of it.
+
+869
+00:36:54,649 --> 00:36:56,069
+And here is one layer.
+
+870
+00:36:56,069 --> 00:36:59,929
+And the way we model that
+is we each hidden state at
+
+871
+00:36:59,929 --> 00:37:02,709
+the token position at the
+hidden token position to
+
+872
+00:37:02,709 --> 00:37:06,009
+basically attend to all
+the previous layer states.
+
+873
+00:37:06,009 --> 00:37:08,429
+And the way we calculate
+this hidden states,
+
+874
+00:37:08,429 --> 00:37:11,019
+basically we try to take
+this kind of weighted sum,
+
+875
+00:37:11,019 --> 00:37:14,050
+and here is the previous
+layers observation,
+
+876
+00:37:14,050 --> 00:37:17,209
+and this is a weight,
+and we weighted some of
+
+877
+00:37:17,209 --> 00:37:20,689
+them and we get the next
+layers of hidden states.
+
+878
+00:37:20,689 --> 00:37:22,869
+This is basically
+attention, okay?
+
+879
+00:37:22,869 --> 00:37:24,729
+And so intuitively here,
+
+880
+00:37:24,729 --> 00:37:27,709
+SI is a ten square
+that computes how
+
+881
+00:37:27,709 --> 00:37:30,390
+relevant the position Ice input
+
+882
+00:37:30,390 --> 00:37:32,230
+is to the current hidden output.
+
+883
+00:37:32,230 --> 00:37:34,049
+And there are
+different methods to
+
+884
+00:37:34,049 --> 00:37:36,350
+decide how ten square
+is being computed,
+
+885
+00:37:36,350 --> 00:37:40,050
+but for some reason, we
+convert it to self attention.
+
+886
+00:37:40,050 --> 00:37:43,370
+Okay. So in self attention,
+
+887
+00:37:43,370 --> 00:37:45,689
+basically self
+attention refers to
+
+888
+00:37:45,689 --> 00:37:47,610
+a particular form of
+attention mechanism.
+
+889
+00:37:47,610 --> 00:37:49,790
+So in self attention,
+
+890
+00:37:49,790 --> 00:37:52,149
+we have a special
+mechanism to calculate the
+
+891
+00:37:52,149 --> 00:37:55,329
+atten square S. Okay? So
+how we calculate that?
+
+892
+00:37:55,329 --> 00:37:57,829
+So we're basically given
+three inputs Q and Q and
+
+893
+00:37:57,829 --> 00:38:02,289
+V. They are basically in
+shape of T times D. So here,
+
+894
+00:38:02,289 --> 00:38:04,350
+T is the number of
+tokens in a sequence,
+
+895
+00:38:04,350 --> 00:38:06,369
+and D is the hidden dimension,
+
+896
+00:38:06,369 --> 00:38:09,950
+and we call QqV
+queries Ks and values.
+
+897
+00:38:09,950 --> 00:38:12,370
+And then remember attention
+
+898
+00:38:12,370 --> 00:38:14,209
+essentially doing
+weighted sum, right?
+
+899
+00:38:14,209 --> 00:38:16,569
+So here, the weighted sum
+is basically we try to do
+
+900
+00:38:16,569 --> 00:38:19,165
+a weighted sum over
+the so called values.
+
+901
+00:38:19,165 --> 00:38:22,140
+Okay. You can see
+here is the values,
+
+902
+00:38:22,140 --> 00:38:24,900
+and we try to use
+Q and K to compute
+
+903
+00:38:24,900 --> 00:38:28,479
+that S, the ain square.
+
+904
+00:38:28,479 --> 00:38:30,839
+And you can see the
+ten square is here.
+
+905
+00:38:30,839 --> 00:38:32,480
+It's basically we manipulate
+
+906
+00:38:32,480 --> 00:38:35,079
+how we compute the ten square.
+
+907
+00:38:35,079 --> 00:38:36,800
+If you look at this equation,
+
+908
+00:38:36,800 --> 00:38:38,599
+how we compute the in square,
+
+909
+00:38:38,599 --> 00:38:43,059
+is basically we add Q
+and K to do a Mm, right?
+
+910
+00:38:43,059 --> 00:38:46,600
+And then we normalize it
+using the hidden dimension.
+
+911
+00:38:46,600 --> 00:38:49,579
+Okay. And once we do that,
+
+912
+00:38:49,579 --> 00:38:52,299
+we further normalize
+it using soft max.
+
+913
+00:38:52,299 --> 00:38:54,739
+So the weights added into one.
+
+914
+00:38:54,739 --> 00:38:57,039
+The thing is square
+added into one, right?
+
+915
+00:38:57,039 --> 00:38:59,859
+And then we use this weights to
+
+916
+00:38:59,859 --> 00:39:02,980
+a weighted sum over the
+value and we get the output.
+
+917
+00:39:02,980 --> 00:39:04,959
+And we keep doing
+this layer by layer.
+
+918
+00:39:04,959 --> 00:39:06,759
+Okay. Any question?
+
+919
+00:39:06,759 --> 00:39:08,879
+I assume you are very
+familiar with this, right?
+
+920
+00:39:08,879 --> 00:39:14,369
+Cool. Okay. So basically, um,
+
+921
+00:39:14,369 --> 00:39:15,869
+we all use QT, uh,
+
+922
+00:39:15,869 --> 00:39:18,229
+like a small Q KTVT to refer to
+
+923
+00:39:18,229 --> 00:39:21,129
+the RLT of the K matrix. Okay?
+
+924
+00:39:21,129 --> 00:39:23,289
+And we start asking
+the question, how to
+
+925
+00:39:23,289 --> 00:39:26,369
+compute the output HT based on
+
+926
+00:39:26,369 --> 00:39:32,230
+the small QT and the bigger
+matrix on timestep T, okay?
+
+927
+00:39:32,230 --> 00:39:34,889
+And to keep this
+printing simple,
+
+928
+00:39:34,889 --> 00:39:36,809
+we will drop the
+suffix To We all
+
+929
+00:39:36,809 --> 00:39:40,029
+simply use Q to refer
+to QT next slice, okay?
+
+930
+00:39:40,029 --> 00:39:43,254
+So we are basically following
+this equation, okay?
+
+931
+00:39:43,254 --> 00:39:45,160
+So conceptually, we compute
+
+932
+00:39:45,160 --> 00:39:46,580
+the output of the
+following steps.
+
+933
+00:39:46,580 --> 00:39:50,559
+We first compute a pre soft
+max at in square, okay?
+
+934
+00:39:50,559 --> 00:39:53,239
+Which is we take the small Q
+
+935
+00:39:53,239 --> 00:39:55,959
+and the as okay,
+we transpose it.
+
+936
+00:39:55,959 --> 00:39:57,159
+Okay. And then we do
+
+937
+00:39:57,159 --> 00:40:00,939
+a dot product and normalize
+by some constant term.
+
+938
+00:40:00,939 --> 00:40:04,579
+And we basically get a so
+called at square, right?
+
+939
+00:40:04,579 --> 00:40:06,199
+This square is a
+floating point square.
+
+940
+00:40:06,199 --> 00:40:07,999
+It could be anything, okay?
+
+941
+00:40:07,999 --> 00:40:10,799
+But what do we do is we
+want to normalize it into,
+
+942
+00:40:10,799 --> 00:40:12,840
+like, within a range 0-1.
+
+943
+00:40:12,840 --> 00:40:14,859
+So we can basically
+take a weaty sum.
+
+944
+00:40:14,859 --> 00:40:17,799
+So what we do is we
+take a softmax, okay?
+
+945
+00:40:17,799 --> 00:40:22,349
+We take squares and we use
+this softmax to normalize it.
+
+946
+00:40:22,349 --> 00:40:24,559
+Once we normalize it,
+we basically take
+
+947
+00:40:24,559 --> 00:40:28,739
+a weighted sum over
+all the rows of V,
+
+948
+00:40:28,739 --> 00:40:30,320
+and we basically get output
+
+949
+00:40:30,320 --> 00:40:34,420
+H. This is basically
+self atentin?
+
+950
+00:40:34,420 --> 00:40:37,499
+Yeah, intuition is basically SI
+
+951
+00:40:37,499 --> 00:40:41,299
+computes the relevance
+of QI to the query Q.
+
+952
+00:40:41,299 --> 00:40:42,879
+And then we do weighted sum of
+
+953
+00:40:42,879 --> 00:40:46,064
+the values proportional
+to the relevance. Yeah.
+
+954
+00:40:46,064 --> 00:40:50,749
+Okay. And, of course,
+
+955
+00:40:50,749 --> 00:40:55,269
+can, uh, write it
+in the matrix form.
+
+956
+00:40:55,269 --> 00:40:57,169
+And if you write
+it in matrix form,
+
+957
+00:40:57,169 --> 00:40:58,529
+it basically that we use Q and
+
+958
+00:40:58,529 --> 00:41:01,629
+K Q times Q transpose, right?
+
+959
+00:41:01,629 --> 00:41:03,789
+And the normalizing
+factor is unchanging.
+
+960
+00:41:03,789 --> 00:41:05,470
+And soft max is basically
+
+961
+00:41:05,470 --> 00:41:07,729
+like normalizing
+across the rows.
+
+962
+00:41:07,729 --> 00:41:10,109
+And then once we
+get the ten square,
+
+963
+00:41:10,109 --> 00:41:11,569
+we time it with V,
+
+964
+00:41:11,569 --> 00:41:14,550
+and we get the output.
+
+965
+00:41:15,260 --> 00:41:20,459
+Okay. Any question? A
+good. This is simple.
+
+966
+00:41:20,459 --> 00:41:23,640
+Okay. I think in
+previous lecture,
+
+967
+00:41:23,640 --> 00:41:25,060
+we only talk about
+a single attention,
+
+968
+00:41:25,060 --> 00:41:27,860
+but in Ms, what we do is
+we use multi attention.
+
+969
+00:41:27,860 --> 00:41:30,739
+So we have many many And
+
+970
+00:41:30,739 --> 00:41:32,159
+each computation is called
+
+971
+00:41:32,159 --> 00:41:34,859
+basically each of this
+panel is called a head,
+
+972
+00:41:34,859 --> 00:41:38,020
+and we do multiple
+casts in parallel.
+
+973
+00:41:38,020 --> 00:41:39,359
+Therefore, our computation has
+
+974
+00:41:39,359 --> 00:41:41,119
+another dimension which
+is number of heads.
+
+975
+00:41:41,119 --> 00:41:43,740
+Okay. This is also
+very straightforward.
+
+976
+00:41:43,740 --> 00:41:45,659
+So the intuition
+is that each head
+
+977
+00:41:45,659 --> 00:41:47,960
+can correspond to different
+kind of information,
+
+978
+00:41:47,960 --> 00:41:50,759
+And sometimes we can share
+the heads, for example,
+
+979
+00:41:50,759 --> 00:41:52,079
+GQA is basically like all
+
+980
+00:41:52,079 --> 00:41:54,119
+has shared QV but
+have different Q.
+
+981
+00:41:54,119 --> 00:41:56,200
+Okay. This thad attention.
+
+982
+00:41:56,200 --> 00:41:59,899
+And we ala call Multi head
+attention MHA. Okay. Yeah.
+
+983
+00:41:59,899 --> 00:42:01,340
+If you look at MHA,
+
+984
+00:42:01,340 --> 00:42:04,420
+it basically refers to
+Multi head attention.
+
+985
+00:42:04,970 --> 00:42:10,170
+Okay. Then I think I finished
+introducing they mechanism.
+
+986
+00:42:10,170 --> 00:42:11,670
+Then you are probably wondering
+
+987
+00:42:11,670 --> 00:42:14,409
+where exactly do we get
+Q and Q and V, right?
+
+988
+00:42:14,409 --> 00:42:16,209
+So this is also simple.
+
+989
+00:42:16,209 --> 00:42:18,249
+So in order to get Q and Q and,
+
+990
+00:42:18,249 --> 00:42:20,089
+we basically take the output of
+
+991
+00:42:20,089 --> 00:42:21,489
+the previous transformer layer
+
+992
+00:42:21,489 --> 00:42:23,990
+and we apply a
+linear information.
+
+993
+00:42:23,990 --> 00:42:26,789
+Yeah. Here, we introduce
+three learnable ways,
+
+994
+00:42:26,789 --> 00:42:28,430
+WQ WK and WV.
+
+995
+00:42:28,430 --> 00:42:30,749
+And this X for the first layer,
+
+996
+00:42:30,749 --> 00:42:32,050
+this x is basically input.
+
+997
+00:42:32,050 --> 00:42:33,689
+And for the middle
+layer, this x is
+
+998
+00:42:33,689 --> 00:42:36,069
+basically the output of
+the previous layer, okay?
+
+999
+00:42:36,069 --> 00:42:40,330
+And we basically tie them
+together, we get QQV.
+
+1000
+00:42:40,330 --> 00:42:41,609
+So basically QQV are all
+
+1001
+00:42:41,609 --> 00:42:44,609
+transposed from the input
+using different weights.
+
+1002
+00:42:44,609 --> 00:42:48,969
+Okay. Cool.
+
+1003
+00:42:48,969 --> 00:42:51,490
+Okay. And with the attention,
+
+1004
+00:42:51,490 --> 00:42:53,569
+we can basically start
+
+1005
+00:42:53,569 --> 00:42:56,949
+revealing the uh,
+transformer block, right?
+
+1006
+00:42:56,949 --> 00:42:58,930
+So transformer block
+is essentially
+
+1007
+00:42:58,930 --> 00:43:01,289
+we take the input X, um,
+
+1008
+00:43:01,289 --> 00:43:03,929
+we do a linear projection to
+
+1009
+00:43:03,929 --> 00:43:06,970
+get the QQV then
+we take the QQV.
+
+1010
+00:43:06,970 --> 00:43:10,064
+We do the self
+attention. We get the Z.
+
+1011
+00:43:10,064 --> 00:43:13,779
+And we apply some element
+wise normalization,
+
+1012
+00:43:13,779 --> 00:43:15,460
+typically layer
+loam, but sometimes
+
+1013
+00:43:15,460 --> 00:43:17,639
+we also use RMS worm, okay?
+
+1014
+00:43:17,639 --> 00:43:20,839
+And we transpose it
+a little bit, okay?
+
+1015
+00:43:20,839 --> 00:43:23,139
+And after this layer loam,
+
+1016
+00:43:23,139 --> 00:43:26,200
+what we do is we introduce
+a two layer MLP.
+
+1017
+00:43:26,200 --> 00:43:27,919
+Okay? We have been
+doing this a lot,
+
+1018
+00:43:27,919 --> 00:43:30,560
+right two layer MLP,
+basically two matm, okay?
+
+1019
+00:43:30,560 --> 00:43:35,120
+We use this matm to u
+transpose this further
+
+1020
+00:43:35,120 --> 00:43:37,219
+and eventually go through
+
+1021
+00:43:37,219 --> 00:43:40,319
+another normalization and
+we get the output edge.
+
+1022
+00:43:40,319 --> 00:43:42,020
+And this edge is basically
+
+1023
+00:43:42,020 --> 00:43:44,459
+the input to the next
+transform layer.
+
+1024
+00:43:44,459 --> 00:43:51,659
+Okay. And we keep doing
+this. Okay. Any question?
+
+1025
+00:43:52,180 --> 00:43:56,939
+Cool. Um, yeah.
+
+1026
+00:43:56,939 --> 00:43:58,559
+But in reality, like I said,
+
+1027
+00:43:58,559 --> 00:44:00,039
+when you train language model,
+
+1028
+00:44:00,039 --> 00:44:03,359
+when you do language model
+kind of computation,
+
+1029
+00:44:03,359 --> 00:44:06,100
+uh, you are modeling the
+conditional probity.
+
+1030
+00:44:06,100 --> 00:44:07,639
+You want to output
+the probability of
+
+1031
+00:44:07,639 --> 00:44:09,779
+next to condition
+or pervious token.
+
+1032
+00:44:09,779 --> 00:44:12,179
+And then when you output the
+probability of next token,
+
+1033
+00:44:12,179 --> 00:44:15,140
+you don't want to you cannot
+see the future tokens.
+
+1034
+00:44:15,140 --> 00:44:18,100
+But when you do training, you
+did know the future tokens.
+
+1035
+00:44:18,100 --> 00:44:19,499
+So what do you do you
+
+1036
+00:44:19,499 --> 00:44:21,559
+basically do this kind
+of masking, right?
+
+1037
+00:44:21,559 --> 00:44:23,980
+You still compute
+the tenting square,
+
+1038
+00:44:23,980 --> 00:44:25,299
+but you mask out
+
+1039
+00:44:25,299 --> 00:44:27,880
+all the tenting squares
+of future tokens.
+
+1040
+00:44:27,880 --> 00:44:30,220
+Right? For example,
+when you predict
+
+1041
+00:44:30,220 --> 00:44:32,680
+the probability of
+the first token,
+
+1042
+00:44:32,680 --> 00:44:35,259
+you only see the first
+token, nothing else, right?
+
+1043
+00:44:35,259 --> 00:44:38,859
+When you try to predict the
+probity of second token,
+
+1044
+00:44:38,859 --> 00:44:40,359
+you only see the first
+and second token.
+
+1045
+00:44:40,359 --> 00:44:45,059
+And all scores on other token
+positions, you cannot see.
+
+1046
+00:44:45,059 --> 00:44:47,500
+The way you do it
+is you do masking.
+
+1047
+00:44:47,500 --> 00:44:48,980
+But you can be a
+little bit smarter
+
+1048
+00:44:48,980 --> 00:44:50,239
+here because like I said,
+
+1049
+00:44:50,239 --> 00:44:53,100
+if you do masking, you are
+wasting some competition.
+
+1050
+00:44:53,100 --> 00:44:55,199
+You still in your matrix firm,
+
+1051
+00:44:55,199 --> 00:44:57,980
+you are still computing all
+the entries in this matrix,
+
+1052
+00:44:57,980 --> 00:44:59,539
+but you are
+essentially throw away
+
+1053
+00:44:59,539 --> 00:45:01,619
+since you don't use them.
+
+1054
+00:45:01,619 --> 00:45:03,020
+So you can be a
+little bit smarter,
+
+1055
+00:45:03,020 --> 00:45:04,294
+and we are going to
+come back to this.
+
+1056
+00:45:04,294 --> 00:45:09,930
+Okay, this is masking.
+
+1057
+00:45:09,930 --> 00:45:13,350
+So in summary, transformer,
+
+1058
+00:45:13,350 --> 00:45:15,629
+we care about decoders
+because decoder is
+
+1059
+00:45:15,629 --> 00:45:19,890
+a default transformer component
+for the language models.
+
+1060
+00:45:19,890 --> 00:45:21,609
+In language models, we have
+
+1061
+00:45:21,609 --> 00:45:23,210
+many many transformer decoders.
+
+1062
+00:45:23,210 --> 00:45:26,269
+And in this transformer
+decoder is really
+
+1063
+00:45:26,269 --> 00:45:29,950
+just composed of attentions
+layer lo and MLP.
+
+1064
+00:45:29,950 --> 00:45:32,569
+Okay? And of course,
+
+1065
+00:45:32,569 --> 00:45:36,049
+our input is a sequence
+of tokens, right?
+
+1066
+00:45:36,049 --> 00:45:39,450
+So we need to transform a
+discrete token into a vector,
+
+1067
+00:45:39,450 --> 00:45:41,390
+and we use embedding.
+
+1068
+00:45:41,390 --> 00:45:44,195
+So we have this input embedding.
+
+1069
+00:45:44,195 --> 00:45:46,679
+Okay. And we also care
+
+1070
+00:45:46,679 --> 00:45:49,820
+about the relative position
+of token in the sequence.
+
+1071
+00:45:49,820 --> 00:45:54,319
+We also have a position
+embedding, for example,
+
+1072
+00:45:54,319 --> 00:45:55,699
+a simple position
+embedding could
+
+1073
+00:45:55,699 --> 00:45:58,179
+be the first token being zero,
+
+1074
+00:45:58,179 --> 00:46:00,820
+second token being one,
+and I try to basically
+
+1075
+00:46:00,820 --> 00:46:04,019
+create an embedding that 01
+into another vector space.
+
+1076
+00:46:04,019 --> 00:46:06,300
+But today, we are much smarter.
+
+1077
+00:46:06,300 --> 00:46:07,839
+We are doing embedding called
+
+1078
+00:46:07,839 --> 00:46:10,299
+literal embedding,
+which I don't cover.
+
+1079
+00:46:10,299 --> 00:46:11,920
+If you're interested,
+you can basically
+
+1080
+00:46:11,920 --> 00:46:13,399
+take a look at that paper.
+
+1081
+00:46:13,399 --> 00:46:16,279
+But essentially, we have
+a position embedding to
+
+1082
+00:46:16,279 --> 00:46:19,484
+also tell us the exact
+position of each token.
+
+1083
+00:46:19,484 --> 00:46:20,309
+Okay.
+
+1084
+00:46:20,309 --> 00:46:24,389
+And finally, we basically
+go through this layer,
+
+1085
+00:46:24,389 --> 00:46:26,590
+input embedding,
+positing embedding.
+
+1086
+00:46:26,590 --> 00:46:29,190
+Multi hitension a
+few roman additions,
+
+1087
+00:46:29,190 --> 00:46:33,550
+two layer MLP, romanidon
+and we repeat.
+
+1088
+00:46:33,550 --> 00:46:35,409
+Okay, we repeat in times,
+
+1089
+00:46:35,409 --> 00:46:37,750
+and it's equals to
+a number of layers.
+
+1090
+00:46:37,750 --> 00:46:41,529
+And then we project it
+back into the token space.
+
+1091
+00:46:41,529 --> 00:46:43,069
+We compare the token to the
+
+1092
+00:46:43,069 --> 00:46:45,729
+observe token
+calculate the loss.
+
+1093
+00:46:45,729 --> 00:46:48,310
+That is our loss
+function, softmax.
+
+1094
+00:46:48,310 --> 00:46:51,229
+Okay? This is essentially
+transformers,
+
+1095
+00:46:51,229 --> 00:46:57,599
+language models. Okay. Yeah.
+
+1096
+00:46:57,599 --> 00:46:58,999
+And in this four layers,
+
+1097
+00:46:58,999 --> 00:47:01,500
+like I said, it's
+essentially a two layer MLP,
+
+1098
+00:47:01,500 --> 00:47:06,500
+where you have input X times
+weight matrix plus bias.
+
+1099
+00:47:06,500 --> 00:47:08,860
+And once you get the results,
+
+1100
+00:47:08,860 --> 00:47:10,760
+you take a linear function,
+
+1101
+00:47:10,760 --> 00:47:14,660
+u or something else, time
+another with W two plus a bias.
+
+1102
+00:47:14,660 --> 00:47:16,659
+Yeah, simple. We have
+
+1103
+00:47:16,659 --> 00:47:18,059
+been doing this many,
+many times, right?
+
+1104
+00:47:18,059 --> 00:47:19,299
+Okay.
+
+1105
+00:47:21,020 --> 00:47:24,879
+Okay. Then let's break it down,
+
+1106
+00:47:24,879 --> 00:47:28,980
+into, like, what are the
+computing components?
+
+1107
+00:47:28,980 --> 00:47:30,399
+The computing components is
+
+1108
+00:47:30,399 --> 00:47:32,839
+basically, we have
+self attention, right.
+
+1109
+00:47:32,839 --> 00:47:34,400
+We have layer and residual.
+
+1110
+00:47:34,400 --> 00:47:37,259
+We have MLPs, we
+have long linear.
+
+1111
+00:47:37,259 --> 00:47:38,979
+Apparently you have learned
+
+1112
+00:47:38,979 --> 00:47:42,059
+this layer wise residual linear,
+
+1113
+00:47:42,059 --> 00:47:44,799
+they are element wise
+operations light,
+
+1114
+00:47:44,799 --> 00:47:46,439
+leading just a little bit of
+
+1115
+00:47:46,439 --> 00:47:48,939
+flops, very easy to deal with.
+
+1116
+00:47:48,939 --> 00:47:52,700
+But self attention
+very slow wipe.
+
+1117
+00:47:52,700 --> 00:47:54,599
+I will cover this later.
+
+1118
+00:47:54,599 --> 00:47:56,759
+MLP is very slow we because it's
+
+1119
+00:47:56,759 --> 00:47:59,679
+metams big metam and
+metamo is taking a lot of
+
+1120
+00:47:59,679 --> 00:48:02,599
+flops to compute and
+you guys already
+
+1121
+00:48:02,599 --> 00:48:06,059
+know how to open metal. We
+are also good with this part.
+
+1122
+00:48:06,059 --> 00:48:10,159
+You already know that
+kernel. Okay, cool.
+
+1123
+00:48:11,000 --> 00:48:13,679
+In order to optimize
+the RM, at least,
+
+1124
+00:48:13,679 --> 00:48:16,780
+I think we only have one
+problem is self attention,
+
+1125
+00:48:16,780 --> 00:48:19,279
+W cover next week.
+
+1126
+00:48:20,160 --> 00:48:22,520
+And also we have
+a word embedding,
+
+1127
+00:48:22,520 --> 00:48:25,500
+but the word embedding
+essentially another memo.
+
+1128
+00:48:25,500 --> 00:48:28,500
+Look up table.
+Yeah, very simple.
+
+1129
+00:48:28,500 --> 00:48:30,640
+And we have position embedding,
+
+1130
+00:48:30,640 --> 00:48:32,559
+which is also very simple.
+
+1131
+00:48:32,559 --> 00:48:35,520
+No flops. Loss function,
+
+1132
+00:48:35,520 --> 00:48:37,879
+Softmax. You also
+implement this.
+
+1133
+00:48:37,879 --> 00:48:41,359
+Okay? No, we break
+this M down, right?
+
+1134
+00:48:41,359 --> 00:48:43,140
+So basically, from
+computing perspective,
+
+1135
+00:48:43,140 --> 00:48:45,200
+the only problem now is
+basically self attention,
+
+1136
+00:48:45,200 --> 00:48:47,520
+how to make it fast, okay?
+
+1137
+00:48:48,000 --> 00:48:51,099
+And like I said,
+
+1138
+00:48:51,099 --> 00:48:54,659
+models like TBD R or all
+these kind of models.
+
+1139
+00:48:54,659 --> 00:48:55,839
+So what they do is
+basically, they
+
+1140
+00:48:55,839 --> 00:48:57,639
+repeat these kind of
+transformatic co layers.
+
+1141
+00:48:57,639 --> 00:48:58,980
+Okay, the input is a sequence,
+
+1142
+00:48:58,980 --> 00:49:02,800
+and they keep performing self
+attent in the MLPelf MLP.
+
+1143
+00:49:02,800 --> 00:49:06,190
+They repeat many, many times
+and they get a prediction.
+
+1144
+00:49:06,190 --> 00:49:07,419
+Okay.
+
+1145
+00:49:07,419 --> 00:49:10,260
+And depending on
+different kind of model,
+
+1146
+00:49:10,260 --> 00:49:13,700
+kind of implementation,
+
+1147
+00:49:13,700 --> 00:49:15,459
+they can basically
+change a little bit,
+
+1148
+00:49:15,459 --> 00:49:16,660
+but very small Delta.
+
+1149
+00:49:16,660 --> 00:49:18,280
+Okay? For example,
+
+1150
+00:49:18,280 --> 00:49:20,559
+this is the original
+transformer paper,
+
+1151
+00:49:20,559 --> 00:49:22,920
+and this is Matas Lama,
+
+1152
+00:49:22,920 --> 00:49:25,699
+and the only difference
+is at least here.
+
+1153
+00:49:25,699 --> 00:49:29,739
+So for example, where you
+insert the layer loam,
+
+1154
+00:49:29,739 --> 00:49:32,860
+you could insert layer before
+tenting or after attention.
+
+1155
+00:49:32,860 --> 00:49:36,659
+Okay? That is called post
+layer or pre layer m. Okay.
+
+1156
+00:49:36,659 --> 00:49:38,040
+But like I said, the computing
+
+1157
+00:49:38,040 --> 00:49:39,899
+doesn't change a lot
+because it's a layer loon.
+
+1158
+00:49:39,899 --> 00:49:42,359
+Okay. Also what kind
+
+1159
+00:49:42,359 --> 00:49:43,799
+of normalization you
+are going to use?
+
+1160
+00:49:43,799 --> 00:49:46,319
+Some use layer. So use RMS norm.
+
+1161
+00:49:46,319 --> 00:49:47,440
+I think you implement
+
+1162
+00:49:47,440 --> 00:49:48,660
+this one in your
+homework environment.
+
+1163
+00:49:48,660 --> 00:49:53,640
+Yeah. Also what is the
+lininear function?
+
+1164
+00:49:53,640 --> 00:49:55,420
+The originalm is Valu,
+
+1165
+00:49:55,420 --> 00:49:57,219
+but lama use sl.
+
+1166
+00:49:57,219 --> 00:49:58,980
+SLO and are very similar.
+
+1167
+00:49:58,980 --> 00:50:01,680
+Light linear functions.
+
+1168
+00:50:01,680 --> 00:50:03,500
+And also position encoding
+
+1169
+00:50:03,500 --> 00:50:05,740
+is basically the
+position embedding.
+
+1170
+00:50:05,740 --> 00:50:08,680
+Like we probably use different
+kind of post embeddings,
+
+1171
+00:50:08,680 --> 00:50:10,279
+but still very light.
+
+1172
+00:50:10,279 --> 00:50:12,039
+You can see from this table,
+
+1173
+00:50:12,039 --> 00:50:14,979
+you can see the compute heavy
+part doesn't change a lot,
+
+1174
+00:50:14,979 --> 00:50:18,439
+so it's basically MLP and
+tension. They always use that.
+
+1175
+00:50:18,439 --> 00:50:22,149
+Okay. And when training,
+
+1176
+00:50:22,149 --> 00:50:24,769
+what we do is basically, um,
+
+1177
+00:50:24,769 --> 00:50:27,309
+we observe the entire
+sequence, right.
+
+1178
+00:50:27,309 --> 00:50:29,069
+But our model is only capable of
+
+1179
+00:50:29,069 --> 00:50:31,490
+predicting the next token,
+not the entire sequence.
+
+1180
+00:50:31,490 --> 00:50:35,309
+So we basically decompose
+that uh probability of
+
+1181
+00:50:35,309 --> 00:50:36,629
+the entire sequence into
+
+1182
+00:50:36,629 --> 00:50:39,429
+a factoring of many
+conditions, right?
+
+1183
+00:50:39,429 --> 00:50:42,149
+So what do we do
+is basically, um,
+
+1184
+00:50:42,149 --> 00:50:44,750
+like we fit this
+sequence into RM
+
+1185
+00:50:44,750 --> 00:50:47,609
+and we predict at each
+output position, right?
+
+1186
+00:50:47,609 --> 00:50:49,110
+And when we predict
+this position,
+
+1187
+00:50:49,110 --> 00:50:52,989
+the second word, we are
+masking the rest of the words.
+
+1188
+00:50:52,989 --> 00:50:55,069
+Okay? We only look
+at the first word,
+
+1189
+00:50:55,069 --> 00:50:58,029
+this one, and we try to
+predict the second word.
+
+1190
+00:50:58,029 --> 00:50:59,310
+And once we have a prediction,
+
+1191
+00:50:59,310 --> 00:51:00,529
+we compare this predict to
+
+1192
+00:51:00,529 --> 00:51:02,890
+the exact observed
+word at that position.
+
+1193
+00:51:02,890 --> 00:51:04,369
+We calculate loss, right?
+
+1194
+00:51:04,369 --> 00:51:07,289
+And same thing, when
+we predict this word,
+
+1195
+00:51:07,289 --> 00:51:09,709
+we only are allowed to
+look at these two words.
+
+1196
+00:51:09,709 --> 00:51:12,330
+And we do that kind of masking.
+
+1197
+00:51:12,330 --> 00:51:14,069
+And the pretty thing,
+
+1198
+00:51:14,069 --> 00:51:15,899
+the nicer thing here is,
+
+1199
+00:51:15,899 --> 00:51:19,149
+You can do this in
+one pass, right?
+
+1200
+00:51:19,149 --> 00:51:21,070
+You are calcat loss
+at each position,
+
+1201
+00:51:21,070 --> 00:51:22,449
+but you can do this in one pass,
+
+1202
+00:51:22,449 --> 00:51:24,729
+because you are basically
+doing like I said,
+
+1203
+00:51:24,729 --> 00:51:26,429
+attention is highly paralyzable.
+
+1204
+00:51:26,429 --> 00:51:31,190
+So whenever you compute the
+atten scored at any position,
+
+1205
+00:51:31,190 --> 00:51:32,290
+you can basically
+do the computation.
+
+1206
+00:51:32,290 --> 00:51:35,569
+You don't have to depend on
+the previous hidden states.
+
+1207
+00:51:35,569 --> 00:51:38,649
+If you change this
+transformation into a iron,
+
+1208
+00:51:38,649 --> 00:51:40,509
+that's not the case,
+because you have to
+
+1209
+00:51:40,509 --> 00:51:43,590
+predict one token,
+the next toenxt.
+
+1210
+00:51:43,590 --> 00:51:47,410
+That's why attention is
+super good for GPUs.
+
+1211
+00:51:48,090 --> 00:51:54,899
+Any question? Okay. Okay, then
+
+1212
+00:51:54,899 --> 00:51:56,739
+let's start our major topic,
+
+1213
+00:51:56,739 --> 00:51:57,939
+okay, for this part. Okay.
+
+1214
+00:51:57,939 --> 00:52:00,214
+This is just a recap, okay?
+
+1215
+00:52:00,214 --> 00:52:03,469
+So we are doing machine
+learning systems, right.
+
+1216
+00:52:03,469 --> 00:52:05,369
+So we know we have talk
+
+1217
+00:52:05,369 --> 00:52:07,750
+about tension, talk
+about transformers.
+
+1218
+00:52:07,750 --> 00:52:09,829
+But the real thing
+we care about is
+
+1219
+00:52:09,829 --> 00:52:12,669
+basically a few
+questions, right?
+
+1220
+00:52:12,669 --> 00:52:15,029
+Like, it's computing
+characteristics.
+
+1221
+00:52:15,029 --> 00:52:18,630
+So I think I already give you
+this kind of like a model
+
+1222
+00:52:18,630 --> 00:52:19,889
+when you start taking
+
+1223
+00:52:19,889 --> 00:52:21,429
+machine learning program to
+
+1224
+00:52:21,429 --> 00:52:23,389
+analyze. You care
+about three things.
+
+1225
+00:52:23,389 --> 00:52:24,829
+One is computer, another is
+
+1226
+00:52:24,829 --> 00:52:26,290
+memory, another
+is communication.
+
+1227
+00:52:26,290 --> 00:52:28,029
+You care about computer
+because you need
+
+1228
+00:52:28,029 --> 00:52:30,049
+to know how many flops
+I need to spend, right?
+
+1229
+00:52:30,049 --> 00:52:31,689
+You care about
+memory because you
+
+1230
+00:52:31,689 --> 00:52:34,550
+cannot exceed the
+peak memory GPs,
+
+1231
+00:52:34,550 --> 00:52:36,169
+and you care about
+communication because
+
+1232
+00:52:36,169 --> 00:52:38,455
+you want to paralyze it, okay?
+
+1233
+00:52:38,455 --> 00:52:42,259
+So in order to analyze
+these three charcistics,
+
+1234
+00:52:42,259 --> 00:52:44,339
+we need to basically
+understand a few things.
+
+1235
+00:52:44,339 --> 00:52:46,859
+The first thing is we need to be
+
+1236
+00:52:46,859 --> 00:52:48,160
+able to calculate the number
+
+1237
+00:52:48,160 --> 00:52:49,899
+parameters of language model.
+
+1238
+00:52:49,899 --> 00:52:51,980
+Why? Because it matters.
+
+1239
+00:52:51,980 --> 00:52:53,880
+At least we need to allocate
+
+1240
+00:52:53,880 --> 00:52:56,120
+that amount of memory to
+store the parameters.
+
+1241
+00:52:56,120 --> 00:52:58,019
+So basically, I give
+you a language model,
+
+1242
+00:52:58,019 --> 00:52:59,619
+you need to know how
+many parameters it has.
+
+1243
+00:52:59,619 --> 00:53:01,620
+So that will determine
+the minimum storage
+
+1244
+00:53:01,620 --> 00:53:03,059
+you use to store that model.
+
+1245
+00:53:03,059 --> 00:53:05,019
+Okay? And of course,
+
+1246
+00:53:05,019 --> 00:53:07,079
+when you start
+doing communication
+
+1247
+00:53:07,079 --> 00:53:08,640
+when you start doing partism
+
+1248
+00:53:08,640 --> 00:53:10,279
+sometimes you partition over
+
+1249
+00:53:10,279 --> 00:53:12,880
+the width the width operators,
+
+1250
+00:53:12,880 --> 00:53:14,579
+the width in the Delph graph.
+
+1251
+00:53:14,579 --> 00:53:16,179
+And by knowing how
+
+1252
+00:53:16,179 --> 00:53:18,180
+large the width is, you
+know how to partition.
+
+1253
+00:53:18,180 --> 00:53:22,119
+All right. Okay. Second
+computer, right?
+
+1254
+00:53:22,119 --> 00:53:23,599
+In order to know a computer, you
+
+1255
+00:53:23,599 --> 00:53:24,720
+need to know how many flops
+
+1256
+00:53:24,720 --> 00:53:29,379
+needed to finish the completion
+of the RM program, right?
+
+1257
+00:53:29,379 --> 00:53:31,740
+Okay? So basically,
+this basically,
+
+1258
+00:53:31,740 --> 00:53:34,519
+um, determines the
+computer needed, okay?
+
+1259
+00:53:34,519 --> 00:53:35,820
+You need to be able to estimate
+
+1260
+00:53:35,820 --> 00:53:39,180
+how many computer needed
+to finish this program.
+
+1261
+00:53:39,180 --> 00:53:41,879
+And, of course, you
+need to be able
+
+1262
+00:53:41,879 --> 00:53:43,879
+to estimate the memory,
+how many memory needs.
+
+1263
+00:53:43,879 --> 00:53:45,420
+And like I said, memory
+
+1264
+00:53:45,420 --> 00:53:47,099
+is associated with
+a few since one is,
+
+1265
+00:53:47,099 --> 00:53:48,700
+of course, lumber parameters.
+
+1266
+00:53:48,700 --> 00:53:53,499
+The other is basically internal
+intermediate activations,
+
+1267
+00:53:53,499 --> 00:53:58,479
+and optimal states, also,
+
+1268
+00:53:58,479 --> 00:54:01,359
+this kind of, you
+get involved with
+
+1269
+00:54:01,359 --> 00:54:02,579
+communication because if you
+
+1270
+00:54:02,579 --> 00:54:04,080
+choose to partition
+the activation,
+
+1271
+00:54:04,080 --> 00:54:07,040
+you also, well,
+basically influence
+
+1272
+00:54:07,040 --> 00:54:08,500
+how many communication
+you need to conduct
+
+1273
+00:54:08,500 --> 00:54:10,924
+between different, uh, GPUs.
+
+1274
+00:54:10,924 --> 00:54:13,030
+Okay. So three core questions
+
+1275
+00:54:13,030 --> 00:54:16,210
+here to understand from
+a computing perspective.
+
+1276
+00:54:16,210 --> 00:54:18,950
+The first is how to estimate
+the number parameters.
+
+1277
+00:54:18,950 --> 00:54:20,830
+The second is
+estimate the flops.
+
+1278
+00:54:20,830 --> 00:54:23,090
+Third is estimate the
+memory needs between
+
+1279
+00:54:23,090 --> 00:54:24,349
+R. And once we
+
+1280
+00:54:24,349 --> 00:54:26,089
+understand this, we know
+how to paralyze it.
+
+1281
+00:54:26,089 --> 00:54:28,369
+We know how many
+to allocate to it.
+
+1282
+00:54:28,369 --> 00:54:29,349
+And we also know
+
+1283
+00:54:29,349 --> 00:54:31,509
+how many storage we
+allocate to storage with.
+
+1284
+00:54:31,509 --> 00:54:33,589
+Okay, let's do that one by one.
+
+1285
+00:54:33,589 --> 00:54:35,989
+And this is so important
+that I'm going to dive
+
+1286
+00:54:35,989 --> 00:54:37,289
+into details and I'm
+
+1287
+00:54:37,289 --> 00:54:39,164
+also going to give you
+homework to do this.
+
+1288
+00:54:39,164 --> 00:54:43,140
+Okay. First question,
+how to calculate
+
+1289
+00:54:43,140 --> 00:54:47,519
+the number of parameters
+of M? Let's go through it.
+
+1290
+00:54:47,519 --> 00:54:51,420
+So this is RMs computation,
+
+1291
+00:54:51,420 --> 00:54:54,679
+right? Let's go one by one.
+
+1292
+00:54:54,679 --> 00:54:58,219
+Okay. Uh, we have
+a input X, right,
+
+1293
+00:54:58,219 --> 00:55:00,039
+and this input X is going
+
+1294
+00:55:00,039 --> 00:55:05,339
+to basically being go through
+embedding layer, right?
+
+1295
+00:55:05,339 --> 00:55:07,439
+So the embedding layer,
+
+1296
+00:55:07,439 --> 00:55:10,840
+what it does is basically
+embeach token into a vector.
+
+1297
+00:55:10,840 --> 00:55:15,699
+Okay? So commutation
+is looking like this.
+
+1298
+00:55:15,699 --> 00:55:17,839
+We take a token. We first
+
+1299
+00:55:17,839 --> 00:55:20,759
+transform the token
+into one hot, right?
+
+1300
+00:55:20,759 --> 00:55:22,859
+And the size of this
+one hot vector is
+
+1301
+00:55:22,859 --> 00:55:25,079
+the size of the
+vocabulary, right?
+
+1302
+00:55:25,079 --> 00:55:27,819
+And then we basically
+multiply this
+
+1303
+00:55:27,819 --> 00:55:30,680
+one hot with our
+embedding matrix.
+
+1304
+00:55:30,680 --> 00:55:34,314
+We get the vector.
+Okay? First layer.
+
+1305
+00:55:34,314 --> 00:55:38,070
+Once we have the vector, we
+have a sequence of vectors.
+
+1306
+00:55:38,070 --> 00:55:43,309
+Each vector is of dimension
+D or H or each vector is of
+
+1307
+00:55:43,309 --> 00:55:45,890
+dimension and we have a sequence
+
+1308
+00:55:45,890 --> 00:55:50,029
+of vectors. Synchronized S.
+
+1309
+00:55:50,029 --> 00:55:52,670
+Of course, we have
+a outer dimension,
+
+1310
+00:55:52,670 --> 00:55:56,809
+which is a backside, number
+of sequences, so we have a B.
+
+1311
+00:55:56,809 --> 00:56:00,340
+Okay. And here I choose
+
+1312
+00:56:00,340 --> 00:56:03,839
+a language model which
+performs pre mannisation,
+
+1313
+00:56:03,839 --> 00:56:05,639
+which means that once it enters
+
+1314
+00:56:05,639 --> 00:56:07,339
+into this transformer layer,
+
+1315
+00:56:07,339 --> 00:56:10,719
+it will perform
+romanization layer loam.
+
+1316
+00:56:10,719 --> 00:56:12,979
+And I think you already
+know how layer loom
+
+1317
+00:56:12,979 --> 00:56:16,159
+does in homework. I'm
+going to skip that.
+
+1318
+00:56:16,159 --> 00:56:17,879
+Layer lo inside of linear loom
+
+1319
+00:56:17,879 --> 00:56:19,299
+is are a few parameters, right.
+
+1320
+00:56:19,299 --> 00:56:22,379
+Okay. And once you
+finish layer loam,
+
+1321
+00:56:22,379 --> 00:56:27,869
+what's the shape?
+Still BSH. Okay?
+
+1322
+00:56:27,869 --> 00:56:32,049
+Remember this, BSH is
+basically the golden rule,
+
+1323
+00:56:32,049 --> 00:56:35,250
+many boundaries in the
+arms, basically BSH.
+
+1324
+00:56:35,250 --> 00:56:37,109
+Okay? So here I'm going to have
+
+1325
+00:56:37,109 --> 00:56:42,009
+a BSH I'm going to go into
+self attention, right?
+
+1326
+00:56:42,009 --> 00:56:44,330
+And in self attention.
+
+1327
+00:56:44,330 --> 00:56:46,889
+So what parameters do you have?
+
+1328
+00:56:49,300 --> 00:56:53,899
+You first project
+this PSH into QQ.
+
+1329
+00:56:53,899 --> 00:56:55,960
+In order to do the projection,
+
+1330
+00:56:55,960 --> 00:57:00,160
+you have three
+metric WQ WK and WV.
+
+1331
+00:57:00,160 --> 00:57:04,339
+Here you have three
+parameters, this.
+
+1332
+00:57:04,580 --> 00:57:07,360
+Once you do the projection,
+
+1333
+00:57:07,360 --> 00:57:09,760
+what do you do? You
+do self attention.
+
+1334
+00:57:09,760 --> 00:57:13,299
+You Q times K transports
+normalization soft max,
+
+1335
+00:57:13,299 --> 00:57:15,539
+then we is sum, you're done.
+
+1336
+00:57:15,539 --> 00:57:17,400
+You can see through
+this process,
+
+1337
+00:57:17,400 --> 00:57:18,840
+there's no more parameters.
+
+1338
+00:57:18,840 --> 00:57:22,959
+Only three parameters W
+W WV. Then we are good.
+
+1339
+00:57:22,959 --> 00:57:25,620
+Here we are only
+continuing parameters.
+
+1340
+00:57:26,230 --> 00:57:29,149
+Okay, good, good, good.
+
+1341
+00:57:29,149 --> 00:57:30,950
+And then we go through
+
+1342
+00:57:30,950 --> 00:57:32,829
+the next layer mization
+
+1343
+00:57:32,829 --> 00:57:35,449
+and you know it, I'm
+going to skip it.
+
+1344
+00:57:35,449 --> 00:57:38,369
+Okay, once you
+finish layer later,
+
+1345
+00:57:38,369 --> 00:57:40,669
+you enter MLP, right?
+
+1346
+00:57:40,669 --> 00:57:42,269
+In MLP, like I said,
+
+1347
+00:57:42,269 --> 00:57:44,170
+it's basically two layer MLP,
+
+1348
+00:57:44,170 --> 00:57:46,650
+and there's a ln linear function
+
+1349
+00:57:46,650 --> 00:57:48,229
+between these two layer MLP.
+
+1350
+00:57:48,229 --> 00:57:51,309
+So in MLP, what
+parameter do you have?
+
+1351
+00:57:52,350 --> 00:57:56,089
+To arithmetrics, and two
+biases, very simple, right?
+
+1352
+00:57:56,089 --> 00:57:59,130
+Okay. And once you finish MLP,
+
+1353
+00:57:59,130 --> 00:58:02,009
+you do another romanization.
+Another layer.
+
+1354
+00:58:02,009 --> 00:58:06,309
+Yeah. Sorry, once you
+finish fit forward,
+
+1355
+00:58:06,309 --> 00:58:09,869
+repeat you repeat many
+times number layers.
+
+1356
+00:58:09,869 --> 00:58:12,030
+And this is determined
+by the number
+
+1357
+00:58:12,030 --> 00:58:14,250
+of layers and layers.
+
+1358
+00:58:14,250 --> 00:58:18,389
+And once you finish these
+times of trans layers,
+
+1359
+00:58:18,389 --> 00:58:20,450
+you basically enter
+another layer romanization
+
+1360
+00:58:20,450 --> 00:58:21,829
+to romanize a little bit,
+
+1361
+00:58:21,829 --> 00:58:26,290
+and then you'll go into
+another reverse embedding.
+
+1362
+00:58:26,290 --> 00:58:28,489
+Basically, you take your
+embedding and you try
+
+1363
+00:58:28,489 --> 00:58:31,409
+to project it back into
+the vocabulary, okay.
+
+1364
+00:58:31,409 --> 00:58:35,389
+And in many many language
+model implementations,
+
+1365
+00:58:35,389 --> 00:58:37,209
+this embedding and
+this embedding they
+
+1366
+00:58:37,209 --> 00:58:39,050
+are shared, same embedding.
+
+1367
+00:58:39,050 --> 00:58:41,410
+So you don't introduce
+any new parameters.
+
+1368
+00:58:41,410 --> 00:58:43,030
+You use the original embedding.
+
+1369
+00:58:43,030 --> 00:58:46,030
+And hug in phase is
+called time embedding.
+
+1370
+00:58:46,030 --> 00:58:47,749
+Okay. And in many, many cases,
+
+1371
+00:58:47,749 --> 00:58:49,210
+it's time body is enabled.
+
+1372
+00:58:49,210 --> 00:58:52,210
+It's true. Okay. And finally,
+
+1373
+00:58:52,210 --> 00:58:55,169
+you enter softmax, you
+calculate your loss.
+
+1374
+00:58:55,169 --> 00:58:58,629
+Okay? I basically took
+
+1375
+00:58:58,629 --> 00:59:00,730
+you through this entire
+
+1376
+00:59:00,730 --> 00:59:02,529
+parameter counting
+process, right?
+
+1377
+00:59:02,529 --> 00:59:06,440
+So a little bit difference.
+
+1378
+00:59:06,440 --> 00:59:09,000
+In some models, especially
+in modern models,
+
+1379
+00:59:09,000 --> 00:59:10,860
+we are basically making that MLP
+
+1380
+00:59:10,860 --> 00:59:12,200
+a little bit more complicated.
+
+1381
+00:59:12,200 --> 00:59:14,360
+We are using this suit GLU,
+
+1382
+00:59:14,360 --> 00:59:17,359
+and the only difference
+between the sued GLU and
+
+1383
+00:59:17,359 --> 00:59:21,440
+the MLP is we are going to
+introduce another wid matrix.
+
+1384
+00:59:21,440 --> 00:59:24,660
+We are going to take the
+output of the attention.
+
+1385
+00:59:24,660 --> 00:59:26,779
+We first do a linear
+transformation,
+
+1386
+00:59:26,779 --> 00:59:30,099
+and then we do this
+switch transformation,
+
+1387
+00:59:30,099 --> 00:59:32,699
+and then we have another
+linear transformation,
+
+1388
+00:59:32,699 --> 00:59:36,259
+and we do a dot
+product between them.
+
+1389
+00:59:36,259 --> 00:59:39,784
+Then we go through a
+third layer, MLP W three.
+
+1390
+00:59:39,784 --> 00:59:42,289
+So this is kind of like
+
+1391
+00:59:42,289 --> 00:59:45,109
+the amass architecture,
+okay, Sug EIU.
+
+1392
+00:59:45,109 --> 00:59:47,010
+So as you can see,
+if you compare
+
+1393
+00:59:47,010 --> 00:59:49,470
+SWOU and traditional MLP,
+
+1394
+00:59:49,470 --> 00:59:51,330
+you are introducing
+one more parameter,
+
+1395
+00:59:51,330 --> 00:59:54,709
+one more weight matrix.
+Okay? Remember this?
+
+1396
+00:59:54,709 --> 00:59:57,940
+Yeah, Quest in two ways.
+
+1397
+00:59:57,940 --> 01:00:01,499
+Yeah. But usually after
+this, we have another layer.
+
+1398
+01:00:01,499 --> 01:00:04,079
+Yeah. Okay. Makes sense, right?
+
+1399
+01:00:04,079 --> 01:00:09,080
+Cool. Okay. If you start
+counting the parameters,
+
+1400
+01:00:09,080 --> 01:00:13,260
+I basically put it
+here, Embedding layers,
+
+1401
+01:00:13,260 --> 01:00:15,239
+the shape is vocabulary
+
+1402
+01:00:15,239 --> 01:00:17,299
+size times heating
+dimension, right?
+
+1403
+01:00:17,299 --> 01:00:19,600
+So this is your
+lamer parameters.
+
+1404
+01:00:19,600 --> 01:00:22,800
+Leyenon is basically
+d dimension.
+
+1405
+01:00:22,800 --> 01:00:25,820
+You have a single parameter
+which you use to romanize.
+
+1406
+01:00:25,820 --> 01:00:29,939
+Okay? Self attention, how many?
+
+1407
+01:00:33,510 --> 01:00:35,789
+So this is the Lama case.
+
+1408
+01:00:35,789 --> 01:00:38,270
+So in Lama case, what do
+you do is you have WQ,
+
+1409
+01:00:38,270 --> 01:00:41,529
+WK and WV there's three,
+
+1410
+01:00:41,529 --> 01:00:43,389
+and they are of the same shape,
+
+1411
+01:00:43,389 --> 01:00:46,669
+which transpose you from
+edge to edge, right?
+
+1412
+01:00:46,669 --> 01:00:49,830
+So this is three edges square.
+
+1413
+01:00:49,830 --> 01:00:51,510
+Okay. But in ama,
+
+1414
+01:00:51,510 --> 01:00:53,150
+what do you do after attention,
+
+1415
+01:00:53,150 --> 01:00:56,089
+you are going to do another
+outer projection. Okay.
+
+1416
+01:00:56,089 --> 01:00:57,490
+Yeah, if you check ama.
+
+1417
+01:00:57,490 --> 01:00:58,830
+So basically, after attention,
+
+1418
+01:00:58,830 --> 01:01:01,129
+we have another outer
+projection which
+
+1419
+01:01:01,129 --> 01:01:03,909
+do another layer of
+transformation from edge to edge.
+
+1420
+01:01:03,909 --> 01:01:05,910
+So you have another edge square.
+
+1421
+01:01:05,910 --> 01:01:08,970
+So in total, in practice
+for self attention,
+
+1422
+01:01:08,970 --> 01:01:10,830
+you have this number
+of parameters.
+
+1423
+01:01:10,830 --> 01:01:13,409
+Okay? Does that make sense?
+
+1424
+01:01:13,409 --> 01:01:16,370
+Okay, you probably ask
+in self attention,
+
+1425
+01:01:16,370 --> 01:01:18,169
+why are you using multi
+head attention, right?
+
+1426
+01:01:18,169 --> 01:01:20,049
+So we actually have
+multiple heads.
+
+1427
+01:01:20,049 --> 01:01:23,969
+So why this is, um,
+still edge by edge?
+
+1428
+01:01:23,969 --> 01:01:27,369
+Why this project WQ is
+projecting from edge to edge?
+
+1429
+01:01:27,369 --> 01:01:29,949
+A still don't want to answer.
+
+1430
+01:01:31,380 --> 01:01:35,659
+It's because essentially
+mart head the lumber head,
+
+1431
+01:01:36,420 --> 01:01:38,679
+times the head size is still
+
+1432
+01:01:38,679 --> 01:01:40,860
+equal to edge. Yeah,
+that's a constraint.
+
+1433
+01:01:40,860 --> 01:01:42,640
+You are essentially projected
+
+1434
+01:01:42,640 --> 01:01:45,419
+into another you first apply
+
+1435
+01:01:45,419 --> 01:01:49,940
+this WQ project a vector
+from edge to edge,
+
+1436
+01:01:49,940 --> 01:01:52,700
+and then you split
+into different heads.
+
+1437
+01:01:52,700 --> 01:01:55,000
+Yeah. That's what I do
+for language models.
+
+1438
+01:01:55,000 --> 01:01:58,279
+Okay. So it doesn't change the
+number of parameters here.
+
+1439
+01:01:58,279 --> 01:02:01,039
+Then you continue doing midion
+
+1440
+01:02:01,039 --> 01:02:02,680
+which is another
+hidden dimension.
+
+1441
+01:02:02,680 --> 01:02:04,539
+You do fit forward. So here,
+
+1442
+01:02:04,539 --> 01:02:06,769
+how many parameters
+in fit forward?
+
+1443
+01:02:06,769 --> 01:02:09,500
+So for a single
+matrix is basically,
+
+1444
+01:02:09,500 --> 01:02:12,880
+uh, H times I H is
+the input dimension.
+
+1445
+01:02:12,880 --> 01:02:14,240
+I is output dimension.
+
+1446
+01:02:14,240 --> 01:02:17,919
+So I GBD three, I
+equals to four edge.
+
+1447
+01:02:17,919 --> 01:02:21,120
+Which means that you are
+doing upper projection.
+
+1448
+01:02:21,120 --> 01:02:22,999
+You project the hidden
+dimension from edge to
+
+1449
+01:02:22,999 --> 01:02:25,539
+four edge, and you
+project it back.
+
+1450
+01:02:25,539 --> 01:02:28,620
+But like I said, in
+Lama you do sua GLU,
+
+1451
+01:02:28,620 --> 01:02:30,359
+so you house three
+of them, right?
+
+1452
+01:02:30,359 --> 01:02:34,160
+So that's why this
+number is three square.
+
+1453
+01:02:34,160 --> 01:02:36,240
+Sorry, it's three Hi,
+
+1454
+01:02:36,240 --> 01:02:37,519
+and I equals to four H,
+
+1455
+01:02:37,519 --> 01:02:38,940
+so it's 12 edges square.
+
+1456
+01:02:38,940 --> 01:02:41,119
+A lot of primeters, right?
+
+1457
+01:02:41,119 --> 01:02:44,140
+And then you continue
+
+1458
+01:02:44,140 --> 01:02:46,540
+doing roman edition
+on this vocabulary.
+
+1459
+01:02:46,540 --> 01:02:48,499
+Like I said, this one is
+the same with this one,
+
+1460
+01:02:48,499 --> 01:02:50,159
+so we don't count, we
+don't double count.
+
+1461
+01:02:50,159 --> 01:02:52,399
+Okay. Okay. This is
+
+1462
+01:02:52,399 --> 01:02:54,199
+basically a solution to
+your homework, okay?
+
+1463
+01:02:54,199 --> 01:02:57,119
+Try to implement this cool.
+
+1464
+01:02:58,040 --> 01:03:04,949
+Any question? Okay. Now, let
+
+1465
+01:03:04,949 --> 01:03:08,529
+me ask you a question,
+you look at this.
+
+1466
+01:03:08,529 --> 01:03:10,550
+You look at. This is a parameter
+
+1467
+01:03:10,550 --> 01:03:12,949
+of RMs, I already give you.
+
+1468
+01:03:12,949 --> 01:03:16,149
+Almost like 90% of RM
+basically like this.
+
+1469
+01:03:16,149 --> 01:03:18,789
+My question is when you
+try to scale up RM,
+
+1470
+01:03:18,789 --> 01:03:20,149
+which part you are going to see
+
+1471
+01:03:20,149 --> 01:03:23,210
+the bottleneck in
+terms of parameters?
+
+1472
+01:03:25,420 --> 01:03:27,660
+Which are the top two places
+
+1473
+01:03:27,660 --> 01:03:30,180
+you are likely to
+see a bottleneck?
+
+1474
+01:03:30,900 --> 01:03:35,679
+Which is the first one?
+Absolutely, this one.
+
+1475
+01:03:35,679 --> 01:03:39,759
+Like I said, you are doing
+times I times three.
+
+1476
+01:03:39,759 --> 01:03:41,279
+And like I said, in most cases,
+
+1477
+01:03:41,279 --> 01:03:42,999
+I is like a four edge.
+
+1478
+01:03:42,999 --> 01:03:46,179
+So when you try to scale
+the size of language model,
+
+1479
+01:03:46,179 --> 01:03:48,439
+you ally scale the
+hidden size edge,
+
+1480
+01:03:48,439 --> 01:03:50,619
+and this one grows the most is
+
+1481
+01:03:50,619 --> 01:03:53,879
+12 edges square's
+square to edge.
+
+1482
+01:03:53,879 --> 01:03:56,039
+So if you try to
+enlarge your model,
+
+1483
+01:03:56,039 --> 01:03:58,240
+this one is going to explode.
+
+1484
+01:03:58,240 --> 01:04:00,340
+You are going to have
+a lot of parameters
+
+1485
+01:04:00,340 --> 01:04:03,759
+concentrated at the ML piece.
+
+1486
+01:04:03,759 --> 01:04:07,340
+Okay. This also provides
+
+1487
+01:04:07,340 --> 01:04:09,159
+another argument
+why in Mcatron we
+
+1488
+01:04:09,159 --> 01:04:11,079
+are partitioning this
+because at some point,
+
+1489
+01:04:11,079 --> 01:04:12,779
+we will try to skew
+language model
+
+1490
+01:04:12,779 --> 01:04:14,639
+and this one will explode first.
+
+1491
+01:04:14,639 --> 01:04:16,000
+And once it exploded,
+
+1492
+01:04:16,000 --> 01:04:18,119
+the only way to
+steal make it fit is
+
+1493
+01:04:18,119 --> 01:04:21,120
+basically doing
+partitioning parallelism,
+
+1494
+01:04:21,120 --> 01:04:23,120
+how to partition
+this with matrix.
+
+1495
+01:04:23,120 --> 01:04:27,139
+If remember in Mctron
+our model we do is we
+
+1496
+01:04:27,139 --> 01:04:32,699
+partition in this way,
+this is the math mode.
+
+1497
+01:04:32,699 --> 01:04:35,059
+We column part in
+the first input X,
+
+1498
+01:04:35,059 --> 01:04:37,979
+we party in the width W,
+
+1499
+01:04:37,979 --> 01:04:40,419
+and here we get a partial sum.
+
+1500
+01:04:40,419 --> 01:04:42,039
+That's because when
+we try to scale
+
+1501
+01:04:42,039 --> 01:04:44,260
+language model,
+this one explode.
+
+1502
+01:04:44,260 --> 01:04:46,139
+Yeah, we have to part it.
+
+1503
+01:04:46,139 --> 01:04:50,220
+Where is the second place
+that this can get exploded?
+
+1504
+01:04:50,220 --> 01:04:52,140
+Yes, self attention.
+
+1505
+01:04:52,140 --> 01:04:53,820
+You can see there's
+a lot of parameters.
+
+1506
+01:04:53,820 --> 01:04:56,340
+So basically, the
+primary sources
+
+1507
+01:04:56,340 --> 01:04:57,939
+of language model
+parameters come
+
+1508
+01:04:57,939 --> 01:05:00,739
+from this
+
+1509
+01:05:00,739 --> 01:05:03,340
+is the number one factor,
+this is number two factor.
+
+1510
+01:05:03,340 --> 01:05:05,959
+That's why all the
+part strategies for
+
+1511
+01:05:05,959 --> 01:05:08,380
+parameters basically
+are basically
+
+1512
+01:05:08,380 --> 01:05:10,299
+performing some pis
+on these two parts.
+
+1513
+01:05:10,299 --> 01:05:12,019
+Yeah. Other parts are
+not important at all,
+
+1514
+01:05:12,019 --> 01:05:17,079
+you can see from these
+equations mathematics. Okay.
+
+1515
+01:05:23,830 --> 01:05:27,309
+Sorry, what's that?
+What's the question?
+
+1516
+01:05:27,309 --> 01:05:31,669
+Is it? This one. Sorry.
+
+1517
+01:05:31,669 --> 01:05:35,349
+Yeah, sorry. Now, you
+
+1518
+01:05:35,349 --> 01:05:37,650
+understand the dynamics
+of parameters.
+
+1519
+01:05:37,650 --> 01:05:40,269
+And in P three,
+
+1520
+01:05:40,269 --> 01:05:42,990
+especially in the
+skinning law section,
+
+1521
+01:05:42,990 --> 01:05:44,490
+you need to implement
+this function
+
+1522
+01:05:44,490 --> 01:05:45,790
+to count number parameters,
+
+1523
+01:05:45,790 --> 01:05:47,110
+and you are going to understand
+
+1524
+01:05:47,110 --> 01:05:49,089
+why Lama seven B is seven B.
+
+1525
+01:05:49,089 --> 01:05:51,009
+Why Lama 30 is 30.
+
+1526
+01:05:51,009 --> 01:05:52,689
+You are going to count that you
+
+1527
+01:05:52,689 --> 01:05:53,889
+have a reference because if
+
+1528
+01:05:53,889 --> 01:05:56,849
+you are not at Opothirty
+are wrong, right?
+
+1529
+01:05:56,849 --> 01:06:04,409
+Okay. Cool. Okay. Let's
+make it more complicated.
+
+1530
+01:06:04,409 --> 01:06:06,309
+Parameter is easy because
+
+1531
+01:06:06,309 --> 01:06:07,650
+there are just a few parameters.
+
+1532
+01:06:07,650 --> 01:06:09,850
+How about flops, compute.
+
+1533
+01:06:09,850 --> 01:06:14,109
+How many computer we
+need? Let's do it.
+
+1534
+01:06:15,310 --> 01:06:19,169
+Okay. Recap. I think
+I covered this,
+
+1535
+01:06:19,169 --> 01:06:21,530
+what is how do I
+estimate compute?
+
+1536
+01:06:21,530 --> 01:06:24,529
+Mostly meto because other
+operators are pretty light.
+
+1537
+01:06:24,529 --> 01:06:27,810
+So we just count matms
+MMO is this equation,
+
+1538
+01:06:27,810 --> 01:06:30,049
+M times H times one,
+
+1539
+01:06:30,049 --> 01:06:32,030
+but this Mus one can be ignored.
+
+1540
+01:06:32,030 --> 01:06:34,449
+Basically, for any
+matrix multiplication is
+
+1541
+01:06:34,449 --> 01:06:38,010
+basically two M and where
+M is the first dimension,
+
+1542
+01:06:38,010 --> 01:06:39,630
+NH is the second dimension.
+
+1543
+01:06:39,630 --> 01:06:44,329
+Is I'm going to
+
+1544
+01:06:44,329 --> 01:06:47,329
+give you a few notations
+like I did before,
+
+1545
+01:06:47,329 --> 01:06:50,029
+B equal to B sequence length as
+
+1546
+01:06:50,029 --> 01:06:54,629
+Lambert has hidden
+state size of 100 D.
+
+1547
+01:06:54,629 --> 01:06:56,489
+And like I said, D,
+
+1548
+01:06:56,489 --> 01:06:59,229
+when they tied together,
+they equal to edge, right?
+
+1549
+01:06:59,229 --> 01:07:04,529
+Okay. Suu project dimension I,
+
+1550
+01:07:04,529 --> 01:07:07,229
+in most cases, are
+equal to four edge,
+
+1551
+01:07:07,229 --> 01:07:10,989
+sorry, vocabulary size, okay?
+
+1552
+01:07:11,030 --> 01:07:13,570
+Once we have these dimensions,
+
+1553
+01:07:13,570 --> 01:07:15,870
+let's do the flops calculation.
+
+1554
+01:07:16,350 --> 01:07:19,010
+And this will help you
+understand why Lama
+
+1555
+01:07:19,010 --> 01:07:21,309
+needs 1,000 GB to train 30 days.
+
+1556
+01:07:21,309 --> 01:07:25,109
+Okay, cool. Let's
+do it one by one.
+
+1557
+01:07:25,109 --> 01:07:28,310
+First, I have X as input,
+
+1558
+01:07:28,310 --> 01:07:33,170
+and I do nothing because it's
+input, so there's no flops,
+
+1559
+01:07:33,170 --> 01:07:35,290
+but the shape is BSH,
+
+1560
+01:07:35,290 --> 01:07:38,950
+then I go through the embedding.
+
+1561
+01:07:38,950 --> 01:07:40,169
+I think embedding
+is pretty light.
+
+1562
+01:07:40,169 --> 01:07:41,469
+Okay, I don't count it.
+
+1563
+01:07:41,469 --> 01:07:44,429
+And then I enter
+self attention and
+
+1564
+01:07:44,429 --> 01:07:47,810
+in order to perform the first
+step of self attention,
+
+1565
+01:07:47,810 --> 01:07:49,670
+I do this projection.
+
+1566
+01:07:49,670 --> 01:07:53,069
+Basically, I have B SH and
+
+1567
+01:07:53,069 --> 01:07:57,469
+I'm projecting from edge to
+edge and BS is not changing.
+
+1568
+01:07:57,469 --> 01:08:04,660
+So for each, met moo is
+basically two B square.
+
+1569
+01:08:04,660 --> 01:08:07,440
+Okay? I'm basically
+using my equation,
+
+1570
+01:08:07,440 --> 01:08:09,499
+and I do it three times, right?
+
+1571
+01:08:09,499 --> 01:08:12,914
+QQV. Okay? So the
+flop is times three.
+
+1572
+01:08:12,914 --> 01:08:19,089
+Good. Then I have a position
+embedding which is the rope.
+
+1573
+01:08:19,089 --> 01:08:20,449
+But the rope is pretty simple.
+
+1574
+01:08:20,449 --> 01:08:22,709
+It's basically this
+equation is basically
+
+1575
+01:08:22,709 --> 01:08:26,569
+some linear transformation
+on top of the things.
+
+1576
+01:08:26,569 --> 01:08:27,409
+I don't cover it,
+
+1577
+01:08:27,409 --> 01:08:29,469
+but it's pretty light
+because you can see,
+
+1578
+01:08:29,469 --> 01:08:31,609
+there's a square here and
+there's no square here.
+
+1579
+01:08:31,609 --> 01:08:34,289
+You can imagine it is much
+bigger than this one,
+
+1580
+01:08:34,289 --> 01:08:37,169
+then I do this soft max,
+
+1581
+01:08:37,169 --> 01:08:40,269
+this is a complicated part.
+
+1582
+01:08:40,269 --> 01:08:43,169
+So I have two terms here.
+
+1583
+01:08:43,169 --> 01:08:46,849
+The first term is I
+need to do Q times K,
+
+1584
+01:08:46,849 --> 01:08:49,769
+what is the shape of Q?
+
+1585
+01:08:52,400 --> 01:08:57,359
+It's BSH K is also BSH.
+
+1586
+01:08:58,040 --> 01:09:02,259
+The reduction that
+means is H, and how to.
+
+1587
+01:09:02,259 --> 01:09:07,079
+So therefore, you can see
+the flops become this. Okay?
+
+1588
+01:09:07,760 --> 01:09:11,019
+And if you put it, I want
+you to pay attention.
+
+1589
+01:09:11,019 --> 01:09:12,159
+And if you put it into this,
+
+1590
+01:09:12,159 --> 01:09:14,339
+you'll find that this
+term is pretty bad.
+
+1591
+01:09:14,339 --> 01:09:19,749
+Why? You have S square.
+
+1592
+01:09:19,749 --> 01:09:22,509
+So what is S? Sequence lens.
+
+1593
+01:09:22,509 --> 01:09:24,889
+That means whenever you try
+to model a longer sequence,
+
+1594
+01:09:24,889 --> 01:09:27,689
+you are going to quadratically
+increase your flops.
+
+1595
+01:09:27,689 --> 01:09:30,369
+Now, you understand
+the n connect problem.
+
+1596
+01:09:30,369 --> 01:09:32,929
+If I want to model 1
+million connect lens,
+
+1597
+01:09:32,929 --> 01:09:35,729
+this is 1 million square.
+So how many flops I need?
+
+1598
+01:09:35,729 --> 01:09:38,449
+I don't know. Infinite
+almost, right?
+
+1599
+01:09:38,449 --> 01:09:41,349
+So attention is pretty bad
+on sequence lens, right?
+
+1600
+01:09:41,349 --> 01:09:44,249
+As I have a second term
+three Ps square N,
+
+1601
+01:09:44,249 --> 01:09:45,489
+and this is easy because it's
+
+1602
+01:09:45,489 --> 01:09:47,989
+basically I basically
+take softmax,
+
+1603
+01:09:47,989 --> 01:09:49,509
+I take the exponential
+and then I
+
+1604
+01:09:49,509 --> 01:09:51,749
+divide the unimalization, right?
+
+1605
+01:09:51,749 --> 01:09:56,819
+Okay. And finally, after
+I get the softmax P,
+
+1606
+01:09:56,819 --> 01:09:59,619
+this is a square,
+normalized atten square.
+
+1607
+01:09:59,619 --> 01:10:03,219
+I do another matrix
+multiplication that is wit sum,
+
+1608
+01:10:03,219 --> 01:10:04,859
+o over the values.
+
+1609
+01:10:04,859 --> 01:10:06,699
+And this is another metimo which
+
+1610
+01:10:06,699 --> 01:10:09,959
+is to B as square
+and D. Pretty bad,
+
+1611
+01:10:09,959 --> 01:10:11,879
+right? Another a squared term.
+
+1612
+01:10:11,879 --> 01:10:15,839
+Okay, very, very bad. Okay, Aten
+
+1613
+01:10:15,839 --> 01:10:18,519
+is so expensive.
+Now I understand.
+
+1614
+01:10:18,550 --> 01:10:21,249
+And finally, I have
+a ultra projection,
+
+1615
+01:10:21,249 --> 01:10:22,929
+like I mentioned, is another
+
+1616
+01:10:22,929 --> 01:10:25,489
+I take a BSH and
+project it once.
+
+1617
+01:10:25,489 --> 01:10:28,949
+And this is the standard
+two B s square.
+
+1618
+01:10:28,949 --> 01:10:33,669
+I would say B H squared
+is much better than B S
+
+1619
+01:10:33,669 --> 01:10:35,949
+squared Because H is
+
+1620
+01:10:35,949 --> 01:10:38,469
+the hidden state of the model
+size, I can't control it.
+
+1621
+01:10:38,469 --> 01:10:41,489
+But S is a sequence,
+I cannot control it.
+
+1622
+01:10:41,489 --> 01:10:44,429
+I want to model infinitely
+long sequences. Yeah. Okay?
+
+1623
+01:10:44,429 --> 01:10:46,069
+So you can see
+this term is okay.
+
+1624
+01:10:46,069 --> 01:10:47,229
+This one is pretty good.
+
+1625
+01:10:47,229 --> 01:10:49,969
+Okay. And then, of course,
+
+1626
+01:10:49,969 --> 01:10:51,489
+I have a residual
+connection like this,
+
+1627
+01:10:51,489 --> 01:10:53,369
+and this residual is
+basically addition,
+
+1628
+01:10:53,369 --> 01:10:56,479
+so the 14 points BSH easy.
+
+1629
+01:10:56,479 --> 01:10:59,649
+See this basically reveal
+
+1630
+01:10:59,649 --> 01:11:01,389
+the flops needed for attention
+
+1631
+01:11:01,389 --> 01:11:03,089
+and you already
+spoil the problem,
+
+1632
+01:11:03,089 --> 01:11:06,489
+and we are going to come
+back to fix this problem.
+
+1633
+01:11:07,090 --> 01:11:11,249
+Let's continue. We are
+going to enter the MLP.
+
+1634
+01:11:11,370 --> 01:11:14,929
+In MLP, the input input
+
+1635
+01:11:14,929 --> 01:11:17,529
+is basically the output of
+self attention, It's PSH.
+
+1636
+01:11:17,529 --> 01:11:21,169
+Okay. And we all assume is ama,
+
+1637
+01:11:21,169 --> 01:11:23,029
+which is suit GLU.
+
+1638
+01:11:23,029 --> 01:11:25,229
+So we do this, right?
+
+1639
+01:11:25,229 --> 01:11:27,469
+We first do a gate projecting,
+
+1640
+01:11:27,469 --> 01:11:28,969
+we do upper projection.
+
+1641
+01:11:28,969 --> 01:11:32,949
+So we have this term and
+we time two because twice,
+
+1642
+01:11:32,949 --> 01:11:35,609
+Okay then we have activation.
+
+1643
+01:11:35,609 --> 01:11:36,989
+Activation is pretty simple.
+
+1644
+01:11:36,989 --> 01:11:40,269
+Okay. Element Y
+is pretty simple.
+
+1645
+01:11:40,269 --> 01:11:42,009
+And then we have a
+down projection,
+
+1646
+01:11:42,009 --> 01:11:45,349
+which is another matmT B SH, I.
+
+1647
+01:11:45,349 --> 01:11:47,069
+This I is the hidden dimension.
+
+1648
+01:11:47,069 --> 01:11:48,569
+Like I said, I equal to four H.
+
+1649
+01:11:48,569 --> 01:11:50,169
+So you can see these two terms,
+
+1650
+01:11:50,169 --> 01:11:51,769
+they are also problematic
+because they have
+
+1651
+01:11:51,769 --> 01:11:53,689
+a square term on
+top of it, right?
+
+1652
+01:11:53,689 --> 01:11:55,129
+But for other element is,
+
+1653
+01:11:55,129 --> 01:11:57,274
+there's no square term.
+It's pure linear.
+
+1654
+01:11:57,274 --> 01:11:59,679
+Okay. So that means that this
+
+1655
+01:11:59,679 --> 01:12:02,439
+two will be the primary
+source of flops.
+
+1656
+01:12:02,439 --> 01:12:05,639
+Okay. And finally,
+I apply some layer
+
+1657
+01:12:05,639 --> 01:12:07,539
+on all arms but
+
+1658
+01:12:07,539 --> 01:12:10,079
+which is okay because
+they're pretty simple.
+
+1659
+01:12:10,079 --> 01:12:10,879
+Okay.
+
+1660
+01:12:10,879 --> 01:12:16,999
+Any questions on this
+slide? Okay, then
+
+1661
+01:12:16,999 --> 01:12:18,279
+we can put everything together.
+
+1662
+01:12:18,279 --> 01:12:20,179
+So the total flops of
+
+1663
+01:12:20,179 --> 01:12:23,219
+language model is basically
+you count the tension.
+
+1664
+01:12:23,219 --> 01:12:25,500
+You count the swigOU.
+
+1665
+01:12:25,500 --> 01:12:27,839
+You put them together, you
+
+1666
+01:12:27,839 --> 01:12:29,639
+times the number
+of layers, right?
+
+1667
+01:12:29,639 --> 01:12:34,579
+And you plus embedding,
+you get this equation.
+
+1668
+01:12:36,000 --> 01:12:38,999
+A question? This is
+
+1669
+01:12:38,999 --> 01:12:41,599
+the answer to the second
+part of screen law.
+
+1670
+01:12:41,599 --> 01:12:43,879
+You are going to implement
+this. And there are also
+
+1671
+01:12:43,879 --> 01:12:46,559
+reference because you can
+go check TPD number paper.
+
+1672
+01:12:46,559 --> 01:12:48,679
+They told you how
+many flops you need,
+
+1673
+01:12:48,679 --> 01:12:51,539
+and you write this
+function and you can't.
+
+1674
+01:12:51,539 --> 01:12:53,599
+And if your number is
+not equal to the number,
+
+1675
+01:12:53,599 --> 01:12:57,344
+that means you are wrong,
+right? Okay. Okay, cool.
+
+1676
+01:12:57,344 --> 01:13:00,289
+Okay. And if we basically
+
+1677
+01:13:00,289 --> 01:13:03,409
+substitute a few values
+into this equation,
+
+1678
+01:13:03,409 --> 01:13:05,129
+assuming we use a batch equal
+
+1679
+01:13:05,129 --> 01:13:06,569
+to one, that is a
+single sequence.
+
+1680
+01:13:06,569 --> 01:13:10,910
+And this is the
+specification from Lama 27b.
+
+1681
+01:13:10,910 --> 01:13:13,069
+And we basically
+get that in order
+
+1682
+01:13:13,069 --> 01:13:15,089
+to basically
+
+1683
+01:13:15,089 --> 01:13:17,809
+perform a single forward
+pass, we need these flops.
+
+1684
+01:13:17,809 --> 01:13:20,789
+And this flop is
+already pretty huge.
+
+1685
+01:13:20,789 --> 01:13:23,269
+It's 63t flops.
+
+1686
+01:13:23,269 --> 01:13:26,589
+Okay? And if we draw the
+distribution of these flops,
+
+1687
+01:13:26,589 --> 01:13:29,439
+you can see embedding layer,
+
+1688
+01:13:29,439 --> 01:13:31,799
+very little, normalizing
+little residual little.
+
+1689
+01:13:31,799 --> 01:13:34,499
+Attention, a lot, right?
+
+1690
+01:13:34,499 --> 01:13:39,919
+MLP, a lot. Linear, a little.
+
+1691
+01:13:40,440 --> 01:13:43,979
+I can visualize it here. This is
+
+1692
+01:13:43,979 --> 01:13:45,739
+basically the flops
+distribution.
+
+1693
+01:13:45,739 --> 01:13:48,879
+Then I ask the same
+question. Now, I
+
+1694
+01:13:48,879 --> 01:13:50,939
+want to scale my language model.
+
+1695
+01:13:50,939 --> 01:13:54,119
+What will be the
+primary bottleneck?
+
+1696
+01:13:59,440 --> 01:14:01,819
+So when I skill
+
+1697
+01:14:01,819 --> 01:14:04,599
+my language models away,
+by scanning, I mean,
+
+1698
+01:14:04,599 --> 01:14:07,479
+I try to increase lumber
+parameters, like I said,
+
+1699
+01:14:07,479 --> 01:14:09,679
+the lumber parameters
+is a strong function
+
+1700
+01:14:09,679 --> 01:14:12,639
+of edge, remember,
+hidden dimension.
+
+1701
+01:14:12,639 --> 01:14:15,759
+So the first dimension
+I try to explore,
+
+1702
+01:14:15,759 --> 01:14:17,399
+when I screw my
+language model is
+
+1703
+01:14:17,399 --> 01:14:19,739
+basically I increase
+the value of edge.
+
+1704
+01:14:19,739 --> 01:14:21,819
+So if I increase
+the value of edge,
+
+1705
+01:14:21,819 --> 01:14:25,124
+you can see which of
+these terms will explode.
+
+1706
+01:14:25,124 --> 01:14:27,749
+Apparently this
+term this term is
+
+1707
+01:14:27,749 --> 01:14:29,129
+t square and it has a very
+
+1708
+01:14:29,129 --> 01:14:31,449
+strong constant factor here, 32.
+
+1709
+01:14:31,449 --> 01:14:33,249
+This is also t square,
+
+1710
+01:14:33,249 --> 01:14:34,449
+but you can see the factor is
+
+1711
+01:14:34,449 --> 01:14:35,889
+roughly much smaller
+than this one,
+
+1712
+01:14:35,889 --> 01:14:37,449
+because it's 32 times z.
+
+1713
+01:14:37,449 --> 01:14:40,169
+So if I skill my language model
+
+1714
+01:14:40,169 --> 01:14:42,369
+by increasing the hidden states,
+
+1715
+01:14:42,369 --> 01:14:47,389
+this MLP is going to
+take the primary, flops.
+
+1716
+01:14:47,389 --> 01:14:49,309
+But the problem is, there are
+
+1717
+01:14:49,309 --> 01:14:51,029
+a lot of dimension to
+skill language model.
+
+1718
+01:14:51,029 --> 01:14:53,849
+That is, I try to scale the
+sequence length and model.
+
+1719
+01:14:53,849 --> 01:14:57,249
+So if I continue to skill
+sequence mass, the problem is,
+
+1720
+01:14:57,249 --> 01:14:59,249
+you can see this one will
+
+1721
+01:14:59,249 --> 01:15:01,249
+diminish this one
+dish one diminish,
+
+1722
+01:15:01,249 --> 01:15:03,169
+but this one will grow crazily,
+
+1723
+01:15:03,169 --> 01:15:05,049
+because it's quietive
+to us. Okay?
+
+1724
+01:15:05,049 --> 01:15:08,289
+So if I try to start modeling
+a sequence less of, say,
+
+1725
+01:15:08,289 --> 01:15:10,329
+128 k or 1 million,
+
+1726
+01:15:10,329 --> 01:15:13,409
+this one will take
+90% of the flops.
+
+1727
+01:15:13,409 --> 01:15:17,029
+So you basically spend all
+your flops on attention.
+
+1728
+01:15:17,029 --> 01:15:20,209
+Yeah. That's a problem
+of long sequence.
+
+1729
+01:15:20,730 --> 01:15:24,389
+Okay. And I think that's
+all I have today,
+
+1730
+01:15:24,389 --> 01:15:27,209
+and I hope you go back and dive
+
+1731
+01:15:27,209 --> 01:15:30,169
+deeper because this is a
+pretty hands on thing, okay?
+
+1732
+01:15:30,169 --> 01:15:31,849
+You have to be able to drive
+
+1733
+01:15:31,849 --> 01:15:34,409
+all this by yourself without
+looking at my slides.
+
+1734
+01:15:34,409 --> 01:15:37,649
+Okay? And enjoy. Okay.
+
+1735
+01:15:37,649 --> 01:15:39,909
+And next lecture, we're
+going to do memory.
+
+1736
+01:15:39,909 --> 01:15:41,889
+And then we are going to connect
+
+1737
+01:15:41,889 --> 01:15:44,389
+all these three parts
+into skinny law.
+
+1738
+01:15:44,389 --> 01:15:46,649
+Okay. Cool.
+
+1739
+01:17:53,300 --> 01:17:55,339
+H
+
+1740
+01:21:03,930 --> 01:21:05,969
+h

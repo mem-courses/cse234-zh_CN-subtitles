@@ -1,0 +1,8218 @@
+1
+00:00:11,050 --> 00:00:14,550
+Okay. Yeah. Thanks for coming.
+
+2
+00:00:14,550 --> 00:00:18,150
+Yeah. Let's get started
+with today's content.
+
+3
+00:00:18,150 --> 00:00:27,570
+Yeah. So, again, recap
+the big picture.
+
+4
+00:00:27,570 --> 00:00:30,909
+So we know how
+
+5
+00:00:30,909 --> 00:00:34,590
+to represent a machine learning
+program, dataflow graph.
+
+6
+00:00:34,590 --> 00:00:37,550
+We also know it's
+competition forward,
+
+7
+00:00:37,550 --> 00:00:41,249
+backward, which was
+powered by AD libraries.
+
+8
+00:00:41,249 --> 00:00:45,850
+You guys already implemented
+in your homework, okay?
+
+9
+00:00:45,850 --> 00:00:49,010
+And in that graph, we
+get a lot of things.
+
+10
+00:00:49,010 --> 00:00:52,069
+One is, many many operators.
+
+11
+00:00:52,069 --> 00:00:55,729
+So we talk about how
+to optimize operators,
+
+12
+00:00:55,729 --> 00:00:56,969
+especially those important ones,
+
+13
+00:00:56,969 --> 00:00:59,510
+right, uh, using accelerators.
+
+14
+00:00:59,510 --> 00:01:02,189
+The other is we have
+a graph, right.
+
+15
+00:01:02,189 --> 00:01:03,650
+We need to run that graph.
+
+16
+00:01:03,650 --> 00:01:05,530
+So we have to optimize graph,
+
+17
+00:01:05,530 --> 00:01:08,490
+and we talk about that.
+I think last lecture.
+
+18
+00:01:08,490 --> 00:01:11,310
+There are automatic ways,
+there are template ways,
+
+19
+00:01:11,310 --> 00:01:15,059
+right, either by experts
+or by some compilers.
+
+20
+00:01:15,059 --> 00:01:17,650
+Okay. Then basically we
+
+21
+00:01:17,650 --> 00:01:19,810
+have most of the elements
+ready in that graph, right?
+
+22
+00:01:19,810 --> 00:01:22,649
+We are going to orchestrate
+the execution now, okay?
+
+23
+00:01:22,649 --> 00:01:24,149
+We need to put data into
+
+24
+00:01:24,149 --> 00:01:26,249
+the graph and try to
+get results, okay?
+
+25
+00:01:26,249 --> 00:01:27,949
+And today we are going to start
+
+26
+00:01:27,949 --> 00:01:31,230
+touching on that part
+that is run time, okay?
+
+27
+00:01:31,230 --> 00:01:33,310
+So before I talk about run time,
+
+28
+00:01:33,310 --> 00:01:35,990
+so just again, recap, right?
+
+29
+00:01:35,990 --> 00:01:38,029
+We are doing this
+kind of optimization.
+
+30
+00:01:38,029 --> 00:01:41,490
+Uh, our goal is trying to
+optimize the parameters,
+
+31
+00:01:41,490 --> 00:01:43,690
+and we optimize it
+in a way that is,
+
+32
+00:01:43,690 --> 00:01:45,470
+uh, a loop, right?
+
+33
+00:01:45,470 --> 00:01:47,310
+So we're looping
+over the dataset.
+
+34
+00:01:47,310 --> 00:01:51,730
+And every time we fetch
+a batch of data and,
+
+35
+00:01:51,730 --> 00:01:54,379
+uh, we calculate gradients
+
+36
+00:01:54,379 --> 00:01:58,460
+and update parameters again
+and again until convergence.
+
+37
+00:01:58,460 --> 00:02:02,040
+Okay. So here, there's a very,
+
+38
+00:02:02,040 --> 00:02:04,600
+very important concept, batch.
+
+39
+00:02:04,600 --> 00:02:10,020
+This word is abused in
+many many different areas
+
+40
+00:02:10,020 --> 00:02:12,460
+in machine learning
+in parallelism
+
+41
+00:02:12,460 --> 00:02:15,220
+in data processing big data,
+like everyone using batch.
+
+42
+00:02:15,220 --> 00:02:17,659
+So before I talk about
+runtime, I want to first, um,
+
+43
+00:02:17,659 --> 00:02:19,539
+make sure we are
+on the same page
+
+44
+00:02:19,539 --> 00:02:21,400
+when we talk about batch, okay?
+
+45
+00:02:21,400 --> 00:02:25,154
+So what batch means,
+there are a few minutes.
+
+46
+00:02:25,154 --> 00:02:28,030
+So in the context
+of this course,
+
+47
+00:02:28,030 --> 00:02:29,189
+I think we are
+basically talking about
+
+48
+00:02:29,189 --> 00:02:31,349
+batch in the context
+of deploying, right?
+
+49
+00:02:31,349 --> 00:02:33,810
+So here in deploying,
+
+50
+00:02:33,810 --> 00:02:39,010
+especially in deploying
+training, what does batch mean?
+
+51
+00:02:39,210 --> 00:02:43,409
+It's basically a group of
+data samples we get from
+
+52
+00:02:43,409 --> 00:02:45,309
+the bigger data set that can be
+
+53
+00:02:45,309 --> 00:02:47,609
+executed on a graph in
+the same wrong, right?
+
+54
+00:02:47,609 --> 00:02:50,109
+So that is a batch.
+
+55
+00:02:50,109 --> 00:02:52,969
+And we derive a gradient
+for each batch,
+
+56
+00:02:52,969 --> 00:02:55,849
+and we apply the gradient
+to the parameters.
+
+57
+00:02:55,849 --> 00:02:58,949
+And that is called stochastic
+gradingt descent. Right.
+
+58
+00:02:58,949 --> 00:03:02,770
+Okay. But many places,
+
+59
+00:03:02,770 --> 00:03:04,170
+you probably also hear
+
+60
+00:03:04,170 --> 00:03:07,029
+about minibatch and
+micro baatch, right?
+
+61
+00:03:07,029 --> 00:03:10,170
+So how are they
+different from batch?
+
+62
+00:03:11,170 --> 00:03:14,030
+Okay. So minibatch actually,
+
+63
+00:03:14,030 --> 00:03:16,349
+it is a term from option.
+
+64
+00:03:16,349 --> 00:03:17,989
+Okay? So in optim edition,
+
+65
+00:03:17,989 --> 00:03:20,470
+we have batch of open addon
+and minibatch opmentation.
+
+66
+00:03:20,470 --> 00:03:23,149
+And here, so basically we
+
+67
+00:03:23,149 --> 00:03:24,530
+generalize this
+minibatch a little
+
+68
+00:03:24,530 --> 00:03:26,109
+bit into the mini
+batch in depending.
+
+69
+00:03:26,109 --> 00:03:27,710
+Basically in
+depending minibatch,
+
+70
+00:03:27,710 --> 00:03:30,730
+you can think minibatch
+equals to batch, okay?
+
+71
+00:03:30,730 --> 00:03:33,709
+That is every time we
+sample bachel data,
+
+72
+00:03:33,709 --> 00:03:36,729
+and in optim edition, people
+call that minibatchel data.
+
+73
+00:03:36,729 --> 00:03:39,129
+Okay? And what is macro baatch?
+
+74
+00:03:39,129 --> 00:03:41,569
+So macro is smaller
+than mini, right?
+
+75
+00:03:41,569 --> 00:03:45,049
+So what is micro
+baatch? Anyone knows.
+
+76
+00:03:47,010 --> 00:03:50,509
+Okay. You can tell that
+from its name, right.
+
+77
+00:03:50,509 --> 00:03:51,610
+So micro baatch is definitely
+
+78
+00:03:51,610 --> 00:03:53,069
+something that even
+smaller than a batch.
+
+79
+00:03:53,069 --> 00:03:54,810
+Okay, I already told you
+
+80
+00:03:54,810 --> 00:03:56,789
+that batch equals to
+minibatch in differently.
+
+81
+00:03:56,789 --> 00:03:59,430
+So microbatch is a smaller
+quantity than batch.
+
+82
+00:03:59,430 --> 00:04:02,949
+That is we can fer split
+a batch into many,
+
+83
+00:04:02,949 --> 00:04:04,210
+many smaller batches and we call
+
+84
+00:04:04,210 --> 00:04:05,809
+that small batch a minibatch.
+
+85
+00:04:05,809 --> 00:04:08,149
+Oh, sorry, microbatch.
+I was confused,
+
+86
+00:04:08,149 --> 00:04:09,430
+sorry. Yeah. Micro baatch.
+
+87
+00:04:09,430 --> 00:04:11,090
+Okay. And you're probably
+
+88
+00:04:11,090 --> 00:04:13,409
+wondering why we need a
+micro baatch and a batch,
+
+89
+00:04:13,409 --> 00:04:14,829
+and I'm going to
+review that later.
+
+90
+00:04:14,829 --> 00:04:16,249
+Okay, it's a very
+important concept
+
+91
+00:04:16,249 --> 00:04:17,609
+when we start talking
+about memory,
+
+92
+00:04:17,609 --> 00:04:20,850
+when we start talking
+about parlesms, okay?
+
+93
+00:04:20,850 --> 00:04:22,430
+But just remember, microbatch is
+
+94
+00:04:22,430 --> 00:04:24,849
+a smaller thing
+than batch, okay?
+
+95
+00:04:24,849 --> 00:04:28,490
+So a batch has many
+microbatches, okay?
+
+96
+00:04:28,770 --> 00:04:33,850
+Okay, back to the second
+area in optimation we
+
+97
+00:04:33,850 --> 00:04:36,110
+study this kind of
+opiation kind of
+
+98
+00:04:36,110 --> 00:04:38,909
+theory and algorithms,
+especially grading descent.
+
+99
+00:04:38,909 --> 00:04:41,829
+I think people there, they use
+a slightly different term.
+
+100
+00:04:41,829 --> 00:04:44,050
+So they have two kinds
+of, for example,
+
+101
+00:04:44,050 --> 00:04:45,749
+for SGD, for grading descent,
+
+102
+00:04:45,749 --> 00:04:47,070
+they have two kinds
+of algorithms.
+
+103
+00:04:47,070 --> 00:04:49,049
+One is called a full
+batch grading descent.
+
+104
+00:04:49,049 --> 00:04:51,569
+The other is called
+stochastic grading descent.
+
+105
+00:04:51,569 --> 00:04:53,010
+Okay? So in deep learning,
+
+106
+00:04:53,010 --> 00:04:54,969
+we mostly just use stochastic
+grading descent, right,
+
+107
+00:04:54,969 --> 00:04:56,949
+because every time we just
+sample a small batch,
+
+108
+00:04:56,949 --> 00:04:59,269
+and we try to perform
+grading updates.
+
+109
+00:04:59,269 --> 00:05:01,269
+But in option, uh,
+
+110
+00:05:01,269 --> 00:05:04,029
+there's, like, ina version
+of grading descent.
+
+111
+00:05:04,029 --> 00:05:05,969
+That is basically,
+they will basically
+
+112
+00:05:05,969 --> 00:05:08,309
+calculate grading over
+the entire dataset.
+
+113
+00:05:08,309 --> 00:05:10,870
+Okay, which means that your
+batch is equal to your,
+
+114
+00:05:10,870 --> 00:05:12,430
+uh, size of data,
+
+115
+00:05:12,430 --> 00:05:14,029
+okay, entire data set.
+
+116
+00:05:14,029 --> 00:05:16,889
+So that is called a batch
+batch gradient descent.
+
+117
+00:05:16,889 --> 00:05:19,920
+But we don't use that
+depending on why.
+
+118
+00:05:19,920 --> 00:05:22,590
+Yeah, because data is too
+large, we cannot do that.
+
+119
+00:05:22,590 --> 00:05:23,950
+We don't have enough
+memory, right?
+
+120
+00:05:23,950 --> 00:05:26,570
+Okay? Okay. Just to make sure
+
+121
+00:05:26,570 --> 00:05:28,329
+that you try to understand
+
+122
+00:05:28,329 --> 00:05:30,570
+the batch and minibatch
+and microbatch.
+
+123
+00:05:30,570 --> 00:05:32,670
+Okay? And in big data
+processing, for example,
+
+124
+00:05:32,670 --> 00:05:34,889
+in the community
+of how to spark,
+
+125
+00:05:34,889 --> 00:05:37,390
+people also use this
+word batch, right?
+
+126
+00:05:37,390 --> 00:05:40,190
+So usually this word is used to
+
+127
+00:05:40,190 --> 00:05:43,349
+distinguish it from two kind
+of processing paradigm.
+
+128
+00:05:43,349 --> 00:05:44,850
+One is called batch processing.
+
+129
+00:05:44,850 --> 00:05:47,149
+The other is called
+streaming processing.
+
+130
+00:05:47,149 --> 00:05:49,670
+And you can also probably
+tell from the meaning of
+
+131
+00:05:49,670 --> 00:05:51,210
+this word that batch processing
+
+132
+00:05:51,210 --> 00:05:52,390
+is basically offline processing.
+
+133
+00:05:52,390 --> 00:05:55,069
+That is I'm giving
+the engine a task,
+
+134
+00:05:55,069 --> 00:05:57,290
+and this task is
+trying to process
+
+135
+00:05:57,290 --> 00:06:00,849
+the data in a very big
+dataset into another format.
+
+136
+00:06:00,849 --> 00:06:02,930
+And I directly fed all the data,
+
+137
+00:06:02,930 --> 00:06:04,350
+the entire data
+set to the engine
+
+138
+00:06:04,350 --> 00:06:05,589
+and I wait for the results.
+
+139
+00:06:05,589 --> 00:06:08,150
+That is called offline
+batch processing, right?
+
+140
+00:06:08,150 --> 00:06:10,629
+And in contrast,
+streaming processing
+
+141
+00:06:10,629 --> 00:06:11,729
+is basically online processing.
+
+142
+00:06:11,729 --> 00:06:14,350
+For example, when you
+submit Google query,
+
+143
+00:06:14,350 --> 00:06:15,789
+uh, you can submit it anytime,
+
+144
+00:06:15,789 --> 00:06:17,269
+right, depending
+when you use Google.
+
+145
+00:06:17,269 --> 00:06:18,450
+But on Google side, they
+
+146
+00:06:18,450 --> 00:06:19,609
+are basically
+receiving your data.
+
+147
+00:06:19,609 --> 00:06:21,130
+They are listening to your data
+
+148
+00:06:21,130 --> 00:06:23,409
+and try to basically
+respond to your query.
+
+149
+00:06:23,409 --> 00:06:25,189
+And in order to
+respond to your query,
+
+150
+00:06:25,189 --> 00:06:26,529
+they need to process your data.
+
+151
+00:06:26,529 --> 00:06:28,569
+And they need to receive
+many many queries
+
+152
+00:06:28,569 --> 00:06:30,350
+from all kinds of users
+in the world, right?
+
+153
+00:06:30,350 --> 00:06:32,010
+That is streaming processing.
+
+154
+00:06:32,010 --> 00:06:35,589
+Okay. So in big data processing,
+
+155
+00:06:35,589 --> 00:06:39,029
+uh, well when we see batch,
+it basically means offline.
+
+156
+00:06:39,029 --> 00:06:40,849
+Okay? And when we see streaming
+
+157
+00:06:40,849 --> 00:06:43,089
+is basically means online.
+
+158
+00:06:43,089 --> 00:06:45,709
+Okay? Clear? Cool.
+
+159
+00:06:45,709 --> 00:06:47,629
+So most of today's course,
+
+160
+00:06:47,629 --> 00:06:49,610
+we are going to
+focus on, you know,
+
+161
+00:06:49,610 --> 00:06:52,050
+batch minibatch, and
+microbatch, okay?
+
+162
+00:06:52,050 --> 00:06:54,870
+Cool. And I also
+put the table here.
+
+163
+00:06:54,870 --> 00:06:57,849
+I think I already repeat
+the content in previously,
+
+164
+00:06:57,849 --> 00:07:00,410
+but you can review
+this table layer.
+
+165
+00:07:00,410 --> 00:07:02,310
+So it gives some, like,
+
+166
+00:07:02,310 --> 00:07:03,950
+a very clear definition of
+
+167
+00:07:03,950 --> 00:07:07,429
+what do we mean when we see
+batch in different contexts.
+
+168
+00:07:08,040 --> 00:07:10,619
+Okay, with that, uh, we start
+
+169
+00:07:10,619 --> 00:07:12,340
+talking about today's
+learning goal.
+
+170
+00:07:12,340 --> 00:07:14,559
+Okay, we are going to talk
+about memory and scheduling,
+
+171
+00:07:14,559 --> 00:07:16,600
+because in order for us to run
+
+172
+00:07:16,600 --> 00:07:19,019
+the comping graph and operators,
+
+173
+00:07:19,019 --> 00:07:20,680
+on our target device, we need
+
+174
+00:07:20,680 --> 00:07:22,360
+to subject to
+memory constraints,
+
+175
+00:07:22,360 --> 00:07:24,559
+because we have
+limited memory, okay?
+
+176
+00:07:24,559 --> 00:07:26,620
+We're talking about a few very
+
+177
+00:07:26,620 --> 00:07:30,219
+important memory
+organization techniques.
+
+178
+00:07:30,219 --> 00:07:32,000
+And I believe this lecture is
+
+179
+00:07:32,000 --> 00:07:33,740
+very practical and very useful.
+
+180
+00:07:33,740 --> 00:07:35,940
+And if you are able to get it,
+
+181
+00:07:35,940 --> 00:07:37,359
+I think you can directly apply
+
+182
+00:07:37,359 --> 00:07:38,980
+it the other day because this is
+
+183
+00:07:38,980 --> 00:07:41,320
+very well adopted techniques
+
+184
+00:07:41,320 --> 00:07:43,919
+in pets in deep learning
+in large model training.
+
+185
+00:07:43,919 --> 00:07:46,300
+Okay? And if time permits,
+
+186
+00:07:46,300 --> 00:07:48,479
+we are going to talk
+about start talking
+
+187
+00:07:48,479 --> 00:07:50,979
+about our next big topic
+that is quantization.
+
+188
+00:07:50,979 --> 00:07:54,420
+And apparently, I put this
+together because quantization,
+
+189
+00:07:54,420 --> 00:07:58,240
+uh, its original goal is
+trying to save memory, right?
+
+190
+00:07:58,240 --> 00:07:59,520
+But at some point, you know,
+
+191
+00:07:59,520 --> 00:08:02,159
+media starts to make
+quantization also faster,
+
+192
+00:08:02,159 --> 00:08:04,359
+so it can also
+accelerate the compute.
+
+193
+00:08:04,359 --> 00:08:08,410
+Okay? Cool. So why
+
+194
+00:08:08,410 --> 00:08:10,790
+memory is an issue
+because of this, right?
+
+195
+00:08:10,790 --> 00:08:12,589
+I think I repeat this
+figure again and again
+
+196
+00:08:12,589 --> 00:08:14,449
+in different contexts
+in different lectures,
+
+197
+00:08:14,449 --> 00:08:15,969
+B of memory hierarchy,
+
+198
+00:08:15,969 --> 00:08:18,390
+because of the limit
+of one computer,
+
+199
+00:08:18,390 --> 00:08:22,130
+um, so our computer store
+things in memory hierarchy,
+
+200
+00:08:22,130 --> 00:08:24,509
+and at every layer
+at a higher layer,
+
+201
+00:08:24,509 --> 00:08:26,870
+the memory is faster,
+but it's more expensive.
+
+202
+00:08:26,870 --> 00:08:28,969
+At lower layer, the
+memory is much slower,
+
+203
+00:08:28,969 --> 00:08:30,769
+but we have a lot of space.
+
+204
+00:08:30,769 --> 00:08:32,790
+Um, so this is basically
+
+205
+00:08:32,790 --> 00:08:36,225
+the memory hierarchy when we
+put GPUs into a computer.
+
+206
+00:08:36,225 --> 00:08:38,020
+And it gives you a sense like,
+
+207
+00:08:38,020 --> 00:08:41,099
+uh, how many memory you
+have at each layer.
+
+208
+00:08:41,099 --> 00:08:45,180
+Deplaning competition, where
+is the computing happening?
+
+209
+00:08:45,180 --> 00:08:47,160
+It's on the device on GPUs.
+
+210
+00:08:47,160 --> 00:08:49,200
+Basically, most of the
+time we just put things
+
+211
+00:08:49,200 --> 00:08:52,779
+on uh global memory
+which is HBM.
+
+212
+00:08:52,779 --> 00:08:54,520
+Sometimes we put data in RAM,
+
+213
+00:08:54,520 --> 00:08:56,060
+which is the CPU memory,
+
+214
+00:08:56,060 --> 00:08:59,620
+and we read data from disc
+all the way to the RAM.
+
+215
+00:08:59,620 --> 00:09:02,719
+In general, today,
+you can think RAM is
+
+216
+00:09:02,719 --> 00:09:05,799
+very abundant resources
+because if you go,
+
+217
+00:09:05,799 --> 00:09:08,859
+uh tabs and you try to
+swap any GPU instances,
+
+218
+00:09:08,859 --> 00:09:10,160
+you get a lot of RM for example,
+
+219
+00:09:10,160 --> 00:09:12,400
+at least one terabytRMs.
+
+220
+00:09:12,400 --> 00:09:16,070
+Okay. And then the higher level
+
+221
+00:09:16,070 --> 00:09:18,529
+of memory is mostly used for
+accelerating computation,
+
+222
+00:09:18,529 --> 00:09:20,070
+for example, doing
+telling, doing,
+
+223
+00:09:20,070 --> 00:09:22,989
+those kind of things we
+covered in previous lecture.
+
+224
+00:09:22,989 --> 00:09:25,449
+The important thing here is, we
+
+225
+00:09:25,449 --> 00:09:26,929
+have limited global memory,
+
+226
+00:09:26,929 --> 00:09:29,290
+but we still want to train
+a decent large model,
+
+227
+00:09:29,290 --> 00:09:30,969
+so how to do that?
+
+228
+00:09:31,590 --> 00:09:36,750
+Um, so before we talk about
+those ougmenting techniques,
+
+229
+00:09:36,750 --> 00:09:39,889
+I think one important
+thing we need to think
+
+230
+00:09:39,889 --> 00:09:42,209
+is memory is very
+different resources
+
+231
+00:09:42,209 --> 00:09:43,830
+compared to compute, okay?
+
+232
+00:09:43,830 --> 00:09:46,550
+So in computer, we want to
+be as fast as possible.
+
+233
+00:09:46,550 --> 00:09:48,710
+So we want to maximize
+our computing speed
+
+234
+00:09:48,710 --> 00:09:51,230
+so that given limited
+computing power,
+
+235
+00:09:51,230 --> 00:09:52,430
+we can compute much faster.
+
+236
+00:09:52,430 --> 00:09:54,029
+We can get our results faster.
+
+237
+00:09:54,029 --> 00:09:57,530
+But in memory, our goal is not
+trying to minimize memory.
+
+238
+00:09:57,530 --> 00:09:58,849
+Okay, our goal is trying to make
+
+239
+00:09:58,849 --> 00:10:01,029
+sure our peak memory when
+
+240
+00:10:01,029 --> 00:10:03,210
+we execute the computing graph
+
+241
+00:10:03,210 --> 00:10:04,900
+is smaller than
+available memory.
+
+242
+00:10:04,900 --> 00:10:07,209
+Don't how to minimize it.
+We just need to make sure
+
+243
+00:10:07,209 --> 00:10:09,749
+the peak memory is smaller
+than the one that is allowed.
+
+244
+00:10:09,749 --> 00:10:14,770
+Okay? So to make this
+even more clear,
+
+245
+00:10:14,770 --> 00:10:16,709
+I think, normally we don't how
+
+246
+00:10:16,709 --> 00:10:19,010
+to me memory. We don't
+how to me memory.
+
+247
+00:10:19,010 --> 00:10:21,390
+As long as we can
+basically reduce memory in
+
+248
+00:10:21,390 --> 00:10:22,669
+a way that can fit into GPO
+
+249
+00:10:22,669 --> 00:10:24,109
+are good. We don't
+want to minimize it.
+
+250
+00:10:24,109 --> 00:10:27,480
+Okay. And we also do not
+want to mi max memory.
+
+251
+00:10:27,480 --> 00:10:29,650
+So max memory is basically
+the peak memory.
+
+252
+00:10:29,650 --> 00:10:32,810
+We also do not want to minimize
+the peak memory, okay?
+
+253
+00:10:32,810 --> 00:10:35,189
+And so go is
+
+254
+00:10:35,189 --> 00:10:37,270
+basically we try to make
+sure that max memory,
+
+255
+00:10:37,270 --> 00:10:38,849
+which is a peak memory
+is smaller than
+
+256
+00:10:38,849 --> 00:10:41,430
+available memory unless
+otherwise specified.
+
+257
+00:10:41,430 --> 00:10:42,830
+And I'm going to
+talk about it later.
+
+258
+00:10:42,830 --> 00:10:45,470
+Okay? Remember this go, is
+very different from compute.
+
+259
+00:10:45,470 --> 00:10:50,929
+Okay. Okay. So in
+
+260
+00:10:50,929 --> 00:10:52,909
+order to understand where
+
+261
+00:10:52,909 --> 00:10:55,069
+the memory consumption
+comes from,
+
+262
+00:10:55,069 --> 00:10:57,749
+I think we want to do
+it step by step, right.
+
+263
+00:10:57,749 --> 00:10:59,810
+We want to first understand
+
+264
+00:10:59,810 --> 00:11:03,649
+how deep learning programs,
+consume memory. Okay?
+
+265
+00:11:03,649 --> 00:11:04,989
+Then the first question I ask
+
+266
+00:11:04,989 --> 00:11:06,569
+is given this kind
+of combiniograph,
+
+267
+00:11:06,569 --> 00:11:09,229
+I think we did this in
+our third lecture, right?
+
+268
+00:11:09,229 --> 00:11:12,550
+This is MSC one layer neural
+network with MSE loss.
+
+269
+00:11:12,550 --> 00:11:15,530
+Okay? Given this kind
+of continuo graph,
+
+270
+00:11:15,530 --> 00:11:18,890
+what is the source of
+memory consumption?
+
+271
+00:11:21,090 --> 00:11:27,329
+Anyone want to answer? Okay,
+let me go through that.
+
+272
+00:11:27,329 --> 00:11:29,970
+So there are major
+needs resources,
+
+273
+00:11:29,970 --> 00:11:31,630
+and I want you to
+remember this, okay?
+
+274
+00:11:31,630 --> 00:11:34,030
+So in the future, when you
+touch any deploying program,
+
+275
+00:11:34,030 --> 00:11:35,669
+you always try to figure
+
+276
+00:11:35,669 --> 00:11:37,729
+out the usage from
+these resources.
+
+277
+00:11:37,729 --> 00:11:40,909
+Okay? The first one is
+model weights, right?
+
+278
+00:11:40,909 --> 00:11:43,369
+You are given a model. No
+matter it's trained or not,
+
+279
+00:11:43,369 --> 00:11:45,030
+you basically need to allocate
+
+280
+00:11:45,030 --> 00:11:47,150
+memory for stored model weights.
+
+281
+00:11:47,150 --> 00:11:49,490
+For example, you want
+to train a rest.
+
+282
+00:11:49,490 --> 00:11:51,149
+A restaurant
+typically has several
+
+283
+00:11:51,149 --> 00:11:52,389
+minions of parameters and
+
+284
+00:11:52,389 --> 00:11:53,789
+you need to store the minions of
+
+285
+00:11:53,789 --> 00:11:55,650
+parameters in memory in HBM.
+
+286
+00:11:55,650 --> 00:11:57,289
+When you try to train three,
+
+287
+00:11:57,289 --> 00:11:58,869
+it has 175 bunion.
+
+288
+00:11:58,869 --> 00:12:00,690
+You have to store
+this 175 opinion.
+
+289
+00:12:00,690 --> 00:12:05,209
+So that is a source of
+memory consumption, right?
+
+290
+00:12:05,209 --> 00:12:08,609
+And once you store the
+motorways into your TPO memory,
+
+291
+00:12:08,609 --> 00:12:09,470
+what you need to do is you
+
+292
+00:12:09,470 --> 00:12:10,589
+need to perform compute, right?
+
+293
+00:12:10,589 --> 00:12:12,190
+You need to run
+
+294
+00:12:12,190 --> 00:12:14,410
+run run operators following
+the graph structure.
+
+295
+00:12:14,410 --> 00:12:17,250
+So every time when
+you run operators,
+
+296
+00:12:17,250 --> 00:12:18,649
+your operator is
+going to produce
+
+297
+00:12:18,649 --> 00:12:20,169
+something that is more
+than motorways, right?
+
+298
+00:12:20,169 --> 00:12:22,529
+For example, activations,
+we call that activations.
+
+299
+00:12:22,529 --> 00:12:24,639
+So so the second source of
+
+300
+00:12:24,639 --> 00:12:26,280
+memory consumption is basically
+
+301
+00:12:26,280 --> 00:12:27,920
+the intermediate
+activation values.
+
+302
+00:12:27,920 --> 00:12:32,160
+For example, you give a
+data badge and you multiply
+
+303
+00:12:32,160 --> 00:12:34,119
+the data batch with
+your model with W
+
+304
+00:12:34,119 --> 00:12:36,720
+through a metam and
+you produce output.
+
+305
+00:12:36,720 --> 00:12:38,040
+And the output is basically
+
+306
+00:12:38,040 --> 00:12:39,760
+intermediate activation values.
+
+307
+00:12:39,760 --> 00:12:42,439
+And you have to store
+them in memory in
+
+308
+00:12:42,439 --> 00:12:44,080
+some way because you have to
+
+309
+00:12:44,080 --> 00:12:45,960
+store them in the backward pass,
+
+310
+00:12:45,960 --> 00:12:48,239
+you can use it to drive
+your gradients, right?
+
+311
+00:12:48,239 --> 00:12:52,099
+So the second source is
+intermediate activ values.
+
+312
+00:12:52,099 --> 00:12:53,840
+So there's a third source.
+
+313
+00:12:53,840 --> 00:12:57,780
+What is that? Data, Data,
+
+314
+00:12:57,780 --> 00:13:01,220
+you can see the data is
+basically the input.
+
+315
+00:13:01,220 --> 00:13:03,420
+The first version of
+intermediate acting values.
+
+316
+00:13:03,420 --> 00:13:06,700
+Yeah. Gross stutre
+is pretty small.
+
+317
+00:13:06,700 --> 00:13:10,499
+It's basically
+code. Yes, exactly.
+
+318
+00:13:10,499 --> 00:13:12,160
+Gradients. So you have
+to store gradients.
+
+319
+00:13:12,160 --> 00:13:15,240
+But because eventually, you
+want to dup the gradients
+
+320
+00:13:15,240 --> 00:13:16,760
+and apply the gradiens
+to the parameters to
+
+321
+00:13:16,760 --> 00:13:18,719
+get the next iteration
+and you repeat.
+
+322
+00:13:18,719 --> 00:13:20,520
+But, it's more than gradients.
+
+323
+00:13:20,520 --> 00:13:23,739
+Why? Because we use very
+complicated opimeods and
+
+324
+00:13:23,739 --> 00:13:25,839
+the way we apply updates is
+
+325
+00:13:25,839 --> 00:13:28,180
+not just we simply add the
+gradients to the parameters.
+
+326
+00:13:28,180 --> 00:13:31,660
+Sometimes we do a lot more
+complicated manipulation,
+
+327
+00:13:31,660 --> 00:13:31,879
+right?
+
+328
+00:13:31,879 --> 00:13:33,600
+We probably want to
+manipulate the gradients
+
+329
+00:13:33,600 --> 00:13:35,500
+by timing it with something
+
+330
+00:13:35,500 --> 00:13:37,099
+and plot something
+and then apply it to
+
+331
+00:13:37,099 --> 00:13:39,599
+the parameter to stabilize
+the training, right?
+
+332
+00:13:39,599 --> 00:13:40,939
+And this is typically done in
+
+333
+00:13:40,939 --> 00:13:43,459
+some advanced opium meters
+such as atom, right?
+
+334
+00:13:43,459 --> 00:13:45,760
+So we call this
+part opitor states.
+
+335
+00:13:45,760 --> 00:13:48,859
+Okay. So that basically
+give you a global picture
+
+336
+00:13:48,859 --> 00:13:50,879
+what consumes memory in
+
+337
+00:13:50,879 --> 00:13:52,440
+deep learning
+program three parts,
+
+338
+00:13:52,440 --> 00:13:55,440
+model weights, activations
+and open menor states.
+
+339
+00:13:55,440 --> 00:13:59,199
+And I think you need to
+memorize this because, um,
+
+340
+00:13:59,199 --> 00:14:00,879
+a very important factor later
+
+341
+00:14:00,879 --> 00:14:02,520
+when we talk about deep model,
+
+342
+00:14:02,520 --> 00:14:04,420
+a big models like
+activities language model,
+
+343
+00:14:04,420 --> 00:14:06,500
+we are basically
+grinding this again
+
+344
+00:14:06,500 --> 00:14:07,760
+and again and again, okay?
+
+345
+00:14:07,760 --> 00:14:11,950
+Cool. Okay, that'll give
+you a global picture.
+
+346
+00:14:11,950 --> 00:14:14,530
+And then, in order to analyze
+the memory consumption,
+
+347
+00:14:14,530 --> 00:14:16,429
+I think we basically care
+about two things right.
+
+348
+00:14:16,429 --> 00:14:17,909
+Remember our goals we make sure
+
+349
+00:14:17,909 --> 00:14:20,109
+the peak memory is smaller
+than available memory.
+
+350
+00:14:20,109 --> 00:14:22,689
+Okay? But how to
+determine peak memory?
+
+351
+00:14:22,689 --> 00:14:25,729
+So in order to
+determine peak memory,
+
+352
+00:14:25,729 --> 00:14:27,829
+um we need to figure
+out two things, right.
+
+353
+00:14:27,829 --> 00:14:29,529
+What is the size of
+those things, right?
+
+354
+00:14:29,529 --> 00:14:31,790
+For example, how large
+is the model parameters,
+
+355
+00:14:31,790 --> 00:14:34,029
+how large is the
+intermediate activations,
+
+356
+00:14:34,029 --> 00:14:35,890
+and how large is
+the opimeter state?
+
+357
+00:14:35,890 --> 00:14:38,169
+That's the size.
+Okay? The second is
+
+358
+00:14:38,169 --> 00:14:40,990
+lifetime. Why is peak memory?
+
+359
+00:14:40,990 --> 00:14:42,249
+Because sometimes some memory
+
+360
+00:14:42,249 --> 00:14:43,589
+will be used, but sometimes not.
+
+361
+00:14:43,589 --> 00:14:45,130
+So we care about the peak.
+
+362
+00:14:45,130 --> 00:14:46,470
+In order to figure out the peak,
+
+363
+00:14:46,470 --> 00:14:48,210
+we need to make sure
+we need to understand
+
+364
+00:14:48,210 --> 00:14:50,210
+each tensor in the
+deep learning program
+
+365
+00:14:50,210 --> 00:14:51,729
+when we ask you the program,
+
+366
+00:14:51,729 --> 00:14:54,729
+when it all be alive and when
+it all not alive, right?
+
+367
+00:14:54,729 --> 00:14:56,109
+Because we don't care about
+
+368
+00:14:56,109 --> 00:14:57,569
+the step tensors because we
+
+369
+00:14:57,569 --> 00:14:58,930
+don't allocate memory for them.
+
+370
+00:14:58,930 --> 00:15:00,970
+We only allocate memory
+when we need them,
+
+371
+00:15:00,970 --> 00:15:03,130
+so we care about their lifetime.
+
+372
+00:15:03,130 --> 00:15:05,110
+Okay? So in the
+following lectures,
+
+373
+00:15:05,110 --> 00:15:06,850
+uh, in the following
+contents of this lecture,
+
+374
+00:15:06,850 --> 00:15:07,930
+we are going to always look at
+
+375
+00:15:07,930 --> 00:15:09,209
+different tensors
+in the program,
+
+376
+00:15:09,209 --> 00:15:10,489
+but we are going to, uh,
+
+377
+00:15:10,489 --> 00:15:11,790
+I want you guys to remember,
+
+378
+00:15:11,790 --> 00:15:13,610
+we basically care about
+two things of them.
+
+379
+00:15:13,610 --> 00:15:17,400
+One is the size. Second
+is the lifetime, okay?
+
+380
+00:15:17,400 --> 00:15:20,450
+Okay, let's start with
+a very simple example.
+
+381
+00:15:20,450 --> 00:15:23,330
+This is a very simple neural
+network, right, one input,
+
+382
+00:15:23,330 --> 00:15:25,090
+two linear, one al,
+
+383
+00:15:25,090 --> 00:15:27,790
+and one loss, five nodes.
+
+384
+00:15:27,790 --> 00:15:30,590
+Assume we don't
+twin it, assuming
+
+385
+00:15:30,590 --> 00:15:31,790
+this model is already trained,
+
+386
+00:15:31,790 --> 00:15:33,070
+we just perform inference,
+
+387
+00:15:33,070 --> 00:15:35,010
+and let's try to analyze
+
+388
+00:15:35,010 --> 00:15:37,049
+the memory usage of
+this inference graph.
+
+389
+00:15:37,049 --> 00:15:40,660
+Okay. So in order to inference,
+
+390
+00:15:40,660 --> 00:15:42,119
+we basically get
+input data, right,
+
+391
+00:15:42,119 --> 00:15:43,599
+and we fit the data
+all the way from left
+
+392
+00:15:43,599 --> 00:15:46,259
+to right. So how
+many memory we need?
+
+393
+00:15:46,580 --> 00:15:49,859
+So these three items,
+for motorways,
+
+394
+00:15:49,859 --> 00:15:52,519
+during the entire
+inference process,
+
+395
+00:15:52,519 --> 00:15:56,520
+we can we basically,
+throw them away?
+
+396
+00:15:56,520 --> 00:15:59,279
+We cannot, right, because we
+help to keep them alive on
+
+397
+00:15:59,279 --> 00:16:00,740
+GPUs in order to perform
+
+398
+00:16:00,740 --> 00:16:02,679
+this kind of computation
+from left to right.
+
+399
+00:16:02,679 --> 00:16:04,479
+So for motorways it'll be alive
+
+400
+00:16:04,479 --> 00:16:07,199
+across the lifetime throughout
+the lifetime, okay?
+
+401
+00:16:07,199 --> 00:16:09,599
+So for activations, like
+
+402
+00:16:09,599 --> 00:16:13,060
+how we basically deal
+with activation memory.
+
+403
+00:16:13,360 --> 00:16:15,499
+So at the first time,
+
+404
+00:16:15,499 --> 00:16:17,039
+we have a input which
+is data, right?
+
+405
+00:16:17,039 --> 00:16:18,640
+And then we fit the data
+
+406
+00:16:18,640 --> 00:16:20,959
+into linear, we
+get output, right?
+
+407
+00:16:20,959 --> 00:16:24,714
+And then can through
+the data away.
+
+408
+00:16:24,714 --> 00:16:26,389
+Yes, we don't care
+about that, right,
+
+409
+00:16:26,389 --> 00:16:28,209
+because as long as we get
+the output of the linear,
+
+410
+00:16:28,209 --> 00:16:29,350
+we can basically
+through the data
+
+411
+00:16:29,350 --> 00:16:32,649
+and discard the data
+because we can proceed
+
+412
+00:16:32,649 --> 00:16:33,810
+following this graph structure
+
+413
+00:16:33,810 --> 00:16:34,909
+and eventually we can still
+
+414
+00:16:34,909 --> 00:16:37,869
+get the loss, accurate
+results, right?
+
+415
+00:16:37,869 --> 00:16:40,789
+So basically, once we proceed
+the computation of linear,
+
+416
+00:16:40,789 --> 00:16:42,470
+we can discard the data
+
+417
+00:16:42,470 --> 00:16:44,690
+and we need to keep the
+output of the linear,
+
+418
+00:16:44,690 --> 00:16:46,289
+which is the intermediate
+activation, right?
+
+419
+00:16:46,289 --> 00:16:48,049
+And then we keep doing
+this keep doing this,
+
+420
+00:16:48,049 --> 00:16:51,169
+we rotating those buffer
+across different operators.
+
+421
+00:16:51,169 --> 00:16:54,050
+So basically, this tells us
+if we perform inference,
+
+422
+00:16:54,050 --> 00:16:56,169
+we just need O
+memory for computing
+
+423
+00:16:56,169 --> 00:16:58,910
+the final output of
+layer Depar network,
+
+424
+00:16:58,910 --> 00:17:01,529
+by cycling through
+two buffers, right.
+
+425
+00:17:01,529 --> 00:17:04,409
+Okay. Makes sense, right?
+
+426
+00:17:04,409 --> 00:17:09,209
+Okay, cool. So we
+already any For weights,
+
+427
+00:17:09,209 --> 00:17:10,709
+I think lifetime is basically
+
+428
+00:17:10,709 --> 00:17:11,969
+throughout the entire inference.
+
+429
+00:17:11,969 --> 00:17:13,889
+For activations, we only
+care about where we
+
+430
+00:17:13,889 --> 00:17:16,290
+are now at which
+layer we are, okay?
+
+431
+00:17:16,290 --> 00:17:19,529
+For open matter states,
+we don't have it.
+
+432
+00:17:19,529 --> 00:17:21,429
+It's inference. We
+don't care about that.
+
+433
+00:17:21,429 --> 00:17:23,765
+Cool. This is an easy one, okay?
+
+434
+00:17:23,765 --> 00:17:26,599
+Then we also need to
+estimate the size
+
+435
+00:17:26,599 --> 00:17:29,639
+of which buffer we
+created, right?
+
+436
+00:17:29,639 --> 00:17:31,580
+So how we store weight,
+
+437
+00:17:31,580 --> 00:17:33,179
+what's the size of
+the weight and how we
+
+438
+00:17:33,179 --> 00:17:34,919
+store intermediate
+activations and
+
+439
+00:17:34,919 --> 00:17:35,979
+what's the size of them.
+
+440
+00:17:35,979 --> 00:17:37,699
+And one key factor
+
+441
+00:17:37,699 --> 00:17:40,739
+that we need to determine
+the size is basically,
+
+442
+00:17:40,739 --> 00:17:42,499
+in what precisions
+we store, right?
+
+443
+00:17:42,499 --> 00:17:45,720
+What what data resentation
+we use to store data?
+
+444
+00:17:45,720 --> 00:17:47,479
+Uh, Here I give three very
+
+445
+00:17:47,479 --> 00:17:50,460
+typical data resentations
+in deep learning.
+
+446
+00:17:50,460 --> 00:17:53,134
+The first one is floating 0.32.
+
+447
+00:17:53,134 --> 00:17:57,729
+Okay. The second one is
+flowing points B float 16.
+
+448
+00:17:57,729 --> 00:18:00,729
+And third one is
+flowing 0.16, okay?
+
+449
+00:18:00,729 --> 00:18:05,210
+We already call it the first
+one is basically 32 bits.
+
+450
+00:18:05,210 --> 00:18:06,909
+Okay. Second one BF 16,
+
+451
+00:18:06,909 --> 00:18:08,550
+third one P 16, okay?
+
+452
+00:18:08,550 --> 00:18:11,249
+These are very very
+common used data types,
+
+453
+00:18:11,249 --> 00:18:13,030
+we use in deping.
+
+454
+00:18:13,030 --> 00:18:16,129
+So do you know how actually,
+
+455
+00:18:16,129 --> 00:18:17,309
+how many of you know how
+
+456
+00:18:17,309 --> 00:18:19,800
+data was stored
+following this bis?
+
+457
+00:18:19,800 --> 00:18:21,730
+Cool, cool, cool.
+
+458
+00:18:21,730 --> 00:18:23,209
+We are going to come
+back to this later.
+
+459
+00:18:23,209 --> 00:18:24,409
+Okay. This is very important.
+
+460
+00:18:24,409 --> 00:18:25,950
+I need to make sure all you guys
+
+461
+00:18:25,950 --> 00:18:27,649
+know exactly how
+it has stored in
+
+462
+00:18:27,649 --> 00:18:29,429
+this bits because in order to
+
+463
+00:18:29,429 --> 00:18:30,830
+understand deeper
+in contadation,
+
+464
+00:18:30,830 --> 00:18:31,869
+we have to understand this.
+
+465
+00:18:31,869 --> 00:18:33,489
+But we're going to come
+back to this later.
+
+466
+00:18:33,489 --> 00:18:35,149
+But here, the big message is
+
+467
+00:18:35,149 --> 00:18:37,649
+essentially for each
+value in a tensor,
+
+468
+00:18:37,649 --> 00:18:39,910
+we can either store
+it in 32 bits,
+
+469
+00:18:39,910 --> 00:18:43,790
+which equals to four
+bytes or 16 bits,
+
+470
+00:18:43,790 --> 00:18:45,510
+which equals to two bytes.
+
+471
+00:18:45,510 --> 00:18:47,310
+And we have some other
+lower precision,
+
+472
+00:18:47,310 --> 00:18:49,770
+but here, let's focus
+on the three, okay?
+
+473
+00:18:49,770 --> 00:18:54,069
+By the way, the B flow 16.
+What does B stand for?
+
+474
+00:18:54,200 --> 00:18:57,499
+Sorry? Yes. Bring.
+I don't know why,
+
+475
+00:18:57,499 --> 00:18:58,660
+but it's a lame.
+
+476
+00:18:58,660 --> 00:18:59,860
+Come up by Google, okay?
+
+477
+00:18:59,860 --> 00:19:06,330
+Yeah. Cool. Um, oh, welcome
+back to this later.
+
+478
+00:19:06,330 --> 00:19:10,949
+Okay. Then I'm going to do
+a very practical example.
+
+479
+00:19:10,949 --> 00:19:13,629
+Okay. This is a
+table. I quoted from
+
+480
+00:19:13,629 --> 00:19:16,950
+the very phenomenon GBD paper.
+
+481
+00:19:16,950 --> 00:19:18,670
+One of the best paper
+
+482
+00:19:18,670 --> 00:19:21,349
+of probably in the
+past ten years, right?
+
+483
+00:19:21,349 --> 00:19:24,809
+And this is the table
+that describes the GBD,
+
+484
+00:19:24,809 --> 00:19:28,189
+different archectures all the
+way from the smallest GBD r
+
+485
+00:19:28,189 --> 00:19:32,630
+to the actual GPs that is
+175 billion parameters.
+
+486
+00:19:32,630 --> 00:19:35,130
+And you can read you
+can basically read
+
+487
+00:19:35,130 --> 00:19:38,069
+the columns, the
+column names, right?
+
+488
+00:19:38,069 --> 00:19:39,870
+The first column is model lame.
+
+489
+00:19:39,870 --> 00:19:42,329
+Second one, second is
+lumber parameters, right?
+
+490
+00:19:42,329 --> 00:19:45,029
+It gives you a sense, how many
+parameters that model has.
+
+491
+00:19:45,029 --> 00:19:47,109
+Third column amber layers.
+
+492
+00:19:47,109 --> 00:19:49,430
+Okay. First column D model.
+
+493
+00:19:49,430 --> 00:19:51,149
+So here D model
+basically stands for
+
+494
+00:19:51,149 --> 00:19:54,549
+the hidden dimension
+of transformers.
+
+495
+00:19:54,549 --> 00:19:58,870
+Okay? So you can understand
+it as the H in dpering.
+
+496
+00:19:59,390 --> 00:20:03,129
+In head is amber he in
+much head attention,
+
+497
+00:20:03,129 --> 00:20:06,879
+come back to this
+layer in LM. Okay.
+
+498
+00:20:06,879 --> 00:20:12,230
+And the Di had is DHAd
+is the head dimension.
+
+499
+00:20:12,230 --> 00:20:14,530
+Okay. Also a hidden
+dimension for each head.
+
+500
+00:20:14,530 --> 00:20:16,029
+And the batch side is
+
+501
+00:20:16,029 --> 00:20:18,670
+basically the bat side we
+use to train this model,
+
+502
+00:20:18,670 --> 00:20:20,829
+right? Still memory
+batch, right?
+
+503
+00:20:20,829 --> 00:20:23,170
+So it's basically the
+batch install castra des.
+
+504
+00:20:23,170 --> 00:20:25,389
+Okay. And learning
+rate is basically how
+
+505
+00:20:25,389 --> 00:20:27,850
+we update updates
+to the parameters.
+
+506
+00:20:27,850 --> 00:20:30,730
+Okay? We're going to
+use this example.
+
+507
+00:20:30,730 --> 00:20:34,315
+We try to analyze the memory
+usage of these models, okay.
+
+508
+00:20:34,315 --> 00:20:38,080
+So remember three parts
+right model ways, um,
+
+509
+00:20:38,080 --> 00:20:41,959
+uh, activations and opon
+states. We'll start one by one.
+
+510
+00:20:41,959 --> 00:20:44,240
+Okay. So for model ways,
+
+511
+00:20:44,240 --> 00:20:46,180
+let's just look at the
+biggest one, okay?
+
+512
+00:20:46,180 --> 00:20:49,439
+The biggest one has 175
+billion parameters, right?
+
+513
+00:20:49,439 --> 00:20:51,119
+And for each parameter,
+
+514
+00:20:51,119 --> 00:20:53,919
+we either store it in 16
+bits or 32 bits, right?
+
+515
+00:20:53,919 --> 00:20:55,359
+So how many memory we use?
+
+516
+00:20:55,359 --> 00:20:57,619
+We basically times two
+values together, right?
+
+517
+00:20:57,619 --> 00:21:00,340
+And we get, um,
+
+518
+00:21:00,460 --> 00:21:04,879
+this number 175 billion
+times two or four.
+
+519
+00:21:04,879 --> 00:21:08,720
+So basically, in order
+to store TBD models was,
+
+520
+00:21:08,720 --> 00:21:12,259
+we need a 350 giga or
+70 gigabyte memory.
+
+521
+00:21:12,259 --> 00:21:15,460
+How many memory you have H 100?
+
+522
+00:21:16,140 --> 00:21:19,380
+80, right? Which means
+that it's impossible
+
+523
+00:21:19,380 --> 00:21:21,759
+to train this model
+on H 100, right?
+
+524
+00:21:21,759 --> 00:21:22,360
+That's a problem.
+
+525
+00:21:22,360 --> 00:21:23,919
+Okay. We're going to
+address that problem soon.
+
+526
+00:21:23,919 --> 00:21:26,140
+But this is basically
+the reality check.
+
+527
+00:21:26,140 --> 00:21:28,660
+Okay. And in fact,
+
+528
+00:21:28,660 --> 00:21:31,640
+um, we use two bites.
+
+529
+00:21:31,640 --> 00:21:35,979
+We use 16 bits for
+that, for TPT three.
+
+530
+00:21:36,430 --> 00:21:40,710
+Okay, so the room thumb to
+estimate the model size,
+
+531
+00:21:40,710 --> 00:21:42,549
+the primter size, basically,
+
+532
+00:21:42,549 --> 00:21:44,970
+we first check the
+precision for example,
+
+533
+00:21:44,970 --> 00:21:46,050
+when we read the
+machinery in paper,
+
+534
+00:21:46,050 --> 00:21:49,170
+we check what precision
+used to model parameters.
+
+535
+00:21:49,170 --> 00:21:51,150
+Like I said, most
+models they are stored
+
+536
+00:21:51,150 --> 00:21:53,430
+either in 16 bits or 32 bits.
+
+537
+00:21:53,430 --> 00:21:55,090
+And once we figure
+out precision,
+
+538
+00:21:55,090 --> 00:21:56,190
+we basically use times
+
+539
+00:21:56,190 --> 00:21:58,810
+two or four to get the size
+of the model parameters.
+
+540
+00:21:58,810 --> 00:22:02,439
+Okay. Clear. Okay. Then we
+
+541
+00:22:02,439 --> 00:22:04,739
+start estimating
+activations or second,
+
+542
+00:22:04,739 --> 00:22:06,879
+uh, memory consumption, okay?
+
+543
+00:22:06,879 --> 00:22:08,559
+So for activations, I'm going to
+
+544
+00:22:08,559 --> 00:22:10,839
+run through a few examples
+because like I said,
+
+545
+00:22:10,839 --> 00:22:13,780
+uh, for different operators
+in the dataflow graph,
+
+546
+00:22:13,780 --> 00:22:15,179
+its activation is
+different depending
+
+547
+00:22:15,179 --> 00:22:16,479
+on its operator definition and
+
+548
+00:22:16,479 --> 00:22:18,519
+competion we are
+going to basically
+
+549
+00:22:18,519 --> 00:22:21,099
+cover a few very important
+operators. Okay.
+
+550
+00:22:21,099 --> 00:22:22,659
+Still remember this one, this is
+
+551
+00:22:22,659 --> 00:22:26,219
+column two D. I covered
+that in my second lecture.
+
+552
+00:22:26,219 --> 00:22:27,720
+It's basically like you apply
+
+553
+00:22:27,720 --> 00:22:29,340
+a filter through
+the fissure map,
+
+554
+00:22:29,340 --> 00:22:31,719
+Your input is the
+activation produced by
+
+555
+00:22:31,719 --> 00:22:33,099
+the previous layer
+and your output
+
+556
+00:22:33,099 --> 00:22:34,660
+is basically your
+own activation.
+
+557
+00:22:34,660 --> 00:22:36,480
+So in order to estimate the size
+
+558
+00:22:36,480 --> 00:22:38,179
+of the activation
+for column two D,
+
+559
+00:22:38,179 --> 00:22:40,299
+we basically look at input
+and oppose size, right?
+
+560
+00:22:40,299 --> 00:22:43,799
+So for input, we have four
+dimensional tensor, right?
+
+561
+00:22:43,799 --> 00:22:46,180
+BS which stands for byte size.
+
+562
+00:22:46,180 --> 00:22:48,654
+Number of images you give
+to that neural network.
+
+563
+00:22:48,654 --> 00:22:51,969
+NC is the number of
+channels, right?
+
+564
+00:22:51,969 --> 00:22:53,570
+For the first layer input,
+
+565
+00:22:53,570 --> 00:22:55,349
+the number channel
+equals to three,
+
+566
+00:22:55,349 --> 00:22:58,669
+because the image was
+represented using RTB, okay?
+
+567
+00:22:58,669 --> 00:23:01,509
+And then WN HI is
+basically height and
+
+568
+00:23:01,509 --> 00:23:04,129
+weight of input
+feature map, right?
+
+569
+00:23:04,129 --> 00:23:06,350
+So basically your input, um,
+
+570
+00:23:06,350 --> 00:23:09,069
+uh, is BSN WHI,
+
+571
+00:23:09,069 --> 00:23:12,369
+and you apply a filter and
+you basically get BSN C WSU,
+
+572
+00:23:12,369 --> 00:23:16,330
+where WSU stands for the
+size of the fissure map.
+
+573
+00:23:16,330 --> 00:23:17,709
+Therefore, your activation is
+
+574
+00:23:17,709 --> 00:23:20,595
+basically the size of
+the output fure map.
+
+575
+00:23:20,595 --> 00:23:22,259
+So how many values we have?
+
+576
+00:23:22,259 --> 00:23:23,759
+We just time all these
+together, right?
+
+577
+00:23:23,759 --> 00:23:26,780
+And then we need to time
+the size of element.
+
+578
+00:23:26,780 --> 00:23:28,539
+So it depends on what kind of
+
+579
+00:23:28,539 --> 00:23:30,360
+precision you use
+to store value.
+
+580
+00:23:30,360 --> 00:23:33,139
+But mostly in most
+coverution networks,
+
+581
+00:23:33,139 --> 00:23:34,400
+we use 32 bits.
+
+582
+00:23:34,400 --> 00:23:36,840
+Okay, it's slightly different
+from transformer, okay?
+
+583
+00:23:36,840 --> 00:23:38,559
+So that value should be four.
+
+584
+00:23:38,559 --> 00:23:41,869
+In most nutwors, okay,
+most commotion networks.
+
+585
+00:23:41,869 --> 00:23:44,939
+Okay. Then we do a
+very simple one,
+
+586
+00:23:44,939 --> 00:23:47,359
+which is a met M.
+X is our input.
+
+587
+00:23:47,359 --> 00:23:49,699
+W weights and C is the output.
+
+588
+00:23:49,699 --> 00:23:53,460
+So we estimate the
+activation, very easy.
+
+589
+00:23:53,460 --> 00:23:56,259
+Input three dimensional tensor.
+
+590
+00:23:56,259 --> 00:23:59,599
+The original matrix was by
+the shape of times three,
+
+591
+00:23:59,599 --> 00:24:01,200
+but we have a B side dimension,
+
+592
+00:24:01,200 --> 00:24:03,480
+right, so wet all them together.
+
+593
+00:24:03,480 --> 00:24:05,859
+Uh the W is of
+
+594
+00:24:05,859 --> 00:24:08,619
+the shape by P. So when
+we apply this met M,
+
+595
+00:24:08,619 --> 00:24:11,099
+we basically get Bs
+times M times P, right?
+
+596
+00:24:11,099 --> 00:24:12,880
+That's our output activation.
+
+597
+00:24:12,880 --> 00:24:18,320
+Okay. Of course, you need to
+multiply a size of element,
+
+598
+00:24:18,320 --> 00:24:20,519
+depending on what
+procedure you use.
+
+599
+00:24:20,519 --> 00:24:22,924
+Cool. This one is easy, right?
+
+600
+00:24:22,924 --> 00:24:25,170
+Okay, sort of, of
+course, transformers.
+
+601
+00:24:25,170 --> 00:24:26,710
+Okay? We are going to ground
+
+602
+00:24:26,710 --> 00:24:28,829
+this transformer a
+lot and like I said.
+
+603
+00:24:28,829 --> 00:24:32,930
+So what is the size of
+transformers activation?
+
+604
+00:24:32,930 --> 00:24:34,809
+Uh, no, let's ignore
+
+605
+00:24:34,809 --> 00:24:36,389
+all the intermediate
+operators. Okay.
+
+606
+00:24:36,389 --> 00:24:38,009
+We only focus on
+input and output.
+
+607
+00:24:38,009 --> 00:24:40,650
+Okay. So what input it takes?
+
+608
+00:24:43,560 --> 00:24:47,059
+Yeah, so the first dimension
+definitely by size, right?
+
+609
+00:24:47,059 --> 00:24:49,039
+So we fit a batch of sequences.
+
+610
+00:24:49,039 --> 00:24:51,640
+But the question is what's the
+second or third dimension?
+
+611
+00:24:51,640 --> 00:24:55,179
+Uh. So there's a
+embedding side, right.
+
+612
+00:24:55,179 --> 00:24:56,619
+Embedding size is
+basically how you
+
+613
+00:24:56,619 --> 00:24:58,800
+encode the word into embeddings.
+
+614
+00:24:58,800 --> 00:25:00,320
+But compared to Mat Mo there's
+
+615
+00:25:00,320 --> 00:25:01,639
+one more dimension
+which basically
+
+616
+00:25:01,639 --> 00:25:03,039
+we're not modeling
+sequences, right?
+
+617
+00:25:03,039 --> 00:25:05,920
+So we have a sequence
+lens dimension, okay?
+
+618
+00:25:05,920 --> 00:25:08,759
+So our input is basically uh,
+
+619
+00:25:08,759 --> 00:25:09,979
+batch size times H,
+
+620
+00:25:09,979 --> 00:25:13,039
+H is embedding size
+and sequas, okay?
+
+621
+00:25:13,039 --> 00:25:15,019
+And here, you probably
+spot the difference.
+
+622
+00:25:15,019 --> 00:25:16,479
+So basically the
+activation actually
+
+623
+00:25:16,479 --> 00:25:18,219
+grows with a few things, right.
+
+624
+00:25:18,219 --> 00:25:19,440
+In the previous math model,
+
+625
+00:25:19,440 --> 00:25:21,520
+it only grows with, for example,
+
+626
+00:25:21,520 --> 00:25:22,720
+battery size and edge,
+
+627
+00:25:22,720 --> 00:25:24,860
+but here you add one word
+dimension with sequence sans.
+
+628
+00:25:24,860 --> 00:25:28,119
+That's why, uh, in the
+language model community,
+
+629
+00:25:28,119 --> 00:25:29,719
+people always trying to
+
+630
+00:25:29,719 --> 00:25:31,919
+develop something that
+model longer contexts,
+
+631
+00:25:31,919 --> 00:25:34,399
+and that will raise
+a lot of problems in
+
+632
+00:25:34,399 --> 00:25:37,419
+either computing model and
+also in this kind of memory.
+
+633
+00:25:37,419 --> 00:25:39,619
+Okay? And same thing,
+
+634
+00:25:39,619 --> 00:25:43,079
+you basically produce exactly
+the same ship output, okay?
+
+635
+00:25:43,079 --> 00:25:46,750
+Um, so here's the
+activating sides.
+
+636
+00:25:46,750 --> 00:25:48,849
+So here I simplify the problem
+a little bit because I
+
+637
+00:25:48,849 --> 00:25:51,289
+only to focus on the
+input and output.
+
+638
+00:25:51,289 --> 00:25:53,329
+But actually, in between, right,
+
+639
+00:25:53,329 --> 00:25:54,589
+there are so many operators, for
+
+640
+00:25:54,589 --> 00:25:55,930
+example, teaching softmax,
+
+641
+00:25:55,930 --> 00:25:59,009
+and they actually also create
+some activation values,
+
+642
+00:25:59,009 --> 00:26:00,709
+um, and but here,
+
+643
+00:26:00,709 --> 00:26:01,949
+let's skip that for now.
+
+644
+00:26:01,949 --> 00:26:03,129
+But later we'll
+come back to this.
+
+645
+00:26:03,129 --> 00:26:07,859
+Okay. Cool. Okay. With that,
+
+646
+00:26:07,859 --> 00:26:11,379
+then we come back to
+this GBD example, right?
+
+647
+00:26:11,379 --> 00:26:14,700
+We understand the
+activity and size of, uh,
+
+648
+00:26:14,700 --> 00:26:16,279
+transformers, and GBD is
+
+649
+00:26:16,279 --> 00:26:18,120
+essentially
+transformers, decoders.
+
+650
+00:26:18,120 --> 00:26:20,239
+So we now should be able to
+
+651
+00:26:20,239 --> 00:26:23,339
+estimate the activations
+in GVD three, okay?
+
+652
+00:26:23,339 --> 00:26:26,959
+So now, let's simplify
+problem a little bit.
+
+653
+00:26:26,959 --> 00:26:28,519
+Let'sume sequence
+is equal to one.
+
+654
+00:26:28,519 --> 00:26:30,319
+Okay. That is we just
+
+655
+00:26:30,319 --> 00:26:32,760
+model sequences of
+one token, one word.
+
+656
+00:26:32,760 --> 00:26:35,275
+Okay. So what is the activation?
+
+657
+00:26:35,275 --> 00:26:38,229
+So we basically fact some
+values from that table, right?
+
+658
+00:26:38,229 --> 00:26:40,250
+Remember, we need
+a battery size,
+
+659
+00:26:40,250 --> 00:26:44,789
+six lens and a hidden
+dimension, right?
+
+660
+00:26:44,789 --> 00:26:47,630
+Like I said, the D model
+basically is a hidden dimension.
+
+661
+00:26:47,630 --> 00:26:51,649
+Okay? So the activation
+of each TPDray um,
+
+662
+00:26:51,649 --> 00:26:54,329
+transformer layer is basically
+BS time sequence and time
+
+663
+00:26:54,329 --> 00:26:57,290
+Dmdel we look at
+the last row, okay?
+
+664
+00:26:57,290 --> 00:27:00,650
+So the battery size is
+basically, 3.2 million.
+
+665
+00:27:00,650 --> 00:27:01,850
+That's a pretty large bat size,
+
+666
+00:27:01,850 --> 00:27:05,699
+okay, and the hidden
+dimension is 12288.
+
+667
+00:27:05,699 --> 00:27:07,929
+Okay. And the six line
+is equal to one, right?
+
+668
+00:27:07,929 --> 00:27:09,690
+I said, I think the problem.
+
+669
+00:27:09,690 --> 00:27:13,630
+So you can see, in
+order to 20 GB array,
+
+670
+00:27:13,630 --> 00:27:15,209
+I just model like a
+six line equal to one.
+
+671
+00:27:15,209 --> 00:27:18,449
+I already need this many
+of active memory, right?
+
+672
+00:27:18,449 --> 00:27:20,289
+So, like I said, I
+already told you that
+
+673
+00:27:20,289 --> 00:27:22,849
+GBs was trained
+using P 16, right?
+
+674
+00:27:22,849 --> 00:27:25,709
+So basically the
+first number 78 giga.
+
+675
+00:27:25,709 --> 00:27:28,130
+So one Y only have eight giga.
+
+676
+00:27:28,130 --> 00:27:32,029
+So it's impossible to perform
+a single forward pass here.
+
+677
+00:27:32,029 --> 00:27:35,669
+This is just for one layer.
+Like how many layer we have?
+
+678
+00:27:35,750 --> 00:27:40,050
+It's over there, right.
+It's 96 layers, okay?
+
+679
+00:27:40,050 --> 00:27:41,829
+Yeah, this is a little
+bit crazy, right?
+
+680
+00:27:41,829 --> 00:27:44,419
+You can imagine how many
+GP we need to 20 GB three.
+
+681
+00:27:44,419 --> 00:27:48,229
+Okay. One thing I
+
+682
+00:27:48,229 --> 00:27:49,649
+want to emphasize again is for
+
+683
+00:27:49,649 --> 00:27:51,610
+each operator inside
+of transformer layer,
+
+684
+00:27:51,610 --> 00:27:52,870
+we also have activations.
+
+685
+00:27:52,870 --> 00:27:55,329
+We'll come back to
+this later. Okay.
+
+686
+00:27:55,930 --> 00:28:01,130
+Cool. We are still on the
+same page for activations.
+
+687
+00:28:01,130 --> 00:28:03,029
+Okay? Now, let's move to
+
+688
+00:28:03,029 --> 00:28:04,990
+the third party
+open minor states.
+
+689
+00:28:04,990 --> 00:28:07,769
+Remember, we need to derive
+gradients and we need to
+
+690
+00:28:07,769 --> 00:28:09,109
+manipulate the gradients
+and eventually
+
+691
+00:28:09,109 --> 00:28:10,950
+apply the gradits to
+update the parameters.
+
+692
+00:28:10,950 --> 00:28:13,329
+We all still use
+DVDs are example.
+
+693
+00:28:13,329 --> 00:28:14,909
+We all try to figure out
+
+694
+00:28:14,909 --> 00:28:16,989
+how many open mind states memory
+
+695
+00:28:16,989 --> 00:28:19,370
+we need to store opin states.
+
+696
+00:28:19,490 --> 00:28:21,590
+Let's cut and cheese, okay?
+
+697
+00:28:21,590 --> 00:28:23,069
+We don't talk about simplices
+
+698
+00:28:23,069 --> 00:28:24,309
+because we don't care about SGD,
+
+699
+00:28:24,309 --> 00:28:25,490
+right. We only care about atom.
+
+700
+00:28:25,490 --> 00:28:26,629
+I already told you that all the
+
+701
+00:28:26,629 --> 00:28:28,150
+models they are optimizing atom.
+
+702
+00:28:28,150 --> 00:28:30,590
+So how about we just pass
+this algorithm, Adam.
+
+703
+00:28:30,590 --> 00:28:32,729
+Okay? This is a AAM algorithm.
+
+704
+00:28:32,729 --> 00:28:34,990
+I quote it from Adam paper.
+
+705
+00:28:34,990 --> 00:28:38,229
+Okay, I'll let you look
+at this a little bit.
+
+706
+00:28:38,229 --> 00:28:40,969
+Maybe 15 seconds.
+
+707
+00:28:59,400 --> 00:29:01,739
+Okay, cool, let's pass this.
+
+708
+00:29:01,739 --> 00:29:04,560
+So the only difference
+
+709
+00:29:04,560 --> 00:29:08,780
+that between this atom
+algorithm and vana SGD.
+
+710
+00:29:08,780 --> 00:29:10,279
+So remember in vana SGD,
+
+711
+00:29:10,279 --> 00:29:11,759
+we basic the gradings, right.
+
+712
+00:29:11,759 --> 00:29:14,599
+We multiply it by a small
+learning rate and then
+
+713
+00:29:14,599 --> 00:29:18,819
+uh add or malance into the
+parameter to get the update.
+
+714
+00:29:18,819 --> 00:29:20,420
+So the only difference between
+
+715
+00:29:20,420 --> 00:29:25,160
+Adam and and vana stochastical
+grading is basically, uh,
+
+716
+00:29:25,160 --> 00:29:26,960
+in order to actually calculate
+
+717
+00:29:26,960 --> 00:29:29,499
+the value that is going to be
+applied into the parameter,
+
+718
+00:29:29,499 --> 00:29:31,620
+uh, we need to
+manipulate the gradients
+
+719
+00:29:31,620 --> 00:29:34,560
+using uh the first
+and second moment.
+
+720
+00:29:34,560 --> 00:29:36,059
+The first moment
+is basically the
+
+721
+00:29:36,059 --> 00:29:37,199
+mean and the second moment is
+
+722
+00:29:37,199 --> 00:29:40,219
+basically the uh the variance.
+
+723
+00:29:40,219 --> 00:29:42,539
+So in order to do that,
+what do we do is,
+
+724
+00:29:42,539 --> 00:29:45,939
+as we apply different
+mini different batches
+
+725
+00:29:45,939 --> 00:29:47,439
+and we basically mean
+
+726
+00:29:47,439 --> 00:29:50,060
+some states to track
+
+727
+00:29:50,060 --> 00:29:52,460
+the moment across the
+optimi intrajectory.
+
+728
+00:29:52,460 --> 00:29:55,579
+And every time when we
+calculate a new gradient,
+
+729
+00:29:55,579 --> 00:29:56,880
+we are going to
+update the moment
+
+730
+00:29:56,880 --> 00:29:58,699
+for first and second
+moment, okay?
+
+731
+00:29:58,699 --> 00:30:00,840
+And if you look at this
+line, the last line,
+
+732
+00:30:00,840 --> 00:30:04,199
+how we apply this primary
+update, that is, uh,
+
+733
+00:30:04,199 --> 00:30:06,999
+we take we normalize
+this gradient
+
+734
+00:30:06,999 --> 00:30:09,680
+and divide it by
+standard deviation,
+
+735
+00:30:09,680 --> 00:30:11,199
+okay, and we apply it.
+
+736
+00:30:11,199 --> 00:30:13,079
+Okay? Basically, you can think,
+
+737
+00:30:13,079 --> 00:30:14,959
+The difference between SGD and
+
+738
+00:30:14,959 --> 00:30:16,999
+atom is we normalize the
+gradients in some way.
+
+739
+00:30:16,999 --> 00:30:18,419
+But in order to
+normalize the gradients,
+
+740
+00:30:18,419 --> 00:30:20,960
+we have to maintain
+first and second moment.
+
+741
+00:30:21,280 --> 00:30:23,539
+The problem is here, we need to
+
+742
+00:30:23,539 --> 00:30:25,460
+store the first
+and second moment,
+
+743
+00:30:25,460 --> 00:30:28,199
+along the ultimate intrajectory.
+
+744
+00:30:28,199 --> 00:30:30,659
+Let's look at how
+many memory we need.
+
+745
+00:30:30,659 --> 00:30:34,699
+Okay? So for gradient, uh,
+
+746
+00:30:34,699 --> 00:30:36,699
+the memory we needed
+is basically,
+
+747
+00:30:36,699 --> 00:30:39,899
+uh, should be the same
+size of parameters, right?
+
+748
+00:30:39,899 --> 00:30:41,999
+So how many parameters,
+how many gradients?
+
+749
+00:30:41,999 --> 00:30:44,860
+So for gradient, basically
+in times size of element.
+
+750
+00:30:44,860 --> 00:30:46,900
+Okay? The first moment
+
+751
+00:30:46,900 --> 00:30:48,839
+is also in time
+cell moment, right?
+
+752
+00:30:48,839 --> 00:30:51,060
+It's mean, right. And
+the second moment
+
+753
+00:30:51,060 --> 00:30:53,799
+is also in times set of element.
+
+754
+00:30:53,799 --> 00:30:57,539
+The total op state
+we need to perform
+
+755
+00:30:57,539 --> 00:31:01,379
+atom is basically three
+times size of 11.
+
+756
+00:31:01,379 --> 00:31:03,319
+Okay. This is a little
+bit crazy, right,
+
+757
+00:31:03,319 --> 00:31:05,999
+because I remember
+the CP three itself,
+
+758
+00:31:05,999 --> 00:31:08,499
+the parameters is already
+pretty huge, right?
+
+759
+00:31:08,499 --> 00:31:11,360
+But here we are basically
+triple them again,
+
+760
+00:31:11,360 --> 00:31:13,619
+in order to perform updates.
+
+761
+00:31:13,619 --> 00:31:16,060
+Yeah. That's basically
+the optimal state.
+
+762
+00:31:16,060 --> 00:31:17,920
+And I think at this point,
+
+763
+00:31:17,920 --> 00:31:20,040
+you already understand
+kind of the distribution
+
+764
+00:31:20,040 --> 00:31:23,160
+between the um
+memory consumption.
+
+765
+00:31:23,160 --> 00:31:26,040
+Um, compared to parameters,
+
+766
+00:31:26,040 --> 00:31:27,339
+which is already large, I think,
+
+767
+00:31:27,339 --> 00:31:29,299
+this one is even larger, right,
+
+768
+00:31:29,299 --> 00:31:31,680
+because it's three times
+of the parameters.
+
+769
+00:31:31,680 --> 00:31:34,040
+And also, you got many many
+intermediate activations,
+
+770
+00:31:34,040 --> 00:31:36,540
+and it could be large
+depending on how your model,
+
+771
+00:31:36,540 --> 00:31:38,720
+hidden dimension
+is and whatever.
+
+772
+00:31:38,720 --> 00:31:45,980
+Cool. Okay. So next
+
+773
+00:31:45,980 --> 00:31:48,119
+let's talk about we already
+talked about size, right?
+
+774
+00:31:48,119 --> 00:31:50,079
+Next, we are going to
+talk about lifetime.
+
+775
+00:31:50,079 --> 00:31:52,059
+So what tensors can be
+
+776
+00:31:52,059 --> 00:31:55,139
+live and what tensors
+can be that tensors,
+
+777
+00:31:55,139 --> 00:31:56,679
+because we want to allocate
+
+778
+00:31:56,679 --> 00:31:57,879
+memory for those live tensors.
+
+779
+00:31:57,879 --> 00:32:00,519
+Okay? So now we need to
+
+780
+00:32:00,519 --> 00:32:03,160
+basically enhance
+the inverse graph
+
+781
+00:32:03,160 --> 00:32:04,880
+a little bit to make
+it a training graph.
+
+782
+00:32:04,880 --> 00:32:06,839
+Okay? So the difference
+between training graph and
+
+783
+00:32:06,839 --> 00:32:09,140
+inverse graph is basically
+we have a backward graph,
+
+784
+00:32:09,140 --> 00:32:12,640
+right, and we also have
+optimized state updating graph.
+
+785
+00:32:12,640 --> 00:32:14,519
+Okay, we combine all together.
+
+786
+00:32:14,519 --> 00:32:16,340
+So here, um, uh,
+
+787
+00:32:16,340 --> 00:32:17,739
+I simplify a little bit, I
+
+788
+00:32:17,739 --> 00:32:19,720
+remove the grading
+updated graph.
+
+789
+00:32:19,720 --> 00:32:23,920
+Okay. I basically map the
+backward graph to photograph.
+
+790
+00:32:23,920 --> 00:32:26,140
+And we can basically fold
+
+791
+00:32:26,140 --> 00:32:28,899
+this together into one
+line that is like this.
+
+792
+00:32:28,899 --> 00:32:30,420
+Okay, we fold the edges,
+
+793
+00:32:30,420 --> 00:32:33,119
+forward, backward,
+forward, backward.
+
+794
+00:32:35,400 --> 00:32:40,800
+Uh, so for model parameters,
+
+795
+00:32:40,800 --> 00:32:44,779
+can we describe
+them at any time?
+
+796
+00:32:44,779 --> 00:32:48,080
+No, Because we need
+them to either,
+
+797
+00:32:48,080 --> 00:32:50,719
+calculate gradings or
+apply updates, right?
+
+798
+00:32:50,719 --> 00:32:53,059
+So mostly, we cannot
+describe them.
+
+799
+00:32:53,059 --> 00:32:56,039
+Um For activations, can we?
+
+800
+00:32:58,730 --> 00:33:02,529
+To some extent can.
+But in this example,
+
+801
+00:33:02,529 --> 00:33:05,049
+I show example where
+we cannot because
+
+802
+00:33:05,049 --> 00:33:08,649
+um compared to the
+inference forward graph,
+
+803
+00:33:08,649 --> 00:33:10,050
+every time we
+calculate the layer,
+
+804
+00:33:10,050 --> 00:33:11,570
+we can throw anything
+before that layer.
+
+805
+00:33:11,570 --> 00:33:14,290
+But compared to
+that example here,
+
+806
+00:33:14,290 --> 00:33:17,270
+every time we calculate
+layer, after it's forward,
+
+807
+00:33:17,270 --> 00:33:18,930
+we cannot throw it
+away immediately
+
+808
+00:33:18,930 --> 00:33:20,609
+because at some
+point we will come
+
+809
+00:33:20,609 --> 00:33:23,210
+back and we need that activation
+
+810
+00:33:23,210 --> 00:33:24,589
+again to derive the greits.
+
+811
+00:33:24,589 --> 00:33:26,669
+So in most cases,
+
+812
+00:33:26,669 --> 00:33:28,770
+I would say we cannot
+describe the activations.
+
+813
+00:33:28,770 --> 00:33:30,089
+But later we're
+going to talk about
+
+814
+00:33:30,089 --> 00:33:31,749
+some optimizations where we
+
+815
+00:33:31,749 --> 00:33:32,989
+will be allowed to describe to
+
+816
+00:33:32,989 --> 00:33:35,770
+see memory, but pay some cost.
+
+817
+00:33:36,420 --> 00:33:39,299
+Yeah. So to summarize,
+basically, uh,
+
+818
+00:33:39,299 --> 00:33:41,299
+because the need to keep
+intermediate values
+
+819
+00:33:41,299 --> 00:33:43,299
+around for the grading steps.
+
+820
+00:33:43,299 --> 00:33:45,180
+So training earlier neural
+
+821
+00:33:45,180 --> 00:33:46,779
+network, compared to inference,
+
+822
+00:33:46,779 --> 00:33:49,039
+now we need to basically
+open because we need to
+
+823
+00:33:49,039 --> 00:33:51,639
+keep the activations for
+every layers output,
+
+824
+00:33:51,639 --> 00:33:53,499
+right, in order to
+perform backward.
+
+825
+00:33:53,499 --> 00:33:57,619
+So this is the difference
+between training and inference.
+
+826
+00:33:59,250 --> 00:34:05,630
+Okay, now, let's do summarization
+for the TPD rate case.
+
+827
+00:34:05,630 --> 00:34:07,490
+Okay. So for parameters,
+
+828
+00:34:07,490 --> 00:34:13,089
+we have 175 billion times
+either 16 bit or 32 bit.
+
+829
+00:34:13,089 --> 00:34:15,709
+Okay? For activations, um, uh,
+
+830
+00:34:15,709 --> 00:34:17,989
+at the transformer boundary
+we basically have,
+
+831
+00:34:17,989 --> 00:34:20,050
+like I said, 78 giga,
+
+832
+00:34:20,050 --> 00:34:21,689
+and we have 96 layers.
+
+833
+00:34:21,689 --> 00:34:24,509
+That is basically seven K,
+
+834
+00:34:24,509 --> 00:34:28,149
+488 giga memory for activations.
+
+835
+00:34:28,149 --> 00:34:30,489
+Um, like I said, this is not
+
+836
+00:34:30,489 --> 00:34:32,449
+accurate because transformer
+is a composite layer.
+
+837
+00:34:32,449 --> 00:34:33,649
+There are many many
+other operators that
+
+838
+00:34:33,649 --> 00:34:35,129
+still consume more
+memory than this.
+
+839
+00:34:35,129 --> 00:34:38,019
+Okay. And for optimal
+states, like I said,
+
+840
+00:34:38,019 --> 00:34:41,460
+um, we have three
+copies. One is gradient.
+
+841
+00:34:41,460 --> 00:34:45,019
+The other is first
+moment second moment,
+
+842
+00:34:45,019 --> 00:34:48,540
+three times N,
+which is 175 binar.
+
+843
+00:34:48,540 --> 00:34:51,919
+Okay? And here, one thing
+that you need to remember is,
+
+844
+00:34:51,919 --> 00:34:53,519
+when we apply atom on
+
+845
+00:34:53,519 --> 00:34:55,599
+whatever kind of
+precisions or model,
+
+846
+00:34:55,599 --> 00:34:58,700
+we always keep the
+precision in 32.
+
+847
+00:34:58,700 --> 00:35:01,599
+Okay? I will come back
+to this later because,
+
+848
+00:35:01,599 --> 00:35:04,059
+but high level intuition
+is when we apply
+
+849
+00:35:04,059 --> 00:35:06,239
+this kind of obrand we
+
+850
+00:35:06,239 --> 00:35:07,999
+want to have high
+precision in order
+
+851
+00:35:07,999 --> 00:35:10,740
+to basically make sure our
+optimization is accurate.
+
+852
+00:35:10,740 --> 00:35:12,850
+Yeah, we don't want
+to lose precision.
+
+853
+00:35:12,850 --> 00:35:14,639
+Which means that here, we have
+
+854
+00:35:14,639 --> 00:35:16,260
+to time that by four bytes,
+
+855
+00:35:16,260 --> 00:35:20,079
+and that gives us another
+12 times 175 giga.
+
+856
+00:35:20,079 --> 00:35:22,399
+So this is basically the
+global picture of how many
+
+857
+00:35:22,399 --> 00:35:24,859
+memory we need to 20 GB three.
+
+858
+00:35:24,859 --> 00:35:26,559
+Okay? You can do some math.
+
+859
+00:35:26,559 --> 00:35:28,199
+Afterwards, you add
+all this number
+
+860
+00:35:28,199 --> 00:35:29,299
+together and divide it by 80.
+
+861
+00:35:29,299 --> 00:35:32,100
+That is the number of GB
+we need 23. At a minimum.
+
+862
+00:35:32,100 --> 00:35:34,640
+Okay. Yeah. Because I
+think at a minimum,
+
+863
+00:35:34,640 --> 00:35:36,059
+you need to first put the model
+
+864
+00:35:36,059 --> 00:35:37,539
+into that enough memory, right?
+
+865
+00:35:37,539 --> 00:35:39,459
+Yeah, you don't care
+about how long it takes.
+
+866
+00:35:39,459 --> 00:35:41,640
+At least you need to
+offer that memory.
+
+867
+00:35:41,640 --> 00:35:43,059
+Okay? Cool.
+
+868
+00:35:43,059 --> 00:35:44,879
+A little bit crazy,
+right? And this model
+
+869
+00:35:44,879 --> 00:35:46,399
+is 500 B, by the way.
+
+870
+00:35:46,399 --> 00:35:49,799
+Yeah, for example,
+deep S 500 600 B.
+
+871
+00:35:49,799 --> 00:35:52,124
+So basically four times of this.
+
+872
+00:35:52,124 --> 00:35:55,650
+Cool. Okay, now, you basically
+
+873
+00:35:55,650 --> 00:35:56,550
+have a global picture
+
+874
+00:35:56,550 --> 00:35:58,569
+of what is going on
+in the memory, right?
+
+875
+00:35:58,569 --> 00:36:04,229
+Lifetime, um, how to store
+the data and three parts,
+
+876
+00:36:04,229 --> 00:36:08,429
+um, parameter, activation
+and open memory states.
+
+877
+00:36:08,429 --> 00:36:12,029
+And we're going to proceed
+to our next system issue,
+
+878
+00:36:12,029 --> 00:36:14,389
+right, how we can optimize
+the memory usage.
+
+879
+00:36:14,389 --> 00:36:16,009
+Okay? For this part,
+
+880
+00:36:16,009 --> 00:36:18,109
+we are going to cover,
+
+881
+00:36:18,109 --> 00:36:20,589
+and this is basically the main
+
+882
+00:36:20,589 --> 00:36:22,149
+trend emerging learning system
+
+883
+00:36:22,149 --> 00:36:23,249
+that is how to basically put
+
+884
+00:36:23,249 --> 00:36:24,409
+this gigantic model
+
+885
+00:36:24,409 --> 00:36:26,549
+many many devices and
+make sure they work.
+
+886
+00:36:26,549 --> 00:36:28,769
+I'm going to cover two parts.
+
+887
+00:36:28,769 --> 00:36:30,249
+One is how we do this kind of
+
+888
+00:36:30,249 --> 00:36:33,349
+single device memory
+oganation and of course,
+
+889
+00:36:33,349 --> 00:36:35,610
+single device has a limit
+because you only have 80 giga.
+
+890
+00:36:35,610 --> 00:36:37,129
+So at some point you know how to
+
+891
+00:36:37,129 --> 00:36:39,770
+start distributing jobs
+across many, many devices.
+
+892
+00:36:39,770 --> 00:36:41,949
+So that will basically
+brings us to
+
+893
+00:36:41,949 --> 00:36:43,189
+the second part with
+
+894
+00:36:43,189 --> 00:36:45,469
+plazon but I want to talk
+about this part later.
+
+895
+00:36:45,469 --> 00:36:46,829
+Okay. So let's look
+
+896
+00:36:46,829 --> 00:36:49,749
+at how we optimize
+memory on single device.
+
+897
+00:36:49,790 --> 00:36:52,889
+So, um, apparently, um,
+
+898
+00:36:52,889 --> 00:36:54,830
+uh, during the
+activation section,
+
+899
+00:36:54,830 --> 00:36:57,749
+I already kind of hinted
+to you guys that, uh,
+
+900
+00:36:57,749 --> 00:36:59,430
+for activation, uh, actually,
+
+901
+00:36:59,430 --> 00:37:01,690
+some part of the activation
+can be discarded.
+
+902
+00:37:01,690 --> 00:37:03,770
+Okay. And here is the example.
+
+903
+00:37:03,770 --> 00:37:06,410
+So, uh in this example,
+
+904
+00:37:06,410 --> 00:37:11,550
+what I tried to show is
+basically, um, uh, Remember,
+
+905
+00:37:11,550 --> 00:37:13,309
+when we first perform
+forward and then
+
+906
+00:37:13,309 --> 00:37:16,049
+perform backward and say,
+
+907
+00:37:16,049 --> 00:37:17,489
+if you look at the second layer,
+
+908
+00:37:17,489 --> 00:37:18,869
+once we perform forward, it's
+
+909
+00:37:18,869 --> 00:37:20,549
+activation of the generate a.
+
+910
+00:37:20,549 --> 00:37:21,930
+We can basically propagate
+
+911
+00:37:21,930 --> 00:37:23,529
+that activation to the
+next layer and try to
+
+912
+00:37:23,529 --> 00:37:26,830
+compute the rest of layers
+and think about is lifetime,
+
+913
+00:37:26,830 --> 00:37:30,189
+o when will that activation
+be needed again?
+
+914
+00:37:33,160 --> 00:37:36,160
+So basically following
+backward cation,
+
+915
+00:37:36,160 --> 00:37:38,279
+the activation of
+the second layer,
+
+916
+00:37:38,279 --> 00:37:40,400
+when it is needed is basically
+
+917
+00:37:40,400 --> 00:37:43,299
+your backward proceed all
+the way to that layer.
+
+918
+00:37:43,299 --> 00:37:44,980
+So when your backward actually
+
+919
+00:37:44,980 --> 00:37:46,939
+reaches the current
+layer, you need it again.
+
+920
+00:37:46,939 --> 00:37:48,639
+Which means that
+there's a window where
+
+921
+00:37:48,639 --> 00:37:50,979
+we can discard that
+part of memory, right?
+
+922
+00:37:50,979 --> 00:37:52,839
+And we don't need that.
+
+923
+00:37:52,839 --> 00:37:55,300
+As long as that window passed
+
+924
+00:37:55,300 --> 00:37:57,659
+and when our backward
+proceeded to that layer again,
+
+925
+00:37:57,659 --> 00:38:00,444
+we can basically reflect
+that part of memory, right.
+
+926
+00:38:00,444 --> 00:38:02,069
+Uh, why we do this?
+
+927
+00:38:02,069 --> 00:38:03,609
+Because we can see
+memory. We can
+
+928
+00:38:03,609 --> 00:38:05,650
+basically during
+that time window,
+
+929
+00:38:05,650 --> 00:38:08,109
+as long as we can
+describe the memory,
+
+930
+00:38:08,109 --> 00:38:10,730
+we can count more
+space to basically
+
+931
+00:38:10,730 --> 00:38:13,929
+accommodate the other sensors,
+for example, yeah. Okay.
+
+932
+00:38:13,929 --> 00:38:16,329
+So this basically give
+you some idea, like,
+
+933
+00:38:16,329 --> 00:38:19,830
+how we can do single
+device augmentation.
+
+934
+00:38:19,830 --> 00:38:22,629
+The key idea here is, uh,
+
+935
+00:38:22,629 --> 00:38:24,750
+for many activations in layers,
+
+936
+00:38:24,750 --> 00:38:26,389
+so the activity is
+not needed again
+
+937
+00:38:26,389 --> 00:38:28,449
+until the background pass
+comes to that layer.
+
+938
+00:38:28,449 --> 00:38:30,269
+Okay. So that gives us
+
+939
+00:38:30,269 --> 00:38:32,230
+a time window where we
+can discard memory.
+
+940
+00:38:32,230 --> 00:38:36,469
+Okay? So the idea is we
+can discard some of them.
+
+941
+00:38:36,469 --> 00:38:41,004
+Okay. And we recompute them
+when it's needed again.
+
+942
+00:38:41,004 --> 00:38:42,979
+Right? Because, for example,
+
+943
+00:38:42,979 --> 00:38:44,179
+if you look at the second layer,
+
+944
+00:38:44,179 --> 00:38:45,459
+we can discard it and when
+
+945
+00:38:45,459 --> 00:38:46,939
+the backroa reaches that layer,
+
+946
+00:38:46,939 --> 00:38:49,089
+we can recompute from the
+beginning all the way.
+
+947
+00:38:49,089 --> 00:38:51,559
+To get a value again.
+And the recomputation
+
+948
+00:38:51,559 --> 00:38:52,820
+will give you exact
+same results,
+
+949
+00:38:52,820 --> 00:38:54,300
+right, because you
+have the program.
+
+950
+00:38:54,300 --> 00:38:56,740
+You have the data
+flow graph structure.
+
+951
+00:38:56,740 --> 00:38:59,379
+Okay? So this trick is
+
+952
+00:38:59,379 --> 00:39:02,279
+basically called,
+um, recomputation.
+
+953
+00:39:02,279 --> 00:39:05,939
+People give you many different
+kind of names, recompeton,
+
+954
+00:39:05,939 --> 00:39:10,720
+mtization and grad
+checkpoint activation,
+
+955
+00:39:10,720 --> 00:39:13,439
+checkpoint activation,
+all kinds of names.
+
+956
+00:39:13,439 --> 00:39:15,239
+But you basically get
+the idea that is,
+
+957
+00:39:15,239 --> 00:39:18,060
+um, we can recompute
+certain layers.
+
+958
+00:39:18,060 --> 00:39:20,079
+We can use flops. We can use
+
+959
+00:39:20,079 --> 00:39:21,219
+computers to treat for memory
+
+960
+00:39:21,219 --> 00:39:22,859
+if we don't have
+enough memory. Okay?
+
+961
+00:39:22,859 --> 00:39:26,999
+So let's see how
+this works. So here,
+
+962
+00:39:26,999 --> 00:39:28,759
+um, I have a new network, right.
+
+963
+00:39:28,759 --> 00:39:31,480
+In my vanina version,
+I will basically,
+
+964
+00:39:31,480 --> 00:39:33,899
+preserve all the memory and
+
+965
+00:39:33,899 --> 00:39:37,079
+all the intermediate tensors
+produced at every layer.
+
+966
+00:39:37,079 --> 00:39:39,900
+So here, if a layers
+memory is preserved,
+
+967
+00:39:39,900 --> 00:39:42,319
+I basically mark it
+with orage color.
+
+968
+00:39:42,319 --> 00:39:44,799
+So you'll still remember
+at my Vaina version,
+
+969
+00:39:44,799 --> 00:39:46,299
+all the blocks,
+all the nodes are
+
+970
+00:39:46,299 --> 00:39:48,059
+basically has a color right.
+
+971
+00:39:48,059 --> 00:39:50,260
+But here, I will do it
+slightly differently.
+
+972
+00:39:50,260 --> 00:39:52,039
+So what I'm going to do is, I
+
+973
+00:39:52,039 --> 00:39:54,300
+still proceed with my
+four communication.
+
+974
+00:39:54,300 --> 00:39:56,139
+But what I do is I only save
+
+975
+00:39:56,139 --> 00:40:00,159
+those layers output at
+those nodes with a color,
+
+976
+00:40:00,159 --> 00:40:03,000
+and I discard all the
+other layers output.
+
+977
+00:40:03,000 --> 00:40:05,539
+Okay. So here in the step zero,
+
+978
+00:40:05,539 --> 00:40:07,499
+basically only, I already
+
+979
+00:40:07,499 --> 00:40:08,779
+reduce the memory
+by half, right?
+
+980
+00:40:08,779 --> 00:40:12,039
+I only store, the second,
+the first, and the sixth.
+
+981
+00:40:12,039 --> 00:40:15,084
+Okay. I discarded the
+first, the third and fifth.
+
+982
+00:40:15,084 --> 00:40:18,549
+Okay. What I do is, when I
+proceed with my backward pass,
+
+983
+00:40:18,549 --> 00:40:20,389
+from the last layer
+to the first layer,
+
+984
+00:40:20,389 --> 00:40:22,149
+um, if I hit
+
+985
+00:40:22,149 --> 00:40:24,430
+a layer where the intermediate
+tensor was preserved,
+
+986
+00:40:24,430 --> 00:40:26,570
+I have no problem, I just
+calculate the readings.
+
+987
+00:40:26,570 --> 00:40:28,689
+But if I hit a layer where
+
+988
+00:40:28,689 --> 00:40:30,690
+it's activation
+tensor was discarded,
+
+989
+00:40:30,690 --> 00:40:34,249
+what I do is I try
+to find a layer in
+
+990
+00:40:34,249 --> 00:40:36,389
+the I try to find the
+previous layer that is
+
+991
+00:40:36,389 --> 00:40:39,289
+closest to that layer that is
+missing intermediate value.
+
+992
+00:40:39,289 --> 00:40:41,849
+And I launch a forward pass
+
+993
+00:40:41,849 --> 00:40:43,769
+again, starting from that layer.
+
+994
+00:40:43,769 --> 00:40:46,769
+So in the second step
+one, you can see,
+
+995
+00:40:46,769 --> 00:40:50,670
+when I propagated to the
+second to last tensor,
+
+996
+00:40:50,670 --> 00:40:54,419
+last note, I found that I'm
+missing inter medial value.
+
+997
+00:40:54,419 --> 00:40:56,379
+So I basically find out
+
+998
+00:40:56,379 --> 00:40:59,059
+the layer that is
+basically one layer before
+
+999
+00:40:59,059 --> 00:41:00,960
+that layer and I triggered
+
+1000
+00:41:00,960 --> 00:41:03,900
+the forward commutation
+again to get its output.
+
+1001
+00:41:03,900 --> 00:41:05,139
+And then once I get output,
+
+1002
+00:41:05,139 --> 00:41:06,900
+I basically drove the adiens.
+
+1003
+00:41:06,900 --> 00:41:08,839
+Okay? So the idea is
+
+1004
+00:41:08,839 --> 00:41:11,560
+basically a checkpoint
+at a few positions,
+
+1005
+00:41:11,560 --> 00:41:13,240
+a few layers of the
+neural network.
+
+1006
+00:41:13,240 --> 00:41:15,239
+And I only save the tensors at
+
+1007
+00:41:15,239 --> 00:41:17,660
+those checkpoints and I
+described all the other values.
+
+1008
+00:41:17,660 --> 00:41:18,999
+And during the backward pass,
+
+1009
+00:41:18,999 --> 00:41:21,020
+I already I always
+try to recompute
+
+1010
+00:41:21,020 --> 00:41:24,140
+the missing tensors from
+the Cloris checkpoint.
+
+1011
+00:41:24,140 --> 00:41:28,059
+Okay. Cool.
+
+1012
+00:41:28,059 --> 00:41:30,690
+Uh, with this strategy,
+
+1013
+00:41:30,690 --> 00:41:32,909
+we can basically explore a
+few alternatives, right?
+
+1014
+00:41:32,909 --> 00:41:35,490
+So the first alternative
+is basically,
+
+1015
+00:41:35,490 --> 00:41:37,689
+we don't describe
+anything, right?
+
+1016
+00:41:37,689 --> 00:41:41,409
+That is basically reduced
+to the Vania version,
+
+1017
+00:41:41,409 --> 00:41:42,790
+that is, we save all
+the intermediate
+
+1018
+00:41:42,790 --> 00:41:44,509
+tensors at every layer.
+
+1019
+00:41:44,509 --> 00:41:46,489
+So in this case, we don't
+
+1020
+00:41:46,489 --> 00:41:48,870
+actually need any extra
+compute at the backward,
+
+1021
+00:41:48,870 --> 00:41:52,009
+but we have to consume
+a lot of memory space.
+
+1022
+00:41:52,009 --> 00:41:54,150
+Another extreme is basically,
+
+1023
+00:41:54,150 --> 00:41:57,209
+we discard all the
+intermediate tensors, right?
+
+1024
+00:41:57,209 --> 00:41:59,150
+We don't save anything, okay?
+
+1025
+00:41:59,150 --> 00:42:01,169
+And at backward pass,
+
+1026
+00:42:01,169 --> 00:42:04,830
+we'll find that every layers
+output will be discarded,
+
+1027
+00:42:04,830 --> 00:42:05,309
+so we have to
+
+1028
+00:42:05,309 --> 00:42:07,629
+recompute we don't have
+a checkpoint, right?
+
+1029
+00:42:07,629 --> 00:42:10,969
+So we have to recompute from
+the input again and again.
+
+1030
+00:42:10,969 --> 00:42:12,829
+Okay? So in that case,
+
+1031
+00:42:12,829 --> 00:42:15,049
+we save a lot of memory, but,
+
+1032
+00:42:15,049 --> 00:42:18,510
+um, we are going to pay a
+lot of cost on compute.
+
+1033
+00:42:18,510 --> 00:42:22,209
+Then the question is,
+can we figure out, um,
+
+1034
+00:42:22,209 --> 00:42:25,750
+some strategy that is probably
+
+1035
+00:42:25,750 --> 00:42:29,110
+best strike a balance
+between compute and memory.
+
+1036
+00:42:29,110 --> 00:42:32,430
+So so how to find a strategy.
+
+1037
+00:42:32,430 --> 00:42:36,049
+We can actually model this
+cost as two terms, okay?
+
+1038
+00:42:36,049 --> 00:42:38,649
+The first term is basically
+the checkpoint cost.
+
+1039
+00:42:38,649 --> 00:42:41,950
+So assume that way for
+liner near network,
+
+1040
+00:42:41,950 --> 00:42:44,849
+okay, we are going to checkpoint
+every K layers, right?
+
+1041
+00:42:44,849 --> 00:42:46,749
+So basically the checkpoint cost
+
+1042
+00:42:46,749 --> 00:42:48,809
+is basically all divided by K,
+
+1043
+00:42:48,809 --> 00:42:51,809
+right, because we need to
+check this many times.
+
+1044
+00:42:51,809 --> 00:42:53,509
+Assuming we check
+this many times,
+
+1045
+00:42:53,509 --> 00:42:55,569
+then we also need to during
+the background pass,
+
+1046
+00:42:55,569 --> 00:42:57,669
+we have to pay extra
+computing costs, right?
+
+1047
+00:42:57,669 --> 00:42:58,369
+Like I said,
+
+1048
+00:42:58,369 --> 00:43:00,129
+the extra computing is
+basically like we find
+
+1049
+00:43:00,129 --> 00:43:02,809
+the Case checkpoint and
+we proceed forward.
+
+1050
+00:43:02,809 --> 00:43:05,814
+Okay? So basically the computing
+cost is basically okay.
+
+1051
+00:43:05,814 --> 00:43:07,899
+Okay. And so if
+
+1052
+00:43:07,899 --> 00:43:10,340
+we apply this kind of
+a checkpoint realgy,
+
+1053
+00:43:10,340 --> 00:43:12,259
+we can write R cost as
+
+1054
+00:43:12,259 --> 00:43:16,259
+this sumation term which is
+O and divided by K plus o.
+
+1055
+00:43:16,259 --> 00:43:18,040
+And when this
+equation is optimal,
+
+1056
+00:43:18,040 --> 00:43:19,259
+it's basically when the
+
+1057
+00:43:19,259 --> 00:43:20,819
+first term and second
+term is equal, right?
+
+1058
+00:43:20,819 --> 00:43:22,579
+So which means that
+we basically need
+
+1059
+00:43:22,579 --> 00:43:25,440
+to for a near neural network,
+
+1060
+00:43:25,440 --> 00:43:28,940
+what we need to do is we
+checkpoint every square layers.
+
+1061
+00:43:28,940 --> 00:43:32,140
+That basically gives us
+optimal checkpoint reality.
+
+1062
+00:43:32,140 --> 00:43:34,299
+Okay? And then I
+have a question.
+
+1063
+00:43:34,299 --> 00:43:35,999
+So in this case,
+
+1064
+00:43:35,999 --> 00:43:38,559
+what is the total recommit cost?
+
+1065
+00:43:48,320 --> 00:43:51,779
+Yeah. O N.
+
+1066
+00:43:51,779 --> 00:43:55,599
+So what is? It's basically
+one forward pass, right.
+
+1067
+00:43:55,599 --> 00:43:59,039
+So basically in order
+to compute the, um,
+
+1068
+00:43:59,039 --> 00:44:00,819
+in order to finish the forward,
+
+1069
+00:44:00,819 --> 00:44:02,400
+in order to finish the backward,
+
+1070
+00:44:02,400 --> 00:44:04,840
+you need to perform
+one more forward.
+
+1071
+00:44:04,840 --> 00:44:06,739
+Okay? Which means
+that if you follow
+
+1072
+00:44:06,739 --> 00:44:09,959
+this strategy and you go
+and do diploying training,
+
+1073
+00:44:09,959 --> 00:44:12,379
+uh, your deploying computation
+will change a little bit.
+
+1074
+00:44:12,379 --> 00:44:13,800
+Previously, your
+deploying computing
+
+1075
+00:44:13,800 --> 00:44:15,255
+is one forward, one backward.
+
+1076
+00:44:15,255 --> 00:44:16,889
+Right? And if you don't have
+
+1077
+00:44:16,889 --> 00:44:19,090
+enough memory and you
+use this strategy,
+
+1078
+00:44:19,090 --> 00:44:21,510
+it basically becomes one
+forward, one backward.
+
+1079
+00:44:21,510 --> 00:44:23,829
+And during that backward,
+you pay one more forward.
+
+1080
+00:44:23,829 --> 00:44:26,190
+It becomes two
+forward and backward.
+
+1081
+00:44:26,190 --> 00:44:29,109
+Okay? Remember this. Why?
+Because this is very
+
+1082
+00:44:29,109 --> 00:44:32,530
+helpful for you to estimate
+your uh, GPU addition.
+
+1083
+00:44:32,530 --> 00:44:35,689
+Okay? Yeah. So, I want
+to talk about it later,
+
+1084
+00:44:35,689 --> 00:44:37,649
+but let's remember this, okay?
+
+1085
+00:44:37,649 --> 00:44:42,249
+So basically, if you do this
+square uh, checkpointing,
+
+1086
+00:44:42,249 --> 00:44:45,130
+you basically use computer
+to trade for memory
+
+1087
+00:44:45,130 --> 00:44:48,615
+and you perform two
+forward one backward.
+
+1088
+00:44:48,615 --> 00:44:52,279
+Okay. And if we
+visualize this kind of,
+
+1089
+00:44:52,279 --> 00:44:55,539
+like, effectiveness of this
+strategy, you can see,
+
+1090
+00:44:55,539 --> 00:44:57,219
+if we don't do checkpointing,
+
+1091
+00:44:57,219 --> 00:44:58,799
+as our commit goes,
+
+1092
+00:44:58,799 --> 00:45:01,139
+our memory will grow all the way
+
+1093
+00:45:01,139 --> 00:45:03,959
+and then become plain, right?
+
+1094
+00:45:03,959 --> 00:45:06,119
+But if we do this kind
+of checkpointing,
+
+1095
+00:45:06,119 --> 00:45:08,579
+we can basically flatter
+this scribe a little bit.
+
+1096
+00:45:08,579 --> 00:45:10,460
+The reason we still consume
+
+1097
+00:45:10,460 --> 00:45:11,659
+a lot of memory
+because like I said,
+
+1098
+00:45:11,659 --> 00:45:12,960
+we need to store parameters.
+
+1099
+00:45:12,960 --> 00:45:15,624
+Yeah, we need to store
+gradients, this kind of thing.
+
+1100
+00:45:15,624 --> 00:45:19,230
+Okay. And in practice, this, um,
+
+1101
+00:45:19,230 --> 00:45:22,790
+checkpointing strategy is
+very, very well adopted.
+
+1102
+00:45:22,790 --> 00:45:24,669
+And I think you can find
+
+1103
+00:45:24,669 --> 00:45:28,170
+some very readily
+available EPS from Pyroc.
+
+1104
+00:45:28,170 --> 00:45:31,769
+In piracy, there's a EPI
+called torch uses checkpoint.
+
+1105
+00:45:31,769 --> 00:45:34,329
+And in some very famous
+library, for example,
+
+1106
+00:45:34,329 --> 00:45:37,049
+deep speed and hug
+in accelerating,
+
+1107
+00:45:37,049 --> 00:45:39,709
+you can find this kind of
+activation checkpointing.
+
+1108
+00:45:39,709 --> 00:45:41,809
+And as long as you turn this
+
+1109
+00:45:41,809 --> 00:45:44,089
+on and you give it a
+few parameters needed,
+
+1110
+00:45:44,089 --> 00:45:47,489
+it will basically help you
+implement this strategy.
+
+1111
+00:45:47,489 --> 00:45:49,169
+Okay, I will checkpoint
+
+1112
+00:45:49,169 --> 00:45:52,449
+at different places
+to save memory.
+
+1113
+00:45:53,039 --> 00:45:59,719
+Okay. Any question here?
+Cool. Activation check point,
+
+1114
+00:45:59,719 --> 00:46:01,519
+that is basically, our
+
+1115
+00:46:01,519 --> 00:46:04,799
+first single device memory
+otenation strategy.
+
+1116
+00:46:04,799 --> 00:46:07,279
+Then let's discuss
+a little bit, okay?
+
+1117
+00:46:07,279 --> 00:46:09,579
+So, like I said,
+
+1118
+00:46:09,579 --> 00:46:11,999
+it's also called it's
+
+1119
+00:46:11,999 --> 00:46:14,799
+also called by different
+people in different names.
+
+1120
+00:46:14,799 --> 00:46:17,379
+For example, recompetition
+remerchanization,
+
+1121
+00:46:17,379 --> 00:46:19,759
+or fancy names, okay.
+
+1122
+00:46:19,920 --> 00:46:24,239
+My first question when
+and when not enable it.
+
+1123
+00:46:25,039 --> 00:46:27,360
+So when you have enough memory,
+
+1124
+00:46:27,360 --> 00:46:29,259
+that when your peak memory
+
+1125
+00:46:29,259 --> 00:46:32,419
+is smaller than the
+available memory,
+
+1126
+00:46:32,419 --> 00:46:34,559
+should you do this? No.
+
+1127
+00:46:34,559 --> 00:46:37,054
+Because it was slow down
+recommendation, right.
+
+1128
+00:46:37,054 --> 00:46:39,229
+Yeah. So basically, uh,
+
+1129
+00:46:39,229 --> 00:46:42,169
+don't turn this on until
+like basically you find that
+
+1130
+00:46:42,169 --> 00:46:45,149
+your pick memory is
+greater than over memory.
+
+1131
+00:46:45,149 --> 00:46:47,769
+But in many many today
+deep learning libraries,
+
+1132
+00:46:47,769 --> 00:46:48,729
+deep learning code, they
+
+1133
+00:46:48,729 --> 00:46:50,209
+basically turn this
+on by default.
+
+1134
+00:46:50,209 --> 00:46:52,889
+So I think later
+in your research,
+
+1135
+00:46:52,889 --> 00:46:55,829
+if you find I hope you
+can inspell that, okay?
+
+1136
+00:46:55,829 --> 00:46:57,529
+Because as I said,
+
+1137
+00:46:57,529 --> 00:46:59,129
+if this return on by default and
+
+1138
+00:46:59,129 --> 00:47:00,829
+you find that your P
+memory is actually smaller
+
+1139
+00:47:00,829 --> 00:47:02,709
+than borrary basically
+your training program will
+
+1140
+00:47:02,709 --> 00:47:04,929
+be slowed down by three fourths,
+
+1141
+00:47:04,929 --> 00:47:09,069
+right, because you pay one
+additional forward, okay?
+
+1142
+00:47:10,300 --> 00:47:13,519
+So the optimal
+checkpoint policy.
+
+1143
+00:47:13,519 --> 00:47:17,079
+I think I give you a
+theoretical optimal
+
+1144
+00:47:17,079 --> 00:47:19,119
+that is we checkpoint
+in every square,
+
+1145
+00:47:19,119 --> 00:47:20,819
+but it's more complicated, why?
+
+1146
+00:47:20,819 --> 00:47:22,879
+Because in my example,
+I assume every layer is
+
+1147
+00:47:22,879 --> 00:47:25,359
+equal. All the
+layers are the same.
+
+1148
+00:47:25,359 --> 00:47:28,859
+But in many real
+cases, real works.
+
+1149
+00:47:28,859 --> 00:47:30,959
+We need to figure out what is
+
+1150
+00:47:30,959 --> 00:47:32,509
+the best strategy
+to checkpoint at.
+
+1151
+00:47:32,509 --> 00:47:35,860
+Uh, the reason is because
+some neur networks,
+
+1152
+00:47:35,860 --> 00:47:37,159
+they have a very heterogeneous
+
+1153
+00:47:37,159 --> 00:47:39,139
+archecture R layer
+are different,
+
+1154
+00:47:39,139 --> 00:47:40,439
+and layer will produce
+
+1155
+00:47:40,439 --> 00:47:42,879
+a slightly different
+size of activation.
+
+1156
+00:47:42,879 --> 00:47:45,039
+So you always want to
+checkpoint a place where
+
+1157
+00:47:45,039 --> 00:47:47,439
+the activation is small
+rather than large, right?
+
+1158
+00:47:47,439 --> 00:47:49,799
+Because if you because the
+effect will be the same.
+
+1159
+00:47:49,799 --> 00:47:50,479
+But if you checkpoint
+
+1160
+00:47:50,479 --> 00:47:52,119
+a large distensor you
+have to pay more memory.
+
+1161
+00:47:52,119 --> 00:47:54,459
+Okay? So where to
+checkpoint actually
+
+1162
+00:47:54,459 --> 00:47:57,299
+depends on the neural
+network archecture, okay.
+
+1163
+00:47:57,299 --> 00:47:59,139
+Uh, I could also influence
+
+1164
+00:47:59,139 --> 00:48:01,119
+the recomputing cost because
+you want to checkpoint on
+
+1165
+00:48:01,119 --> 00:48:03,139
+some place where you
+can easily recompute
+
+1166
+00:48:03,139 --> 00:48:06,094
+with very small cost instead
+of large cost. Okay.
+
+1167
+00:48:06,094 --> 00:48:09,969
+Cool. And there's a
+decent number of lines of
+
+1168
+00:48:09,969 --> 00:48:12,329
+research basically studying for
+
+1169
+00:48:12,329 --> 00:48:13,810
+different types of
+neural networks.
+
+1170
+00:48:13,810 --> 00:48:15,330
+Where should I checkpoint?
+
+1171
+00:48:15,330 --> 00:48:16,929
+But in general, um,
+
+1172
+00:48:16,929 --> 00:48:19,049
+for transformers for
+language models,
+
+1173
+00:48:19,049 --> 00:48:20,570
+what do we do
+basically checkpoint
+
+1174
+00:48:20,570 --> 00:48:22,169
+at the transformer
+layer boundary.
+
+1175
+00:48:22,169 --> 00:48:29,249
+Okay. Okay. And the disadvantage
+
+1176
+00:48:29,249 --> 00:48:32,749
+of this checkpoint activation
+strategy is basically
+
+1177
+00:48:32,749 --> 00:48:34,809
+it's only able to
+
+1178
+00:48:34,809 --> 00:48:36,669
+reduce the memory for
+activations, right?
+
+1179
+00:48:36,669 --> 00:48:38,069
+There's no way
+that you can apply
+
+1180
+00:48:38,069 --> 00:48:40,209
+this two parameters
+or to operar states.
+
+1181
+00:48:40,209 --> 00:48:42,369
+Okay. Cool.
+
+1182
+00:48:42,369 --> 00:48:47,149
+Any question here?
+Okay. Then let's
+
+1183
+00:48:47,149 --> 00:48:49,709
+move forward to our Bomer
+optimization strategy.
+
+1184
+00:48:49,709 --> 00:48:51,530
+Okay. Our second strategy
+
+1185
+00:48:51,530 --> 00:48:53,349
+is basically called
+grading accumulation,
+
+1186
+00:48:53,349 --> 00:48:55,129
+and this is also a very
+
+1187
+00:48:55,129 --> 00:48:57,829
+well adopted strategy
+in today's frameworks.
+
+1188
+00:48:57,829 --> 00:49:00,869
+Okay? So the idea is
+actually pretty simple.
+
+1189
+00:49:00,869 --> 00:49:02,809
+So we find that no
+
+1190
+00:49:02,809 --> 00:49:04,649
+matter what operator use
+right in your graph.
+
+1191
+00:49:04,649 --> 00:49:06,249
+So basically the
+activity memory is
+
+1192
+00:49:06,249 --> 00:49:08,709
+linear to the batty size. Right.
+
+1193
+00:49:08,709 --> 00:49:10,729
+But in order to compute, say,
+
+1194
+00:49:10,729 --> 00:49:12,129
+we don't have enough
+memory, okay?
+
+1195
+00:49:12,129 --> 00:49:14,409
+Because our biset is large,
+we don't have en memory.
+
+1196
+00:49:14,409 --> 00:49:15,709
+But we still want to proceed
+
+1197
+00:49:15,709 --> 00:49:17,209
+our commutation with
+the given batsts.
+
+1198
+00:49:17,209 --> 00:49:19,389
+The reason is because
+probably the bisit
+
+1199
+00:49:19,389 --> 00:49:20,989
+was hyperparameter tuned so
+
+1200
+00:49:20,989 --> 00:49:22,349
+that it can give you
+a better results.
+
+1201
+00:49:22,349 --> 00:49:24,049
+Okay? So in order to do that,
+
+1202
+00:49:24,049 --> 00:49:25,829
+what we do is, um,
+
+1203
+00:49:25,829 --> 00:49:28,310
+instead of directly
+compute gradients
+
+1204
+00:49:28,310 --> 00:49:29,829
+on the given batsts what we do
+
+1205
+00:49:29,829 --> 00:49:34,649
+is basically computing
+in a loop, okay?
+
+1206
+00:49:34,649 --> 00:49:38,509
+So here it comes, uh into
+the concept of microbatch.
+
+1207
+00:49:38,509 --> 00:49:40,149
+Okay. What we do is basically we
+
+1208
+00:49:40,149 --> 00:49:41,709
+split the original
+batch into many,
+
+1209
+00:49:41,709 --> 00:49:43,209
+many smaller
+batches, and we call
+
+1210
+00:49:43,209 --> 00:49:45,419
+each batch a micro baatch. Okay.
+
+1211
+00:49:45,419 --> 00:49:48,040
+What do we do is we loop
+over all the micro baatges.
+
+1212
+00:49:48,040 --> 00:49:49,399
+A time we only do a
+
+1213
+00:49:49,399 --> 00:49:51,089
+foreign backward over
+the macro baatch.
+
+1214
+00:49:51,089 --> 00:49:53,899
+Remember, activation is
+only linear to batch size.
+
+1215
+00:49:53,899 --> 00:49:56,579
+And now we effectively
+reduce large bases into
+
+1216
+00:49:56,579 --> 00:49:59,959
+microbees we effectively
+reduce the activating memory.
+
+1217
+00:49:59,959 --> 00:50:01,739
+But what we do is
+every time when we
+
+1218
+00:50:01,739 --> 00:50:03,619
+calculate the gradient on
+
+1219
+00:50:03,619 --> 00:50:05,839
+the microbatch we do not update.
+
+1220
+00:50:05,839 --> 00:50:08,399
+Okay? We put it in
+memory, we put it there.
+
+1221
+00:50:08,399 --> 00:50:11,039
+We keep accumulating
+as this loop goes.
+
+1222
+00:50:11,039 --> 00:50:12,579
+And eventually, once we finish
+
+1223
+00:50:12,579 --> 00:50:14,879
+all the microbatch in
+the original batch,
+
+1224
+00:50:14,879 --> 00:50:17,399
+we accumulate all the gradit
+
+1225
+00:50:17,399 --> 00:50:19,599
+together and we do update. Okay?
+
+1226
+00:50:19,599 --> 00:50:21,459
+Now, it becomes,
+you perform many,
+
+1227
+00:50:21,459 --> 00:50:23,019
+many, many forwards, right?
+
+1228
+00:50:23,019 --> 00:50:24,699
+You accumulate the gradients,
+
+1229
+00:50:24,699 --> 00:50:29,074
+and then you apply grads and
+you keep doing this, okay?
+
+1230
+00:50:29,074 --> 00:50:32,589
+And this is a very
+straightforward strategy for
+
+1231
+00:50:32,589 --> 00:50:34,169
+reducing activity memory because
+
+1232
+00:50:34,169 --> 00:50:36,569
+you simply are calculating uh,
+
+1233
+00:50:36,569 --> 00:50:38,269
+using a smaller base sets, okay?
+
+1234
+00:50:38,269 --> 00:50:40,249
+But you can still
+achieve the same results
+
+1235
+00:50:40,249 --> 00:50:41,589
+of using a larger bad set.
+
+1236
+00:50:41,589 --> 00:50:48,069
+Okay? Cool. Here, it's
+
+1237
+00:50:48,069 --> 00:50:50,549
+very easy to implement
+this kind of
+
+1238
+00:50:50,549 --> 00:50:52,809
+grading accumulation in petrog.
+
+1239
+00:50:52,809 --> 00:50:55,630
+So here I give you
+two example programs.
+
+1240
+00:50:55,630 --> 00:50:57,949
+So on the left hand side,
+it's basically a piece of
+
+1241
+00:50:57,949 --> 00:51:01,229
+Petrich program where you
+iterate over a data loader,
+
+1242
+00:51:01,229 --> 00:51:04,349
+you get a batch and
+you perform backwards
+
+1243
+00:51:04,349 --> 00:51:06,590
+through the neural network
+
+1244
+00:51:06,590 --> 00:51:08,789
+and you perform
+one optimal step.
+
+1245
+00:51:08,789 --> 00:51:10,449
+But in the right hand
+side, you can see,
+
+1246
+00:51:10,449 --> 00:51:12,409
+uh, the only difference, uh,
+
+1247
+00:51:12,409 --> 00:51:16,109
+I basically split the original
+batch into microbatches.
+
+1248
+00:51:16,109 --> 00:51:18,530
+And every time I drove
+
+1249
+00:51:18,530 --> 00:51:21,729
+the gradients on the microbatch
+and I accumulate them,
+
+1250
+00:51:21,729 --> 00:51:23,770
+and I only perform my updates
+
+1251
+00:51:23,770 --> 00:51:27,519
+when a certain number of
+microbatches are. Okay.
+
+1252
+00:51:27,519 --> 00:51:28,900
+We are easy to implement
+
+1253
+00:51:28,900 --> 00:51:31,119
+it immediately
+distribute memory.
+
+1254
+00:51:31,119 --> 00:51:35,299
+Cool. Any questions
+on this part?
+
+1255
+00:51:35,500 --> 00:51:38,640
+Cool. These are very
+practical techniques.
+
+1256
+00:51:38,640 --> 00:51:40,899
+If you fice any problem,
+feel free to try this,
+
+1257
+00:51:40,899 --> 00:51:42,620
+and this will be
+super effective.
+
+1258
+00:51:42,620 --> 00:51:44,519
+Then let's proceed with our last
+
+1259
+00:51:44,519 --> 00:51:46,779
+memory saving technique
+on single device.
+
+1260
+00:51:46,779 --> 00:51:50,239
+Last memory saving techniques,
+the most powerful one.
+
+1261
+00:51:50,239 --> 00:51:53,899
+So si remember, we have a
+memory hierarchy, right uh,
+
+1262
+00:51:53,899 --> 00:51:55,579
+most of the dep
+running comton they
+
+1263
+00:51:55,579 --> 00:51:57,659
+basically operate on
+the middle layer,
+
+1264
+00:51:57,659 --> 00:51:59,279
+which is the TPHBM.
+
+1265
+00:51:59,279 --> 00:52:02,339
+But we actually are given a
+big amount of memory that
+
+1266
+00:52:02,339 --> 00:52:05,740
+is the CPRm And
+like for example,
+
+1267
+00:52:05,740 --> 00:52:08,559
+you can compare most of
+the AWS Cloud instances,
+
+1268
+00:52:08,559 --> 00:52:11,400
+they have more than
+one tibite of CPRM.
+
+1269
+00:52:11,400 --> 00:52:12,659
+So then the question is,
+
+1270
+00:52:12,659 --> 00:52:16,559
+can we actually leverage that
+part of memory to make sure
+
+1271
+00:52:16,559 --> 00:52:18,579
+our competition still
+prossed even if
+
+1272
+00:52:18,579 --> 00:52:21,519
+our peak memory is
+greater than the TPHBM?
+
+1273
+00:52:21,519 --> 00:52:24,269
+Okay. The answer is
+yes. So how do that.
+
+1274
+00:52:24,269 --> 00:52:25,649
+It's pretty
+straightforward, right?
+
+1275
+00:52:25,649 --> 00:52:27,929
+So here is the photograph
+
+1276
+00:52:27,929 --> 00:52:30,189
+I showed in my previous example.
+
+1277
+00:52:30,189 --> 00:52:33,069
+We perform forwards layer
+and the backwards layer.
+
+1278
+00:52:33,069 --> 00:52:36,009
+So what if at some layer,
+we cannot actually,
+
+1279
+00:52:36,009 --> 00:52:38,129
+um, do training because
+
+1280
+00:52:38,129 --> 00:52:40,049
+the pick memory is
+greater than HBM.
+
+1281
+00:52:40,049 --> 00:52:42,509
+So what do we do is, um,
+
+1282
+00:52:42,509 --> 00:52:45,229
+every time we perform the
+competition on one layer,
+
+1283
+00:52:45,229 --> 00:52:47,989
+okay, we basically produce
+the output, right?
+
+1284
+00:52:47,989 --> 00:52:50,569
+We give the output
+to the next layer.
+
+1285
+00:52:50,569 --> 00:52:52,489
+And meanwhile, what we do is
+
+1286
+00:52:52,489 --> 00:52:54,889
+we ask the program to basically
+
+1287
+00:52:54,889 --> 00:52:57,129
+swap its width and
+
+1288
+00:52:57,129 --> 00:53:01,050
+activations of the previous
+layer from HBM to RAM.
+
+1289
+00:53:01,050 --> 00:53:04,729
+Okay? That is, we make a copy of
+
+1290
+00:53:04,729 --> 00:53:08,669
+the contents from the GM
+GPU memory to the CPR RAM.
+
+1291
+00:53:08,669 --> 00:53:10,810
+And basically can basically
+
+1292
+00:53:10,810 --> 00:53:13,769
+describe anything
+on the GP memory,
+
+1293
+00:53:13,769 --> 00:53:16,709
+right, because we have
+a copy on our CPRAM.
+
+1294
+00:53:16,709 --> 00:53:18,189
+And at some point, when we
+
+1295
+00:53:18,189 --> 00:53:20,169
+perform backward, when
+we still need them,
+
+1296
+00:53:20,169 --> 00:53:22,369
+what we do is
+basically we swap them
+
+1297
+00:53:22,369 --> 00:53:25,489
+back from CPRM to our GPHBM.
+
+1298
+00:53:25,489 --> 00:53:27,969
+Okay. And this basically
+
+1299
+00:53:27,969 --> 00:53:29,789
+give us this kind
+of like a pattern.
+
+1300
+00:53:29,789 --> 00:53:31,809
+Like every time we
+compute a layer,
+
+1301
+00:53:31,809 --> 00:53:34,489
+uh, we basically
+copy this content,
+
+1302
+00:53:34,489 --> 00:53:36,789
+uh, to CPU memory,
+
+1303
+00:53:36,789 --> 00:53:40,849
+and we throw it
+through the TPP away.
+
+1304
+00:53:40,849 --> 00:53:42,289
+And then we proceed
+to next layer,
+
+1305
+00:53:42,289 --> 00:53:45,769
+we swap out, we swap
+out and swap out.
+
+1306
+00:53:45,769 --> 00:53:48,649
+And when we start
+doing backward what we
+
+1307
+00:53:48,649 --> 00:53:51,649
+do is whenever we need the
+content of the previous layer,
+
+1308
+00:53:51,649 --> 00:53:55,090
+we just swap it in from
+CP Ram to GPU memory.
+
+1309
+00:53:55,090 --> 00:53:59,899
+Okay. Cool. So here
+swapping swap out
+
+1310
+00:53:59,899 --> 00:54:04,999
+basically two very uh
+um primitive operators.
+
+1311
+00:54:04,999 --> 00:54:06,719
+So for swapping is
+basically swapped from
+
+1312
+00:54:06,719 --> 00:54:09,380
+CPO uh DRAM to HBM,
+
+1313
+00:54:09,380 --> 00:54:10,600
+and for swap out is basically
+
+1314
+00:54:10,600 --> 00:54:12,439
+swapped from HBM to CPU DRAM.
+
+1315
+00:54:12,439 --> 00:54:16,039
+Okay. So you can see this
+pretty powerful, right?
+
+1316
+00:54:16,039 --> 00:54:18,999
+It's much powerful
+than checkpoint and
+
+1317
+00:54:18,999 --> 00:54:22,959
+the basically micro
+baatching Why?
+
+1318
+00:54:22,959 --> 00:54:25,459
+Because theoretically
+you can swap anything.
+
+1319
+00:54:25,459 --> 00:54:27,400
+You can swap
+intermediate tensors,
+
+1320
+00:54:27,400 --> 00:54:29,579
+you can swap model weights,
+
+1321
+00:54:29,579 --> 00:54:31,659
+you can also swap opts.
+
+1322
+00:54:31,659 --> 00:54:33,799
+As long as you have CPU
+memory, you can swap anything.
+
+1323
+00:54:33,799 --> 00:54:35,619
+And you can basically
+put everything
+
+1324
+00:54:35,619 --> 00:54:37,779
+as a copy in CPU
+memory and you make
+
+1325
+00:54:37,779 --> 00:54:39,579
+some space on GPU for
+the next layer of
+
+1326
+00:54:39,579 --> 00:54:42,100
+commendation. This
+is pretty powerful.
+
+1327
+00:54:42,100 --> 00:54:44,999
+But the problem is that
+this is super slow, right?
+
+1328
+00:54:44,999 --> 00:54:47,139
+Because GPU is super
+
+1329
+00:54:47,139 --> 00:54:49,419
+fast when you perform
+like for micro pass,
+
+1330
+00:54:49,419 --> 00:54:51,159
+But swapping
+basically is limited
+
+1331
+00:54:51,159 --> 00:54:54,249
+by but it's band ways, right?
+
+1332
+00:54:54,249 --> 00:54:55,669
+So suppose you want to
+
+1333
+00:54:55,669 --> 00:54:57,809
+swap something between
+memory ac, it takes time.
+
+1334
+00:54:57,809 --> 00:55:00,610
+So what happens when you
+do this in practice,
+
+1335
+00:55:00,610 --> 00:55:06,119
+what happens is basically
+let me get my pen.
+
+1336
+00:55:06,119 --> 00:55:10,159
+Okay. So say, when
+you now proceed here,
+
+1337
+00:55:10,159 --> 00:55:12,779
+and finish backcmmendation,
+you want to go
+
+1338
+00:55:12,779 --> 00:55:15,639
+back and it basically
+instructs programs in,
+
+1339
+00:55:15,639 --> 00:55:18,599
+I need the activation
+of this layer,
+
+1340
+00:55:18,599 --> 00:55:21,359
+because you apply this
+swapping strategy,
+
+1341
+00:55:21,359 --> 00:55:25,659
+so those activation actually
+was on CPU on CPU memory.
+
+1342
+00:55:25,659 --> 00:55:27,499
+What you do is you
+have to wait for
+
+1343
+00:55:27,499 --> 00:55:29,439
+them to basically swap
+
+1344
+00:55:29,439 --> 00:55:30,979
+back and then you
+proceed the competon.
+
+1345
+00:55:30,979 --> 00:55:32,260
+The thing is the computation
+
+1346
+00:55:32,260 --> 00:55:34,499
+usually only takes
+a few miniseconds,
+
+1347
+00:55:34,499 --> 00:55:36,439
+but the swapping will take
+
+1348
+00:55:36,439 --> 00:55:39,159
+tens or even hundreds
+of miniseconds.
+
+1349
+00:55:39,159 --> 00:55:41,679
+So you how to wait.
+Theoretically, you
+
+1350
+00:55:41,679 --> 00:55:44,159
+can use this strategy
+to train uh,
+
+1351
+00:55:44,159 --> 00:55:49,519
+22 GB single GP was
+sufficiently large ram,
+
+1352
+00:55:49,519 --> 00:55:51,680
+but that will take forever.
+
+1353
+00:55:51,760 --> 00:55:54,859
+You can play around with
+this schedule litt.
+
+1354
+00:55:54,859 --> 00:56:00,780
+Uh, you can play around
+this schedule it.
+
+1355
+00:56:00,780 --> 00:56:02,879
+That is, um,
+
+1356
+00:56:02,920 --> 00:56:05,279
+you try to schedule
+the swapping and
+
+1357
+00:56:05,279 --> 00:56:07,039
+swap in a way that
+is, for example,
+
+1358
+00:56:07,039 --> 00:56:09,099
+um, when I'm
+computing this layer,
+
+1359
+00:56:09,099 --> 00:56:12,599
+I know that in the next
+probably 100 milliseconds,
+
+1360
+00:56:12,599 --> 00:56:14,464
+my commutation will reach here.
+
+1361
+00:56:14,464 --> 00:56:18,149
+What I do is I basically swap
+in ahead of time, right?
+
+1362
+00:56:18,149 --> 00:56:21,089
+I swap in here, whenever
+computing is already here.
+
+1363
+00:56:21,089 --> 00:56:23,589
+So when computing
+actually proceeded here,
+
+1364
+00:56:23,589 --> 00:56:25,189
+I already have the
+continent DPU,
+
+1365
+00:56:25,189 --> 00:56:26,730
+so I can proceed.
+
+1366
+00:56:26,730 --> 00:56:28,769
+But the reality is
+
+1367
+00:56:28,769 --> 00:56:29,929
+the computing is so fast
+
+1368
+00:56:29,929 --> 00:56:31,249
+that the swapping
+is so slow that
+
+1369
+00:56:31,249 --> 00:56:33,389
+you actually don't get
+this kind of space to
+
+1370
+00:56:33,389 --> 00:56:36,409
+overlap swapping and
+competion. Yeah.
+
+1371
+00:56:36,409 --> 00:56:38,709
+Okay? And also, because,
+
+1372
+00:56:38,709 --> 00:56:40,909
+at some point, even you
+
+1373
+00:56:40,909 --> 00:56:42,649
+can use this to address
+your memory limit,
+
+1374
+00:56:42,649 --> 00:56:44,450
+you are still subject
+to computer constraints
+
+1375
+00:56:44,450 --> 00:56:46,589
+because your computing
+is too slow,
+
+1376
+00:56:46,589 --> 00:56:48,469
+like you still want
+
+1377
+00:56:48,469 --> 00:56:50,669
+to train fast to get
+your model right.
+
+1378
+00:56:50,669 --> 00:56:53,689
+Okay? Any questions
+on this part?
+
+1379
+00:56:53,689 --> 00:57:01,309
+Yeah. In practice, yes,
+
+1380
+00:57:01,309 --> 00:57:04,269
+I think many of my
+students they use
+
+1381
+00:57:04,269 --> 00:57:06,029
+this because they can
+
+1382
+00:57:06,029 --> 00:57:08,090
+wait a little bit and
+to get the results.
+
+1383
+00:57:08,090 --> 00:57:09,949
+For example, if you
+have limited resources,
+
+1384
+00:57:09,949 --> 00:57:10,889
+you don't have GPUs,
+
+1385
+00:57:10,889 --> 00:57:12,509
+but you want to try say
+
+1386
+00:57:12,509 --> 00:57:14,630
+a Lama model with 30
+billion parameters,
+
+1387
+00:57:14,630 --> 00:57:15,869
+you have to do this.
+
+1388
+00:57:15,869 --> 00:57:22,249
+Why It's hard to see
+it depends on model,
+
+1389
+00:57:22,249 --> 00:57:27,039
+but in general, two times
+to ten times slower. Yeah.
+
+1390
+00:57:34,600 --> 00:57:36,499
+Yeah, yeah, I already
+
+1391
+00:57:36,499 --> 00:57:37,760
+explained that you
+can use pipeline,
+
+1392
+00:57:37,760 --> 00:57:39,539
+but the problem is, for example,
+
+1393
+00:57:39,539 --> 00:57:41,879
+when you reach this part, you
+don't have pipeline, right?
+
+1394
+00:57:41,879 --> 00:57:43,219
+Yeah. Am when you
+
+1395
+00:57:43,219 --> 00:57:45,099
+compute this layer, you
+can swap it this way.
+
+1396
+00:57:45,099 --> 00:57:47,219
+But what if you are
+computing this layer,
+
+1397
+00:57:47,219 --> 00:57:49,159
+then yeah, you have to wait.
+
+1398
+00:57:49,159 --> 00:57:52,479
+Yeah. Okay? No, it's
+
+1399
+00:57:52,479 --> 00:57:55,560
+very hard to achieve this
+kind of perfect pipeline.
+
+1400
+00:57:55,850 --> 00:57:59,829
+Cool. This is a very, um, uh,
+
+1401
+00:57:59,829 --> 00:58:01,689
+practical reality
+that at least this
+
+1402
+00:58:01,689 --> 00:58:04,070
+allows you to try some big
+models on your laptop.
+
+1403
+00:58:04,070 --> 00:58:07,449
+Okay. But in industry that's
+why this matter was not
+
+1404
+00:58:07,449 --> 00:58:09,229
+preferred in industry because
+
+1405
+00:58:09,229 --> 00:58:11,390
+they want to get results
+as soon as possible.
+
+1406
+00:58:11,390 --> 00:58:13,330
+But this was preferred
+by students.
+
+1407
+00:58:13,330 --> 00:58:15,109
+Okay. A lot of
+students like this.
+
+1408
+00:58:15,109 --> 00:58:16,730
+Cool. That's why I introduced.
+
+1409
+00:58:16,730 --> 00:58:19,690
+Cool. Okay. To summarize,
+
+1410
+00:58:19,690 --> 00:58:21,449
+I think I covered three,
+
+1411
+00:58:21,449 --> 00:58:23,329
+very important memory optations
+
+1412
+00:58:23,329 --> 00:58:25,249
+the first one grading
+check pointing, right?
+
+1413
+00:58:25,249 --> 00:58:27,589
+Second, gradient accumulation.
+
+1414
+00:58:27,589 --> 00:58:31,570
+And the third one, CPO swapping.
+
+1415
+00:58:31,570 --> 00:58:33,389
+Okay, let's summarize
+it pros and cons.
+
+1416
+00:58:33,389 --> 00:58:35,650
+Okay. So for grading
+check pointing,
+
+1417
+00:58:35,650 --> 00:58:37,709
+um it's straightforward, right?
+
+1418
+00:58:37,709 --> 00:58:41,090
+It's pretty nice. It can reduce
+the intermediate tensors.
+
+1419
+00:58:41,090 --> 00:58:45,009
+But Cs is you paid flops, right?
+
+1420
+00:58:45,009 --> 00:58:46,410
+You slow down your computation.
+
+1421
+00:58:46,410 --> 00:58:49,249
+Okay. Uh, for grading
+accumulation,
+
+1422
+00:58:49,249 --> 00:58:51,329
+it seems it's perfect, right?
+
+1423
+00:58:51,329 --> 00:58:53,289
+You don't how to
+pay flops, right?
+
+1424
+00:58:53,289 --> 00:58:56,230
+So can anyone tell me
+what's the drawback?
+
+1425
+00:59:04,640 --> 00:59:07,930
+That's not the primary reason.
+
+1426
+00:59:07,930 --> 00:59:10,659
+So one primary reason
+is in order to do this,
+
+1427
+00:59:10,659 --> 00:59:12,620
+you have to split,
+
+1428
+00:59:12,620 --> 00:59:15,479
+your original bad site
+into a smaller value.
+
+1429
+00:59:15,479 --> 00:59:18,980
+You remember the MCQ question
+we did last lecture.
+
+1430
+00:59:18,980 --> 00:59:20,419
+So we care about
+
+1431
+00:59:20,419 --> 00:59:22,519
+arithmetic intensity
+right because we want to
+
+1432
+00:59:22,519 --> 00:59:24,179
+launch a big enough
+memo in order
+
+1433
+00:59:24,179 --> 00:59:26,620
+to oversubscribe our GPUs.
+
+1434
+00:59:26,620 --> 00:59:28,199
+In order to do this, you have to
+
+1435
+00:59:28,199 --> 00:59:29,639
+basically reduce your body size.
+
+1436
+00:59:29,639 --> 00:59:31,240
+So sometimes when
+you reduce basis,
+
+1437
+00:59:31,240 --> 00:59:32,139
+you suffer from, like,
+
+1438
+00:59:32,139 --> 00:59:34,319
+cannot you cannot on
+the computer side,
+
+1439
+00:59:34,319 --> 00:59:37,780
+you cannot sutGPs because
+your basis will reduce, okay?
+
+1440
+00:59:37,780 --> 00:59:41,440
+So, um, in practical scenario,
+
+1441
+00:59:41,440 --> 00:59:43,040
+especially in large
+model training,
+
+1442
+00:59:43,040 --> 00:59:44,139
+you want to make sure you have
+
+1443
+00:59:44,139 --> 00:59:45,579
+a large enough buddy cells
+
+1444
+00:59:45,579 --> 00:59:48,039
+to make sure your GPU
+utilization is high.
+
+1445
+00:59:48,039 --> 00:59:49,559
+Okay. Uh, sometimes you
+
+1446
+00:59:49,559 --> 00:59:51,079
+probably don't want to
+do this kind of thing.
+
+1447
+00:59:51,079 --> 00:59:52,799
+Okay. But we'll come
+
+1448
+00:59:52,799 --> 00:59:54,300
+back to this later.
+It's very complicated.
+
+1449
+00:59:54,300 --> 00:59:57,560
+Okay. And when speed
+swapping is very powerful,
+
+1450
+00:59:57,560 --> 01:00:01,319
+it can reduce the memory
+usage of both parameters,
+
+1451
+01:00:01,319 --> 01:00:02,919
+activations, and
+of memory stats.
+
+1452
+01:00:02,919 --> 01:00:04,639
+But the problem is
+it's super slow.
+
+1453
+01:00:04,639 --> 01:00:08,579
+Yeah. Um.
+
+1454
+01:00:08,670 --> 01:00:10,709
+So
+
+1455
+01:00:19,670 --> 01:00:23,429
+grading is essentially
+microbatching.
+
+1456
+01:00:31,710 --> 01:00:34,969
+Yeah, because sometimes
+you want to train on
+
+1457
+01:00:34,969 --> 01:00:36,809
+bigger body size because
+
+1458
+01:00:36,809 --> 01:00:38,369
+the convergence property are
+
+1459
+01:00:38,369 --> 01:00:40,829
+different when you use
+different body size.
+
+1460
+01:00:40,829 --> 01:00:44,389
+Does that make sense? Yeah.
+
+1461
+01:00:50,470 --> 01:00:53,509
+No, because I don't apply
+
+1462
+01:00:53,509 --> 01:00:56,110
+my gradiens until I
+reach my original basis.
+
+1463
+01:00:56,110 --> 01:00:58,389
+That's out of it. Yeah, yeah.
+
+1464
+01:00:58,389 --> 01:01:01,370
+Yeah. Okay. So sometimes
+we just use a fixed basis.
+
+1465
+01:01:01,370 --> 01:01:02,789
+Why? Because this is
+
+1466
+01:01:02,789 --> 01:01:04,569
+relay to probably
+emerging learning part.
+
+1467
+01:01:04,569 --> 01:01:07,430
+So I think I can cover
+this in liter lectures,
+
+1468
+01:01:07,430 --> 01:01:10,409
+but in general in deploying
+training job, okay?
+
+1469
+01:01:10,409 --> 01:01:12,809
+If you train with
+many many nodes
+
+1470
+01:01:12,809 --> 01:01:14,470
+with many many data prism,
+
+1471
+01:01:14,470 --> 01:01:16,330
+you want to use a larger basis.
+
+1472
+01:01:16,330 --> 01:01:21,410
+And if you train with a small
+nodes with less data prism,
+
+1473
+01:01:21,410 --> 01:01:22,990
+you want to use a smaller basis.
+
+1474
+01:01:22,990 --> 01:01:25,409
+Okay. Yeah, that is something
+
+1475
+01:01:25,409 --> 01:01:28,169
+that we find that will
+give you the best model.
+
+1476
+01:01:28,169 --> 01:01:30,809
+Okay. Cool. And for
+
+1477
+01:01:30,809 --> 01:01:33,069
+the CPU swapping,
+something's changing.
+
+1478
+01:01:33,069 --> 01:01:34,909
+I think it's worth
+mentioning. So I think
+
+1479
+01:01:34,909 --> 01:01:37,509
+media and a few
+other chipmakers,
+
+1480
+01:01:37,509 --> 01:01:38,749
+they are trying to make some
+
+1481
+01:01:38,749 --> 01:01:40,570
+unified memory
+between CB and GPU.
+
+1482
+01:01:40,570 --> 01:01:44,090
+So this is already
+happening on your MacBook.
+
+1483
+01:01:44,090 --> 01:01:45,629
+So basically in
+MacBook, you only have
+
+1484
+01:01:45,629 --> 01:01:47,470
+one type of memory that
+is unified memory,
+
+1485
+01:01:47,470 --> 01:01:49,270
+and the CPO and GPU can actually
+
+1486
+01:01:49,270 --> 01:01:51,690
+fetch contents from
+a unified memory.
+
+1487
+01:01:51,690 --> 01:01:53,029
+That means that the
+barrier between
+
+1488
+01:01:53,029 --> 01:01:55,290
+CPU memory and DPP memory
+is basically diminishing.
+
+1489
+01:01:55,290 --> 01:01:57,169
+I believe in like
+five to ten years,
+
+1490
+01:01:57,169 --> 01:01:58,729
+the CPU and GPU, you know,
+
+1491
+01:01:58,729 --> 01:02:00,229
+probably will share
+the same memory.
+
+1492
+01:02:00,229 --> 01:02:01,469
+Then CPU swapping will
+
+1493
+01:02:01,469 --> 01:02:03,529
+become very, very,
+like effective, right?
+
+1494
+01:02:03,529 --> 01:02:06,010
+So when you try to analyze
+
+1495
+01:02:06,010 --> 01:02:08,530
+the pros and cons of the
+different techniques,
+
+1496
+01:02:08,530 --> 01:02:12,689
+you probably want to
+consider the assumptions.
+
+1497
+01:02:12,689 --> 01:02:14,270
+Here the assumption is basically
+
+1498
+01:02:14,270 --> 01:02:15,590
+we still have a
+memory hierarchy,
+
+1499
+01:02:15,590 --> 01:02:17,590
+but I think this memory
+hiarchy is breaking.
+
+1500
+01:02:17,590 --> 01:02:23,289
+Cool. Okay, I think
+
+1501
+01:02:23,289 --> 01:02:25,149
+we finish most part
+of today's content,
+
+1502
+01:02:25,149 --> 01:02:27,009
+and let's move forward
+to the next big topic,
+
+1503
+01:02:27,009 --> 01:02:28,950
+uh, uh, quantization.
+
+1504
+01:02:28,950 --> 01:02:30,530
+Why we care about qtation?
+
+1505
+01:02:30,530 --> 01:02:32,869
+Uh, I think we
+
+1506
+01:02:32,869 --> 01:02:34,250
+care about it
+because quantization
+
+1507
+01:02:34,250 --> 01:02:35,769
+can effectively reduce memory.
+
+1508
+01:02:35,769 --> 01:02:38,910
+Remember, no matter we store
+the parameters, remember,
+
+1509
+01:02:38,910 --> 01:02:41,769
+no matter wetrae the activations
+or the oponente states,
+
+1510
+01:02:41,769 --> 01:02:43,599
+we always multiply the size by,
+
+1511
+01:02:43,599 --> 01:02:45,509
+uh, size of elements, right?
+
+1512
+01:02:45,509 --> 01:02:46,989
+And the size of elements is
+
+1513
+01:02:46,989 --> 01:02:48,209
+basically how we store the data.
+
+1514
+01:02:48,209 --> 01:02:50,569
+It could be two bytes,
+four bytes or whatever.
+
+1515
+01:02:50,569 --> 01:02:52,089
+And we can actually play
+
+1516
+01:02:52,089 --> 01:02:53,430
+around with the
+size of elements.
+
+1517
+01:02:53,430 --> 01:02:54,949
+For example, if we are able to
+
+1518
+01:02:54,949 --> 01:02:57,350
+store value using
+a lower precision,
+
+1519
+01:02:57,350 --> 01:02:59,849
+we can effectively reduce
+the memory use, right?
+
+1520
+01:02:59,849 --> 01:03:02,590
+So, the quantitation basically
+
+1521
+01:03:02,590 --> 01:03:05,089
+we try to reduce the
+size of element.
+
+1522
+01:03:05,089 --> 01:03:07,030
+Okay? So what is quantitation?
+
+1523
+01:03:07,030 --> 01:03:09,269
+So it's very easy to understand
+quantitation, right?
+
+1524
+01:03:09,269 --> 01:03:14,070
+So anation is basically the
+process of constraining input
+
+1525
+01:03:14,070 --> 01:03:17,489
+from a continuous or
+otherwise large set
+
+1526
+01:03:17,489 --> 01:03:19,929
+of values to a discrete. Okay.
+
+1527
+01:03:19,929 --> 01:03:23,229
+And I think these two pictures
+give the perfect example.
+
+1528
+01:03:23,229 --> 01:03:24,669
+So on the left hand side, what
+
+1529
+01:03:24,669 --> 01:03:26,630
+we do is we have a
+continuous signal.
+
+1530
+01:03:26,630 --> 01:03:29,029
+But suppose that it
+
+1531
+01:03:29,029 --> 01:03:31,129
+is very expensive to
+store the signal,
+
+1532
+01:03:31,129 --> 01:03:32,949
+What we want to do is
+we want to store it
+
+1533
+01:03:32,949 --> 01:03:35,350
+though using only a
+few discrete values.
+
+1534
+01:03:35,350 --> 01:03:37,150
+The way we do is basically
+
+1535
+01:03:37,150 --> 01:03:39,349
+here we find a few
+different discrete values.
+
+1536
+01:03:39,349 --> 01:03:40,429
+We try to approximate the
+
+1537
+01:03:40,429 --> 01:03:42,889
+original signal as much
+as possible, right?
+
+1538
+01:03:42,889 --> 01:03:45,469
+Okay. And on the right hand side
+
+1539
+01:03:45,469 --> 01:03:47,089
+is basically how we
+quantat images, right?
+
+1540
+01:03:47,089 --> 01:03:48,770
+We can either use
+a higher precision
+
+1541
+01:03:48,770 --> 01:03:50,170
+so we see a clear image.
+
+1542
+01:03:50,170 --> 01:03:52,550
+Okay? We can also
+utaest the values.
+
+1543
+01:03:52,550 --> 01:03:55,350
+We constrain the number bits
+we use to storage pixel,
+
+1544
+01:03:55,350 --> 01:03:57,619
+then we get a slightly
+blurred image.
+
+1545
+01:03:57,619 --> 01:04:01,389
+Okay. And the second example
+will actually give you
+
+1546
+01:04:01,389 --> 01:04:02,709
+a perfect sense why this works
+
+1547
+01:04:02,709 --> 01:04:05,290
+emerginary Because remember,
+
+1548
+01:04:05,290 --> 01:04:06,610
+in most immaginary programs,
+
+1549
+01:04:06,610 --> 01:04:08,770
+our goal is, for example, we
+try to classify the image.
+
+1550
+01:04:08,770 --> 01:04:11,389
+We try to tell the image
+is actually a cat.
+
+1551
+01:04:11,389 --> 01:04:13,889
+So here, no matter how many bits
+
+1552
+01:04:13,889 --> 01:04:15,329
+we throw at least for you,
+
+1553
+01:04:15,329 --> 01:04:16,709
+you can tell both images you
+
+1554
+01:04:16,709 --> 01:04:18,329
+will tell they are a cat, right.
+
+1555
+01:04:18,329 --> 01:04:20,810
+So as long as our quantization
+can reduce the precision,
+
+1556
+01:04:20,810 --> 01:04:22,729
+and as long as it does
+
+1557
+01:04:22,729 --> 01:04:24,389
+not influence the
+decision of the model,
+
+1558
+01:04:24,389 --> 01:04:25,069
+I think we are good.
+
+1559
+01:04:25,069 --> 01:04:27,289
+We basically save a lot
+of resources, right?
+
+1560
+01:04:27,289 --> 01:04:29,289
+That's why quantiton
+works at a high level.
+
+1561
+01:04:29,289 --> 01:04:31,169
+Okay. But in the
+next few lecture,
+
+1562
+01:04:31,169 --> 01:04:33,129
+I'm going to dive
+deeper to tell you how
+
+1563
+01:04:33,129 --> 01:04:36,019
+we make this quantity
+work emotionally.
+
+1564
+01:04:36,019 --> 01:04:38,870
+Okay, so how new emersonaly.
+
+1565
+01:04:38,870 --> 01:04:41,329
+At a high level, our
+goal is right to
+
+1566
+01:04:41,329 --> 01:04:44,130
+use a lower precision
+repetition of data to store,
+
+1567
+01:04:44,130 --> 01:04:45,909
+like all the things
+we mentioned, uh,
+
+1568
+01:04:45,909 --> 01:04:48,989
+model parameters activations
+of the United States.
+
+1569
+01:04:48,989 --> 01:04:50,990
+But we are subject to
+a few constraints.
+
+1570
+01:04:50,990 --> 01:04:51,949
+The first one is we want
+
+1571
+01:04:51,949 --> 01:04:53,410
+to preserve emergening
+performance.
+
+1572
+01:04:53,410 --> 01:04:55,129
+That is, when we
+quantize the cat,
+
+1573
+01:04:55,129 --> 01:04:58,309
+we still want the model to
+recognize a cat, right?
+
+1574
+01:04:58,309 --> 01:05:00,650
+And we want to
+accelerate the compute.
+
+1575
+01:05:00,650 --> 01:05:03,149
+Why? Because, uh,
+today's teamer,
+
+1576
+01:05:03,149 --> 01:05:05,190
+they are making this
+kind of lower presion
+
+1577
+01:05:05,190 --> 01:05:08,149
+coming much faster than
+higher precision, okay?
+
+1578
+01:05:08,149 --> 01:05:10,370
+Of course, we want
+to reduce memory.
+
+1579
+01:05:10,370 --> 01:05:12,690
+And you probably know if you
+know computer architecture,
+
+1580
+01:05:12,690 --> 01:05:14,749
+if we use a lower precision
+to do metamo to do
+
+1581
+01:05:14,749 --> 01:05:17,190
+this in addition to
+do multiplication,
+
+1582
+01:05:17,190 --> 01:05:18,490
+it actually saves your energy.
+
+1583
+01:05:18,490 --> 01:05:22,240
+Yeah. Okay. Cool. So inspired,
+
+1584
+01:05:22,240 --> 01:05:24,579
+we are going to talk
+about a few things.
+
+1585
+01:05:24,579 --> 01:05:27,859
+We start with how
+to represent data.
+
+1586
+01:05:27,859 --> 01:05:30,060
+I think many we probably
+already studied
+
+1587
+01:05:30,060 --> 01:05:32,439
+this in some computer or
+computer architecture course,
+
+1588
+01:05:32,439 --> 01:05:33,939
+but we are going
+to revisit again.
+
+1589
+01:05:33,939 --> 01:05:36,679
+And then we are going to talk
+about the basics of codon.
+
+1590
+01:05:36,679 --> 01:05:38,659
+And then we are going to
+put that into context of
+
+1591
+01:05:38,659 --> 01:05:40,560
+margining and we'll talk about
+post training condition,
+
+1592
+01:05:40,560 --> 01:05:43,440
+which is a very
+important technique
+
+1593
+01:05:43,440 --> 01:05:45,199
+because I think as long as
+
+1594
+01:05:45,199 --> 01:05:47,379
+your phone is running
+some machinery models,
+
+1595
+01:05:47,379 --> 01:05:48,439
+likely it's actually using
+
+1596
+01:05:48,439 --> 01:05:50,200
+some technique here,
+post training condition.
+
+1597
+01:05:50,200 --> 01:05:51,999
+Okay. And then we are going to
+
+1598
+01:05:51,999 --> 01:05:54,259
+talk about content
+aware training.
+
+1599
+01:05:54,259 --> 01:05:56,539
+And finally, assuming
+we understand all this,
+
+1600
+01:05:56,539 --> 01:05:57,880
+we are going to talk
+about mixed present
+
+1601
+01:05:57,880 --> 01:06:00,479
+training mixed present training
+
+1602
+01:06:00,479 --> 01:06:02,520
+is basically the key technique
+
+1603
+01:06:02,520 --> 01:06:04,740
+for training language models.
+
+1604
+01:06:04,740 --> 01:06:09,619
+Cool. Hopefully, we can
+cover the first part.
+
+1605
+01:06:09,619 --> 01:06:12,739
+If not, let's first talk
+about representi of data.
+
+1606
+01:06:12,739 --> 01:06:15,380
+How data was represented
+in computer?
+
+1607
+01:06:15,500 --> 01:06:19,019
+Basically bits, right?
+So we rep that in bits,
+
+1608
+01:06:19,019 --> 01:06:23,039
+and we actually have a
+standard at standard and
+
+1609
+01:06:23,039 --> 01:06:26,799
+all the computer makers they
+basically try to follow
+
+1610
+01:06:26,799 --> 01:06:28,159
+that standard and
+try to store data
+
+1611
+01:06:28,159 --> 01:06:30,180
+following those
+predefined standards.
+
+1612
+01:06:30,180 --> 01:06:33,180
+So let's talk start
+with integers,
+
+1613
+01:06:33,180 --> 01:06:35,199
+we have unsigned
+integers, right?
+
+1614
+01:06:35,199 --> 01:06:37,479
+So we basically, for example,
+
+1615
+01:06:37,479 --> 01:06:39,899
+use this kind of one to a Bs
+
+1616
+01:06:39,899 --> 01:06:41,619
+to store unsigned
+integers, right?
+
+1617
+01:06:41,619 --> 01:06:44,439
+So here, the BD range
+is basically starting
+
+1618
+01:06:44,439 --> 01:06:47,499
+from zero all the way
+to two to N minus one.
+
+1619
+01:06:47,499 --> 01:06:50,840
+This is unsigned or
+positive integers.
+
+1620
+01:06:50,840 --> 01:06:54,580
+Okay? In order to basically
+represent negative integers,
+
+1621
+01:06:54,580 --> 01:06:56,219
+what we do is, um,
+
+1622
+01:06:56,219 --> 01:06:58,579
+we modify the bit
+stream a little bit
+
+1623
+01:06:58,579 --> 01:07:01,719
+and we assign the first
+bid as a sign bit, right?
+
+1624
+01:07:01,719 --> 01:07:04,960
+So if the first bid one
+is basically positive,
+
+1625
+01:07:04,960 --> 01:07:06,980
+otherwise, uh, it's negative.
+
+1626
+01:07:06,980 --> 01:07:10,099
+Okay? Uh what we
+do is basically we
+
+1627
+01:07:10,099 --> 01:07:11,579
+allocate the rest of sem bits to
+
+1628
+01:07:11,579 --> 01:07:13,619
+represent the values
+and in this way,
+
+1629
+01:07:13,619 --> 01:07:17,120
+we can represent both uh
+negative and positive values.
+
+1630
+01:07:17,120 --> 01:07:19,899
+Okay. And one problem of
+
+1631
+01:07:19,899 --> 01:07:23,059
+this uh sign Miverepen
+is, we find that,
+
+1632
+01:07:23,059 --> 01:07:27,039
+um, like both the arrow and one,
+
+1633
+01:07:27,039 --> 01:07:29,939
+the first bit being one
+and the rest being zero,
+
+1634
+01:07:29,939 --> 01:07:32,279
+they are representing the
+same value, which is zero.
+
+1635
+01:07:32,279 --> 01:07:34,700
+Because zero is either
+positive or negative.
+
+1636
+01:07:34,700 --> 01:07:38,839
+And this basically was
+like one repetition.
+
+1637
+01:07:38,839 --> 01:07:41,360
+And I think, computer
+architectures,
+
+1638
+01:07:41,360 --> 01:07:43,499
+they are very, um,
+
+1639
+01:07:43,499 --> 01:07:45,619
+they are very mean on this.
+I don't with anything.
+
+1640
+01:07:45,619 --> 01:07:48,379
+Okay? So what we do is
+we actually use a very,
+
+1641
+01:07:48,379 --> 01:07:51,940
+uh a different kind of formats
+compliment repetition.
+
+1642
+01:07:51,940 --> 01:07:53,539
+Okay? I think that's
+why you learn that
+
+1643
+01:07:53,539 --> 01:07:55,420
+in some computer archiecture
+
+1644
+01:07:55,420 --> 01:07:59,779
+course that instead of
+designate same beat,
+
+1645
+01:07:59,779 --> 01:08:01,989
+what we do is basically, Uh, um,
+
+1646
+01:08:01,989 --> 01:08:05,249
+we use the first bit as,
+
+1647
+01:08:05,249 --> 01:08:08,870
+uh, the largest
+value of negative.
+
+1648
+01:08:08,870 --> 01:08:11,389
+And then we basically, uh,
+
+1649
+01:08:11,389 --> 01:08:12,709
+for the rest of
+bits we basically
+
+1650
+01:08:12,709 --> 01:08:13,929
+accumulate them together and
+
+1651
+01:08:13,929 --> 01:08:17,109
+then add that to the
+in this example,
+
+1652
+01:08:17,109 --> 01:08:19,349
+it's minus 27, okay?
+
+1653
+01:08:19,349 --> 01:08:20,429
+And this basically give you a
+
+1654
+01:08:20,429 --> 01:08:21,949
+orenon of the tooth complement.
+
+1655
+01:08:21,949 --> 01:08:24,169
+Okay. And with this orientation,
+
+1656
+01:08:24,169 --> 01:08:27,709
+we don't have to wait,
+uh, one code, right?
+
+1657
+01:08:27,709 --> 01:08:31,209
+Okay. I hope you guys are
+familiar with this, okay.
+
+1658
+01:08:31,209 --> 01:08:36,789
+Ooh. Okay, integer
+is important in
+
+1659
+01:08:36,789 --> 01:08:38,649
+machine learning because
+sometimes we want to quantize
+
+1660
+01:08:38,649 --> 01:08:40,849
+the marching width into
+
+1661
+01:08:40,849 --> 01:08:43,389
+integer four integer
+eight and it still works.
+
+1662
+01:08:43,389 --> 01:08:45,149
+But I think there's one more
+
+1663
+01:08:45,149 --> 01:08:46,969
+we care more about
+floating points because
+
+1664
+01:08:46,969 --> 01:08:48,409
+most of the companion still
+
+1665
+01:08:48,409 --> 01:08:50,670
+are performed on floating
+point repetitions.
+
+1666
+01:08:50,670 --> 01:08:52,229
+So before I talk
+
+1667
+01:08:52,229 --> 01:08:54,209
+about floating point,
+we have a fixed point.
+
+1668
+01:08:54,209 --> 01:08:56,369
+So fixed point is pretty simple.
+
+1669
+01:08:56,369 --> 01:08:58,749
+Like we basically, put
+
+1670
+01:08:58,749 --> 01:09:01,669
+a decimal point at the
+middle of the bits.
+
+1671
+01:09:01,669 --> 01:09:03,229
+And to the left of
+
+1672
+01:09:03,229 --> 01:09:05,489
+this decimal point is
+basically integer part.
+
+1673
+01:09:05,489 --> 01:09:08,219
+To the right is basically
+the fraction part.
+
+1674
+01:09:08,219 --> 01:09:10,429
+Okay. And following this kind
+
+1675
+01:09:10,429 --> 01:09:11,769
+of fixed point orgenation we can
+
+1676
+01:09:11,769 --> 01:09:15,549
+basically represent some
+flowing point numbers here,
+
+1677
+01:09:15,549 --> 01:09:18,809
+um, uh, following
+flowing this one.
+
+1678
+01:09:18,809 --> 01:09:21,349
+And I assume you guys are
+familiar with this one, right?
+
+1679
+01:09:21,349 --> 01:09:24,509
+Okay. But this is not
+the one we used in,
+
+1680
+01:09:24,509 --> 01:09:26,109
+uh, machine learning, right?
+
+1681
+01:09:26,109 --> 01:09:29,369
+Fixed point is mostly
+used in, uh, security.
+
+1682
+01:09:29,369 --> 01:09:31,149
+Okay? But in machine learning,
+
+1683
+01:09:31,149 --> 01:09:32,649
+we don't use fixed
+point because we
+
+1684
+01:09:32,649 --> 01:09:34,609
+want to basically represent
+
+1685
+01:09:34,609 --> 01:09:38,549
+lumber using a new format
+called floating point, okay?
+
+1686
+01:09:38,549 --> 01:09:40,129
+So anyone can tell me what's
+
+1687
+01:09:40,129 --> 01:09:42,849
+difference between flowing
+point and fixed point.
+
+1688
+01:09:45,350 --> 01:09:47,509
+Okay, I think you can tell from
+
+1689
+01:09:47,509 --> 01:09:48,729
+my name that the
+floating point is
+
+1690
+01:09:48,729 --> 01:09:51,309
+that the decimal point can
+float from left to right.
+
+1691
+01:09:51,309 --> 01:09:53,789
+Okay. Let's dive
+deeper into this.
+
+1692
+01:09:53,789 --> 01:09:56,549
+Okay? This is, uh,
+
+1693
+01:09:56,549 --> 01:09:59,209
+triple standard
+floating 0.32, okay?
+
+1694
+01:09:59,209 --> 01:10:00,949
+We basically get 32 bits.
+
+1695
+01:10:00,949 --> 01:10:04,249
+Um, uh, the first bit
+being s bit, okay?
+
+1696
+01:10:04,249 --> 01:10:06,429
+And the blue kind of bits,
+
+1697
+01:10:06,429 --> 01:10:08,929
+we call it expolent, okay?
+
+1698
+01:10:08,929 --> 01:10:12,469
+Um, and the yellowish
+kind of bits we
+
+1699
+01:10:12,469 --> 01:10:16,209
+have we allocate 23 bit
+we call it fraction.
+
+1700
+01:10:16,209 --> 01:10:19,089
+Okay. Uh, so the key difference
+
+1701
+01:10:19,089 --> 01:10:21,149
+between this one and the
+fixed point is that,
+
+1702
+01:10:21,149 --> 01:10:22,369
+um, uh, we don't
+
+1703
+01:10:22,369 --> 01:10:24,489
+actually put the decimal
+point anywhere, right?
+
+1704
+01:10:24,489 --> 01:10:26,469
+So the way that we represent
+
+1705
+01:10:26,469 --> 01:10:28,969
+the fol numbers is
+folly equation.
+
+1706
+01:10:28,969 --> 01:10:31,969
+Okay? Uh, we first figure
+out the sign, right?
+
+1707
+01:10:31,969 --> 01:10:34,329
+And then we use one
+plus fraction p,
+
+1708
+01:10:34,329 --> 01:10:36,909
+and then we use the blue
+part to figure out how we
+
+1709
+01:10:36,909 --> 01:10:38,209
+should flow to the decimal point
+
+1710
+01:10:38,209 --> 01:10:39,749
+from left to right, right?
+
+1711
+01:10:39,749 --> 01:10:42,669
+And that is how we time value,
+
+1712
+01:10:42,669 --> 01:10:45,989
+which is to explain
+minus one, two, seven.
+
+1713
+01:10:45,989 --> 01:10:50,089
+And you can understand
+127 as, um, uh,
+
+1714
+01:10:50,089 --> 01:10:54,309
+the way that we represent
+the exponent part, okay,
+
+1715
+01:10:54,309 --> 01:10:57,189
+I basically the mid value
+of the largest value,
+
+1716
+01:10:57,189 --> 01:10:59,249
+the half of the value of
+the largest value we can
+
+1717
+01:10:59,249 --> 01:11:01,209
+represent using all the
+bits of the expoonent.
+
+1718
+01:11:01,209 --> 01:11:03,709
+Okay? Because we want
+to float in the uh,
+
+1719
+01:11:03,709 --> 01:11:05,529
+we want to float to
+the decimal point
+
+1720
+01:11:05,529 --> 01:11:06,869
+either to left or to right,
+
+1721
+01:11:06,869 --> 01:11:10,389
+so we have to minus one, uh 27.
+
+1722
+01:11:11,100 --> 01:11:16,019
+Okay. We're still
+good with this one.
+
+1723
+01:11:16,019 --> 01:11:19,879
+Cool. So to give you an example,
+
+1724
+01:11:19,879 --> 01:11:23,099
+we basically have one
+example below right
+
+1725
+01:11:23,099 --> 01:11:27,779
+where we use this floating
+point standard to represent,
+
+1726
+01:11:27,779 --> 01:11:32,179
+0.26, five, six, 25.
+
+1727
+01:11:32,179 --> 01:11:34,019
+Okay. Uh, in order to
+
+1728
+01:11:34,019 --> 01:11:36,239
+understand that we
+can basically match
+
+1729
+01:11:36,239 --> 01:11:39,059
+this number using
+binary repentation
+
+1730
+01:11:39,059 --> 01:11:42,899
+and following that
+repent equation here.
+
+1731
+01:11:42,899 --> 01:11:45,780
+And if we perform some kind
+of like a transformation,
+
+1732
+01:11:45,780 --> 01:11:47,539
+we find that it's basically
+
+1733
+01:11:47,539 --> 01:11:50,849
+one plus of fracking
+part which is 0.0
+
+1734
+01:11:50,849 --> 01:11:58,339
+0.0 625 times two
+to 125 minus 127?
+
+1735
+01:11:58,339 --> 01:12:00,159
+Okay. And we can basically map
+
+1736
+01:12:00,159 --> 01:12:02,579
+this number into the exploding
+part and the fracking part
+
+1737
+01:12:02,579 --> 01:12:07,519
+and we get the floating
+point repent. Cool.
+
+1738
+01:12:07,519 --> 01:12:11,459
+Um, yeah, if you're not
+familiar with this,
+
+1739
+01:12:11,459 --> 01:12:15,319
+I think you can try to,
+
+1740
+01:12:15,319 --> 01:12:17,039
+I think you can basically try
+
+1741
+01:12:17,039 --> 01:12:19,259
+to Google it and you try
+to search Wikipedia.
+
+1742
+01:12:19,259 --> 01:12:22,039
+I think there are a lot of
+explanations describing how
+
+1743
+01:12:22,039 --> 01:12:25,659
+we represent values using
+flowing point standards, okay?
+
+1744
+01:12:25,659 --> 01:12:27,519
+Okay, today's last slide,
+
+1745
+01:12:27,519 --> 01:12:31,199
+I want you to one I want
+all of you to do exercise.
+
+1746
+01:12:31,199 --> 01:12:34,459
+So what is this number?
+
+1747
+01:12:42,710 --> 01:12:45,849
+By the way, this is
+a floating point.
+
+1748
+01:12:45,849 --> 01:12:48,509
+Just flow in the
+equation here, right?
+
+1749
+01:12:49,710 --> 01:12:51,889
+Okay. What you do is basically
+
+1750
+01:12:51,889 --> 01:12:53,469
+you first start with
+the sun beat, right?
+
+1751
+01:12:53,469 --> 01:12:55,749
+And then for the green part, you
+
+1752
+01:12:55,749 --> 01:12:57,869
+substitute it into the exponent.
+
+1753
+01:12:57,869 --> 01:12:59,489
+And for the pink part,
+
+1754
+01:12:59,489 --> 01:13:03,369
+you basically, uh, do it
+in the fracking part.
+
+1755
+01:13:03,369 --> 01:13:05,429
+And you subsite all
+the values using
+
+1756
+01:13:05,429 --> 01:13:07,609
+bailar repetition and you
+probably get the value.
+
+1757
+01:13:07,609 --> 01:13:09,969
+That is the sun beat is roughly,
+
+1758
+01:13:09,969 --> 01:13:12,609
+uh, minus one, 20, right?
+
+1759
+01:13:12,609 --> 01:13:14,149
+And for this value,
+
+1760
+01:13:14,149 --> 01:13:18,549
+if you basically read
+it is basically 124,
+
+1761
+01:13:18,549 --> 01:13:23,509
+for this value, it's basically
+interpreted as a fraction.
+
+1762
+01:13:23,509 --> 01:13:26,969
+And what you do is one minus all
+
+1763
+01:13:26,969 --> 01:13:28,829
+of them, submission
+of all of them,
+
+1764
+01:13:28,829 --> 01:13:31,289
+and you basically get
+the vitual number,
+
+1765
+01:13:31,289 --> 01:13:35,124
+which is 0.1 5625.
+
+1766
+01:13:35,124 --> 01:13:37,599
+Okay. I hope you guys can do
+
+1767
+01:13:37,599 --> 01:13:39,159
+some extra analysis
+because I'm going to
+
+1768
+01:13:39,159 --> 01:13:41,219
+put one of the other
+exam question.
+
+1769
+01:13:41,219 --> 01:13:42,619
+You have to understand
+this, okay?
+
+1770
+01:13:42,619 --> 01:13:44,379
+Be uh I said,
+
+1771
+01:13:44,379 --> 01:13:47,959
+like I said, we are going to
+lower this into lower bits.
+
+1772
+01:13:47,959 --> 01:13:49,579
+For example, how to
+basically represent
+
+1773
+01:13:49,579 --> 01:13:52,719
+the same lumber using 16 bits,
+using eight bits, right?
+
+1774
+01:13:52,719 --> 01:13:54,019
+What is the closed lumber?
+
+1775
+01:13:54,019 --> 01:13:56,359
+That is basically what
+quantity in tests you do.
+
+1776
+01:13:56,359 --> 01:13:58,539
+Cool. That's all I have today
+
+1777
+01:13:58,539 --> 01:14:01,579
+and see you next week. Cool.
