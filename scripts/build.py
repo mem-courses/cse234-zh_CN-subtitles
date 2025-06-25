@@ -10,6 +10,10 @@ SYSTEM_PROMPT = '''
 3.我将给你{len}条字幕，他们共同组成了一段对话，但你不能擅自将他们合并
 你给我的输出也应该是{len}条字幕，且完成了中文翻译的结果
 '''.strip()
+ADDITIONAL_PROMPT = '''
+注意: 再次强调一定不要把多条字幕合并到一条中，必须遵循输入中的划分方式.
+输入给你的是多少行数据，你输出的也应该是多少行数据
+'''.strip()
 
 model = OpenAIWrapper(
     model,
@@ -57,10 +61,11 @@ def build(source_text):
         ]
         print(prompt)
 
-        retries = 0
-        while True:
+        for retries in range(5):
             try:
                 print(f'Translating {l} to {r}, retries: {retries}.')
+                if retries == 1:
+                    message[0]['content'] += '\n' + ADDITIONAL_PROMPT
                 response = model.send(message, use_cache=retries == 0)
                 print(response)
                 translated = response.strip().split('\n')
@@ -72,16 +77,19 @@ def build(source_text):
                 break
             except Exception as e:
                 print(e)
-                retries += 1
                 continue
+            
+        for line in data:
+            if len(line) == 3:
+                line.append('')
 
     response = ''
     for i in range(len(source)):
         line = source[i]
         response += f'{i + 1}\n'
         response += f'{line[0]} --> {line[1]}\n'
-        response += f'{line[2]}\n'
         response += f'{line[3]}\n'
+        response += f'{line[2]}\n'
         response += '\n'
     return response.strip()
 
@@ -97,4 +105,3 @@ if __name__ == '__main__':
         target_file = os.path.join(target_dir, source)
         with open(target_file, 'w', encoding='utf-8') as f:
             f.write(output)
-        break
