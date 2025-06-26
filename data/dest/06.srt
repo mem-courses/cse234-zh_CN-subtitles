@@ -750,7 +750,7 @@ We let each, each loop we read a little bit more than one element, so we can do 
 
 151
 00:11:11,710 --> 00:11:15,130
-所以这里，高层次的想法是，嗯，不是让
+这里，高层次的想法是，嗯，不是让
 So here, the high level idea is, um instead of let
 
 152
@@ -765,12 +765,12 @@ We can let E thread to compute a V by V sub matrix.
 
 154
 00:11:23,070 --> 00:11:26,729
-而这个 V 显然是我们的决定性因素。
+而这个 V 显然就是我们的分块因子。
 And this V is apparently our telling factor.
 
 155
 00:11:26,729 --> 00:11:29,269
-这和 CPU 的分块方式非常相似。
+这和 CPU 的分块非常相似。
 It's very similar to the CPU telling.
 
 156
@@ -790,12 +790,12 @@ V. I'm going to let E thread to grab a few rows instead of one row from A
 
 159
 00:11:43,209 --> 00:11:45,589
-并且从 B 中抓取几列，而不是一列，
+以及从 B 中抓取几列，而不是一列，
 and a few columns inside of one column from
 
 160
 00:11:45,589 --> 00:11:52,890
-我进行某种子矩阵的乘法，然后把结果写回去。
+然后我进行某种子矩阵的乘法，并把结果写到指定位置。
 B. I perform some sort of submetrix multiply and I write the result spec.
 
 161
@@ -1450,32 +1450,32 @@ block wise, matrix multiplication and partial sum, you understand this program.
 
 291
 00:22:05,629 --> 00:22:10,010
-它的作用是仍然使用那个块索引和块
+所以它的作用是仍然使用那个块索引和块
 So what it does is it still use that block index and block
 
 292
 00:22:10,010 --> 00:22:14,690
-D 还有线程索引来定位这个区域，明白吗？
+D 还有线程索引来定位这个区域，对吧？
 D and also thread index to locate this region, okay?
 
 293
 00:22:14,690 --> 00:22:20,669
-一旦定位到区域，它会创建完全相同数量的寄存器。
+一旦定位到这个区域，它就会创建完全相同数量的寄存器。
 And once it locates the region, it's going to create the exact same amount of registers.
 
 294
 00:22:20,669 --> 00:22:26,549
-好的。但不是像之前那样循环遍历A的行和B的列，
+但是，不像我在A的行和B的列上循环，
 Okay. But instead of like I loop I loop over the rows of A and the column of B,
 
 295
 00:22:26,549 --> 00:22:30,229
-我会遍历A的列和B的行。
+我会在A的列和B的行上循环。
 I'm going to loop over the columns of A and rows of B.
 
 296
 00:22:30,229 --> 00:22:32,649
-明白了吗？这就是为什么有外层循环K，对吧？
+所以才会有外层循环K，对吧？
 Okay? That's why there's outer loop K, right?
 
 297
@@ -1485,12 +1485,12 @@ This K basically scan following this direction.
 
 298
 00:22:35,484 --> 00:22:46,060
-每次我都会抓取一个小区域，就是这里的这个区域和这个区域。
+每次我都会抓取一个小区域，就是这里和这里的区域。
 And every time I'm going to grab a small area, right here, is this area and this area.
 
 299
 00:22:46,060 --> 00:22:49,599
-然后我做点积，明白吗？
+然后我做点积运算，对吧？
 And I do dot product. Okay?
 
 300
@@ -1850,52 +1850,52 @@ First the difference you noted is this line, right, where I started using
 
 371
 00:27:54,660 --> 00:27:58,100
-
+这个前缀用于从SRM分配内存。
 this prefix to allocate memory from SRM.
 
 372
 00:27:58,100 --> 00:28:03,500
-
+A？所以我分配了两块内存，一块是SA，另一块是SB。
 A? So I allocate two chunks of memory, one is SA, the other SB.
 
 373
 00:28:03,500 --> 00:28:08,299
-
+这里我做了一些简化，因为我们本该分配一个形状是S乘L的，
 Here, I simplify a little bit because we should allocate one of the shape
 
 374
 00:28:08,299 --> 00:28:11,999
-
+另一个形状是L乘S的。
 of S by L and the other is the shape of L by S.
 
 375
 00:28:11,999 --> 00:28:15,940
-
+但我基本上把它们统一了一下，因为你可以认为我对矩阵做了一点转置，
 But I basically unify them a little bit, because you can think that I transpose
 
 376
 00:28:15,940 --> 00:28:17,620
-
+明白吗？
 the matrix a little bit, okay?
 
 377
 00:28:17,620 --> 00:28:22,744
-
+所以我会为这部分和这部分在共享内存中分配内存。
 So I'm going to allocate memory for this part and for this part in shared memory.
 
 378
 00:28:22,744 --> 00:28:25,810
-
+好的。接下来我要做的是扫描
 Okay. And what I'm going to do is I'm going to scan
 
 379
 00:28:25,810 --> 00:28:29,350
-
+从这里到这里，以及从这里到这里，在块级别上。
 from here to here and here to here at the block level.
 
 380
 00:28:29,350 --> 00:28:35,269
-
+明白吗？我希望每个块基本上都从这里扫描到这里，从这里到这里，并计算这部分。
 Okay? And I like each block to basically scan from here to here, here to here and compute this part.
 
 381
@@ -1945,7 +1945,7 @@ Okay. I'm going to first use my block index to index this region, right?
 
 390
 00:29:15,359 --> 00:29:18,780
-这就是我正在做的，我在索引这个区域。
+这就是我在做的事情，我正在索引这个区域。
 And this is what I'm doing. I'm indexing it regi.
 
 391
@@ -2115,22 +2115,22 @@ Okay? We each thread to take a smaller region from that and we have another thre
 
 424
 00:31:38,060 --> 00:31:43,739
-你可以看到，这就像我们在不断累加结果，
+你可以看到，这就像我们在不断累加所有的结果，
 and you can see, this is like we are accumulating results from all the way
 
 425
 00:31:43,739 --> 00:31:45,659
-从这里到这里，以及这个内部。
+从这里到这里，以及里面的部分。
 from here to here and inside of this.
 
 426
 00:31:45,659 --> 00:31:49,259
-所以我们把所有的结果都加到最终的结果条目里，好吗？
+所以我们把所有的结果都加到结果项里，好吗？
 So we are adding all the results together into the result entry, okay?
 
 427
 00:31:49,259 --> 00:32:05,879
-是的。关于这个程序里的控制和这里的情况，
+是的。关于这个程序里的控制部分，
 Yeah. Like to report about the control and the here in this program,
 
 428
@@ -2145,7 +2145,7 @@ It's very unlikely. It's very unlikely, but just in case, because sometimes mayb
 
 430
 00:32:19,699 --> 00:32:22,479
-比其他核心的功率稍微高一点。
+功率比其他核心稍微高一点。
 a little bit higher power than the other.
 
 431
@@ -3050,52 +3050,52 @@ compiler or whatever compiler.
 
 611
 00:44:23,780 --> 00:44:30,559
-
+他们基本上会接管并将其转化为机器码。
 And they will basically they will basically take over and transform it into machine code.
 
 612
 00:44:30,559 --> 00:44:35,300
-
+你可以看到加工编译器比传统编译器稍微高一级。
 You can see machining compiler is slightly higher level than traditional compiler.
 
 613
 00:44:35,300 --> 00:44:39,859
-
+它会把你的数据流图一直编译到内核代码，
 It will take your data flow graph and compile it all the way down into kernel code and
 
 614
 00:44:39,859 --> 00:44:43,039
-
+然后传统编译器会接手。
 then traditional compiler will take over.
 
 615
 00:44:43,039 --> 00:44:46,019
-
+好，这里有什么问题吗？
 Okay. Any problem here?
 
 616
 00:44:46,050 --> 00:44:51,290
-
+这是一个相当大的范围，因为如果你有一个编译器，那就意味着大部分的marchey
 Okay, this is a pretty big scope because if you have a compiler, that means most of the marchey
 
 617
 00:44:51,290 --> 00:44:52,709
-
+系统问题都会被解决。
 system problem will be solved.
 
 618
 00:44:52,709 --> 00:44:55,529
-
+那么，我们在这里会遇到什么样的问题呢？
 Okay. So so what kind of problem we face here?
 
 619
 00:44:55,529 --> 00:44:58,740
-
+很明显，这里有三层。
 So uh, apparently, there are three layers.
 
 620
 00:44:58,740 --> 00:45:04,399
-
+在第一层，也就是编程层面，我们会遇到非常困难的程序。
 At the first layer, programming level, we face very difficult program
 
 621
@@ -4865,7 +4865,7 @@ Okay, that basically help you understand where treating is.
 
 974
 01:08:57,149 --> 01:09:02,569
-好的，所以treating大致处于中间位置，对吧？
+好的，所以treating大致处于中间的位置，对吧？
 Okay. So treating is roughly in the middle, okay?
 
 975
@@ -4875,7 +4875,7 @@ It is a domain spec language, but it is Python based.
 
 976
 01:09:07,609 --> 01:09:13,009
-另一方面，它不是自动的，但它也可以手动，在bacon中，
+另一方面，它不是自动的，但也可以手动，在bacon中，
 On the other hand, it's not automatic, but it also well, manually, in the bacon,
 
 977
@@ -4885,7 +4885,7 @@ treating will help you optimize some things.
 
 978
 01:09:14,849 --> 01:09:16,749
-比如说，自动帮你做tiling。
+比如说，让它帮你做tiling。
 For example, telling it do telling for you.
 
 979
@@ -4895,7 +4895,7 @@ You don't have to write your own telling.
 
 980
 01:09:18,369 --> 01:09:23,969
-好的？所以基本上它试图在纯领域特定语言之间找到一个平衡点，
+好吗？所以基本上它试图在纯领域特定语言之间找到一个平衡点，
 Okay? So basically it trying to strike a balance between pure domain speak language,
 
 981

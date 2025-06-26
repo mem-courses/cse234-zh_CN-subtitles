@@ -510,12 +510,12 @@ Then you essentially start navigating this uh choosing which memory
 
 103
 00:09:01,489 --> 00:09:03,489
-你要决定采用哪种内存优化方法，对吗？
+你需要决定采用哪种内存优化方法，对吗？
 orienting you want to apply, right?
 
 104
 00:09:03,489 --> 00:09:06,789
-我提到了三种方法，有交换、
+我刚才提到了三种方法，有交换、
 So there are three I mentioned, there's swapping,
 
 105
@@ -535,7 +535,7 @@ Checkpoint. Any other answer?
 
 108
 00:09:21,340 --> 00:09:24,379
-其实你应该先从梯度累积开始。
+其实你应该从梯度累积开始。
 So you should start with grading accumulation.
 
 109
@@ -545,7 +545,7 @@ Why? Because swapping is super slow, you want to finish your job as much as poss
 
 110
 00:09:30,400 --> 00:09:35,000
-而且交换的速度主要取决于内存层级的带宽。
+而且交换的速度其实取决于内存层级的带宽。
 And swapping is kind of determined by the memory hierarchy bandwidth.
 
 111
@@ -1110,12 +1110,12 @@ the fraction so we can control the precision of our floating point numbers.
 
 223
 00:16:18,165 --> 00:16:27,459
-好的。为了让浮点数能够移动，比如说大于一或者小于一，
+好的。为了让浮点数移动，比如说大于一或小于一，
 Okay. And in order to move the floating point, you know, about one also below one,
 
 224
 00:16:27,459 --> 00:16:29,239
-我们必须添加指数偏置。
+我们需要加入指数偏置。
 we have to add exponent bias.
 
 225
@@ -1130,7 +1130,7 @@ represented using eight bits in this example.
 
 227
 00:16:36,379 --> 00:16:38,599
-也就是说，是指数部分的位数。
+也就是指数部分的位数。
 So it's the number of bits in the exponent part.
 
 228
@@ -1140,7 +1140,7 @@ Okay? Yeah. Any questions on this part?
 
 229
 00:16:43,700 --> 00:16:47,880
-很好。那么我们接下来要做一些更具体的练习。
+很好。接下来我们要做一些更具体的练习。
 Cool. Then we are going to do something more excise.
 
 230
@@ -1700,7 +1700,7 @@ So you can represent more values.
 
 341
 00:24:16,800 --> 00:24:18,639
-好吗？这是一个必要的权衡。
+好吗？这是一个重要的权衡。
 Okay? It's essential trade off.
 
 342
@@ -1720,7 +1720,7 @@ Okay, with that, I think we can basically dive deeper into the true floating poi
 
 345
 00:24:34,649 --> 00:24:36,270
-我们在机器学习中使用的真实浮点表示法。
+我们在机器学习中使用的真正浮点数表示。
 we used in machine learning.
 
 346
@@ -1735,12 +1735,12 @@ And I think we dive pretty deep into that.
 
 348
 00:24:41,289 --> 00:24:43,590
-它有8位的阶码，
+它有8位指数部分，
 It has eight bits of exposed,
 
 349
 00:24:43,590 --> 00:24:47,389
-23位的小数，对吧，总共32位。
+23位小数部分，对吧，总共32位。
 23 bits of fraction, right, total 32.
 
 350
@@ -2855,22 +2855,22 @@ I think you now have a deep understanding of how we represent data in uni machin
 
 572
 00:41:51,300 --> 00:41:57,259
-接下来我们开始谈一点关于凝聚的话题。我会重复这张幻灯片。
+接下来我们开始讲一点关于凝聚的内容。我会重复这一页幻灯片。
 Then we start talking about a bit on condensation. I'm going to repeat this slide.
 
 573
 00:41:57,259 --> 00:42:02,139
-凝聚是一个将输入从连续或其他较大集合
+凝聚是一个将输入从一个连续或较大的值集合
 Condensation is a process of constraining an input from a continuous or otherwise large set
 
 574
 00:42:02,139 --> 00:42:03,844
-约束到离散集合的过程。
+约束到一个离散集合的过程。
 of values to a discrete set.
 
 575
 00:42:03,844 --> 00:42:08,530
-左边基本上是在尝试用少数几种可能的选择
+左边基本上是在尝试用少数几个可能的选项
 And the left hand side basically trying to represent a continuous signal
 
 576
@@ -2885,7 +2885,7 @@ And the right hand side is basically what apples does in their Apposilicon.
 
 578
 00:42:14,509 --> 00:42:21,430
-他们有技术基本上可以对数值进行压缩，一旦你对图像进行压缩，
+他们有技术可以对数值进行比较，一旦你对图像进行比较，
 So they have um technical basically contest the values, uh, and once you contact the images,
 
 579
@@ -2895,7 +2895,7 @@ you can store the image in lower precision.
 
 580
 00:42:23,990 --> 00:42:28,809
-你还可以用低精度的核心进行计算，这样你就能看到能耗的变化。
+你也可以用更低精度的核心进行计算，你可以看到能耗的变化。
 You can also compute using lower precision cores, and you can see what energy.
 
 581
@@ -3800,52 +3800,52 @@ But this guy's company acquisition deal is much better than Octo Mails deal.
 
 761
 00:55:31,419 --> 00:55:33,359
-是的，你可以之后用谷歌搜索一下。
+
 Yeah, you can do some Google search later.
 
 762
 00:55:33,359 --> 00:55:40,060
-好的，明白了。这里的图基本上告诉你需要在
+
 Okay. Cool. The figure here basically tells you that you want to trade off between,
 
 763
 00:55:40,060 --> 00:55:42,379
-你使用的比特数和准确率之间做权衡。
+
 uh, number of bits you use and accuracy.
 
 764
 00:55:42,379 --> 00:55:44,619
-你需要对这个进行一些微调。
+
 You want to tune this a little bit.
 
 765
 00:55:44,619 --> 00:55:51,000
-那么在实际操作中，这个筛选条件在运行时是怎么工作的？
+
 Okay, so in practice, how does this screen condidon works, um in runtime?
 
 766
 00:55:51,000 --> 00:55:57,769
-我们的做法基本上是，从R码本开始。
+
 What do we do is basically, um, we start with tact with R code book.
 
 767
 00:55:57,769 --> 00:56:04,679
-每次我们进行计算时，我们仍然需要对宽度进行解码。
+
 And every time when we try to do computation, uh, we still need to decode the width.
 
 768
 00:56:04,679 --> 00:56:10,819
-用我们的码本和上下文，就像查找表一样，来获得真实的宽度。
+
 Using our code book and context like a lookup table to get the width, real width.
 
 769
 00:56:10,819 --> 00:56:15,699
-所以记住，这个宽度是码本中的一个值，是码本中的一个码，
+
 So remember this width is a value from the code book a code from the code book and the code
 
 770
 00:56:15,699 --> 00:56:17,719
-而且这个码仍然是浮点数。
+
 is still in flowing point.
 
 771
@@ -4305,7 +4305,7 @@ There are two critical parameters.
 
 862
 01:02:39,570 --> 01:02:41,669
-一个是零点？另一个是尺度。
+一个是零点？另一个是比例。
 One is zero point? The other scale.
 
 863
@@ -4320,7 +4320,7 @@ Q is integer here I choose my target value as integer.
 
 865
 01:02:49,310 --> 01:02:52,389
-我原始的点 R 是浮点数。
+我的原始点 R 是浮点数。
 My original point, R is floating point.
 
 866
@@ -4330,12 +4330,12 @@ For the Z, this is basically one quantity parameter because it's a zero point of
 
 867
 01:02:58,469 --> 01:03:04,329
-所以它必须是整数，这个 Z 的意思基本上是我们允许实数 R，
+所以它必须是整数，这个 Z 的含义基本上是我们允许实数 R，
 so it must be integer, the meaning of this Z is basically we allow real number R,
 
 868
 01:03:04,329 --> 01:03:08,909
-就是在左边等于零的数，被
+就是在左边等于零的那个，可以被
 which is on the left hand side, which is equal to zero be represented
 
 869
@@ -4345,7 +4345,7 @@ by a antat integer Z in the target range.
 
 870
 01:03:11,989 --> 01:03:18,449
-好的，然后我们再把它转换回来，这样就得到了 S。S 是一个浮点数，
+好的，然后我们再把它转换回来，这就得到了 S。S 是一个浮点数，
 Okay. And then we screw it back, and that gives us S. S is a flowing point,
 
 871
@@ -4460,7 +4460,7 @@ We just need to play a little bit in mathematics.
 
 893
 01:04:45,599 --> 01:04:51,700
-好的。那么我们有我们的原始值，也就是矩阵，
+好的。所以我们有原始值，也就是矩阵，
 Okay. So we have our original value, which is, matrix,
 
 894
@@ -4470,17 +4470,17 @@ and we try to figure out the maximum value in a matrix, for example, which is RM
 
 895
 01:04:56,294 --> 01:05:04,649
-然后我们按照这个线性变换，尝试把它映射到新的整数范围内，
+然后我们按照这个线性变换，把它测试到新的整数范围里，
 And we follow this linear transformation, we try to test it into the new integer range and we
 
 896
 01:05:04,649 --> 01:05:09,569
-然后我们尝试用新的数值，通过新的文本值，按照这个线性变换
+并且我们尝试用新的数值，通过这个线性变换
 try to use the new value in the new text value to recover following this linear transformation
 
 897
 01:05:09,569 --> 01:05:10,889
-恢复回原始的数值。
+再恢复回原始值。
 back into the original value.
 
 898
@@ -4490,12 +4490,12 @@ So that gives two equations, right?
 
 899
 01:05:12,689 --> 01:05:18,049
-所以原始范围内的RMAX等于S乘以Qx减去Z，对吧？
+所以原始范围中的RMAX等于S乘以Qx减去Z，对吧？
 So RMAX in the original range equals to S times Qx minus Z, right?
 
 900
 01:05:18,049 --> 01:05:20,649
-这样我们就可以对齐最大值，
+我们试图让最大值对齐，
 That we try to align the max value,
 
 901

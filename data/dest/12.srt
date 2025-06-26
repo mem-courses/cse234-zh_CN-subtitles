@@ -955,7 +955,7 @@ And the number of flops here basically means the total compute flowing point ope
 
 192
 00:12:49,319 --> 00:12:52,080
-也就是说，完成你的机器学习程序需要的计算量。
+也就是说，需要完成你的机器学习程序的计算量。
 is needed to finish your machine learning program.
 
 193
@@ -965,7 +965,7 @@ Okay? So MFU equals to number of flops divided by the time T and T is time spent
 
 194
 00:12:58,660 --> 00:13:05,484
-比如说，用来完成训练的时间，或者说当推理基本完成你的任务时。
+比如说，用于完成训练，或者说当推理基本完成你的任务时。
 um on finishing finishing training, for example, or when interingt basically finish your job.
 
 195
@@ -980,22 +980,22 @@ Here, I use capitals, meaning that this is a single word.
 
 197
 00:13:09,989 --> 00:13:17,330
-好的，这里的flops大写S表示芯片或GPU的处理能力。
+好的，这里的大写S的flops表示芯片或GPU的处理能力。
 Okay, these flops capital S means the processing capability of a chip or GPU.
 
 198
 00:13:17,330 --> 00:13:25,389
-比如，你可能知道V100的flops大写S基本上大约是150 flops，对吧？
+比如，你可能知道V100的flops大写S基本上是150 Tflops左右，对吧？
 For example, you probably know that V 100, the flops capital S is basically around 150 flops, right?
 
 199
 00:13:25,389 --> 00:13:27,630
-呃，T flops，对，抱歉。
+呃，Tflops，对，抱歉。
 Um, T flops, sorry, yeah.
 
 200
 00:13:27,630 --> 00:13:31,730
-也就是说是每秒一万亿次浮点运算，T flops每秒，明白了吗？
+也就是说每秒有一个Tera，也就是Tflops每秒，对吧？
 There's a Terra Okay, T flops per second, okay?
 
 201
@@ -1910,12 +1910,12 @@ You wrote at difference in library, right?
 
 383
 00:25:25,769 --> 00:25:29,189
-你可以运行一次transformer的前向和反向传播。
+你可以让transformer运行一次前向和反向传播。
 You can run the transformer for one iteration, forward and backward.
 
 384
 00:25:29,189 --> 00:25:36,549
-然后你在你的目标GPU类型上运行，基本上就是测试一下需要多长时间，对吧？
+然后你在你目标类型的GPU上运行，基本上就是测试一下需要多长时间，对吧？
 And you run on your target type of GPU and you basically try to benchmark how long it takes, right?
 
 385
@@ -1930,12 +1930,12 @@ while it using your system, for this program.
 
 387
 00:25:44,109 --> 00:25:47,029
-你得到了第二个时间T，明白了吗？
+你得到了第二个时间T。明白吗？
 You get a second term T. Okay?
 
 388
 00:25:47,029 --> 00:25:51,930
-第三，当然，你要去英伟达的网站，查看他们的产品规格。
+第三，当然，你要去英伟达的网站，查一下他们的产品规格。
 And third, of course, you go to Media's website, you check their product spec.
 
 389
@@ -1945,7 +1945,7 @@ You check, for example, if you are running on T four in homework two,
 
 390
 00:25:55,169 --> 00:25:59,409
-或者将来你用的是H100，你就要查查它们的P flops等参数。
+或者将来你用的是H100，你就查一下它们的P flops。
 or if you are running on H hundred in future, you check their P flops and
 
 391
@@ -2100,17 +2100,17 @@ Okay? The best system, okay, on Viva hundred.
 
 421
 00:28:08,200 --> 00:28:15,959
-你可以看到这里，VA100的峰值浮点运算能力基本上是112万亿次每秒，对吧，Tera Flops。
+你可以看到，这里Va hundred的峰值浮点运算能力基本上是112万亿次每秒，对吧，Tera flops。
 And you can see here the peak flops for Va hundred is essentially 112 T flops, right, Terra flops,
 
 422
 00:28:15,959 --> 00:28:22,099
-这意味着四年前，我们每块GPU在120亿参数的语言模型上只能用大约50到60万亿次每秒的算力。
+这意味着四年前，我们每块GPU在120亿参数的语言模型上只能用到大约50到60 T flops。
 which means that four years ago, we can only use like almost 50 to 60 T flops
 
 423
 00:28:22,099 --> 00:28:25,335
-每块GPU只能用在120亿参数的语言模型上。
+每块GPU在120亿参数的语言模型上。
 per GPU on class, 120 language model.
 
 424
@@ -2120,7 +2120,7 @@ Of course, Mchani system is developing and hardware is also getting more powerfu
 
 425
 00:28:31,189 --> 00:28:37,550
-快进到Eva100，我们基本上达到了30%的MFU。
+快进到Eva hundred，我们基本上能达到30%的MFU。
 So fast forward to Eva hundred, uh, we basically get 30% of MFU.
 
 426
@@ -2130,12 +2130,12 @@ Okay? Not very good.
 
 427
 00:28:39,250 --> 00:28:44,989
-好的，一旦Flash Attention出来后，我们可以达到60%。
+好的，一旦flash attention出来了，我们就能达到60%。
 Okay. And once flash attention is out, we can get to 60%.
 
 428
 00:28:44,989 --> 00:28:47,389
-现在你知道为什么Flax这么重要了吧？
+现在你知道为什么flax这么重要了，对吧？
 So now you know why flax is so important, right?
 
 429
@@ -2145,7 +2145,7 @@ It basically means that you just save billions of dollars. Yeah.
 
 430
 00:28:51,169 --> 00:28:56,650
-好的，所以一旦有了Flash Attention，我们基本上可以从30%提升到60%。
+好的，所以一旦有了flash attention，我们基本上能从30%提升到60%。
 Okay. Uh, so once how fly ation, we can basically boost from 30% to 6%.
 
 431
@@ -2700,52 +2700,52 @@ connective and P to P. Okay.
 
 541
 00:36:25,039 --> 00:36:29,269
-
+我们先简单学习一下这些内容，以防你之前不知道，好吗？
 Let's basically study them a little bit in case you don't know that before, okay?
 
 542
 00:36:29,269 --> 00:36:32,659
-
+那么什么是PTP？
 So what is PTP?
 
 543
 00:36:32,659 --> 00:36:34,839
-
+我觉得这个大家都知道，对吧？
 I think this one everybody knows, okay?
 
 544
 00:36:34,839 --> 00:36:36,419
-
+这就是PTP，对吧。
 So this is PTP, right.
 
 545
 00:36:36,419 --> 00:36:39,879
-
+你有两个设备，你想让第一个设备向第二个设备发送一些东西。
 You have two devices and you want the first device to send something to second device.
 
 546
 00:36:39,879 --> 00:36:47,339
-
+在PTB通信中，基本上有一个发送方和一个接收方，发送方会尝试
 And in a PTB communication, um, you basically have a sender and a receiver and the sender tries to
 
 547
 00:36:47,339 --> 00:36:52,179
-
+发起通信，基本上就是你先在这两个设备之间建立连接
 initiate basically the communication happens by you first initiate some connection
 
 548
 00:36:52,179 --> 00:36:53,439
-
+对吧？
 between these two devices, right?
 
 549
 00:36:53,439 --> 00:36:57,599
-
+然后你让发送方把内容发送给接收方，好吗？就是这么简单。
 And then you ask the sender to send the content to receiver, okay? That's simple.
 
 550
 00:36:57,599 --> 00:36:59,979
-
+是的，非常简单。我觉得每当你
 Yeah, very simple. I think whenever you take
 
 551
@@ -4150,7 +4150,7 @@ And you can say after four steps,
 
 831
 00:55:20,840 --> 00:55:23,899
-基本上我有八个进程都有消息，对吧？
+我基本上有八个进程都有消息，对吧？
 I basically have eight ranks having a message, right?
 
 832
@@ -4165,32 +4165,32 @@ Okay? And I can prove that the steps needed to initiate the communication is min
 
 834
 00:55:34,700 --> 00:55:36,739
-使用这棵生成树。
+用这个生成树来实现。
 using this spanning tree.
 
 835
 00:55:36,739 --> 00:55:43,719
-明白了吗？所以这个算法基本上就是用来最小化 Alpha 项的，好吗？
+明白了吗？所以这个算法基本上就是用来最小化Alpha项的，好吗？
 Okay? That's why this algorithm is basically used for minimize Alpha term, okay?
 
 836
 00:55:43,719 --> 00:55:50,049
-有什么问题吗？没问题。好的。
+有什么问题吗？没有？好。
 Any question? Cool. Okay.
 
 837
 00:55:50,049 --> 00:55:53,170
-嗯，现在我们来探索一下。
+嗯，现在我们来尝试探索一下。
 Um, now let's try to explore.
 
 838
 00:55:53,170 --> 00:55:55,330
-顺便说一下，你们可以忽略这些方程。
+顺便说一下，这些公式你们可以忽略。
 By the way, you can ignore these equations.
 
 839
 00:55:55,330 --> 00:55:58,549
-好的，我不会讲这些，考试也不会考。
+好的，这部分我不会讲，考试也不会考。
 Okay. I'm not going to cover this, and it's not covered in exam.
 
 840

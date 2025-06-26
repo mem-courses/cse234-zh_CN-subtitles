@@ -1,0 +1,8241 @@
+1
+00:00:04,900 --> 00:00:08,460
+Okay. Let's get started.
+The last class.
+
+2
+00:00:08,460 --> 00:00:16,980
+Yeah. Yeah, let's just step
+into the main content,
+
+3
+00:00:16,980 --> 00:00:21,819
+and I think we were
+covering serving serving.
+
+4
+00:00:21,819 --> 00:00:23,940
+Essentially, we
+have large bases,
+
+5
+00:00:23,940 --> 00:00:27,500
+and we identified here
+three bottleneck.
+
+6
+00:00:27,500 --> 00:00:29,139
+The first one is how to batch.
+
+7
+00:00:29,139 --> 00:00:32,099
+Second one, managing TV catch.
+
+8
+00:00:32,099 --> 00:00:34,379
+And the third one, if you have
+
+9
+00:00:34,379 --> 00:00:35,779
+a latency constraint then
+
+10
+00:00:35,779 --> 00:00:38,020
+how you should change
+your architecture.
+
+11
+00:00:38,020 --> 00:00:40,219
+For the first one,
+I think we covered
+
+12
+00:00:40,219 --> 00:00:43,979
+the continuous batching which
+is a pretty good technique,
+
+13
+00:00:43,979 --> 00:00:46,154
+20 X throughput improvement.
+
+14
+00:00:46,154 --> 00:00:48,409
+Second one, page tangen.
+
+15
+00:00:48,409 --> 00:00:50,409
+We manage the key memory as if
+
+16
+00:00:50,409 --> 00:00:53,209
+we are managing the memory
+in operating systems.
+
+17
+00:00:53,209 --> 00:00:55,809
+And then we start talking about
+
+18
+00:00:55,809 --> 00:00:58,289
+the SO service level objective
+
+19
+00:00:58,289 --> 00:01:00,289
+like we want to maximize through
+
+20
+00:01:00,289 --> 00:01:03,330
+while we want to adhere
+to these constraints.
+
+21
+00:01:03,330 --> 00:01:05,889
+So how we do that. We
+were talking about
+
+22
+00:01:05,889 --> 00:01:07,849
+the disaggregate prefill and
+
+23
+00:01:07,849 --> 00:01:11,249
+decode the two phases in
+inference. Okay. Let's continue.
+
+24
+00:01:11,249 --> 00:01:13,449
+This is a pretty nice g.
+
+25
+00:01:13,449 --> 00:01:17,049
+The only difference
+between dis aggregate
+
+26
+00:01:17,049 --> 00:01:18,169
+gate architecture and the
+
+27
+00:01:18,169 --> 00:01:19,649
+previous architecture
+is that we put
+
+28
+00:01:19,649 --> 00:01:21,169
+prefill and decode on
+
+29
+00:01:21,169 --> 00:01:24,120
+different devices,
+for example, GPUs.
+
+30
+00:01:24,120 --> 00:01:27,149
+And because we do this,
+so what will happen?
+
+31
+00:01:27,149 --> 00:01:28,990
+Because prefer and decode,
+
+32
+00:01:28,990 --> 00:01:31,750
+they will basically
+both use model weights.
+
+33
+00:01:31,750 --> 00:01:34,189
+The first difference is
+that we are going to
+
+34
+00:01:34,189 --> 00:01:37,830
+replicate model weights
+on two parts of devices,
+
+35
+00:01:37,830 --> 00:01:41,029
+and that is a memory
+cost, of course.
+
+36
+00:01:41,029 --> 00:01:44,510
+That means that if you have
+a very small scale cluster,
+
+37
+00:01:44,510 --> 00:01:46,269
+you shouldn't do this because it
+
+38
+00:01:46,269 --> 00:01:48,669
+was a lot of memory for
+replicating weights.
+
+39
+00:01:48,669 --> 00:01:50,989
+That's why I disagree
+with prefer and decode,
+
+40
+00:01:50,989 --> 00:01:53,830
+they actually work in a
+relatively larger scale,
+
+41
+00:01:53,830 --> 00:01:55,350
+like you have a lot of GPs
+
+42
+00:01:55,350 --> 00:01:57,459
+where memory is not
+an issue, okay?
+
+43
+00:01:57,459 --> 00:01:59,609
+The second difference
+is that because
+
+44
+00:01:59,609 --> 00:02:01,970
+prefer and decode when
+they do this competition,
+
+45
+00:02:01,970 --> 00:02:04,170
+they only need to
+return to v catches.
+
+46
+00:02:04,170 --> 00:02:06,249
+But the V catch will be first
+
+47
+00:02:06,249 --> 00:02:09,010
+computed on the prefilled GPUs.
+
+48
+00:02:09,010 --> 00:02:10,930
+But I said that we want to
+
+49
+00:02:10,930 --> 00:02:12,969
+put these two phases
+on different GPUs.
+
+50
+00:02:12,969 --> 00:02:14,130
+That means that when we
+
+51
+00:02:14,130 --> 00:02:16,010
+proceed to the next
+phase in decoding,
+
+52
+00:02:16,010 --> 00:02:18,210
+we have to migrate the V catch
+
+53
+00:02:18,210 --> 00:02:21,489
+and that will incur
+communication.
+
+54
+00:02:21,489 --> 00:02:23,530
+But this is pretty exampleable
+
+55
+00:02:23,530 --> 00:02:25,809
+because we only need
+to migrate that once.
+
+56
+00:02:25,809 --> 00:02:28,090
+It's quite different
+from in training,
+
+57
+00:02:28,090 --> 00:02:29,810
+every iteration we
+need to do that.
+
+58
+00:02:29,810 --> 00:02:31,415
+Here, we just do it once.
+
+59
+00:02:31,415 --> 00:02:34,300
+Okay. So here's the
+new architecture.
+
+60
+00:02:34,300 --> 00:02:35,580
+That's pretty new, okay.
+
+61
+00:02:35,580 --> 00:02:37,380
+This was developed last year,
+
+62
+00:02:37,380 --> 00:02:39,540
+but soon this dominates
+
+63
+00:02:39,540 --> 00:02:43,219
+Aserving and this is becoming
+the new architecture,
+
+64
+00:02:43,219 --> 00:02:44,859
+the default architecture adopted
+
+65
+00:02:44,859 --> 00:02:46,740
+in big companies like Open Air.
+
+66
+00:02:46,740 --> 00:02:49,100
+Okay? To give you some
+
+67
+00:02:49,100 --> 00:02:53,019
+more in depth understanding
+of why this works,
+
+68
+00:02:53,019 --> 00:02:55,980
+I will give you I will go
+through the slide, okay?
+
+69
+00:02:55,980 --> 00:02:59,340
+So let's see a very
+concrete example where, um,
+
+70
+00:02:59,340 --> 00:03:01,140
+why this simple strategy that is
+
+71
+00:03:01,140 --> 00:03:03,780
+desired in prefer and
+decode would work, okay?
+
+72
+00:03:03,780 --> 00:03:06,060
+So this is the real
+profile, okay?
+
+73
+00:03:06,060 --> 00:03:09,740
+We did from a co located system
+that is a system that is
+
+74
+00:03:09,740 --> 00:03:11,980
+not doing disaggregation
+co location
+
+75
+00:03:11,980 --> 00:03:13,780
+like continuous matching, okay.
+
+76
+00:03:13,780 --> 00:03:16,980
+And in the XX, you
+basically observe
+
+77
+00:03:16,980 --> 00:03:18,379
+the request rate that is
+
+78
+00:03:18,379 --> 00:03:20,940
+the incoming rate request
+is increasing, right?
+
+79
+00:03:20,940 --> 00:03:26,530
+And in the Y XX is basically
+the basically latency.
+
+80
+00:03:26,530 --> 00:03:28,530
+And the reason we draw a line
+
+81
+00:03:28,530 --> 00:03:30,769
+because we want to subject
+to latent constraint.
+
+82
+00:03:30,769 --> 00:03:33,250
+We cannot request
+beyond that line.
+
+83
+00:03:33,250 --> 00:03:35,250
+Okay? And the reason
+this curve is
+
+84
+00:03:35,250 --> 00:03:36,330
+increasing is because as
+
+85
+00:03:36,330 --> 00:03:37,850
+more requests come
+into our system,
+
+86
+00:03:37,850 --> 00:03:39,970
+they are going to compete
+in further resources.
+
+87
+00:03:39,970 --> 00:03:43,130
+That's why your system is
+going to accept more requests.
+
+88
+00:03:43,130 --> 00:03:45,450
+So those requests will basically
+
+89
+00:03:45,450 --> 00:03:48,809
+sharing resources and less
+requests will be satisfied.
+
+90
+00:03:48,809 --> 00:03:51,730
+The average latency
+will increase, okay?
+
+91
+00:03:51,730 --> 00:03:54,770
+So we can see
+
+92
+00:03:54,770 --> 00:03:57,170
+from the upper figure that
+this system can roughly
+
+93
+00:03:57,170 --> 00:03:59,809
+support three
+requests per second
+
+94
+00:03:59,809 --> 00:04:01,689
+that stay within the first
+
+95
+00:04:01,689 --> 00:04:03,929
+latent constraint,
+which is DTFT.
+
+96
+00:04:03,929 --> 00:04:06,530
+Okay? And if you look
+at the second figure,
+
+97
+00:04:06,530 --> 00:04:11,129
+this system can roughly serve
+1.6 requests per second,
+
+98
+00:04:11,129 --> 00:04:13,969
+that stay within the
+second latent constraint,
+
+99
+00:04:13,969 --> 00:04:19,529
+which is TPOT tokens per second
+time per out token, okay?
+
+100
+00:04:19,529 --> 00:04:22,850
+And if we want to impose
+both constraints,
+
+101
+00:04:22,850 --> 00:04:24,170
+then essentially we need
+
+102
+00:04:24,170 --> 00:04:25,689
+to take a minimum of
+these two, right,
+
+103
+00:04:25,689 --> 00:04:27,249
+which is a Like,
+
+104
+00:04:27,249 --> 00:04:28,970
+if we do this kind
+of architecture,
+
+105
+00:04:28,970 --> 00:04:30,569
+we roughly can serve
+
+106
+00:04:30,569 --> 00:04:34,410
+1.6 RPs RPs basically stands
+for requests per second.
+
+107
+00:04:34,410 --> 00:04:35,809
+That is a pretty good metric
+
+108
+00:04:35,809 --> 00:04:37,490
+that people talk
+about in observing,
+
+109
+00:04:37,490 --> 00:04:40,529
+like how many RPs you
+can serve using one GPU.
+
+110
+00:04:40,529 --> 00:04:42,569
+Now let's see how this
+
+111
+00:04:42,569 --> 00:04:44,964
+aggregation changes
+this picture, okay?
+
+112
+00:04:44,964 --> 00:04:47,800
+So here I'm adopting
+
+113
+00:04:47,800 --> 00:04:49,439
+a disaggregated
+architecture where
+
+114
+00:04:49,439 --> 00:04:51,440
+I use a so called 2p1d.
+
+115
+00:04:51,440 --> 00:04:53,920
+And this is also a
+conventional form
+
+116
+00:04:53,920 --> 00:04:56,160
+that you represent
+the disaggregation.
+
+117
+00:04:56,160 --> 00:04:57,759
+2p1d means that you allocate
+
+118
+00:04:57,759 --> 00:05:00,719
+two GPUs for pre fill
+and one GPU for decode.
+
+119
+00:05:00,719 --> 00:05:03,640
+So basically XP D means
+
+120
+00:05:03,640 --> 00:05:06,879
+that X GPU for prefill
+and Y for decode, okay?
+
+121
+00:05:06,879 --> 00:05:09,839
+And of course, like I showed
+you in my previous slide,
+
+122
+00:05:09,839 --> 00:05:11,679
+they need to replicate
+the model with,
+
+123
+00:05:11,679 --> 00:05:14,119
+okay, and they need
+to communicate catch.
+
+124
+00:05:14,119 --> 00:05:16,120
+But what happens here is
+
+125
+00:05:16,120 --> 00:05:18,839
+you'll find a pretty
+interesting phenomena, right?
+
+126
+00:05:18,839 --> 00:05:21,240
+So both curves are
+flattened a little bit,
+
+127
+00:05:21,240 --> 00:05:23,834
+right, compared to LY.
+
+128
+00:05:23,834 --> 00:05:26,150
+It's because you now put
+
+129
+00:05:26,150 --> 00:05:27,990
+pre fill and decode
+on different DPs.
+
+130
+00:05:27,990 --> 00:05:29,710
+So prefilled phase
+is not going to
+
+131
+00:05:29,710 --> 00:05:31,469
+compete with decoding phase.
+
+132
+00:05:31,469 --> 00:05:33,350
+They are operating
+on different DPLs,
+
+133
+00:05:33,350 --> 00:05:35,229
+which means that the
+prefil can run more
+
+134
+00:05:35,229 --> 00:05:37,150
+smoothly than putting together
+
+135
+00:05:37,150 --> 00:05:39,069
+with decode and decode
+can also run more
+
+136
+00:05:39,069 --> 00:05:41,230
+smoothly than putting
+together with prefill.
+
+137
+00:05:41,230 --> 00:05:44,029
+That's why this curve
+with flatten that is,
+
+138
+00:05:44,029 --> 00:05:45,910
+if you want to subject
+to constraint,
+
+139
+00:05:45,910 --> 00:05:47,509
+you can actually
+serve more rates.
+
+140
+00:05:47,509 --> 00:05:50,149
+And if you look at these
+two, in the first figure,
+
+141
+00:05:50,149 --> 00:05:52,829
+if you want to subject to
+the let constraint which is
+
+142
+00:05:52,829 --> 00:05:56,310
+P line TT oft smaller
+than 400 milliseconds,
+
+143
+00:05:56,310 --> 00:06:02,279
+we can roughly serve
+5.6 RPs using two GPUs.
+
+144
+00:06:02,279 --> 00:06:04,759
+And in the second
+figure, you can say,
+
+145
+00:06:04,759 --> 00:06:07,519
+if we only put decode, we
+only all GPU to run decode,
+
+146
+00:06:07,519 --> 00:06:10,759
+we can basically serve
+roughly, I think it's ten,
+
+147
+00:06:10,759 --> 00:06:15,239
+ten RPs and you can
+calculate the goodput.
+
+148
+00:06:15,239 --> 00:06:18,319
+So basically, I use two GPUs,
+
+149
+00:06:18,319 --> 00:06:25,729
+a Sorry, that figure is
+5.6 RPs per GPO, okay?
+
+150
+00:06:25,729 --> 00:06:29,689
+So if you use two GPO is
+basically 5.6 times two, okay?
+
+151
+00:06:29,689 --> 00:06:33,209
+And on decode, you only
+allocate one GPU decode, right?
+
+152
+00:06:33,209 --> 00:06:34,969
+That is ten, and
+you take a minimum,
+
+153
+00:06:34,969 --> 00:06:37,449
+right, which is
+basically ten, right?
+
+154
+00:06:37,449 --> 00:06:38,809
+And you divide it
+by the number of
+
+155
+00:06:38,809 --> 00:06:40,569
+GPUs total GPOs you use.
+
+156
+00:06:40,569 --> 00:06:42,489
+So you can see, I
+can solve roughly
+
+157
+00:06:42,489 --> 00:06:45,689
+3.3 RPs per GPU, okay?
+
+158
+00:06:45,689 --> 00:06:47,290
+That is, I can solve
+
+159
+00:06:47,290 --> 00:06:48,530
+this many requests per second
+
+160
+00:06:48,530 --> 00:06:50,529
+that are subject to constraints.
+
+161
+00:06:50,529 --> 00:06:52,569
+Okay. And if you compare
+
+162
+00:06:52,569 --> 00:06:54,249
+the per GPO goodput that
+
+163
+00:06:54,249 --> 00:06:56,449
+can serve on the
+right hand figure,
+
+164
+00:06:56,449 --> 00:06:58,170
+I use G 3.3,
+
+165
+00:06:58,170 --> 00:06:59,769
+but per GPO 3.3,
+
+166
+00:06:59,769 --> 00:07:02,690
+on the left hand, I use one
+GPU, but it is only 1.6.
+
+167
+00:07:02,690 --> 00:07:05,050
+I have doubled my goodput.
+
+168
+00:07:05,050 --> 00:07:06,529
+Okay. That's why, if
+
+169
+00:07:06,529 --> 00:07:08,089
+you do this kind of
+distal aggregation,
+
+170
+00:07:08,089 --> 00:07:10,850
+you are essentially,
+getting a lot of goodput.
+
+171
+00:07:10,850 --> 00:07:13,760
+Okay? So to summarize,
+
+172
+00:07:13,760 --> 00:07:15,559
+simple deaggregation helps us
+
+173
+00:07:15,559 --> 00:07:18,720
+achieve two X output per GPU.
+
+174
+00:07:18,720 --> 00:07:20,759
+And this is why, like,
+
+175
+00:07:20,759 --> 00:07:23,399
+as applications mature, people,
+
+176
+00:07:23,399 --> 00:07:25,480
+especially the
+service providers,
+
+177
+00:07:25,480 --> 00:07:26,640
+they care about latency.
+
+178
+00:07:26,640 --> 00:07:29,280
+They want to provide the
+best quality user experience
+
+179
+00:07:29,280 --> 00:07:31,199
+to their users,
+and they started,
+
+180
+00:07:31,199 --> 00:07:34,080
+kind of like grinding on
+this latency constraint,
+
+181
+00:07:34,080 --> 00:07:35,999
+and this deaggregation
+architecture
+
+182
+00:07:35,999 --> 00:07:37,599
+basically took off, okay?
+
+183
+00:07:37,599 --> 00:07:39,239
+A little bit more,
+okay, this paper was
+
+184
+00:07:39,239 --> 00:07:41,239
+published by B, in my lab,
+
+185
+00:07:41,239 --> 00:07:45,039
+and apparently we betted
+on the right thing,
+
+186
+00:07:45,039 --> 00:07:48,359
+and we wrote this paper
+in the end of 2023.
+
+187
+00:07:48,359 --> 00:07:51,119
+And at the time this
+paper was written,
+
+188
+00:07:51,119 --> 00:07:52,799
+it was not quite popular.
+
+189
+00:07:52,799 --> 00:07:54,559
+But for some reason, you know,
+
+190
+00:07:54,559 --> 00:07:58,159
+this am serving like this case,
+
+191
+00:07:58,159 --> 00:08:00,000
+it's becoming more
+and more competitive.
+
+192
+00:08:00,000 --> 00:08:03,760
+And like open air Anthropic
+a lot of endpoint providers,
+
+193
+00:08:03,760 --> 00:08:05,730
+they try to gain customers.
+
+194
+00:08:05,730 --> 00:08:07,769
+And the way they gain
+customers is that they try to
+
+195
+00:08:07,769 --> 00:08:09,050
+assure their customers that I
+
+196
+00:08:09,050 --> 00:08:10,450
+can give you latency
+constraints.
+
+197
+00:08:10,450 --> 00:08:12,490
+Like, if you use my
+service, you are
+
+198
+00:08:12,490 --> 00:08:13,650
+going to have a better latency
+
+199
+00:08:13,650 --> 00:08:15,049
+as well as good throughput.
+
+200
+00:08:15,049 --> 00:08:17,529
+And they start looking
+at this paper, okay?
+
+201
+00:08:17,529 --> 00:08:20,849
+And this paper was later
+amplified by deeps z three,
+
+202
+00:08:20,849 --> 00:08:22,449
+which was published
+earlier this year.
+
+203
+00:08:22,449 --> 00:08:24,530
+And I think deeps
+Wiz three basically
+
+204
+00:08:24,530 --> 00:08:26,849
+opens all the
+serving techniques,
+
+205
+00:08:26,849 --> 00:08:28,769
+and one feature they
+highlighted is that they use
+
+206
+00:08:28,769 --> 00:08:30,890
+a disaggregated
+serving architecture,
+
+207
+00:08:30,890 --> 00:08:33,109
+okay, which is this paper.
+
+208
+00:08:33,109 --> 00:08:38,409
+Okay, cool. And one more
+thing I want to add is,
+
+209
+00:08:38,409 --> 00:08:41,290
+if you compare continuous
+patching and deaggregation,
+
+210
+00:08:41,290 --> 00:08:43,450
+it seems that we are going
+back and forth, right?
+
+211
+00:08:43,450 --> 00:08:45,850
+So in continuous patching,
+we are putting it together.
+
+212
+00:08:45,850 --> 00:08:49,610
+But in deaggregation, we are
+putting in separate, okay?
+
+213
+00:08:49,610 --> 00:08:51,290
+But actually it's not because,
+
+214
+00:08:51,290 --> 00:08:54,509
+um, they are basically
+for different objectives.
+
+215
+00:08:54,509 --> 00:08:55,710
+So for continuous batching,
+
+216
+00:08:55,710 --> 00:08:57,189
+I think we don't
+care about latency.
+
+217
+00:08:57,189 --> 00:08:59,110
+We just want to make sure
+that the LGP are fully
+
+218
+00:08:59,110 --> 00:09:01,349
+utilized because by three LGP,
+
+219
+00:09:01,349 --> 00:09:03,270
+we can basically
+maximize the throughput.
+
+220
+00:09:03,270 --> 00:09:05,150
+But for this aggregation,
+
+221
+00:09:05,150 --> 00:09:07,349
+we started caring about latency.
+
+222
+00:09:07,349 --> 00:09:09,829
+That is throughput subject
+latent constraints.
+
+223
+00:09:09,829 --> 00:09:11,990
+That's why later when
+
+224
+00:09:11,990 --> 00:09:14,429
+this application area become
+more and more mature,
+
+225
+00:09:14,429 --> 00:09:16,429
+people start doing
+disaggregation.
+
+226
+00:09:16,429 --> 00:09:18,070
+And also the key insights of
+
+227
+00:09:18,070 --> 00:09:20,829
+continuous batching also
+carries to this aggregation.
+
+228
+00:09:20,829 --> 00:09:22,350
+For example, I think
+one key inside that
+
+229
+00:09:22,350 --> 00:09:24,270
+I've been spent a lot
+of time explaining
+
+230
+00:09:24,270 --> 00:09:28,200
+is basically we are
+batching MLP differently.
+
+231
+00:09:28,200 --> 00:09:31,320
+We don't badge, but we
+batch MLP at level.
+
+232
+00:09:31,320 --> 00:09:34,520
+Another key inside
+from is that we are
+
+233
+00:09:34,520 --> 00:09:37,960
+trying to exceed the finished
+request as soon as we can,
+
+234
+00:09:37,960 --> 00:09:39,160
+and we are trying to pick up
+
+235
+00:09:39,160 --> 00:09:41,160
+new requests in the
+queue as soon as we can.
+
+236
+00:09:41,160 --> 00:09:44,154
+And this is also implement
+in deaggregation.
+
+237
+00:09:44,154 --> 00:09:48,670
+Okay. Cool.
+
+238
+00:09:48,670 --> 00:09:51,470
+To wrap up this area, okay?
+
+239
+00:09:51,470 --> 00:09:54,270
+So this is basically
+I think I covered
+
+240
+00:09:54,270 --> 00:09:58,190
+four most important
+techniques in serving today.
+
+241
+00:09:58,190 --> 00:10:00,470
+And apparently inf and
+
+242
+00:10:00,470 --> 00:10:03,510
+serving is a very high
+stake research topic today,
+
+243
+00:10:03,510 --> 00:10:07,030
+because it correlates with
+how much money you can make,
+
+244
+00:10:07,030 --> 00:10:08,750
+right, if you want
+to become a company.
+
+245
+00:10:08,750 --> 00:10:10,670
+So that's why this is
+a pretty hot area.
+
+246
+00:10:10,670 --> 00:10:12,149
+A lot of PhD students,
+
+247
+00:10:12,149 --> 00:10:13,510
+they are working on this, okay?
+
+248
+00:10:13,510 --> 00:10:15,750
+And roughly, I covered
+all this, right?
+
+249
+00:10:15,750 --> 00:10:18,230
+So on scheduling, we
+have conduced patching,
+
+250
+00:10:18,230 --> 00:10:20,349
+we have a disability
+prefill decoding,
+
+251
+00:10:20,349 --> 00:10:21,590
+and there's one more technique I
+
+252
+00:10:21,590 --> 00:10:23,160
+didn't cover is chunk perfil.
+
+253
+00:10:23,160 --> 00:10:24,850
+Okay, I will leave it to you.
+
+254
+00:10:24,850 --> 00:10:27,290
+And the second one is
+spectrum decoding,
+
+255
+00:10:27,290 --> 00:10:28,410
+which is you try to
+
+256
+00:10:28,410 --> 00:10:33,050
+accelerate single request
+inference. In most cases.
+
+257
+00:10:33,050 --> 00:10:35,009
+And the third one is basically
+
+258
+00:10:35,009 --> 00:10:38,009
+address the memory
+bottleneck of b catch.
+
+259
+00:10:38,009 --> 00:10:40,489
+So basically how you
+manage key catches.
+
+260
+00:10:40,489 --> 00:10:41,889
+I covered page changing,
+
+261
+00:10:41,889 --> 00:10:43,410
+but there are a lot
+of other techniques.
+
+262
+00:10:43,410 --> 00:10:45,090
+For example, if
+you don't want to
+
+263
+00:10:45,090 --> 00:10:47,089
+exactly preserve the accuracy,
+
+264
+00:10:47,089 --> 00:10:48,650
+you can do sparse v catch.
+
+265
+00:10:48,650 --> 00:10:50,410
+That is, you only
+turn to a part of
+
+266
+00:10:50,410 --> 00:10:52,650
+catch and you discard
+the rest, okay?
+
+267
+00:10:52,650 --> 00:10:55,409
+Or you can even do
+sparse changing
+
+268
+00:10:55,409 --> 00:10:59,850
+without computing like
+key catches, okay?
+
+269
+00:10:59,850 --> 00:11:02,090
+And finally, of course,
+as you may know,
+
+270
+00:11:02,090 --> 00:11:04,850
+we can optimize all this
+competition at kernel level.
+
+271
+00:11:04,850 --> 00:11:06,770
+That's what we did
+at the beginning.
+
+272
+00:11:06,770 --> 00:11:13,360
+Okay. Any questions on
+inference? Cool, cool.
+
+273
+00:11:13,360 --> 00:11:18,120
+Then let's move to our last
+topic, flash changing.
+
+274
+00:11:18,120 --> 00:11:20,120
+So why do we care
+about flash changing?
+
+275
+00:11:20,120 --> 00:11:22,040
+Because I think we
+
+276
+00:11:22,040 --> 00:11:23,880
+are going to use this
+figure again, right?
+
+277
+00:11:23,880 --> 00:11:26,000
+So we have figured
+out how to optimize
+
+278
+00:11:26,000 --> 00:11:29,639
+every component in this
+LRM except attention.
+
+279
+00:11:29,639 --> 00:11:31,800
+Okay. Let's recap, okay.
+
+280
+00:11:31,800 --> 00:11:34,810
+For all those mathemad
+we just to telling,
+
+281
+00:11:34,810 --> 00:11:36,569
+we write a pretty good kernel.
+
+282
+00:11:36,569 --> 00:11:37,970
+For those element wise,
+
+283
+00:11:37,970 --> 00:11:43,010
+we do kernel filion and
+that's what we can do.
+
+284
+00:11:43,010 --> 00:11:44,730
+But except, I think
+
+285
+00:11:44,730 --> 00:11:46,650
+it's pretty bad because
+as you can see,
+
+286
+00:11:46,650 --> 00:11:49,609
+it has a quadratic
+compute complexity
+
+287
+00:11:49,609 --> 00:11:51,850
+with respect to sequels.
+
+288
+00:11:51,850 --> 00:11:54,689
+It also has a quadratic
+memory complexity
+
+289
+00:11:54,689 --> 00:11:57,690
+with respect to, so pretty bad.
+
+290
+00:11:57,690 --> 00:11:59,090
+And it's quite different.
+
+291
+00:11:59,090 --> 00:12:01,569
+It's not a simple mathma
+because you need to
+
+292
+00:12:01,569 --> 00:12:05,690
+basically do some mathema
+and then do soft max,
+
+293
+00:12:05,690 --> 00:12:09,025
+and then you do some
+mathema again, okay?
+
+294
+00:12:09,025 --> 00:12:11,000
+So let's break this down.
+
+295
+00:12:11,000 --> 00:12:14,240
+So we how this
+works is basically
+
+296
+00:12:14,240 --> 00:12:17,880
+that we pick a column
+and row from Q and,
+
+297
+00:12:17,880 --> 00:12:19,879
+right, and we try to
+merge them together.
+
+298
+00:12:19,879 --> 00:12:22,040
+We get a matrix
+which is ebined here
+
+299
+00:12:22,040 --> 00:12:25,280
+is the previous notation
+as six lines, okay.
+
+300
+00:12:25,280 --> 00:12:27,760
+And in language model,
+because we are doing,
+
+301
+00:12:27,760 --> 00:12:31,200
+like, at generation
+or causal mask.
+
+302
+00:12:31,200 --> 00:12:34,880
+So we basically mask out
+the upper part, okay?
+
+303
+00:12:34,880 --> 00:12:37,080
+And we only care about
+the lower part because
+
+304
+00:12:37,080 --> 00:12:39,440
+one token can only to
+pre seconds, right?
+
+305
+00:12:39,440 --> 00:12:41,040
+So we max it out,
+
+306
+00:12:41,040 --> 00:12:43,120
+and then we take a
+soft max, right?
+
+307
+00:12:43,120 --> 00:12:45,000
+We lobize per row.
+
+308
+00:12:45,000 --> 00:12:47,200
+And then we use
+this lobize weight
+
+309
+00:12:47,200 --> 00:12:49,520
+to time the value matrix, right?
+
+310
+00:12:49,520 --> 00:12:52,080
+We get the output, okay?
+
+311
+00:12:52,080 --> 00:12:54,400
+And in the parent you
+
+312
+00:12:54,400 --> 00:12:56,440
+can see the problem is
+in the middle, right?
+
+313
+00:12:56,440 --> 00:12:58,679
+So basically in the middle,
+
+314
+00:12:58,679 --> 00:12:59,920
+we have to materialize
+
+315
+00:12:59,920 --> 00:13:03,839
+very very big matrix and buy
+in here and earn the sixths.
+
+316
+00:13:03,839 --> 00:13:06,480
+And this is pretty bad. Okay.
+
+317
+00:13:06,480 --> 00:13:08,960
+So one thing I want to
+
+318
+00:13:08,960 --> 00:13:11,320
+do before I explain flight
+changing is basically,
+
+319
+00:13:11,320 --> 00:13:12,960
+so how bad this is.
+
+320
+00:13:12,960 --> 00:13:14,600
+I just want to give
+you a sense, okay?
+
+321
+00:13:14,600 --> 00:13:17,600
+So I'm basically
+putting my lamber here.
+
+322
+00:13:17,600 --> 00:13:18,960
+I think you guys are already
+
+323
+00:13:18,960 --> 00:13:20,800
+very familiar with lamber, okay?
+
+324
+00:13:20,800 --> 00:13:22,759
+I'm also putting the today's GPU
+
+325
+00:13:22,759 --> 00:13:25,865
+most popular GPU as 100
+side by side, okay?
+
+326
+00:13:25,865 --> 00:13:28,689
+And so the compute complexity
+
+327
+00:13:28,689 --> 00:13:31,649
+is four B as square,
+for the attention.
+
+328
+00:13:31,649 --> 00:13:34,850
+The memory complexity
+is as squared,
+
+329
+00:13:34,850 --> 00:13:37,490
+and I'm going to assume
+a few values for
+
+330
+00:13:37,490 --> 00:13:40,970
+B and H. I basically
+take the value from Lam.
+
+331
+00:13:40,970 --> 00:13:44,970
+Here I'm processing
+bases equal to one, one,
+
+332
+00:13:44,970 --> 00:13:47,290
+and lab has 32
+
+333
+00:13:47,290 --> 00:13:50,249
+and H is the hidden
+dimension, which is four.
+
+334
+00:13:50,249 --> 00:13:54,089
+Pretty decent pretty
+standard numbers
+
+335
+00:13:54,089 --> 00:13:55,664
+like I get from lama.
+
+336
+00:13:55,664 --> 00:13:58,160
+Then let's assume
+as equal to four K,
+
+337
+00:13:58,160 --> 00:13:59,320
+then we start computing how
+
+338
+00:13:59,320 --> 00:14:01,159
+many flops and memory we need.
+
+339
+00:14:01,159 --> 00:14:03,639
+Fur K is not a crazy lab seque.
+
+340
+00:14:03,639 --> 00:14:07,440
+I think this language model
+can process four K tokens.
+
+341
+00:14:07,440 --> 00:14:09,120
+If you do this computing, you'll
+
+342
+00:14:09,120 --> 00:14:10,639
+find that in order to compute,
+
+343
+00:14:10,639 --> 00:14:14,160
+I roughly need 256 flops.
+
+344
+00:14:14,160 --> 00:14:16,719
+It is not big because if
+you look at the table,
+
+345
+00:14:16,719 --> 00:14:19,560
+it can process much
+more than 256, right?
+
+346
+00:14:19,560 --> 00:14:21,599
+But if you look at the memory,
+
+347
+00:14:21,599 --> 00:14:23,040
+it's a little bit crazy.
+
+348
+00:14:23,040 --> 00:14:26,519
+And if you want to
+materialize the YS or matrix,
+
+349
+00:14:26,519 --> 00:14:30,840
+it basically need
+512 gig by memory,
+
+350
+00:14:30,840 --> 00:14:32,240
+that means that I
+need to put this many
+
+351
+00:14:32,240 --> 00:14:33,680
+content on my HPM.
+
+352
+00:14:33,680 --> 00:14:37,879
+But even HI hundred
+they only have 80 giga.
+
+353
+00:14:37,879 --> 00:14:39,960
+You can see as we continue to
+
+354
+00:14:39,960 --> 00:14:42,520
+scale the sequence dimension,
+
+355
+00:14:42,520 --> 00:14:44,360
+the first bottleneck
+hit is basically
+
+356
+00:14:44,360 --> 00:14:46,960
+memory, and then compute.
+
+357
+00:14:46,960 --> 00:14:52,300
+So Yeah, that's because
+because GP achectal design,
+
+358
+00:14:52,300 --> 00:14:53,619
+GPU memory is much more
+
+359
+00:14:53,619 --> 00:14:56,340
+scarce than compute
+at this moment, okay?
+
+360
+00:14:56,340 --> 00:14:58,300
+Then let's look at
+the problem, okay.
+
+361
+00:14:58,300 --> 00:15:00,020
+There's one more problem, okay?
+
+362
+00:15:00,020 --> 00:15:04,500
+So this is basically the
+standard tangen competition.
+
+363
+00:15:04,500 --> 00:15:06,460
+Let's go with the
+line by line, okay?
+
+364
+00:15:06,460 --> 00:15:11,460
+So here we basically
+have we have our Q,
+
+365
+00:15:11,460 --> 00:15:12,980
+right, which is by D, okay.
+
+366
+00:15:12,980 --> 00:15:14,619
+We load them into HBM,
+
+367
+00:15:14,619 --> 00:15:16,700
+that is bandwidth memory.
+
+368
+00:15:16,700 --> 00:15:20,819
+The first step is we basically
+load at Q and into HBM,
+
+369
+00:15:20,819 --> 00:15:22,740
+and we compute, okay,
+
+370
+00:15:22,740 --> 00:15:25,575
+and then we write to HBM, okay?
+
+371
+00:15:25,575 --> 00:15:28,969
+Um, and here, apparently,
+this is a mathema,
+
+372
+00:15:28,969 --> 00:15:30,809
+so you can do ting,
+
+373
+00:15:30,809 --> 00:15:32,849
+right, and you know
+how to do ling.
+
+374
+00:15:32,849 --> 00:15:34,730
+So that's why I said
+this is by blocks,
+
+375
+00:15:34,730 --> 00:15:36,010
+you load block by block,
+
+376
+00:15:36,010 --> 00:15:37,530
+and you do ting, okay?
+
+377
+00:15:37,530 --> 00:15:39,049
+And once you compute,
+
+378
+00:15:39,049 --> 00:15:42,970
+you basically put
+back to HBM, right?
+
+379
+00:15:42,970 --> 00:15:45,090
+And you start doing
+
+380
+00:15:45,090 --> 00:15:49,010
+the softmax of S. So in
+order to do softmax of S,
+
+381
+00:15:49,010 --> 00:15:53,489
+all you do is you need to
+read back from HBM to SRM?
+
+382
+00:15:53,489 --> 00:15:55,809
+So you perform softmax,
+
+383
+00:15:55,809 --> 00:15:58,290
+and you get the P and
+P is the same shape
+
+384
+00:15:58,290 --> 00:16:01,530
+of P is normalized from S, okay?
+
+385
+00:16:01,530 --> 00:16:04,345
+And you write P back to HBM.
+
+386
+00:16:04,345 --> 00:16:06,600
+Okay. As once you get P,
+
+387
+00:16:06,600 --> 00:16:10,360
+you basically load P
+from HBM to RM again,
+
+388
+00:16:10,360 --> 00:16:11,880
+you perform another matmod.
+
+389
+00:16:11,880 --> 00:16:13,680
+This is P times V,
+
+390
+00:16:13,680 --> 00:16:16,439
+teen square times
+the value matrix,
+
+391
+00:16:16,439 --> 00:16:18,640
+and you get the result O,
+
+392
+00:16:18,640 --> 00:16:20,199
+and this O is much
+better because
+
+393
+00:16:20,199 --> 00:16:21,800
+it's not as bad
+as anymore, okay?
+
+394
+00:16:21,800 --> 00:16:24,119
+But you need to
+write O back to HBM?
+
+395
+00:16:24,119 --> 00:16:26,640
+And of course, you know
+how to do this, right?
+
+396
+00:16:26,640 --> 00:16:28,160
+This matmod so you do telling.
+
+397
+00:16:28,160 --> 00:16:30,880
+That's why you read
+block by block, okay?
+
+398
+00:16:31,180 --> 00:16:34,299
+Okay. But you already
+found the problem.
+
+399
+00:16:34,299 --> 00:16:36,099
+The problem is that
+we are repeatedly
+
+400
+00:16:36,099 --> 00:16:38,260
+reading and writing
+the bigger one,
+
+401
+00:16:38,260 --> 00:16:43,700
+SS and by matrix from
+HBM to R. And this
+
+402
+00:16:43,700 --> 00:16:46,860
+basically is another
+issue that is you not
+
+403
+00:16:46,860 --> 00:16:50,259
+only suffer from the problem
+of having SYS matrix,
+
+404
+00:16:50,259 --> 00:16:51,540
+which is take a lot of memory,
+
+405
+00:16:51,540 --> 00:16:53,100
+you also need to read
+and write between
+
+406
+00:16:53,100 --> 00:16:55,260
+that matrix between
+the memory hierarchy
+
+407
+00:16:55,260 --> 00:16:56,710
+and which is pretty slow.
+
+408
+00:16:56,710 --> 00:17:00,960
+Okay? So, like I said,
+
+409
+00:17:00,960 --> 00:17:03,240
+we know how to
+optimize the first one
+
+410
+00:17:03,240 --> 00:17:05,679
+to avoid a lot of read
+and write, right.
+
+411
+00:17:05,679 --> 00:17:08,159
+We also know how to tell
+
+412
+00:17:08,159 --> 00:17:11,720
+the third one because both
+are basically mathema.
+
+413
+00:17:11,720 --> 00:17:13,600
+But the problem
+is on the softmax
+
+414
+00:17:13,600 --> 00:17:16,069
+and we don't know how
+to do that, okay?
+
+415
+00:17:16,069 --> 00:17:18,179
+To give you more sense,
+
+416
+00:17:18,179 --> 00:17:20,459
+this is the memory on today.
+
+417
+00:17:20,459 --> 00:17:24,579
+So GPHB has, for example,
+40 gigayt memory,
+
+418
+00:17:24,579 --> 00:17:26,419
+but reading and writing to
+
+419
+00:17:26,419 --> 00:17:28,740
+it is only 1.5 terabytes/second,
+
+420
+00:17:28,740 --> 00:17:30,380
+but SRM is much better.
+
+421
+00:17:30,380 --> 00:17:32,180
+If you continue to read between
+
+422
+00:17:32,180 --> 00:17:35,980
+SRM HBM you'll basically
+suffer from that bottleneck,
+
+423
+00:17:35,980 --> 00:17:38,019
+which is 1.5 tB per second.
+
+424
+00:17:38,019 --> 00:17:40,759
+Okay? Cool. And then
+
+425
+00:17:40,759 --> 00:17:43,159
+we start introducing
+flight changing, okay?
+
+426
+00:17:43,159 --> 00:17:46,199
+So basically flight changing
+address this one, okay?
+
+427
+00:17:46,199 --> 00:17:50,119
+That's why it is so I would
+say, remarkable, okay?
+
+428
+00:17:50,119 --> 00:17:52,479
+And of course, today
+is three, okay?
+
+429
+00:17:52,479 --> 00:17:54,999
+And here I basically
+took their I
+
+430
+00:17:54,999 --> 00:18:00,079
+think brand when they
+were three at two, okay?
+
+431
+00:18:00,340 --> 00:18:03,859
+So the idea is pretty
+simple, right?
+
+432
+00:18:03,859 --> 00:18:05,380
+So like I said, the problem
+
+433
+00:18:05,380 --> 00:18:08,099
+happens because you
+have this, okay?
+
+434
+00:18:08,099 --> 00:18:11,980
+This is pretty bad. And so
+this is bad because first,
+
+435
+00:18:11,980 --> 00:18:13,139
+it takes a lot of memory.
+
+436
+00:18:13,139 --> 00:18:15,939
+Second, it takes a lot of read
+and write between memory.
+
+437
+00:18:15,939 --> 00:18:19,700
+So in order to address this
+is the idea is pretty simple.
+
+438
+00:18:19,700 --> 00:18:21,859
+Like how is there
+algorithms that we
+
+439
+00:18:21,859 --> 00:18:24,819
+can avoid actually
+materializing sense,
+
+440
+00:18:24,819 --> 00:18:27,059
+but we still get
+the final results.
+
+441
+00:18:27,059 --> 00:18:28,899
+Okay? That is what
+we did when we
+
+442
+00:18:28,899 --> 00:18:30,979
+do telling at the
+manum level, right?
+
+443
+00:18:30,979 --> 00:18:33,139
+So we never read the
+entire matrix into run,
+
+444
+00:18:33,139 --> 00:18:35,649
+but we can still perform
+the limitation, okay?
+
+445
+00:18:35,649 --> 00:18:38,919
+And once we have a
+technique to avoid,
+
+446
+00:18:38,919 --> 00:18:40,760
+we have at least two benefits.
+
+447
+00:18:40,760 --> 00:18:42,479
+One is we don't have to pay
+
+448
+00:18:42,479 --> 00:18:44,519
+the peak memory
+to stress, right?
+
+449
+00:18:44,519 --> 00:18:47,320
+Second is we can avoid reading
+
+450
+00:18:47,320 --> 00:18:50,959
+and writing repeatedly
+between memory.
+
+451
+00:18:50,959 --> 00:18:55,379
+Okay? So but like I said,
+
+452
+00:18:55,379 --> 00:18:58,219
+we also want to apply
+this into training,
+
+453
+00:18:58,219 --> 00:19:01,020
+not just inference in training,
+
+454
+00:19:01,020 --> 00:19:02,780
+we need to perform
+one backward path.
+
+455
+00:19:02,780 --> 00:19:04,819
+That means that if
+you indeed have
+
+456
+00:19:04,819 --> 00:19:08,220
+one approach without
+materializing grade results,
+
+457
+00:19:08,220 --> 00:19:09,659
+then the problem is
+how you can still
+
+458
+00:19:09,659 --> 00:19:11,739
+take gradients
+against that because
+
+459
+00:19:11,739 --> 00:19:13,939
+you want to propagate
+the gradient all the way
+
+460
+00:19:13,939 --> 00:19:16,419
+back through this
+forward competition.
+
+461
+00:19:16,419 --> 00:19:18,900
+You need to perform
+gradient competition
+
+462
+00:19:18,900 --> 00:19:20,340
+against and then QK,
+
+463
+00:19:20,340 --> 00:19:22,340
+and then the parameters.
+
+464
+00:19:22,340 --> 00:19:24,019
+So that's another problem.
+
+465
+00:19:24,019 --> 00:19:28,140
+Okay. And essentially
+flight extension fix
+
+466
+00:19:28,140 --> 00:19:30,979
+actually solve both
+problems, okay?
+
+467
+00:19:31,160 --> 00:19:34,880
+To give you a recap,
+basically in mathema class,
+
+468
+00:19:34,880 --> 00:19:37,000
+what we do is, we do telling.
+
+469
+00:19:37,000 --> 00:19:40,239
+Every time we read a
+block and we perform
+
+470
+00:19:40,239 --> 00:19:42,319
+that competition on tram by
+
+471
+00:19:42,319 --> 00:19:44,480
+reusing the loading
+of the blocks,
+
+472
+00:19:44,480 --> 00:19:47,399
+and that can basically
+accelerate a lot.
+
+473
+00:19:47,640 --> 00:19:50,920
+And we know how to do telling
+
+474
+00:19:50,920 --> 00:19:53,519
+for matabol and our problem
+
+475
+00:19:53,519 --> 00:19:56,070
+is hard to tell in for softmax.
+
+476
+00:19:56,070 --> 00:19:58,739
+Okay. So let's get started.
+
+477
+00:19:58,739 --> 00:20:02,379
+Indeed, there's an algorithm
+that allows us to tell it,
+
+478
+00:20:02,379 --> 00:20:05,779
+but not for softmax,
+but for something else.
+
+479
+00:20:05,779 --> 00:20:08,020
+Before we understand
+the algorithm,
+
+480
+00:20:08,020 --> 00:20:09,980
+I want to go one by one,
+like I did for Band,
+
+481
+00:20:09,980 --> 00:20:11,739
+I'm going to tell you
+version one, routine two,
+
+482
+00:20:11,739 --> 00:20:14,499
+sin three, and eventually
+we reach flattenion.
+
+483
+00:20:14,499 --> 00:20:17,500
+So before you can
+understand flatten,
+
+484
+00:20:17,500 --> 00:20:19,180
+I think you want to
+understand softmax because
+
+485
+00:20:19,180 --> 00:20:22,099
+softmax apparently is the
+critical component here.
+
+486
+00:20:22,099 --> 00:20:24,300
+So how to implement softmax.
+
+487
+00:20:24,300 --> 00:20:26,179
+This is softmax. I would like to
+
+488
+00:20:26,179 --> 00:20:28,100
+look at this for
+maybe 10 seconds.
+
+489
+00:20:28,100 --> 00:20:30,259
+Pretty simple, okay.
+
+490
+00:20:39,900 --> 00:20:43,500
+Let's pass this. This
+is pretty simple.
+
+491
+00:20:43,500 --> 00:20:48,179
+We have V inputs which
+is basically this X.
+
+492
+00:20:48,179 --> 00:20:51,099
+What we do is in order
+to compute the softmax,
+
+493
+00:20:51,099 --> 00:20:52,979
+we are having two loops.
+
+494
+00:20:52,979 --> 00:20:54,539
+In the first loop,
+we are basically
+
+495
+00:20:54,539 --> 00:20:56,859
+take exponential of each input,
+
+496
+00:20:56,859 --> 00:20:59,579
+we accumulate them into
+
+497
+00:20:59,579 --> 00:21:02,580
+this D. And once we
+finish the loop,
+
+498
+00:21:02,580 --> 00:21:05,179
+we will basically
+get a D capital V,
+
+499
+00:21:05,179 --> 00:21:06,940
+which is the accumulation.
+
+500
+00:21:06,940 --> 00:21:10,900
+And in the second loop, we
+basically do normalization.
+
+501
+00:21:10,900 --> 00:21:12,940
+Okay. Very, very simple.
+
+502
+00:21:12,940 --> 00:21:15,700
+But this is problematic.
+
+503
+00:21:15,700 --> 00:21:17,180
+I think you already encountered
+
+504
+00:21:17,180 --> 00:21:18,779
+this issue in your homework one,
+
+505
+00:21:18,779 --> 00:21:21,139
+this can easily go
+overflow because
+
+506
+00:21:21,139 --> 00:21:23,980
+you are taking an
+exponential of lamber?
+
+507
+00:21:23,980 --> 00:21:26,180
+And if you do this combination,
+
+508
+00:21:26,180 --> 00:21:29,700
+say if you do integer very
+low precision integer,
+
+509
+00:21:29,700 --> 00:21:30,979
+it can go overflow, right?
+
+510
+00:21:30,979 --> 00:21:33,859
+So The problem of this like
+
+511
+00:21:33,859 --> 00:21:35,579
+vanilla original flavor of
+
+512
+00:21:35,579 --> 00:21:38,220
+soft max is that it
+can go overflow.
+
+513
+00:21:38,220 --> 00:21:40,700
+So apparently, we can
+fix this very easily.
+
+514
+00:21:40,700 --> 00:21:42,819
+That is, we do a save soft max.
+
+515
+00:21:42,819 --> 00:21:45,899
+So in the sip soft max,
+what we do is basically,
+
+516
+00:21:45,899 --> 00:21:49,299
+instead of directly taking the
+exponential of each input,
+
+517
+00:21:49,299 --> 00:21:52,420
+we are going to minus
+the maximum input
+
+518
+00:21:52,420 --> 00:21:55,699
+from each input and we take
+a smaller exponential, okay?
+
+519
+00:21:55,699 --> 00:21:57,499
+And apparently this is going to
+
+520
+00:21:57,499 --> 00:22:00,099
+reduce the risk of
+going overflow, right?
+
+521
+00:22:00,099 --> 00:22:02,020
+So this is S max,
+
+522
+00:22:02,020 --> 00:22:03,380
+I think manual you implement
+
+523
+00:22:03,380 --> 00:22:05,219
+this in your
+homework one, right?
+
+524
+00:22:05,219 --> 00:22:06,979
+So essentially what is this?
+
+525
+00:22:06,979 --> 00:22:09,024
+It's basically
+another loop, right?
+
+526
+00:22:09,024 --> 00:22:11,870
+So in the first loop,
+
+527
+00:22:11,870 --> 00:22:13,189
+we basically try
+to figure out what
+
+528
+00:22:13,189 --> 00:22:16,189
+the max value among
+all the inputs, okay?
+
+529
+00:22:16,189 --> 00:22:18,109
+So in this loop, basically
+
+530
+00:22:18,109 --> 00:22:19,549
+we will return the
+maximum value.
+
+531
+00:22:19,549 --> 00:22:22,669
+Okay. In the second loop,
+it's the same, okay.
+
+532
+00:22:22,669 --> 00:22:24,549
+With the previous loop, we do
+
+533
+00:22:24,549 --> 00:22:26,869
+the accumulation of
+this expsure term,
+
+534
+00:22:26,869 --> 00:22:29,625
+and then we do we do oration.
+
+535
+00:22:29,625 --> 00:22:33,579
+Okay. Okay? Very simple, right?
+
+536
+00:22:33,579 --> 00:22:36,499
+So let's ask questions, right?
+
+537
+00:22:36,499 --> 00:22:38,219
+You have been doing
+this for a while, okay?
+
+538
+00:22:38,219 --> 00:22:41,379
+So this loop is not efficient
+because you are read
+
+539
+00:22:41,379 --> 00:22:43,179
+and write between
+memory and memory
+
+540
+00:22:43,179 --> 00:22:45,460
+hieros in three loops.
+
+541
+00:22:45,460 --> 00:22:48,059
+The most straightforward option
+
+542
+00:22:48,059 --> 00:22:51,900
+is we do loop operate filion.
+
+543
+00:22:51,900 --> 00:22:53,779
+So if you look at this,
+
+544
+00:22:53,779 --> 00:22:56,939
+do you think we can
+fill some loops here?
+
+545
+00:22:56,939 --> 00:23:02,989
+Okay? We indeed can,
+
+546
+00:23:02,989 --> 00:23:04,310
+because we find that
+
+547
+00:23:04,310 --> 00:23:06,550
+this loop and this
+loop are independent.
+
+548
+00:23:06,550 --> 00:23:08,630
+There's there's no variable in
+
+549
+00:23:08,630 --> 00:23:11,349
+this loop that depends on the
+value of this loop, right?
+
+550
+00:23:11,349 --> 00:23:12,829
+So we can basically do
+
+551
+00:23:12,829 --> 00:23:16,470
+a very quick fiusing
+of these two loops,
+
+552
+00:23:16,470 --> 00:23:18,830
+but if you look at this loop,
+
+553
+00:23:18,830 --> 00:23:21,350
+and this loop is pretty
+difficult to fusion
+
+554
+00:23:21,350 --> 00:23:24,309
+because apparently this
+loop, depends on value,
+
+555
+00:23:24,309 --> 00:23:27,229
+which is the capital
+A and D capital A
+
+556
+00:23:27,229 --> 00:23:30,109
+was returned at the end
+of the second loop,
+
+557
+00:23:30,109 --> 00:23:32,550
+which means that the
+second loop, uh,
+
+558
+00:23:32,550 --> 00:23:34,230
+if the second loop
+does not finish,
+
+559
+00:23:34,230 --> 00:23:36,350
+we cannot actually, uh,
+
+560
+00:23:36,350 --> 00:23:37,670
+proceed to the third loop.
+
+561
+00:23:37,670 --> 00:23:46,349
+Yeah, question. Yeah, I will
+tell you how to do that.
+
+562
+00:23:46,910 --> 00:23:49,349
+We can indeed fill these two.
+
+563
+00:23:49,349 --> 00:23:51,430
+How do you fill that? Instead of
+
+564
+00:23:51,430 --> 00:23:53,230
+directly computing
+the maximum value,
+
+565
+00:23:53,230 --> 00:23:57,230
+what we can do is we can
+create alternative sequence.
+
+566
+00:23:57,230 --> 00:23:59,110
+In this alternative sequence,
+
+567
+00:23:59,110 --> 00:24:01,910
+you can say I define a d prime,
+
+568
+00:24:01,910 --> 00:24:04,030
+and this DI prime was defined
+
+569
+00:24:04,030 --> 00:24:07,070
+as accumulation or a
+partial accumulation.
+
+570
+00:24:07,070 --> 00:24:09,350
+Does that make sense a
+partial accumulation.
+
+571
+00:24:09,350 --> 00:24:12,619
+Basically, DI means that I
+accumulate from one to I.
+
+572
+00:24:12,619 --> 00:24:14,729
+Okay. And in this
+partial accumulation,
+
+573
+00:24:14,729 --> 00:24:15,809
+what I do is basically,
+
+574
+00:24:15,809 --> 00:24:18,690
+I use my current value X
+
+575
+00:24:18,690 --> 00:24:20,729
+the current index value to minus
+
+576
+00:24:20,729 --> 00:24:23,450
+the current maximum,
+I already scan.
+
+577
+00:24:23,450 --> 00:24:26,450
+Okay? And once I define
+this alternative sequence,
+
+578
+00:24:26,450 --> 00:24:29,690
+what I discovered is that
+I find the first thing I
+
+579
+00:24:29,690 --> 00:24:33,489
+find is when I
+equals to V right?
+
+580
+00:24:33,489 --> 00:24:35,610
+Dv prime equals to dv.
+
+581
+00:24:35,610 --> 00:24:37,569
+That is, if I look
+over a sequence,
+
+582
+00:24:37,569 --> 00:24:39,929
+I still get my dv, which
+is exactly the same.
+
+583
+00:24:39,929 --> 00:24:42,289
+Then the idea is,
+how about I just
+
+584
+00:24:42,289 --> 00:24:45,530
+define I create a
+loop that I just loop
+
+585
+00:24:45,530 --> 00:24:48,290
+once and I will
+get dv and once I
+
+586
+00:24:48,290 --> 00:24:51,489
+get dv I can proceed to my
+third loop, which is good.
+
+587
+00:24:51,489 --> 00:24:53,929
+I'll finish. How to do that.
+
+588
+00:24:53,929 --> 00:24:57,809
+I can do some very simple
+mathematical derivations.
+
+589
+00:24:57,809 --> 00:24:59,809
+Because I define
+this in this way,
+
+590
+00:24:59,809 --> 00:25:01,289
+right, so I write it down here.
+
+591
+00:25:01,289 --> 00:25:04,690
+So this is d. And my idea is I
+
+592
+00:25:04,690 --> 00:25:08,130
+try to find some recurrence
+in this alternative sequence.
+
+593
+00:25:08,130 --> 00:25:12,009
+So I'm going to first
+make this term out, okay?
+
+594
+00:25:12,800 --> 00:25:15,479
+From this line of this
+line is basically
+
+595
+00:25:15,479 --> 00:25:18,559
+like I leave the last item out,
+
+596
+00:25:18,559 --> 00:25:20,999
+right from the
+accumulation, okay?
+
+597
+00:25:20,999 --> 00:25:24,359
+So here I only accumulate
+from I to from
+
+598
+00:25:24,359 --> 00:25:28,319
+one to I minus one and I put
+the last item out, okay.
+
+599
+00:25:28,319 --> 00:25:30,479
+And then I'm going
+to slightly alter
+
+600
+00:25:30,479 --> 00:25:33,279
+this term to So
+from this to this,
+
+601
+00:25:33,279 --> 00:25:34,479
+what I do is I basically leave
+
+602
+00:25:34,479 --> 00:25:36,519
+another explained
+term amount, okay?
+
+603
+00:25:36,519 --> 00:25:39,039
+And because I do this,
+I found that this is
+
+604
+00:25:39,039 --> 00:25:42,519
+basically my d minus
+one prime, right?
+
+605
+00:25:42,519 --> 00:25:44,839
+So this is by definition, okay?
+
+606
+00:25:44,839 --> 00:25:46,880
+So I can basically
+substitute this with
+
+607
+00:25:46,880 --> 00:25:49,239
+my d minus one prime, okay?
+
+608
+00:25:49,239 --> 00:25:52,199
+And I started finding
+recurrence that is
+
+609
+00:25:52,199 --> 00:25:53,960
+there's a relationship between
+
+610
+00:25:53,960 --> 00:25:56,520
+d prime and d minus one prime.
+
+611
+00:25:56,520 --> 00:25:59,639
+And this relationship
+is basically show here.
+
+612
+00:25:59,639 --> 00:26:05,849
+Okay? Any question? Okay.
+
+613
+00:26:05,849 --> 00:26:08,930
+Why I care about this recurrence
+
+614
+00:26:08,930 --> 00:26:12,050
+is because by looking
+at this equation,
+
+615
+00:26:12,050 --> 00:26:15,730
+I find that when I
+calculate the d prime,
+
+616
+00:26:15,730 --> 00:26:18,960
+I actually only depend
+on a few values,
+
+617
+00:26:18,960 --> 00:26:21,280
+the first value nine is D minus
+
+618
+00:26:21,280 --> 00:26:24,800
+one prime that is the value
+of the previous iteration,
+
+619
+00:26:24,800 --> 00:26:29,279
+and a few values
+that is minus one,
+
+620
+00:26:29,279 --> 00:26:33,279
+which is the maximum I scanned
+in my previous iteration,
+
+621
+00:26:33,279 --> 00:26:34,760
+and MI that is
+
+622
+00:26:34,760 --> 00:26:39,799
+the maximum and maation
+X and MI of course.
+
+623
+00:26:39,799 --> 00:26:42,120
+That means that this is
+basically a recurrence.
+
+624
+00:26:42,120 --> 00:26:44,120
+I can calculate one
+value by one by
+
+625
+00:26:44,120 --> 00:26:46,694
+one by looping over
+this high, okay?
+
+626
+00:26:46,694 --> 00:26:48,349
+And with this, okay,
+
+627
+00:26:48,349 --> 00:26:50,509
+I can basically start putting
+
+628
+00:26:50,509 --> 00:26:52,789
+my previous like the first
+and second loop together.
+
+629
+00:26:52,789 --> 00:26:54,429
+I get this one, right.
+
+630
+00:26:54,429 --> 00:26:58,229
+Previously, I used two
+loops to get dv, right?
+
+631
+00:26:58,229 --> 00:27:01,070
+Now, I can only use
+one loop to get dV.
+
+632
+00:27:01,070 --> 00:27:03,029
+And this is pretty
+simple, right?
+
+633
+00:27:03,029 --> 00:27:06,750
+So I basically let J to
+loop from one to capital
+
+634
+00:27:06,750 --> 00:27:10,949
+V. I first compute the
+maximum M so far, right?
+
+635
+00:27:10,949 --> 00:27:14,110
+And I use this value.
+
+636
+00:27:14,110 --> 00:27:15,429
+This is my recurrence. I just
+
+637
+00:27:15,429 --> 00:27:16,750
+derived in my previous slide,
+
+638
+00:27:16,750 --> 00:27:19,589
+right, and I use that to
+calculate the dg, okay?
+
+639
+00:27:19,589 --> 00:27:22,550
+And once I scan
+through this loop,
+
+640
+00:27:22,550 --> 00:27:24,429
+and I reach my last step V,
+
+641
+00:27:24,429 --> 00:27:26,585
+I can basically get this dV.
+
+642
+00:27:26,585 --> 00:27:30,179
+Okay. Very good.
+
+643
+00:27:30,179 --> 00:27:34,780
+Cool. So this algorithm
+is called online Softmax,
+
+644
+00:27:34,780 --> 00:27:36,140
+and of course, it's also safe
+
+645
+00:27:36,140 --> 00:27:40,180
+because we have a lower
+risk of going overflow.
+
+646
+00:27:40,180 --> 00:27:43,059
+Okay? And the reason
+I introduce this
+
+647
+00:27:43,059 --> 00:27:44,620
+is because flash attention
+
+648
+00:27:44,620 --> 00:27:46,499
+is basically built
+on top of this.
+
+649
+00:27:46,499 --> 00:27:49,979
+We are basically using
+online softmax to
+
+650
+00:27:49,979 --> 00:27:54,180
+calculate the accumulation of
+that basically this loizer.
+
+651
+00:27:54,180 --> 00:27:56,579
+So let's see how we
+can connect them.
+
+652
+00:27:56,579 --> 00:27:59,700
+But before that, I want
+to ask another question.
+
+653
+00:27:59,700 --> 00:28:02,020
+Can we further fill these loops?
+
+654
+00:28:02,020 --> 00:28:03,379
+Because we still have two right?
+
+655
+00:28:03,379 --> 00:28:06,539
+So ideally we just
+want one because
+
+656
+00:28:06,539 --> 00:28:13,139
+a You can reduce memory
+I can fill these two.
+
+657
+00:28:14,580 --> 00:28:18,059
+It's pretty hard
+because like I said,
+
+658
+00:28:18,059 --> 00:28:21,539
+each step in this loop it
+depends on the value of
+
+659
+00:28:21,539 --> 00:28:23,899
+decapital we and decapital we
+
+660
+00:28:23,899 --> 00:28:26,780
+is only produced at the last
+step of the previous loop.
+
+661
+00:28:26,780 --> 00:28:30,020
+It's very hard to
+fill these loops.
+
+662
+00:28:30,260 --> 00:28:33,500
+Okay. Let's ignore it first.
+
+663
+00:28:33,500 --> 00:28:35,579
+We stop here for Softmax,
+
+664
+00:28:35,579 --> 00:28:38,460
+but let's try to basically
+put this into context.
+
+665
+00:28:38,460 --> 00:28:41,020
+Put this into the
+attention context.
+
+666
+00:28:41,020 --> 00:28:43,139
+Here I'm going to make
+things a little bit more
+
+667
+00:28:43,139 --> 00:28:45,340
+complicated but not
+so complicated.
+
+668
+00:28:45,340 --> 00:28:47,619
+I definitely believe
+you can understand.
+
+669
+00:28:47,619 --> 00:28:51,900
+We're going to put the
+online Softmax into selfing.
+
+670
+00:28:51,900 --> 00:28:54,020
+I think it's pretty simple.
+
+671
+00:28:54,020 --> 00:28:55,579
+We still like for example,
+
+672
+00:28:55,579 --> 00:28:57,499
+I have a few rotations.
+
+673
+00:28:57,499 --> 00:29:02,379
+Here I'm grab a row from
+Q. I'm grab a column from.
+
+674
+00:29:02,379 --> 00:29:07,139
+I do a dot to dot product
+to get the ten score,
+
+675
+00:29:07,139 --> 00:29:11,119
+and then because
+in my next step,
+
+676
+00:29:11,119 --> 00:29:13,560
+what I'm trying to do
+is I try to calculate
+
+677
+00:29:13,560 --> 00:29:16,840
+the soft max of all
+these 13 scores.
+
+678
+00:29:16,840 --> 00:29:20,120
+So what I do is instead of
+doing that step by step,
+
+679
+00:29:20,120 --> 00:29:22,759
+I'm going to do
+online version, okay?
+
+680
+00:29:22,759 --> 00:29:26,119
+I'm going to still remember
+this recurrence, right?
+
+681
+00:29:26,119 --> 00:29:27,880
+This is how I
+calculate soft max.
+
+682
+00:29:27,880 --> 00:29:30,119
+So every time I calculate
+the one value Xi
+
+683
+00:29:30,119 --> 00:29:33,479
+and I look over
+this from one to N,
+
+684
+00:29:33,479 --> 00:29:38,239
+and I basically
+compute my MI so far,
+
+685
+00:29:38,239 --> 00:29:41,520
+and then I use my previously
+defined recurrence
+
+686
+00:29:41,520 --> 00:29:44,354
+to get the DI prime, okay?
+
+687
+00:29:44,354 --> 00:29:48,550
+Very good. And what I
+do is I iterate from
+
+688
+00:29:48,550 --> 00:29:50,630
+one to N and eventually I will
+
+689
+00:29:50,630 --> 00:29:52,869
+be able to get
+remember DN prime.
+
+690
+00:29:52,869 --> 00:29:57,190
+And D and prime is equal to
+the soft mass accumulator.
+
+691
+00:29:57,190 --> 00:30:00,390
+Accumulation term, long inter
+
+692
+00:30:00,950 --> 00:30:03,629
+once I get this
+accumulating term,
+
+693
+00:30:03,629 --> 00:30:07,670
+what I do is I'm going to
+perform the standard softmax.
+
+694
+00:30:07,670 --> 00:30:09,989
+This is my second loop,
+which I showed in
+
+695
+00:30:09,989 --> 00:30:14,244
+my previous slide in soft max
+in online softmax version.
+
+696
+00:30:14,244 --> 00:30:17,579
+And I'm going to get
+the thin square,
+
+697
+00:30:17,579 --> 00:30:20,579
+the thin square that is out.
+
+698
+00:30:21,220 --> 00:30:25,459
+Once I get this what I do
+is I basically to turn to
+
+699
+00:30:25,459 --> 00:30:31,379
+my value matrix because
+attention like this,
+
+700
+00:30:31,379 --> 00:30:34,579
+this is essentially
+like a weighted sum of
+
+701
+00:30:34,579 --> 00:30:36,659
+all the rules of V. So
+
+702
+00:30:36,659 --> 00:30:39,020
+I have this thin
+square and I basically
+
+703
+00:30:39,020 --> 00:30:41,659
+accumulate into O and I look
+
+704
+00:30:41,659 --> 00:30:44,579
+over from one to from
+all the rules of
+
+705
+00:30:44,579 --> 00:30:46,380
+the value matrix and eventually
+
+706
+00:30:46,380 --> 00:30:48,259
+my final accumulation will be
+
+707
+00:30:48,259 --> 00:30:51,780
+the output I want in attention.
+
+708
+00:30:51,810 --> 00:30:57,169
+Okay. Any question
+about this one?
+
+709
+00:30:58,130 --> 00:31:00,970
+This one is basically a
+simple application of
+
+710
+00:31:00,970 --> 00:31:03,770
+online Softmax into
+self attention.
+
+711
+00:31:03,770 --> 00:31:05,449
+Of course, you can do
+
+712
+00:31:05,449 --> 00:31:08,090
+the previous version that
+is 19 version of attention,
+
+713
+00:31:08,090 --> 00:31:09,609
+but like I said,
+
+714
+00:31:09,609 --> 00:31:10,769
+you are going to
+have three loops,
+
+715
+00:31:10,769 --> 00:31:12,729
+but this one only have
+two loops, right?
+
+716
+00:31:12,729 --> 00:31:15,649
+Cool. Then assuming
+you understand
+
+717
+00:31:15,649 --> 00:31:19,169
+this online Softmax
+version of self attention,
+
+718
+00:31:19,169 --> 00:31:20,930
+then let me ask you
+a few questions.
+
+719
+00:31:20,930 --> 00:31:25,169
+So let me clean this.
+
+720
+00:31:26,130 --> 00:31:30,689
+My first question is, can we
+further fill these loops?
+
+721
+00:31:31,030 --> 00:31:34,269
+Okay. Two loops, I mean,
+
+722
+00:31:34,269 --> 00:31:36,149
+this is the first
+loop, Loop one,
+
+723
+00:31:36,149 --> 00:31:37,990
+and this is my second
+loop, Loop two.
+
+724
+00:31:37,990 --> 00:31:40,469
+Can we further fill these loops?
+
+725
+00:31:41,110 --> 00:31:43,749
+If you remember our discussion
+
+726
+00:31:43,749 --> 00:31:46,790
+just a few minutes
+ago, what I said is,
+
+727
+00:31:46,790 --> 00:31:51,349
+we are not able to fill this
+one and this one is because
+
+728
+00:31:51,349 --> 00:31:54,629
+this roman term is D
+and this loizer it
+
+729
+00:31:54,629 --> 00:31:58,270
+depends on the output of
+the last step of this loop,
+
+730
+00:31:58,270 --> 00:32:00,389
+so we are not able to fill that.
+
+731
+00:32:00,389 --> 00:32:05,550
+But magically, if you only
+care about this output,
+
+732
+00:32:05,550 --> 00:32:08,924
+but not this, you can.
+
+733
+00:32:08,924 --> 00:32:12,739
+Okay. That is basically
+the magic of flex engine.
+
+734
+00:32:12,739 --> 00:32:15,660
+Remember, our goal is we
+only want the output.
+
+735
+00:32:15,660 --> 00:32:18,980
+We actually don't care
+about the actual in score.
+
+736
+00:32:18,980 --> 00:32:20,699
+And if you only
+care about this O,
+
+737
+00:32:20,699 --> 00:32:22,379
+you can actually
+fill them together,
+
+738
+00:32:22,379 --> 00:32:24,139
+and I'm going to show you, okay.
+
+739
+00:32:24,139 --> 00:32:26,859
+But remember, if you
+care about this one,
+
+740
+00:32:26,859 --> 00:32:29,139
+you cannot because this
+one actually depends on
+
+741
+00:32:29,139 --> 00:32:32,364
+no and no measure, Okay.
+
+742
+00:32:32,364 --> 00:32:35,029
+My second question
+is how to get XI.
+
+743
+00:32:35,029 --> 00:32:40,749
+So here, apparently, XI is the
+value from Q and Q, right?
+
+744
+00:32:40,749 --> 00:32:44,549
+So if I ask you to directly
+implement this algorithm,
+
+745
+00:32:44,549 --> 00:32:46,350
+all you do is basically
+in the first,
+
+746
+00:32:46,350 --> 00:32:49,510
+you are going to read
+the input tokens,
+
+747
+00:32:49,510 --> 00:32:51,629
+you do mama, you get X,
+
+748
+00:32:51,629 --> 00:32:54,709
+and you start performing
+online softmax, okay.
+
+749
+00:32:54,709 --> 00:32:56,150
+And in the second iteration,
+
+750
+00:32:56,150 --> 00:32:57,549
+you are going to repeat read
+
+751
+00:32:57,549 --> 00:33:00,509
+those values in order to
+get X because like I said,
+
+752
+00:33:00,509 --> 00:33:03,710
+it's very hard to materialize
+the entire by a matrix.
+
+753
+00:33:03,710 --> 00:33:05,829
+So you have to do
+partial combination.
+
+754
+00:33:05,829 --> 00:33:08,110
+So that's why this one
+can be further improved.
+
+755
+00:33:08,110 --> 00:33:10,029
+Okay. If you
+directly apply this,
+
+756
+00:33:10,029 --> 00:33:13,070
+you are still going
+to kind of like a uh,
+
+757
+00:33:13,070 --> 00:33:16,470
+read this input X
+twice into two loops.
+
+758
+00:33:16,470 --> 00:33:19,909
+If we want to reduce
+this into once.
+
+759
+00:33:21,190 --> 00:33:24,349
+How to basically fill this one,
+
+760
+00:33:24,349 --> 00:33:27,069
+this one. Let's show that.
+
+761
+00:33:27,069 --> 00:33:29,349
+What I'll do is I'm going to use
+
+762
+00:33:29,349 --> 00:33:33,470
+exactly the same trick I
+used for online soft max.
+
+763
+00:33:33,470 --> 00:33:36,950
+That is, I'm trying to define
+an alternative sequence,
+
+764
+00:33:36,950 --> 00:33:38,430
+and I'm going to discover
+
+765
+00:33:38,430 --> 00:33:41,430
+some recurrence from an
+alternative sequence.
+
+766
+00:33:41,430 --> 00:33:44,070
+The way I try to define
+alternative sequence,
+
+767
+00:33:44,070 --> 00:33:46,789
+I try to define this way, okay.
+
+768
+00:33:48,090 --> 00:33:52,729
+So the intuition
+here is basically,
+
+769
+00:33:52,729 --> 00:33:56,689
+in self changing, we actually
+only want O, not A, right?
+
+770
+00:33:56,689 --> 00:33:59,449
+So if we can find self find
+
+771
+00:33:59,449 --> 00:34:02,449
+some recurrent structure
+in O, then we are good.
+
+772
+00:34:02,449 --> 00:34:05,290
+We can actually utilize this
+kind of recurrent structure
+
+773
+00:34:05,290 --> 00:34:09,369
+to just finish every
+computation in one loop, okay?
+
+774
+00:34:09,780 --> 00:34:12,579
+So let's define this, okay.
+
+775
+00:34:12,579 --> 00:34:14,779
+This is our previous
+step in OI, right.
+
+776
+00:34:14,779 --> 00:34:16,219
+So what I'm going to do is I'm
+
+777
+00:34:16,219 --> 00:34:17,860
+going to create the
+alternative sequence,
+
+778
+00:34:17,860 --> 00:34:19,779
+which is OI prime, okay?
+
+779
+00:34:19,779 --> 00:34:21,259
+And in the O prime,
+
+780
+00:34:21,259 --> 00:34:23,979
+what I did exactly the same
+as I did in line softmax.
+
+781
+00:34:23,979 --> 00:34:27,059
+That is, I only care about
+the accumulation so far.
+
+782
+00:34:27,059 --> 00:34:30,139
+So basically, this is
+
+783
+00:34:30,139 --> 00:34:31,859
+like this is like
+
+784
+00:34:31,859 --> 00:34:33,579
+the accumulation
+accumulated value
+
+785
+00:34:33,579 --> 00:34:34,939
+in the last loop, right.
+
+786
+00:34:34,939 --> 00:34:37,179
+So you plug in here,
+
+787
+00:34:37,179 --> 00:34:39,539
+okay, you basically
+get this term, okay?
+
+788
+00:34:39,539 --> 00:34:43,780
+And what you do is nify O
+prime as like in the ration,
+
+789
+00:34:43,780 --> 00:34:45,849
+how many I have accumulated.
+
+790
+00:34:45,849 --> 00:34:51,639
+Okay. Good. Cool.
+You'll notice that,
+
+791
+00:34:51,639 --> 00:34:53,119
+of course, when I equal to N,
+
+792
+00:34:53,119 --> 00:34:57,359
+I will get the ON and I
+get O prime equal to O.
+
+793
+00:34:57,359 --> 00:34:59,319
+And this O is essentially what I
+
+794
+00:34:59,319 --> 00:35:01,439
+want and the large version
+of this original loop.
+
+795
+00:35:01,439 --> 00:35:04,559
+I can basically write
+this O back to my result.
+
+796
+00:35:04,559 --> 00:35:06,439
+So that means that
+
+797
+00:35:06,439 --> 00:35:08,319
+if we are able to
+find some recurrence,
+
+798
+00:35:08,319 --> 00:35:11,679
+all we do is we just run
+this loop from one to N,
+
+799
+00:35:11,679 --> 00:35:15,200
+and we'll eventually reach
+results in one loop.
+
+800
+00:35:15,200 --> 00:35:17,199
+I'll do that? Same thing.
+
+801
+00:35:17,199 --> 00:35:20,359
+I'm going to play some
+very simple math, okay?
+
+802
+00:35:20,359 --> 00:35:22,709
+This is my definition, right?
+
+803
+00:35:22,709 --> 00:35:26,419
+Okay. That is the
+accumulation so far.
+
+804
+00:35:26,419 --> 00:35:29,659
+What I do is, I'm going to,
+
+805
+00:35:29,659 --> 00:35:33,579
+I'm going to lift
+the last term out.
+
+806
+00:35:33,740 --> 00:35:35,859
+From this line to this line,
+
+807
+00:35:35,859 --> 00:35:38,219
+what I do is I change
+the side to minus one,
+
+808
+00:35:38,219 --> 00:35:41,104
+and I put the last
+term out, okay?
+
+809
+00:35:41,104 --> 00:35:44,269
+From this to this is I
+try to make a term where
+
+810
+00:35:44,269 --> 00:35:47,710
+I'm able to express
+OI minus one prime.
+
+811
+00:35:47,710 --> 00:35:51,229
+And the way I do it is
+I first read this is
+
+812
+00:35:51,229 --> 00:35:54,390
+Onus one and I try to
+compense the rest.
+
+813
+00:35:54,390 --> 00:35:55,950
+And the way I compense the rest
+
+814
+00:35:55,950 --> 00:35:58,750
+is I introduce
+these multipliers.
+
+815
+00:35:58,750 --> 00:36:02,309
+And you can check this
+and this will get
+
+816
+00:36:02,309 --> 00:36:04,149
+canceled and this will
+
+817
+00:36:04,149 --> 00:36:06,669
+get canceled and I
+basically return to this.
+
+818
+00:36:06,669 --> 00:36:09,389
+Okay. But I just do this.
+
+819
+00:36:09,389 --> 00:36:11,549
+Let's make it slightly
+more complicated, okay?
+
+820
+00:36:11,549 --> 00:36:14,589
+And this is my previous
+last term, here.
+
+821
+00:36:14,589 --> 00:36:16,829
+Okay? And once I get this,
+
+822
+00:36:16,829 --> 00:36:19,469
+what I do is I'm going
+to put this term and
+
+823
+00:36:19,469 --> 00:36:22,949
+this term out to here, okay?
+
+824
+00:36:22,949 --> 00:36:24,629
+Because this is
+multiplier, right?
+
+825
+00:36:24,629 --> 00:36:26,669
+So I can put it
+out from this sum.
+
+826
+00:36:26,669 --> 00:36:29,029
+And I basically get
+this term times this
+
+827
+00:36:29,029 --> 00:36:33,989
+multiplier and plus
+my last term, right?
+
+828
+00:36:33,989 --> 00:36:36,789
+Then I find that I
+finally get here.
+
+829
+00:36:36,789 --> 00:36:40,390
+This is by definition,
+O minus one prime.
+
+830
+00:36:40,950 --> 00:36:43,269
+I do a substitution,
+
+831
+00:36:43,269 --> 00:36:45,349
+I get O minus one prime,
+
+832
+00:36:45,349 --> 00:36:47,309
+and of course, I carry a lot of
+
+833
+00:36:47,309 --> 00:36:51,429
+multipliers. And the last term.
+
+834
+00:36:51,490 --> 00:36:54,729
+Okay. And this is
+built here math.
+
+835
+00:36:54,729 --> 00:36:56,689
+By doing this, you
+will find that there's
+
+836
+00:36:56,689 --> 00:36:59,170
+a recurrence that is OI prime,
+
+837
+00:36:59,170 --> 00:37:01,689
+and the relation
+between O prime and O
+
+838
+00:37:01,689 --> 00:37:04,210
+minus one prime is that
+I need to multiply
+
+839
+00:37:04,210 --> 00:37:05,969
+O minus one prime with a
+
+840
+00:37:05,969 --> 00:37:09,210
+multiplier and then
+add another few terms.
+
+841
+00:37:09,210 --> 00:37:10,730
+And if you look at this index,
+
+842
+00:37:10,730 --> 00:37:15,250
+you'll find that only a few
+terms are getting involved.
+
+843
+00:37:15,250 --> 00:37:22,510
+For example, the inside is in
+order to get the OI prime,
+
+844
+00:37:22,510 --> 00:37:24,069
+it only depends on field term.
+
+845
+00:37:24,069 --> 00:37:25,989
+For example, O minus
+one prime which
+
+846
+00:37:25,989 --> 00:37:28,230
+is my result in previous region,
+
+847
+00:37:28,230 --> 00:37:30,149
+and dinus one prime,
+
+848
+00:37:30,149 --> 00:37:32,869
+which is the result I get
+from my previous iteration.
+
+849
+00:37:32,869 --> 00:37:37,549
+Di current region,
+and I minus one,
+
+850
+00:37:37,549 --> 00:37:39,869
+I get in the recent is not
+
+851
+00:37:39,869 --> 00:37:42,229
+the N. Because
+you're doing this,
+
+852
+00:37:42,229 --> 00:37:44,630
+you will find that if I'm able
+to find these recurrence,
+
+853
+00:37:44,630 --> 00:37:46,630
+I just need to write
+one loop that looping
+
+854
+00:37:46,630 --> 00:37:49,069
+over from one to N,
+
+855
+00:37:49,069 --> 00:37:51,669
+and eventually I will
+get my On prime.
+
+856
+00:37:51,669 --> 00:37:53,550
+And I said in my previous slide,
+
+857
+00:37:53,550 --> 00:37:56,145
+On prime equals to ON.
+
+858
+00:37:56,145 --> 00:38:00,099
+Okay. Cool. We got good, right?
+
+859
+00:38:00,750 --> 00:38:05,469
+And then we get this.
+This is the flat,
+
+860
+00:38:05,469 --> 00:38:08,669
+one loop to get O.
+
+861
+00:38:09,869 --> 00:38:12,510
+That's because we
+basically looping
+
+862
+00:38:12,510 --> 00:38:13,989
+from one to N. Every time
+
+863
+00:38:13,989 --> 00:38:17,949
+we just pick a small one
+row of Q and one column,
+
+864
+00:38:17,949 --> 00:38:20,309
+we calculate the X and then we
+
+865
+00:38:20,309 --> 00:38:22,709
+start performing
+our online softmax.
+
+866
+00:38:22,709 --> 00:38:25,109
+Once we finish our
+online softmax,
+
+867
+00:38:25,109 --> 00:38:27,469
+because we notice that
+the partial value of only
+
+868
+00:38:27,469 --> 00:38:30,749
+depends on the recent results
+from the recent iterations.
+
+869
+00:38:30,749 --> 00:38:34,189
+We basically start
+computing our OI prime and
+
+870
+00:38:34,189 --> 00:38:35,909
+as long as we follow this loop
+
+871
+00:38:35,909 --> 00:38:37,989
+to looping over from one to N,
+
+872
+00:38:37,989 --> 00:38:41,789
+we all get ON O prime is
+basically what we want.
+
+873
+00:38:41,789 --> 00:38:45,429
+Okay. Thing you'll
+notice that if
+
+874
+00:38:45,429 --> 00:38:46,869
+you compare this algorithm to
+
+875
+00:38:46,869 --> 00:38:49,149
+the previous version
+where I have two loops.
+
+876
+00:38:49,149 --> 00:38:51,909
+The thing here is you
+only need to read
+
+877
+00:38:51,909 --> 00:38:55,669
+the input once. That's
+the first thing.
+
+878
+00:38:55,669 --> 00:38:59,029
+The second thing is Every time
+
+879
+00:38:59,029 --> 00:39:01,229
+we are only compute
+partial results,
+
+880
+00:39:01,229 --> 00:39:04,709
+so we are actually not
+materializing the YS matrix.
+
+881
+00:39:04,709 --> 00:39:07,469
+We are not materializing
+the matrix in
+
+882
+00:39:07,469 --> 00:39:11,709
+HBM or in R but we are still
+able to get the result.
+
+883
+00:39:11,709 --> 00:39:14,109
+This is the highlight
+understanding of
+
+884
+00:39:14,109 --> 00:39:16,629
+flashing is that it is
+
+885
+00:39:16,629 --> 00:39:22,229
+a kernel fusion of QQVftMx
+and output projection.
+
+886
+00:39:22,229 --> 00:39:24,429
+It's a very aggressive
+kernel fusion.
+
+887
+00:39:24,429 --> 00:39:25,989
+It fills everything altogether,
+
+888
+00:39:25,989 --> 00:39:28,789
+to reduce memory to
+
+889
+00:39:28,789 --> 00:39:32,029
+reduce material in the
+intermediate memory, okay?
+
+890
+00:39:33,599 --> 00:39:38,319
+Cool. To repeat, we
+only read X one,
+
+891
+00:39:38,319 --> 00:39:40,919
+that is QK once, okay?
+
+892
+00:39:40,919 --> 00:39:43,239
+We never materialize the full.
+
+893
+00:39:43,239 --> 00:39:45,319
+We always compute
+the partial results,
+
+894
+00:39:45,319 --> 00:39:48,559
+but we are able to get
+the final results, okay?
+
+895
+00:39:49,199 --> 00:39:52,239
+And we also never materialize
+
+896
+00:39:52,239 --> 00:39:53,679
+the soft max ones
+
+897
+00:39:53,679 --> 00:39:56,949
+because we carry that
+into the recurrence.
+
+898
+00:39:56,949 --> 00:39:59,819
+Okay. So of course,
+
+899
+00:39:59,819 --> 00:40:02,459
+this is a preliminary flax.
+
+900
+00:40:02,459 --> 00:40:04,899
+I can make it even
+more complicated
+
+901
+00:40:04,899 --> 00:40:07,939
+by telling. This
+is the one loop.
+
+902
+00:40:07,939 --> 00:40:09,579
+So in order to compute this,
+
+903
+00:40:09,579 --> 00:40:13,379
+I can further tell the
+Q and columns of QK.
+
+904
+00:40:13,379 --> 00:40:17,020
+I can further use the tricks
+I introduced in mathema.
+
+905
+00:40:17,020 --> 00:40:19,579
+So in real flax
+changing what I do
+
+906
+00:40:19,579 --> 00:40:22,059
+is I pick up like
+rows and columns.
+
+907
+00:40:22,059 --> 00:40:23,739
+Every time I only
+pick up one block,
+
+908
+00:40:23,739 --> 00:40:26,339
+I compute results I
+accumulate, okay?
+
+909
+00:40:26,339 --> 00:40:31,340
+And because we avoid
+materializing that by X matrix,
+
+910
+00:40:31,340 --> 00:40:32,939
+so we save a lot of memory.
+
+911
+00:40:32,939 --> 00:40:36,939
+And here, I'll let you
+appreciate this different.
+
+912
+00:40:41,500 --> 00:40:43,979
+To explain a little bit.
+
+913
+00:40:43,979 --> 00:40:47,060
+It's basically running
+the recursive sequence,
+
+914
+00:40:47,060 --> 00:40:48,820
+but we add some ting.
+
+915
+00:40:48,820 --> 00:40:51,820
+In the original loop,
+
+916
+00:40:51,820 --> 00:40:55,019
+every time we pick a row
+and column and then we do
+
+917
+00:40:55,019 --> 00:40:56,379
+that online softmax and
+
+918
+00:40:56,379 --> 00:40:59,019
+online combination and we
+write the results back.
+
+919
+00:40:59,019 --> 00:41:01,019
+But here, I'm further
+break it down.
+
+920
+00:41:01,019 --> 00:41:04,060
+I'm trying to pick
+just one small block
+
+921
+00:41:04,060 --> 00:41:05,620
+and compute some results,
+
+922
+00:41:05,620 --> 00:41:07,139
+that is the partial results,
+
+923
+00:41:07,139 --> 00:41:08,419
+and then I multiply it with
+
+924
+00:41:08,419 --> 00:41:10,179
+the value matrix and write back.
+
+925
+00:41:10,179 --> 00:41:12,459
+Keep up calculating.
+
+926
+00:41:14,130 --> 00:41:17,890
+Okay. That basically explains
+
+927
+00:41:17,890 --> 00:41:20,610
+the mathematics behind flash.
+
+928
+00:41:20,610 --> 00:41:22,810
+It's pretty deep.
+
+929
+00:41:22,810 --> 00:41:24,850
+I think you'll get the gist,
+
+930
+00:41:24,850 --> 00:41:26,410
+but if you want to
+delve into details,
+
+931
+00:41:26,410 --> 00:41:28,130
+feel free to check my slides.
+
+932
+00:41:28,130 --> 00:41:29,739
+And then there, try
+
+933
+00:41:29,739 --> 00:41:31,900
+to make sure you
+understand every symbol.
+
+934
+00:41:31,900 --> 00:41:34,139
+I think we will address
+the first problem,
+
+935
+00:41:34,139 --> 00:41:36,779
+that is how we can
+avoid repeatedly
+
+936
+00:41:36,779 --> 00:41:40,819
+memory reading and how we
+can avoid materializing.
+
+937
+00:41:40,819 --> 00:41:44,900
+Basically, the S matrix
+that saves memory.
+
+938
+00:41:44,900 --> 00:41:46,499
+But I said there's
+another problem.
+
+939
+00:41:46,499 --> 00:41:48,779
+You want to do backward. You are
+
+940
+00:41:48,779 --> 00:41:51,140
+not materializing as but
+you want to backward.
+
+941
+00:41:51,140 --> 00:41:56,419
+How to do that. I think you
+already know the answer.
+
+942
+00:41:56,419 --> 00:41:59,140
+I just recompute
+during background,
+
+943
+00:41:59,140 --> 00:42:00,939
+I just recompute math.
+
+944
+00:42:00,939 --> 00:42:04,660
+This sounds pretty
+counterintuitive
+
+945
+00:42:04,660 --> 00:42:08,020
+flat make compute faster,
+
+946
+00:42:08,020 --> 00:42:11,500
+but it seems that it is
+making computer slower.
+
+947
+00:42:11,500 --> 00:42:13,819
+But it turns out the
+magical thing is,
+
+948
+00:42:13,819 --> 00:42:17,810
+even if you introduce more
+flops, using re competition.
+
+949
+00:42:17,810 --> 00:42:20,930
+You can still, you can
+still make it faster.
+
+950
+00:42:20,930 --> 00:42:24,330
+Why? Because the main
+bone is not compute.
+
+951
+00:42:24,330 --> 00:42:28,170
+The main bone is you move
+contents between HBM and RM.
+
+952
+00:42:28,170 --> 00:42:32,209
+But because of the introduction
+of flax algorithm,
+
+953
+00:42:32,209 --> 00:42:36,170
+you avoid a lot of memory
+loading between HBM and RM.
+
+954
+00:42:36,170 --> 00:42:37,970
+Even if you introduce
+more flops,
+
+955
+00:42:37,970 --> 00:42:42,369
+you still become way faster.
+Does that make sense?
+
+956
+00:42:42,369 --> 00:42:45,889
+If you look at the
+table, so basically,
+
+957
+00:42:45,889 --> 00:42:49,490
+if you compare the
+f theoretical flops
+
+958
+00:42:49,490 --> 00:42:51,049
+of standard and flat,
+
+959
+00:42:51,049 --> 00:42:53,169
+you can flat is more because
+
+960
+00:42:53,169 --> 00:42:56,569
+the intro is more forward,
+it needs recompute.
+
+961
+00:42:56,650 --> 00:42:59,809
+But if you compare the
+global memory access
+
+962
+00:42:59,809 --> 00:43:02,730
+is moving things
+between HBM two HRM,
+
+963
+00:43:02,730 --> 00:43:05,089
+the original ten is
+more this large,
+
+964
+00:43:05,089 --> 00:43:09,090
+but flex only more like 110.
+
+965
+00:43:09,090 --> 00:43:12,449
+Therefore, if you
+run this actually on
+
+966
+00:43:12,449 --> 00:43:16,420
+real GPO you get it right,
+so it's much faster.
+
+967
+00:43:16,420 --> 00:43:21,469
+Okay. And I don't
+want to repeat more,
+
+968
+00:43:21,469 --> 00:43:24,549
+but flash change is pretty good.
+
+969
+00:43:24,549 --> 00:43:27,750
+It performs a lot of
+speed ups on changing,
+
+970
+00:43:27,750 --> 00:43:31,349
+and more significantly,
+it basically also
+
+971
+00:43:31,349 --> 00:43:33,309
+reduce memory usage and
+
+972
+00:43:33,309 --> 00:43:35,429
+memory loading between
+memory hierarchies.
+
+973
+00:43:35,429 --> 00:43:41,830
+Okay. Okay. To summarize the
+high level gist of flashing.
+
+974
+00:43:41,830 --> 00:43:43,829
+So first,
+
+975
+00:43:43,829 --> 00:43:48,549
+it completely avoid
+materializing the largest of
+
+976
+00:43:48,549 --> 00:43:51,829
+size B as square B
+
+977
+00:43:51,829 --> 00:43:56,269
+by size equals less
+and lamb heads, okay?
+
+978
+00:43:57,360 --> 00:44:00,119
+It will make compute worse,
+
+979
+00:44:00,119 --> 00:44:02,479
+but it's okay because we
+
+980
+00:44:02,479 --> 00:44:05,919
+are memorable next,
+so it's okay.
+
+981
+00:44:06,880 --> 00:44:09,280
+It will greatly reduce
+
+982
+00:44:09,280 --> 00:44:11,199
+memory movement
+between memory here.
+
+983
+00:44:11,199 --> 00:44:13,120
+That makes sense
+because previously,
+
+984
+00:44:13,120 --> 00:44:15,399
+there's no memory I have
+a three layer loop.
+
+985
+00:44:15,399 --> 00:44:16,959
+I'm basically making a change in
+
+986
+00:44:16,959 --> 00:44:18,680
+just one loop that
+basically reduce
+
+987
+00:44:18,680 --> 00:44:22,279
+lot of memory memory movement,
+
+988
+00:44:22,279 --> 00:44:24,119
+and then I can further
+tell it so I can
+
+989
+00:44:24,119 --> 00:44:27,359
+further reduce memory
+loading, okay?
+
+990
+00:44:27,760 --> 00:44:30,479
+I can tell you
+more. There's more.
+
+991
+00:44:30,479 --> 00:44:32,719
+Why flat is successful.
+
+992
+00:44:32,719 --> 00:44:34,759
+It's not just
+because it's three.
+
+993
+00:44:34,759 --> 00:44:37,119
+There's more, let me tell you.
+
+994
+00:44:37,119 --> 00:44:40,959
+Flat is even greater
+with what you thought.
+
+995
+00:44:40,959 --> 00:44:42,839
+There's a cascade effect.
+
+996
+00:44:42,839 --> 00:44:44,919
+I'm going to connect
+this to what I told
+
+997
+00:44:44,919 --> 00:44:48,399
+you in other parts
+of this course.
+
+998
+00:44:49,520 --> 00:44:53,599
+Because it saves the
+memory of B as squared N,
+
+999
+00:44:53,599 --> 00:44:55,719
+which means that
+now when you, you
+
+1000
+00:44:55,719 --> 00:44:56,799
+don't have to materialize this.
+
+1001
+00:44:56,799 --> 00:44:59,199
+You don't want to suffer
+the peak memory usage.
+
+1002
+00:44:59,199 --> 00:45:01,815
+It enables two possibilities.
+
+1003
+00:45:01,815 --> 00:45:05,590
+The first one is like
+before flight changing,
+
+1004
+00:45:05,590 --> 00:45:07,190
+we can only train with basis
+
+1005
+00:45:07,190 --> 00:45:09,150
+equal to one because
+of the peak memory.
+
+1006
+00:45:09,150 --> 00:45:11,389
+Because if we increase
+by memory increase,
+
+1007
+00:45:11,389 --> 00:45:13,749
+we can mostly just
+train with one.
+
+1008
+00:45:13,749 --> 00:45:15,150
+But now with flight changing,
+
+1009
+00:45:15,150 --> 00:45:17,670
+we can avoid
+materializing matrix,
+
+1010
+00:45:17,670 --> 00:45:21,030
+which means that now we can
+train with much larger bases.
+
+1011
+00:45:21,030 --> 00:45:23,349
+I think you understand
+why that's good, right?
+
+1012
+00:45:23,349 --> 00:45:25,750
+Because when you are able
+to train much larger bases,
+
+1013
+00:45:25,750 --> 00:45:29,709
+you're going to effectively
+introduce increase intensity.
+
+1014
+00:45:29,709 --> 00:45:32,189
+That's the first
+cascading effect
+
+1015
+00:45:32,189 --> 00:45:35,069
+brought by flaine. Okay.
+
+1016
+00:45:36,430 --> 00:45:39,750
+Higher original intensity.
+
+1017
+00:45:39,750 --> 00:45:43,749
+The second one is be
+full flexion because
+
+1018
+00:45:43,749 --> 00:45:48,030
+we need a lot of memory to
+accommodate that peak SIS.
+
+1019
+00:45:48,030 --> 00:45:49,469
+But now you don't
+have to do that,
+
+1020
+00:45:49,469 --> 00:45:51,069
+which means that you can also
+
+1021
+00:45:51,069 --> 00:45:53,109
+avoid doing gradient
+checkpointing.
+
+1022
+00:45:53,109 --> 00:45:55,029
+You still remember, what is
+
+1023
+00:45:55,029 --> 00:45:58,309
+the next effect of doing
+gradient checkpointing?
+
+1024
+00:45:58,309 --> 00:46:02,469
+You basically pay one more
+forward during your training.
+
+1025
+00:46:02,469 --> 00:46:04,829
+Now because of flat,
+you don't have to pay,
+
+1026
+00:46:04,829 --> 00:46:06,989
+you can allocate all the GP to
+
+1027
+00:46:06,989 --> 00:46:10,349
+your actually MFU not HFU
+if you still remember
+
+1028
+00:46:10,349 --> 00:46:12,669
+the definition of MFU and HFU
+
+1029
+00:46:12,669 --> 00:46:16,750
+which means that you save
+another 25% of flops.
+
+1030
+00:46:16,750 --> 00:46:18,670
+As you can imagine,
+
+1031
+00:46:18,670 --> 00:46:20,589
+that's why fla is so.
+
+1032
+00:46:20,589 --> 00:46:22,429
+It has a cascading effect.
+
+1033
+00:46:22,429 --> 00:46:24,230
+Because we are able
+to save memory,
+
+1034
+00:46:24,230 --> 00:46:25,389
+you are able to
+do so many things
+
+1035
+00:46:25,389 --> 00:46:26,950
+and that will greatly boost
+
+1036
+00:46:26,950 --> 00:46:31,509
+the training efficiency. Okay.
+
+1037
+00:46:32,870 --> 00:46:36,110
+And later, I think media
+
+1038
+00:46:36,110 --> 00:46:38,549
+and the original authors
+of f by the way,
+
+1039
+00:46:38,549 --> 00:46:40,910
+we have author of f
+here as the faculty.
+
+1040
+00:46:40,910 --> 00:46:44,669
+Yeah. He's going to
+join us this fall.
+
+1041
+00:46:44,669 --> 00:46:46,349
+His name is Danford.
+
+1042
+00:46:46,349 --> 00:46:47,949
+I think I mentioned in my class.
+
+1043
+00:46:47,949 --> 00:46:50,429
+And un the authors of
+
+1044
+00:46:50,429 --> 00:46:52,429
+flex they are doing
+
+1045
+00:46:52,429 --> 00:46:54,310
+more and more like kernel
+network positions.
+
+1046
+00:46:54,310 --> 00:46:56,390
+For example, they're
+doing more grad fusion.
+
+1047
+00:46:56,390 --> 00:46:57,789
+They also try to use more
+
+1048
+00:46:57,789 --> 00:46:59,869
+advanced go features
+to collaborate with
+
+1049
+00:46:59,869 --> 00:47:03,909
+the media to kind of improve
+the memory access patterns.
+
+1050
+00:47:03,909 --> 00:47:06,629
+Okay. Finally, I want
+
+1051
+00:47:06,629 --> 00:47:09,789
+to share my finals why
+flattening took curve.
+
+1052
+00:47:09,789 --> 00:47:11,549
+The first one is you need
+
+1053
+00:47:11,549 --> 00:47:12,829
+to bet on the right
+thing, right?
+
+1054
+00:47:12,829 --> 00:47:15,709
+One reason is because
+changing to curve,
+
+1055
+00:47:15,709 --> 00:47:18,030
+like previously
+before attention,
+
+1056
+00:47:18,030 --> 00:47:20,189
+people do various model actors.
+
+1057
+00:47:20,189 --> 00:47:23,870
+But at some point, everyone
+only do self attention.
+
+1058
+00:47:23,870 --> 00:47:26,509
+And if you bet the right thing,
+
+1059
+00:47:26,509 --> 00:47:28,309
+you can predict that
+in the future in
+
+1060
+00:47:28,309 --> 00:47:30,269
+the next three years,
+people will all do.
+
+1061
+00:47:30,269 --> 00:47:31,790
+You should just focus on optimal
+
+1062
+00:47:31,790 --> 00:47:33,749
+attention, not nothing else.
+
+1063
+00:47:33,749 --> 00:47:36,689
+The second, of course, um,
+
+1064
+00:47:36,689 --> 00:47:39,469
+It is due to the
+architecture of GPUs.
+
+1065
+00:47:39,469 --> 00:47:42,230
+Like I said, GPU has
+very limited memory.
+
+1066
+00:47:42,230 --> 00:47:45,389
+If you are able to save the
+materialization of SPS,
+
+1067
+00:47:45,389 --> 00:47:46,990
+you are going to
+be a big winner.
+
+1068
+00:47:46,990 --> 00:47:48,989
+That's why when you
+develop software,
+
+1069
+00:47:48,989 --> 00:47:52,069
+you should definitely pay
+attention to hardware stack.
+
+1070
+00:47:52,069 --> 00:47:53,749
+You should always co design
+
+1071
+00:47:53,749 --> 00:47:56,029
+between hardware and software.
+
+1072
+00:47:56,029 --> 00:48:01,749
+Cool. That's pretty my talk
+about flashing. Any question?
+
+1073
+00:48:04,470 --> 00:48:08,669
+If not, then let's move to
+the last part of this course.
+
+1074
+00:48:08,669 --> 00:48:11,590
+Now you have learned I
+think I have covered
+
+1075
+00:48:11,590 --> 00:48:14,550
+all the important techniques
+today emerging systems.
+
+1076
+00:48:14,550 --> 00:48:15,949
+Maybe there are
+some more machine
+
+1077
+00:48:15,949 --> 00:48:17,869
+learning oriented
+things I didn't cover,
+
+1078
+00:48:17,869 --> 00:48:20,630
+but I think the system
+part I already covered.
+
+1079
+00:48:20,630 --> 00:48:23,829
+Now let's try to pass
+deeps with three.
+
+1080
+00:48:23,829 --> 00:48:26,989
+Let's try to understand
+how deep Sa with three
+
+1081
+00:48:26,989 --> 00:48:28,749
+enable the training of
+
+1082
+00:48:28,749 --> 00:48:31,390
+such a good model
+using $4 million.
+
+1083
+00:48:31,390 --> 00:48:33,230
+I think you did that
+in your homework.
+
+1084
+00:48:33,230 --> 00:48:34,829
+So let's do that.
+
+1085
+00:48:34,829 --> 00:48:36,669
+But before I do that,
+
+1086
+00:48:36,669 --> 00:48:38,269
+I want to first give you a gist
+
+1087
+00:48:38,269 --> 00:48:40,309
+of how language model
+are trained today.
+
+1088
+00:48:40,309 --> 00:48:43,469
+I'm going to connect all the
+techniques we trained, okay?
+
+1089
+00:48:43,469 --> 00:48:47,310
+So today, this language
+model La language models
+
+1090
+00:48:47,310 --> 00:48:48,869
+will basically use what we
+
+1091
+00:48:48,869 --> 00:48:51,269
+have learned so far and
+combine all of them together.
+
+1092
+00:48:51,269 --> 00:48:54,149
+This figure gives you a kind
+
+1093
+00:48:54,149 --> 00:48:58,469
+of impression that basically
+how many many GPUs,
+
+1094
+00:48:58,469 --> 00:49:00,469
+you are going to
+partition your LLM
+
+1095
+00:49:00,469 --> 00:49:02,150
+into many many stages.
+
+1096
+00:49:02,150 --> 00:49:04,349
+Each stage is a
+group of GPUs and
+
+1097
+00:49:04,349 --> 00:49:06,590
+you do pipeline
+between these stages.
+
+1098
+00:49:06,590 --> 00:49:09,620
+You have a pipeline
+scheduled minus bubble.
+
+1099
+00:49:09,620 --> 00:49:11,730
+And then in each stage,
+
+1100
+00:49:11,730 --> 00:49:13,810
+you are allocated GPUs,
+
+1101
+00:49:13,810 --> 00:49:15,889
+and you perform a different
+kind algorithm, for example,
+
+1102
+00:49:15,889 --> 00:49:19,209
+data and model and
+enterprism or expert parism?
+
+1103
+00:49:19,209 --> 00:49:21,489
+And you have a large
+cluster coordinator
+
+1104
+00:49:21,489 --> 00:49:25,369
+basically orchestrate the
+GPUs and make sure you have,
+
+1105
+00:49:25,369 --> 00:49:27,409
+very high MFU, okay?
+
+1106
+00:49:27,409 --> 00:49:30,649
+And if we talk in more detail,
+
+1107
+00:49:30,649 --> 00:49:33,249
+so basically there are
+a lot of loops, okay?
+
+1108
+00:49:33,249 --> 00:49:35,489
+The most loop is basically you
+
+1109
+00:49:35,489 --> 00:49:38,209
+have inter alborism
+where you probably use
+
+1110
+00:49:38,209 --> 00:49:40,609
+1f1b or some fancier schedule to
+
+1111
+00:49:40,609 --> 00:49:43,559
+orchestrate the
+pipeline parism, okay?
+
+1112
+00:49:43,559 --> 00:49:45,989
+And then when they into it,
+
+1113
+00:49:45,989 --> 00:49:48,430
+now you have in PPE,
+
+1114
+00:49:48,430 --> 00:49:49,990
+you basically have many stages,
+
+1115
+00:49:49,990 --> 00:49:51,389
+and inside each stage,
+
+1116
+00:49:51,389 --> 00:49:53,550
+you are assigned a device match
+
+1117
+00:49:53,550 --> 00:49:55,710
+like I covered in my
+previous lecture,
+
+1118
+00:49:55,710 --> 00:49:56,989
+and you are basically using
+
+1119
+00:49:56,989 --> 00:50:00,509
+some 0203 data and data prism,
+
+1120
+00:50:00,509 --> 00:50:03,789
+or you are using
+some kind of magnris
+
+1121
+00:50:03,789 --> 00:50:05,590
+to basically paralyze
+the competition
+
+1122
+00:50:05,590 --> 00:50:07,829
+of that stage on
+a group of GPUs.
+
+1123
+00:50:07,829 --> 00:50:11,989
+Okay. And then in
+the third loop,
+
+1124
+00:50:11,989 --> 00:50:13,829
+what you do is, like I said,
+
+1125
+00:50:13,829 --> 00:50:17,029
+you probably need to do some
+gradient checkpointing or
+
+1126
+00:50:17,029 --> 00:50:20,510
+competition to further
+reduce the peak memory.
+
+1127
+00:50:20,510 --> 00:50:25,840
+Okay. And now it
+boils down to GPU,
+
+1128
+00:50:25,840 --> 00:50:27,959
+GPU is basically assigned with
+
+1129
+00:50:27,959 --> 00:50:29,920
+a partial graph of
+the language model,
+
+1130
+00:50:29,920 --> 00:50:31,600
+and you start running
+
+1131
+00:50:31,600 --> 00:50:34,159
+those petro graph
+operators on the GPU.
+
+1132
+00:50:34,159 --> 00:50:37,559
+And what you do is you
+employ petrogen inter
+
+1133
+00:50:37,559 --> 00:50:42,160
+and inside the ytrogente you
+do graph level definition,
+
+1134
+00:50:42,160 --> 00:50:46,799
+right, you optimize those
+operators, fill them, right?
+
+1135
+00:50:46,799 --> 00:50:50,079
+And then you have many
+operators filled together,
+
+1136
+00:50:50,079 --> 00:50:52,679
+you'll try to provide a
+pretty efficient kernel that.
+
+1137
+00:50:52,679 --> 00:50:54,399
+And that is what you do
+
+1138
+00:50:54,399 --> 00:50:57,879
+for tail inflation
+this kind of thing.
+
+1139
+00:50:57,879 --> 00:51:00,999
+Okay. So that's basically
+what we do today.
+
+1140
+00:51:00,999 --> 00:51:07,999
+Yeah. Mostly PyPach but
+
+1141
+00:51:07,999 --> 00:51:10,880
+people also use Google's
+framework for checks.
+
+1142
+00:51:10,880 --> 00:51:13,519
+I think data flow
+is basically out.
+
+1143
+00:51:17,200 --> 00:51:21,200
+Then let's move to deep Syk.
+
+1144
+00:51:21,200 --> 00:51:25,920
+This is deep. This is
+performance overview.
+
+1145
+00:51:25,920 --> 00:51:28,159
+As you can see, I
+
+1146
+00:51:28,159 --> 00:51:30,240
+think you don't have to
+care about so many parts,
+
+1147
+00:51:30,240 --> 00:51:32,679
+but the message I want to
+send from this picture is
+
+1148
+00:51:32,679 --> 00:51:35,640
+deepsk is the first open
+source language model
+
+1149
+00:51:35,640 --> 00:51:37,769
+that is on par with GPT four.
+
+1150
+00:51:37,769 --> 00:51:41,739
+Okay. First open model
+that is on par with PFO.
+
+1151
+00:51:41,739 --> 00:51:43,580
+And I think TPO
+
+1152
+00:51:43,580 --> 00:51:45,660
+is one of the most used
+model by you guys.
+
+1153
+00:51:45,660 --> 00:51:48,579
+Basically, if you go to
+open the default model TPO,
+
+1154
+00:51:48,579 --> 00:51:51,699
+I think it already helps you
+finish so many homeworks.
+
+1155
+00:51:51,699 --> 00:51:54,339
+And basically, deepsk is
+
+1156
+00:51:54,339 --> 00:51:57,179
+the first open source model
+that is the same as ZPRO.
+
+1157
+00:51:57,179 --> 00:51:59,939
+That's why it makes
+so big impact.
+
+1158
+00:51:59,939 --> 00:52:01,860
+People love PFO.
+
+1159
+00:52:01,860 --> 00:52:05,329
+Yeah, so they love Deeps
+Deeps is by the way.
+
+1160
+00:52:05,329 --> 00:52:08,159
+And they made a
+pretty bold claim.
+
+1161
+00:52:08,159 --> 00:52:14,240
+They are able to train
+this using $5.576 million.
+
+1162
+00:52:14,240 --> 00:52:16,639
+This is compared to GB four,
+
+1163
+00:52:16,639 --> 00:52:18,279
+I think it's a pretty
+small number because I
+
+1164
+00:52:18,279 --> 00:52:19,959
+already give you $5
+million in Europe here.
+
+1165
+00:52:19,959 --> 00:52:21,839
+I'm not sure if you
+can treat D six.
+
+1166
+00:52:21,839 --> 00:52:24,000
+But this is what they achieved.
+
+1167
+00:52:24,000 --> 00:52:27,959
+But I want to basically
+slightly correct this claim
+
+1168
+00:52:27,959 --> 00:52:30,679
+because I think this
+is a bold claim
+
+1169
+00:52:30,679 --> 00:52:34,079
+because when I talk about
+the skin load part,
+
+1170
+00:52:34,079 --> 00:52:35,679
+I already told you
+that the main cost of
+
+1171
+00:52:35,679 --> 00:52:38,160
+training language model is
+not training language model.
+
+1172
+00:52:38,160 --> 00:52:40,520
+It's planning for
+training language model.
+
+1173
+00:52:40,520 --> 00:52:43,169
+Basically, in order to
+
+1174
+00:52:43,169 --> 00:52:46,289
+yield in order to reach the
+architectural detail of deep,
+
+1175
+00:52:46,289 --> 00:52:48,089
+you have to launch
+many, many experiments.
+
+1176
+00:52:48,089 --> 00:52:50,489
+For example, you have
+to study skin law,
+
+1177
+00:52:50,489 --> 00:52:51,849
+how many data should you use?
+
+1178
+00:52:51,849 --> 00:52:56,729
+What's those terms, like how
+many how many parameters,
+
+1179
+00:52:56,729 --> 00:53:00,049
+and you have to study
+which should I use
+
+1180
+00:53:00,049 --> 00:53:01,250
+like food changing
+
+1181
+00:53:01,250 --> 00:53:03,530
+slighting slight wind
+changing or whatever.
+
+1182
+00:53:03,530 --> 00:53:05,689
+You also have to
+basically study all this
+
+1183
+00:53:05,689 --> 00:53:08,650
+like how many has I have,
+these kind of details,
+
+1184
+00:53:08,650 --> 00:53:10,729
+and you spend a lot of
+money on that to make
+
+1185
+00:53:10,729 --> 00:53:14,410
+sure you get a pretty
+high confidence
+
+1186
+00:53:14,410 --> 00:53:15,929
+that with this architecture,
+
+1187
+00:53:15,929 --> 00:53:17,570
+I'm going to try my best model.
+
+1188
+00:53:17,570 --> 00:53:20,160
+So I think boldly
+
+1189
+00:53:20,160 --> 00:53:22,519
+claiming training
+model is $5 million is
+
+1190
+00:53:22,519 --> 00:53:24,399
+not very responsible because
+
+1191
+00:53:24,399 --> 00:53:27,520
+it's impossible if I
+only give you 5 million,
+
+1192
+00:53:27,520 --> 00:53:30,040
+you're not going to give me
+this model, it's impossible.
+
+1193
+00:53:30,040 --> 00:53:31,640
+You have to perform
+a lot of study.
+
+1194
+00:53:31,640 --> 00:53:35,559
+Usually the cost of doing
+that study that planning is
+
+1195
+00:53:35,559 --> 00:53:37,760
+100 or 1,000 times
+
+1196
+00:53:37,760 --> 00:53:40,999
+of the actual training
+cost, the last job.
+
+1197
+00:53:40,999 --> 00:53:44,239
+That is the first thing I want
+to make sure you're aware.
+
+1198
+00:53:44,239 --> 00:53:47,319
+But, But besides that,
+
+1199
+00:53:47,319 --> 00:53:50,999
+I think it's pretty
+decent model and it has
+
+1200
+00:53:50,999 --> 00:53:55,319
+a lot of innovation on model
+architectures on system mo.
+
+1201
+00:53:55,319 --> 00:53:57,839
+Basically, I would say
+it's a masterpiece of
+
+1202
+00:53:57,839 --> 00:54:01,779
+code designing model and
+systems. Let's look into that.
+
+1203
+00:54:01,779 --> 00:54:03,839
+Um, but like I said, uh,
+
+1204
+00:54:03,839 --> 00:54:05,399
+it's not only Deepi W three,
+
+1205
+00:54:05,399 --> 00:54:07,079
+and I think after deeps W three,
+
+1206
+00:54:07,079 --> 00:54:08,720
+they also released the Deep RI
+
+1207
+00:54:08,720 --> 00:54:10,239
+and they claim that they can use
+
+1208
+00:54:10,239 --> 00:54:12,240
+the reinforced
+learning to elicit
+
+1209
+00:54:12,240 --> 00:54:15,039
+the reasoning from D three
+as a starting point.
+
+1210
+00:54:15,039 --> 00:54:17,759
+But I'm not going to
+cover maybe next course.
+
+1211
+00:54:17,759 --> 00:54:23,119
+So let's look at a few key
+innovations in Deep three.
+
+1212
+00:54:23,119 --> 00:54:25,559
+Basically, I'm basically
+comparing Deep three to
+
+1213
+00:54:25,559 --> 00:54:28,839
+LMA because LA is the model
+that everybody understands,
+
+1214
+00:54:28,839 --> 00:54:32,760
+and so why Deep three is a
+huge leap forward from LA.
+
+1215
+00:54:32,760 --> 00:54:35,439
+The first one is they are
+
+1216
+00:54:35,439 --> 00:54:38,079
+going a little bit crazy on MOE.
+
+1217
+00:54:38,079 --> 00:54:39,599
+Okay. I already mentioned this.
+
+1218
+00:54:39,599 --> 00:54:43,679
+So typically, at least
+firms in the US,
+
+1219
+00:54:43,679 --> 00:54:47,639
+they are training MOE with
+eight or 16 or 32 experts,
+
+1220
+00:54:47,639 --> 00:54:48,960
+but they are going crazy.
+
+1221
+00:54:48,960 --> 00:54:53,999
+They are training MOE
+with 256 experts,
+
+1222
+00:54:53,999 --> 00:54:55,719
+which makes the MOE really,
+
+1223
+00:54:55,719 --> 00:54:58,439
+really sparse,
+super sparse, okay.
+
+1224
+00:54:58,439 --> 00:55:02,279
+Which also makes the MOE
+many, many parameters, right,
+
+1225
+00:55:02,279 --> 00:55:06,159
+because they make sure
+that the number of
+
+1226
+00:55:06,159 --> 00:55:10,759
+activated experts is
+still only eight.
+
+1227
+00:55:10,759 --> 00:55:13,279
+You can see the
+sparse is basically,
+
+1228
+00:55:14,410 --> 00:55:16,930
+This lamb is pretty sparse.
+
+1229
+00:55:16,930 --> 00:55:18,849
+Many manual parameters
+are not going to be
+
+1230
+00:55:18,849 --> 00:55:22,770
+used when the token is going
+forward the neural network.
+
+1231
+00:55:22,770 --> 00:55:26,129
+The reason I think
+you guys already
+
+1232
+00:55:26,129 --> 00:55:29,249
+understand why sparse MOE is
+good because like I said,
+
+1233
+00:55:29,249 --> 00:55:31,009
+it has a better skin law.
+
+1234
+00:55:31,009 --> 00:55:32,610
+It allows you to scale
+
+1235
+00:55:32,610 --> 00:55:35,689
+lamb parameters without
+the scaling the flops.
+
+1236
+00:55:35,689 --> 00:55:37,539
+That's why it's pretty good.
+
+1237
+00:55:37,539 --> 00:55:40,990
+Um, but it also introduces
+a lot of challenges,
+
+1238
+00:55:40,990 --> 00:55:42,269
+especially on systems because
+
+1239
+00:55:42,269 --> 00:55:43,950
+it becomes a super large model,
+
+1240
+00:55:43,950 --> 00:55:45,589
+and then you have
+to take care of
+
+1241
+00:55:45,589 --> 00:55:48,909
+all the communication or
+expert imbalance problem
+
+1242
+00:55:48,909 --> 00:55:50,950
+I mentioned in my MOE lecture.
+
+1243
+00:55:50,950 --> 00:55:52,469
+But before we delve into
+
+1244
+00:55:52,469 --> 00:55:55,470
+that I'll give you
+a few more details.
+
+1245
+00:55:55,470 --> 00:55:58,269
+So they have a design
+choice that they have many,
+
+1246
+00:55:58,269 --> 00:55:59,869
+many transfer layers, right.
+
+1247
+00:55:59,869 --> 00:56:03,830
+They make the first layer
+dense and the rest MOE.
+
+1248
+00:56:03,830 --> 00:56:05,669
+I don't know why
+probably they do
+
+1249
+00:56:05,669 --> 00:56:07,829
+some skin study and
+they find the best,
+
+1250
+00:56:07,829 --> 00:56:09,345
+but this is their
+hyper parameter.
+
+1251
+00:56:09,345 --> 00:56:14,299
+Okay. Okay, like I said,
+
+1252
+00:56:14,299 --> 00:56:17,339
+once you decide to do this here,
+
+1253
+00:56:17,339 --> 00:56:18,459
+you are basically facing a lot
+
+1254
+00:56:18,459 --> 00:56:20,220
+of these optimization issues.
+
+1255
+00:56:20,220 --> 00:56:24,779
+So let me list this optimization
+opportunities, okay?
+
+1256
+00:56:24,779 --> 00:56:26,819
+The first one is because
+
+1257
+00:56:26,819 --> 00:56:29,340
+you are doing a
+superstar sampling.
+
+1258
+00:56:29,340 --> 00:56:31,739
+So you have a large amount
+of parameters, okay?
+
+1259
+00:56:31,739 --> 00:56:34,299
+And because you have a
+large amount of parameters,
+
+1260
+00:56:34,299 --> 00:56:35,579
+you need to communicate
+
+1261
+00:56:35,579 --> 00:56:37,700
+these parameters when
+you do be propagation.
+
+1262
+00:56:37,700 --> 00:56:40,660
+So you have a lot of
+communicating overhead,
+
+1263
+00:56:40,660 --> 00:56:43,839
+and so you want to
+do experts, okay?
+
+1264
+00:56:43,839 --> 00:56:48,179
+Export prism? Because
+is cheaper than use.
+
+1265
+00:56:48,179 --> 00:56:50,580
+Because you do experts,
+
+1266
+00:56:50,580 --> 00:56:52,179
+you are basically
+facing an issue that
+
+1267
+00:56:52,179 --> 00:56:53,939
+is expert im balancing.
+
+1268
+00:56:53,939 --> 00:56:55,459
+Basically each expert will
+
+1269
+00:56:55,459 --> 00:56:57,019
+see different number
+of tokens given
+
+1270
+00:56:57,019 --> 00:56:59,379
+a batch and that will
+basically create
+
+1271
+00:56:59,379 --> 00:57:01,980
+a straggler problem I
+mentioned in my lecture.
+
+1272
+00:57:01,980 --> 00:57:05,020
+So how do you make sure
+your experts are balanced.
+
+1273
+00:57:05,020 --> 00:57:09,019
+Welcome back to this.
+But before that,
+
+1274
+00:57:09,019 --> 00:57:11,380
+I want to introduce
+another innovation
+
+1275
+00:57:11,380 --> 00:57:14,620
+made on the model lecture.
+
+1276
+00:57:14,620 --> 00:57:17,500
+The introduceion.
+
+1277
+00:57:17,500 --> 00:57:21,739
+This is not main
+group is not mark is
+
+1278
+00:57:21,739 --> 00:57:27,669
+called multi latent
+and why they do this.
+
+1279
+00:57:27,669 --> 00:57:31,069
+The reason they do
+this because you also
+
+1280
+00:57:31,069 --> 00:57:34,790
+reason is because this one
+is more inference efficient.
+
+1281
+00:57:34,790 --> 00:57:36,870
+Why is more inference efficient?
+
+1282
+00:57:36,870 --> 00:57:41,390
+Because like we mentioned
+in our page lang lecture,
+
+1283
+00:57:41,390 --> 00:57:44,829
+V catch is a bottleneck
+for inference,
+
+1284
+00:57:44,829 --> 00:57:48,029
+and by doing this
+multi head latent,
+
+1285
+00:57:48,029 --> 00:57:51,084
+you can avoid saving
+a lot of V catch.
+
+1286
+00:57:51,084 --> 00:57:54,299
+Okay. And the training
+course is roughly the same,
+
+1287
+00:57:54,299 --> 00:57:55,459
+but the inference co is much
+
+1288
+00:57:55,459 --> 00:57:57,499
+cheaper because you can
+save a lot of space.
+
+1289
+00:57:57,499 --> 00:58:00,019
+So how do they do that? Let's do
+
+1290
+00:58:00,019 --> 00:58:01,579
+this. It's very
+easy to understand.
+
+1291
+00:58:01,579 --> 00:58:06,459
+So on the left hand side
+is smart heading, okay?
+
+1292
+00:58:06,459 --> 00:58:08,419
+And I think you guys are already
+
+1293
+00:58:08,419 --> 00:58:10,579
+familiar with what's
+going on here.
+
+1294
+00:58:10,579 --> 00:58:13,259
+It's just like
+different symbols.
+
+1295
+00:58:13,259 --> 00:58:15,499
+What we do is we have
+a hidden state, right.
+
+1296
+00:58:15,499 --> 00:58:20,219
+We do a projecting to get
+Q, and then we do this.
+
+1297
+00:58:20,219 --> 00:58:23,699
+This term, I think more
+than 100 times here.
+
+1298
+00:58:23,699 --> 00:58:27,789
+Okay. And what is marked
+as latent attention.
+
+1299
+00:58:27,789 --> 00:58:31,869
+The only difference is that
+they introduce another layer,
+
+1300
+00:58:31,869 --> 00:58:34,349
+which is called C. So instead
+
+1301
+00:58:34,349 --> 00:58:37,349
+of directly
+projecting H into QV,
+
+1302
+00:58:37,349 --> 00:58:40,189
+what they do is especially
+for the Q and V,
+
+1303
+00:58:40,189 --> 00:58:42,110
+I'm going to first
+take the edge,
+
+1304
+00:58:42,110 --> 00:58:44,790
+I introduce the weight W dq,
+
+1305
+00:58:44,790 --> 00:58:49,869
+and I project this edge
+into this latent space C.
+
+1306
+00:58:49,869 --> 00:58:53,110
+I do the same thing for
+and V. This is for query.
+
+1307
+00:58:53,110 --> 00:58:56,949
+This is for query, and
+this is for Q and V. Okay?
+
+1308
+00:58:56,949 --> 00:59:02,069
+So I take my previous layer
+output I project into la C,
+
+1309
+00:59:02,069 --> 00:59:04,589
+and then I take the
+CI project into key
+
+1310
+00:59:04,589 --> 00:59:07,749
+and V's like this.
+
+1311
+00:59:07,749 --> 00:59:10,869
+Here, the key assumption
+here is I can make C much
+
+1312
+00:59:10,869 --> 00:59:14,709
+shorter than the original
+key and V. For example,
+
+1313
+00:59:14,709 --> 00:59:17,589
+original key and V could
+be four key dimensions,
+
+1314
+00:59:17,589 --> 00:59:19,669
+but I can make C like one key.
+
+1315
+00:59:19,669 --> 00:59:22,469
+I first do down project
+and then out project.
+
+1316
+00:59:22,469 --> 00:59:25,934
+So why we do this?
+
+1317
+00:59:25,934 --> 00:59:29,599
+I think if you are
+sensitive to C,
+
+1318
+00:59:29,599 --> 00:59:31,799
+you already get the g.
+
+1319
+00:59:31,800 --> 00:59:35,640
+In the previous me inference,
+
+1320
+00:59:35,640 --> 00:59:37,679
+we need to store key and V,
+
+1321
+00:59:37,679 --> 00:59:39,759
+which is pretty high dimension.
+
+1322
+00:59:39,759 --> 00:59:43,639
+But now once we have the C
+and we know that the key and
+
+1323
+00:59:43,639 --> 00:59:45,439
+V can be upper projected
+
+1324
+00:59:45,439 --> 00:59:47,800
+from C from low
+dimension vector.
+
+1325
+00:59:47,800 --> 00:59:49,520
+So now added inference,
+
+1326
+00:59:49,520 --> 00:59:51,319
+I can adjust need to catch C,
+
+1327
+00:59:51,319 --> 00:59:52,920
+I put C in my memory,
+
+1328
+00:59:52,920 --> 00:59:54,639
+and when I need key and V I
+
+1329
+00:59:54,639 --> 00:59:56,559
+adjust to the upper
+project in compute.
+
+1330
+00:59:56,559 --> 00:59:58,400
+I'm basically treating
+a little bit flops
+
+1331
+00:59:58,400 --> 01:00:00,224
+for v memory space.
+
+1332
+01:00:00,224 --> 01:00:04,209
+Does that make sense? So that's
+
+1333
+01:00:04,209 --> 01:00:05,889
+essentially what
+is the multi la.
+
+1334
+01:00:05,889 --> 01:00:09,009
+That is they call
+C latent vector,
+
+1335
+01:00:09,009 --> 01:00:10,889
+and I'm basically doing
+
+1336
+01:00:10,889 --> 01:00:13,249
+one more matam but I
+first project into
+
+1337
+01:00:13,249 --> 01:00:15,849
+low dimension and then
+back to and B and
+
+1338
+01:00:15,849 --> 01:00:18,889
+I only catch C. In
+my previous version,
+
+1339
+01:00:18,889 --> 01:00:20,689
+I need to catch both and V,
+
+1340
+01:00:20,689 --> 01:00:24,810
+and now I only catch one C.
+I can use two with matrix
+
+1341
+01:00:24,810 --> 01:00:29,540
+to upper project C back to and
+B. I also reduce one copy.
+
+1342
+01:00:29,540 --> 01:00:34,269
+Okay. That is basically the
+gist of multi latent engine.
+
+1343
+01:00:34,269 --> 01:00:37,030
+And of course, they
+do a lot of study,
+
+1344
+01:00:37,030 --> 01:00:39,669
+and they tried to argue that
+
+1345
+01:00:39,669 --> 01:00:42,869
+this multi latent
+engine is it has a very
+
+1346
+01:00:42,869 --> 01:00:45,909
+strong, machine
+learning capability.
+
+1347
+01:00:45,909 --> 01:00:49,909
+It can basically model
+whatever like multit model,
+
+1348
+01:00:49,909 --> 01:00:51,630
+but it can effectively
+
+1349
+01:00:51,630 --> 01:00:55,430
+reduce the thing that you need
+to catch during inference.
+
+1350
+01:00:55,430 --> 01:00:58,509
+Okay? So to put it in a
+single sentence, okay,
+
+1351
+01:00:58,509 --> 01:01:02,469
+mult latent is basically
+an opation for inference.
+
+1352
+01:01:02,469 --> 01:01:05,860
+Okay. Cool.
+
+1353
+01:01:05,860 --> 01:01:09,419
+There's one more thing
+on architecture.
+
+1354
+01:01:09,419 --> 01:01:12,219
+So remember why increase
+
+1355
+01:01:12,219 --> 01:01:13,899
+language model as
+a language model
+
+1356
+01:01:13,899 --> 01:01:16,645
+mostly tined using
+next token prediction.
+
+1357
+01:01:16,645 --> 01:01:21,270
+But what DC does is they
+use next token prediction.
+
+1358
+01:01:21,270 --> 01:01:23,229
+They will train the parameters,
+
+1359
+01:01:23,229 --> 01:01:25,429
+they will introduce
+additional head here.
+
+1360
+01:01:25,429 --> 01:01:27,910
+This is the last layer
+of language model,
+
+1361
+01:01:27,910 --> 01:01:29,389
+and in second language model,
+
+1362
+01:01:29,389 --> 01:01:30,710
+you basically predict next token
+
+1363
+01:01:30,710 --> 01:01:32,470
+and you calculate the loss.
+
+1364
+01:01:32,470 --> 01:01:33,829
+But what they do is they
+
+1365
+01:01:33,829 --> 01:01:35,990
+introduce another
+transfer block,
+
+1366
+01:01:35,990 --> 01:01:39,270
+which is basically deviated
+from here and they predict
+
+1367
+01:01:39,270 --> 01:01:42,549
+the next token and they
+compute this token,
+
+1368
+01:01:42,549 --> 01:01:44,430
+they compare this token
+to the origin sequence
+
+1369
+01:01:44,430 --> 01:01:46,350
+and they try to calculate loss.
+
+1370
+01:01:46,350 --> 01:01:50,505
+Does this look very similar
+to what you see previously?
+
+1371
+01:01:50,505 --> 01:01:55,219
+This is the eagle. Basically
+the ego architecture
+
+1372
+01:01:55,219 --> 01:01:57,180
+given by Professor
+Hong Yan Zung.
+
+1373
+01:01:57,180 --> 01:02:00,379
+Basically, they read
+his paper and what
+
+1374
+01:02:00,379 --> 01:02:03,580
+they do differently is
+in our guest lecture,
+
+1375
+01:02:03,580 --> 01:02:05,699
+we do that for
+spectrum decoding.
+
+1376
+01:02:05,699 --> 01:02:08,939
+But in this they do
+this imprinting.
+
+1377
+01:02:08,939 --> 01:02:12,469
+Why do they do this
+imprinting, Remember,
+
+1378
+01:02:12,469 --> 01:02:14,990
+one of the main quest
+
+1379
+01:02:14,990 --> 01:02:17,230
+in eagle is that
+they try to improve
+
+1380
+01:02:17,230 --> 01:02:20,269
+this additional head
+to make sure you have
+
+1381
+01:02:20,269 --> 01:02:23,950
+a very high acceptance
+rate as ey.
+
+1382
+01:02:23,950 --> 01:02:26,829
+The belief of D six is
+that if they put this
+
+1383
+01:02:26,829 --> 01:02:29,509
+into pre training and they
+like this train with many,
+
+1384
+01:02:29,509 --> 01:02:32,630
+many tokens, you basically
+get a free eagle.
+
+1385
+01:02:32,630 --> 01:02:34,789
+You get a free eagle.
+You don't have to
+
+1386
+01:02:34,789 --> 01:02:36,749
+do post training, you just
+do it in pre training.
+
+1387
+01:02:36,749 --> 01:02:39,479
+It's a free eagle that
+is this token block.
+
+1388
+01:02:39,479 --> 01:02:42,769
+Is going to have a much
+higher acceptance rate.
+
+1389
+01:02:42,769 --> 01:02:44,649
+It turns out they did that.
+
+1390
+01:02:44,649 --> 01:02:46,929
+Basically, I think
+if you have already
+
+1391
+01:02:46,929 --> 01:02:49,489
+studied your spectrum homework,
+
+1392
+01:02:49,489 --> 01:02:51,050
+you'll find that it's
+very hard to achieve
+
+1393
+01:02:51,050 --> 01:02:53,089
+an acceptance rate
+greater than 50.
+
+1394
+01:02:53,089 --> 01:02:56,049
+That's why I give
+you a bonus point.
+
+1395
+01:02:56,050 --> 01:02:59,529
+In the guys lecture, I
+think Professor Han an also
+
+1396
+01:02:59,529 --> 01:03:02,809
+mentioned at least
+before Equal three,
+
+1397
+01:03:02,809 --> 01:03:05,689
+they only have acceptance
+rate of 40 or 50.
+
+1398
+01:03:05,689 --> 01:03:08,849
+What DC report is that if you do
+
+1399
+01:03:08,849 --> 01:03:13,330
+this additional hand and
+pre training and inference,
+
+1400
+01:03:13,330 --> 01:03:14,929
+basically the additional
+handwork will
+
+1401
+01:03:14,929 --> 01:03:17,809
+be 85% acceptance rate.
+
+1402
+01:03:19,250 --> 01:03:22,089
+This is also an inference
+time organization.
+
+1403
+01:03:22,089 --> 01:03:24,249
+That is, if you do this a,
+
+1404
+01:03:24,249 --> 01:03:29,209
+basically you get a model that
+is quite good at eculical.
+
+1405
+01:03:29,209 --> 01:03:31,134
+You will inference pretty fast.
+
+1406
+01:03:31,134 --> 01:03:33,619
+Okay. Does that make sense?
+
+1407
+01:03:33,619 --> 01:03:37,579
+Cool. So I would say these are
+
+1408
+01:03:37,579 --> 01:03:39,819
+basically the two
+major innovations
+
+1409
+01:03:39,819 --> 01:03:42,659
+that are introduced in
+deep six architecture.
+
+1410
+01:03:42,659 --> 01:03:46,299
+Then let's move on
+to the system part.
+
+1411
+01:03:46,299 --> 01:03:49,819
+So like I said, I already
+spotted the system issue.
+
+1412
+01:03:49,819 --> 01:03:52,779
+One is you need to
+perform mechanism.
+
+1413
+01:03:52,779 --> 01:03:56,340
+Second is you need to address
+the expert imbalance,
+
+1414
+01:03:56,340 --> 01:03:58,660
+and there's a third
+issue that is unique
+
+1415
+01:03:58,660 --> 01:04:01,899
+to deep six. So what is that?
+
+1416
+01:04:02,050 --> 01:04:05,570
+They have 800, not H 100.
+
+1417
+01:04:05,570 --> 01:04:09,809
+Do you know the
+difference 800-100?
+
+1418
+01:04:09,890 --> 01:04:14,810
+It's subject to export
+control from US to China.
+
+1419
+01:04:14,810 --> 01:04:20,689
+800 is basically a word version
+of H 100 without a link.
+
+1420
+01:04:20,689 --> 01:04:22,969
+Basically, same flops, same
+
+1421
+01:04:22,969 --> 01:04:25,210
+memory bandwidth,
+same memory capacity,
+
+1422
+01:04:25,210 --> 01:04:27,249
+but inside one box they have
+
+1423
+01:04:27,249 --> 01:04:31,939
+HGPs but those cannot communicate
+using high bandwidths.
+
+1424
+01:04:31,939 --> 01:04:34,549
+Okay. That's what the US does to
+
+1425
+01:04:34,549 --> 01:04:37,790
+China to control the
+development of AI.
+
+1426
+01:04:37,790 --> 01:04:39,909
+But it turns out if you
+
+1427
+01:04:39,909 --> 01:04:42,869
+still remember this decision
+tree, you know what to do.
+
+1428
+01:04:42,869 --> 01:04:48,600
+If you don't have a lot of
+bandwidth will You just avoid
+
+1429
+01:04:48,600 --> 01:04:51,119
+app protein trying
+this left part
+
+1430
+01:04:51,119 --> 01:04:56,480
+of parosm because like I
+mentioned in our lecture,
+
+1431
+01:04:56,480 --> 01:04:57,839
+whenever you try to do
+
+1432
+01:04:57,839 --> 01:04:59,719
+intrasm you are going to
+
+1433
+01:04:59,719 --> 01:05:01,719
+subject to connective
+communication,
+
+1434
+01:05:01,719 --> 01:05:03,519
+which will eat a
+lot of bandwidths.
+
+1435
+01:05:03,519 --> 01:05:04,879
+But now, I'm not given high
+
+1436
+01:05:04,879 --> 01:05:06,759
+bandwidth I do. I
+just don't try this.
+
+1437
+01:05:06,759 --> 01:05:09,239
+I just try to do intersm.
+
+1438
+01:05:09,239 --> 01:05:12,960
+I do a little bit data expert.
+
+1439
+01:05:12,960 --> 01:05:19,060
+Okay. So basically, to summarize
+their system challenge,
+
+1440
+01:05:19,060 --> 01:05:21,179
+the first one is they
+need to do ex second is
+
+1441
+01:05:21,179 --> 01:05:24,380
+exp third is they only have 800,
+
+1442
+01:05:24,380 --> 01:05:26,339
+so they cannot use
+the data prism or
+
+1443
+01:05:26,339 --> 01:05:28,499
+this kind of reduced
+space algorithms.
+
+1444
+01:05:28,499 --> 01:05:30,739
+So what they do is
+they choose to do
+
+1445
+01:05:30,739 --> 01:05:34,940
+a pipeline arithm plus
+data prism plus exm.
+
+1446
+01:05:34,940 --> 01:05:37,620
+And of course, data prism
+is still quite expensive,
+
+1447
+01:05:37,620 --> 01:05:39,859
+because if you remember,
+the communicating cost
+
+1448
+01:05:39,859 --> 01:05:42,180
+of data prism is
+still one or radius.
+
+1449
+01:05:42,180 --> 01:05:45,340
+So they have to minimize
+the degree of data pais.
+
+1450
+01:05:45,340 --> 01:05:46,979
+They have to maximize
+the degree of
+
+1451
+01:05:46,979 --> 01:05:49,299
+pipeline pism and experts.
+
+1452
+01:05:49,299 --> 01:05:52,619
+To give you a sense
+why expert is good,
+
+1453
+01:05:52,619 --> 01:05:55,740
+uh I think you figure,
+I just repeat.
+
+1454
+01:05:55,740 --> 01:05:57,659
+The upper part is oral,
+
+1455
+01:05:57,659 --> 01:05:59,139
+lower part is or use.
+
+1456
+01:05:59,139 --> 01:06:06,020
+And you can see, a communication
+is only one or radius.
+
+1457
+01:06:06,020 --> 01:06:08,739
+A is much better than radius.
+
+1458
+01:06:08,739 --> 01:06:11,869
+Cool. Okay. Then let's start
+
+1459
+01:06:11,869 --> 01:06:15,910
+looking at how they address
+all these three problems.
+
+1460
+01:06:15,910 --> 01:06:19,229
+Still of ex imbalance problem.
+
+1461
+01:06:19,229 --> 01:06:21,430
+So that is one token, they
+go through the rotter.
+
+1462
+01:06:21,430 --> 01:06:23,749
+They will be dispatched
+into this ex
+
+1463
+01:06:23,749 --> 01:06:26,669
+and you have this
+problem three to two,
+
+1464
+01:06:26,669 --> 01:06:29,105
+each ex receive different
+number of tokens.
+
+1465
+01:06:29,105 --> 01:06:31,539
+So how do they address this?
+
+1466
+01:06:31,539 --> 01:06:35,980
+So the way they address
+this is pre force.
+
+1467
+01:06:35,980 --> 01:06:38,259
+So basically, they introduce
+
+1468
+01:06:38,259 --> 01:06:40,140
+the so called Wi Fi equation,
+
+1469
+01:06:40,140 --> 01:06:41,419
+but I don't want you to
+
+1470
+01:06:41,419 --> 01:06:42,860
+spend time understanding
+the equation,
+
+1471
+01:06:42,860 --> 01:06:45,019
+but what I try to emphasize is,
+
+1472
+01:06:45,019 --> 01:06:47,060
+this is the router output.
+
+1473
+01:06:47,060 --> 01:06:49,259
+It determines which goes well.
+
+1474
+01:06:49,259 --> 01:06:51,499
+What they do is they add
+
+1475
+01:06:51,499 --> 01:06:54,900
+another bias term into
+the router output.
+
+1476
+01:06:54,900 --> 01:06:56,820
+And this bias term
+is not trainable.
+
+1477
+01:06:56,820 --> 01:07:00,230
+It's a parameter that can
+be controlled by a human.
+
+1478
+01:07:00,230 --> 01:07:02,599
+What does that mean? That means
+
+1479
+01:07:02,599 --> 01:07:04,479
+that they have a
+human sitting out
+
+1480
+01:07:04,479 --> 01:07:05,999
+of the cluster and they
+
+1481
+01:07:05,999 --> 01:07:09,040
+observe how many token
+go to each expert.
+
+1482
+01:07:09,040 --> 01:07:12,840
+If one expert read much more
+token than another expert,
+
+1483
+01:07:12,840 --> 01:07:14,719
+that human will basically
+add this term to
+
+1484
+01:07:14,719 --> 01:07:18,239
+the large logic to make
+its balance. Very good.
+
+1485
+01:07:18,239 --> 01:07:20,799
+Basically, you just assign
+an engineer to sit there,
+
+1486
+01:07:20,799 --> 01:07:22,719
+watch and you fix this problem.
+
+1487
+01:07:22,719 --> 01:07:25,489
+Cool. Of course,
+
+1488
+01:07:25,489 --> 01:07:27,609
+they have a lot of
+other arguments saying
+
+1489
+01:07:27,609 --> 01:07:31,249
+that they have a lot
+
+1490
+01:07:31,249 --> 01:07:34,769
+of good tricks to make sure
+they can balance that.
+
+1491
+01:07:34,769 --> 01:07:37,130
+But if you read those papers,
+
+1492
+01:07:37,130 --> 01:07:38,690
+at least from my perspective,
+
+1493
+01:07:38,690 --> 01:07:40,209
+I didn't buy that why because
+
+1494
+01:07:40,209 --> 01:07:42,749
+I think my argument is
+that they tried to see,
+
+1495
+01:07:42,749 --> 01:07:45,369
+they tried to sell
+a point that is,
+
+1496
+01:07:45,369 --> 01:07:48,450
+you know, traditionally
+at open air at Google,
+
+1497
+01:07:48,450 --> 01:07:50,490
+the way people do ex balance
+
+1498
+01:07:50,490 --> 01:07:52,730
+is basically they
+introduce loss,
+
+1499
+01:07:52,730 --> 01:07:54,289
+and the loss will
+
+1500
+01:07:54,289 --> 01:07:56,690
+promote the balance
+between different experts.
+
+1501
+01:07:56,690 --> 01:07:58,210
+But because you
+introduce a loss,
+
+1502
+01:07:58,210 --> 01:07:59,970
+you are basically
+changing your objective
+
+1503
+01:07:59,970 --> 01:08:02,849
+from the original
+prediction into
+
+1504
+01:08:02,849 --> 01:08:05,449
+something more complicated
+and that can probably
+
+1505
+01:08:05,449 --> 01:08:06,969
+hurt your machine learning
+
+1506
+01:08:06,969 --> 01:08:08,610
+model language
+model performance.
+
+1507
+01:08:08,610 --> 01:08:11,369
+And what they try to say
+is they can do this.
+
+1508
+01:08:11,369 --> 01:08:13,449
+That is export control,
+human control.
+
+1509
+01:08:13,449 --> 01:08:16,170
+Okay, I'm not going to
+incorporate this into my loss,
+
+1510
+01:08:16,170 --> 01:08:18,679
+so my model change
+is still a good one.
+
+1511
+01:08:18,679 --> 01:08:20,989
+But indeed, it is not the case
+
+1512
+01:08:20,989 --> 01:08:23,549
+because they actually add
+
+1513
+01:08:23,549 --> 01:08:26,269
+another term here
+into sequence level.
+
+1514
+01:08:26,269 --> 01:08:28,349
+So basically, they make
+sure all the tokens in
+
+1515
+01:08:28,349 --> 01:08:29,870
+one sequence will be dispatched
+
+1516
+01:08:29,870 --> 01:08:32,070
+into an equal amount of exports.
+
+1517
+01:08:32,070 --> 01:08:35,469
+So basically they're saying
+the contra on one hand,
+
+1518
+01:08:35,469 --> 01:08:37,029
+they're saying that I'm
+not going to automate
+
+1519
+01:08:37,029 --> 01:08:39,349
+loss and introduce loss.
+
+1520
+01:08:39,349 --> 01:08:41,270
+So this is the one inconsistency
+
+1521
+01:08:41,270 --> 01:08:43,549
+I find in the paper, okay?
+
+1522
+01:08:45,220 --> 01:08:47,980
+Then let's look at parallelism.
+
+1523
+01:08:47,980 --> 01:08:50,099
+For parallelism, I think we
+
+1524
+01:08:50,099 --> 01:08:52,499
+can basically get this
+synth from the paper.
+
+1525
+01:08:52,499 --> 01:08:55,659
+They said they have 16 way of
+
+1526
+01:08:55,659 --> 01:09:00,139
+pipeline paism 64
+way of ex paism with
+
+1527
+01:09:00,139 --> 01:09:03,779
+the rest in the data
+paism they also said
+
+1528
+01:09:03,779 --> 01:09:09,390
+that they are using two GPUs
+and which I assume is 248.
+
+1529
+01:09:09,390 --> 01:09:11,469
+Then from this number,
+you can basically
+
+1530
+01:09:11,469 --> 01:09:14,909
+infer the actual prism 16 way of
+
+1531
+01:09:14,909 --> 01:09:20,589
+pipeline 64 will export this
+and we know this number,
+
+1532
+01:09:20,589 --> 01:09:22,549
+we know this number
+with this number.
+
+1533
+01:09:22,549 --> 01:09:25,149
+Basically we just divide
+these two from this number,
+
+1534
+01:09:25,149 --> 01:09:29,949
+using two way DP once
+
+1535
+01:09:29,949 --> 01:09:31,989
+we have all this
+number, we know this.
+
+1536
+01:09:31,989 --> 01:09:34,149
+Basically, this is the problem.
+
+1537
+01:09:34,149 --> 01:09:36,749
+This is the problem. So
+you have two way DP.
+
+1538
+01:09:36,749 --> 01:09:40,710
+That is, you replicate your
+model into two replicas.
+
+1539
+01:09:40,710 --> 01:09:42,429
+This is the first replica,
+
+1540
+01:09:42,429 --> 01:09:46,489
+is the second replica.
+Does that make sense?
+
+1541
+01:09:46,489 --> 01:09:50,289
+And then you still
+have one kgPU to
+
+1542
+01:09:50,289 --> 01:09:54,609
+support 16 wave of pipeline
+and 64 wave of export.
+
+1543
+01:09:54,609 --> 01:09:56,889
+What is in each replica
+
+1544
+01:09:56,889 --> 01:09:59,089
+because they are doing
+16 wave of pipeline,
+
+1545
+01:09:59,089 --> 01:10:04,649
+so you divide the network
+into 16 stages 16 way.
+
+1546
+01:10:04,649 --> 01:10:08,329
+And then the rest is the export.
+
+1547
+01:10:08,329 --> 01:10:09,849
+That is, for each stage,
+
+1548
+01:10:09,849 --> 01:10:11,900
+there are 64 GPUs.
+
+1549
+01:10:11,900 --> 01:10:14,789
+Okay. Does that make sense?
+
+1550
+01:10:14,789 --> 01:10:21,150
+So this stage is performing
+intro opism in 16 800.
+
+1551
+01:10:21,150 --> 01:10:25,150
+Yeah. Okay. And apparently
+
+1552
+01:10:25,150 --> 01:10:27,629
+the communication here
+is between stages,
+
+1553
+01:10:27,629 --> 01:10:31,069
+we have the interop
+communication with PTP inside
+
+1554
+01:10:31,069 --> 01:10:36,589
+the stage we have
+intro op which is at.
+
+1555
+01:10:36,830 --> 01:10:40,629
+And between these
+replicas one radios.
+
+1556
+01:10:40,629 --> 01:10:45,165
+So we only sublet one radius
+between two replicas.
+
+1557
+01:10:45,165 --> 01:10:48,259
+And if we further zoom in,
+
+1558
+01:10:48,259 --> 01:10:54,834
+we have each stage paralyzed
+on 64 H 800, right?
+
+1559
+01:10:54,834 --> 01:10:58,249
+And they said they are
+doing 64 wave of X.
+
+1560
+01:10:58,249 --> 01:10:59,889
+So what we do is we basically
+
+1561
+01:10:59,889 --> 01:11:02,049
+map this stage to this figure.
+
+1562
+01:11:02,049 --> 01:11:05,569
+In the MOE, we have
+64 wave of EP.
+
+1563
+01:11:05,569 --> 01:11:11,329
+And a MO for the changing
+we are doing DP here,
+
+1564
+01:11:11,329 --> 01:11:13,689
+when you transform
+from DP to EP,
+
+1565
+01:11:13,689 --> 01:11:18,130
+you perform one
+out among 64 TPs.
+
+1566
+01:11:18,130 --> 01:11:20,770
+And once you finish
+the MOE combination,
+
+1567
+01:11:20,770 --> 01:11:22,449
+you go back to the next layers.
+
+1568
+01:11:22,449 --> 01:11:25,649
+So you roll back to data points,
+
+1569
+01:11:25,649 --> 01:11:27,769
+so you perform another a.
+
+1570
+01:11:27,770 --> 01:11:30,809
+Let's do one.
+
+1571
+01:11:31,100 --> 01:11:33,579
+Okay. The next work pipeline.
+
+1572
+01:11:33,579 --> 01:11:35,619
+In pipeline, I think that
+paper basically mentioned
+
+1573
+01:11:35,619 --> 01:11:38,099
+that they have a few
+techniques, dual pipe,
+
+1574
+01:11:38,099 --> 01:11:40,860
+communication and
+competition overlapping
+
+1575
+01:11:40,860 --> 01:11:42,699
+and you already know this they
+
+1576
+01:11:42,699 --> 01:11:45,019
+release a pretty
+good auto kernel.
+
+1577
+01:11:45,019 --> 01:11:47,699
+Now you understand why they
+need the auto kernel right
+
+1578
+01:11:47,699 --> 01:11:50,414
+because here they are taught
+how to make this fast.
+
+1579
+01:11:50,414 --> 01:11:55,289
+Okay. Then you understand
+this. Let's look at these two.
+
+1580
+01:11:55,289 --> 01:11:58,410
+For dopp, I already
+told you Dopp
+
+1581
+01:11:58,410 --> 01:12:01,290
+is basically this one Chimera.
+
+1582
+01:12:01,290 --> 01:12:02,689
+Basically, you have two batches,
+
+1583
+01:12:02,689 --> 01:12:04,689
+one is going forward and the
+other is going backward and
+
+1584
+01:12:04,689 --> 01:12:07,609
+you basically make
+this into the P graph.
+
+1585
+01:12:07,609 --> 01:12:11,730
+Because like I said, still
+remember the cons of Chimera.
+
+1586
+01:12:11,730 --> 01:12:14,689
+You have to replicate
+the two model weights.
+
+1587
+01:12:14,689 --> 01:12:17,730
+But like I said,
+this is on 64 GPUs,
+
+1588
+01:12:17,730 --> 01:12:19,169
+so you have plenty of memory.
+
+1589
+01:12:19,169 --> 01:12:22,849
+Okay. Okay.
+
+1590
+01:12:23,170 --> 01:12:27,009
+And one thing you notice in that
+
+1591
+01:12:27,009 --> 01:12:30,129
+it has a pretty good planned
+schedule, very few bubble.
+
+1592
+01:12:30,129 --> 01:12:31,769
+But like I said, when you
+
+1593
+01:12:31,769 --> 01:12:33,969
+do this kind of communication
+between stages,
+
+1594
+01:12:33,969 --> 01:12:36,169
+are you are subject to auto.
+
+1595
+01:12:36,169 --> 01:12:38,329
+So inside each stage,
+
+1596
+01:12:38,329 --> 01:12:39,890
+you have an auto.
+
+1597
+01:12:39,890 --> 01:12:41,369
+So which means that
+
+1598
+01:12:41,369 --> 01:12:44,169
+this schedule is not as
+perfect as it should because
+
+1599
+01:12:44,169 --> 01:12:46,529
+there will be some
+bubbles that is
+
+1600
+01:12:46,529 --> 01:12:50,169
+basically paid for
+communication for running auto.
+
+1601
+01:12:50,169 --> 01:12:53,249
+And the way they address
+that is they basically
+
+1602
+01:12:53,249 --> 01:12:56,629
+come up with a um, an
+overlapping schedule.
+
+1603
+01:12:56,629 --> 01:12:58,629
+Before we understand the
+overlapping schedule,
+
+1604
+01:12:58,629 --> 01:13:00,909
+let's first look at the
+communicating impact.
+
+1605
+01:13:00,909 --> 01:13:03,949
+Now, I know this is complicated,
+
+1606
+01:13:03,949 --> 01:13:06,429
+but let's finish it.
+
+1607
+01:13:06,429 --> 01:13:09,529
+So So what's coming
+looking like?
+
+1608
+01:13:09,529 --> 01:13:11,409
+Let's think about let's run
+
+1609
+01:13:11,409 --> 01:13:12,489
+the neural network from
+
+1610
+01:13:12,489 --> 01:13:14,609
+the first layer to
+last layer. Okay?
+
+1611
+01:13:14,609 --> 01:13:17,329
+So because we are performing
+pipeline prism, right?
+
+1612
+01:13:17,329 --> 01:13:19,409
+So we enter first
+enter stage one,
+
+1613
+01:13:19,409 --> 01:13:20,569
+right, and then we perform third
+
+1614
+01:13:20,569 --> 01:13:22,209
+all the way to the second stage.
+
+1615
+01:13:22,209 --> 01:13:25,009
+And like I mentioned,
+inside the stage one,
+
+1616
+01:13:25,009 --> 01:13:29,890
+we do we are doing expert
+prism among 64 GPLs.
+
+1617
+01:13:29,890 --> 01:13:31,969
+So what we do is
+we first compute
+
+1618
+01:13:31,969 --> 01:13:34,809
+the attention right of the
+first layer on stage one,
+
+1619
+01:13:34,809 --> 01:13:37,409
+which is like this part, right?
+
+1620
+01:13:37,409 --> 01:13:40,569
+And then we enter the MOE layer,
+
+1621
+01:13:40,569 --> 01:13:42,769
+we are going to do auto?
+
+1622
+01:13:42,769 --> 01:13:45,569
+Okay. And once we finish,
+
+1623
+01:13:45,569 --> 01:13:47,689
+we are going to
+compute this MLP and
+
+1624
+01:13:47,689 --> 01:13:50,809
+experts. That's the first step.
+
+1625
+01:13:50,809 --> 01:13:53,409
+And once we finish
+completing the MOE,
+
+1626
+01:13:53,409 --> 01:13:56,890
+we're going to do another
+auto on the 64 GBUs.
+
+1627
+01:13:56,890 --> 01:13:59,449
+And once we finish the 64 Gs,
+
+1628
+01:13:59,449 --> 01:14:02,569
+worldw we proceed to the
+second stage, right?
+
+1629
+01:14:02,569 --> 01:14:05,689
+So in order to proceed
+to the second stage,
+
+1630
+01:14:05,689 --> 01:14:08,210
+we do another PTP communication.
+
+1631
+01:14:08,210 --> 01:14:09,969
+Okay. This is our
+workload, right.
+
+1632
+01:14:09,969 --> 01:14:12,450
+I put communication and
+committing altogether.
+
+1633
+01:14:12,450 --> 01:14:15,890
+So as you can see a
+change in auto, MLP,
+
+1634
+01:14:15,890 --> 01:14:18,489
+MOE, auto and PTP,
+
+1635
+01:14:18,489 --> 01:14:21,029
+and then repeat until I finish.
+
+1636
+01:14:21,029 --> 01:14:23,849
+And this is good why
+
+1637
+01:14:23,849 --> 01:14:27,049
+because you are
+adopting a dual pipe,
+
+1638
+01:14:27,049 --> 01:14:29,369
+that there are two
+pipelines, two batches.
+
+1639
+01:14:29,369 --> 01:14:31,449
+One is running from
+first year to last year
+
+1640
+01:14:31,449 --> 01:14:33,409
+and another is
+running from reverse.
+
+1641
+01:14:33,409 --> 01:14:36,649
+So when you try to arrange
+this in this pipeline,
+
+1642
+01:14:36,649 --> 01:14:39,900
+you can basically do a
+pretty good overlapping.
+
+1643
+01:14:39,900 --> 01:14:43,790
+Okay. So this is the competition,
+this is communication.
+
+1644
+01:14:43,790 --> 01:14:46,069
+Like I said, this
+is the first batch
+
+1645
+01:14:46,069 --> 01:14:49,709
+backward backward
+against activation,
+
+1646
+01:14:49,709 --> 01:14:54,310
+backward against weight, and
+then forward competition,
+
+1647
+01:14:54,310 --> 01:14:58,510
+and then at backward attention
+
+1648
+01:14:58,510 --> 01:15:00,069
+like backward against
+
+1649
+01:15:00,069 --> 01:15:02,789
+weight backward and
+forward coitation and
+
+1650
+01:15:02,789 --> 01:15:06,429
+each basic triangle
+is two batches
+
+1651
+01:15:06,429 --> 01:15:08,909
+running on the dual
+path that is on
+
+1652
+01:15:08,909 --> 01:15:12,149
+the Tim because you are
+performing two batches,
+
+1653
+01:15:12,149 --> 01:15:13,549
+so you can perfectly make
+
+1654
+01:15:13,549 --> 01:15:15,709
+the communication
+competition overlap.
+
+1655
+01:15:15,709 --> 01:15:18,349
+So you can basically remove
+
+1656
+01:15:18,380 --> 01:15:23,499
+and this and this from
+the critical path.
+
+1657
+01:15:24,540 --> 01:15:29,580
+It's a pretty good orientation
+like combining MOE,
+
+1658
+01:15:29,580 --> 01:15:35,500
+experts, and all and all
+these kind of doping.
+
+1659
+01:15:37,340 --> 01:15:41,259
+One last bit. They also
+
+1660
+01:15:41,259 --> 01:15:43,819
+deliver a pretty good auto
+communication kernel,
+
+1661
+01:15:43,819 --> 01:15:47,500
+which you already
+properly read the GitHub.
+
+1662
+01:15:47,500 --> 01:15:50,459
+This auto kernel is
+pretty hard core,
+
+1663
+01:15:50,459 --> 01:15:52,059
+and I think they hired
+
+1664
+01:15:52,059 --> 01:15:53,379
+a media engineer and
+
+1665
+01:15:53,379 --> 01:15:55,709
+that media engineer
+knows more than us.
+
+1666
+01:15:55,709 --> 01:16:00,599
+Okay. And so this is
+some instruction into
+
+1667
+01:16:00,599 --> 01:16:03,359
+the hardware level and
+found that if you up
+
+1668
+01:16:03,359 --> 01:16:06,959
+the instruction that you
+run faster than typical.
+
+1669
+01:16:06,959 --> 01:16:09,239
+And you can go to the
+GitHub and you'll find
+
+1670
+01:16:09,239 --> 01:16:12,319
+the sentence where
+they said that I
+
+1671
+01:16:12,319 --> 01:16:15,159
+can use the read
+only PTS instruction
+
+1672
+01:16:15,159 --> 01:16:18,159
+and it will yield
+undefined behavior,
+
+1673
+01:16:18,159 --> 01:16:20,639
+but this undefined
+behavior is safe and
+
+1674
+01:16:20,639 --> 01:16:22,799
+it will give us a
+20% improvement,
+
+1675
+01:16:22,799 --> 01:16:23,879
+something like that. Okay.
+
+1676
+01:16:23,879 --> 01:16:30,039
+Very crazy. Finally,
+the last two pieces.
+
+1677
+01:16:30,039 --> 01:16:33,319
+Traditionally, language
+model, we are doing
+
+1678
+01:16:33,319 --> 01:16:37,159
+LP 16 and LP 32
+mixed in training.
+
+1679
+01:16:37,159 --> 01:16:38,879
+And if you remember,
+
+1680
+01:16:38,879 --> 01:16:43,680
+the cast is basically
+16 lab parameters.
+
+1681
+01:16:43,680 --> 01:16:45,999
+Deep goes one step further.
+
+1682
+01:16:45,999 --> 01:16:47,839
+They are doing LP eight,
+
+1683
+01:16:47,839 --> 01:16:51,824
+LP 16, and LP 32
+mixed in training.
+
+1684
+01:16:51,824 --> 01:16:54,449
+I don't think I have
+time to explain this,
+
+1685
+01:16:54,449 --> 01:16:57,889
+but the way to process is the
+same as the way to process.
+
+1686
+01:16:57,889 --> 01:17:00,529
+That is basically some
+moments, first moment,
+
+1687
+01:17:00,529 --> 01:17:02,809
+second moments are saved
+in different precision,
+
+1688
+01:17:02,809 --> 01:17:05,609
+and some parameters are
+saved in lower precision.
+
+1689
+01:17:05,609 --> 01:17:08,169
+And if you basically
+run all these together,
+
+1690
+01:17:08,169 --> 01:17:12,609
+you can effectively reduce
+that 16 factor into 13.
+
+1691
+01:17:12,609 --> 01:17:15,809
+Meaning that in
+deeps you are seeing
+
+1692
+01:17:15,809 --> 01:17:19,369
+a little bit more memory
+on optimal states.
+
+1693
+01:17:19,770 --> 01:17:23,809
+Cool. And lastly,
+
+1694
+01:17:23,809 --> 01:17:28,490
+they use metric pre
+fill decode deggation.
+
+1695
+01:17:30,250 --> 01:17:33,609
+It is more complicated than
+I taught in this class.
+
+1696
+01:17:33,609 --> 01:17:40,930
+Basically, it for decoding,
+
+1697
+01:17:40,930 --> 01:17:43,650
+they are using 320 GPUs,
+
+1698
+01:17:43,650 --> 01:17:46,489
+and for pre fill they are
+using much less GPUs.
+
+1699
+01:17:46,489 --> 01:17:48,609
+Still remember PYD.
+
+1700
+01:17:48,609 --> 01:17:49,969
+They have to tune the value
+
+1701
+01:17:49,969 --> 01:17:51,769
+of X and Y to make
+sure that they
+
+1702
+01:17:51,769 --> 01:17:53,809
+strike a pretty good balance
+
+1703
+01:17:53,809 --> 01:17:56,089
+between prefer and
+decode at three.
+
+1704
+01:17:56,089 --> 01:18:01,449
+Okay. Okay. I know I
+run this too quick,
+
+1705
+01:18:01,449 --> 01:18:02,969
+but feel free to come to
+
+1706
+01:18:02,969 --> 01:18:04,969
+me or tomorrow in
+my office hour.
+
+1707
+01:18:04,969 --> 01:18:06,809
+I'm happy to explain
+all these details.
+
+1708
+01:18:06,809 --> 01:18:09,729
+But essentially, you
+can see in deep ke,
+
+1709
+01:18:09,729 --> 01:18:12,369
+what they do is they combine
+all these altogether,
+
+1710
+01:18:12,369 --> 01:18:15,169
+and they deliver a
+pretty good model and
+
+1711
+01:18:15,169 --> 01:18:20,369
+a pretty good system to
+train and solve that model.
+
+1712
+01:18:20,689 --> 01:18:23,649
+With that, I think I finished
+
+1713
+01:18:23,649 --> 01:18:25,609
+all my planned contents
+
+1714
+01:18:25,609 --> 01:18:27,529
+and there are more
+like we can cover,
+
+1715
+01:18:27,529 --> 01:18:29,089
+but because the usage is
+
+1716
+01:18:29,089 --> 01:18:31,129
+quarter based, so
+I don't have time.
+
+1717
+01:18:31,129 --> 01:18:35,589
+And I want to see a few
+ending words, okay?
+
+1718
+01:18:35,589 --> 01:18:36,989
+So in this course,
+
+1719
+01:18:36,989 --> 01:18:40,149
+we covered different layers
+of machining systems, right?
+
+1720
+01:18:40,149 --> 01:18:42,269
+So we covered the system itself,
+
+1721
+01:18:42,269 --> 01:18:43,549
+we covered the kernels,
+
+1722
+01:18:43,549 --> 01:18:45,549
+we covered distribute
+systems like
+
+1723
+01:18:45,549 --> 01:18:48,229
+how to org managements.
+
+1724
+01:18:48,229 --> 01:18:50,589
+We also talked about the
+changing, for example,
+
+1725
+01:18:50,589 --> 01:18:52,269
+flight engine, which belongs
+
+1726
+01:18:52,269 --> 01:18:54,909
+to efficient machine
+learning systems.
+
+1727
+01:18:54,909 --> 01:18:57,749
+And we sometimes also joke aside
+
+1728
+01:18:57,749 --> 01:19:01,189
+about the current
+deploying market, right?
+
+1729
+01:19:01,189 --> 01:19:03,669
+And I think we covered
+
+1730
+01:19:03,669 --> 01:19:06,029
+many technologies,
+some of our latest,
+
+1731
+01:19:06,029 --> 01:19:07,989
+but I think the true lesson
+I want to let you know
+
+1732
+01:19:07,989 --> 01:19:12,339
+is So now the world is
+changing faster than before.
+
+1733
+01:19:12,339 --> 01:19:15,099
+Okay. So whatever
+I taught, okay?
+
+1734
+01:19:15,099 --> 01:19:18,459
+So happens because now
+you can write code in
+
+1735
+01:19:18,459 --> 01:19:21,819
+HB and you can write like
+80% of the code, okay.
+
+1736
+01:19:21,819 --> 01:19:23,499
+And we developing agent,
+
+1737
+01:19:23,499 --> 01:19:26,659
+agents is going to supposed
+to replace humans, right?
+
+1738
+01:19:26,659 --> 01:19:30,999
+Okay, and even those agents
+can write kernels So what
+
+1739
+01:19:30,999 --> 01:19:32,479
+I taught what I have learned in
+
+1740
+01:19:32,479 --> 01:19:35,599
+this course likely will be
+replaced in one to two years.
+
+1741
+01:19:35,599 --> 01:19:37,399
+This is a very unique time
+
+1742
+01:19:37,399 --> 01:19:39,879
+because I think before this,
+this will never happen.
+
+1743
+01:19:39,879 --> 01:19:41,279
+For example, you took
+
+1744
+01:19:41,279 --> 01:19:44,039
+some OS cores you took
+some database scores,
+
+1745
+01:19:44,039 --> 01:19:45,839
+at least database
+has been there for
+
+1746
+01:19:45,839 --> 01:19:48,159
+20 years, more than 20 years.
+
+1747
+01:19:48,159 --> 01:19:50,959
+But what I taught today and
+what I e in the future,
+
+1748
+01:19:50,959 --> 01:19:52,479
+any technology invented will
+
+1749
+01:19:52,479 --> 01:19:54,519
+be replaced in one to two years?
+
+1750
+01:19:54,519 --> 01:19:57,929
+And I want to let you know
+that this will be a norm.
+
+1751
+01:19:57,929 --> 01:20:00,899
+Okay. You have to
+get used to that.
+
+1752
+01:20:00,899 --> 01:20:03,459
+And so what I really hope
+
+1753
+01:20:03,459 --> 01:20:06,259
+you can learn from this
+course is three things.
+
+1754
+01:20:06,259 --> 01:20:10,179
+First one, you need to identify
+the problem to work on.
+
+1755
+01:20:10,179 --> 01:20:11,779
+Which problem is
+the most important?
+
+1756
+01:20:11,779 --> 01:20:14,579
+Like what methods is not
+the technology itself.
+
+1757
+01:20:14,579 --> 01:20:16,619
+What methods is the problem.
+
+1758
+01:20:16,619 --> 01:20:21,019
+Second, I hope we can understand
+the technology trends.
+
+1759
+01:20:21,019 --> 01:20:24,060
+For example, by looking
+at hardware and software,
+
+1760
+01:20:24,060 --> 01:20:27,044
+you know how things
+will change, right?
+
+1761
+01:20:27,044 --> 01:20:30,229
+And third, most important,
+
+1762
+01:20:30,229 --> 01:20:34,309
+I hope we have the ability
+to predict the future.
+
+1763
+01:20:34,309 --> 01:20:35,749
+And I think that's one of
+
+1764
+01:20:35,749 --> 01:20:38,470
+the most important
+kind of capability.
+
+1765
+01:20:38,470 --> 01:20:40,349
+And why I think
+that's pretty good
+
+1766
+01:20:40,349 --> 01:20:43,189
+because if you can
+predict the future,
+
+1767
+01:20:43,189 --> 01:20:44,869
+I think you can do a few
+quite amazing things.
+
+1768
+01:20:44,869 --> 01:20:47,589
+The first one is you
+will be able to write
+
+1769
+01:20:47,589 --> 01:20:49,749
+a pretty good paper
+that can quickly
+
+1770
+01:20:49,749 --> 01:20:51,909
+accumulates because
+you know the future,
+
+1771
+01:20:51,909 --> 01:20:55,204
+you know what people will
+value on the research market.
+
+1772
+01:20:55,204 --> 01:20:58,059
+Secondly, you will be
+that person, right?
+
+1773
+01:20:58,059 --> 01:20:59,939
+Yeah, you will basically
+
+1774
+01:20:59,939 --> 01:21:01,379
+invest your career
+on something that
+
+1775
+01:21:01,379 --> 01:21:05,059
+is trendy and you will get
+appreciated by employers.
+
+1776
+01:21:05,059 --> 01:21:08,419
+If you don't work, you can
+probably become very benefit.
+
+1777
+01:21:08,419 --> 01:21:10,219
+You can go invest in red stock
+
+1778
+01:21:10,219 --> 01:21:11,779
+and you'll get pretty rich.
+
+1779
+01:21:11,779 --> 01:21:13,379
+Okay. That's all from me,
+
+1780
+01:21:13,379 --> 01:21:15,739
+and I hope you enjoy this class,

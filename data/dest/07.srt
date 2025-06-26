@@ -150,52 +150,52 @@ because they are not arithmetic intensive.
 
 31
 00:03:09,169 --> 00:03:13,909
-所以我们现在需要做的，基本上就是比较B和F，对吧？
+所以我们现在需要做的基本上就是比较B和F，对吧？
 So what we need to do is basically compare B and F, right?
 
 32
 00:03:13,909 --> 00:03:19,030
-那么需要更多浮点运算的那个，更有可能受到算术操作的限制。
+而需要更多浮点运算的那个，更有可能
 And the one that has more that requires more flops are more likely to
 
 33
 00:03:19,030 --> 00:03:21,130
-所以我记得我给过你一个公式，对吧？用来计算矩阵乘法所需的浮点运算量。
+受到算术操作的限制。
 be limited by arithmetic operations.
 
 34
 00:03:21,130 --> 00:03:25,569
-对于选项B，
+所以我给了你一个公式，对吧，怎么计算矩阵乘法所需的浮点运算次数，
 So I think I give you a equation right, how to calculate the flops needed for matm and
 
 35
 00:03:25,569 --> 00:03:28,839
-我觉得它确实已经是一个相当大的矩阵乘法了，但它有一个维度等于1。
+对于选项B来说，
 the for the option B,
 
 36
 00:03:28,839 --> 00:03:34,879
-但对于第二个F，呃，前两个维度稍微小一点，
+我觉得它确实已经是一个很大的矩阵乘法了，但它有一个维度等于1。
 I think it is indeed a pretty big metamol already, but it has one dimension that is equal to one.
 
 37
 00:03:34,879 --> 00:03:39,720
-但是第三个维度非常大。
+但对于第二个F来说，呃，前两个维度稍微小一点，
 But for the second one F, uh, the first two dimensions are slightly smaller,
 
 38
 00:03:39,720 --> 00:03:41,679
-如果你比较所有需要的浮点运算，其实我觉得F的计算量非常大。
+但第三个维度非常大。
 but the third dimension is pretty big.
 
 39
 00:03:41,679 --> 00:03:47,000
-很好。那么在为GMM选择tile大小时，GMM基本上就是GPU上的矩阵乘法的意思，
+如果你比较所有需要的浮点运算，其实我觉得F的计算量非常大。
 And if you compare all the flops needed, actually, I think F is very intensive.
 
 40
 00:03:47,000 --> 00:03:59,260
-好的，所以在为GMM选择tile size时，GMM其实就是指GPU上的矩阵乘法。
+很好。那么在为GMM选择tile size时，GMM其实就是指GPU上的矩阵乘法。
 Cool. So when picking a tile size for GMM GMM means basically stands for the metamol in GPUs,
 
 41
@@ -545,7 +545,7 @@ crafted by petrod developers, right?
 
 110
 00:09:08,459 --> 00:09:13,639
-但在Cuda这种底层语言里，你需要自己处理很多事情。
+但在Cuda这种底层语言中，你就需要自己处理很多事情。
 But in Cuda, in low level language, okay, you need to take care of a lot of things.
 
 111
@@ -700,22 +700,22 @@ Okay? And we can do softmax.
 
 141
 00:11:18,320 --> 00:11:22,020
-我们的目标是尝试输入端到端的softmax核函数。
+我们的目标是尝试为softmax输入端到端的kernel。
 And our goal is we try to input end to end kernel for softmax.
 
 142
 00:11:22,020 --> 00:11:24,919
-好吗？我们不是用基本操作来组合的。
+明白吗？我们不是用基本操作组合出来的。
 Okay? We don't compose from primitives.
 
 143
 00:11:24,919 --> 00:11:30,300
-是的。我觉得有了之前的经验，这个程序相对来说比较容易理解，
+是的。我认为有了之前的经验，这个程序相对于Koda来说更容易理解。
 Yeah. And I think with the previous experience, this program is rather easy
 
 144
 00:11:30,300 --> 00:11:33,180
-和Koda相比，好吗？
+与Koda相比，这个程序更容易理解，对吧？
 to understand compared to Koda, okay?
 
 145
@@ -730,12 +730,12 @@ So of course, we start with a treating it, right, and we define the signature of
 
 147
 00:11:39,760 --> 00:11:43,269
-然后呢，正如我刚才说的，
+嗯，然后像我说的，从第一个索引开始，
 And uh and with first index, like I said,
 
 148
 00:11:43,269 --> 00:11:47,690
-我希望每个块负责一行，每个线程负责一列。
+我希望每个block负责一行，每个线程负责一列。
 I want each block to take care of one row, and each thread will take one column.
 
 149
@@ -745,7 +745,7 @@ So I play some index here indexing here.
 
 150
 00:11:50,769 --> 00:11:53,929
-我对块进行了索引，并将其映射到行，对吧？
+我给block做了索引，并把它映射到行上，对吧？
 I index the block and the map to roll, right?
 
 151
@@ -1250,52 +1250,52 @@ that guarantees correctness and performance skin.
 
 251
 00:18:42,190 --> 00:18:44,949
-记住，X等于Y，并且Y比X更快。
+记住，X 等于 Y，并且 Y 比 X 更快。
 Remember, X equals Y and Y is faster than X.
 
 252
 00:18:44,949 --> 00:18:48,009
-然后我们要做的基本上就是在整个由模型定义的数据流图上运行模式匹配。
+然后我们要做的基本上就是运行模式匹配
 And then what we do is we basically run pattern matching
 
 253
 00:18:48,009 --> 00:18:52,190
-每当我们找到一个基本上匹配模板的模式时，我们就用Y替换X。
+在模型定义的整个数据流图上进行操作。
 over our entire data flow graph defined by the model.
 
 254
 00:18:52,190 --> 00:18:57,029
-这样可以保证我们获得性能提升和正确的结果。
+每当我们找到一个基本符合模板的模式时，我们就用 Y 替换 X。
 And whenever we find a pattern that basically matches template, we replace the X with Y.
 
 255
 00:18:57,029 --> 00:19:01,064
-好的，我们将从讨论这个开始。
+这样可以保证我们获得性能提升和正确的结果。
 That is guaranteed to give us performance and correct results.
 
 256
 00:19:01,064 --> 00:19:03,679
-好的，如何运行这种模式匹配。
+好的，我们将首先讨论这一点。
 Okay. And we will start by talking about this first.
 
 257
 00:19:03,679 --> 00:19:06,040
-社区里有一些非常知名的模板。
+好，如何运行这种模式匹配。
 Okay, how to run this kind of pattern matching.
 
 258
 00:19:06,040 --> 00:19:11,140
-我想如果你上过几门编译器课程，你可能也学过这个，对吧？
+社区中有一些非常知名的模板。
 So there are a few very well known templates in the community.
 
 259
 00:19:11,140 --> 00:19:17,280
-因为在传统编译器中，比如在为CIPs plus编译代码时，
+我想如果你上过几门编译原理的课程，你可能也学过这个，对吧？
 And I think you probably also studied this if you took a few courses in compiler, okay?
 
 260
 00:19:17,280 --> 00:19:21,760
-
+因为在传统编译器中，比如在为 CIPs plus 编译代码时，
 Because in compiler in traditional compiler, for example, in compiling code for CIPs plus,
 
 261
@@ -2600,52 +2600,52 @@ And we can basically replace the original graph A with whatever in the equivalen
 
 521
 00:37:26,779 --> 00:37:29,379
-
+我们试图找出那些既能提升性能又能保证正确性的方案。
 and we try to figure out those that basically will give
 
 522
 00:37:29,379 --> 00:37:32,260
-
+这样你就能获得性能提升，同时还能保证结果的正确性。
 you performance gains while still guarantee correctness.
 
 523
 00:37:32,260 --> 00:37:38,279
-
+这就是核心思想。明白了吗？现在我们来深入了解这个过程是如何运作的。
 That's a how idea. Okay? Now, let's dive deeper into how this works. Okay.
 
 524
 00:37:39,070 --> 00:37:46,489
-
+在这里，我们从框架和硬件后端支持的算子开始。
 So here we start with operators supported by our framework and hardware back end.
 
 525
 00:37:46,489 --> 00:37:49,790
-
+这里我举一个简单的例子。
 Here, I give a simple example.
 
 526
 00:37:49,790 --> 00:37:54,909
-
+我们有四个算子。我们的第一步基本上是枚举所有
 We have four operators. Our first step is basically we enumerate all
 
 527
 00:37:54,909 --> 00:37:57,689
-
+固定大小下的所有可能的计算图。
 possible graphs up to a fixed size.
 
 528
 00:37:57,689 --> 00:38:04,689
-
+比如说，我想枚举所有由四个节点组成的可能图形。
 For example, I want to, uh, enumerate all the possible graph shapes with four notes.
 
 529
 00:38:04,689 --> 00:38:07,309
-
+它们可以以各种方式连接。
 They can be connected in whatever ways.
 
 530
 00:38:07,309 --> 00:38:14,709
-
+结果发现，即使只有四个算子，也会有很多子图。
 Okay. And it turns out that there are many subgraphs, even only given four ups.
 
 531
@@ -2800,37 +2800,37 @@ Uh, the second one is basically, they have a common subgraph.
 
 561
 00:40:20,169 --> 00:40:23,069
-嗯，这是等价的，因为我基本上只是换了顺序，
+嗯，这其实是等价的，因为我只是换了下加A时BT保持的位置顺序。
 Uh, it's equivalent because I basically switch the order where I
 
 562
 00:40:23,069 --> 00:40:26,209
-当我把A加到它们上面时，BT保持不变。
+我把A加进去时，BT保持的位置变了，但本质是一样的。
 put the BT stay when I add A to them.
 
 563
 00:40:26,209 --> 00:40:29,009
-好的，嗯，我可以继续用这种
+好的，我可以继续用这种数学规则来不断精简所有的替换项。
 Okay. Uh, I can continue using this kind of
 
 564
 00:40:29,009 --> 00:40:33,909
-数学规则来不断筛选所有的替换项。
+我可以用这些规则来持续修剪所有的替换。
 mathematical rules to keep pruning all the substitutions.
 
 565
 00:40:34,270 --> 00:40:38,909
-我的输入基本上有28744个替换项，
+我的输入其实是28744个替换项，
 And my input is basically 28744 substitutions,
 
 566
 00:40:38,909 --> 00:40:43,089
-筛选后，我实际上得到了734个替换项。
+修剪之后，实际上我只剩下734个替换项。
 and after pruning, I can actually get 734 substitutions.
 
 567
 00:40:43,089 --> 00:40:45,729
-明白了吗？记住，嗯，这还是很多。
+明白了吗？要记住，这其实还是很多的。
 Okay? Remember, uh, this is still a lot.
 
 568
@@ -2840,7 +2840,7 @@ Okay.
 
 569
 00:40:48,980 --> 00:40:56,059
-问题是现在我们最终还是有将近700个等价的图替换项。
+问题是我们现在最终还是有将近700个等价的图替换项。
 The problem is now we ended up with almost 700 equivalent graph substitutions.
 
 570
@@ -4805,27 +4805,27 @@ I think, when Machine learning took off, people started realizing that we should
 
 962
 01:09:04,859 --> 01:09:07,559
-可能需要加大对机器学习工作负载的投入。
+可能要更加专注于增强机器学习的工作负载。
 probably double down on augmenting Machin learning workload.
 
 963
 01:09:07,559 --> 01:09:09,779
-这就是第一个编译器出现的时候，对吧，LA。
+这就是第一个编译器出现的原因，对吧，就是LA。
 That's the first compiler come out, right, LA.
 
 964
 01:09:09,779 --> 01:09:12,599
-我在L讲座中提到过这个，好吗？是谷歌的东西。
+我在L课程中提到过这个，好吗？就是Google的东西。
 I mentioned this in L lecture, okay? Google stuff.
 
 965
 01:09:12,599 --> 01:09:17,490
-基本上它是在2016到2017年出现的。
+它基本上是在2016到2017年间出现的。
 Okay. Uh, it basically come out at 20:16 to 2017.
 
 966
 01:09:17,490 --> 01:09:22,689
-但是XLA的问题首先是，它是一个非常封闭的社区。
+但XLA的问题首先是，它是一个非常封闭的社区。
 Okay. But the problem with XLA is first, is a very closed community.
 
 967
@@ -4835,12 +4835,12 @@ Uh, Google don't talk about a lot on this.
 
 968
 01:09:25,109 --> 01:09:27,609
-他们试图在XO内部推广TensorFlow。
+他们试图在XO内部推销TensorFlow。
 They try to sell tenterflow inside XO.
 
 969
 01:09:27,609 --> 01:09:30,129
-XOE只是一个基础层。
+XOE只是一个培根层。
 XOE is only a bacon layer.
 
 970

@@ -2395,57 +2395,57 @@ is because they discover this kind of physics, okay?
 
 480
 00:32:57,890 --> 00:33:03,370
-
+在某个时刻，在GBT论文发表之后，整个机器学习界
 And at some point, after the GBT paper was published, so the machining society,
 
 481
 00:33:03,370 --> 00:33:08,629
-
+尤其是一些非常小众的研究者，他们在户外开始用物理的方法来研究机器。
 especially some very small group of researcher open air, they start approaching machinery using
 
 482
 00:33:08,629 --> 00:33:11,530
-
+他们采用的是物理的方法，而不是数学的方法。
 a physics way instead of a mathematical way.
 
 483
 00:33:11,530 --> 00:33:17,469
-
+他们并不想对我的机器模型行为做非常分析性的解释。
 They don't want to seek for a very analytical explanation of my machinery models behavior like this.
 
 484
 00:33:17,469 --> 00:33:23,099
-
+他们知道深度学习很难解释，于是放弃了这种要求。
 And they know deep learning is very hard to explain, and they give up in this demands.
 
 485
 00:33:23,099 --> 00:33:26,120
-
+明白了吗？他们做的事情就是开始做实验。
 Okay? What do they do is they start doing experiments.
 
 486
 00:33:26,120 --> 00:33:29,820
-
+他们做了很多实验，根据实验结果，
 They do a lot of experiments, according to experiment results,
 
 487
 00:33:29,820 --> 00:33:33,579
-
+他们会总结出一条经验定律，而不是解析定律。
 they are going to draw a law empirical law, not analytic law.
 
 488
 00:33:33,579 --> 00:33:37,879
-
+这是从解析定律转向绘制经验定律的过程。
 This is an analytical law's starting drawing empirical law.
 
 489
 00:33:37,879 --> 00:33:42,299
-
+他们用经验定律来预测语言模型的表现。
 And they use empirical law to predict the performance of language models.
 
 490
 00:33:42,299 --> 00:33:47,379
-
+这很重要，因为这也是为什么最近……
 Okay? And this is a very important thing because this is also why recently
 
 491
@@ -2900,52 +2900,52 @@ on many many different benchmarks and tasks.
 
 581
 00:40:36,940 --> 00:40:40,699
-
+我们希望最小化损失，因为更低的token预测损失会让语言模型更强大。
 We want to minimize the loss, because a lower token
 
 582
 00:40:40,699 --> 00:40:43,019
-
+更低的预测损失会让语言模型表现更好。
 predicting loss will credit to a stronger language model.
 
 583
 00:40:43,019 --> 00:40:44,160
-
+这就是我们的假设。
 That's what hypothesis.
 
 584
 00:40:44,160 --> 00:40:45,879
-
+我们想要回答你的问题。
 And we want to answer your question.
 
 585
 00:40:45,879 --> 00:40:49,029
-
+N是数据的数量。
 N is the amount of data.
 
 586
 00:40:49,029 --> 00:40:51,399
-
+我应该用多少数据来训练我的语言模型。
 I should use to trim my language model.
 
 587
 00:40:51,399 --> 00:40:57,299
-
+哦，抱歉，是我应该用多少参数来训练我的语言模型，D是模型数据量。
 Oh, sorry, the number of parameters I should use to trim my language model and D is a model data.
 
 588
 00:40:57,299 --> 00:40:59,039
-
+我应该用这些来训练语言模型。
 I should use Trim language model.
 
 589
 00:40:59,039 --> 00:41:02,599
-
+同时我还受到计算预算C的限制。
 And I'm subject to a computer budget which is C.
 
 590
 00:41:02,599 --> 00:41:09,619
-
+很明显，C是N和D的函数，就像我说的，计算量是参数和数据的函数。
 And apparently C is a function of NN D. Like I said, computer is a function of parameters and data,
 
 591

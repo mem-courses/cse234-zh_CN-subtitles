@@ -61,7 +61,7 @@ def build(source_text):
         ]
         print(prompt)
 
-        for retries in range(5):
+        for retries in range(10):
             try:
                 print(f'Translating {l} to {r}, retries: {retries}.')
                 if retries == 1:

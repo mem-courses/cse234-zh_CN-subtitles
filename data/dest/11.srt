@@ -105,22 +105,22 @@ that part that is mixed precision, because mixed precision is one of
 
 22
 00:02:00,700 --> 00:02:05,279
-混合精度是目前最具适应性的技术之一，对吧？
+混合精度是来自量化中最适应的技术之一，对吧？
 the most adaptive techniques from contaation, okay?
 
 23
 00:02:05,279 --> 00:02:09,099
-然后我们将开始下一个重要章节，就是并行化。
+然后我们将开始下一个重要章节，也就是并行化。
 And then we will start our next big chapter, which is paralyzation.
 
 24
 00:02:09,099 --> 00:02:12,019
-好的。好的。我们来回顾一下，对吧？
+好的。好的，回顾一下，对吧？
 Okay. Okay. Just to recap, right?
 
 25
 00:02:12,019 --> 00:02:18,179
-上一节课，我们从浮点数的表示和浮点运算讲起。
+上一讲我们从浮点数的表示和浮点运算开始讲起。
 Last lecture, we starting from the floating point orientation and the floating point arithmetics.
 
 26
@@ -130,22 +130,22 @@ And we start talking about how to quantize floating points into.
 
 27
 00:02:21,959 --> 00:02:27,160
-第一个方法是基于K均值的压缩，这样我们可以减少存储空间，
+第一个是基于K均值的量化方法，这种方法可以减少存储空间，
 The first one is key means based condensation, where we are able to reduce storage,
 
 28
 00:02:27,160 --> 00:02:29,099
-但我们无法节省计算量，对吧。
+但我们无法节省计算资源，对吧。
 but we are not able to save compute, right.
 
 29
 00:02:29,099 --> 00:02:32,840
-我们还介绍了一种更常见、更通用的编码方法，
+我们还介绍了一种更常见、更通用的量化方法，
 And we also introduce a more common more general codoon method,
 
 30
 00:02:32,840 --> 00:02:38,880
-线性压缩，可以将精度从浮点数降低到整数。
+线性量化，可以把精度从浮点数降低到整数。
 linear condensation, where we'll be able to reduce the precision from floating point to integer.
 
 31
@@ -355,12 +355,12 @@ Okay? And the solution is basically we try to it's very straightforward.
 
 72
 00:05:35,479 --> 00:05:39,640
-当你看到这个问题时，我们想出的方案就是对每个通道都做antradt，
+当你看到这个问题时，我们提出的解决方法就是对每个通道做antradt，
 When you see this, you come up with a solution that we basically do antradt for
 
 73
 00:05:39,640 --> 00:05:43,740
-这样就能解决我们的问题，对吧？那我们该怎么做呢？
+这样就能解决我们的问题，对吧？那我们怎么做呢？
 each channel that will solve our problem, okay? So how do we do that?
 
 74
@@ -370,22 +370,22 @@ So here I'm going to compare pertensor conuation and perteno conation.
 
 75
 00:05:48,319 --> 00:05:50,319
-给定这个矩阵，好吗？
+给定这个矩阵，好吗。
 So given that matrix, okay.
 
 76
 00:05:50,319 --> 00:05:53,940
-假设我们基本上做同样的事情，至少是两位的condensation。
+我们假设基本上做同样的事情，至少是两位的condensation。
 Let's assume we basically do the same thing, at least two bit condensation.
 
 77
 00:05:53,940 --> 00:05:58,100
-如果我们做pretensor connation，我们基本上需要计算RMX，这里我
+如果我们做pretensor connation，我们基本上需要算出RMX，这里我
 So if we do pretensor connation, we basically need to figure out the RMX Here I
 
 78
 00:05:58,100 --> 00:06:03,159
-稍微简化了一下，假设零点对齐，也就是说这个值等于零。
+稍微简化一下，假设零点已经对齐，也就是说这个等于零。
 simply about a little bit by assuming zero point is aligned, which means this is equal to zero.
 
 79
@@ -1400,12 +1400,12 @@ basically perform some guided search and use a cost model to guide search.
 
 281
 00:20:06,770 --> 00:20:08,810
-这张幻灯片表达的是同样的想法，对吧？
+这一页幻灯片表达的是同样的想法，对吧？
 So this slide is the same idea, okay?
 
 282
 00:20:08,810 --> 00:20:10,289
-我在做准确的评估。
+我正在进行准确的评估。
 I'm doing accurate critique.
 
 283
@@ -1420,12 +1420,12 @@ condition to the width and activation of each layer.
 
 285
 00:20:17,390 --> 00:20:22,189
-然后我应用它，看看我的准确率是多少，
+然后我应用它，尝试看看我能得到多少准确率，
 And I then apply it and I try to see how many accuracy I have and
 
 286
 00:20:22,189 --> 00:20:25,210
-还会看我能节省多少内存或计算资源。
+以及我能节省多少内存或计算资源。
 also how many memory or computer I can save.
 
 287
@@ -1435,12 +1435,12 @@ Basically, I have a cost function.
 
 288
 00:20:27,374 --> 00:20:33,380
-然后我测量实际的代价，尝试拟合这种“演员-评论家”循环，
+然后我测量实际的代价，并尝试适应这种“演员-评论家”循环，
 And then I measure the real cost and I try to fit this kind of actor critical loop
 
 289
 00:20:33,380 --> 00:20:39,500
-并试图学习一个能够建模比特数与最终代价关系的模型。
+并尝试学习一种模型，能够建模位数和最终代价之间的关系。
 and try to learn some model that can model this relation between lumber bits and the eventual cost.
 
 290
@@ -1700,7 +1700,7 @@ Okay? And this is intuition.
 
 341
 00:23:52,340 --> 00:23:55,379
-所以当你执行softmax时，你可能需要为指数和小数部分分配更多的位数
+所以当你执行softmax时，你可能应该为指数和小数部分分配更多的位数
 So when you perform softmax, you probably should allocate more bits
 
 342
@@ -1735,12 +1735,12 @@ And sometimes your grading could be extremely large, right, especially at the in
 
 348
 00:24:16,020 --> 00:24:17,799
-或者当你现在遇到这种情况时，你该怎么办？
+或者当你现在遇到这种情况时，你会怎么做？
 or when you're now, what do you do?
 
 349
 00:24:17,799 --> 00:24:23,580
-它对动态范围非常敏感，所以你要确保在累加时，
+这对动态范围非常敏感，所以你要确保在累加时，
 It's very sensitive to dynamic range, so you want to make sure that when you accumulate,
 
 350
@@ -1750,7 +1750,7 @@ you don't explode your rolling point bits, okay?
 
 351
 00:24:26,634 --> 00:24:32,030
-基于这种直觉，我刚才展示的那篇论文，基本上提出了一个方案。
+基于这种直觉，我刚才展示的那篇论文，他们基本上提出了一个方案。
 So with this kind of intuition, so the paper I just showed, they basically come up with a scheme.
 
 352
@@ -1775,12 +1775,12 @@ And then we should use full precision, for example,
 
 356
 00:24:46,150 --> 00:24:52,089
-但一旦完成这些操作，我们基本上就可以降到更低的精度，因为我们总是希望
+但一旦完成这些操作，我们基本上就可以降级到更低的精度，因为我们总是想要
 But once we finish these ops, we can basically downcast to lower precision because we always want to
 
 357
 00:24:52,089 --> 00:24:54,129
-总是希望使用更低的精度，对吧。
+总是想用更低的精度，对吧。
 know always want to use lower precision, right.
 
 358
@@ -1790,7 +1790,7 @@ Lower precision is more memory efficient and more computer efficient, okay?
 
 359
 00:24:58,829 --> 00:25:01,730
-基于这种直觉，他们开始做了很多实验。
+有了这种直觉，他们开始做大量实验。
 And with this kind of intuition, they start doing a lot of experiments, okay.
 
 360
@@ -1950,17 +1950,17 @@ That will give me, that will basically produce um gradients, right, that is in f
 
 391
 00:27:27,650 --> 00:27:30,329
-那么问题基本上就停留在这里。
+那么问题基本上就停留在这里了。
 Then the problem basically last here.
 
 392
 00:27:30,329 --> 00:27:36,189
-所以当我们尝试将这些梯度应用到我们的参数二时。
+所以当我们尝试将这些梯度应用到我们的参数二上时。
 So when we try to apply these gradients into our priamter two.
 
 393
 00:27:36,189 --> 00:27:42,349
-好的，我们要做的基本上是，我们会拿这些梯度，然后应用
+好的，我们要做的基本上就是拿这些梯度，然后我们要应用
 Okay. What we do is basically, we will take this gradings, and we are going to apply
 
 394
@@ -1970,12 +1970,12 @@ this floating 0.16 into this master weight to upload to update this master weigh
 
 395
 00:27:47,370 --> 00:27:50,850
-我们应用的方式基本上是，我们会把它提升精度。
+我们应用的方式基本上是要把它提升精度。
 into version next version.
 
 396
 00:27:50,850 --> 00:27:55,169
-我们会把它从16位提升到32位。
+我们要把16位的数据提升到32位。
 And the way we apply it basically, we are going to upcast it.
 
 397
@@ -1990,7 +1990,7 @@ Okay? We are going to basically only do this kind of weight update at
 
 399
 00:28:04,110 --> 00:28:11,210
-以确保我们保持精度，并且能够对动态范围具有鲁棒性。
+以确保我们保留精度，并且能够对动态范围具有鲁棒性。
 higher precision to make sure we preserve precision and we can basically be robust to dynamic range.
 
 400
@@ -2100,22 +2100,22 @@ For the largest model,
 
 421
 00:29:18,630 --> 00:29:21,649
-175B，我们需要用16位来存储权重，对吗？
+175B，我们需要用16位来存储权重，对吧？
 175 B, we need to store the weights in 16 bits, right?
 
 422
 00:29:21,649 --> 00:29:28,789
-那就是350G的激活值，你在MCQ里做过这个，对吧？
+那就是350G的激活，你在MCQ里做过这个，对吧？
 So which is 350 giga activations, you did this in MCQ, right?
 
 423
 00:29:28,789 --> 00:29:30,449
-所以我们在边界处做检查点保存。
+所以我们在边界处做检查点。
 So we checkpoint at the boundary.
 
 424
 00:29:30,449 --> 00:29:33,629
-我们得到了这么多激活值，对吧？
+我们得到了这么多激活，对吗？
 We get this many of activations, okay?
 
 425
@@ -2125,12 +2125,12 @@ The problem is optimal weights.
 
 426
 00:29:36,230 --> 00:29:41,549
-所以我不确定你还记不记得之前内存那节课，我们讲过多少内存
+所以我不确定你是否还记得之前内存那节课里，我们需要多少内存
 So I'm not sure if you still remember in previous lecture in the memory lecture how many memory
 
 427
 00:29:41,549 --> 00:29:44,390
-我们需要用于最优状态。
+来存储最优状态。
 we need for optimal states.
 
 428
@@ -2140,12 +2140,12 @@ We have grading, right? We have first moment and second moment, right?
 
 429
 00:29:51,969 --> 00:29:59,110
-好的，所以基本上，就是三份数值，每个数值都会以目标精度保存。
+好的，所以基本上，就是三份数值，每个数值都会以目标精度存储。
 Okay. So basically, uh, uh, three copies of values and each value will be sip in a target precision.
 
 430
 00:29:59,110 --> 00:30:03,789
-好吗？现在我们试着把这个应用到混合精度训练框架中。
+好吗？现在我们试着把这个应用到我们的混合精度训练框架中。
 Okay? Now, let's try to apply this in our mixed precision training framework.
 
 431
@@ -2650,12 +2650,12 @@ He's a guide of condition, basically.
 
 531
 00:36:31,770 --> 00:36:37,009
-他为Avidia和高通做了很多冷凝工作，对吧？
+他为Avidia和高通做了很多冷凝方面的工作，好吗？
 And he does a lot of condensation work for Avidia and for Qualcomm, okay?
 
 532
 00:36:37,009 --> 00:36:38,329
-他基本上是针对
+他基本上针对
 He basically optimize against
 
 533
@@ -2680,7 +2680,7 @@ I heard that he got two offers from both, like, Quadcom and Nvidia.
 
 537
 00:36:51,690 --> 00:36:54,049
-好的，他选择在2022年去Avidia，对吧？
+他在2022年选择去了Avidia，对吧？
 Okay, he chose to go A Midia in 2022, okay?
 
 538
@@ -2695,7 +2695,7 @@ Because in 2022, WIDA Chip,
 
 540
 00:36:57,889 --> 00:37:00,875
-Amdatock还在，对吧？嗯，好的？
+Amdatock还在，对吧？是的，没错？
 Amdatock is still here, right? Yeah, okay?
 
 541
@@ -3510,17 +3510,17 @@ So for each layer, I'm going to cut that layer into different parts and I give e
 
 703
 00:47:18,879 --> 00:47:23,624
-明白吗？这其实是另一种类型的模型并行方式，好吗？
+明白了吗？这其实是另一种模型并行的方式，好吗？
 Okay? This is another part of another type of mod partism, okay?
 
 704
 00:47:23,624 --> 00:47:27,749
-你可以看到，这会变得相当复杂，因为每一层可能有
+你可以看到，这会变得相当复杂，因为每一层可能有不同类型的算子，每个神经网络也可能有不同类型的层，对吧？
 And you can see this can become rather complicated because each layer probably has
 
 705
 00:47:27,749 --> 00:47:34,529
-不同类型的算子，而且每个神经网络可能有不同类型的层，对吧？
+不同的层可能有不同的操作符，每个神经网络也可能有不同的层，对吧？
 different kind of operators and each neural network probably have different kind of layers, right?
 
 706
@@ -3530,12 +3530,12 @@ And we also have a different type of cluster.
 
 707
 00:47:37,930 --> 00:47:41,450
-我们可以有一个节点上安装了八个GPU的集群。
+我们可以有一个节点里安装了八块GPU的集群。
 We could have a cluster with eight GPUs installed in one node.
 
 708
 00:47:41,450 --> 00:47:46,109
-我们也可以有一个非常大的集群，里面有成千上万个GPU，
+我们也可以有一个非常大的集群，里面有成千上万块GPU，
 We can also have a pretty big cluster where we have tens of thousands of GPUs,
 
 709
@@ -3545,7 +3545,7 @@ and they are distributed in different ways.
 
 710
 00:47:48,289 --> 00:47:51,690
-这样一来，问题就会变得非常复杂。
+这样的话，问题就会变得非常复杂。
 Okay? And that will basically make the problem very complicated.
 
 711
@@ -3555,32 +3555,32 @@ And that's what we are going to dive deeper.
 
 712
 00:47:53,859 --> 00:48:01,110
-好的。但直观上，我觉得就像我说的，你有一个经典的机器学习划分视角。
+好的。但直观上，我觉得就像我说的，你对机器学习中的分割有一个经典的看法。
 Okay. But intuitively, I think, like I said, uh, you have a classic view of machine learning partism
 
 713
 00:48:01,110 --> 00:48:05,470
-你把划分分为数据划分、多重划分。
+你把分割分为数据分割和多重分割。
 where you classify pism into data parts, Multi partism.
 
 714
 00:48:05,470 --> 00:48:08,529
-我觉得接下来我要做的，就是把这种
+接下来我要做的，就是把这种
 And I think next, what I'm going to do is I'm going to map this kind of like
 
 715
 00:48:08,529 --> 00:48:14,549
-对划分的直观解释映射到我们对模型、数据和计算的定义上，对吧？
+对分割的直观解释映射到我们对模型、数据和计算的定义上，对吧？
 intuitive explanation of pism into our definition of models and data on compute, right?
 
 716
 00:48:14,549 --> 00:48:21,110
-因为我们希望从纯计算和系统的角度来研究这个划分问题。
+因为我们希望从纯计算和系统的角度来研究这种分割。
 Because we want to approach this pism from sure computation and system perspective.
 
 717
 00:48:21,110 --> 00:48:24,304
-这样我们就知道在系统层面该怎么处理了。
+这样我们就知道在系统层面该怎么处理这些问题。
 So we know what to do what to deal with on system side.
 
 718
@@ -3590,7 +3590,7 @@ Okay. Still recap, right?
 
 719
 00:48:26,739 --> 00:48:32,019
-这是我第二节课用到的图，我们有神经网络，
+这是我在第二次讲座中用到的图，我们有神经网络，
 This is the figure we use in my second lecture, where we have neural networks and
 
 720

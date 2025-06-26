@@ -2550,17 +2550,17 @@ So in the outside of this loop, we are doing, catch a wire telling and inside of
 
 511
 00:36:37,459 --> 00:36:40,219
-我们现在是在做寄存器感知的分块，对吧？
+我们现在是在做寄存器分块，对吧？
 we are doing register aware telling, right?
 
 512
 00:36:40,219 --> 00:36:45,079
-这就是我之前说的。在这里，我们简单地让三个相等。
+这就是我之前说的。在这里，我们简单地用三个等于一来表示
 That's what I said before. And here, we simply said with three equal to
 
 513
 00:36:45,079 --> 00:36:47,099
-设为一，因为我们知道第三个无关紧要。
+因为我们知道三这个数其实无所谓。
 one because we know we three does not matter.
 
 514
@@ -2570,22 +2570,22 @@ It won't affect performance.
 
 515
 00:36:50,930 --> 00:36:57,429
-为了让你理解这个循环，我们可以看到在这个框里，基本上我们在做缓存分块。
+为了让你理解这个循环，我们可以看到在这个框里，基本上我们在做缓存分块
 And in order for you to understand this loop, we can see on this box, basically we are doing catch
 
 516
 00:36:57,429 --> 00:37:02,309
-使用B1和B2进行分块，并且把数据从DRAM移动到OCach。
+使用B1和B2，并且把数据从DRAM搬到OCach。
 telling using B one and B two, and it moves things from DRAM to OCach.
 
 517
 00:37:02,309 --> 00:37:06,149
-然后在这个绿色框里，我们用V和V2做寄存器分块，
+然后在这个绿色的框里，我们在做寄存器分块，使用V和V2，
 And then in this green box, we are doing register telling using V and V two,
 
 518
 00:37:06,149 --> 00:37:08,510
-我们把数据从一个地方移动到寄存器。
+我们把数据从一级缓存搬到寄存器。
 we are moving things from one to register.
 
 519
@@ -2595,7 +2595,7 @@ And finally, things are in register, we actually proceed the competition.
 
 520
 00:37:12,730 --> 00:37:17,770
-好吗？那我们再来分析一下开销，好吗？
+好吗？那我们再来分析一下这个代价，好吗？
 Okay? And let's try to analyze the cost again, okay?
 
 521
@@ -3400,52 +3400,52 @@ Everyone understands this.
 
 681
 00:48:24,089 --> 00:48:26,569
-
+显然，摩尔定律正在终结。
 And apparently Morris law is ending.
 
 682
 00:48:26,569 --> 00:48:30,709
-
+嗯，我们无法再缩小ARU的尺寸，所以CPU或类似芯片的计算能力无法再提升。
 Uh, we cannot reduce the sight of ARU, so the computing power
 
 683
 00:48:30,709 --> 00:48:33,949
-
+你会发现计算能力在某个点上达到了平台期。
 of CPUs or similar chips cannot increase anymore.
 
 684
 00:48:33,949 --> 00:48:35,609
-
+明白了吗？那么我们该如何突破这个限制呢？
 You can see the plateaus at some point.
 
 685
 00:48:35,609 --> 00:48:38,169
-
+你可以看到这个平台期其实早在2015年就出现了。
 Okay? So how to break this limit.
 
 686
 00:48:38,169 --> 00:48:41,789
-
+但事实并非如此。
 And you can see this already plateau as 2015.
 
 687
 00:48:41,789 --> 00:48:44,890
-
+如果你去查一下，我们的计算能力至今还在提升。
 But that's not a reality.
 
 688
 00:48:44,890 --> 00:48:47,909
-
+好吗？在我看来，有两种方法，你可以不同意。
 If you writing check, our computing power is still increasing today.
 
 689
 00:48:47,909 --> 00:48:51,270
-
+欢迎随时发表你的看法。
 Okay? There are two ways, in my opinion, you can disagree.
 
 690
 00:48:51,270 --> 00:48:52,569
-
+请随意评论。
 Okay, feel free to comment.
 
 691
@@ -3550,7 +3550,7 @@ I only care about metmo.
 
 711
 00:50:05,770 --> 00:50:08,825
-那我只做一个只能执行Mtmo的核心怎么样？
+那如果我只做一个只能执行Mtmo的核心怎么样？
 So how about I just make course that can only do Mtmo?
 
 712
@@ -3560,37 +3560,37 @@ But nothing else, right?
 
 713
 00:50:10,999 --> 00:50:15,879
-如果我这样稍微简化一下，我们可以放很多核心，而且可以让
+如果我这样稍微简化一下，我们就可以放很多核心，而且可以让
 And if I simplify that a little bit in this way, we can put so many cores and we can make
 
 714
 00:50:15,879 --> 00:50:18,459
-核心变得更小，这样我们可以放更多的核心。
+核心变得更小，这样我们就可以放更多的核心在这里。
 the core even smaller and we can put so many cores here.
 
 715
 00:50:18,459 --> 00:50:22,560
-有两个原因，一个原因是我们可以让核心变得更小。
+有两个原因，第一个原因是我们可以让核心变得更小。
 Two reasons one reason is because we can make the core much smaller.
 
 716
 00:50:22,560 --> 00:50:26,759
-第二是我们基本上可以把那些控制单元从板子上移除。
+第二个原因是我们基本上可以把那些控制单元从主板上移除。
 Second is we can basically remove those control units from the board.
 
 717
 00:50:26,759 --> 00:50:30,564
-所以我们可以把它们的空间腾出来，放更多的核心，对吧？
+所以我们基本上可以利用它们的空间，放越来越多的核心，对吧？
 So we can basically take their space and put more and more cores, okay?
 
 718
 00:50:30,564 --> 00:50:35,169
-对，对对，是计算单元，对，好的。
+对，对，对，计算单元，对。好。
 Yeah. Yeah, yeah, computing units, yeah. Okay.
 
 719
 00:50:35,169 --> 00:50:40,310
-但如果你比较左边和右边的核心，红色的核心其实更“笨”，
+但如果你比较左边和右边的核心，红色的核心其实更笨，
 But if you compare the crew on the left and right, the red crew is actually more stupid,
 
 720
@@ -4200,17 +4200,17 @@ Okay. Any pattern you you found. Yeah, exactly.
 
 841
 00:59:51,730 --> 01:00:00,010
-在媒体中，如果你能编写一个始终进行计算的内核或函数，
+在媒体中，如果你能够编写一个始终进行计算的内核或函数，
 In media, if you are able to write a kernel or a function, that always perform computation,
 
 842
 01:00:00,010 --> 01:00:02,749
-但受限于平均情况下只有一半的元素，其余的基本上是空的，
+但受到一个约束，就是平均来说只有一半的元素，其余的基本上都是空的，
 subject to a constraint that is average will only have
 
 843
 01:00:02,749 --> 01:00:09,150
-那么你基本上就能获得这些浮点运算性能。
+那么你基本上就能获得这些浮点运算能力。
 half elements and the rest of them are basically empty, then you basically get these flops.
 
 844
@@ -4225,12 +4225,12 @@ at least for me, I feel it's very hard to convert my original competition into
 
 846
 01:00:19,749 --> 01:00:21,669
-适合这种方式的东西非常难。
+适应这种方式的东西非常困难。
 something that fits into this.
 
 847
 01:00:21,669 --> 01:00:23,709
-很酷。这就是特别的意义。
+很酷。这就是特别的含义。
 Cool. This is specially means.
 
 848
@@ -4240,12 +4240,12 @@ This basically echoes what I said at the beginning.
 
 849
 01:00:26,010 --> 01:00:31,709
-所以你可以让你的硬件专门化，比如你做一些特别擅长
+所以你可以通过一种方式专门化你的硬件，就是让某些核心在
 So one way you can specialize your hardware you make some course that is so good at
 
 850
 01:00:31,709 --> 01:00:34,309
-某种特定计算的核心。
+某种特定的计算类型上表现得非常好。
 some type of specified competition.
 
 851
@@ -4550,7 +4550,7 @@ They are trying to tune the configurations, for example, catch size, uh, memory,
 
 911
 01:04:27,379 --> 01:04:32,459
-比如寄存器大小，为了确保他们能够
+比如寄存器大小，以确保他们尝试
 like register size, to make sure that they try to
 
 912
@@ -4565,12 +4565,12 @@ Okay? And if you look at this performance chart,
 
 914
 01:04:40,199 --> 01:04:46,020
-你可以看到Grock公司生产的芯片在这个工作负载下，
+你可以看到Grock生产的芯片在这个工作负载下，
 you can see the chips produced by Grock on this workload,
 
 915
 01:04:46,020 --> 01:04:48,740
-主要是尝试从Lama生成tokens，
+也就是试图从Lama生成tokens，
 which is basically trying to generate tokens from Lama,
 
 916
@@ -4580,7 +4580,7 @@ it can achieve almost ten times faster than the rest.
 
 917
 01:04:51,819 --> 01:04:56,399
-其他公司都是一些终端公司、初创公司，非常有名的那种，好吗？
+其他公司都是一些终端公司、初创企业，非常有名的那种，好吗？
 The rest of companies are some endpoint companies, startups, very famous ones, okay?
 
 918

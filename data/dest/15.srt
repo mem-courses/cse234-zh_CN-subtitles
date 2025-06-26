@@ -150,52 +150,52 @@ So here, you can understand that synchronous are something very similar
 
 31
 00:01:59,379 --> 00:02:03,140
-
+就像我们在数据并行中讨论的那样，我们总是确保
 to what we discussed in data parism that is we always make
 
 32
 00:02:03,140 --> 00:02:05,400
-
+所有的工作节点都在同一个地方。
 sure like all the workers, they are in the same place.
 
 33
 00:02:05,400 --> 00:02:09,699
-
+那我是什么意思呢？这种方法的主要好处是
 So what do I mean? So the main benefits of this kind of like method is that it
 
 34
 00:02:09,699 --> 00:02:11,640
-
+它保留了机器学习的语义。
 keeps machine learning semantics.
 
 35
 00:02:11,640 --> 00:02:16,004
-
+换句话说，整个训练过程将完全一样。
 So in other words, the whole training competition will be exactly the same.
 
 36
 00:02:16,004 --> 00:02:22,270
-
+就好像你实际上只在单个设备上运行一样，因为如果你看预先的调度，
 Uh, as if you're actually new on single device because if you look at the pre schedule,
 
 37
 00:02:22,270 --> 00:02:23,929
-
+我们总是有这个同步屏障。
 we always have this barrier.
 
 38
 00:02:23,929 --> 00:02:26,450
-
+我们会在所有微批次完成后再进行更新。
 We update when all the micro baatches are finished.
 
 39
 00:02:26,450 --> 00:02:31,970
-
+但其实，这里有一点空间可以让我们操作，从而让这个过程
 Okay. But actually, there's a little space that we can play around that to make this a little bit
 
 40
 00:02:31,970 --> 00:02:34,869
-
+更加同步，同时速度更快。
 more synchronous but much faster.
 
 41
@@ -1360,22 +1360,22 @@ This is a reduction loop, and if we paralyze loop K, we basically need to accumu
 
 273
 00:19:13,839 --> 00:19:22,029
-所有设备上的部分结果，这可以通过什么来实现？
+所有设备的部分结果，这可以通过什么实现？
 the partial results from all devices, which can be done by by what?
 
 274
 00:19:22,029 --> 00:19:25,009
-通过通信原语，那个是什么？
+生物通信原语，那是什么？
 Bio coommunication primitive, what is that?
 
 275
 00:19:25,009 --> 00:19:31,449
-或者用reduce。对，因为我们有部分结果，所以需要累加结果。
+或者用reduce。对，因为我们有部分结果，所以基本上是累加结果。
 Or reduce. Yeah. Because we have partial results, so basically accumulate results.
 
 276
 00:19:31,449 --> 00:19:38,729
-再比如，如果我们有四个设备，用四种不同的颜色表示，我们还用灰色
+同样，如果我们有四个设备，用四种不同的颜色表示，我们还用灰色
 Again, if we have four devices denoted by four different colors, we also use gray
 
 277
@@ -1385,7 +1385,7 @@ here to denote if a tensor is replicated or not.
 
 278
 00:19:41,679 --> 00:19:45,629
-所以首先，我们可以并行化I循环。
+所以首先，我们可以并行化，呃，基本上是I循环。
 So first, we can paralyze, uh, basically loop I.
 
 279
@@ -1395,7 +1395,7 @@ This means that matrix C and A have to be partitioned.
 
 280
 00:19:49,290 --> 00:19:53,690
-每个设备，嗯，这里的区别可以。
+每个设备，嗯，这里的区别没问题。
 Each device, um, so here, this difference okay.
 
 281
@@ -1850,12 +1850,12 @@ partition and then we might each partito um a device.
 
 371
 00:26:19,029 --> 00:26:23,409
-由于我们的划分方式，会导致不同的通信模式和交流模式。
+由于我们的分区方式，会导致不同的通勤模式
 And because of the way we partition, uh, it will result into different commuting patterns
 
 372
 00:26:23,409 --> 00:26:26,209
-好吗？
+和通信模式。明白了吗？
 and communicating patterns. Okay?
 
 373
@@ -1865,17 +1865,17 @@ So so far, you have learned how to paralyze a single operator.
 
 374
 00:26:32,769 --> 00:26:36,489
-现在，让我们转到一个计算图，看看一些例子。
+现在，让我们转到一个图上，看看一些例子。
 Now, let us basically move to a graph and see some examples.
 
 375
 00:26:36,489 --> 00:26:42,149
-好吗？所以在这一页，我们将展示数据并行其实
+好吗？在这一页中，我们将展示数据并行实际上
 Okay? So in this page, we all show that basically data partism is actually
 
 376
 00:26:42,149 --> 00:26:44,049
-是算子内部并行的一种特殊情况。
+是算子内并行的一种特殊情况。
 a special case of intraoperatism.
 
 377
@@ -1885,17 +1885,17 @@ I think we did this, but I just want to recap.
 
 378
 00:26:45,989 --> 00:26:50,849
-好吗？首先，我们会用图例来表示张量
+好吗？首先，我们会用图例来表示张量是
 Okay? So first, we'll use legends to represent whether tensor
 
 379
 00:26:50,849 --> 00:26:54,569
-是被复制的、行并行的，当然还有普通并行，我们会用两种
+复制的、行并行的和列并行的，当然，我们还会用两种
 is replicated row parison and common parison, of course, and we will use two types of
 
 380
 00:26:54,569 --> 00:26:57,109
-算子内部并行策略来处理这里的矩阵乘法。
+用于矩阵乘法的算子内并行策略。
 intra parallel strategies for matm here.
 
 381
@@ -2400,52 +2400,52 @@ Edge cost is a resting cost and nod cost is a cost inherent to the specific type
 
 481
 00:34:26,139 --> 00:34:29,439
-
+你选择的分区策略就是我们的p。好的。
 parting strategy you choose for our p. Okay.
 
 482
 00:34:29,439 --> 00:34:35,599
-
+现在我觉得你大致明白怎么解这道题了，对吧？
 And now I think you roughly have an idea how to solve this question, right?
 
 483
 00:34:35,599 --> 00:34:40,619
-
+解决这个问题的一个简单方法就是，枚举所有的可能性。
 One easy way to solve this problem is basically, you enumerate all the possibilities.
 
 484
 00:34:40,619 --> 00:34:46,200
-
+你不断地枚举图中的内容，基本上就是枚举每一种类型、每一种可能性，
 You keep enumeraating the graph, and you basically enumeraating every type every possibility,
 
 485
 00:34:46,200 --> 00:34:47,820
-
+看你怎么划分操作符。
 how you can partition operator.
 
 486
 00:34:47,820 --> 00:34:52,180
-
+一旦你确定了所有操作符的划分方式，
 And once you lock down a possibility of the partitioning of all the operators,
 
 487
 00:34:52,180 --> 00:34:55,039
-
+基本上你就可以推导出所有的代价，对吧？
 you basically can't derive all the cost, right?
 
 488
 00:34:55,039 --> 00:34:57,660
-
+你写下来，因为你选择了这个方案，会产生多少连接通信。
 You write down, how many connective communication
 
 489
 00:34:57,660 --> 00:34:59,799
-
+基本上，然后你就开始优化，试着找出
 I incurred because I choose this.
 
 490
 00:34:59,799 --> 00:35:03,979
-
+更好的方案。
 And basically, then you start optimizing right you try to figure out
 
 491
@@ -3250,12 +3250,12 @@ you pi in all and depending on how you partition it, you will incur different co
 
 651
 00:46:25,780 --> 00:46:27,699
-接下来我会帮你一起学习这个内容。
+接下来我会帮你一起梳理这个过程。
 which I will help you go through next.
 
 652
 00:46:27,699 --> 00:46:33,499
-但现在，假设你已经了解了这个划分方式，我们就可以推导出内存消耗
+但现在，假设你已经了解了这个划分方式，我们可以推导出内存消耗
 But now, assume you already know this petition, we are able to derive the memory cost
 
 653
@@ -3265,37 +3265,37 @@ and communicating cost, right?
 
 654
 00:46:35,479 --> 00:46:40,759
-那我们先跳过通信消耗，因为我需要解释一下。
+所以我们先跳过通信消耗，因为我还需要解释一下。
 So maybe let's skip communicating cost first because I need to explain it.
 
 655
 00:46:40,759 --> 00:46:43,039
-但内存部分其实很容易理解，对吧？
+但内存消耗其实很容易理解，对吧？
 But for memory it's very easy to understand, right?
 
 656
 00:46:43,039 --> 00:46:46,984
-如果你只划分了状态，但没有划分参数和模型权重，
+如果你划分了各种状态，但没有划分参数和模型权重，
 So if you're part various states but not partying ingredients and model ways,
 
 657
 00:46:46,984 --> 00:46:51,450
-那么每个设备的内存其实就是这两部分会被复制。
+那么每个设备的内存基本上就是这两部分会被复制。
 then your per device memory is basically these two will be replicated.
 
 658
 00:46:51,450 --> 00:46:53,969
-这里有一个乘以四的项。
+这里有一个四倍的项。
 There is a term of four.
 
 659
 00:46:53,969 --> 00:46:57,370
-但这一项会在所有N个设备之间划分。
+但这一部分会在所有N个设备之间分割。
 But this one is partition across all N devices.
 
 660
 00:46:57,370 --> 00:47:00,709
-因此，每个设备只需要存储12除以
+所以每个设备只需要存储12除以
 Therefore, each device only need to stor 12 divided by
 
 661
@@ -3900,17 +3900,17 @@ Okay. Next project is basically match tender flow,
 
 781
 00:55:31,439 --> 00:55:37,360
-这是谷歌开发的一套用于编写模型并行TensorFlow程序的系统。
+这是谷歌开发的一个用于编写模型并行TensorFlow程序的系统。
 It is a system developed by Google for writing model parallel tender flow programs.
 
 782
 00:55:37,360 --> 00:55:42,239
-这里的关键思想基本上是通过指定分页策略来实现的。
+这里的关键思想基本上是通过指定Pagen策略来实现。
 And the key idea here is basically specify the Pagen strategy by
 
 783
 00:55:42,239 --> 00:55:44,780
-方法是将张量的维度映射到匹配的维度上。
+具体做法是将张量的维度映射到匹配的维度上。
 mapping tenser dimension to match dimensions.
 
 784
@@ -3925,7 +3925,7 @@ User need to use this special API for writing programs.
 
 786
 00:55:51,480 --> 00:55:55,159
-在代码中，用户为每个张量维度和每个匹配维度都指定了一个标签。
+在代码中，用户会为每个张量维度和每个匹配维度指定一个标签。
 And in the code, users give every tensor dimension a lime and
 
 787
@@ -3950,22 +3950,22 @@ And, um the user defined a mapping that basically maps the tinder dimension to m
 
 791
 00:56:11,480 --> 00:56:15,799
-然后系统基本上会生成一个并行化的Tinder流图
+然后系统基本上会生成一个并行的Tinder流图
 And the system will basically generate a paralyzed tinder flow graph
 
 792
 00:56:15,799 --> 00:56:18,399
-按照专门的映射方式进行，好吗？
+按照专门的映射方式，明白吗？
 following the specialized mapping, okay?
 
 793
 00:56:18,399 --> 00:56:22,840
-这个系统需要重写整个程序。
+而且这个系统需要重写整个程序。
 And this system requires a rewriting of the whole program.
 
 794
 00:56:22,840 --> 00:56:28,720
-所以它不是很友好，后来被另一个系统取代了，好吗？
+所以它不是很友好，后来被另一个系统取代了，明白吗？
 So it is not very user friendly and later it was replaced by another system, okay?
 
 795
@@ -3975,7 +3975,7 @@ And this is GSMPDPMD is basically considered as a successor of the messenger flo
 
 796
 00:56:36,649 --> 00:56:42,369
-它采用了非常类似的基于编译器的方法，但它生成了那个概念，好吗？
+它采用了非常类似的基于编译器的方法，但它生成了那个想法，明白吗？
 It follows a very similar compiler based approach, but it generates that idea, okay?
 
 797
@@ -3985,7 +3985,7 @@ User do not need to write the whole graph.
 
 798
 00:56:45,409 --> 00:56:50,670
-相反，他们只需插入一些符号来指定并行策略
+相反，他们只需要插入一些标记来指定并行策略
 Instead, they just insert some notations to specify the parallel strategy
 
 799
@@ -5200,12 +5200,12 @@ We are just designing algorithms that can guarantee like we are optimal at the f
 
 1041
 01:14:12,409 --> 01:14:18,229
-并且在第二层达到最优，我们希望得到的策略足够好，
+并且在第二层是最优的，我们希望得到的策略足够好，
 and optimal at the second level, and we hope the yielded strategy is good enough,
 
 1042
 01:14:18,229 --> 01:14:23,449
-因为我们已经利用了理论上的映射，将二进制文件在并行方式之间进行了转换。好的。
+因为我们已经利用了理论映射来连接不同的并行方式。好的。
 because we already leverage the uretical mapping the binaries between parisms. Okay.
 
 1043
@@ -5215,22 +5215,22 @@ That's a Halla idea. Okay. And this slide is
 
 1044
 01:14:27,549 --> 01:14:31,249
-基本上给出了优化流程的一个概览，好吗？
+基本上给出了优化过程的一个概览，好吗？
 basically give an overview of ogenation processes, okay?
 
 1045
 01:14:31,249 --> 01:14:36,469
-输入是计算图和计算集群。
+输入是计算图和计算机集群。
 The inputs, computational graph and computer cluster.
 
 1046
 01:14:36,469 --> 01:14:41,210
-这个OPA会经过两次遍历来完成这个优化过程。
+这个OPA会经过两轮处理来完成这个优化。
 And this OPA goes through two passes to do this openation.
 
 1047
 01:14:41,210 --> 01:14:47,289
-第一次中断遍历，主要是找到最佳的中断部分策略，
+所以第一轮中断处理，主要是找到最佳的中断部分策略
 So the first interrupt pass, it basically finds the best interrupt part strategy
 
 1048
@@ -5240,12 +5240,12 @@ with the dynamic programming algorithm, which I explain later.
 
 1049
 01:14:50,784 --> 01:14:56,259
-然后第二次中断遍历会找到最佳的跨并行策略，
+然后第二轮中断路径会用整数规划方法
 And then the second interrup path will find the best inter parallel strategy
 
 1050
 01:14:56,259 --> 01:14:58,839
-通过整数规划来实现优化。
+找到最佳的跨并行策略。
 with integer a programming organization.
 
 1051

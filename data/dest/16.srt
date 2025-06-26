@@ -4500,52 +4500,52 @@ Cool. Okay. If you start counting the parameters,
 
 901
 01:00:09,080 --> 01:00:15,239
-我基本上把它放在这里，嵌入层，形状是词汇表大小乘以隐藏维度，对吧？
+我基本上把它放在这里，嵌入层，它的形状是词汇表
 I basically put it here, Embedding layers, the shape is vocabulary
 
 902
 01:00:15,239 --> 01:00:17,299
-所以这是你的层参数。
+大小乘以隐藏维度，对吧？
 size times heating dimension, right?
 
 903
 01:00:17,299 --> 01:00:19,600
-Leyenon 基本上就是 d 维度。
+所以这些是你的Lama参数。
 So this is your lamer parameters.
 
 904
 01:00:19,600 --> 01:00:22,800
-你有一个单一的参数用来进行罗马化。
+Leyenon基本上就是d维度。
 Leyenon is basically d dimension.
 
 905
 01:00:22,800 --> 01:00:25,820
-明白了吗？自注意力，有多少个？
+你有一个单独的参数用来进行罗马化。
 You have a single parameter which you use to romanize.
 
 906
 01:00:25,820 --> 01:00:29,939
-这是 Lama 的情况。
+好吗？自注意力机制，有多少个参数？
 Okay? Self attention, how many?
 
 907
 01:00:33,510 --> 01:00:35,789
-在 Lama 的情况下，你要做的是有 WQ，
+这就是Lama的情况。
 So this is the Lama case.
 
 908
 01:00:35,789 --> 01:00:38,270
-WK 和 WV，这三个参数，
+在Lama的情况下，你要做的是有WQ，
 So in Lama case, what do you do is you have WQ,
 
 909
 01:00:38,270 --> 01:00:43,389
-它们的形状是一样的，
+WK和WV这三个参数，并且它们的形状是一样的，
 WK and WV there's three, and they are of the same shape,
 
 910
 01:00:43,389 --> 01:00:46,669
-它们会把你从一个维度转置到另一个维度，对吧？
+它们可以把你从一个维度转置到另一个维度，对吧？
 which transpose you from edge to edge, right?
 
 911

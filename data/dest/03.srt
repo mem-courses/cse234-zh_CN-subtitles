@@ -800,27 +800,27 @@ For example, next token predicting loss or classification loss.
 
 161
 00:11:24,770 --> 00:11:27,400
-所以如果我们应用这个前向模式，
+所以如果我们应用这种前向模式，
 So if we apply this forward mode,
 
 162
 00:11:27,400 --> 00:11:31,279
-用80来做微分其实非常非常低效，因为我们需要对每一个参数输入都做
+用80来做微分的话其实非常非常低效，因为我们需要对
 80 into deplening then it's very, very inefficient because we need to dp
 
 163
 00:11:31,279 --> 00:11:35,320
-梯度计算，并且我们需要运行的次数
+每一个作为参数的输入都计算梯度，而且需要运行
 gradients for each input that is a parameter, and we need to run as
 
 164
 00:11:35,320 --> 00:11:37,160
-就等于参数的数量。
+和参数数量一样多的次数。
 many times as the number of parameters.
 
 165
 00:11:37,160 --> 00:11:41,560
-明白了吗？这就是为什么前向80其实对微分来说不是很有用。
+明白吗？这就是为什么前向80其实对微分来说不是很有用。
 Okay? That's why forward 80 is actually not very useful for deperning.
 
 166
@@ -840,12 +840,12 @@ You don't need a backward pass.
 
 169
 00:11:48,930 --> 00:11:56,179
-好的。所以这基本上就引出了反向模式80，也就是反向模式自动微分，对吧？
+好的，这就把我们带到了反向模式80，也就是反向传播模式80，对吧？
 Okay. So that basically brings us to the reverse mode 80 or backward mode 80, okay?
 
 170
 00:11:56,179 --> 00:12:00,960
-这里，我将花一些时间再跑一遍这个计算图，
+这里，我会花点时间再跑一遍这个计算图，
 Here, I'm going to, uh, spend some time to run through this graph again,
 
 171
@@ -2650,52 +2650,52 @@ this in the existing machine learning frameworks like Petro and interflow.
 
 531
 00:38:04,729 --> 00:38:08,949
-
+嗯，也许框架会有所不同，但基本上，我的概述适用于所有这些框架。
 Um, maybe frameworks can be different, but basically, my overview
 
 532
 00:38:08,949 --> 00:38:10,310
-
+所以在未来，呃，也许当你开始做某些事情时，
 will apply to all these frameworks.
 
 533
 00:38:10,310 --> 00:38:13,489
-
+你可以尝试把你框架中的一些代码映射到这些层中，然后思考
 So in the future, uh, maybe when you start working on something,
 
 534
 00:38:13,489 --> 00:38:18,489
-
+它们的功能是什么，对吧？
 you can try to map some code written in your framework into these layers and think
 
 535
 00:38:18,489 --> 00:38:21,164
-
+所以在更高的层次上，也许可以从那里开始。
 about what their functionality are, right?
 
 536
 00:38:21,164 --> 00:38:24,839
-
+我们有一个数据流图，对吧，还有一组GPU集群。
 So at the higher layer, maybe start from there.
 
 537
 00:38:24,839 --> 00:38:28,219
-
+好吗？在更高的层次上，我们已经知道
 We have a data ph graph, right, and we have a cluster of GPUs.
 
 538
 00:38:28,219 --> 00:38:32,799
-
+会用数据流图来表示神经网络。
 Okay? And at the higher layer, we already know that we are going to
 
 539
 00:38:32,799 --> 00:38:34,979
-
+并且有一些自动微分库，基本上会把你的数据流图
 represent the neuralnetwork as the data flow graph.
 
 540
 00:38:34,979 --> 00:38:39,099
-
+作为输入。
 And there are some auto differentiation libraries that will basically take your photograph,
 
 541
@@ -3910,7 +3910,7 @@ so you care about consistency, you want to make sure distributed
 
 783
 00:56:01,349 --> 00:56:07,450
-和非分布式的结果是一样的，有时候你希望自动
+和非分布式的结果是一样的，有时候你希望能够自动
 versus non distributed the results are the same, sometimes you want to automatically
 
 784
@@ -3920,32 +3920,32 @@ paralyze it because you are going to develop new neur networks
 
 785
 00:56:10,610 --> 00:56:14,970
-而你不想关心，也不想为每个新写的网络
+而且你不想关心，也不想为每一个新写的网络
 and you don't want to care about you don't want to craft paralyzing strategy
 
 786
 00:56:14,970 --> 00:56:16,350
-手动设计并行化策略。
+去专门设计并行化策略。
 for ach new network you wrote.
 
 787
 00:56:16,350 --> 00:56:22,740
-好的，然后我们进入另一个层面，对吧，就是运行时和调度。
+好的，然后我们再往后看一层，对吧，就是运行时和调度。
 Okay and then we go to another layer behind, right, runtime and scheduling.
 
 788
 00:56:22,740 --> 00:56:26,119
-所以在这一层，我觉得很直接，对吧？
+所以在这一层，我觉得其实很直接，对吧？
 So in this layer, I think it's pretty straightforward, right?
 
 789
 00:56:26,119 --> 00:56:30,139
-就是我们在操作系统里做什么，怎么让程序运行起来。
+就是我们在操作系统里做什么，怎么让一个程序运行起来。
 It's what do we do in operating systems, how we make a program run.
 
 790
 00:56:30,139 --> 00:56:34,940
-所以我们基本上想要以某种方式调度计算、通信和内存，基本上，
+所以我们基本上就是想要以某种方式调度计算机、通信和内存，基本上，
 So we basically want to schedule the computer and communication and memory in a way that basically,
 
 791

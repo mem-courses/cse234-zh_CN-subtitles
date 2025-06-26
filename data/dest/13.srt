@@ -1200,42 +1200,42 @@ many many different devices like interconnect networks.
 
 241
 00:16:24,189 --> 00:16:31,469
-好的。如果我这样做，极端情况下想一想，如果基本上红色节点和
+好的。如果我这样做的话，想象一下极端情况，假如红色节点、
 Okay. And if I do this, think about in extreme case, if basically the red nodes and
 
 242
 00:16:31,469 --> 00:16:37,830
-粉蓝色节点、蓝色设备和粉色设备其实是同样的设备。
+粉蓝色节点、蓝色设备和粉色设备其实都是同样的设备。
 the pink blue nodes and blue devices and the pink devices are basically the same devices.
 
 243
 00:16:37,830 --> 00:16:44,549
-所以每个设备本身其实就是一个服务器工作，那你能把这个和连接性联系起来吗？
+所以每个设备其实就是一个服务器本身，那么你能把这个和连接性联系起来吗？
 So each device is basically a server work itself, then could you connect this to the connective?
 
 244
 00:16:44,549 --> 00:16:48,189
-我们还是在做同样的事情，但现在我们稍微改变了一下，对吧？
+所以我们还是在做同样的事情，但现在我们稍微改变了一点，对吧？
 So we are still doing, but now we change a little bit, right?
 
 245
 00:16:48,189 --> 00:16:51,990
-基本上，现在我们首先在所有节点之间执行一次reduce scatter操作。
+基本上，现在我们首先要在所有节点之间执行一次reduce scatter操作。
 So basically, it becomes we first perform a reduced scatter across all nodes.
 
 246
 00:16:51,990 --> 00:16:55,960
-因为现在每个节点会持有参数的一份份额。
+因为现在每个节点都会持有参数的一个份额。
 Because now each node will hold one share of the parameters.
 
 247
 00:16:55,960 --> 00:17:01,309
-所以每个工作节点会持有自己梯度的完整副本，这意味着我们必须让
+所以每个工作节点都会持有自己梯度的完整副本，这意味着我们必须让
 So each worker will hold a whole copy of its own gradient, which means that we have to let
 
 248
 00:17:01,309 --> 00:17:07,210
-每个工作节点把那一份梯度分片发送到持有该分片的服务器。
+每个工作节点把那一份梯度发送给持有那一份的服务器。
 each worker to send that shard of um, gradients to server which holds that shard.
 
 249
@@ -1245,7 +1245,7 @@ This is a reduced scatter.
 
 250
 00:17:09,609 --> 00:17:13,310
-然后在reduce scatter之后，我们还需要获得新参数的新副本，
+然后在reduce scatter之后，我们需要获得新参数的新副本，
 And then after reduced scatter, we have to get a new copy of the new parameter,
 
 251
@@ -2895,7 +2895,7 @@ basically often visualized as this timeline. Okay?
 
 580
 00:38:40,689 --> 00:38:44,050
-这里，这个Y轴基本上代表的是设备。
+这里，这个Y轴基本上表示的是设备。
 So here, uh, this Y access is basically the devices.
 
 581
@@ -3550,52 +3550,52 @@ Um, and it can also work with contrastive models, which basically, uh,
 
 711
 00:47:26,549 --> 00:47:28,370
-
+包含两个分支用于两个输入。
 includes two branches for two inputs.
 
 712
 00:47:28,370 --> 00:47:31,889
-
+这种对比模型在某个时期在coervon中非常流行。
 And this contrastive model at some point is very popular in coervon.
 
 713
 00:47:31,889 --> 00:47:38,369
-
+好的。然而，它不能像其他一些
 Okay. However, it cannot be used to accelerate model like other sort
 
 714
 00:47:38,369 --> 00:47:40,350
-
+卷积工作和transformers那样加速模型。
 of conal works and also transformers.
 
 715
 00:47:40,350 --> 00:47:43,179
-
+这是bird。好，没有这种情况。
 This is bird. Okay, no such case.
 
 716
 00:47:43,179 --> 00:47:49,529
-
+此外，正如你所看到的，你和我做这个时，设备利用率仍然很低，对吧？
 And in addition, uh, as you can see, you and I do this, the device utilon is still quite low, right?
 
 717
 00:47:49,529 --> 00:47:53,489
-
+例如，当第一个和最后一个设备在运行时，
 For example, when the first and the last device is running,
 
 718
 00:47:53,489 --> 00:47:56,549
-
+所有其他设备基本上都处于空闲状态。
 all other devices become, um, basically idle.
 
 719
 00:47:56,549 --> 00:48:02,390
-
+好吗？所以设备分配基本上需要与其他流水线调度结合使用，
 Okay? So device placement basically need to be combined with, um, um, other pipeline schedules,
 
 720
 00:48:02,390 --> 00:48:04,669
-
+这个我们接下来会讨论。
 which we'll discuss next.
 
 721
@@ -4000,7 +4000,7 @@ train with 1,000 microbatches, right?
 
 801
 00:53:30,919 --> 00:53:35,300
-你用基数为一来用1000个小批量进行训练，这个泡泡
+你用基数为一来训练1000个微批次，这个气泡
 You use the basis equal to one to train with 1,000 microbates and this bubble
 
 802
@@ -4030,22 +4030,22 @@ Exactly.
 
 807
 00:53:49,679 --> 00:53:54,399
-因为每次你增加小批量时，你都会减少有效批量大小。
+因为每次你增加微批次，都会减少有效批次大小。
 Because every time you increase microbaties, you are going to decrease the effective body size.
 
 808
 00:53:54,399 --> 00:53:57,119
-那么减少有效批量大小有什么影响？
+那么减少有效批次大小会有什么影响？
 So what's the effect of decreasing effective body size?
 
 809
 00:53:57,119 --> 00:53:59,919
-你会减少你的元批量大小，对吧？
+你会减少你的matamo大小，对吧？
 You are going to reduce your matamo size, right?
 
 810
 00:53:59,919 --> 00:54:05,280
-一旦你减少了元批量大小，你的GPO的原始强度也会降低。
+一旦你减少了mamosize，你的GPO，原始强度就会降低。
 Once you reduce the mamosize, your GPO is going to be the original intensity is going to decrease.
 
 811

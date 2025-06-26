@@ -450,12 +450,12 @@ So we don't how to basically catch the previous tokens and wait for the next tok
 
 91
 00:09:30,879 --> 00:09:38,199
-好吗？在性能阶段的KV缓存中，我们正在一次性生成所有已观察到的token的QV缓存。
+好吗？在性能阶段的KV缓存中，我们会在一次遍历中生成所有已观察到的token的QV缓存。
 Okay? What happens on KV catch in perfs phase, we are generating a QV cache of
 
 92
 00:09:38,199 --> 00:09:41,260
-只需一遍就能把所有token都缓存下来。
+只需一次遍历就能缓存所有已观察到的token。
 all observed tokens in one pass.
 
 93
@@ -475,12 +475,12 @@ QQV do we need to catch query?
 
 96
 00:09:48,620 --> 00:09:52,680
-不，我们不知道查询，因为我们必须看到那个token才能知道查询内容。
+不，我们不知道查询，因为我们必须看到那个token才能知道查询。
 No, we don't know the query because we have to see that token in order to know the query.
 
 97
 00:09:52,680 --> 00:09:57,360
-当我们计算下一个token的结果时，我们用当前token的查询去
+当我们计算下一个token的结果时，我们会用当前token的查询去
 And when we compute the results of the next token, we are using the current tokens query to
 
 98
@@ -490,12 +490,12 @@ attend to all previous token QVs.
 
 99
 00:09:59,859 --> 00:10:03,420
-如果我们没看到那个token，就不知道查询是什么。
+如果我们没有看到那个token，我们就不知道查询。
 Don't know if we don't see that token, we don't know the query.
 
 100
 00:10:03,420 --> 00:10:07,459
-所以我们不能缓存Q，明白了吗？
+所以我们无法缓存Q，明白了吗？
 Therefore, we cannot catch Q. Okay?
 
 101
@@ -800,52 +800,52 @@ This two has difference? Because if I wait to accumulate a batch size of 1,000,
 
 161
 00:14:00,760 --> 00:14:07,079
-
+那第一个用户会对我生气，因为他还在等其他用户提交请求。
 then the first user will be mad with me because he's waiting for other users to submit queries.
 
 162
 00:14:07,079 --> 00:14:09,799
-
+但如果我只收到一个请求，
 But if I receive one request,
 
 163
 00:14:09,799 --> 00:14:13,829
-
+我会立刻提交，这有什么问题吗？我的批量大小就是一。
 I immediately submit, what's the problem? My bist is equal to one.
 
 164
 00:14:13,829 --> 00:14:16,170
-
+那我的TPU就没有被充分利用。
 Then my TPU is under utilized.
 
 165
 00:14:16,170 --> 00:14:19,309
-
+明白了吗？所以你现在面对的是一个很像客户相关的问题。
 Okay? So you are facing a very like a customer phasing question.
 
 166
 00:14:19,309 --> 00:14:22,450
-
+也就是你到底要怎么组成这个批次，对吧？
 That is how you exactly make this batch, okay?
 
 167
 00:14:22,450 --> 00:14:26,249
-
+这意味着在推理时，速度是变化的。
 Which means that in inference, the speed is variable.
 
 168
 00:14:26,249 --> 00:14:31,469
-
+你必须把速度和你的流量、还有大量的计算
 Okay? You have to correlate the speed with your traffic with a lot of computation
 
 169
 00:14:31,469 --> 00:14:33,855
-
+或者利用率之类的东西关联起来，对吧？
 or utilization kind of thing, okay?
 
 170
 00:14:33,855 --> 00:14:39,099
-
+所以这就是为什么推理时，很多技术都是围绕这个B来开发的。
 So that's why inference, basically the techniques are developed around this B.
 
 171
@@ -4500,52 +4500,52 @@ So basically page attention directly address this limitation.
 
 901
 01:02:58,529 --> 01:03:02,030
-所以在页面注意力机制中，基本上 QV 缓存是存储在非连续的块状内存中的
+那么关于页面注意力，基本上，QV缓存基本上是存储在非连续的主干内存中的，
 So with page attention, basically, the QV catch are basically stored
 
 902
 01:03:02,030 --> 01:03:07,969
-它们可以被存储在 GPU 内存中的任意位置
+它们可以被存储在GPU内存中的任意位置，
 in non continuous trunkle memory, and they can be stored in arbitrary position in the GP memory,
 
 903
 01:03:07,969 --> 01:03:10,969
-但我们有一种机制可以通过页面来管理它们
+但我们有一种机制可以用页面来管理它们。
 but we have a mechanism to many them using pages.
 
 904
 01:03:10,969 --> 01:03:16,530
-所以我们基本上把这个 QV 缓存虚拟化成逻辑和物理的块
+所以我们基本上把这个QV缓存虚拟化成逻辑和物理的分块。
 So we basically virtualize this QV catch, uh to logical and physical talking blocks.
 
 905
 01:03:16,530 --> 01:03:19,690
-好的，那我们来看一个例子，看看它是怎么工作的
+好的？那我们来看一个例子，看看它是怎么工作的。
 Okay? So let's see how it works with the example.
 
 906
 01:03:19,690 --> 01:03:25,314
-这里我有一个请求，提示是“艾伦·图灵是一位计算机科学家”，对吧？
+这里我有一个请求，提示词是“艾伦·图灵是一位计算机科学家”，对吧？
 Here I have a request with the prompt Alan Turing is a computer scientist, okay?
 
 907
 01:03:25,314 --> 01:03:31,139
-所以在逻辑视图中，token 还是被连续地存储在块中
+所以在逻辑视图中，令牌仍然是存储在连续的块里的，
 So basically in the logical view, okay, the tokens are still stored in consecutive blocks,
 
 908
 01:03:31,139 --> 01:03:36,059
-并且 token 的顺序从第一个到最后一个都被保留了
+并且顺序是从第一个令牌到最后一个令牌都被保留的。
 um, and the order is preserved from the first token to the last token.
 
 909
 01:03:36,059 --> 01:03:42,199
-但我会引入一个页表，这个页表在中间，就是我现在画的这个
+但我将引入一个页表，这个页表就在中间，这里我会指出来。
 But I'm going to introduce a page table where the page table is in the middle, which I who here.
 
 910
 01:03:42,199 --> 01:03:47,999
-它会把虚拟表映射到实际的物理表，也就是 GPU 内存中的表
+它会把虚拟表映射到实际的物理表，也就是GPU内存中的物理表。
 And it's going to map the virtual table into the actual physical table, in the GPO memory.
 
 911
@@ -5000,12 +5000,12 @@ So a decode only have one token per request.
 
 1001
 01:10:00,929 --> 01:10:04,709
-本质上，如果你把它们全部放在一起，你其实是在说只做
+基本上，如果你把它们全部放在一起，你就是在说只做
 Essentially, if you put all them together, you are saying only doing
 
 1002
 01:10:04,709 --> 01:10:07,929
-你最大化吞吐量的事情，是的，但你会延迟其他解码请求的延迟。
+你最大化吞吐量的事情，是的，但你会延迟其他解码请求的延迟时间。
 what you maximize your throughput, yes, but you are delaying the latency
 
 1003
@@ -5015,7 +5015,7 @@ for other decoding requests.
 
 1004
 01:10:09,629 --> 01:10:11,549
-让我们看看吧。这是一个非常热门的话题
+让我们看看。这是一个非常热门的话题
 So how do fix that problem?
 
 1005
@@ -5030,7 +5030,7 @@ I have to cover because I think this year,
 
 1007
 01:10:16,769 --> 01:10:21,209
-它被称为预字段解码解耦，我说，这有什么问题吗？
+这叫做预字段解码去分离，我说，这有什么问题？
 2025, a lot of company they are moving into this architecture from C speci.
 
 1008
@@ -5040,7 +5040,7 @@ It's called pre field decode desegregation and I say, what's the problem?
 
 1009
 01:10:24,549 --> 01:10:29,909
-至少在2023年和2024年，人们基本上都在追求所谓的吞吐量指标。
+至少在2023和2024年，人们基本上都在努力提升所谓的吞吐量指标。
 Okay. So I think, as I have already ind many times, okay?
 
 1010

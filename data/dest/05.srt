@@ -950,12 +950,12 @@ which build software, build infrastructure for you, okay?
 
 191
 00:16:01,800 --> 00:16:08,719
-嗯，对于Vb hundred，这是我们用来微调许多模型的那一款，
+那么，对于Vb hundred，这是我们用来微调许多模型的那款，
 And um so for Vb hundred, which is the one that we use to trim many,
 
 192
 00:16:08,719 --> 00:16:14,600
-就像bird生成中的bird，对于Vb hundred，我们大约有80个SM。
+就像在bird generation中的bird一样，对于Vb hundred，我们大约有80个SM。
 many models like a bird in the bird generation, for Vb hundred, we have roughly 80 SMs.
 
 193
@@ -965,12 +965,12 @@ And for each SM, we have two case threads.
 
 194
 00:16:17,600 --> 00:16:19,220
-好的，那就是计算能力。
+好的，这是计算能力。
 Okay, that's computing power.
 
 195
 00:16:19,220 --> 00:16:25,699
-这样其实可以让你了解它每秒能进行多少次浮点运算，
+这样你其实可以感受到它每秒能进行多少次浮点运算，
 Okay, you can actually This actually give you a sense of how many floating point it can
 
 196
@@ -980,22 +980,22 @@ calculate per second because roughly,
 
 197
 00:16:28,159 --> 00:16:31,419
-我可以把这个数字当作计算能力，对吧？
+我可以把这个数值看作是计算能力，对吧？
 I can have this lumber that is uh computing, right?
 
 198
 00:16:31,419 --> 00:16:36,259
-这个数字代表并行计算的浮点操作数，对吧？
+这个数值表示可以并行计算的浮点运算数量，对吧？
 This lumber floating point operating that computing in parallel, okay?
 
 199
 00:16:36,259 --> 00:16:41,709
-对，然后我们快进到Av 100，对吧？
+是的。然后我们快进到Av 100，对吧？
 Yeah. And then we fast forward to Av 100, right?
 
 200
 00:16:41,709 --> 00:16:48,229
-那就是基本上开始训练GBD三的GPU。
+那就是基本上开始训练GBD三的那款GPU。
 That is the GPU that is basically, uh start twining GBD three.
 
 201
@@ -1350,42 +1350,42 @@ And this basically means you are going to launch your kernel that will basically
 
 271
 00:21:39,029 --> 00:21:41,369
-在这个数量的区块和这个数量的线程上运行
+在TPU上运行这么多块和这么多线程。
 run on this number of blocks and this number of threads on
 
 272
 00:21:41,369 --> 00:21:44,729
-TPU。好的，有什么问题吗？
+好的，有什么问题吗？
 TPU. Okay. Any question?
 
 273
 00:21:45,370 --> 00:21:57,409
-很好。从这个图中我们实际上可以算出有多少线程和区块会被运行
+很好。从这个图中我们实际上可以算出将运行多少线程和块。
 Cool. From this figure we can actually figure out how many threads and blocks is going to
 
 274
 00:21:57,409 --> 00:22:05,529
-因为这里已经非常明确地声明了。会运行多少个区块？
+因为这里已经非常明确地声明了。会运行多少个块？
 run Because this is declared here, very explicitly. How many blocks will run?
 
 275
 00:22:08,750 --> 00:22:11,769
-所以基本上就是把这两个值相乘，对吧？
+基本上就是把这两个值相乘，对吧？
 So basically multiply these two values, right?
 
 276
 00:22:11,769 --> 00:22:14,049
-对于这个x来说是
+对于这个，x是
 And for this x is
 
 277
 00:22:14,049 --> 00:22:16,670
-12，线程每个区块的第一维是4。
+12，每个块的线程第一维是4。
 12 and the first dimension of threads per block is four.
 
 278
 00:22:16,670 --> 00:22:22,769
-所以这个值是3，这个是2，我们总共运行6个区块。
+所以这个值是3，这个是2，我们一共运行6个块。
 So this value is three, for this one is two, we are running on six blocks.
 
 279
@@ -2405,7 +2405,7 @@ Otherwise, I keep the value, right.
 
 482
 00:37:08,859 --> 00:37:11,699
-这种机制在 Coda 中很难实现。
+这种机制在 Coda 里非常难实现。
 And this kind of mechanism is very hard to implement Coda.
 
 483
@@ -2415,12 +2415,12 @@ So how we can make this fast, okay?
 
 484
 00:37:13,719 --> 00:37:18,479
-这是我们之后要学习的内容，嗯，当我们去到，嗯，
+这就是我们之后要学习的内容，当我们，呃，去到，呃，
 And this is going to be something we study when we, um, go to the um,
 
 485
 00:37:18,479 --> 00:37:23,869
-transformer park 的时候，好吗？对，很棒。
+transformer park 的时候，好吗？对。很酷。
 transformer park, okay? Yeah. Cool.
 
 486
@@ -2430,22 +2430,22 @@ That basically covers the execution model for Koda.
 
 487
 00:37:27,690 --> 00:37:29,990
-好的，接下来我们要讲内存部分。
+好的，然后我们要讲一下内存部分。
 Okay. And then we are going to talk about the memory.
 
 488
 00:37:29,990 --> 00:37:34,749
-嗯，这里基本上展示了 Koda 的内存模型。
+呃，这里基本上展示了 Koda 的内存模型。
 Um, so Koda memory model is basically illustrated here.
 
 489
 00:37:34,749 --> 00:37:38,129
-呃，你可以看到，嗯，因为你有主内存，对吧，
+呃，你可以看到，呃，因为你有主内存，对吧，
 Uh, you can see, um, because you have a horse memory, right,
 
 490
 00:37:38,129 --> 00:37:41,669
-我们通常把应急系统叫做 RAM，对吧？
+我们通常把它叫做紧急系统，也就是 RAM，对吧？
 which we often call emergency system as RAM, right?
 
 491
@@ -3850,52 +3850,52 @@ I'm allocating this. I need this part of memory to see the temporary variables.
 
 771
 00:58:09,605 --> 00:58:18,729
-
+我也在请求每个红色块有31 30个浮点共享空间，对吧？
 I'm also asking for 31 30 floating point spaces of shared space per red block, right?
 
 772
 00:58:18,729 --> 00:58:21,609
-
+这是内核请求的资源需求。
 This is the resource requirement is kernel ask for.
 
 773
 00:58:21,609 --> 00:58:25,869
-
+明白了吗？一旦你有了这样的资源需求，你要做的基本上就是
 Okay? Once you have this kind of resource requirement, what do you do is basically you
 
 774
 00:58:25,869 --> 00:58:31,290
-
+把这个指令提交给CODA到GPU，然后GPU实际上内置了
 submit this instruction to CODA to GPU and GPU actually has built
 
 775
 00:58:31,290 --> 00:58:34,069
-
+调度器来调度这类任务。
 in scheduler to schedule this kind of jobs.
 
 776
 00:58:34,069 --> 00:58:38,180
-
+明白了吗？那我们来看看调度器是如何工作的。
 Okay? So let's see how the scheduler works.
 
 777
 00:58:38,180 --> 00:58:43,749
-
+调度器的工作方式基本上是尽量满足，呃，
 So the way that scheduler works is basically they try to accommodate uh,
 
 778
 00:58:43,749 --> 00:58:48,690
-
+不同块、线程或其他任何用户在他们的Ka程序中
 different requirements of blocks, threads or whatever kind of memory requirement
 
 779
 00:58:48,690 --> 00:58:51,450
-
+可能提出的内存需求。
 that user could come up with in their Ka program.
 
 780
 00:58:51,450 --> 00:58:55,869
-
+明白了吗？呃，用户可以请求一个静态但数量很大的块，也就是，
 Okay? Uh, the user could ask for a static but large number of blocks that is,
 
 781
@@ -4470,12 +4470,12 @@ And one weird thing about this chip is that they don't have HBM.
 
 895
 01:06:54,740 --> 01:06:59,220
-它只有SRM，好像完全不在乎HBM。
+它们只有SRM，好像根本不在乎HBM。
 They only have SRM. Like, they don't care about HBM.
 
 896
 01:06:59,220 --> 01:07:00,799
-大部分的内存，他们只在
+大部分内存，他们只在
 The large part of memory, they only build
 
 897
@@ -4485,17 +4485,17 @@ SRM into this chip.
 
 898
 01:07:02,859 --> 01:07:07,720
-因为正如我刚才说的，SRM是语言模型推理的关键资源，
+正如我刚才说的，SRM是语言模型推理中的关键资源，
 And because as I said, SRM is a critical resources language model inference,
 
 899
 01:07:07,720 --> 01:07:13,059
-这基本上就解释了为什么它在语言模型推理上这么快，好吗？
+这基本上解释了为什么它在语言模型推理上这么快，好吗？
 that basically explains why it is so fast at language model inference, okay?
 
 900
 01:07:14,050 --> 01:07:18,549
-好的，那这就是我今天要讲的全部内容。
+好的，这就是我今天要讲的全部内容。
 Okay, then that's pretty much what I have today.
 
 901

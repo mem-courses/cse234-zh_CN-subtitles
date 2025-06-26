@@ -305,22 +305,22 @@ But just remember, microbatch is a smaller thing than batch, okay?
 
 62
 00:04:24,849 --> 00:04:28,490
-所以一个批次包含许多微批次，明白吗？
+所以一个批次包含很多个微批次，明白吗？
 So a batch has many microbatches, okay?
 
 63
 00:04:28,770 --> 00:04:36,110
-好的，回到我们优化研究的第二个领域，我们学习这种优化的
+好，我们回到优化的第二个领域，我们学习这种优化的理论和算法，
 Okay, back to the second area in optimation we study this kind of opiation kind of
 
 64
 00:04:36,110 --> 00:04:38,909
-理论和算法，特别是梯度下降。
+尤其是梯度下降。
 theory and algorithms, especially grading descent.
 
 65
 00:04:38,909 --> 00:04:41,829
-我觉得那边的人用的术语有点不一样。
+我觉得那里的研究者用的术语有点不一样。
 I think people there, they use a slightly different term.
 
 66
@@ -345,7 +345,7 @@ The other is called stochastic grading descent.
 
 70
 00:04:51,569 --> 00:04:54,969
-明白吗？所以在深度学习中，我们大多数时候只用随机梯度下降，对吧？
+明白了吗？所以在深度学习中，我们大多数时候用的就是随机梯度下降，对吧？
 Okay? So in deep learning, we mostly just use stochastic grading descent, right,
 
 71
@@ -1700,47 +1700,47 @@ we check what precision used to model parameters.
 
 341
 00:21:49,170 --> 00:21:53,430
-
+就像我说的，大多数模型都是以16位或32位存储的。
 Like I said, most models they are stored either in 16 bits or 32 bits.
 
 342
 00:21:53,430 --> 00:21:56,190
-
+一旦我们确定了精度，基本上就是用2或4去乘以模型参数的数量来得到模型的大小。
 And once we figure out precision, we basically use times
 
 343
 00:21:56,190 --> 00:21:58,810
-
+明白了。好。接下来我们开始估算激活值或者说第二部分的内存消耗，好吗？
 two or four to get the size of the model parameters.
 
 344
 00:21:58,810 --> 00:22:06,879
-
+对于激活值，我会举几个例子，因为就像我说的，
 Okay. Clear. Okay. Then we start estimating activations or second, uh, memory consumption, okay?
 
 345
 00:22:06,879 --> 00:22:10,839
-
+在数据流图中，不同的算子，它的激活值是不同的，这取决于
 So for activations, I'm going to run through a few examples because like I said,
 
 346
 00:22:10,839 --> 00:22:15,179
-
+算子的定义和计算方式，我们基本上会
 uh, for different operators in the dataflow graph, its activation is different depending
 
 347
 00:22:15,179 --> 00:22:18,519
-
+覆盖几个非常重要的算子。好的。
 on its operator definition and competion we are going to basically
 
 348
 00:22:18,519 --> 00:22:21,099
-
+还记得这个吗？这是二维卷积。我在第二节课讲过。
 cover a few very important operators. Okay.
 
 349
 00:22:21,099 --> 00:22:26,219
-
+基本上就是你用一个滤波器在特征图上滑动，
 Still remember this one, this is column two D. I covered that in my second lecture.
 
 350
@@ -3205,7 +3205,7 @@ And during the backward pass,
 
 642
 00:41:18,999 --> 00:41:24,140
-我总是尝试从Cloris检查点重新计算缺失的张量。
+我总是尝试从Cloris检查点重新计算丢失的张量。
 I already I always try to recompute the missing tensors from the Cloris checkpoint.
 
 643
@@ -3215,17 +3215,17 @@ Okay. Cool.
 
 644
 00:41:28,059 --> 00:41:32,909
-嗯，采用这种策略，我们基本上可以探索几种替代方案，对吧？
+嗯，采用这种策略，我们基本上可以探索几种不同的方案，对吧？
 Uh, with this strategy, we can basically explore a few alternatives, right?
 
 645
 00:41:32,909 --> 00:41:37,689
-所以第一个替代方案基本上是，我们什么都不丢弃，对吧？
+所以第一种方案基本上就是，我们什么都不丢弃，对吧？
 So the first alternative is basically, we don't describe anything, right?
 
 646
 00:41:37,689 --> 00:41:42,790
-这其实就简化成了Vania版本，也就是我们在每一层都保存所有的中间
+这基本上就变成了Vania版本，也就是我们在每一层都保存所有的中间
 That is basically reduced to the Vania version, that is, we save all the intermediate
 
 647
@@ -3240,12 +3240,12 @@ So in this case, we don't actually need any extra compute at the backward,
 
 649
 00:41:48,870 --> 00:41:52,009
-但是我们必须消耗大量的内存空间。
+但我们必须消耗大量的内存空间。
 but we have to consume a lot of memory space.
 
 650
 00:41:52,009 --> 00:41:57,209
-另一个极端情况就是，我们丢弃所有的中间张量，对吧？
+另一个极端就是，我们丢弃所有的中间张量，对吧？
 Another extreme is basically, we discard all the intermediate tensors, right?
 
 651
@@ -3900,52 +3900,52 @@ So here I give you two example programs.
 
 781
 00:50:55,630 --> 00:50:57,949
-
+所以在左边，基本上就是一段Petrich程序
 So on the left hand side, it's basically a piece of
 
 782
 00:50:57,949 --> 00:51:04,349
-
+你遍历数据加载器，获取一个批次，然后在神经网络中进行反向传播
 Petrich program where you iterate over a data loader, you get a batch and you perform backwards
 
 783
 00:51:04,349 --> 00:51:08,789
-
+并且执行一次最优的更新步骤。
 through the neural network and you perform one optimal step.
 
 784
 00:51:08,789 --> 00:51:12,409
-
+但在右边，你可以看到，唯一的区别是，
 But in the right hand side, you can see, uh, the only difference, uh,
 
 785
 00:51:12,409 --> 00:51:16,109
-
+我基本上把原始批次拆分成了微批次。
 I basically split the original batch into microbatches.
 
 786
 00:51:16,109 --> 00:51:21,729
-
+每次我都在微批次上计算梯度并进行累积，
 And every time I drove the gradients on the microbatch and I accumulate them,
 
 787
 00:51:21,729 --> 00:51:27,519
-
+只有当累积到一定数量的微批次时才进行更新。明白了吗？
 and I only perform my updates when a certain number of microbatches are. Okay.
 
 788
 00:51:27,519 --> 00:51:31,119
-
+我们可以很容易地实现它，并立即分布内存。
 We are easy to implement it immediately distribute memory.
 
 789
 00:51:31,119 --> 00:51:35,299
-
+很好，这部分有问题吗？
 Cool. Any questions on this part?
 
 790
 00:51:35,500 --> 00:51:38,640
-
+很好，这些都是非常实用的技巧。
 Cool. These are very practical techniques.
 
 791
@@ -4500,27 +4500,27 @@ you cannot sutGPs because your basis will reduce, okay?
 
 901
 00:59:37,780 --> 00:59:44,139
-所以，嗯，在实际场景中，尤其是大模型训练时，你要确保你有
+所以，嗯，在实际场景中，特别是在大模型训练时，你需要确保你有
 So, um, in practical scenario, especially in large model training, you want to make sure you have
 
 902
 00:59:44,139 --> 00:59:48,039
-足够大的批量单元，以保证你的GPU利用率很高。
+足够大的伙伴单元，以确保你的GPU利用率很高。
 a large enough buddy cells to make sure your GPU utilization is high.
 
 903
 00:59:48,039 --> 00:59:51,079
-好的，有时候你可能并不想做这种事情。
+好的。有时候你可能并不想做这种事情。
 Okay. Uh, sometimes you probably don't want to do this kind of thing.
 
 904
 00:59:51,079 --> 00:59:54,300
-好的，但我们之后会再讲这个，这很复杂。
+好的，但我们稍后会再谈这个问题，这很复杂。
 Okay. But we'll come back to this later. It's very complicated.
 
 905
 00:59:54,300 --> 01:00:01,319
-好的，而当速度交换非常强大时，它可以减少参数、
+好的。当速度交换非常强大时，它可以减少参数、
 Okay. And when speed swapping is very powerful, it can reduce the memory usage of both parameters,
 
 906
@@ -4540,12 +4540,12 @@ Yeah. Um.
 
 909
 01:00:08,670 --> 01:00:23,429
-所谓分批，其实就是微批处理。
+所以分批其实就是微批处理。
 So grading is essentially microbatching.
 
 910
 01:00:31,710 --> 01:00:38,369
-是的，因为有时候你想用更大的批量训练，因为这样收敛性能会更好。
+是的，因为有时候你想用更大的批量训练，因为收敛性会更好。
 Yeah, because sometimes you want to train on bigger body size because the convergence property are
 
 911
@@ -5010,12 +5010,12 @@ How data was represented in computer?
 
 1003
 01:06:15,500 --> 01:06:23,039
-基本上是比特，对吧？所以我们用比特来表示数据，其实我们有一个标准，
+基本上是用比特，对吧？所以我们用比特来表示数据，实际上我们有一个标准，
 Basically bits, right? So we rep that in bits, and we actually have a standard at standard and
 
 1004
 01:06:23,039 --> 01:06:28,159
-所有的计算机制造商基本上都遵循这个标准来存储数据，
+所有的计算机制造商基本上都试图遵循这个标准来存储数据，
 all the computer makers they basically try to follow that standard and try to store data
 
 1005
@@ -5025,22 +5025,22 @@ following those predefined standards.
 
 1006
 01:06:30,180 --> 01:06:35,199
-那我们先从整数说起，我们有无符号整数，对吧？
+那么我们先从整数说起，我们有无符号整数，对吧？
 So let's talk start with integers, we have unsigned integers, right?
 
 1007
 01:06:35,199 --> 01:06:41,619
-比如说，我们基本上用这种方式，用若干比特来存储无符号整数，对吧？
+所以我们基本上，比如说，用这种方式用比特来存储无符号整数，对吧？
 So we basically, for example, use this kind of one to a Bs to store unsigned integers, right?
 
 1008
 01:06:41,619 --> 01:06:47,499
-这里，比特的范围基本上是从零一直到二的N次方减一。
+这里，比特范围基本上是从零一直到二的N次方减一。
 So here, the BD range is basically starting from zero all the way to two to N minus one.
 
 1009
 01:06:47,499 --> 01:06:50,840
-这是无符号或者说正整数。
+这是无符号或正整数。
 This is unsigned or positive integers.
 
 1010
@@ -5155,7 +5155,7 @@ Ooh. Okay, integer is important in machine learning because sometimes we want to
 
 1032
 01:08:38,649 --> 01:08:43,389
-步进宽度量化为整数四或整数八，这样也能正常工作。
+步进宽度量化为整数，比如4位整数、8位整数，这样也能正常工作。
 the marching width into integer four integer eight and it still works.
 
 1033
@@ -5165,7 +5165,7 @@ But I think there's one more we care more about floating points because most of 
 
 1034
 01:08:48,409 --> 01:08:50,670
-仍然是在浮点数表示上进行的。
+仍然是在浮点数表示下进行的。
 are performed on floating point repetitions.
 
 1035
@@ -5180,17 +5180,17 @@ So fixed point is pretty simple.
 
 1037
 01:08:56,369 --> 01:09:01,669
-基本上，我们就是把小数点放在比特的中间。
+基本上，我们就是在比特中间放一个小数点。
 Like we basically, put a decimal point at the middle of the bits.
 
 1038
 01:09:01,669 --> 01:09:05,489
-在这个小数点左边的基本上是整数部分。
+在这个小数点的左边就是整数部分。
 And to the left of this decimal point is basically integer part.
 
 1039
 01:09:05,489 --> 01:09:08,219
-右边的基本上是小数部分。
+右边就是小数部分。
 To the right is basically the fraction part.
 
 1040
@@ -5300,47 +5300,47 @@ And then we use one plus fraction p, and then we use the blue part to figure out
 
 1061
 01:10:36,909 --> 01:10:39,749
-
+应该从左到右流向小数点，对吧？
 should flow to the decimal point from left to right, right?
 
 1062
 01:10:39,749 --> 01:10:45,989
-
+这就是我们计时数值的方法，也就是解释负一、二、七。
 And that is how we time value, which is to explain minus one, two, seven.
 
 1063
 01:10:45,989 --> 01:10:54,309
-
+你可以把127理解为，呃，就是我们表示指数部分的方式，好吗？
 And you can understand 127 as, um, uh, the way that we represent the exponent part, okay,
 
 1064
 01:10:54,309 --> 01:10:59,249
-
+基本上就是最大值的一半，也就是我们可以用所有指数位表示的最大值的一半。
 I basically the mid value of the largest value, the half of the value of the largest value we can
 
 1065
 01:10:59,249 --> 01:11:01,209
-
+好的？因为我们希望小数点可以向左或向右移动，所以我们要减去一，呃，二十七。
 represent using all the bits of the expoonent.
 
 1066
 01:11:01,209 --> 01:11:05,529
-
+好的。到这里我们还没问题。
 Okay? Because we want to float in the uh, we want to float to the decimal point
 
 1067
 01:11:05,529 --> 01:11:10,389
-
+很好。那举个例子，我们下面其实有一个例子
 either to left or to right, so we have to minus one, uh 27.
 
 1068
 01:11:11,100 --> 01:11:16,019
-
+用这个浮点数标准来表示，
 Okay. We're still good with this one.
 
 1069
 01:11:16,019 --> 01:11:23,099
-
+就是在下面我们用这个浮点数标准来表示，
 Cool. So to give you an example, we basically have one example below right
 
 1070
